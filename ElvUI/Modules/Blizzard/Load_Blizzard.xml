@@ -2,7 +2,7 @@
 	<Script file='Blizzard.lua'/>
 	<Script file='ColorPicker.lua'/>
 	<Script file='Kill.lua'/>
-	<!-- <Script file='ObjectiveFrame.lua'/> -->
+	<Script file='QuestWatch.lua'/>
 	<Script file='GM.lua'/>
 	<Script file='Durability.lua'/>
 	<Script file='CaptureBar.lua'/>

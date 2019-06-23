@@ -15,6 +15,7 @@ function B:Initialize()
 	self:PositionCaptureBar()
 	self:PositionDurabilityFrame()
 	self:PositionGMFrames()
+	self:QuestWatchFrame()
 
 	-- MicroButton Talent Alert
 	local TalentMicroButtonAlert = _G.TalentMicroButtonAlert
