@@ -491,8 +491,6 @@ E.Options.args.profiles = E.Libs.AceDBOptions:GetOptionsTable(E.data)
 E.Libs.AceConfig:RegisterOptionsTable("ElvProfiles", E.Options.args.profiles)
 E.Options.args.profiles.order = -10
 
-E.Libs.DualSpec:EnhanceOptions(E.Options.args.profiles, E.data)
-
 if not E.Options.args.profiles.plugins then
 	E.Options.args.profiles.plugins = {}
 end

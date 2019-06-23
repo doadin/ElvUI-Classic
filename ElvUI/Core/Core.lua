@@ -1,4 +1,4 @@
- local ElvUI = select(2, ...)
+local ElvUI = select(2, ...)
 
 local gameLocale
 do -- Locale doesn't exist yet, make it exist.
