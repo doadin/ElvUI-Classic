@@ -153,7 +153,6 @@ function E:GetZoneText(mapID)
 	return zoneName or E.MapInfo.name
 end
 
-E:RegisterEvent("CRITERIA_UPDATE", "MapInfo_CoordsStop") -- when the player goes into an animation (landing)
 E:RegisterEvent("PLAYER_STARTED_MOVING", "MapInfo_CoordsStart")
 E:RegisterEvent("PLAYER_STOPPED_MOVING", "MapInfo_CoordsStop")
 E:RegisterEvent("PLAYER_CONTROL_LOST", "MapInfo_CoordsStart")

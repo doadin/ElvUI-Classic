@@ -22,13 +22,11 @@
 	<Script file='PVPSpecIcon.lua'/>
 	<Script file='RaidDebuffs.lua'/>
 	<Script file='RaidIcon.lua'/>
-	<Script file='RaidRoleIcons.lua'/>
 	<Script file='Range.lua'/>
 	<Script file='ReadyCheckIcon.lua'/>
 	<Script file='RestingIndicator.lua'/>
 	<Script file='ResurrectionIcon.lua'/>
 	<Script file='SummonIndicator.lua'/>
-	<Script file='RoleIcons.lua'/>
 	<Script file='FrameGlow.lua'/>
 	<Script file='Threat.lua'/>
 	<Script file='Trinket.lua'/>

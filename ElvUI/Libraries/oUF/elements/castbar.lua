@@ -90,6 +90,8 @@ local _, ns = ...
 local oUF = ns.oUF
 
 local DEFAULT_ICON = [[Interface\ICONS\INV_Misc_QuestionMark]]
+local UnitCastingInfo = CastingInfo
+local UnitChannelInfo = ChannelInfo
 
 local function resetAttributes(self)
 	self.castID = nil
@@ -388,8 +390,6 @@ local function Enable(self, unit)
 		self:RegisterEvent('UNIT_SPELLCAST_CHANNEL_UPDATE', CastUpdate)
 		self:RegisterEvent('UNIT_SPELLCAST_FAILED', CastFail)
 		self:RegisterEvent('UNIT_SPELLCAST_INTERRUPTED', CastFail)
-		self:RegisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE', CastInterruptible)
-		self:RegisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE', CastInterruptible)
 
 		element.holdTime = 0
 
@@ -436,8 +436,6 @@ local function Disable(self)
 		self:UnregisterEvent('UNIT_SPELLCAST_CHANNEL_STOP', CastStop)
 		self:UnregisterEvent('UNIT_SPELLCAST_FAILED', CastFail)
 		self:UnregisterEvent('UNIT_SPELLCAST_INTERRUPTED', CastFail)
-		self:UnregisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE', CastInterruptible)
-		self:UnregisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE', CastInterruptible)
 
 		element:SetScript('OnUpdate', nil)
 

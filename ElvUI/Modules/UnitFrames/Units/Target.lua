@@ -15,24 +15,21 @@ function UF:Construct_TargetFrame(frame)
 	frame.Health.frequentUpdates = true;
 	frame.Power = self:Construct_PowerBar(frame, true, true, 'LEFT')
 	frame.Power.frequentUpdates = true;
-	frame.PowerPrediction = self:Construct_PowerPrediction(frame)
 	frame.Name = self:Construct_NameText(frame)
 	frame.Portrait3D = self:Construct_Portrait(frame, 'model')
 	frame.Portrait2D = self:Construct_Portrait(frame, 'texture')
 	frame.Buffs = self:Construct_Buffs(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame)
-	frame.ThreatIndicator = self:Construct_Threat(frame)
 	frame.Castbar = self:Construct_Castbar(frame, L["Target Castbar"])
 	frame.Castbar.SafeZone = nil
 	frame.Castbar.LatencyTexture:Hide()
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
-	frame.HealthPrediction = self:Construct_HealComm(frame)
+--	frame.HealthPrediction = self:Construct_HealComm(frame)
 	frame.DebuffHighlight = self:Construct_DebuffHighlight(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
-	frame.PhaseIndicator = self:Construct_PhaseIcon(frame)
 	frame.PvPIndicator = self:Construct_PvPIcon(frame)
 	frame.Fader = self:Construct_Fader()
 	frame.customTexts = {}
@@ -97,14 +94,8 @@ function UF:Update_TargetFrame(frame, db)
 	--Power
 	UF:Configure_Power(frame)
 
-	-- Power Predicition
-	UF:Configure_PowerPrediction(frame)
-
 	--Portrait
 	UF:Configure_Portrait(frame)
-
-	--Threat
-	UF:Configure_Threat(frame)
 
 	--Auras
 	UF:EnableDisable_Auras(frame)
@@ -121,16 +112,13 @@ function UF:Update_TargetFrame(frame, db)
 	UF:Configure_DebuffHighlight(frame)
 
 	--OverHealing
-	UF:Configure_HealComm(frame)
+	--UF:Configure_HealComm(frame)
 
 	--Raid Icon
 	UF:Configure_RaidIcon(frame)
 
 	--AuraBars
 	UF:Configure_AuraBars(frame)
-
-	-- PhaseIndicator
-	UF:Configure_PhaseIcon(frame)
 
 	--PvP & Prestige Icon
 	UF:Configure_PVPIcon(frame)

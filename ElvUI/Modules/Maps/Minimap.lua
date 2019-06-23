@@ -30,12 +30,12 @@ local C_Timer_After = C_Timer.After
 -- GLOBALS: GetMinimapShape
 
 --Create the new minimap tracking dropdown frame and initialize it
-local ElvUIMiniMapTrackingDropDown = CreateFrame("Frame", "ElvUIMiniMapTrackingDropDown", _G.UIParent, "UIDropDownMenuTemplate")
-ElvUIMiniMapTrackingDropDown:SetID(1)
-ElvUIMiniMapTrackingDropDown:SetClampedToScreen(true)
-ElvUIMiniMapTrackingDropDown:Hide()
-_G.UIDropDownMenu_Initialize(ElvUIMiniMapTrackingDropDown, _G.MiniMapTrackingDropDown_Initialize, "MENU");
-ElvUIMiniMapTrackingDropDown.noResize = true
+-- local ElvUIMiniMapTrackingDropDown = CreateFrame("Frame", "ElvUIMiniMapTrackingDropDown", _G.UIParent, "UIDropDownMenuTemplate")
+-- ElvUIMiniMapTrackingDropDown:SetID(1)
+-- ElvUIMiniMapTrackingDropDown:SetClampedToScreen(true)
+-- ElvUIMiniMapTrackingDropDown:Hide()
+-- _G.UIDropDownMenu_Initialize(ElvUIMiniMapTrackingDropDown, _G.MiniMapTrackingDropDown_Initialize, "MENU");
+-- ElvUIMiniMapTrackingDropDown.noResize = true
 
 --Create the minimap micro menu
 local menuFrame = CreateFrame("Frame", "MinimapRightClickMenu", E.UIParent)
@@ -424,8 +424,6 @@ function M:Initialize()
 	Minimap:ClearAllPoints()
 	Minimap:Point("TOPRIGHT", mmholder, "TOPRIGHT", -E.Border, -E.Border)
 	Minimap:SetMaskTexture('Interface\\ChatFrame\\ChatFrameBackground')
-	Minimap:SetQuestBlobRingAlpha(0)
-	Minimap:SetArchBlobRingAlpha(0)
 	Minimap:CreateBackdrop()
 	Minimap:SetFrameLevel(Minimap:GetFrameLevel() + 2)
 	Minimap:HookScript('OnEnter', function(mm)
@@ -458,25 +456,11 @@ function M:Initialize()
 	-- MiniMapVoiceChatFrame:Hide()
 	_G.MinimapNorthTag:Kill()
 	_G.MinimapZoneTextButton:Hide()
-	_G.MiniMapTracking:Hide()
+--	_G.MiniMapTracking:Hide()
 	_G.MiniMapMailBorder:Hide()
 	_G.MiniMapMailIcon:SetTexture(E.Media.Textures.Mail)
 
-	--Hide the BlopRing on Minimap
-	Minimap:SetArchBlobRingScalar(0)
-	Minimap:SetQuestBlobRingScalar(0)
-
-	if E.private.general.minimap.hideClassHallReport then
-		_G.GarrisonLandingPageMinimapButton:Kill()
-		_G.GarrisonLandingPageMinimapButton.IsShown = function() return true end
-	end
-
-	_G.QueueStatusMinimapButtonBorder:Hide()
-	_G.QueueStatusFrame:SetClampedToScreen(true)
 	_G.MiniMapWorldMapButton:Hide()
-	_G.MiniMapInstanceDifficulty:SetParent(Minimap)
-	_G.GuildInstanceDifficulty:SetParent(Minimap)
-	_G.MiniMapChallengeMode:SetParent(Minimap)
 
 	if _G.TimeManagerClockButton then _G.TimeManagerClockButton:Kill() end
 	if _G.FeedbackUIButton then _G.FeedbackUIButton:Kill() end

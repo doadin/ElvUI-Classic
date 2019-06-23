@@ -54,11 +54,9 @@ function UF:Construct_PlayerFrame(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
-	frame.RaidRoleFramesAnchor = self:Construct_RaidRoleFrames(frame)
 	frame.RestingIndicator = self:Construct_RestingIndicator(frame)
 	frame.CombatIndicator = self:Construct_CombatIndicator(frame)
 	frame.PvPText = self:Construct_PvPIndicator(frame)
-	frame.DebuffHighlight = self:Construct_DebuffHighlight(frame)
 	frame.HealthPrediction = self:Construct_HealComm(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
@@ -122,9 +120,6 @@ function UF:Update_PlayerFrame(frame, db)
 
 	UF:Configure_InfoPanel(frame)
 
-	--Threat
-	UF:Configure_Threat(frame)
-
 	--Rest Icon
 	UF:Configure_RestingIndicator(frame)
 
@@ -172,12 +167,6 @@ function UF:Update_PlayerFrame(frame, db)
 	--Fader
 	UF:Configure_Fader(frame)
 
-	--Debuff Highlight
-	UF:Configure_DebuffHighlight(frame)
-
-	--Raid Icon
-	UF:Configure_RaidIcon(frame)
-
 	--OverHealing
 	UF:Configure_HealComm(frame)
 
@@ -191,8 +180,6 @@ function UF:Update_PlayerFrame(frame, db)
 
 	--PvP & Prestige Icon
 	UF:Configure_PVPIcon(frame)
-
-	UF:Configure_RaidRoleIcons(frame)
 
 	--CustomTexts
 	UF:Configure_CustomTexts(frame)

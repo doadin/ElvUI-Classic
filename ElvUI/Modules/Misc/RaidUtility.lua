@@ -377,22 +377,10 @@ function RU:Initialize()
 	}
 
 	if _G.CompactRaidFrameManager then
-		--Reposition/Resize and Reuse the World Marker Button
-		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:ClearAllPoints()
-		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:Point("TOPRIGHT", _G.RoleCheckButton, "BOTTOMRIGHT", 0, -5)
-		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:SetParent("RaidUtilityPanel")
-		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:Height(18)
-		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:Width(_G.RoleCheckButton:GetWidth() * 0.22)
-
 		--Put other stuff back
 		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck:ClearAllPoints()
 		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck:Point("BOTTOMLEFT", _G.CompactRaidFrameManagerDisplayFrameLockedModeToggle, "TOPLEFT", 0, 1)
 		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck:Point("BOTTOMRIGHT", _G.CompactRaidFrameManagerDisplayFrameHiddenModeToggle, "TOPRIGHT", 0, 1)
-		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll:ClearAllPoints()
-		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll:Point("BOTTOMLEFT", _G.CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck, "TOPLEFT", 0, 1)
-		_G.CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll:Point("BOTTOMRIGHT", _G.CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck, "TOPRIGHT", 0, 1)
-
-		tinsert(buttons, "CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton")
 	else
 		E:StaticPopup_Show("WARNING_BLIZZARD_ADDONS")
 	end

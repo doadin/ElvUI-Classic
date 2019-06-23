@@ -37,7 +37,8 @@ local UnitOnTaxi = UnitOnTaxi
 local UnregisterStateDriver = UnregisterStateDriver
 local VehicleExit = VehicleExit
 local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS
-local C_PetBattles_IsInBattle = C_PetBattles.IsInBattle
+local UnitCastingInfo = CastingInfo
+local UnitChannelInfo = ChannelInfo
 
 local LAB = E.Libs.LAB
 local LSM = E.Libs.LSM
@@ -53,7 +54,7 @@ AB.barDefaults = {
 	["bar1"] = {
 		['page'] = 1,
 		['bindButtons'] = "ACTIONBUTTON",
-		['conditions'] = format("[overridebar] %d; [vehicleui] %d; [possessbar] %d; [shapeshift] 13; [form,noform] 0; [bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6;", GetOverrideBarIndex(), GetVehicleBarIndex(), GetVehicleBarIndex()),
+		['conditions'] = "[shapeshift] 13; [form,noform] 0; [bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6;",
 		['position'] = "BOTTOM,ElvUIParent,BOTTOM,0,4",
 	},
 	["bar2"] = {
@@ -390,33 +391,6 @@ function AB:UpdateVehicleLeave()
 	button:Size(scale, scale)
 end
 
-function AB:CreateVehicleLeave()
-	local vehicle = CreateFrame("Button", 'LeaveVehicleButton', E.UIParent)
-	vehicle:Size(26)
-	vehicle:SetFrameStrata("HIGH")
-	vehicle:Point("BOTTOMLEFT", _G.Minimap, "BOTTOMLEFT", 2, 2)
-	vehicle:SetNormalTexture(E.Media.Textures.ExitVehicle)
-	vehicle:SetPushedTexture(E.Media.Textures.ExitVehicle)
-	vehicle:SetHighlightTexture(E.Media.Textures.ExitVehicle)
-	vehicle:SetTemplate()
-	vehicle:RegisterForClicks("AnyUp")
-
-	vehicle:SetScript("OnClick", Vehicle_OnClick)
-	vehicle:SetScript("OnEnter", MainMenuBarVehicleLeaveButton_OnEnter)
-	vehicle:SetScript("OnLeave", GameTooltip_Hide)
-	vehicle:RegisterEvent("PLAYER_ENTERING_WORLD");
-	vehicle:RegisterEvent("UPDATE_BONUS_ACTIONBAR");
-	vehicle:RegisterEvent("UPDATE_MULTI_CAST_ACTIONBAR");
-	vehicle:RegisterEvent("UNIT_ENTERED_VEHICLE");
-	vehicle:RegisterEvent("UNIT_EXITED_VEHICLE");
-	vehicle:RegisterEvent("VEHICLE_UPDATE");
-	vehicle:SetScript("OnEvent", Vehicle_OnEvent)
-
-	self:UpdateVehicleLeave()
-
-	vehicle:Hide()
-end
-
 function AB:ReassignBindings(event)
 	if event == "UPDATE_BINDINGS" then
 		self:UpdatePetBindings();
@@ -458,9 +432,9 @@ end
 
 function AB:UpdateBar1Paging()
 	if self.db.bar6.enabled then
-		AB.barDefaults.bar1.conditions = format("[possessbar] %d; [overridebar] %d; [shapeshift] 13; [form,noform] 0; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6;", GetVehicleBarIndex(), GetOverrideBarIndex())
+		AB.barDefaults.bar1.conditions = "[shapeshift] 13; [form,noform] 0; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6;"
 	else
-		AB.barDefaults.bar1.conditions = format("[possessbar] %d; [overridebar] %d; [shapeshift] 13; [form,noform] 0; [bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6;", GetVehicleBarIndex(), GetOverrideBarIndex())
+		AB.barDefaults.bar1.conditions = "[shapeshift] 13; [form,noform] 0; [bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6;"
 	end
 
 	if (E.private.actionbar.enable ~= true or InCombatLockdown()) or not self.isInitialized then return; end
@@ -696,7 +670,7 @@ end
 function AB:FadeParent_OnEvent()
 	local cur, max = UnitHealth("player"), UnitHealthMax("player")
 	local cast, channel = UnitCastingInfo("player"), UnitChannelInfo("player")
-	local target, focus = UnitExists("target"), UnitExists("focus")
+	local target = UnitExists("target")
 	local combat = UnitAffectingCombat("player")
 	if (cast or channel) or (cur ~= max) or (target or focus) or combat then
 		self.mouseLock = true
@@ -764,13 +738,13 @@ function AB:DisableBlizzard()
 			_G['OverrideActionBarButton'..i]:SetAttribute("statehidden", true)
 		end
 
-		_G['MultiCastActionButton'..i]:Hide()
-		_G['MultiCastActionButton'..i]:UnregisterAllEvents()
-		_G['MultiCastActionButton'..i]:SetAttribute("statehidden", true)
+		-- _G['MultiCastActionButton'..i]:Hide()
+		-- _G['MultiCastActionButton'..i]:UnregisterAllEvents()
+		-- _G['MultiCastActionButton'..i]:SetAttribute("statehidden", true)
 	end
 
-	_G.ActionBarController:UnregisterAllEvents()
-	_G.ActionBarController:RegisterEvent('UPDATE_EXTRA_ACTIONBAR')
+	-- _G.ActionBarController:UnregisterAllEvents()
+	-- _G.ActionBarController:RegisterEvent('UPDATE_EXTRA_ACTIONBAR')
 
 	_G.MainMenuBar:EnableMouse(false)
 	_G.MainMenuBar:SetAlpha(0)
@@ -778,41 +752,41 @@ function AB:DisableBlizzard()
 	_G.MainMenuBar:SetFrameStrata('BACKGROUND')
 	_G.MainMenuBar:SetFrameLevel(0)
 
-	_G.MicroButtonAndBagsBar:SetScale(0.00001)
-	_G.MicroButtonAndBagsBar:EnableMouse(false)
-	_G.MicroButtonAndBagsBar:SetFrameStrata('BACKGROUND')
-	_G.MicroButtonAndBagsBar:SetFrameLevel(0)
+	-- _G.MicroButtonAndBagsBar:SetScale(0.00001)
+	-- _G.MicroButtonAndBagsBar:EnableMouse(false)
+	-- _G.MicroButtonAndBagsBar:SetFrameStrata('BACKGROUND')
+	-- _G.MicroButtonAndBagsBar:SetFrameLevel(0)
 
 	_G.MainMenuBarArtFrame:UnregisterAllEvents()
 	_G.MainMenuBarArtFrame:Hide()
 	_G.MainMenuBarArtFrame:SetParent(UIHider)
 
-	_G.StatusTrackingBarManager:EnableMouse(false)
-	_G.StatusTrackingBarManager:UnregisterAllEvents()
-	_G.StatusTrackingBarManager:Hide()
+	-- _G.StatusTrackingBarManager:EnableMouse(false)
+	-- _G.StatusTrackingBarManager:UnregisterAllEvents()
+	-- _G.StatusTrackingBarManager:Hide()
 
 	_G.StanceBarFrame:UnregisterAllEvents()
 	_G.StanceBarFrame:Hide()
 	_G.StanceBarFrame:SetParent(UIHider)
 
-	_G.OverrideActionBar:UnregisterAllEvents()
-	_G.OverrideActionBar:Hide()
-	_G.OverrideActionBar:SetParent(UIHider)
+	-- _G.OverrideActionBar:UnregisterAllEvents()
+	-- _G.OverrideActionBar:Hide()
+	-- _G.OverrideActionBar:SetParent(UIHider)
 
-	_G.PossessBarFrame:UnregisterAllEvents()
-	_G.PossessBarFrame:Hide()
-	_G.PossessBarFrame:SetParent(UIHider)
+	-- _G.PossessBarFrame:UnregisterAllEvents()
+	-- _G.PossessBarFrame:Hide()
+	-- _G.PossessBarFrame:SetParent(UIHider)
 
-	_G.PetActionBarFrame:UnregisterAllEvents()
-	_G.PetActionBarFrame:Hide()
-	_G.PetActionBarFrame:SetParent(UIHider)
+	-- _G.PetActionBarFrame:UnregisterAllEvents()
+	-- _G.PetActionBarFrame:Hide()
+	-- _G.PetActionBarFrame:SetParent(UIHider)
 
-	_G.MultiCastActionBarFrame:UnregisterAllEvents()
-	_G.MultiCastActionBarFrame:Hide()
-	_G.MultiCastActionBarFrame:SetParent(UIHider)
+	-- _G.MultiCastActionBarFrame:UnregisterAllEvents()
+	-- _G.MultiCastActionBarFrame:Hide()
+	-- _G.MultiCastActionBarFrame:SetParent(UIHider)
 
 	--Enable/disable functionality to automatically put spells on the actionbar.
-	self:IconIntroTracker_Toggle()
+	--self:IconIntroTracker_Toggle()
 
 	_G.InterfaceOptionsActionBarsPanelAlwaysShowActionBars:EnableMouse(false)
 	_G.InterfaceOptionsActionBarsPanelPickupActionKeyDropDownButton:SetScale(0.0001)
@@ -1152,11 +1126,11 @@ function AB:Initialize()
 	self.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_START", "player")
 	self.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_STOP", "player")
 	self.fadeParent:RegisterUnitEvent("UNIT_HEALTH", "player")
-	self.fadeParent:RegisterEvent("PLAYER_FOCUS_CHANGED")
+	--self.fadeParent:RegisterEvent("PLAYER_FOCUS_CHANGED")
 	self.fadeParent:SetScript("OnEvent", self.FadeParent_OnEvent)
 
 	self:DisableBlizzard()
-	self:SetupExtraButton()
+--	self:SetupExtraButton()
 	self:SetupMicroBar()
 	self:UpdateBar1Paging()
 
@@ -1166,27 +1140,18 @@ function AB:Initialize()
 
 	self:CreateBarPet()
 	self:CreateBarShapeShift()
-	self:CreateVehicleLeave()
 	self:UpdateButtonSettings()
 	self:UpdatePetCooldownSettings()
 	self:ToggleCooldownOptions()
 	self:LoadKeyBinder()
 
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
-	self:RegisterEvent("PET_BATTLE_CLOSE", "ReassignBindings")
-	self:RegisterEvent('PET_BATTLE_OPENING_DONE', 'RemoveBindings')
 
-	if C_PetBattles_IsInBattle() then
-		self:RemoveBindings()
-	else
-		self:ReassignBindings()
-	end
+	self:ReassignBindings()
 
 	-- We handle actionbar lock for regular bars, but the lock on PetBar needs to be handled by WoW so make some necessary updates
 	SetCVar('lockActionBars', (self.db.lockActionBars == true and 1 or 0))
 	_G.LOCK_ACTIONBAR = (self.db.lockActionBars == true and "1" or "0") -- Keep an eye on this, in case it taints
-
-	_G.SpellFlyout:HookScript("OnShow", AB.SetupFlyoutButton)
 end
 
 local function InitializeCallback()

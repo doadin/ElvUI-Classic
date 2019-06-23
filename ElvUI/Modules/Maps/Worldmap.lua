@@ -170,21 +170,6 @@ function M:Initialize()
 
 		WorldMapFrame.BlackoutFrame.Blackout:SetTexture()
 		WorldMapFrame.BlackoutFrame:EnableMouse(false)
-
-		self:SecureHook(WorldMapFrame, 'Maximize', 'SetLargeWorldMap')
-		self:SecureHook(WorldMapFrame, 'Minimize', 'SetSmallWorldMap')
-		self:SecureHook(WorldMapFrame, 'SynchronizeDisplayState')
-		self:SecureHook(WorldMapFrame, 'UpdateMaximizedSize')
-
-		self:SecureHookScript(WorldMapFrame, 'OnShow', function()
-			if WorldMapFrame:IsMaximized() then
-				self:SetLargeWorldMap()
-			else
-				self:SetSmallWorldMap()
-			end
-
-			M:Unhook(WorldMapFrame, 'OnShow', nil)
-		end)
 	end
 
 	--Set alpha used when moving

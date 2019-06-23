@@ -6,9 +6,6 @@ local LSM = E.Libs.LSM
 local _G = _G
 local format = format
 --WoW API / Variables
-local C_Reputation_GetFactionParagonInfo = C_Reputation.GetFactionParagonInfo
-local C_Reputation_IsFactionParagon = C_Reputation.IsFactionParagon
-local GetFriendshipReputation = GetFriendshipReputation
 local GetWatchedFactionInfo, GetNumFactions, GetFactionInfo = GetWatchedFactionInfo, GetNumFactions, GetFactionInfo
 local InCombatLockdown = InCombatLockdown
 local ToggleCharacter = ToggleCharacter
@@ -26,21 +23,10 @@ function mod:UpdateReputation(event)
 	local isCapped
 	local name, reaction, min, max, value, factionID = GetWatchedFactionInfo()
 
-	if factionID and C_Reputation_IsFactionParagon(factionID) then
-		local currentValue, threshold, _, hasRewardPending = C_Reputation_GetFactionParagonInfo(factionID)
-		if currentValue and threshold then
-			min, max = 0, threshold
-			value = currentValue % threshold
-			if hasRewardPending then
-				value = value + threshold
-			end
-		end
-	else
-		if reaction == _G.MAX_REPUTATION_REACTION then
-			-- max rank, make it look like a full bar
-			min, max, value = 0, 1, 1
-			isCapped = true
-		end
+	if reaction == _G.MAX_REPUTATION_REACTION then
+		-- max rank, make it look like a full bar
+		min, max, value = 0, 1, 1
+		isCapped = true
 	end
 
 	local numFactions = GetNumFactions();
@@ -66,14 +52,8 @@ function mod:UpdateReputation(event)
 
 		for i=1, numFactions do
 			local factionName, _, standingID,_,_,_,_,_,_,_,_,_,_, factionID = GetFactionInfo(i);
-			local friendID, _, _, _, _, _, friendTextLevel = GetFriendshipReputation(factionID);
 			if factionName == name then
-				if friendID ~= nil then
-					isFriend = true
-					friendText = friendTextLevel
-				else
-					ID = standingID
-				end
+				ID = standingID
 			end
 		end
 

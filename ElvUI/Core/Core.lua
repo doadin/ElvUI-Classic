@@ -1,4 +1,4 @@
-local ElvUI = select(2, ...)
+ local ElvUI = select(2, ...)
 
 local gameLocale
 do -- Locale doesn't exist yet, make it exist.
@@ -57,7 +57,6 @@ local GetAddOnEnableState = GetAddOnEnableState
 local UIParentLoadAddOn = UIParentLoadAddOn
 local UnitGroupRolesAssigned = UnitGroupRolesAssigned
 local UnitHasVehicleUI = UnitHasVehicleUI
-local WrapTextInColorCode = WrapTextInColorCode
 local UnitStat, UnitAttackPower = UnitStat, UnitAttackPower
 local hooksecurefunc = hooksecurefunc
 local LE_PARTY_CATEGORY_HOME = LE_PARTY_CATEGORY_HOME
@@ -66,7 +65,6 @@ local MAX_WOW_CHAT_CHANNELS = MAX_WOW_CHAT_CHANNELS
 local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
 local C_ChatInfo_GetNumActiveChannels = C_ChatInfo.GetNumActiveChannels
 local C_ChatInfo_SendAddonMessage = C_ChatInfo.SendAddonMessage
-local C_PetBattles_IsInBattle = C_PetBattles.IsInBattle
 local C_Timer_After = C_Timer.After
 -- GLOBALS: ElvUIPlayerBuffs, ElvUIPlayerDebuffs
 
@@ -78,7 +76,6 @@ E.myLocalizedClass, E.myclass, E.myClassID = UnitClass('player')
 E.myLocalizedRace, E.myrace = UnitRace('player')
 E.myname = UnitName('player')
 E.myrealm = GetRealmName()
-E.myspec = GetSpecialization()
 E.version = GetAddOnMetadata('ElvUI', 'Version')
 E.wowpatch, E.wowbuild = GetBuildInfo()
 E.wowbuild = tonumber(E.wowbuild)
@@ -459,7 +456,6 @@ end
 
 function E:PLAYER_ENTERING_WORLD()
 	self:MapInfo_Update()
-	self:CheckRole()
 
 	if not self.MediaUpdated then
 		self:UpdateMedia()
@@ -473,15 +469,6 @@ function E:PLAYER_ENTERING_WORLD()
 	elseif self.BGTimer then
 		self:CancelTimer(self.BGTimer)
 		self.BGTimer = nil
-	end
-
-	if not E.global.uiScaleInformed then
-		E.clippedUiScaleCVar = E:PixelClip(GetCVar("uiScale"))
-		E:StaticPopup_Show("UI_SCALE_CHANGES_INFORM", WrapTextInColorCode(E.clippedUiScaleCVar, "fffe7b2c"))
-	end
-
-	if not E.global.nameplatesResetInformed then
-		E:StaticPopup_Show("MAJOR_RELEASE_NAMEPLATES")
 	end
 end
 
@@ -609,43 +596,6 @@ function E:IsDispellableByMe(debuffType)
 
 	if self.DispelClasses[self.myclass][debuffType] then
 		return true
-	end
-end
-
-function E:CheckRole()
-	self.myspec = GetSpecialization()
-	self.myrole = E:GetPlayerRole()
-
-	-- myrole = group role; TANK, HEALER, DAMAGER
-	-- role   = class role; Tank, Melee, Caster
-
-	local role
-	if type(self.ClassRole[self.myclass]) == 'string' then
-		role = self.ClassRole[self.myclass]
-	elseif self.myspec then
-		role = self.ClassRole[self.myclass][self.myspec]
-	end
-
-	if not role then
-		local playerint = select(2, UnitStat('player', 4))
-		local playeragi	= select(2, UnitStat('player', 2))
-		local base, posBuff, negBuff = UnitAttackPower('player')
-		local playerap = base + posBuff + negBuff
-
-		if (playerap > playerint) or (playeragi > playerint) then
-			role = 'Melee'
-		else
-			role = 'Caster'
-		end
-	end
-
-	if self.role ~= role then
-		self.role = role
-		self.callbacks:Fire('RoleChanged')
-	end
-
-	if self.myrole and self.DispelClasses[self.myclass] ~= nil then
-		self.DispelClasses[self.myclass].Magic = (self.myrole == 'HEALER')
 	end
 end
 
@@ -1352,10 +1302,6 @@ function E:RegisterPetBattleHideFrames(object, originalParent, originalStrata)
 	end
 
 	object = _G[object] or object
-	--If already doing pokemon
-	if C_PetBattles_IsInBattle() then
-		object:SetParent(E.HiddenFrame)
-	end
 	E.FrameLocks[object] = {
 		['parent'] = originalParent,
 		['strata'] = originalStrata or nil,
@@ -1785,6 +1731,34 @@ function E:DBConversions()
 		NamePlates:CVarReset()
 		E.db.v11NamePlateReset = true
 	end
+
+	-- Wipe some old variables off profiles
+	if E.global.uiScaleInformed then E.global.uiScaleInformed = nil end
+	if E.global.nameplatesResetInformed then E.global.nameplatesResetInformed = nil end
+	if E.global.userInformedNewChanges1 then E.global.userInformedNewChanges1 = nil end
+
+	-- cvar nameplate visibility stuff
+	if E.db.nameplates.visibility.nameplateShowAll ~= nil then
+		E.db.nameplates.visibility.showAll = E.db.nameplates.visibility.nameplateShowAll
+		E.db.nameplates.visibility.nameplateShowAll = nil
+	end
+	if E.db.nameplates.units.FRIENDLY_NPC.showAlways ~= nil then
+		E.db.nameplates.visibility.friendly.npcs = E.db.nameplates.units.FRIENDLY_NPC.showAlways
+		E.db.nameplates.units.FRIENDLY_NPC.showAlways = nil
+	end
+	if E.db.nameplates.units.FRIENDLY_PLAYER.minions ~= nil then
+		E.db.nameplates.visibility.friendly.minions = E.db.nameplates.units.FRIENDLY_PLAYER.minions
+		E.db.nameplates.units.FRIENDLY_PLAYER.minions = nil
+	end
+	if E.db.nameplates.units.ENEMY_NPC.minors ~= nil then
+		E.db.nameplates.visibility.enemy.minus = E.db.nameplates.units.ENEMY_NPC.minors
+		E.db.nameplates.units.ENEMY_NPC.minors = nil
+	end
+	if E.db.nameplates.units.ENEMY_PLAYER.minions ~= nil or E.db.nameplates.units.ENEMY_NPC.minions ~= nil then
+		E.db.nameplates.visibility.enemy.minions = E.db.nameplates.units.ENEMY_PLAYER.minions or E.db.nameplates.units.ENEMY_NPC.minions
+		E.db.nameplates.units.ENEMY_PLAYER.minions = nil
+		E.db.nameplates.units.ENEMY_NPC.minions = nil
+	end
 end
 
 local CPU_USAGE = {}
@@ -1929,7 +1903,6 @@ function E:Initialize()
 	self.data.RegisterCallback(self, 'OnProfileCopied', 'StaggeredUpdateAll')
 	self.data.RegisterCallback(self, 'OnProfileReset', 'OnProfileReset')
 	self.charSettings = E.Libs.AceDB:New('ElvPrivateDB', self.privateVars)
-	E.Libs.DualSpec:EnhanceDatabase(self.data, 'ElvUI')
 	self.private = self.charSettings.profile
 	self.db = self.data.profile
 	self.global = self.data.global
@@ -1964,13 +1937,7 @@ function E:Initialize()
 
 	self:UpdateMedia()
 	self:RegisterEvent('PLAYER_ENTERING_WORLD')
-	self:RegisterEvent('NEUTRAL_FACTION_SELECT_RESULT')
 	self:RegisterEvent('UI_SCALE_CHANGED', 'PixelScaleChanged')
-	self:RegisterEvent('PET_BATTLE_CLOSE', 'AddNonPetBattleFrames')
-	self:RegisterEvent('PET_BATTLE_OPENING_START', 'RemoveNonPetBattleFrames')
-	self:RegisterEvent('UNIT_ENTERED_VEHICLE', 'EnterVehicleHideFrames')
-	self:RegisterEvent('UNIT_EXITED_VEHICLE', 'ExitVehicleShowFrames')
-	self:RegisterEvent('PLAYER_SPECIALIZATION_CHANGED', 'CheckRole')
 	self:RegisterEvent('PLAYER_REGEN_ENABLED')
 
 	if self.db.general.kittys then
@@ -1990,25 +1957,5 @@ function E:Initialize()
 		local msg = format(L["LOGIN_MSG"], self.media.hexvaluecolor, self.media.hexvaluecolor, self.version)
 		if Chat.Initialized then msg = select(2, Chat:FindURL('CHAT_MSG_DUMMY', msg)) end
 		print(msg)
-	end
-
-	if _G.OrderHallCommandBar then
-		HandleCommandBar()
-	else
-		local frame = CreateFrame('Frame')
-		frame:RegisterEvent('ADDON_LOADED')
-		frame:SetScript('OnEvent', function(Frame, event, addon)
-			if event == 'ADDON_LOADED' and addon == 'Blizzard_OrderHallUI' then
-				if InCombatLockdown() then
-					Frame:RegisterEvent('PLAYER_REGEN_ENABLED')
-				else
-					HandleCommandBar()
-				end
-				Frame:UnregisterEvent(event)
-			elseif event == 'PLAYER_REGEN_ENABLED' then
-				HandleCommandBar()
-				Frame:UnregisterEvent(event)
-			end
-		end)
 	end
 end

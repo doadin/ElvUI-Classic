@@ -24,7 +24,6 @@ local IsInGuild = IsInGuild
 local IsShiftKeyDown = IsShiftKeyDown
 local MoveViewLeftStart = MoveViewLeftStart
 local MoveViewLeftStop = MoveViewLeftStop
-local PVEFrame_ToggleFrame = PVEFrame_ToggleFrame
 local RemoveExtraSpaces = RemoveExtraSpaces
 local Screenshot = Screenshot
 local SetCVar = SetCVar
@@ -34,6 +33,8 @@ local CinematicFrame = _G.CinematicFrame
 local MovieFrame = _G.MovieFrame
 local DNDstr = _G.DND
 local AFKstr = _G.AFK
+local UnitCastingInfo = CastingInfo
+local UnitChannelInfo = ChannelInfo
 
 local CAMERA_SPEED = 0.035
 local ignoreKeys = {
@@ -94,17 +95,13 @@ function AFK:SetAFK(status)
 
 		self.AFKMode.chat:UnregisterAllEvents()
 		self.AFKMode.chat:Clear()
-		if(_G.PVEFrame:IsShown()) then --odd bug, frame is blank
-			PVEFrame_ToggleFrame()
-			PVEFrame_ToggleFrame()
-		end
 
 		self.isAFK = false
 	end
 end
 
 function AFK:OnEvent(event, ...)
-	if(event == "PLAYER_REGEN_DISABLED" or event == "LFG_PROPOSAL_SHOW" or event == "UPDATE_BATTLEFIELD_STATUS") then
+	if(event == "PLAYER_REGEN_DISABLED" or event == "UPDATE_BATTLEFIELD_STATUS") then
 		if(event == "UPDATE_BATTLEFIELD_STATUS") then
 			local status = GetBattlefieldStatus(...);
 			if ( status == "confirm" ) then
@@ -143,13 +140,11 @@ function AFK:Toggle()
 	if(E.db.general.afk) then
 		self:RegisterEvent("PLAYER_FLAGS_CHANGED", "OnEvent")
 		self:RegisterEvent("PLAYER_REGEN_DISABLED", "OnEvent")
-		self:RegisterEvent("LFG_PROPOSAL_SHOW", "OnEvent")
 		self:RegisterEvent("UPDATE_BATTLEFIELD_STATUS", "OnEvent")
 		SetCVar("autoClearAFK", "1")
 	else
 		self:UnregisterEvent("PLAYER_FLAGS_CHANGED")
 		self:UnregisterEvent("PLAYER_REGEN_DISABLED")
-		self:UnregisterEvent("LFG_PROPOSAL_SHOW")
 		self:UnregisterEvent("UPDATE_BATTLEFIELD_STATUS")
 	end
 end

@@ -30,7 +30,6 @@ local QueryGuildBankTab = QueryGuildBankTab
 local SplitContainerItem = SplitContainerItem
 local SplitGuildBankItem = SplitGuildBankItem
 
-local C_PetJournalGetPetInfoBySpeciesID = C_PetJournal.GetPetInfoBySpeciesID
 local C_Timer_After = C_Timer.After
 local LE_ITEM_CLASS_ARMOR = LE_ITEM_CLASS_ARMOR
 local LE_ITEM_CLASS_WEAPON = LE_ITEM_CLASS_WEAPON
@@ -189,19 +188,6 @@ local function DefaultSort(a, b)
 	local bID = bagIDs[b]
 
 	if (not aID) or (not bID) then return aID end
-
-	if bagPetIDs[a] and bagPetIDs[b] then
-		local aName, _, aType = C_PetJournalGetPetInfoBySpeciesID(aID);
-		local bName, _, bType = C_PetJournalGetPetInfoBySpeciesID(bID);
-
-		if aType and bType and aType ~= bType then
-			return aType > bType
-		end
-
-		if aName and bName and aName ~= bName then
-			return aName < bName
-		end
-	end
 
 	local aOrder, bOrder = initialOrder[a], initialOrder[b]
 
@@ -371,17 +357,7 @@ function B:SplitItem(bag, slot, amount)
 end
 
 function B:GetNumSlots(bag--[[, role]])
-	if IsGuildBankBag(bag) then
-		--if not role then role = "deposit" end
-		local name, _, canView --[[, canDeposit, numWithdrawals]] = GetGuildBankTabInfo(bag - 50)
-		if name and canView --[[and ((role == "withdraw" and numWithdrawals ~= 0) or (role == "deposit" and canDeposit) or (role == "both" and numWithdrawals ~= 0 and canDeposit))]] then
-			return 98
-		end
-	else
-		return GetContainerNumSlots(bag)
-	end
-
-	return 0
+	return GetContainerNumSlots(bag)
 end
 
 local function ConvertLinkToID(link)

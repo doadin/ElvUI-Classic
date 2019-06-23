@@ -7,7 +7,6 @@ local join = string.join
 local BASE_MOVEMENT_SPEED = BASE_MOVEMENT_SPEED
 local GetUnitSpeed = GetUnitSpeed
 local IsFalling = IsFalling
-local IsFlying = IsFlying
 local IsSwimming = IsSwimming
 
 local displayNumberString = ''
@@ -21,8 +20,6 @@ local function OnEvent(self)
 	local speed = runSpeed
 	if (IsSwimming("player")) then
 		speed = swimSpeed
-	elseif (IsFlying("player")) then
-		speed = flightSpeed
 	end
 
 	if (IsFalling("player")) then
@@ -44,4 +41,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('MovementSpeed', {"UNIT_STATS", "UNIT_AURA", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE", "UNIT_SPELL_HASTE"}, OnEvent, nil, nil, nil, nil, STAT_MOVEMENT_SPEED)
+DT:RegisterDatatext('MovementSpeed', {"UNIT_STATS", "UNIT_AURA"}, OnEvent, nil, nil, nil, nil, STAT_MOVEMENT_SPEED)

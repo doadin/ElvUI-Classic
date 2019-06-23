@@ -310,8 +310,7 @@ local function Enable(self)
 		self:RegisterEvent('UNIT_AURA', Update)
 		return true
 	end
-	--Need to run these always
-	self:RegisterEvent("PLAYER_TALENT_UPDATE", CheckSpec, true)
+
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec, true)
 end
 
@@ -320,7 +319,7 @@ local function Disable(self)
 		self:UnregisterEvent('UNIT_AURA', Update)
 		self.RaidDebuffs:Hide()
 	end
-	self:UnregisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
+
 	self:UnregisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
 end
 

@@ -86,12 +86,6 @@ local UnitRealmRelationship = UnitRealmRelationship
 
 local BNET_CLIENT_WOW = BNET_CLIENT_WOW
 local C_Club_GetInfoFromLastCommunityChatLine = C_Club.GetInfoFromLastCommunityChatLine
-local C_LFGList_GetActivityInfo = C_LFGList.GetActivityInfo
-local C_LFGList_GetSearchResultInfo = C_LFGList.GetSearchResultInfo
-local C_SocialGetLastItem = C_Social.GetLastItem
-local C_SocialIsSocialEnabled = C_Social.IsSocialEnabled
-local C_SocialQueue_GetGroupMembers = C_SocialQueue.GetGroupMembers
-local C_SocialQueue_GetGroupQueues = C_SocialQueue.GetGroupQueues
 local C_VoiceChat_GetMemberName = C_VoiceChat.GetMemberName
 local C_VoiceChat_SetPortraitTexture = C_VoiceChat.SetPortraitTexture
 local Chat_ShouldColorChatByClass = Chat_ShouldColorChatByClass
@@ -549,8 +543,6 @@ function CH:StyleChat(frame)
 		end
 	end)
 
-	_G.QuickJoinToastButton:Hide()
-
 	CreatedFrames = id
 	frame.styled = true
 end
@@ -849,7 +841,7 @@ function CH:PositionChat(override)
 				if E.db.datatexts.leftChatPanel then
 					chat:Point("BOTTOMLEFT", LeftChatToggleButton, "TOPLEFT", 1, 3)
 				else
-					BASE_OFFSET = BASE_OFFSET - 25
+					BASE_OFFSET = BASE_OFFSET - 24
 					chat:Point("BOTTOMLEFT", LeftChatToggleButton, "BOTTOMLEFT", 1, 1)
 				end
 				chat:Size(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET))
@@ -2155,75 +2147,6 @@ function CH:SocialQueueMessage(guid, message)
 	E:Print(format('|Hsqu:%s|h%s|h', guid, strtrim(message)))
 end
 
-function CH:SocialQueueEvent(_, guid, numAddedItems) -- event, guid, numAddedItems
-	if not self.db.socialQueueMessages then return end
-	if numAddedItems == 0 or not guid then return end
-
-	local players = C_SocialQueue_GetGroupMembers(guid)
-	if not players then return end
-
-	local firstMember, numMembers, extraCount, coloredName = players[1], #players, ''
-	local playerName, nameColor = SocialQueueUtil_GetRelationshipInfo(firstMember.guid, nil, firstMember.clubId)
-	if numMembers > 1 then
-		extraCount = format(' +%s', numMembers - 1)
-	end
-	if playerName then
-		coloredName = format('%s%s|r%s', nameColor, playerName, extraCount)
-	else
-		coloredName = format('{%s%s}', UNKNOWN, extraCount)
-	end
-
-	local queues = C_SocialQueue_GetGroupQueues(guid)
-	local firstQueue = queues and queues[1]
-	local isLFGList = firstQueue and firstQueue.queueData and firstQueue.queueData.queueType == 'lfglist'
-
-	if isLFGList and firstQueue and firstQueue.eligible then
-		local searchResultInfo, activityID, name, comment, leaderName, fullName, isLeader
-
-		if firstQueue.queueData.lfgListID then
-			searchResultInfo = C_LFGList_GetSearchResultInfo(firstQueue.queueData.lfgListID)
-			if searchResultInfo then
-				activityID, name, comment, leaderName = searchResultInfo.activityID, searchResultInfo.name, searchResultInfo.comment, searchResultInfo.leaderName
-				isLeader = self:SocialQueueIsLeader(playerName, leaderName)
-			end
-		end
-
-		-- ignore groups created by the addon World Quest Group Finder/World Quest Tracker/World Quest Assistant/HandyNotes_Argus to reduce spam
-		if comment and (strfind(comment, "World Quest Group Finder") or strfind(comment, "World Quest Tracker") or strfind(comment, "World Quest Assistant") or strfind(comment, "HandyNotes_Argus")) then return end
-
-		if activityID or firstQueue.queueData.activityID then
-			fullName = C_LFGList_GetActivityInfo(activityID or firstQueue.queueData.activityID)
-		end
-
-		if name then
-			self:SocialQueueMessage(guid, format('%s %s: [%s] |cff00CCFF%s|r', coloredName, (isLeader and L["is looking for members"]) or L["joined a group"], fullName or UNKNOWN, name))
-		else
-			self:SocialQueueMessage(guid, format('%s %s: |cff00CCFF%s|r', coloredName, (isLeader and L["is looking for members"]) or L["joined a group"], fullName or UNKNOWN))
-		end
-	elseif firstQueue then
-		local output, outputCount, queueCount, queueName = '', '', 0
-		for _, queue in pairs(queues) do
-			if type(queue) == 'table' and queue.eligible then
-				queueName = (queue.queueData and SocialQueueUtil_GetQueueName(queue.queueData)) or ''
-				if queueName ~= '' then
-					if output == '' then
-						output = gsub(queueName, '\n.+','') -- grab only the first queue name
-						queueCount = queueCount + select(2, gsub(queueName, '\n','')) -- collect additional on single queue
-					else
-						queueCount = queueCount + 1 + select(2, gsub(queueName, '\n','')) -- collect additional on additional queues
-					end
-				end
-			end
-		end
-		if output ~= '' then
-			if queueCount > 0 then
-				outputCount = format(LFG_LIST_AND_MORE, queueCount)
-			end
-			self:SocialQueueMessage(guid, format('%s %s: |cff00CCFF%s|r %s', coloredName, SOCIAL_QUEUE_QUEUED_FOR, output, outputCount))
-		end
-	end
-end
-
 local FindURL_Events = {
 	"CHAT_MSG_WHISPER",
 	"CHAT_MSG_WHISPER_INFORM",
@@ -2350,141 +2273,6 @@ function CH:DefaultSmileys()
 	CH:AddSmiley('</3', E:TextureString(E.Media.ChatEmojis.BrokenHeart,x))
 end
 
-local channelButtons = {
-	[1] = _G.ChatFrameChannelButton,
-	[2] = _G.ChatFrameToggleVoiceDeafenButton,
-	[3] = _G.ChatFrameToggleVoiceMuteButton
-}
-
-function CH:RepositionChatVoiceIcons()
-	_G.GeneralDockManagerScrollFrame:SetPoint("BOTTOMRIGHT") -- call our hook
-	_G.GeneralDockManagerOverflowButton:ClearAllPoints()
-
-	if channelButtons[3]:IsShown() then
-		_G.GeneralDockManagerOverflowButton:Point('RIGHT', channelButtons[3], 'LEFT', -4, 2)
-	else
-		_G.GeneralDockManagerOverflowButton:Point('RIGHT', channelButtons[1], 'LEFT', -4, 2)
-	end
-end
-
-function CH:UpdateVoiceChatIcons()
-	for _, button in pairs(channelButtons) do
-		button.Icon:SetDesaturated(E.db.chat.desaturateVoiceIcons)
-	end
-end
-
-function CH:HandleChatVoiceIcons()
-	if CH.db.hideVoiceButtons then
-		for _, button in pairs(channelButtons) do
-			button:Hide()
-		end
-	elseif CH.db.pinVoiceButtons then
-		for index, button in pairs(channelButtons) do
-			button:ClearAllPoints()
-			button.Icon:SetDesaturated(E.db.chat.desaturateVoiceIcons)
-			Skins:HandleButton(button, nil, nil, nil, true)
-
-			if index == 1 then
-				button:SetPoint('BOTTOMRIGHT', _G.LeftChatTab, 'BOTTOMRIGHT', 3, -2)
-			else
-				button:SetPoint("RIGHT", channelButtons[index-1], "LEFT")
-			end
-		end
-
-		_G.GeneralDockManagerOverflowButton:ClearAllPoints()
-		_G.GeneralDockManagerOverflowButton:Point('RIGHT', channelButtons[3], 'LEFT', 0, 2)
-		_G.GeneralDockManagerOverflowButtonList:SetTemplate('Transparent')
-
-		channelButtons[3]:HookScript("OnShow", CH.RepositionChatVoiceIcons)
-		channelButtons[3]:HookScript("OnHide", CH.RepositionChatVoiceIcons) -- dont think this is needed but meh
-
-		hooksecurefunc(_G.GeneralDockManagerScrollFrame, 'SetPoint', function(frame, point, anchor, attachTo, x, y)
-			if anchor == _G.GeneralDockManagerOverflowButton and (x == 0 and y == 0) then
-				frame:Point(point, anchor, attachTo, -3, -6)
-			elseif point == "BOTTOMRIGHT" and anchor ~= channelButtons[3] and anchor ~= channelButtons[1] and not _G.GeneralDockManagerOverflowButton:IsShown() then
-				if channelButtons[3]:IsShown() then
-					frame:Point("BOTTOMRIGHT", channelButtons[3], "BOTTOMLEFT")
-				else
-					frame:Point("BOTTOMRIGHT", channelButtons[1], "BOTTOMLEFT")
-				end
-			end
-		end)
-
-		-- We skin it later in Style chat, to keep the backdrops on the button if the option are disabled
-		Skins:HandleNextPrevButton(_G.GeneralDockManagerOverflowButton, "down", nil, true)
-
-		CH:RepositionChatVoiceIcons()
-	else
-		CH:CreateChatVoicePanel()
-	end
-end
-
-function CH:CreateChatVoicePanel()
-	local Holder = CreateFrame('Frame', 'ChatButtonHolder', E.UIParent)
-	Holder:ClearAllPoints()
-	Holder:Point("BOTTOMLEFT", _G.LeftChatPanel, "TOPLEFT", 0, 1)
-	Holder:Size(30, 86)
-	Holder:SetTemplate('Transparent', nil, true)
-	Holder:SetBackdropColor(E.db.chat.panelColor.r, E.db.chat.panelColor.g, E.db.chat.panelColor.b, E.db.chat.panelColor.a)
-	E:CreateMover(Holder, "SocialMenuMover", _G.BINDING_HEADER_VOICE_CHAT, nil, nil, nil, nil, nil, 'chat')
-
-	channelButtons[1]:ClearAllPoints()
-	channelButtons[1]:Point('TOP', Holder, 'TOP', 0, -2)
-
-	for _, button in pairs(channelButtons) do
-		Skins:HandleButton(button, nil, nil, nil, true)
-		button.Icon:SetParent(button)
-		button.Icon:SetDesaturated(E.db.chat.desaturateVoiceIcons)
-		button:SetParent(Holder)
-	end
-
-	_G.ChatAlertFrame:ClearAllPoints()
-	_G.ChatAlertFrame:Point("BOTTOM", channelButtons[1], "TOP", 1, 3)
-
-	-- Skin the QuickJoinToastButton
-	local Button = _G.QuickJoinToastButton
-	Button:SetTemplate()
-	Button:SetParent(Holder)
-	Button:ClearAllPoints()
-	Button:Point('BOTTOM', Holder, 'TOP', -E.Border, 2*E.Border)
-	Button:Size(30, 32)
-	-- Button:Hide() -- DONT KILL IT! If we use hide we also hide the Toasts, which are used in other Plugins.
-
-	-- Change the QuickJoin Textures. Looks better =)
-	local friendTex = 'Interface\\HELPFRAME\\ReportLagIcon-Chat'
-	local queueTex = 'Interface\\HELPFRAME\\HelpIcon-ItemRestoration'
-
-	Button.FriendsButton:SetTexture(friendTex)
-	Button.QueueButton:SetTexture(queueTex)
-
-	hooksecurefunc(Button, 'ToastToFriendFinished', function(t)
-		t.FriendsButton:SetShown(not t.displayedToast)
-		t.FriendCount:SetShown(not t.displayedToast)
-	end)
-
-	hooksecurefunc(Button, 'UpdateQueueIcon', function(t)
-		if not t.displayedToast then return end
-		t.FriendsButton:SetTexture(friendTex)
-		t.QueueButton:SetTexture(queueTex)
-		t.FlashingLayer:SetTexture(queueTex)
-		t.FriendsButton:SetShown(false)
-		t.FriendCount:SetShown(false)
-	end)
-
-	Button:HookScript('OnMouseDown', function(t) t.FriendsButton:SetTexture(friendTex) end)
-	Button:HookScript('OnMouseUp', function(t) t.FriendsButton:SetTexture(friendTex) end)
-
-	-- Skin the `QuickJoinToastButton.Toast`
-	Button.Toast:ClearAllPoints()
-	Button.Toast:Point('LEFT', Button, 'RIGHT', -6, 0)
-	Button.Toast.Background:SetTexture('')
-	Button.Toast:CreateBackdrop('Transparent')
-	Button.Toast.backdrop:Hide()
-
-	hooksecurefunc(Button, "ShowToast", function() Button.Toast.backdrop:Show() end)
-	hooksecurefunc(Button, "HideToast", function() Button.Toast.backdrop:Hide() end)
-end
-
 function CH:BuildCopyChatFrame()
 	local frame = CreateFrame("Frame", "CopyChatFrame", E.UIParent)
 	tinsert(_G.UISpecialFrames, "CopyChatFrame")
@@ -2581,7 +2369,6 @@ function CH:Initialize()
 	self:UpdateFading()
 	self:UpdateAnchors()
 	self:Panels_ColorUpdate()
-	self:HandleChatVoiceIcons()
 
 	self:SecureHook('ChatEdit_OnEnterPressed')
 	self:SecureHook('FCF_SetWindowAlpha')
@@ -2590,19 +2377,6 @@ function CH:Initialize()
 	self:RegisterEvent('UPDATE_CHAT_WINDOWS', 'SetupChat')
 	self:RegisterEvent('UPDATE_FLOATING_CHAT_WINDOWS', 'SetupChat')
 	self:RegisterEvent('GROUP_ROSTER_UPDATE', 'CheckLFGRoles')
-	self:RegisterEvent('SOCIAL_QUEUE_UPDATE', 'SocialQueueEvent')
-	self:RegisterEvent('PET_BATTLE_CLOSE')
-
-	if E.private.general.voiceOverlay then
-		self:RegisterEvent('VOICE_CHAT_CHANNEL_MEMBER_SPEAKING_STATE_CHANGED', 'VoiceOverlay');
-		self:RegisterEvent('VOICE_CHAT_CHANNEL_MEMBER_ENERGY_CHANGED', 'VoiceOverlay');
-		self:RegisterEvent('VOICE_CHAT_CHANNEL_TRANSMIT_CHANGED', 'VoiceOverlay');
-		self:RegisterEvent('VOICE_CHAT_COMMUNICATION_MODE_CHANGED', 'VoiceOverlay');
-		self:RegisterEvent('VOICE_CHAT_CHANNEL_MEMBER_REMOVED', 'VoiceOverlay');
-		self:RegisterEvent('VOICE_CHAT_CHANNEL_REMOVED', 'VoiceOverlay');
-		self:RegisterEvent('VOICE_CHAT_CHANNEL_DEACTIVATED', 'VoiceOverlay');
-		_G.VoiceActivityManager:UnregisterAllEvents();
-	end
 
 	if _G.WIM then
 		_G.WIM.RegisterWidgetTrigger("chat_display", "whisper,chat,w2w,demo", "OnHyperlinkClick", function(frame) CH.clickedframe = frame end);

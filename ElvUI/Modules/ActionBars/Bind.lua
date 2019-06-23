@@ -242,7 +242,9 @@ function AB:BindUpdate(button, spellmacro)
 			bind.button.bindstring = bind.button.keyBoundTarget
 		else
 			local modact = 1+(bind.button.action-1)%12;
-			if bind.button.action < 25 or bind.button.action > 72 then
+			if bind.button.name == 'ExtraActionButton1' then
+				bind.button.bindstring = "EXTRAACTIONBUTTON1";
+			elseif bind.button.action < 25 or bind.button.action > 72 then
 				bind.button.bindstring = "ACTIONBUTTON"..modact;
 			elseif bind.button.action < 73 and bind.button.action > 60 then
 				bind.button.bindstring = "MULTIACTIONBAR1BUTTON"..modact;
@@ -308,24 +310,6 @@ function AB:Tooltip_OnUpdate(tooltip, e)
 	end
 end
 
-function AB:UpdateFlyouts()
-	for i=1, GetNumFlyouts() do
-		local x = GetFlyoutID(i)
-		local _, _, numSlots, isKnown = GetFlyoutInfo(x)
-		if (isKnown) then
-			for k=1, numSlots do
-				local b = _G["SpellFlyoutButton"..k]
-				if _G.SpellFlyout:IsShown() and b and b:IsShown() then
-					if not b.hookedFlyout then
-						b:HookScript("OnEnter", function(b) AB:BindUpdate(b, "FLYOUT"); end);
-						b.hookedFlyout = true
-					end
-				end
-			end
-		end
-	end
-end
-
 function AB:RegisterMacro(addon)
 	if addon == "Blizzard_MacroUI" then
 		for i=1, MAX_ACCOUNT_MACROS do
@@ -383,9 +367,6 @@ function AB:LoadKeyBinder()
 	else
 		self:RegisterMacro("Blizzard_MacroUI");
 	end
-
-	self:SecureHook("ActionButton_UpdateFlyout", "UpdateFlyouts")
-	self:UpdateFlyouts()
 
 	--Special Popup
 	local f = CreateFrame("Frame", "ElvUIBindPopupWindow", _G.UIParent)

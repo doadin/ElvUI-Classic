@@ -20,9 +20,6 @@ local GetItemCount = GetItemCount
 local GetMouseFocus = GetMouseFocus
 local GetNumGroupMembers = GetNumGroupMembers
 local GetRelativeDifficultyColor = GetRelativeDifficultyColor
-local GetSpecialization = GetSpecialization
-local GetSpecializationInfo = GetSpecializationInfo
-local GetSpecializationInfoByID = GetSpecializationInfoByID
 local GetTime = GetTime
 local InCombatLockdown = InCombatLockdown
 local IsAltKeyDown = IsAltKeyDown
@@ -41,20 +38,16 @@ local UnitClassification = UnitClassification
 local UnitCreatureType = UnitCreatureType
 local UnitExists = UnitExists
 local UnitFactionGroup = UnitFactionGroup
-local UnitGroupRolesAssigned = UnitGroupRolesAssigned
 local UnitGUID = UnitGUID
-local UnitHasVehicleUI = UnitHasVehicleUI
 local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
 local UnitIsAFK = UnitIsAFK
-local UnitIsBattlePetCompanion = UnitIsBattlePetCompanion
 local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local UnitIsDND = UnitIsDND
 local UnitIsPlayer = UnitIsPlayer
 local UnitIsPVP = UnitIsPVP
 local UnitIsTapDenied = UnitIsTapDenied
 local UnitIsUnit = UnitIsUnit
-local UnitIsWildBattlePet = UnitIsWildBattlePet
 local UnitLevel = UnitLevel
 local UnitName = UnitName
 local UnitPVPName = UnitPVPName
@@ -62,11 +55,6 @@ local UnitRace = UnitRace
 local UnitReaction = UnitReaction
 local UnitRealmRelationship = UnitRealmRelationship
 
-local C_MountJournal_GetMountIDs = C_MountJournal.GetMountIDs
-local C_MountJournal_GetMountInfoByID = C_MountJournal.GetMountInfoByID
-local C_MountJournal_GetMountInfoExtraByID = C_MountJournal.GetMountInfoExtraByID
-local C_PetBattles_IsInBattle = C_PetBattles.IsInBattle
-local C_PetJournalGetPetTeamAverageLevel = C_PetJournal.GetPetTeamAverageLevel
 -- GLOBALS: ElvUI_KeyBinder, ElvUI_ContainerFrame
 
 -- Custom to find LEVEL string on tooltip
@@ -240,9 +228,9 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 			end
 
 			if self.db.guildRanks then
-				_G.GameTooltipTextLeft2:SetText(("<|cff00ff10%s|r> [|cff00ff10%s|r]"):format(guildName, guildRankName))
+				_G.GameTooltipTextLeft2:SetFormattedText("<|cff00ff10%s|r> [|cff00ff10%s|r]", guildName, guildRankName)
 			else
-				_G.GameTooltipTextLeft2:SetText(("<|cff00ff10%s|r>"):format(guildName))
+				_G.GameTooltipTextLeft2:SetFormattedText("<|cff00ff10%s|r>", guildName)
 			end
 
 			lineOffset = 3
@@ -258,21 +246,6 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 			end
 			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r %s |c%s%s|r", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", race or '', color.colorStr, localeClass)
 		end
-
-		if E.db.tooltip.role then
-			local r, g, b, role = 1, 1, 1, UnitGroupRolesAssigned(unit)
-			if IsInGroup() and (UnitInParty(unit) or UnitInRaid(unit)) and (role ~= "NONE") then
-				if role == "HEALER" then
-					role, r, g, b = L["Healer"], 0, 1, .59
-				elseif role == "TANK" then
-					role, r, g, b = TANK, .16, .31, .61
-				elseif role == "DAMAGER" then
-					role, r, g, b = L["DPS"], .77, .12, .24
-				end
-
-				GameTooltip:AddDoubleLine(format("%s:", _G.ROLE), role, nil, nil, nil, r, g, b)
-			end
-		end
 	else
 		if UnitIsTapDenied(unit) then
 			color = TAPPED_COLOR
@@ -285,40 +258,6 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 			else
 				color = _G.FACTION_BAR_COLORS[unitReaction]
 			end
-		end
-
-		local levelLine = self:GetLevelLine(tt, 2)
-		if levelLine then
-			local isPetWild, isPetCompanion = UnitIsWildBattlePet(unit), UnitIsBattlePetCompanion(unit);
-			local creatureClassification = UnitClassification(unit)
-			local creatureType = UnitCreatureType(unit)
-			local pvpFlag = ""
-			local diffColor
-			if(isPetWild or isPetCompanion) then
-				level = UnitBattlePetLevel(unit)
-
-				local petType = _G["BATTLE_PET_NAME_"..UnitBattlePetType(unit)]
-				if creatureType then
-					creatureType = format("%s %s", creatureType, petType)
-				else
-					creatureType = petType
-				end
-
-				local teamLevel = C_PetJournalGetPetTeamAverageLevel();
-				if(teamLevel) then
-					diffColor = GetRelativeDifficultyColor(teamLevel, level);
-				else
-					diffColor = GetCreatureDifficultyColor(level)
-				end
-			else
-				diffColor = GetCreatureDifficultyColor(level)
-			end
-
-			if(UnitIsPVP(unit)) then
-				pvpFlag = format(" (%s)", _G.PVP)
-			end
-
-			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", classification[creatureClassification] or "", creatureType or "", pvpFlag)
 		end
 	end
 
@@ -451,37 +390,11 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 
 	local color = self:SetUnitText(tt, unit, UnitLevel(unit), isShiftKeyDown)
 
-	if self.db.showMount and not isShiftKeyDown and unit ~= "player" and isPlayerUnit then
-		for i = 1, 40 do
-			local name, _, _, _, _, _, _, _, _, id = UnitBuff(unit, i)
-			if not name then break end
-
-			if self.MountIDs[id] then
-				local _, _, sourceText = C_MountJournal_GetMountInfoExtraByID(self.MountIDs[id])
-				tt:AddDoubleLine(format("%s:", _G.MOUNT), name, nil, nil, nil, 1, 1, 1)
-
-				if sourceText and isControlKeyDown then
-					local sourceModified = sourceText:gsub("|n", "\10")
-					for x in gmatch(sourceModified, '[^\10]+\10?') do
-						local left, right = strmatch(x, '(.-|r)%s?([^\10]+)\10?')
-						if left and right then
-							tt:AddDoubleLine(left, right, nil, nil, nil, 1, 1, 1)
-						else
-							tt:AddDoubleLine(_G.FROM, sourceText:gsub('|c%x%x%x%x%x%x%x%x',''), nil, nil, nil, 1, 1, 1)
-						end
-					end
-				end
-
-				break
-			end
-		end
-	end
-
 	if not isShiftKeyDown and not isControlKeyDown then
 		local unitTarget = unit.."target"
 		if self.db.targetInfo and unit ~= "player" and UnitExists(unitTarget) then
 			local targetColor
-			if(UnitIsPlayer(unitTarget) and not UnitHasVehicleUI(unitTarget)) then
+			if(UnitIsPlayer(unitTarget)) then
 				local _, class = UnitClass(unitTarget)
 				targetColor = _G.CUSTOM_CLASS_COLORS and _G.CUSTOM_CLASS_COLORS[class] or _G.RAID_CLASS_COLORS[class]
 			else
@@ -515,7 +428,6 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 
 	-- NPC ID's
 	if unit and self.db.npcID and not isPlayerUnit then
-		if C_PetBattles_IsInBattle() then return end
 		local guid = UnitGUID(unit) or ""
 		local id = tonumber(guid:match("%-(%d-)%-%x-$"), 10)
 		if id then
@@ -682,14 +594,6 @@ function TT:SetUnitAura(tt, unit, index, filter)
 	local _, _, _, _, _, _, caster, _, _, id = UnitAura(unit, index, filter)
 
 	if id then
-		if self.MountIDs[id] then
-			local _, descriptionText, sourceText = C_MountJournal_GetMountInfoExtraByID(self.MountIDs[id])
-			--tt:AddLine(descriptionText)
-			tt:AddLine(" ")
-			tt:AddLine(sourceText, 1, 1, 1)
-			tt:AddLine(" ")
-		end
-
 		if self.db.spellID then
 			if caster then
 				local name = UnitName(caster)
@@ -809,12 +713,6 @@ end
 
 function TT:Initialize()
 	self.db = E.db.tooltip
-
-	self.MountIDs = {}
-	local mountIDs = C_MountJournal_GetMountIDs();
-	for _, mountID in ipairs(mountIDs) do
-		self.MountIDs[select(2, C_MountJournal_GetMountInfoByID(mountID))] = mountID
-	end
 
 	_G.BNToastFrame:Point('TOPRIGHT', _G.MMHolder, 'BOTTOMRIGHT', 0, -10);
 	E:CreateMover(_G.BNToastFrame, 'BNETMover', L["BNet Frame"], nil, nil, PostBNToastMove)

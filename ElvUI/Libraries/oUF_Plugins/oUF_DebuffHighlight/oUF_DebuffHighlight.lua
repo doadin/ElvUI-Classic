@@ -12,14 +12,6 @@ local CanDispel = {
 	MAGE = { Curse = true },
 }
 
-local blackList = {
-	[GetSpellInfo(140546)] = true, --Fully Mutated
-	[GetSpellInfo(136184)] = true, --Thick Bones
-	[GetSpellInfo(136186)] = true, --Clear mind
-	[GetSpellInfo(136182)] = true, --Improved Synapses
-	[GetSpellInfo(136180)] = true, --Keen Eyesight
-}
-
 local dispellist = CanDispel[playerClass] or {}
 local origColors = {}
 local origBorderColors = {}
@@ -152,9 +144,7 @@ local function Disable(object)
 end
 
 local f = CreateFrame("Frame")
-f:RegisterEvent("PLAYER_TALENT_UPDATE")
 f:RegisterEvent("CHARACTER_POINTS_CHANGED")
-f:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 f:SetScript("OnEvent", CheckSpec)
 
 oUF:AddElement('DebuffHighlight', Update, Enable, Disable)

@@ -89,33 +89,6 @@ local function OnLeave()
 	enteredFrame = false;
 end
 
--- use these to convert "The Eye" into "Tempest Keep"
-local DUNGEON_FLOOR_TEMPESTKEEP1 = _G.DUNGEON_FLOOR_TEMPESTKEEP1
-local TempestKeep = select(2, GetAchievementInfo(1088)):match('%((.-)%)$')
-
-local instanceIconByName = {}
-local function GetInstanceImages(index, raid)
-	local instanceID, name, _, _, buttonImage = EJ_GetInstanceByIndex(index, raid);
-	while instanceID do
-		if name == DUNGEON_FLOOR_TEMPESTKEEP1 then
-			instanceIconByName[TempestKeep] = buttonImage
-		else
-			instanceIconByName[name] = buttonImage
-		end
-		index = index + 1
-		instanceID, name, _, _, buttonImage = EJ_GetInstanceByIndex(index, raid);
-	end
-end
-
-local locale = GetLocale()
-local krcntw = locale == "koKR" or locale == "zhCN" or locale == "zhTW"
-local difficultyTag = { -- Raid Finder, Normal, Heroic, Mythic
-	(krcntw and _G.PLAYER_DIFFICULTY3) or utf8sub(_G.PLAYER_DIFFICULTY3, 1, 1), -- R
-	(krcntw and _G.PLAYER_DIFFICULTY1) or utf8sub(_G.PLAYER_DIFFICULTY1, 1, 1), -- N
-	(krcntw and _G.PLAYER_DIFFICULTY2) or utf8sub(_G.PLAYER_DIFFICULTY2, 1, 1), -- H
-	(krcntw and _G.PLAYER_DIFFICULTY6) or utf8sub(_G.PLAYER_DIFFICULTY6, 1, 1)  -- M
-}
-
 local function sortFunc(a,b) return a[1] < b[1] end
 
 local collectedInstanceImages = false
@@ -127,46 +100,7 @@ local function OnEnter(self)
 		RequestRaidInfo()
 	end
 
-	if not collectedInstanceImages then
-		local numTiers = (EJ_GetNumTiers() or 0)
-		if numTiers > 0 then
-			local currentTier = EJ_GetCurrentTier()
-
-			-- Loop through the expansions to collect the textures
-			for i=1, numTiers do
-				EJ_SelectTier(i);
-				GetInstanceImages(1, false); -- Populate for dungeon icons
-				GetInstanceImages(1, true); -- Populate for raid icons
-			end
-
-			-- Set it back to the previous tier
-			if currentTier then
-				EJ_SelectTier(currentTier);
-			end
-
-			collectedInstanceImages = true
-		end
-	end
-
 	local addedHeader = false
-
-	for i = 1, GetNumWorldPVPAreas() do
-		local _, localizedName, isActive, _, startTime, canEnter = GetWorldPVPAreaInfo(i)
-		if canEnter then
-			if not addedHeader then
-				DT.tooltip:AddLine(VOICE_CHAT_BATTLEGROUND)
-				addedHeader = true
-			end
-			if isActive then
-				startTime = WINTERGRASP_IN_PROGRESS
-			elseif startTime == nil then
-				startTime = QUEUE_TIME_UNAVAILABLE
-			else
-				startTime = SecondsToTime(startTime, false, nil, 3)
-			end
-			DT.tooltip:AddDoubleLine(format(formatBattleGroundInfo, localizedName), startTime, 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b)
-		end
-	end
 
 	local lockedInstances = {raids = {}, dungeons = {}}
 
@@ -184,71 +118,6 @@ local function OnEnter(self)
 			elseif isHeroicOrMythicDungeon then
 				tinsert(lockedInstances.dungeons, {sortName, difficultyLetter, buttonImg, {GetSavedInstanceInfo(i)}})
 			end
-		end
-	end
-
-	if next(lockedInstances.raids) then
-		if DT.tooltip:NumLines() > 0 then
-			DT.tooltip:AddLine(" ")
-		end
-		DT.tooltip:AddLine(L["Saved Raid(s)"])
-
-		sort(lockedInstances.raids, sortFunc)
-
-		for i = 1, #lockedInstances.raids do
-			local difficultyLetter = lockedInstances.raids[i][2]
-			local buttonImg = lockedInstances.raids[i][3]
-			local name, _, reset, _, _, extended, _, _, maxPlayers, _, numEncounters, encounterProgress = unpack(lockedInstances.raids[i][4])
-
-			local lockoutColor = extended and lockoutColorExtended or lockoutColorNormal
-			if (numEncounters and numEncounters > 0) and (encounterProgress and encounterProgress > 0) then
-				DT.tooltip:AddDoubleLine(format(lockoutInfoFormat, buttonImg, maxPlayers, difficultyLetter, name, encounterProgress, numEncounters), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b)
-			else
-				DT.tooltip:AddDoubleLine(format(lockoutInfoFormatNoEnc, buttonImg, maxPlayers, difficultyLetter, name), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b)
-			end
-		end
-	end
-
-	if next(lockedInstances.dungeons) then
-		if DT.tooltip:NumLines() > 0 then
-			DT.tooltip:AddLine(" ")
-		end
-		DT.tooltip:AddLine(L["Saved Dungeon(s)"])
-
-		sort(lockedInstances.dungeons, sortFunc)
-
-		for i = 1,#lockedInstances.dungeons do
-			local difficultyLetter = lockedInstances.dungeons[i][2]
-			local buttonImg = lockedInstances.dungeons[i][3]
-			local name, _, reset, _, _, extended, _, _, maxPlayers, _, numEncounters, encounterProgress = unpack(lockedInstances.dungeons[i][4])
-
-			local lockoutColor = extended and lockoutColorExtended or lockoutColorNormal
-			if (numEncounters and numEncounters > 0) and (encounterProgress and encounterProgress > 0) then
-				DT.tooltip:AddDoubleLine(format(lockoutInfoFormat, buttonImg, maxPlayers, difficultyLetter, name, encounterProgress, numEncounters), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b)
-			else
-				DT.tooltip:AddDoubleLine(format(lockoutInfoFormatNoEnc, buttonImg, maxPlayers, difficultyLetter, name), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b)
-			end
-		end
-	end
-
-	local addedLine = false
-	local worldbossLockoutList = {}
-	for i = 1, GetNumSavedWorldBosses() do
-		local name, _, reset = GetSavedWorldBossInfo(i)
-		tinsert(worldbossLockoutList, {name, reset})
-	end
-	sort(worldbossLockoutList, sortFunc)
-	for i = 1,#worldbossLockoutList do
-		local name, reset = unpack(worldbossLockoutList[i])
-		if(reset) then
-			if(not addedLine) then
-				if DT.tooltip:NumLines() > 0 then
-					DT.tooltip:AddLine(" ")
-				end
-				DT.tooltip:AddLine(WORLD_BOSSES_TEXT)
-				addedLine = true
-			end
-			DT.tooltip:AddDoubleLine(name, SecondsToTime(reset, true, nil, 3), 1, 1, 1, 0.8, 0.8, 0.8)
 		end
 	end
 
@@ -310,4 +179,4 @@ function Update(self, t)
 	int = 5
 end
 
-DT:RegisterDatatext('Time', {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, Click, OnEnter, OnLeave)
+DT:RegisterDatatext('Time', {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, nil, OnEnter, OnLeave)

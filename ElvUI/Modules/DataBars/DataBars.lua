@@ -55,12 +55,6 @@ function mod:PLAYER_LEVEL_UP(level)
 	else
 		self.expBar:Hide()
 	end
-
-	if(self.db.honor.enable) then
-		self:UpdateHonor("PLAYER_LEVEL_UP", level)
-	else
-		self.honorBar:Hide()
-	end
 end
 
 function mod:Initialize()
@@ -69,9 +63,9 @@ function mod:Initialize()
 
 	self:LoadExperienceBar()
 	self:LoadReputationBar()
-	self:LoadHonorBar()
+	--self:LoadHonorBar()
 	--self:LoadArtifactBar()
-	self:LoadAzeriteBar()
+	--self:LoadAzeriteBar()
 
 	self:RegisterEvent("PLAYER_LEVEL_UP")
 end

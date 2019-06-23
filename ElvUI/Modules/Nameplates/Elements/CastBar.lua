@@ -33,23 +33,23 @@ end
 function NP:Castbar_CustomDelayText(duration)
 	if self.channeling then
 		if self.channelTimeFormat == 'CURRENT' then
-			self.Time:SetText(("%.1f |cffaf5050%.1f|r"):format(abs(duration - self.max), self.delay))
+			self.Time:SetFormattedText("%.1f |cffaf5050%.1f|r", abs(duration - self.max), self.delay)
 		elseif self.channelTimeFormat == 'CURRENTMAX' then
-			self.Time:SetText(("%.1f / %.1f |cffaf5050%.1f|r"):format(duration, self.max, self.delay))
+			self.Time:SetFormattedText("%.1f / %.1f |cffaf5050%.1f|r", duration, self.max, self.delay)
 		elseif self.channelTimeFormat == 'REMAINING' then
-			self.Time:SetText(("%.1f |cffaf5050%.1f|r"):format(duration, self.delay))
+			self.Time:SetFormattedText("%.1f |cffaf5050%.1f|r", duration, self.delay)
 		elseif self.channelTimeFormat == 'REMAININGMAX' then
-			self.Time:SetText(("%.1f / %.1f |cffaf5050%.1f|r"):format(abs(duration - self.max), self.max, self.delay))
+			self.Time:SetFormattedText("%.1f / %.1f |cffaf5050%.1f|r", abs(duration - self.max), self.max, self.delay)
 		end
 	else
 		if self.castTimeFormat == 'CURRENT' then
-			self.Time:SetText(("%.1f |cffaf5050%s %.1f|r"):format(duration, "+", self.delay))
+			self.Time:SetFormattedText("%.1f |cffaf5050%s %.1f|r", duration, "+", self.delay)
 		elseif self.castTimeFormat == 'CURRENTMAX' then
-			self.Time:SetText(("%.1f / %.1f |cffaf5050%s %.1f|r"):format(duration, self.max, "+", self.delay))
+			self.Time:SetFormattedText("%.1f / %.1f |cffaf5050%s %.1f|r", duration, self.max, "+", self.delay)
 		elseif self.castTimeFormat == 'REMAINING' then
-			self.Time:SetText(("%.1f |cffaf5050%s %.1f|r"):format(abs(duration - self.max), "+", self.delay))
+			self.Time:SetFormattedText("%.1f |cffaf5050%s %.1f|r", abs(duration - self.max), "+", self.delay)
 		elseif self.castTimeFormat == 'REMAININGMAX' then
-			self.Time:SetText(("%.1f / %.1f |cffaf5050%s %.1f|r"):format(abs(duration - self.max), self.max, "+", self.delay))
+			self.Time:SetFormattedText("%.1f / %.1f |cffaf5050%s %.1f|r", abs(duration - self.max), self.max, "+", self.delay)
 		end
 	end
 end
@@ -57,34 +57,34 @@ end
 function NP:Castbar_CustomTimeText(duration)
 	if self.channeling then
 		if self.channelTimeFormat == 'CURRENT' then
-			self.Time:SetText(("%.1f"):format(abs(duration - self.max)))
+			self.Time:SetFormattedText("%.1f", abs(duration - self.max))
 		elseif self.channelTimeFormat == 'CURRENTMAX' then
-			self.Time:SetText(("%.1f / %.1f"):format(abs(duration - self.max), self.max))
+			self.Time:SetFormattedText("%.1f / %.1f", abs(duration - self.max), self.max)
 		elseif self.channelTimeFormat == 'REMAINING' then
-			self.Time:SetText(("%.1f"):format(duration))
+			self.Time:SetFormattedText("%.1f", duration)
 		elseif self.channelTimeFormat == 'REMAININGMAX' then
-			self.Time:SetText(("%.1f / %.1f"):format(duration, self.max))
+			self.Time:SetFormattedText("%.1f / %.1f", duration, self.max)
 		end
 	else
 		if self.castTimeFormat == 'CURRENT' then
-			self.Time:SetText(("%.1f"):format(duration))
+			self.Time:SetFormattedText("%.1f", duration)
 		elseif self.castTimeFormat == 'CURRENTMAX' then
-			self.Time:SetText(("%.1f / %.1f"):format(duration, self.max))
+			self.Time:SetFormattedText("%.1f / %.1f", duration, self.max)
 		elseif self.castTimeFormat == 'REMAINING' then
-			self.Time:SetText(("%.1f"):format(abs(duration - self.max)))
+			self.Time:SetFormattedText("%.1f", abs(duration - self.max))
 		elseif self.castTimeFormat == 'REMAININGMAX' then
-			self.Time:SetText(("%.1f / %.1f"):format(abs(duration - self.max), self.max))
+			self.Time:SetFormattedText("%.1f / %.1f", abs(duration - self.max), self.max)
 		end
 	end
 end
 
 function NP:Castbar_PostCastStart(unit)
 	self:CheckInterrupt(unit)
-	NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
+	--NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
 end
 
 function NP:Castbar_PostCastFail()
-	NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
+	--NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
 end
 
 function NP:Castbar_PostCastInterruptible(unit)
@@ -92,7 +92,7 @@ function NP:Castbar_PostCastInterruptible(unit)
 end
 
 function NP:Castbar_PostCastStop()
-	NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
+	--NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
 end
 
 function NP:Construct_Castbar(nameplate)

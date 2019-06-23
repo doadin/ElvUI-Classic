@@ -109,7 +109,7 @@ local type_meta_map = {
 local ButtonRegistry, ActiveButtons, ActionButtons, NonActionButtons = lib.buttonRegistry, lib.activeButtons, lib.actionButtons, lib.nonActionButtons
 
 local Update, UpdateButtonState, UpdateUsable, UpdateCount, UpdateCooldown, UpdateTooltip, UpdateNewAction, ClearNewActionHighlight
-local StartFlash, StopFlash, UpdateFlash, UpdateHotkeys, UpdateRangeTimer, UpdateOverlayGlow
+local StartFlash, StopFlash, UpdateFlash, UpdateHotkeys, UpdateRangeTimer
 local UpdateFlyout, ShowGrid, HideGrid, UpdateGrid, SetupSecureSnippets, WrapOnClick
 local ShowOverlayGlow, HideOverlayGlow
 local EndChargeCooldown
@@ -699,7 +699,6 @@ function InitializeEventHandler()
 	lib.eventFrame:RegisterEvent("ACTIONBAR_SLOT_CHANGED")
 	lib.eventFrame:RegisterEvent("UPDATE_BINDINGS")
 	lib.eventFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
-	lib.eventFrame:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR")
 	lib.eventFrame:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED")
 
 	lib.eventFrame:RegisterEvent("ACTIONBAR_UPDATE_STATE")
@@ -708,22 +707,15 @@ function InitializeEventHandler()
 	lib.eventFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 	lib.eventFrame:RegisterEvent("TRADE_SKILL_SHOW")
 	lib.eventFrame:RegisterEvent("TRADE_SKILL_CLOSE")
-	lib.eventFrame:RegisterEvent("ARCHAEOLOGY_CLOSED")
 	lib.eventFrame:RegisterEvent("PLAYER_ENTER_COMBAT")
 	lib.eventFrame:RegisterEvent("PLAYER_LEAVE_COMBAT")
 	lib.eventFrame:RegisterEvent("START_AUTOREPEAT_SPELL")
 	lib.eventFrame:RegisterEvent("STOP_AUTOREPEAT_SPELL")
-	lib.eventFrame:RegisterEvent("UNIT_ENTERED_VEHICLE")
-	lib.eventFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
-	lib.eventFrame:RegisterEvent("COMPANION_UPDATE")
 	lib.eventFrame:RegisterEvent("UNIT_INVENTORY_CHANGED")
 	lib.eventFrame:RegisterEvent("LEARNED_SPELL_IN_TAB")
 	lib.eventFrame:RegisterEvent("PET_STABLE_UPDATE")
 	lib.eventFrame:RegisterEvent("PET_STABLE_SHOW")
-	lib.eventFrame:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW")
-	lib.eventFrame:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_HIDE")
 	lib.eventFrame:RegisterEvent("SPELL_UPDATE_CHARGES")
-	lib.eventFrame:RegisterEvent("UPDATE_SUMMONPETS_ACTION")
 	lib.eventFrame:RegisterEvent("SPELL_UPDATE_ICON")
 
 	-- With those two, do we still need the ACTIONBAR equivalents of them?
@@ -1168,8 +1160,6 @@ function Update(self, fromUpdateConfig)
 
 	UpdateFlyout(self)
 
-	UpdateOverlayGlow(self)
-
 	UpdateNewAction(self)
 
 	UpdateButtonState(self)
@@ -1402,15 +1392,6 @@ end
 function HideOverlayGlow(self)
 	if LBG then
 		LBG.HideOverlayGlow(self)
-	end
-end
-
-function UpdateOverlayGlow(self)
-	local spellId = self:GetSpellId()
-	if spellId and IsSpellOverlayed(spellId) then
-		ShowOverlayGlow(self)
-	else
-		HideOverlayGlow(self)
 	end
 end
 
@@ -1687,7 +1668,6 @@ if oldversion and next(lib.buttonRegistry) then
 				button.overlay:Hide()
 				ActionButton_HideOverlayGlow(button)
 				button.overlay = nil
-				UpdateOverlayGlow(button)
 			end
 		end
 	end

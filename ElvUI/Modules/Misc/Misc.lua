@@ -178,11 +178,11 @@ end
 
 local hideStatic
 function M:AutoInvite(event, _, _, _, _, _, _, inviterGUID)
-	if not (E.db.general.autoAcceptInvite and inviterGUID and inviterGUID ~= "") then return end
+	if not E.db.general.autoAcceptInvite then return end
 
 	if event == "PARTY_INVITE_REQUEST" then
 		-- Prevent losing que inside LFD if someone invites you to group
-		if _G.QueueStatusMinimapButton:IsShown() or IsInGroup() then return end
+		if _G.QueueStatusMinimapButton:IsShown() or IsInGroup() or (not inviterGUID or inviterGUID == "") then return end
 
 		if BNGetGameAccountInfoByGUID(inviterGUID) or IsCharacterFriend(inviterGUID) or IsGuildMember(inviterGUID) then
 			hideStatic = true
@@ -259,7 +259,7 @@ function M:Initialize()
 	self:LoadLootRoll()
 	self:LoadChatBubbles()
 	self:LoadLoot()
-	self:ToggleItemLevelInfo(true)
+
 	self:RegisterEvent('MERCHANT_SHOW')
 	self:RegisterEvent('PLAYER_REGEN_DISABLED', 'ErrorFrameToggle')
 	self:RegisterEvent('PLAYER_REGEN_ENABLED', 'ErrorFrameToggle')

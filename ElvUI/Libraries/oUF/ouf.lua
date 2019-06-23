@@ -281,9 +281,6 @@ local function initObject(unit, style, styleFunc, header, ...)
 		end
 
 		if(not (suffix == 'target' or objectUnit and objectUnit:match('target'))) then
-			object:RegisterEvent('UNIT_ENTERED_VEHICLE', updateActiveUnit)
-			object:RegisterEvent('UNIT_EXITED_VEHICLE', updateActiveUnit)
-
 			-- We don't need to register UNIT_PET for the player unit. We register it
 			-- mainly because UNIT_EXITED_VEHICLE and UNIT_ENTERED_VEHICLE doesn't always
 			-- have pet information when they fire for party and raid units.
@@ -326,8 +323,6 @@ local function initObject(unit, style, styleFunc, header, ...)
 			end
 		end
 
-		activeElements[object] = {} --ElvUI: styleFunc on headers break before this is set when they try to enable elements before it's set.
-
 		Private.UpdateUnits(object, objectUnit)
 
 		styleFunc(object, objectUnit, not header)
@@ -340,6 +335,7 @@ local function initObject(unit, style, styleFunc, header, ...)
 			object:SetScript('OnShow', onShow)
 		end
 
+		activeElements[object] = {}
 		for element in next, elements do
 			object:EnableElement(element, objectUnit)
 		end

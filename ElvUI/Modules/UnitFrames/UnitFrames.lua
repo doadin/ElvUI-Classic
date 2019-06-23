@@ -368,22 +368,6 @@ function UF:UpdateColors()
 	ElvUF.colors.power.INSANITY = E:SetColorTable(ElvUF.colors.power.INSANITY, db.power.INSANITY)
 	ElvUF.colors.power.MAELSTROM = E:SetColorTable(ElvUF.colors.power.MAELSTROM, db.power.MAELSTROM)
 
-	ElvUF.colors.threat[0] = E:SetColorTable(ElvUF.colors.threat[0], db.threat[0])
-	ElvUF.colors.threat[1] = E:SetColorTable(ElvUF.colors.threat[1], db.threat[1])
-	ElvUF.colors.threat[2] = E:SetColorTable(ElvUF.colors.threat[2], db.threat[2])
-	ElvUF.colors.threat[3] = E:SetColorTable(ElvUF.colors.threat[3], db.threat[3])
-
-	ElvUF.colors.selection[0] = E:SetColorTable(ElvUF.colors.selection[0], db.selection[0])
-	ElvUF.colors.selection[1] = E:SetColorTable(ElvUF.colors.selection[1], db.selection[1])
-	ElvUF.colors.selection[2] = E:SetColorTable(ElvUF.colors.selection[2], db.selection[2])
-	ElvUF.colors.selection[3] = E:SetColorTable(ElvUF.colors.selection[3], db.selection[3])
-	ElvUF.colors.selection[5] = E:SetColorTable(ElvUF.colors.selection[5], db.selection[5])
-	ElvUF.colors.selection[6] = E:SetColorTable(ElvUF.colors.selection[6], db.selection[6])
-	ElvUF.colors.selection[7] = E:SetColorTable(ElvUF.colors.selection[7], db.selection[7])
-	ElvUF.colors.selection[8] = E:SetColorTable(ElvUF.colors.selection[8], db.selection[8])
-	ElvUF.colors.selection[9] = E:SetColorTable(ElvUF.colors.selection[9], db.selection[9])
-	ElvUF.colors.selection[13] = E:SetColorTable(ElvUF.colors.selection[13], db.selection[13])
-
 	if not ElvUF.colors.ComboPoints then ElvUF.colors.ComboPoints = {} end
 	ElvUF.colors.ComboPoints[1] = E:SetColorTable(ElvUF.colors.ComboPoints[1], db.classResources.comboPoints[1])
 	ElvUF.colors.ComboPoints[2] = E:SetColorTable(ElvUF.colors.ComboPoints[2], db.classResources.comboPoints[2])
@@ -454,7 +438,7 @@ function UF:Update_StatusBars()
 				statusbar:SetTexture(statusBarTexture)
 			end
 
-			UF:Update_StatusBar(statusbar.bg, (not useBlank and statusBarTexture) or E.media.blankTex)
+			UF:Update_StatusBar(statusbar.bg or statusbar.BG, (not useBlank and statusBarTexture) or E.media.blankTex)
 		end
 	end
 end
@@ -1176,10 +1160,6 @@ function ElvUF:DisableBlizzard(unit)
 
 		-- For the damn vehicle support:
 		PlayerFrame:RegisterEvent('PLAYER_ENTERING_WORLD')
-		PlayerFrame:RegisterEvent('UNIT_ENTERING_VEHICLE')
-		PlayerFrame:RegisterEvent('UNIT_ENTERED_VEHICLE')
-		PlayerFrame:RegisterEvent('UNIT_EXITING_VEHICLE')
-		PlayerFrame:RegisterEvent('UNIT_EXITED_VEHICLE')
 
 		-- User placed frames don't animate
 		PlayerFrame:SetMovable(true)
@@ -1361,8 +1341,13 @@ function UF:UpdateBackdropTextureColor(r, g, b)
 		end
 	end
 
-	if self.bg and self.bg:IsObjectType('Texture') and not self.bg.multiplier then
-		self.bg:SetVertexColor(r * m, g * m, b * m)
+	local bg = self.bg or self.BG
+	if bg and bg:IsObjectType('Texture') and not bg.multiplier then
+		if self.custom_backdrop then
+			bg:SetVertexColor(self.custom_backdrop.r, self.custom_backdrop.g, self.custom_backdrop.b)
+		else
+			bg:SetVertexColor(r * m, g * m, b * m)
+		end
 	end
 end
 
@@ -1421,7 +1406,7 @@ function UF:ToggleTransparentStatusBar(isTransparent, statusBar, backdropTex, ad
 		end
 
 		statusBar:SetStatusBarTexture(0, 0, 0, 0)
-		UF:Update_StatusBar(statusBar.bg, E.media.blankTex)
+		UF:Update_StatusBar(statusBar.bg or statusBar.BG, E.media.blankTex)
 
 		if statusBar.texture then statusBar.texture = statusBar:GetStatusBarTexture() end --Needed for Power element
 
@@ -1435,7 +1420,7 @@ function UF:ToggleTransparentStatusBar(isTransparent, statusBar, backdropTex, ad
 
 		local texture = LSM:Fetch("statusbar", self.db.statusbar)
 		statusBar:SetStatusBarTexture(texture)
-		UF:Update_StatusBar(statusBar.bg, texture)
+		UF:Update_StatusBar(statusBar.bg or statusBar.BG, texture)
 
 		if statusBar.texture then statusBar.texture = statusBar:GetStatusBarTexture() end
 
@@ -1488,7 +1473,7 @@ function UF:Initialize()
 	end
 
 	if E.private.unitframe.disabledBlizzardFrames.arena then
-		self:SecureHook('UnitFrameThreatIndicator_Initialize')
+		--self:SecureHook('UnitFrameThreatIndicator_Initialize')
 
 		if not IsAddOnLoaded('Blizzard_ArenaUI') then
 			self:RegisterEvent('ADDON_LOADED')

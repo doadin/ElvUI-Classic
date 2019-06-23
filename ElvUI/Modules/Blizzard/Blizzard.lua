@@ -15,33 +15,6 @@ function B:Initialize()
 	self:PositionCaptureBar()
 	self:PositionDurabilityFrame()
 	self:PositionGMFrames()
-	self:SkinBlizzTimers()
-	self:PositionVehicleFrame()
-	self:PositionTalkingHead()
-	self:Handle_LevelUpDisplay_BossBanner()
-	self:Handle_UIWidgets()
-	self:GarrisonDropDown()
-
-	if not IsAddOnLoaded("DugisGuideViewerZ") then
-		self:MoveObjectiveFrame()
-	end
-
-	if not IsAddOnLoaded("SimplePowerBar") then
-		self:PositionAltPowerBar()
-		self:SkinAltPowerBar()
-	end
-
-	E:CreateMover(_G.LossOfControlFrame, 'LossControlMover', L["Loss Control Icon"])
-
-	-- Quick Join Bug
-	CreateFrame("Frame"):SetScript("OnUpdate", function()
-		if _G.LFRBrowseFrame.timeToClear then
-			_G.LFRBrowseFrame.timeToClear = nil
-		end
-	end)
-
-	-- Fix Guild Set Rank Error introduced in Patch 27326
-	_G.GuildControlUIRankSettingsFrameRosterLabel = CreateFrame("Frame", nil, E.HiddenFrame)
 
 	-- MicroButton Talent Alert
 	local TalentMicroButtonAlert = _G.TalentMicroButtonAlert

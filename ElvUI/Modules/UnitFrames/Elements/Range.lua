@@ -13,7 +13,6 @@ local UnitInRaid = UnitInRaid
 local UnitInRange = UnitInRange
 local UnitIsConnected = UnitIsConnected
 local UnitIsDeadOrGhost = UnitIsDeadOrGhost
-local UnitIsWarModePhased = UnitIsWarModePhased
 local UnitIsUnit = UnitIsUnit
 
 local SRT = {}
@@ -60,10 +59,6 @@ end
 local function friendlyIsInRange(unit)
 	if (not UnitIsUnit(unit, "player")) and (UnitInParty(unit) or UnitInRaid(unit)) then
 		unit = getUnit(unit) -- swap the unit with `raid#` or `party#` when its NOT `player`, UnitIsUnit is true, and its not using `raid#` or `party#` already
-	end
-
-	if UnitIsWarModePhased(unit) or not UnitInPhase(unit) then
-		return false -- is not in same phase
 	end
 
 	local inRange, checkedRange = UnitInRange(unit)

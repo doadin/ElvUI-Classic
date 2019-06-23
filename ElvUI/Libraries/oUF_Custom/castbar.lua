@@ -96,6 +96,8 @@ local UnitChannelInfo = UnitChannelInfo
 local tradeskillCurrent, tradeskillTotal, mergeTradeskill = 0, 0, false -- ElvUI
 
 local DEFAULT_ICON = [[Interface\ICONS\INV_Misc_QuestionMark]]
+local UnitCastingInfo = CastingInfo
+local UnitChannelInfo = ChannelInfo
 
 local function resetAttributes(self)
 	self.castID = nil
@@ -436,8 +438,6 @@ local function Enable(self, unit)
 		self:RegisterEvent('UNIT_SPELLCAST_CHANNEL_UPDATE', CastUpdate)
 		self:RegisterEvent('UNIT_SPELLCAST_FAILED', CastFail)
 		self:RegisterEvent('UNIT_SPELLCAST_INTERRUPTED', CastFail)
-		self:RegisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE', CastInterruptible)
-		self:RegisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE', CastInterruptible)
 
 		-- ElvUI block
 		self:RegisterEvent('UNIT_SPELLCAST_SENT', UNIT_SPELLCAST_SENT, true)
@@ -490,8 +490,6 @@ local function Disable(self)
 		self:UnregisterEvent('UNIT_SPELLCAST_CHANNEL_STOP', CastStop)
 		self:UnregisterEvent('UNIT_SPELLCAST_FAILED', CastFail)
 		self:UnregisterEvent('UNIT_SPELLCAST_INTERRUPTED', CastFail)
-		self:UnregisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE', CastInterruptible)
-		self:UnregisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE', CastInterruptible)
 
 		element:SetScript('OnUpdate', nil)
 
@@ -501,13 +499,5 @@ local function Disable(self)
 		end
 	end
 end
-
--- ElvUI block
-hooksecurefunc(C_TradeSkillUI, "CraftRecipe", function(_, num)
-	tradeskillCurrent = 0
-	tradeskillTotal = num or 1
-	mergeTradeskill = true
-end)
--- end block
 
 oUF:AddElement('Castbar', Update, Enable, Disable, true)
