@@ -43,9 +43,6 @@ end
 function mod:UpdateDataBarDimensions()
 	self:UpdateExperienceDimensions()
 	self:UpdateReputationDimensions()
-	--self:UpdateArtifactDimensions()
-	self:UpdateHonorDimensions()
-	self:UpdateAzeriteDimensions()
 end
 
 function mod:PLAYER_LEVEL_UP(level)

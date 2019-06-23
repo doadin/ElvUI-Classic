@@ -140,12 +140,10 @@ local function SetupCVars(noDisplayMsg)
 	SetCVar("WholeChatWindowClickable", 0)
 	SetCVar("showTutorials", 0)
 	SetCVar("UberTooltips", 1)
-	SetCVar("threatWarning", 3)
 	SetCVar("alwaysShowActionBars", 1)
 	SetCVar("lockActionBars", 1)
 	SetCVar("SpamFilter", 0)
 	SetCVar("cameraDistanceMaxZoomFactor", 2.6)
-	SetCVar("showQuestTrackingTooltips", 1)
 
 	NP:CVarReset()
 

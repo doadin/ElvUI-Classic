@@ -1063,8 +1063,8 @@ function E:UpdateLayout(skipCallback)
 end
 
 function E:UpdateActionBars(skipCallback)
-	ActionBars:Extra_SetAlpha()
-	ActionBars:Extra_SetScale()
+	--ActionBars:Extra_SetAlpha()
+	--ActionBars:Extra_SetScale()
 	ActionBars:ToggleCooldownOptions()
 	ActionBars:UpdateButtonSettings()
 	ActionBars:UpdateMicroPositionDimensions()
@@ -1077,7 +1077,7 @@ end
 
 function E:UpdateNamePlates(skipCallback)
 	NamePlates:ConfigureAll()
-	NamePlates:StyleFilterInitialize()
+	--NamePlates:StyleFilterInitialize()
 
 	if not skipCallback then
 		E.callbacks:Fire("StaggeredUpdate")
@@ -1111,9 +1111,7 @@ function E:UpdateChat(skipCallback)
 end
 
 function E:UpdateDataBars(skipCallback)
-	DataBars:EnableDisable_AzeriteBar()
 	DataBars:EnableDisable_ExperienceBar()
-	DataBars:EnableDisable_HonorBar()
 	DataBars:EnableDisable_ReputationBar()
 	DataBars:UpdateDataBarDimensions()
 
@@ -1149,13 +1147,13 @@ end
 
 function E:UpdateMisc(skipCallback)
 	AFK:Toggle()
-	Blizzard:SetObjectiveFrameHeight()
+	--Blizzard:SetObjectiveFrameHeight()
 
-	Threat:ToggleEnable()
-	Threat:UpdatePosition()
+	--Threat:ToggleEnable()
+	--Threat:UpdatePosition()
 
-	Totems:PositionAndSize()
-	Totems:ToggleEnable()
+	--Totems:PositionAndSize()
+	--Totems:ToggleEnable()
 
 	if not skipCallback then
 		E.callbacks:Fire("StaggeredUpdate")
