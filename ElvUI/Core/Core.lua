@@ -1147,7 +1147,7 @@ end
 
 function E:UpdateMisc(skipCallback)
 	AFK:Toggle()
-	--Blizzard:SetObjectiveFrameHeight()
+	Blizzard:SetQuestWatchFrameHeight()
 
 	--Threat:ToggleEnable()
 	--Threat:UpdatePosition()
