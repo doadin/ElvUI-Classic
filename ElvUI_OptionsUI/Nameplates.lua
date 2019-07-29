@@ -24,20 +24,23 @@ local positionValues = {
 }
 
 local carryFilterFrom, carryFilterTo
-local function filterValue(value)
-	return gsub(value,'([%(%)%.%%%+%-%*%?%[%^%$])','%%%1')
-end
-
-local function filterMatch(s,v)
-	local m1, m2, m3, m4 = "^"..v.."$", "^"..v..",", ","..v.."$", ","..v..","
-	return (strmatch(s, m1) and m1) or (strmatch(s, m2) and m2) or (strmatch(s, m3) and m3) or (strmatch(s, m4) and v..",")
+local function filterMatch(s, v)
+	local m1, m2, m3, m4 = "^" .. v .. "$", "^" .. v .. ",", "," .. v .. "$", "," .. v .. ","
+	return (match(s, m1) and m1) or (match(s, m2) and m2) or (match(s, m3) and m3) or (match(s, m4) and v .. ",")
 end
 
 local function filterPriority(auraType, unit, value, remove, movehere, friendState)
-	if not auraType or not value then return end
-	local filter = E.db.nameplates.units[unit] and E.db.nameplates.units[unit][auraType] and E.db.nameplates.units[unit][auraType].filters and E.db.nameplates.units[unit][auraType].filters.priority
-	if not filter then return end
-	local found = filterMatch(filter, filterValue(value))
+	if not auraType or not value then
+		return
+	end
+	local filter =
+		E.db.nameplates.units[unit] and E.db.nameplates.units[unit][auraType] and
+		E.db.nameplates.units[unit][auraType].filters and
+		E.db.nameplates.units[unit][auraType].filters.priority
+	if not filter then
+		return
+	end
+	local found = filterMatch(filter, E:EscapeString(value))
 	if found and movehere then
 		local tbl, sv, sm = {strsplit(",",filter)}
 		for i in ipairs(tbl) do
@@ -47,10 +50,10 @@ local function filterPriority(auraType, unit, value, remove, movehere, friendSta
 		tremove(tbl, sm);tinsert(tbl, sv, movehere);
 		E.db.nameplates.units[unit][auraType].filters.priority = tconcat(tbl,',')
 	elseif found and friendState then
-		local realValue = strmatch(value, "^Friendly:([^,]*)") or strmatch(value, "^Enemy:([^,]*)") or value
-		local friend = filterMatch(filter, filterValue("Friendly:"..realValue))
-		local enemy = filterMatch(filter, filterValue("Enemy:"..realValue))
-		local default = filterMatch(filter, filterValue(realValue))
+		local realValue = match(value, "^Friendly:([^,]*)") or match(value, "^Enemy:([^,]*)") or value
+		local friend = filterMatch(filter, E:EscapeString("Friendly:" .. realValue))
+		local enemy = filterMatch(filter, E:EscapeString("Enemy:" .. realValue))
+		local default = filterMatch(filter, E:EscapeString(realValue))
 
 		local state =
 			(friend and (not enemy) and format("%s%s","Enemy:",realValue))					--[x] friend [ ] enemy: > enemy
@@ -60,7 +63,7 @@ local function filterPriority(auraType, unit, value, remove, movehere, friendSta
 		or	(friend and enemy and realValue)												--[x] friend [x] enemy: > default
 
 		if state then
-			local stateFound = filterMatch(filter, filterValue(state))
+			local stateFound = filterMatch(filter, E:EscapeString(state))
 			if not stateFound then
 				local tbl, sv = {strsplit(",",filter)}
 				for i in ipairs(tbl) do
