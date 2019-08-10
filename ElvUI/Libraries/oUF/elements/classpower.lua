@@ -51,14 +51,12 @@ local _, PlayerClass = UnitClass('player')
 
 -- sourced from FrameXML/Constants.lua
 local SPEC_MAGE_ARCANE = SPEC_MAGE_ARCANE or 1
-local SPEC_MONK_WINDWALKER = SPEC_MONK_WINDWALKER or 3
 local SPEC_PALADIN_RETRIBUTION = SPEC_PALADIN_RETRIBUTION or 3
 local SPEC_WARLOCK_DESTRUCTION = SPEC_WARLOCK_DESTRUCTION or 3
 local SPELL_POWER_ENERGY = Enum.PowerType.Energy or 3
 local SPELL_POWER_COMBO_POINTS = Enum.PowerType.ComboPoints or 4
 local SPELL_POWER_SOUL_SHARDS = Enum.PowerType.SoulShards or 7
 local SPELL_POWER_HOLY_POWER = Enum.PowerType.HolyPower or 9
-local SPELL_POWER_CHI = Enum.PowerType.Chi or 12
 local SPELL_POWER_ARCANE_CHARGES = Enum.PowerType.ArcaneCharges or 16
 
 -- Holds the class specific stuff.
@@ -244,7 +242,6 @@ do
 	if(PlayerClass == 'PALADIN') then
 		ClassPowerID = SPELL_POWER_HOLY_POWER
 		ClassPowerType = 'HOLY_POWER'
-		RequireSpec = SPEC_PALADIN_RETRIBUTION
 	elseif(PlayerClass == 'WARLOCK') then
 		ClassPowerID = SPELL_POWER_SOUL_SHARDS
 		ClassPowerType = 'SOUL_SHARDS'
@@ -259,7 +256,6 @@ do
 	elseif(PlayerClass == 'MAGE') then
 		ClassPowerID = SPELL_POWER_ARCANE_CHARGES
 		ClassPowerType = 'ARCANE_CHARGES'
-		RequireSpec = SPEC_MAGE_ARCANE
 	end
 end
 
@@ -269,10 +265,6 @@ local function Enable(self, unit)
 		element.__owner = self
 		element.__max = #element
 		element.ForceUpdate = ForceUpdate
-
-		if(RequireSpec or RequireSpell) then
-			self:RegisterEvent('PLAYER_TALENT_UPDATE', VisibilityPath, true)
-		end
 
 		if(RequirePower) then
 			self:RegisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
@@ -300,7 +292,6 @@ local function Disable(self)
 	if(self.ClassPower) then
 		ClassPowerDisable(self)
 
-		self:UnregisterEvent('PLAYER_TALENT_UPDATE', VisibilityPath)
 		self:UnregisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
 		self:UnregisterEvent('SPELLS_CHANGED', Visibility)
 	end
