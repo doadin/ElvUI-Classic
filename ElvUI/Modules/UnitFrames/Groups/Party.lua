@@ -54,13 +54,8 @@ function UF:Construct_PartyFrames()
 		self.RaidDebuffs = UF:Construct_RaidDebuffs(self)
 		self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
 		self.ResurrectIndicator = UF:Construct_ResurrectionIcon(self)
-		self.SummonIndicator = UF:Construct_SummonIcon(self)
-		self.GroupRoleIndicator = UF:Construct_RoleIcon(self)
-		self.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(self)
 		self.MouseGlow = UF:Construct_MouseGlow(self)
-		self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 		self.TargetGlow = UF:Construct_TargetGlow(self)
-		self.ThreatIndicator = UF:Construct_Threat(self)
 		self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 		self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
 		self.HealthPrediction = UF:Construct_HealComm(self)
@@ -217,13 +212,9 @@ function UF:Update_PartyFrames(frame, db)
 
 		UF:UpdateNameSettings(frame)
 
-		UF:Configure_PhaseIcon(frame)
-
 		UF:Configure_Power(frame)
 
 		UF:Configure_Portrait(frame)
-
-		UF:Configure_Threat(frame)
 
 		UF:EnableDisable_Auras(frame)
 		UF:Configure_Auras(frame, 'Buffs')
@@ -237,15 +228,9 @@ function UF:Update_PartyFrames(frame, db)
 
 		UF:Configure_ResurrectionIcon(frame)
 
-		UF:Configure_SummonIcon(frame)
-
 		UF:Configure_DebuffHighlight(frame)
 
-		UF:Configure_RoleIcon(frame)
-
 		UF:Configure_HealComm(frame)
-
-		UF:Configure_RaidRoleIcons(frame)
 
 		UF:UpdateAuraWatch(frame)
 

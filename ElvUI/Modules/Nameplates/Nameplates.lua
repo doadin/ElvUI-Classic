@@ -395,27 +395,6 @@ function NP:Update_StatusBars()
 	end
 end
 
-function NP:GROUP_ROSTER_UPDATE()
-	local isInRaid = IsInRaid()
-	NP.IsInGroup = isInRaid or IsInGroup()
-
-	wipe(NP.GroupRoles)
-
-	if NP.IsInGroup then
-		local NumPlayers, Unit = (isInRaid and GetNumGroupMembers()) or GetNumSubgroupMembers(), (isInRaid and 'raid') or 'party'
-		for i = 1, NumPlayers do
-			if UnitExists(Unit..i) then
-				NP.GroupRoles[UnitName(Unit..i)] = UnitGroupRolesAssigned(Unit..i)
-			end
-		end
-	end
-end
-
-function NP:GROUP_LEFT()
-	NP.IsInGroup = IsInRaid() or IsInGroup()
-	wipe(NP.GroupRoles)
-end
-
 function NP:PLAYER_ENTERING_WORLD()
 	NP.InstanceType = select(2, GetInstanceInfo())
 
@@ -675,13 +654,10 @@ function NP:Initialize()
 	NP:RegisterEvent('PLAYER_REGEN_DISABLED')
 	NP:RegisterEvent('PLAYER_ENTERING_WORLD')
 	NP:RegisterEvent('COMBAT_LOG_EVENT_UNFILTERED')
-	NP:RegisterEvent('GROUP_ROSTER_UPDATE')
-	NP:RegisterEvent('GROUP_LEFT')
 	--NP:RegisterEvent('PLAYER_LOGOUT', NP.StyleFilterClearDefaults)
 
 	--NP:StyleFilterInitialize()
 	NP:HideInterfaceOptions()
-	NP:GROUP_ROSTER_UPDATE()
 	NP:SetCVars()
 	NP:ConfigureAll()
 end

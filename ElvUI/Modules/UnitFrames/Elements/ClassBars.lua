@@ -286,7 +286,6 @@ local function ToggleResourceBar(bars, overrideVisibility)
 	if not frame.CLASSBAR_DETACHED then --Only update when necessary
 		UF:Configure_HealthBar(frame)
 		UF:Configure_Portrait(frame, true) --running :Hide on portrait makes the frame all funky
-		UF:Configure_Threat(frame)
 	end
 end
 UF.ToggleResourceBar = ToggleResourceBar --Make available to combobar

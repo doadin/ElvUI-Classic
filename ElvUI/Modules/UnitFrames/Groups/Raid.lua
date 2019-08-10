@@ -40,14 +40,9 @@ function UF:Construct_RaidFrames()
 	self.RaidDebuffs = UF:Construct_RaidDebuffs(self)
 	self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
 	self.ResurrectIndicator = UF:Construct_ResurrectionIcon(self)
-	self.SummonIndicator =  UF:Construct_SummonIcon(self)
-	self.GroupRoleIndicator = UF:Construct_RoleIcon(self)
-	self.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
-	self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
 
-	self.ThreatIndicator = UF:Construct_Threat(self)
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
 	self.HealthPrediction = UF:Construct_HealComm(self)
@@ -193,9 +188,6 @@ function UF:Update_RaidFrames(frame, db)
 	--Portrait
 	UF:Configure_Portrait(frame)
 
-	--Threat
-	UF:Configure_Threat(frame)
-
 	--Auras
 	UF:EnableDisable_Auras(frame)
 	UF:Configure_Auras(frame, 'Buffs')
@@ -210,20 +202,11 @@ function UF:Update_RaidFrames(frame, db)
 	-- Resurrect Icon
 	UF:Configure_ResurrectionIcon(frame)
 
-	-- Summon Icon
-	UF:Configure_SummonIcon(frame)
-
 	--Debuff Highlight
 	UF:Configure_DebuffHighlight(frame)
 
-	--Role Icon
-	UF:Configure_RoleIcon(frame)
-
 	--OverHealing
 	UF:Configure_HealComm(frame)
-
-	--Raid Roles
-	UF:Configure_RaidRoleIcons(frame)
 
 	--Fader
 	UF:Configure_Fader(frame)
@@ -236,9 +219,6 @@ function UF:Update_RaidFrames(frame, db)
 
 	--CustomTexts
 	UF:Configure_CustomTexts(frame)
-
-	-- PhaseIndicator
-	UF:Configure_PhaseIcon(frame)
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end

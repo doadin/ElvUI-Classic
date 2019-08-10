@@ -32,7 +32,6 @@ function UF:Construct_RaidpetFrames()
 	self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
-	self.ThreatIndicator = UF:Construct_Threat(self)
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.HealthPrediction = UF:Construct_HealComm(self)
 	self.Fader = UF:Construct_Fader()
@@ -136,9 +135,6 @@ function UF:Update_RaidpetFrames(frame, db)
 
 	--Portrait
 	UF:Configure_Portrait(frame)
-
-	--Threat
-	UF:Configure_Threat(frame)
 
 	--Auras
 	UF:EnableDisable_Auras(frame)
