@@ -469,7 +469,6 @@ function CH:StyleChat(frame)
 	end
 
 	local LeftChatPanel, LeftChatDataPanel, LeftChatToggleButton = _G.LeftChatPanel, _G.LeftChatDataPanel, _G.LeftChatToggleButton
-	local a, b, c = select(6, editbox:GetRegions()); a:Kill(); b:Kill(); c:Kill()
 	_G[format(editbox:GetName().."Left", id)]:Kill()
 	_G[format(editbox:GetName().."Mid", id)]:Kill()
 	_G[format(editbox:GetName().."Right", id)]:Kill()
@@ -1555,11 +1554,6 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 					pflag = _G["CHAT_FLAG_"..arg6] or ""
 				end
 			end
-			-- LFG Role Flags
-			local lfgRole = lfgRoles[playerName]
-			if lfgRole and (chatType == "PARTY_LEADER" or chatType == "PARTY" or chatType == "RAID" or chatType == "RAID_LEADER" or chatType == "INSTANCE_CHAT" or chatType == "INSTANCE_CHAT_LEADER") then
-				pflag = pflag..lfgRole
-			end
 			-- Special Chat Icon
 			if chatIcon then
 				pflag = pflag..chatIcon
@@ -2053,32 +2047,6 @@ function CH:FCF_SetWindowAlpha(frame, alpha)
 	frame.oldAlpha = alpha or 1;
 end
 
-function CH:CheckLFGRoles()
-	local isInGroup, isInRaid = IsInGroup(), IsInRaid()
-	local unit, name, realm = (isInRaid and "raid" or "party")
-
-	wipe(lfgRoles)
-
-	if(not isInGroup or not self.db.lfgIcons) then return end
-
-	local role = UnitGroupRolesAssigned("player")
-	if(role) then
-		lfgRoles[PLAYER_NAME] = rolePaths[role]
-	end
-
-	for i=1, GetNumGroupMembers() do
-		if(UnitExists(unit..i) and not UnitIsUnit(unit..i, "player")) then
-			role = UnitGroupRolesAssigned(unit..i)
-			name, realm = UnitName(unit..i)
-
-			if(role and name) then
-				name = (realm and realm ~= '' and name..'-'..realm) or name..'-'..PLAYER_REALM;
-				lfgRoles[name] = rolePaths[role]
-			end
-		end
-	end
-end
-
 function CH:ON_FCF_SavePositionAndDimensions(_, noLoop)
 	if not noLoop then
 		CH:PositionChat()
@@ -2376,7 +2344,6 @@ function CH:Initialize()
 	self:SecureHook('FCF_SavePositionAndDimensions', 'ON_FCF_SavePositionAndDimensions')
 	self:RegisterEvent('UPDATE_CHAT_WINDOWS', 'SetupChat')
 	self:RegisterEvent('UPDATE_FLOATING_CHAT_WINDOWS', 'SetupChat')
-	self:RegisterEvent('GROUP_ROSTER_UPDATE', 'CheckLFGRoles')
 
 	if _G.WIM then
 		_G.WIM.RegisterWidgetTrigger("chat_display", "whisper,chat,w2w,demo", "OnHyperlinkClick", function(frame) CH.clickedframe = frame end);
