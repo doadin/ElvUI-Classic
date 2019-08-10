@@ -50,14 +50,9 @@ local oUF = ns.oUF
 local _, PlayerClass = UnitClass('player')
 
 -- sourced from FrameXML/Constants.lua
-local SPEC_MAGE_ARCANE = SPEC_MAGE_ARCANE or 1
-local SPEC_PALADIN_RETRIBUTION = SPEC_PALADIN_RETRIBUTION or 3
-local SPEC_WARLOCK_DESTRUCTION = SPEC_WARLOCK_DESTRUCTION or 3
 local SPELL_POWER_ENERGY = Enum.PowerType.Energy or 3
 local SPELL_POWER_COMBO_POINTS = Enum.PowerType.ComboPoints or 4
 local SPELL_POWER_SOUL_SHARDS = Enum.PowerType.SoulShards or 7
-local SPELL_POWER_HOLY_POWER = Enum.PowerType.HolyPower or 9
-local SPELL_POWER_ARCANE_CHARGES = Enum.PowerType.ArcaneCharges or 16
 
 -- Holds the class specific stuff.
 local ClassPowerID, ClassPowerType
@@ -80,8 +75,7 @@ local function UpdateColor(element, powerType)
 end
 
 local function Update(self, event, unit, powerType)
-	if(not (unit and (UnitIsUnit(unit, 'player') and powerType == ClassPowerType
-		or unit == 'vehicle' and powerType == 'COMBO_POINTS'))) then
+	if (not (unit and (UnitIsUnit(unit, 'player') and powerType == ClassPowerType))) then
 		return
 	end
 
@@ -98,7 +92,7 @@ local function Update(self, event, unit, powerType)
 
 	local cur, max, mod, oldMax
 	if(event ~= 'ClassPowerDisable') then
-		local powerID = unit == 'vehicle' and SPELL_POWER_COMBO_POINTS or ClassPowerID
+		local powerID = ClassPowerID
 		cur = UnitPower(unit, powerID, true)
 		max = UnitPowerMax(unit, powerID)
 		mod = UnitPowerDisplayMod(powerID)
@@ -107,7 +101,7 @@ local function Update(self, event, unit, powerType)
 		cur = mod == 0 and 0 or cur / mod
 
 		-- BUG: Destruction is supposed to show partial soulshards, but Affliction and Demonology should only show full ones
-		if(ClassPowerType == 'SOUL_SHARDS' and GetSpecialization() ~= SPEC_WARLOCK_DESTRUCTION) then
+		if (ClassPowerType == 'SOUL_SHARDS') then
 			cur = cur - cur % 1
 		end
 
@@ -165,7 +159,7 @@ local function Visibility(self, event, unit)
 	local shouldEnable
 
 	if(ClassPowerID) then
-		if(not RequireSpec or RequireSpec == GetSpecialization()) then
+		if(not RequireSpec) then
 			-- use 'player' instead of unit because 'SPELLS_CHANGED' is a unitless event
 			if(not RequirePower or RequirePower == UnitPowerType('player')) then
 				if(not RequireSpell or IsPlayerSpell(RequireSpell)) then
@@ -239,10 +233,7 @@ do
 		Path(self, 'ClassPowerDisable', 'player', ClassPowerType)
 	end
 
-	if(PlayerClass == 'PALADIN') then
-		ClassPowerID = SPELL_POWER_HOLY_POWER
-		ClassPowerType = 'HOLY_POWER'
-	elseif(PlayerClass == 'WARLOCK') then
+	if(PlayerClass == 'WARLOCK') then
 		ClassPowerID = SPELL_POWER_SOUL_SHARDS
 		ClassPowerType = 'SOUL_SHARDS'
 	elseif(PlayerClass == 'ROGUE' or PlayerClass == 'DRUID') then
@@ -253,9 +244,6 @@ do
 			RequirePower = SPELL_POWER_ENERGY
 			RequireSpell = 5221 -- Shred
 		end
-	elseif(PlayerClass == 'MAGE') then
-		ClassPowerID = SPELL_POWER_ARCANE_CHARGES
-		ClassPowerType = 'ARCANE_CHARGES'
 	end
 end
 

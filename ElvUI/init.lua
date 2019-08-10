@@ -105,6 +105,13 @@ AddOn.Libs = {
 AddOn.LSM = AddOn.Libs.LSM
 AddOn.Masque = AddOn.Libs.Masque
 
+RAID_CLASS_COLORS["SHAMAN"] = {
+	colorStr = "ff006fdc",
+	b = 0.86666476726532,
+	g = 0.4392147064209,
+	r = 0,
+}
+
 function AddOn:ScanTooltipTextures(clean, grabTextures)
 	local textures
 	for i = 1, 10 do
