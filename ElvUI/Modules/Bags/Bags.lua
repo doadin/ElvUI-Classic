@@ -498,16 +498,12 @@ function B:UpdateSlot(bagID, slotID)
 		end
 
 		-- color slot according to item quality
-		if questId and not isActiveQuest then
-			slot.newItemGlow:SetVertexColor(unpack(B.QuestColors.questStarter))
-			slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
-			slot.ignoreBorderColors = true
-			if(slot.questIcon) then
-				slot.questIcon:Show();
-			end
-		elseif questId or isQuestItem then
+		if itemClassID == LE_ITEM_CLASS_QUESTITEM then
 			slot.newItemGlow:SetVertexColor(unpack(B.QuestColors.questItem))
 			slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
+		 	if(slot.questIcon) then
+		 		slot.questIcon:Show();
+		 	end
 			slot.ignoreBorderColors = true
 		elseif B.db.qualityColors and slot.rarity and slot.rarity > LE_ITEM_QUALITY_COMMON then
 			slot.newItemGlow:SetVertexColor(r, g, b);
