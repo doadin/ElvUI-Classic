@@ -732,18 +732,18 @@ ElvUF.Tags.Methods['realm:dash:translit'] = function(unit)
 end
 
 
-ElvUF.Tags.Events['happiness:full'] = 'UNIT_POWER_UPDATE'
+ElvUF.Tags.Events['happiness:full'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:full'] = function(unit)
-	local _, powerType = UnitPowerType(unit)
-	if (powerType == 'HAPPINESS') then
-		return PET_HAPPINESS..GetPetHappiness()
+    local hasPetUI, isHunterPet = HasPetUI()
+    if (unit == 'pet' and hasPetUI and isHunterPet) then
+		return _G['PET_HAPPINESS'..GetPetHappiness()]
 	end
 end
 
-ElvUF.Tags.Events['happiness:icon'] = 'UNIT_POWER_UPDATE'
+ElvUF.Tags.Events['happiness:icon'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:icon'] = function(unit)
-	local _, powerType = UnitPowerType(unit)
-	if (powerType == 'HAPPINESS') then
+    local hasPetUI, isHunterPet = HasPetUI()
+    if (unit == 'pet' and hasPetUI and isHunterPet) then
 		local left, right, top, bottom
 		local happiness = GetPetHappiness()
 
@@ -759,10 +759,10 @@ ElvUF.Tags.Methods['happiness:icon'] = function(unit)
 	end
 end
 
-ElvUF.Tags.Events['happiness:discord'] = 'UNIT_POWER_UPDATE'
+ElvUF.Tags.Events['happiness:discord'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:discord'] = function(unit)
-	local _, powerType = UnitPowerType(unit)
-	if (powerType == 'HAPPINESS') then
+    local hasPetUI, isHunterPet = HasPetUI()
+    if (unit == 'pet' and hasPetUI and isHunterPet) then
 		local left, right, top, bottom
 		local happiness = GetPetHappiness()
 
@@ -776,10 +776,10 @@ ElvUF.Tags.Methods['happiness:discord'] = function(unit)
 	end
 end
 
-ElvUF.Tags.Events['happiness:color'] = 'UNIT_POWER_UPDATE'
+ElvUF.Tags.Events['happiness:color'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:color'] = function(unit)
-	local _, powerType = UnitPowerType(unit)
-	if (powerType == 'HAPPINESS') then
+    local hasPetUI, isHunterPet = HasPetUI()
+    if (unit == 'pet' and hasPetUI and isHunterPet) then
 		local happiness = GetPetHappiness()
 
 		if(happiness == 1) then
