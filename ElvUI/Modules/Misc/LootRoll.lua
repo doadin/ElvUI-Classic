@@ -3,8 +3,7 @@ local M = E:GetModule('Misc')
 
 --Lua functions
 local _G = _G
-local pairs, unpack, ipairs, next, tonumber = pairs, unpack, ipairs, next, tonumber
-local tinsert = tinsert
+local pairs, unpack, ipairs, next, tonumber, tinsert = pairs, unpack, ipairs, next, tonumber, tinsert
 --WoW API / Variables
 local ChatEdit_InsertLink = ChatEdit_InsertLink
 local CreateFrame = CreateFrame
@@ -21,7 +20,6 @@ local ResetCursor = ResetCursor
 local RollOnLoot = RollOnLoot
 local SetDesaturation = SetDesaturation
 local ShowInspectCursor = ShowInspectCursor
-local UnitLevel = UnitLevel
 
 local C_LootHistoryGetItem = C_LootHistory.GetItem
 local C_LootHistoryGetPlayerInfo = C_LootHistory.GetPlayerInfo
@@ -266,7 +264,7 @@ function M:START_LOOT_ROLL(_, rollID, time)
 		end
 	end
 
-	if E.db.general.autoRoll and UnitLevel('player') == MAX_PLAYER_LEVEL and quality == 2 and not bop then
+	if E.db.general.autoRoll and E.mylevel == MAX_PLAYER_LEVEL and quality == 2 and not bop then
 		if canDisenchant then
 			RollOnLoot(rollID, 3)
 		else

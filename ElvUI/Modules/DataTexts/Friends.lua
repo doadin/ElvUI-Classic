@@ -17,7 +17,6 @@ local BNInviteFriend = BNInviteFriend
 local BNRequestInviteFriend = BNRequestInviteFriend
 local BNSetCustomMessage = BNSetCustomMessage
 local GetDisplayedInviteType = GetDisplayedInviteType
-local GetFriendInfo = GetFriendInfo
 local GetQuestDifficultyColor = GetQuestDifficultyColor
 local GetRealmName = GetRealmName
 local InviteToGroup = InviteToGroup
@@ -32,7 +31,9 @@ local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
 local C_FriendList_GetNumFriends = C_FriendList.GetNumFriends
 local C_FriendList_GetNumOnlineFriends = C_FriendList.GetNumOnlineFriends
+local C_FriendList_GetFriendInfoByIndex = C_FriendList.GetFriendInfoByIndex
 local ChatFrame_SendBNetTell = ChatFrame_SendBNetTell
+local InCombatLockdown = InCombatLockdown
 
 -- create a popup
 E.PopupDialogs.SET_BN_BROADCAST = {
@@ -125,8 +126,7 @@ local friendTable, BNTable, tableList = {}, {}, {}
 local friendOnline, friendOffline = gsub(_G.ERR_FRIEND_ONLINE_SS,"\124Hplayer:%%s\124h%[%%s%]\124h",""), gsub(_G.ERR_FRIEND_OFFLINE_S,"%%s","")
 local BNET_CLIENT_WOW, BNET_CLIENT_D3, BNET_CLIENT_WTCG, BNET_CLIENT_SC2, BNET_CLIENT_HEROES, BNET_CLIENT_OVERWATCH, BNET_CLIENT_SC, BNET_CLIENT_DESTINY2, BNET_CLIENT_COD = BNET_CLIENT_WOW, BNET_CLIENT_D3, BNET_CLIENT_WTCG, BNET_CLIENT_SC2, BNET_CLIENT_HEROES, BNET_CLIENT_OVERWATCH, BNET_CLIENT_SC, BNET_CLIENT_DESTINY2, BNET_CLIENT_COD
 local wowString = BNET_CLIENT_WOW
-local dataValid = false
-local lastPanel
+local dataValid, lastPanel = false
 
 local clientSorted = {}
 local clientTags = {
@@ -164,22 +164,11 @@ end
 local function BuildFriendTable(total)
 	wipe(friendTable)
 	for i = 1, total do
-		local name, level, class, area, connected, status, note, _, guid = GetFriendInfo(i)
-
-		if status == "<".._G.AFK..">" then
-			status = statusTable[1]
-		elseif status == "<".._G.DND..">" then
-			status = statusTable[2]
-		else
-			status = statusTable[3]
-		end
-
-		if connected then
-			--other non-english locales require this
-			for k,v in pairs(_G.LOCALIZED_CLASS_NAMES_MALE) do if class == v then class = k end end
-			for k,v in pairs(_G.LOCALIZED_CLASS_NAMES_FEMALE) do if class == v then class = k end end
-
-			friendTable[i] = { name, level, class, area, connected, status, note, guid }
+		local info = C_FriendList_GetFriendInfoByIndex(i)
+		if info and info.connected then
+			local className = E:UnlocalizedClassName(info.className) or ""
+			local status = statusTable[(info.afk and 1) or (info.dnd and 2) or 3]
+			friendTable[i] = { info.name, info.level, className, info.area, info.connected, status, info.notes, info.guid }
 		end
 	end
 	if next(friendTable) then
@@ -214,14 +203,10 @@ local function clientSort(a, b)
 	end
 end
 
-local function AddToBNTable(bnIndex, bnetIDAccount, accountName, battleTag, characterName, bnetIDGameAccount, client, isOnline, isBnetAFK, isBnetDND, noteText, realmName, faction, race, class, zoneName, level, guid, gameText)
-	if class and class ~= "" then --other non-english locales require this
-		for k,v in pairs(_G.LOCALIZED_CLASS_NAMES_MALE) do if class == v then class = k end end
-		for k,v in pairs(_G.LOCALIZED_CLASS_NAMES_FEMALE) do if class == v then class = k end end
-	end
-
-	characterName = BNet_GetValidatedCharacterName(characterName, battleTag, client) or "";
-	BNTable[bnIndex] = { bnetIDAccount, accountName, battleTag, characterName, bnetIDGameAccount, client, isOnline, isBnetAFK, isBnetDND, noteText, realmName, faction, race, class, zoneName, level, guid, gameText }
+local function AddToBNTable(bnIndex, bnetIDAccount, accountName, battleTag, characterName, bnetIDGameAccount, client, isOnline, isBnetAFK, isBnetDND, noteText, realmName, faction, race, className, zoneName, level, guid, gameText)
+	className = E:UnlocalizedClassName(className) or ""
+	characterName = BNet_GetValidatedCharacterName(characterName, battleTag, client) or ""
+	BNTable[bnIndex] = { bnetIDAccount, accountName, battleTag, characterName, bnetIDGameAccount, client, isOnline, isBnetAFK, isBnetDND, noteText, realmName, faction, race, className, zoneName, level, guid, gameText }
 
 	if tableList[client] then
 		tableList[client][#tableList[client]+1] = BNTable[bnIndex]
@@ -262,7 +247,7 @@ local function PopulateBNTable(bnIndex, bnetIDAccount, accountName, battleTag, c
 			if bnInfo[6] and tableList[bnInfo[6]] then
 				for n, y in ipairs(tableList[bnInfo[6]]) do
 					if y == bnInfo then
-						tremove(tableList[bnInfo[6]], n);
+						tremove(tableList[bnInfo[6]], n)
 						break -- remove the old one from tableList
 					end
 				end
@@ -288,16 +273,16 @@ local function BuildBNTable(total)
 	local bnIndex = 0
 
 	for i = 1, total do
-		local bnetIDAccount, accountName, battleTag, _, characterName, bnetIDGameAccount, client, isOnline, _, isBnetAFK, isBnetDND, _, noteText = BNGetFriendInfo(i);
+		local bnetIDAccount, accountName, battleTag, _, characterName, bnetIDGameAccount, client, isOnline, _, isBnetAFK, isBnetDND, _, noteText = BNGetFriendInfo(i)
 		if isOnline then
-			local numGameAccounts = BNGetNumFriendGameAccounts(i);
+			local numGameAccounts = BNGetNumFriendGameAccounts(i)
 			if numGameAccounts > 0 then
 				for y = 1, numGameAccounts do
-					local hasFocus, gameCharacterName, gameClient, realmName, _, faction, race, class, _, zoneName, level, gameText, _, _, _, _, _, isGameAFK, isGameBusy, guid = BNGetFriendGameAccountInfo(i, y);
-					bnIndex = PopulateBNTable(bnIndex, bnetIDAccount, accountName, battleTag, gameCharacterName, bnetIDGameAccount, gameClient, isOnline, isBnetAFK or isGameAFK, isBnetDND or isGameBusy, noteText, realmName, faction, race, class, zoneName, level, guid, gameText, hasFocus);
+					local hasFocus, gameCharacterName, gameClient, realmName, _, faction, race, class, _, zoneName, level, gameText, _, _, _, _, _, isGameAFK, isGameBusy, guid = BNGetFriendGameAccountInfo(i, y)
+					bnIndex = PopulateBNTable(bnIndex, bnetIDAccount, accountName, battleTag, gameCharacterName, bnetIDGameAccount, gameClient, isOnline, isBnetAFK or isGameAFK, isBnetDND or isGameBusy, noteText, realmName, faction, race, class, zoneName, level, guid, gameText, hasFocus)
 				end
 			else
-				bnIndex = PopulateBNTable(bnIndex, bnetIDAccount, accountName, battleTag, characterName, bnetIDGameAccount, client, isOnline, isBnetAFK, isBnetDND, noteText);
+				bnIndex = PopulateBNTable(bnIndex, bnetIDAccount, accountName, battleTag, characterName, bnetIDGameAccount, client, isOnline, isBnetAFK, isBnetDND, noteText)
 			end
 		end
 	end
@@ -355,7 +340,7 @@ local function Click(self, btn)
 					end
 					if not shouldSkip then
 						local classc, levelc = (_G.CUSTOM_CLASS_COLORS and _G.CUSTOM_CLASS_COLORS[info[3]]) or _G.RAID_CLASS_COLORS[info[3]], GetQuestDifficultyColor(info[2])
-						classc = classc or GetQuestDifficultyColor(info[2]);
+						classc = classc or GetQuestDifficultyColor(info[2])
 
 						menuCountWhispers = menuCountWhispers + 1
 						menuList[3].menuList[menuCountWhispers] = {text = format(levelNameString,levelc.r*255,levelc.g*255,levelc.b*255,info[2],classc.r*255,classc.g*255,classc.b*255,info[1]), arg1 = info[1], notCheckable=true, func = whisperClick}
@@ -406,6 +391,8 @@ local function Click(self, btn)
 		end
 
 		_G.EasyMenu(menuList, menuFrame, "cursor", 0, 0, "MENU", 2)
+	elseif InCombatLockdown() then
+		_G.UIErrorsFrame:AddMessage(E.InfoColor.._G.ERR_NOT_IN_COMBAT)
 	else
 		ToggleFriendsFrame()
 	end

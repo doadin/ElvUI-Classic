@@ -91,7 +91,6 @@ function UF:Construct_Castbar(frame, moverName)
 	local icon = button:CreateTexture(nil, "ARTWORK")
 	local offset = frame.BORDER --use frame.BORDER since it may be different from E.Border due to forced thin borders
 	icon:SetInside(nil, offset, offset)
-	icon:SetTexCoord(unpack(E.TexCoords))
 	icon.bg = button
 
 	--Set to castbar.Icon
@@ -134,6 +133,8 @@ function UF:Configure_Castbar(frame)
 	--Icon
 	if db.castbar.icon then
 		castbar.Icon = castbar.ButtonIcon
+		castbar.Icon:SetTexCoord(unpack(E.TexCoords))
+
 		if (not db.castbar.iconAttached) then
 			castbar.Icon.bg:Size(db.castbar.iconSize)
 		else
@@ -251,7 +252,7 @@ end
 
 function UF:CustomCastDelayText(duration)
 	local db = self:GetParent().db
-	if not db then return end
+	if not (db and db.castbar) then return end
 	db = db.castbar.format
 
 	if self.channeling then
@@ -279,7 +280,7 @@ end
 
 function UF:CustomTimeText(duration)
 	local db = self:GetParent().db
-	if not db then return end
+	if not (db and db.castbar) then return end
 	db = db.castbar.format
 
 	if self.channeling then

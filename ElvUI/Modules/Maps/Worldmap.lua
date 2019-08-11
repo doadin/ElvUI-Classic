@@ -3,10 +3,9 @@ local M = E:GetModule('WorldMap')
 
 --Lua functions
 local _G = _G
-local find = string.find
+local strfind = strfind
 --WoW API / Variables
 local CreateFrame = CreateFrame
-local GetCursorPosition = GetCursorPosition
 local SetCVar = SetCVar
 local SetUIPanelAttribute = SetUIPanelAttribute
 local MOUSE_LABEL = MOUSE_LABEL:gsub("|T.-|t","")
@@ -70,8 +69,6 @@ end
 
 local inRestrictedArea = false
 function M:UpdateRestrictedArea()
-	E:MapInfo_Update()
-
 	if E.MapInfo.x and E.MapInfo.y then
 		inRestrictedArea = false
 	else
@@ -85,19 +82,9 @@ function M:UpdateCoords(OnShow)
 	if not WorldMapFrame:IsShown() then return end
 
 	if WorldMapFrame.ScrollContainer:IsMouseOver() then
-		local scale = WorldMapFrame.ScrollContainer:GetEffectiveScale()
-		local width = WorldMapFrame.ScrollContainer:GetWidth()
-		local height = WorldMapFrame.ScrollContainer:GetHeight()
-		local centerX, centerY = WorldMapFrame.ScrollContainer:GetCenter()
-		local x, y = GetCursorPosition()
-
-		local adjustedX = x and ((x / scale - (centerX - (width/2))) / width)
-		local adjustedY = y and ((centerY + (height/2) - y / scale) / height)
-
-		if adjustedX and adjustedY and (adjustedX >= 0 and adjustedY >= 0 and adjustedX <= 1 and adjustedY <= 1) then
-			adjustedX = E:Round(100 * adjustedX, 2)
-			adjustedY = E:Round(100 * adjustedY, 2)
-			CoordsHolder.mouseCoords:SetFormattedText("%s:   %.2f, %.2f", MOUSE_LABEL, adjustedX, adjustedY)
+		local x, y = WorldMapFrame.ScrollContainer:GetNormalizedCursorPosition()
+		if x and y and x >= 0 and y >= 0 then
+			CoordsHolder.mouseCoords:SetFormattedText("%s:   %.2f, %.2f", MOUSE_LABEL, x * 100, y * 100)
 		else
 			CoordsHolder.mouseCoords:SetText('')
 		end
@@ -121,8 +108,8 @@ function M:PositionCoords()
 	local yOffset = db.yOffset
 
 	local x, y = 5, 5
-	if find(position, "RIGHT") then	x = -5 end
-	if find(position, "TOP") then y = -5 end
+	if strfind(position, "RIGHT") then	x = -5 end
+	if strfind(position, "TOP") then y = -5 end
 
 	CoordsHolder.playerCoords:ClearAllPoints()
 	CoordsHolder.playerCoords:Point(position, _G.WorldMapFrame.BorderFrame, position, x + xOffset, y + yOffset)
@@ -160,9 +147,10 @@ function M:Initialize()
 
 		M:PositionCoords()
 
-		self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "UpdateRestrictedArea")
-		self:RegisterEvent("ZONE_CHANGED_INDOORS", "UpdateRestrictedArea")
-		self:RegisterEvent("ZONE_CHANGED", "UpdateRestrictedArea")
+		E:RegisterEventForObject("LOADING_SCREEN_DISABLED", E.MapInfo, M.UpdateRestrictedArea)
+		E:RegisterEventForObject("ZONE_CHANGED_NEW_AREA", E.MapInfo, M.UpdateRestrictedArea)
+		E:RegisterEventForObject("ZONE_CHANGED_INDOORS", E.MapInfo, M.UpdateRestrictedArea)
+		E:RegisterEventForObject("ZONE_CHANGED", E.MapInfo, M.UpdateRestrictedArea)
 	end
 
 	if E.global.general.smallerWorldMap then
@@ -180,8 +168,4 @@ function M:Initialize()
 	SetCVar("mapFade", (E.global.general.fadeMapWhenMoving == true and 1 or 0))
 end
 
-local function InitializeCallback()
-	M:Initialize()
-end
-
-E:RegisterInitialModule(M:GetName(), InitializeCallback)
+E:RegisterInitialModule(M:GetName())

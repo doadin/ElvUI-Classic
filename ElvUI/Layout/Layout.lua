@@ -30,7 +30,7 @@ function LO:Initialize()
 	self.BottomPanel:Point('BOTTOMRIGHT', E.UIParent, 'BOTTOMRIGHT', 1, -1)
 	self.BottomPanel:Height(PANEL_HEIGHT)
 	self.BottomPanel:SetScript('OnShow', Panel_OnShow)
-	E.FrameLocks.ElvUI_BottomPanel = true;
+	E.FrameLocks.ElvUI_BottomPanel = true
 	Panel_OnShow(self.BottomPanel)
 	self:BottomPanelVisibility()
 
@@ -41,7 +41,7 @@ function LO:Initialize()
 	self.TopPanel:Height(PANEL_HEIGHT)
 	self.TopPanel:SetScript('OnShow', Panel_OnShow)
 	Panel_OnShow(self.TopPanel)
-	E.FrameLocks.ElvUI_TopPanel = true;
+	E.FrameLocks.ElvUI_TopPanel = true
 	self:TopPanelVisibility()
 end
 
@@ -517,8 +517,4 @@ function LO:CreateMinimapPanels()
 	DT:RegisterPanel(f, 1, 'ANCHOR_BOTTOMRIGHT', 0, -10)
 end
 
-local function InitializeCallback()
-	LO:Initialize()
-end
-
-E:RegisterModule(LO:GetName(), InitializeCallback)
+E:RegisterModule(LO:GetName())

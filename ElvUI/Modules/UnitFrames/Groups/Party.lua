@@ -8,8 +8,8 @@ assert(ElvUF, "ElvUI was unable to locate oUF.")
 local _G = _G
 --WoW API / Variables
 local CreateFrame = CreateFrame
+local GetInstanceInfo = GetInstanceInfo
 local InCombatLockdown = InCombatLockdown
-local IsInInstance = IsInInstance
 local RegisterStateDriver = RegisterStateDriver
 local UnregisterStateDriver = UnregisterStateDriver
 
@@ -69,6 +69,7 @@ function UF:Construct_PartyFrames()
 	end
 
 	self.Fader = UF:Construct_Fader()
+	self.Cutaway = UF:Construct_Cutaway(self)
 
 	return self
 end
@@ -99,14 +100,17 @@ function UF:PartySmartVisibility(event)
 		self.blockVisibilityChanges = false
 		return
 	end
-	local inInstance, instanceType = IsInInstance()
-	if event == "PLAYER_REGEN_ENABLED" then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
+
+	if event == "PLAYER_REGEN_ENABLED" then
+		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
+	end
 
 	if not InCombatLockdown() then
-		if inInstance and (instanceType == "raid" or instanceType == "pvp") then
+		local _, instanceType = GetInstanceInfo()
+		if instanceType == "raid" or instanceType == "pvp" then
 			UnregisterStateDriver(self, "visibility")
-			self:Hide()
 			self.blockVisibilityChanges = true
+			self:Hide()
 		elseif self.db.visibility then
 			RegisterStateDriver(self, "visibility", self.db.visibility)
 			self.blockVisibilityChanges = false
@@ -241,6 +245,9 @@ function UF:Update_PartyFrames(frame, db)
 
 	--Fader
 	UF:Configure_Fader(frame)
+
+	--Cutaway
+	UF:Configure_Cutaway(frame)
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end

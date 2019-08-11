@@ -12,6 +12,7 @@ local CanGuildBankRepair = CanGuildBankRepair
 local CanMerchantRepair = CanMerchantRepair
 local GetCVarBool, SetCVar = GetCVarBool, SetCVar
 local GetGuildBankWithdrawMoney = GetGuildBankWithdrawMoney
+local GetInstanceInfo = GetInstanceInfo
 local GetNumGroupMembers = GetNumGroupMembers
 local GetRaidRosterInfo = GetRaidRosterInfo
 local GetRepairAllCost = GetRepairAllCost
@@ -21,8 +22,9 @@ local IsAddOnLoaded = IsAddOnLoaded
 local IsArenaSkirmish = IsArenaSkirmish
 local IsGuildMember = IsGuildMember
 local IsCharacterFriend = IsCharacterFriend
-local IsInGroup, IsInRaid = IsInGroup, IsInRaid
-local IsPartyLFG, IsInInstance = IsPartyLFG, IsInInstance
+local IsInGroup = IsInGroup
+local IsInRaid = IsInRaid
+local IsPartyLFG = IsPartyLFG
 local IsShiftKeyDown = IsShiftKeyDown
 local LeaveParty = LeaveParty
 local RaidNotice_AddMessage = RaidNotice_AddMessage
@@ -59,17 +61,6 @@ function M:COMBAT_LOG_EVENT_UNFILTERED()
 
 	local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, spellID, spellName = CombatLogGetCurrentEventInfo()
 	if not (event == "SPELL_INTERRUPT" and (sourceGUID == E.myguid or sourceGUID == UnitGUID('pet'))) then return end -- No announce-able interrupt from player or pet, exit.
-
-	--Skirmish/non-rated arenas need to use INSTANCE_CHAT but IsPartyLFG() returns "false"
-	local _, instanceType = IsInInstance()
-	if instanceType and instanceType == "arena" then
-		local skirmish = IsArenaSkirmish()
-		local _, isRegistered = IsActiveBattlefieldArena()
-		if skirmish or not isRegistered then
-			inPartyLFG = true
-		end
-		inRaid = false --IsInRaid() returns true for arenas and they should not be considered a raid
-	end
 
 	local interruptAnnounce, msg = E.db.general.interruptAnnounce, format(INTERRUPT_MSG, destName, spellID, spellName)
 	if interruptAnnounce == "PARTY" then
@@ -170,8 +161,8 @@ end
 
 function M:PVPMessageEnhancement(_, msg)
 	if not E.db.general.enhancedPvpMessages then return end
-	local _, instanceType = IsInInstance()
-	if instanceType == 'pvp' or instanceType == 'arena' then
+	local _, instanceType = GetInstanceInfo()
+	if instanceType == 'pvp' then
 		RaidNotice_AddMessage(_G.RaidBossEmoteFrame, msg, _G.ChatTypeInfo.RAID_BOSS_EMOTE);
 	end
 end
@@ -259,7 +250,7 @@ function M:Initialize()
 	self:LoadLootRoll()
 	self:LoadChatBubbles()
 	self:LoadLoot()
-
+	--self:ToggleItemLevelInfo(true)
 	self:RegisterEvent('MERCHANT_SHOW')
 	self:RegisterEvent('PLAYER_REGEN_DISABLED', 'ErrorFrameToggle')
 	self:RegisterEvent('PLAYER_REGEN_ENABLED', 'ErrorFrameToggle')
@@ -292,8 +283,4 @@ function M:Initialize()
 	end
 end
 
-local function InitializeCallback()
-	M:Initialize()
-end
-
-E:RegisterModule(M:GetName(), InitializeCallback)
+E:RegisterModule(M:GetName())

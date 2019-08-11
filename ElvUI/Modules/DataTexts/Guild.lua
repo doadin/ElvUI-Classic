@@ -14,7 +14,7 @@ local GetGuildRosterMOTD = GetGuildRosterMOTD
 local GetMouseFocus = GetMouseFocus
 local GetNumGuildMembers = GetNumGuildMembers
 local GetQuestDifficultyColor = GetQuestDifficultyColor
-local GuildRoster = GuildRoster
+local C_GuildInfo_GuildRoster = C_GuildInfo.GuildRoster
 local InviteToGroup = InviteToGroup
 local IsInGuild = IsInGuild
 local IsShiftKeyDown = IsShiftKeyDown
@@ -24,6 +24,7 @@ local SetItemRef = SetItemRef
 local ToggleGuildFrame = ToggleGuildFrame
 local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
+local InCombatLockdown = InCombatLockdown
 
 local COMBAT_FACTION_CHANGE = COMBAT_FACTION_CHANGE
 local GUILD = GUILD
@@ -45,8 +46,7 @@ local standingString = E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b).."%s:|r |cFFFFFF
 local moreMembersOnlineString = strjoin("", "+ %d ", _G.FRIENDS_LIST_ONLINE, "...")
 local noteString = strjoin("", "|cff999999   ", _G.LABEL_NOTE, ":|r %s")
 local officerNoteString = strjoin("", "|cff999999   ", _G.GUILD_RANK1_DESC, ":|r %s")
-local guildTable, guildMotD = {}, ""
-local lastPanel
+local guildTable, guildMotD, lastPanel = {}, ""
 
 local function sortByRank(a, b)
 	if a and b then
@@ -114,14 +114,14 @@ local eventHandlers = {
 	["PLAYER_ENTERING_WORLD"] = function()
 		if not _G.GuildFrame and IsInGuild() then
 			LoadAddOn("Blizzard_GuildUI")
-			GuildRoster()
+			C_GuildInfo_GuildRoster()
 		end
 	end,
 	-- Guild Roster updated, so rebuild the guild table
 	["GUILD_ROSTER_UPDATE"] = function(self)
 		if(resendRequest) then
-			resendRequest = false;
-			return GuildRoster()
+			resendRequest = false
+			return C_GuildInfo_GuildRoster()
 		else
 			BuildGuildTable()
 			UpdateGuildMessage()
@@ -130,7 +130,7 @@ local eventHandlers = {
 			end
 		end
 	end,
-	["PLAYER_GUILD_UPDATE"] = GuildRoster,
+	["PLAYER_GUILD_UPDATE"] = C_GuildInfo_GuildRoster,
 	-- our guild message of the day changed
 	["GUILD_MOTD"] = function (self, arg1)
 		guildMotD = arg1
@@ -210,6 +210,8 @@ local function Click(self, btn)
 		end
 
 		_G.EasyMenu(menuList, menuFrame, "cursor", 0, 0, "MENU", 2)
+	elseif InCombatLockdown() then
+		_G.UIErrorsFrame:AddMessage(E.InfoColor.._G.ERR_NOT_IN_COMBAT)
 	else
 		ToggleGuildFrame()
 	end
@@ -272,7 +274,7 @@ local function OnEnter(self, _, noUpdate)
 	DT.tooltip:Show()
 
 	if not noUpdate then
-		GuildRoster()
+		C_GuildInfo_GuildRoster()
 	end
 end
 

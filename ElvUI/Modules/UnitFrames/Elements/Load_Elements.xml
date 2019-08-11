@@ -1,5 +1,4 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file='AltPower.lua'/>
 	<Script file='AuraBars.lua'/>
 	<Script file='Auras.lua'/>
 	<Script file='BuffIndicator.lua'/>
@@ -7,6 +6,7 @@
 	<Script file='ClassBars.lua'/>
 	<Script file='CombatIndicator.lua'/>
 	<Script file='CustomText.lua'/>
+	<Script file='Cutaway.lua'/>
 	<Script file='DebuffHighlight.lua'/>
 	<Script file='HealPrediction.lua'/>
 	<Script file='Health.lua'/>
@@ -22,5 +22,4 @@
 	<Script file='RestingIndicator.lua'/>
 	<Script file='ResurrectionIcon.lua'/>
 	<Script file='FrameGlow.lua'/>
-	<Script file='Trinket.lua'/>
 </Ui>

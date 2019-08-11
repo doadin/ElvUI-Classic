@@ -1,56 +1,61 @@
---Plugins pass their info using the table like:
---[[
+--[[--------------------------------------------------------------------
+	* Plugins pass their info using the table like:
 	addon = {
 		Title = "Your Own Title",
 		Name = "AddOnName",
 		tutorialImage = "TexturePath",
 		Pages = {
-			[1] = function1,
-			[2] = function2,
-			[3] = function3,
+			function1,
+			function2,
+			function3,
 		},
 		StepTitles = {
-			[1] = "Title 1",
-			[2] = "Title 2",
-			[3] = "Title 3",
+			"Title 1",
+			"Title 2",
+			"Title 3",
 		},
-		StepTitlesColor = {r,g,b},
-		StepTitlesColorSelected = {r,g,b},
+		StepTitlesColor = {r, g, b},
+		StepTitlesColorSelected = {r, g, b},
 		StepTitleWidth = 140,
 		StepTitleButtonWidth = 130,
-		StepTitleTextJustification = "CENTER",
+		StepTitleTextJustification = "CENTER"
 	}
+
 	E:GetModule("PluginInstaller"):Queue(addon)
 
-	Title is wat displayed on top of the window. By default it's ""ElvUI Plugin Installation""
-	Name is how your installation will be showin in "pending list", Default is "Unknown"
-	tutorialImage is a path to your own texture to use in frame. if not specified, then it will use ElvUI's one
-	Pages is a table to set up pages of your install where numbers are representing actual pages' order and function is what previously was used to set layout. For example
-		function function1()
-			PluginInstallFrame.SubTitle:SetText("Title Text")
-			PluginInstallFrame.Desc1:SetText("Desc 1 Tet")
-			PluginInstallFrame.Desc2:SetText("Desc 2 Tet")
-			PluginInstallFrame.Desc3:SetText("Desc 3 Tet")
+	* Title is wat displayed on top of the window. By default it's ""ElvUI Plugin Installation""
+	* Name is how your installation will be showin in "pending list", Default is "Unknown"
+	* tutorialImage is a path to your own texture to use in frame. if not specified, then it will use ElvUI's one
+	* Pages is a table to set up pages of your install where numbers are representing actual pages' order and function is what previously was used to set layout. For example
 
-			PluginInstallFrame.Option1:Show()
-			PluginInstallFrame.Option1:SetScript('OnClick', function() <Do Some Stuff> end)
-			PluginInstallFrame.Option1:SetText("Text 1")
+	function function1()
+		PluginInstallFrame.SubTitle:SetText("Title Text")
+		PluginInstallFrame.Desc1:SetText("Desc 1 Tet")
+		PluginInstallFrame.Desc2:SetText("Desc 2 Tet")
+		PluginInstallFrame.Desc3:SetText("Desc 3 Tet")
 
-			PluginInstallFrame.Option2:Show()
-			PluginInstallFrame.Option2:SetScript('OnClick', function() <Do Some Other Stuff> end)
-			PluginInstallFrame.Option2:SetText("Text 2")
-		end
-	StepTitles - a table to specify "titles" for your install steps. If specified and number of lines here = number of pages then you'll get an additional frame to the right of main frame
-	with a list of steps (current one being highlighted), clicking on those will open respective step. BenikUI style of doing stuff.
-	StepTitlesColor - a table with color values to color "titles" when they are not active
-	StepTitlesColorSelected - a table with color values to color "titles" when they are active
-	StepTitleWidth - Width of the steps frame on the right side
-	StepTitleButtonWidth - Width of each step button in the steps frame
-	StepTitleTextJustification - The justification of the text on each step button ("LEFT", "RIGHT", "CENTER"). Default: "CENTER"
-]]
+		PluginInstallFrame.Option1:Show()
+		PluginInstallFrame.Option1:SetScript('OnClick', function() <Do Some Stuff> end)
+		PluginInstallFrame.Option1:SetText("Text 1")
+
+		PluginInstallFrame.Option2:Show()
+		PluginInstallFrame.Option2:SetScript('OnClick', function() <Do Some Other Stuff> end)
+		PluginInstallFrame.Option2:SetText("Text 2")
+	end
+
+	StepTitles					- a table to specify "titles" for your install steps.
+		* If specified and number of lines here = number of pages then you'll get an additional frame to the right of main frame
+		* with a list of steps (current one being highlighted), clicking on those will open respective step. BenikUI style of doing stuff.
+	StepTitlesColor				- a table with color values to color "titles" when they are not active
+	StepTitlesColorSelected		- a table with color values to color "titles" when they are active
+	StepTitleWidth				- Width of the steps frame on the right side
+	StepTitleButtonWidth		- Width of each step button in the steps frame
+	StepTitleTextJustification	- The justification of the text on each step button ("LEFT", "RIGHT", "CENTER"). Default: "CENTER"
+--------------------------------------------------------------------]]--
 
 local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB, Localize Underscore
-local PI = E:GetModule("PluginInstaller")
+local PI = E:GetModule('PluginInstaller')
+local S = E:GetModule('Skins')
 
 --Lua functions
 local _G = _G
@@ -59,9 +64,8 @@ local tinsert, tremove = tinsert, tremove
 local format = string.format
 --WoW API / Variables
 local CreateFrame = CreateFrame
-local PlaySoundFile = PlaySoundFile
+local PlaySound = PlaySound
 local UIFrameFadeOut = UIFrameFadeOut
-local CreateAnimationGroup = CreateAnimationGroup
 local CONTINUE, PREVIOUS, UNKNOWN = CONTINUE, PREVIOUS, UNKNOWN
 -- GLOBALS: PluginInstallFrame
 
@@ -156,7 +160,7 @@ function PI:CreateStepComplete()
 	imsg:Hide()
 	imsg:SetScript('OnShow', function(frame)
 		if frame.message then
-			PlaySoundFile([[Sound\Interface\LevelUp.wav]])
+			PlaySound(888) -- LevelUp Sound
 			frame.text:SetText(frame.message)
 			UIFrameFadeOut(frame, 3.5, 1, 0)
 			E:Delay(4, frame.Hide, frame)
@@ -213,24 +217,20 @@ function PI:CreateFrame()
 	f.Title:Point("TOP", 0, -5)
 
 	f.Next = CreateFrame("Button", "PluginInstallNextButton", f, "UIPanelButtonTemplate")
-	f.Next:StripTextures()
-	f.Next:SetTemplate(nil, true)
 	f.Next:Size(110, 25)
 	f.Next:Point("BOTTOMRIGHT", -5, 5)
 	f.Next:SetText(CONTINUE)
 	f.Next:Disable()
 	f.Next:SetScript("OnClick", NextPage)
-	E.Skins:HandleButton(f.Next, true)
+	S:HandleButton(f.Next, true)
 
 	f.Prev = CreateFrame("Button", "PluginInstallPrevButton", f, "UIPanelButtonTemplate")
-	f.Prev:StripTextures()
-	f.Prev:SetTemplate(nil, true)
 	f.Prev:Size(110, 25)
 	f.Prev:Point("BOTTOMLEFT", 5, 5)
 	f.Prev:SetText(PREVIOUS)
 	f.Prev:Disable()
 	f.Prev:SetScript("OnClick", PreviousPage)
-	E.Skins:HandleButton(f.Prev, true)
+	S:HandleButton(f.Prev, true)
 
 	f.Status = CreateFrame("StatusBar", "PluginInstallStatus", f)
 	f.Status:SetFrameLevel(f.Status:GetFrameLevel() + 2)
@@ -240,9 +240,9 @@ function PI:CreateFrame()
 	f.Status:Point("TOPLEFT", f.Prev, "TOPRIGHT", 6, -2)
 	f.Status:Point("BOTTOMRIGHT", f.Next, "BOTTOMLEFT", -6, 2)
 	-- Setup StatusBar Animation
-	f.Status.anim = CreateAnimationGroup(f.Status)
+	f.Status.anim = _G.CreateAnimationGroup(f.Status)
 	f.Status.anim.progress = f.Status.anim:CreateAnimation("Progress")
-	f.Status.anim.progress:SetSmoothing("Out")
+	f.Status.anim.progress:SetEasing("Out")
 	f.Status.anim.progress:SetDuration(.3)
 
 	f.Status.text = f.Status:CreateFontString(nil, 'OVERLAY')
@@ -250,35 +250,31 @@ function PI:CreateFrame()
 	f.Status.text:SetPoint("CENTER")
 
 	f.Option1 = CreateFrame("Button", "PluginInstallOption1Button", f, "UIPanelButtonTemplate")
-	f.Option1:StripTextures()
 	f.Option1:Size(160, 30)
 	f.Option1:Point("BOTTOM", 0, 45)
 	f.Option1:SetText('')
 	f.Option1:Hide()
-	E.Skins:HandleButton(f.Option1, true)
+	S:HandleButton(f.Option1, true)
 
 	f.Option2 = CreateFrame("Button", "PluginInstallOption2Button", f, "UIPanelButtonTemplate")
-	f.Option2:StripTextures()
 	f.Option2:Size(110, 30)
 	f.Option2:Point('BOTTOMLEFT', f, 'BOTTOM', 4, 45)
 	f.Option2:SetText('')
 	f.Option2:Hide()
 	f.Option2:SetScript('OnShow', function() f.Option1:SetWidth(110); f.Option1:ClearAllPoints(); f.Option1:Point('BOTTOMRIGHT', f, 'BOTTOM', -4, 45) end)
 	f.Option2:SetScript('OnHide', function() f.Option1:SetWidth(160); f.Option1:ClearAllPoints(); f.Option1:Point("BOTTOM", 0, 45) end)
-	E.Skins:HandleButton(f.Option2, true)
+	S:HandleButton(f.Option2, true)
 
 	f.Option3 = CreateFrame("Button", "PluginInstallOption3Button", f, "UIPanelButtonTemplate")
-	f.Option3:StripTextures()
 	f.Option3:Size(100, 30)
 	f.Option3:Point('LEFT', f.Option2, 'RIGHT', 4, 0)
 	f.Option3:SetText('')
 	f.Option3:Hide()
 	f.Option3:SetScript('OnShow', function() f.Option1:SetWidth(100); f.Option1:ClearAllPoints(); f.Option1:Point('RIGHT', f.Option2, 'LEFT', -4, 0); f.Option2:SetWidth(100); f.Option2:ClearAllPoints(); f.Option2:Point('BOTTOM', f, 'BOTTOM', 0, 45)  end)
 	f.Option3:SetScript('OnHide', function() f.Option1:SetWidth(160); f.Option1:ClearAllPoints(); f.Option1:Point("BOTTOM", 0, 45); f.Option2:SetWidth(110); f.Option2:ClearAllPoints(); f.Option2:Point('BOTTOMLEFT', f, 'BOTTOM', 4, 45) end)
-	E.Skins:HandleButton(f.Option3, true)
+	S:HandleButton(f.Option3, true)
 
 	f.Option4 = CreateFrame("Button", "PluginInstallOption4Button", f, "UIPanelButtonTemplate")
-	f.Option4:StripTextures()
 	f.Option4:Size(100, 30)
 	f.Option4:Point('LEFT', f.Option3, 'RIGHT', 4, 0)
 	f.Option4:SetText('')
@@ -287,13 +283,13 @@ function PI:CreateFrame()
 		f.Option1:Width(100)
 		f.Option2:Width(100)
 
-		f.Option1:ClearAllPoints();
-		f.Option1:Point('RIGHT', f.Option2, 'LEFT', -4, 0);
-		f.Option2:ClearAllPoints();
+		f.Option1:ClearAllPoints()
+		f.Option1:Point('RIGHT', f.Option2, 'LEFT', -4, 0)
+		f.Option2:ClearAllPoints()
 		f.Option2:Point('BOTTOMRIGHT', f, 'BOTTOM', -4, 45)
 	end)
 	f.Option4:SetScript('OnHide', function() f.Option1:SetWidth(160); f.Option1:ClearAllPoints(); f.Option1:Point("BOTTOM", 0, 45); f.Option2:SetWidth(110); f.Option2:ClearAllPoints(); f.Option2:Point('BOTTOMLEFT', f, 'BOTTOM', 4, 45) end)
-	E.Skins:HandleButton(f.Option4, true)
+	S:HandleButton(f.Option4, true)
 
 	f.SubTitle = f:CreateFontString(nil, 'OVERLAY')
 	f.SubTitle:FontTemplate(nil, 15, nil)
@@ -322,7 +318,7 @@ function PI:CreateFrame()
 	local close = CreateFrame("Button", "PluginInstallCloseButton", f, "UIPanelCloseButton")
 	close:SetPoint("TOPRIGHT", f, "TOPRIGHT")
 	close:SetScript("OnClick", function() f:Hide() end)
-	E.Skins:HandleCloseButton(close)
+	S:HandleCloseButton(close)
 
 	f.pending = CreateFrame("Frame", "PluginInstallPendingButton", f)
 	f.pending:Size(20, 20)
@@ -333,7 +329,7 @@ function PI:CreateFrame()
 	f.pending.tex:SetTexture([[Interface\OptionsFrame\UI-OptionsFrame-NewFeatureIcon]])
 	f.pending:CreateBackdrop("Transparent")
 	f.pending:SetScript("OnEnter", function(self)
-		_G.GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", E.PixelMode and -7 or -9);
+		_G.GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", E.PixelMode and -7 or -9)
 		_G.GameTooltip:AddLine(L["List of installations in queue:"], 1, 1, 1)
 		_G.GameTooltip:AddLine(" ")
 		for i = 1, #PI.Installs do
@@ -462,8 +458,4 @@ function PI:Initialize()
 	PI:CreateFrame()
 end
 
-local function InitializeCallback()
-	PI:Initialize()
-end
-
-E:RegisterModule(PI:GetName(), InitializeCallback)
+E:RegisterModule(PI:GetName())

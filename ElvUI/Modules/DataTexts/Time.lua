@@ -24,6 +24,7 @@ local GetSavedWorldBossInfo = GetSavedWorldBossInfo
 local GetWorldPVPAreaInfo = GetWorldPVPAreaInfo
 local RequestRaidInfo = RequestRaidInfo
 local SecondsToTime = SecondsToTime
+local InCombatLockdown = InCombatLockdown
 local QUEUE_TIME_UNAVAILABLE = QUEUE_TIME_UNAVAILABLE
 local TIMEMANAGER_TOOLTIP_LOCALTIME = TIMEMANAGER_TOOLTIP_LOCALTIME
 local TIMEMANAGER_TOOLTIP_REALMTIME = TIMEMANAGER_TOOLTIP_REALMTIME
@@ -32,18 +33,16 @@ local WINTERGRASP_IN_PROGRESS = WINTERGRASP_IN_PROGRESS
 
 local WORLD_BOSSES_TEXT = RAID_INFO_WORLD_BOSS.."(s)"
 local APM = { TIMEMANAGER_PM, TIMEMANAGER_AM }
-local europeDisplayFormat = '';
-local ukDisplayFormat = '';
+local ukDisplayFormat, europeDisplayFormat = '', ''
 local europeDisplayFormat_nocolor = strjoin("", "%02d", ":|r%02d")
 local ukDisplayFormat_nocolor = strjoin("", "", "%d", ":|r%02d", " %s|r")
 local lockoutInfoFormat = "%s%s %s |cffaaaaaa(%s, %s/%s)"
 local lockoutInfoFormatNoEnc = "%s%s %s |cffaaaaaa(%s)"
 local formatBattleGroundInfo = "%s: "
 local lockoutColorExtended, lockoutColorNormal = { r=0.3,g=1,b=0.3 }, { r=.8,g=.8,b=.8 }
-local curHr, curMin, curAmPm
-local enteredFrame = false;
+local enteredFrame, curHr, curMin, curAmPm = false
 
-local Update, lastPanel; -- UpValue
+local Update, lastPanel
 
 local function ValueColorUpdate(hex)
 	europeDisplayFormat = strjoin("", "%02d", hex, ":|r%02d")
@@ -81,12 +80,13 @@ local function CalculateTimeValues(tooltip)
 end
 
 local function Click()
-	_G.GameTimeFrame:Click();
+	if InCombatLockdown() then _G.UIErrorsFrame:AddMessage(E.InfoColor.._G.ERR_NOT_IN_COMBAT) return end
+	_G.GameTimeFrame:Click()
 end
 
 local function OnLeave()
-	DT.tooltip:Hide();
-	enteredFrame = false;
+	DT.tooltip:Hide()
+	enteredFrame = false
 end
 
 local function sortFunc(a,b) return a[1] < b[1] end
@@ -96,7 +96,7 @@ local function OnEnter(self)
 	DT:SetupTooltip(self)
 
 	if(not enteredFrame) then
-		enteredFrame = true;
+		enteredFrame = true
 		RequestRaidInfo()
 	end
 
@@ -105,7 +105,7 @@ local function OnEnter(self)
 	local lockedInstances = {raids = {}, dungeons = {}}
 
 	for i = 1, GetNumSavedInstances() do
-		local name, _, _, difficulty, locked, extended, _, isRaid = GetSavedInstanceInfo(i);
+		local name, _, _, difficulty, locked, extended, _, isRaid = GetSavedInstanceInfo(i)
 		if (locked or extended) and name then
 			local isLFR, isHeroicOrMythicDungeon = (difficulty == 7 or difficulty == 17), (difficulty == 2 or difficulty == 23)
 			local _, _, isHeroic, _, displayHeroic, displayMythic = GetDifficultyInfo(difficulty)

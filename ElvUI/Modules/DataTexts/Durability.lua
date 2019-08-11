@@ -2,18 +2,18 @@ local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, Private
 local DT = E:GetModule('DataTexts')
 
 --Lua functions
-local pairs = pairs
-local format, strjoin = format, strjoin
+local _G = _G
+local format, strjoin, pairs = format, strjoin, pairs
 --WoW API / Variables
 local GetInventoryItemDurability = GetInventoryItemDurability
 local GetInventorySlotInfo = GetInventorySlotInfo
 local ToggleCharacter = ToggleCharacter
 local DURABILITY = DURABILITY
+local InCombatLockdown = InCombatLockdown
 
-local displayString = ""
+local displayString, lastPanel = ""
 local tooltipString = "%d%%"
 local totalDurability = 0
-local lastPanel
 local invDurability = {}
 local slots = {
 	["SecondaryHandSlot"] = L["Offhand"],
@@ -49,6 +49,7 @@ local function OnEvent(self)
 end
 
 local function Click()
+	if InCombatLockdown() then _G.UIErrorsFrame:AddMessage(E.InfoColor.._G.ERR_NOT_IN_COMBAT) return end
 	ToggleCharacter("PaperDollFrame")
 end
 

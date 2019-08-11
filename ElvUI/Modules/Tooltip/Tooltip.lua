@@ -37,7 +37,6 @@ local UnitClass = UnitClass
 local UnitClassification = UnitClassification
 local UnitCreatureType = UnitCreatureType
 local UnitExists = UnitExists
-local UnitFactionGroup = UnitFactionGroup
 local UnitGUID = UnitGUID
 local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
@@ -78,18 +77,12 @@ local classification = {
 function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 	if tt:IsForbidden() then return end
 	if E.private.tooltip.enable ~= true then return end
-	if not self.db.visibility then return; end
+	if not self.db.visibility then return end
+	if tt:GetAnchorType() ~= "ANCHOR_NONE" then return end
 
-	if(tt:GetAnchorType() ~= "ANCHOR_NONE") then return end
 	if InCombatLockdown() and self.db.visibility.combat then
 		local modifier = self.db.visibility.combatOverride
-		if (not(
-				(modifier == 'SHIFT' and IsShiftKeyDown())
-				or
-				(modifier == 'CTRL' and IsControlKeyDown())
-				or
-				(modifier == 'ALT' and IsAltKeyDown())
-		)) then
+		if not ((modifier == 'SHIFT' and IsShiftKeyDown()) or (modifier == 'CTRL' and IsControlKeyDown()) or (modifier == 'ALT' and IsAltKeyDown())) then
 			tt:Hide()
 			return
 		end
@@ -192,12 +185,18 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 	local color
 	if UnitIsPlayer(unit) then
 		local localeClass, class = UnitClass(unit)
+		if not localeClass or not class then return end
+
 		local name, realm = UnitName(unit)
 		local guildName, guildRankName, _, guildRealm = GetGuildInfo(unit)
 		local pvpName = UnitPVPName(unit)
-		local relationship = UnitRealmRelationship(unit);
-		if not localeClass or not class then return; end
+		local relationship = UnitRealmRelationship(unit)
+
 		color = _G.CUSTOM_CLASS_COLORS and _G.CUSTOM_CLASS_COLORS[class] or _G.RAID_CLASS_COLORS[class]
+
+		if not color then
+			color = _G.RAID_CLASS_COLORS.PRIEST
+		end
 
 		if self.db.playerTitles and pvpName then
 			name = pvpName
@@ -259,9 +258,13 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 				color = _G.FACTION_BAR_COLORS[unitReaction]
 			end
 		end
+
+		if not color then
+			color = _G.RAID_CLASS_COLORS.PRIEST
+		end
 	end
 
-	return color or _G.RAID_CLASS_COLORS.PRIEST
+	return color
 end
 
 local inspectGUIDCache = {}
@@ -422,11 +425,9 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 		end
 	end
 
---[[
 	if isShiftKeyDown and isPlayerUnit then
 		self:AddInspectInfo(tt, unit, 0, color.r, color.g, color.b)
 	end
-]]
 
 	-- NPC ID's
 	if unit and self.db.npcID and not isPlayerUnit then
@@ -762,8 +763,4 @@ function TT:Initialize()
 	keybindFrame = ElvUI_KeyBinder
 end
 
-local function InitializeCallback()
-	TT:Initialize()
-end
-
-E:RegisterModule(TT:GetName(), InitializeCallback)
+E:RegisterModule(TT:GetName())

@@ -8,8 +8,8 @@ assert(ElvUF, "ElvUI was unable to locate oUF.")
 local _G = _G
 --WoW API / Variables
 local CreateFrame = CreateFrame
+local GetInstanceInfo = GetInstanceInfo
 local InCombatLockdown = InCombatLockdown
-local IsInInstance = IsInInstance
 local RegisterStateDriver = RegisterStateDriver
 local UnregisterStateDriver = UnregisterStateDriver
 
@@ -35,6 +35,8 @@ function UF:Construct_RaidpetFrames()
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.HealthPrediction = UF:Construct_HealComm(self)
 	self.Fader = UF:Construct_Fader()
+	self.Cutaway = UF:Construct_Cutaway(self)
+
 	self.customTexts = {}
 
 	self.unitframeType = "raidpet"
@@ -48,8 +50,8 @@ function UF:RaidPetsSmartVisibility(event)
 	if event == "PLAYER_REGEN_ENABLED" then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
 
 	if not InCombatLockdown() then
-		local inInstance, instanceType = IsInInstance()
-		if inInstance and instanceType == "raid" then
+		local _, instanceType = GetInstanceInfo()
+		if instanceType == "raid" then
 			UnregisterStateDriver(self, "visibility")
 			self:Show()
 		elseif self.db.visibility then
@@ -158,6 +160,9 @@ function UF:Update_RaidpetFrames(frame, db)
 
 	--BuffIndicator
 	UF:UpdateAuraWatch(frame, true) --2nd argument is the petOverride
+
+	--Cutaway
+	UF:Configure_Cutaway(frame)
 
 	--CustomTexts
 	UF:Configure_CustomTexts(frame)

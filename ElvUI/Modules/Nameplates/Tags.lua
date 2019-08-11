@@ -8,12 +8,10 @@ local strmatch = strmatch
 
 local GetCVarBool = GetCVarBool
 local GetGuildInfo = GetGuildInfo
+local GetInstanceInfo = GetInstanceInfo
 local GetNumQuestLogEntries = GetNumQuestLogEntries
 local GetQuestDifficultyColor = GetQuestDifficultyColor
 local GetQuestLogTitle = GetQuestLogTitle
-local IsInInstance = IsInInstance
-local UnitCastingInfo = UnitCastingInfo
-local UnitChannelInfo = UnitChannelInfo
 local UnitClass = UnitClass
 local UnitIsPlayer = UnitIsPlayer
 local UnitIsUnit = UnitIsUnit
@@ -21,18 +19,6 @@ local UnitName = UnitName
 local UnitPVPName = UnitPVPName
 local LEVEL = LEVEL
 --GLOBALS: Hex
-
-oUF.Tags.Events['cast:name'] = 'UNIT_SPELLCAST_START UNIT_SPELLCAST_CHANNEL_START'
-oUF.Tags.Methods['cast:name'] = function(unit)
-	local name = UnitCastingInfo(unit) or UnitChannelInfo(unit)
-	return name or ''
-end
-
-oUF.Tags.Events['cast:time'] = 'UNIT_SPELLCAST_START UNIT_SPELLCAST_CHANNEL_START'
-oUF.Tags.Methods['cast:time'] = function(unit)
-	local name = UnitCastingInfo(unit) or UnitChannelInfo(unit)
-	return name or ''
-end
 
 oUF.Tags.Events['npctitle'] = 'UNIT_NAME_UPDATE'
 oUF.Tags.Methods['npctitle'] = function(unit)
@@ -58,17 +44,6 @@ oUF.Tags.Methods['guild:rank'] = function(unit)
 	end
 end
 
-oUF.Tags.Events['arena:number'] = 'UNIT_NAME_UPDATE'
-oUF.Tags.Methods['arena:number'] = function(unit)
-	if select(2, IsInInstance()) == 'arena' then
-		for i = 1, 5 do
-			if UnitIsUnit(unit, "arena"..i) then
-				return i
-			end
-		end
-	end
-end
-
 oUF.Tags.Events['class'] = 'UNIT_NAME_UPDATE'
 oUF.Tags.Methods['class'] = function(unit)
 	return UnitClass(unit)
@@ -81,30 +56,9 @@ oUF.Tags.Methods['name:title'] = function(unit)
 	end
 end
 
---[[
-	oUF.Tags.SharedEvents.COMBAT_LOG_EVENT_UNFILTERED = true
+oUF.Tags.SharedEvents.QUEST_LOG_UPDATE = true
 
-	oUF.Tags.Events['interrupt'] = 'COMBAT_LOG_EVENT_UNFILTERED'
-	oUF.Tags.Methods['interrupt'] = function(unit)
-		local _, event, _, _, sourceName, _, _, targetGUID = CombatLogGetCurrentEventInfo()
-
-		if (event == "SPELL_INTERRUPT") and targetGUID and (sourceName and sourceName ~= "") then
-			return sourceName
-		end
-	end
-
-	oUF.Tags.Events['interrupt:classcolor'] = 'COMBAT_LOG_EVENT_UNFILTERED'
-	oUF.Tags.Methods['interrupt:classcolor'] = function(unit)
-		local _, event, _, _, sourceName, _, _, targetGUID = CombatLogGetCurrentEventInfo()
-
-		if (event == "SPELL_INTERRUPT") and targetGUID and (sourceName and sourceName ~= "") then
-			local class = select(2, UnitClass(sourceName)) or 'PRIEST'
-			return (_G.CUSTOM_CLASS_COLORS and _G.CUSTOM_CLASS_COLORS[class] or _G.RAID_CLASS_COLORS[class]):GenerateHexColorMarkup()..sourceName..'|r'
-		end
-	end
-]]
-
-oUF.Tags.Events['quest:title'] = 'UNIT_NAME_UPDATE UNIT_HEALTH'
+oUF.Tags.Events['quest:title'] = 'QUEST_LOG_UPDATE'
 oUF.Tags.Methods['quest:title'] = function(unit)
 	if UnitIsPlayer(unit) then
 		return
@@ -139,7 +93,7 @@ oUF.Tags.Methods['quest:title'] = function(unit)
 	end
 end
 
-oUF.Tags.Events['quest:info'] = 'UNIT_NAME_UPDATE UNIT_HEALTH'
+oUF.Tags.Events['quest:info'] = 'QUEST_LOG_UPDATE'
 oUF.Tags.Methods['quest:info'] = function(unit)
 	if UnitIsPlayer(unit) then
 		return

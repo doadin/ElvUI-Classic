@@ -1,10 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 
 --Lua functions
-local _G = _G
 local min, max, abs, floor = min, max, abs, floor
 local format, tonumber = format, tonumber
 --WoW API / Variables
+local UIParent = UIParent
 
 function E:IsEyefinity(width, height)
 	if E.global.general.eyefinity and width >= 3840 then
@@ -28,14 +28,11 @@ function E:UIScale(init)
 	local scale = E.global.general.UIScale
 	if init then --E.OnInitialize
 		--Set variables for pixel scaling
-		local bestScale = E:PixelBestSize()
-		local pixelScale = 768 / E.screenheight
-
-		E.mult = (bestScale / scale) - ((bestScale - pixelScale) / scale)
+		local pixel, ratio = 1, 768 / E.screenheight
+		E.mult = (pixel / scale) - ((pixel - ratio) / scale)
 		E.Spacing = (E.PixelMode and 0) or E.mult
 		E.Border = ((not E.twoPixelsPlease) and E.PixelMode and E.mult) or E.mult*2
 	else --E.Initialize
-		local UIParent = _G.UIParent
 		UIParent:SetScale(scale)
 
 		--Check if we are using `E.eyefinity`
@@ -73,7 +70,7 @@ function E:PixelBestSize()
 end
 
 function E:PixelClip(num)
-    return tonumber(format('%.5f', num))
+	return tonumber(format('%.5f', num))
 end
 
 function E:PixelScaleChanged(event, skip)

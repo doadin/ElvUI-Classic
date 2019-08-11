@@ -26,7 +26,6 @@ local ToggleFriendsFrame = ToggleFriendsFrame
 local ToggleGuildFrame = ToggleGuildFrame
 local ToggleHelpFrame = ToggleHelpFrame
 local ToggleLFDParentFrame = ToggleLFDParentFrame
-local C_Timer_After = C_Timer.After
 -- GLOBALS: GetMinimapShape
 
 --Create the new minimap tracking dropdown frame and initialize it
@@ -149,6 +148,7 @@ function M:Minimap_OnMouseDown(btn)
 	menuFrame:Hide()
 	local position = self:GetPoint()
 	if btn == "MiddleButton" or (btn == "RightButton" and IsShiftKeyDown()) then
+		if InCombatLockdown() then _G.UIErrorsFrame:AddMessage(E.InfoColor.._G.ERR_NOT_IN_COMBAT) return end
 		if position:match("LEFT") then
 			E:DropDown(menuList, menuFrame)
 		else
@@ -199,7 +199,7 @@ end
 local function SetupZoomReset()
 	if E.db.general.minimap.resetZoom.enable and not isResetting then
 		isResetting = true
-		C_Timer_After(E.db.general.minimap.resetZoom.time, ResetZoom)
+		E:Delay(E.db.general.minimap.resetZoom.time, ResetZoom)
 	end
 end
 hooksecurefunc(_G.Minimap, "SetZoom", SetupZoomReset)
@@ -404,7 +404,7 @@ function M:Initialize()
 	self:UpdateSettings()
 
 	if not E.private.general.minimap.enable then
-		_G.Minimap:SetMaskTexture('Textures\\MinimapMask')
+		_G.Minimap:SetMaskTexture(186178) -- textures/minimapmask.blp
 		return
 	end
 
@@ -456,7 +456,7 @@ function M:Initialize()
 	-- MiniMapVoiceChatFrame:Hide()
 	_G.MinimapNorthTag:Kill()
 	_G.MinimapZoneTextButton:Hide()
---	_G.MiniMapTracking:Hide()
+	--_G.MiniMapTracking:Hide()
 	_G.MiniMapMailBorder:Hide()
 	_G.MiniMapMailIcon:SetTexture(E.Media.Textures.Mail)
 
@@ -480,8 +480,4 @@ function M:Initialize()
 	self:UpdateSettings()
 end
 
-local function InitializeCallback()
-	M:Initialize()
-end
-
-E:RegisterInitialModule(M:GetName(), InitializeCallback)
+E:RegisterInitialModule(M:GetName())
