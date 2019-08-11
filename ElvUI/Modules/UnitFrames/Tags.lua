@@ -732,33 +732,46 @@ ElvUF.Tags.Methods['realm:dash:translit'] = function(unit)
 end
 
 
-ElvUF.Tags.Events['threat:percent'] = 'UNIT_THREAT_LIST_UPDATE GROUP_ROSTER_UPDATE'
-ElvUF.Tags.Methods['threat:percent'] = function(unit)
-	local _, _, percent = UnitDetailedThreatSituation('player', unit)
-	if(percent and percent > 0) and (IsInGroup() or UnitExists('pet')) then
-		return format('%.0f%%', percent)
-	else
-		return nil
+ElvUF.Tags.Events['happiness:full'] = 'UNIT_POWER_UPDATE'
+ElvUF.Tags.Methods['happiness:full'] = function(unit)
+	local _, powerType = UnitPowerType(unit)
+	if (powerType == 'HAPPINESS') then
+		return PET_HAPPINESS..GetPetHappiness()
 	end
 end
 
-ElvUF.Tags.Events['threat:current'] = 'UNIT_THREAT_LIST_UPDATE GROUP_ROSTER_UPDATE'
-ElvUF.Tags.Methods['threat:current'] = function(unit)
-	local _, _, percent, _, threatvalue = UnitDetailedThreatSituation('player', unit)
-	if(percent and percent > 0) and (IsInGroup() or UnitExists('pet')) then
-		return E:ShortValue(threatvalue)
-	else
-		return nil
+ElvUF.Tags.Events['happiness:icon'] = 'UNIT_POWER_UPDATE'
+ElvUF.Tags.Methods['happiness:icon'] = function(unit)
+	local _, powerType = UnitPowerType(unit)
+	if (powerType == 'HAPPINESS') then
+		local left, right, top, bottom
+		local happiness = GetPetHappiness()
+
+		if(happiness == 1) then
+			left, right, top, bottom = 0.375, 0.5625, 0, 0.359375
+		elseif(happiness == 2) then
+			left, right, top, bottom = 0.1875, 0.375, 0, 0.359375
+		elseif(happiness == 3) then
+			left, right, top, bottom = 0, 0.1875, 0, 0.359375
+		end
+
+		return CreateTextureMarkup([[Interface\PetPaperDollFrame\UI-PetHappiness]], 128, 64, 16, 16, left, right, top, bottom, 0, 0)
 	end
 end
 
-ElvUF.Tags.Events['threatcolor'] = 'UNIT_THREAT_LIST_UPDATE GROUP_ROSTER_UPDATE'
-ElvUF.Tags.Methods['threatcolor'] = function(unit)
-	local _, status = UnitDetailedThreatSituation('player', unit)
-	if (status) and (IsInGroup() or UnitExists('pet')) then
-		return Hex(GetThreatStatusColor(status))
-	else
-		return nil
+ElvUF.Tags.Events['happiness:color'] = 'UNIT_POWER_UPDATE'
+ElvUF.Tags.Methods['happiness:color'] = function(unit)
+	local _, powerType = UnitPowerType(unit)
+	if (powerType == 'HAPPINESS') then
+		local happiness = GetPetHappiness()
+
+		if(happiness == 1) then
+			return Hex(1, 0, 0)
+		elseif(happiness == 2) then
+			return Hex(0, 1, 0)
+		elseif(happiness == 3) then
+			return Hex(1, 1, 0)
+		end
 	end
 end
 
