@@ -37,13 +37,13 @@ function UF:Construct_PlayerFrame(frame)
 
 	--Some classes need another set of different classbars.
 
-	frame.PowerPrediction = self:Construct_PowerPrediction(frame) -- must be AFTER Power & AdditionalPower
+	--frame.PowerPrediction = self:Construct_PowerPrediction(frame) -- must be AFTER Power & AdditionalPower
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
 	frame.RestingIndicator = self:Construct_RestingIndicator(frame)
 	frame.CombatIndicator = self:Construct_CombatIndicator(frame)
-	frame.HealthPrediction = self:Construct_HealComm(frame)
+	--frame.HealthPrediction = self:Construct_HealComm(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
 	frame.Fader = self:Construct_Fader()
@@ -124,7 +124,7 @@ function UF:Update_PlayerFrame(frame, db)
 	UF:Configure_Power(frame)
 
 	-- Power Predicition
-	UF:Configure_PowerPrediction(frame)
+	--UF:Configure_PowerPrediction(frame)
 
 	--Portrait
 	UF:Configure_Portrait(frame)
@@ -150,7 +150,7 @@ function UF:Update_PlayerFrame(frame, db)
 	UF:Configure_Fader(frame)
 
 	--OverHealing
-	UF:Configure_HealComm(frame)
+	--UF:Configure_HealComm(frame)
 
 	--AuraBars
 	UF:Configure_AuraBars(frame)

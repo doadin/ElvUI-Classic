@@ -11,7 +11,7 @@ local tinsert = tinsert
 function UF:Construct_TargetTargetTargetFrame(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, 'RIGHT')
 	frame.Power = self:Construct_PowerBar(frame, true, true, 'LEFT')
-	frame.PowerPrediction = self:Construct_PowerPrediction(frame)
+	--frame.PowerPrediction = self:Construct_PowerPrediction(frame)
 	frame.Name = self:Construct_NameText(frame)
 	frame.Portrait3D = self:Construct_Portrait(frame, 'model')
 	frame.Portrait2D = self:Construct_Portrait(frame, 'texture')
@@ -76,7 +76,7 @@ function UF:Update_TargetTargetTargetFrame(frame, db)
 	UF:Configure_Power(frame)
 
 	--Power Predicition
-	UF:Configure_PowerPrediction(frame)
+	--UF:Configure_PowerPrediction(frame)
 
 	--Portrait
 	UF:Configure_Portrait(frame)
