@@ -289,15 +289,7 @@ function NP:UpdatePlate(nameplate)
 		NP:Update_PvPIndicator(nameplate) -- Horde / Alliance / HonorInfo
 		NP:Update_TargetIndicator(nameplate)
 		NP:Update_RaidTargetIndicator(nameplate)
-		NP:Update_HealerSpecs(nameplate)
 		NP:Update_Cutaway(nameplate)
-		NP:Update_NazjatarFollowerXP(nameplate)
-
-		if E.myclass == "DEATHKNIGHT" then
-			NP:Update_Runes(nameplate)
-		elseif E.myclass == "MONK" then
-			NP:Update_Stagger(nameplate)
-		end
 
 		if nameplate == _G.ElvNP_Player then
 			NP:Update_Fader(nameplate)
