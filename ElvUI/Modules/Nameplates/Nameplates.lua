@@ -257,7 +257,6 @@ function NP:StylePlate(nameplate)
 	nameplate.Highlight = NP:Construct_Highlight(nameplate)
 	nameplate.ClassPower = NP:Construct_ClassPower(nameplate)
 	nameplate.PvPIndicator = NP:Construct_PvPIndicator(nameplate.RaisedElement) -- Horde / Alliance / HonorInfo
-	nameplate.HealerSpecs = NP:Construct_HealerSpecs(nameplate.RaisedElement)
 	nameplate.Cutaway = NP:Construct_Cutaway(nameplate)
 
 	NP:Construct_Auras(nameplate)
@@ -316,9 +315,9 @@ function NP:DisablePlate(nameplate, nameOnly)
 	if nameplate:IsElementEnabled("Health") then
 		nameplate:DisableElement("Health")
 	end
-	if nameplate:IsElementEnabled("HealthPrediction") then
-		nameplate:DisableElement("HealthPrediction")
-	end
+	-- if nameplate:IsElementEnabled("HealthPrediction") then
+	-- 	nameplate:DisableElement("HealthPrediction")
+	-- end
 	if nameplate:IsElementEnabled("Power") then
 		nameplate:DisableElement("Power")
 	end
@@ -331,32 +330,14 @@ function NP:DisablePlate(nameplate, nameOnly)
 	if nameplate:IsElementEnabled("Portrait") then
 		nameplate:DisableElement("Portrait")
 	end
-	if nameplate:IsElementEnabled("QuestIcons") then
-		nameplate:DisableElement("QuestIcons")
-	end
-	if nameplate:IsElementEnabled("ThreatIndicator") then
-		nameplate:DisableElement("ThreatIndicator")
-	end
 	if nameplate:IsElementEnabled("ClassPower") then
 		nameplate:DisableElement("ClassPower")
 	end
 	if nameplate:IsElementEnabled("PvPIndicator") then
 		nameplate:DisableElement("PvPIndicator")
 	end
-	if nameplate:IsElementEnabled("PvPClassificationIndicator") then
-		nameplate:DisableElement("PvPClassificationIndicator")
-	end
-	if nameplate:IsElementEnabled("HealerSpecs") then
-		nameplate:DisableElement("HealerSpecs")
-	end
 	if nameplate:IsElementEnabled("Auras") then
 		nameplate:DisableElement("Auras")
-	end
-	if E.myclass == "DEATHKNIGHT" and nameplate:IsElementEnabled("Runes") then
-		nameplate:DisableElement("Runes")
-	end
-	if E.myclass == "MONK" and nameplate:IsElementEnabled("Stagger") then
-		nameplate:DisableElement("Stagger")
 	end
 
 	NP:Update_Tags(nameplate)
@@ -393,16 +374,6 @@ function NP:SetupTarget(nameplate, removed)
 		TCP.ClassPower:SetParent(moveToPlate)
 		TCP.ClassPower:ClearAllPoints()
 		TCP.ClassPower:Point("CENTER", moveToPlate, "CENTER", NP.db.units.TARGET.classpower.xOffset, NP.db.units.TARGET.classpower.yOffset)
-	end
-	if TCP.Runes then
-		TCP.Runes:SetParent(moveToPlate)
-		TCP.Runes:ClearAllPoints()
-		TCP.Runes:Point("CENTER", moveToPlate, "CENTER", NP.db.units.TARGET.classpower.xOffset, NP.db.units.TARGET.classpower.yOffset)
-	end
-	if TCP.Stagger then
-		TCP.Stagger:SetParent(moveToPlate)
-		TCP.Stagger:ClearAllPoints()
-		TCP.Stagger:Point("CENTER", moveToPlate, "CENTER", NP.db.units.TARGET.classpower.xOffset, NP.db.units.TARGET.classpower.yOffset)
 	end
 end
 

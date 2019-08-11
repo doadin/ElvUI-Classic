@@ -877,8 +877,6 @@ function E:UpdateLayout(skipCallback)
 end
 
 function E:UpdateActionBars(skipCallback)
-	ActionBars:Extra_SetAlpha()
-	ActionBars:Extra_SetScale()
 	ActionBars:ToggleCooldownOptions()
 	ActionBars:UpdateButtonSettings()
 	ActionBars:UpdateMicroPositionDimensions()
@@ -891,7 +889,7 @@ end
 
 function E:UpdateNamePlates(skipCallback)
 	NamePlates:ConfigureAll()
-	NamePlates:StyleFilterInitialize()
+	--NamePlates:StyleFilterInitialize()
 
 	if not skipCallback then
 		E.callbacks:Fire("StaggeredUpdate")
@@ -961,7 +959,7 @@ end
 
 function E:UpdateMisc(skipCallback)
 	AFK:Toggle()
-	Blizzard:SetObjectiveFrameHeight()
+--	Blizzard:SetObjectiveFrameHeight()
 
 --	Totems:PositionAndSize()
 --	Totems:ToggleEnable()

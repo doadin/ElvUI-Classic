@@ -27,16 +27,11 @@ function NP:Health_UpdateColor(event, unit)
 		t = self.colors.disconnected
 	elseif(element.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
 		t = NP.db.colors.tapped
-	elseif(element.colorThreat and not UnitPlayerControlled(unit) and UnitThreatSituation('player', unit)) then
-		t =  self.colors.threat[UnitThreatSituation('player', unit)]
 	elseif(element.colorClass and UnitIsPlayer(unit)) or
 		(element.colorClassNPC and not UnitIsPlayer(unit)) or
 		(element.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
 		local _, class = UnitClass(unit)
 		t = self.colors.class[class]
-	elseif Selection then
-		if Selection == 3 then Selection = UnitPlayerControlled(unit) and 5 or 3 end
-		t = NP.db.colors.selection[Selection]
 	elseif(element.colorReaction and UnitReaction(unit, 'player')) then
 		local reaction = UnitReaction(unit, 'player')
 		if reaction <= 3 then reaction = 'bad' elseif reaction == 4 then reaction = 'neutral' else reaction = 'good' end
@@ -94,7 +89,7 @@ function NP:Construct_Health(nameplate)
 	nameplate.FlashTexture:Hide()
 
 	Health.colorTapping = true
-	Health.colorSelection = true
+	Health.colorReaction = true
 	Health.frequentUpdates = true --Azil, keep this for now. It seems it may prevent event bugs
 	Health.UpdateColor = NP.Health_UpdateColor
 
@@ -105,9 +100,8 @@ function NP:Update_Health(nameplate)
 	local db = NP.db.units[nameplate.frameType]
 
 	nameplate.Health.colorTapping = true
-	nameplate.Health.colorSelection = true
 	nameplate.Health.colorClass = db.health.useClassColor
-	nameplate.Health.considerSelectionInCombatHostile = true
+	nameplate.Health.colorReaction = true
 
 	if db.health.enable then
 		if not nameplate:IsElementEnabled('Health') then
