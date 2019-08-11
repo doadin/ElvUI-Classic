@@ -1132,74 +1132,6 @@ function B:OnEvent(event, ...)
 	end
 end
 
-function B:UpdateTokens()
-	local f = B.BagFrame
-	local numTokens = 0
-	for i = 1, MAX_WATCHED_TOKENS do
-		local name, count, icon, currencyID = GetBackpackCurrencyInfo(i)
-		local button = f.currencyButton[i]
-
-		button:ClearAllPoints()
-		if name then
-			button.icon:SetTexture(icon)
-
-			if B.db.currencyFormat == 'ICON_TEXT' then
-				button.text:SetText(name..': '..count)
-			elseif B.db.currencyFormat == "ICON_TEXT_ABBR" then
-				button.text:SetText(E:AbbreviateString(name)..': '..count)
-			elseif B.db.currencyFormat == 'ICON' then
-				button.text:SetText(count)
-			end
-
-			button.currencyID = currencyID
-			button:Show()
-			numTokens = numTokens + 1
-		else
-			button:Hide()
-		end
-	end
-
-	if numTokens == 0 then
-		f.bottomOffset = 8
-
-		if f.currencyButton:IsShown() then
-			f.currencyButton:Hide()
-			B:Layout()
-		end
-
-		return
-	elseif not f.currencyButton:IsShown() then
-		f.bottomOffset = 28
-		f.currencyButton:Show()
-		B:Layout()
-	end
-
-	f.bottomOffset = 28
-
-	if numTokens == 1 then
-		f.currencyButton[1]:Point('BOTTOM', f.currencyButton, 'BOTTOM', -(f.currencyButton[1].text:GetWidth() / 2), 3)
-	elseif numTokens == 2 then
-		f.currencyButton[1]:Point('BOTTOM', f.currencyButton, 'BOTTOM', -(f.currencyButton[1].text:GetWidth()) - (f.currencyButton[1]:GetWidth() / 2), 3)
-		f.currencyButton[2]:Point('BOTTOMLEFT', f.currencyButton, 'BOTTOM', f.currencyButton[2]:GetWidth() / 2, 3)
-	else
-		f.currencyButton[1]:Point('BOTTOMLEFT', f.currencyButton, 'BOTTOMLEFT', 3, 3)
-		f.currencyButton[2]:Point('BOTTOM', f.currencyButton, 'BOTTOM', -(f.currencyButton[2].text:GetWidth() / 3), 3)
-		f.currencyButton[3]:Point('BOTTOMRIGHT', f.currencyButton, 'BOTTOMRIGHT', -(f.currencyButton[3].text:GetWidth()) - (f.currencyButton[3]:GetWidth() / 2), 3)
-	end
-end
-
-function B:Token_OnEnter()
-	local GameTooltip = _G.GameTooltip
-	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-	GameTooltip:SetBackpackToken(self:GetID())
-end
-
-function B:Token_OnClick()
-	if IsModifiedClick("CHATLINK") then
-		HandleModifiedItemClick(GetCurrencyLink(self.currencyID))
-	end
-end
-
 function B:UpdateGoldText()
 	B.BagFrame.goldText:SetText(E:FormatMoney(GetMoney(), E.db.bags.moneyFormat, not E.db.bags.moneyCoins))
 end
@@ -1675,7 +1607,6 @@ function B:OpenBank()
 	B:Layout(true)
 
 	B:OpenBags()
-	B:UpdateTokens()
 
 	_G.BankFrame:Show()
 	B.BankFrame:Show()
