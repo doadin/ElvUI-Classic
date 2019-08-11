@@ -780,15 +780,7 @@ ElvUF.Tags.Events['happiness:color'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:color'] = function(unit)
     local hasPetUI, isHunterPet = HasPetUI()
     if (unit == 'pet' and hasPetUI and isHunterPet) then
-		local happiness = GetPetHappiness()
-
-		if(happiness == 1) then
-			return Hex(1, 0, 0)
-		elseif(happiness == 2) then
-			return Hex(1, 1, 0)
-		elseif(happiness == 3) then
-			return Hex(0, 1, 0)
-		end
+		return Hex(_COLORS.happiness[GetPetHappiness()])
 	end
 end
 

@@ -5,18 +5,19 @@ local Private = oUF.Private
 local frame_metatable = Private.frame_metatable
 
 local colors = {
-	smooth = {
-		1, 0, 0,
-		1, 1, 0,
-		0, 1, 0
-	},
+	smooth = { 1, 0, 0, 1, 1, 0, 0, 1, 0 },
 	health = {49 / 255, 207 / 255, 37 / 255},
-	disconnected = {0.6, 0.6, 0.6},
+	disconnected = { 0.6, 0.6, 0.6 },
 	tapped = {0.6, 0.6, 0.6},
 	class = {},
 	debuff = {},
 	reaction = {},
 	power = {},
+	happiness = {
+		[1] = {.69, .31, .31},
+		[2] = {.65, .63, .35},
+		[3] = {.33, .59, .33},
+	}
 }
 
 -- We do this because people edit the vars directly, and changing the default
