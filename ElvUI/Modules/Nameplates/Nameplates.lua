@@ -553,7 +553,7 @@ function NP:NamePlateCallBack(nameplate, event, unit)
 			NP:UpdatePlateGUID(nameplate, nameplate.unitGUID)
 		end
 
-		NP:StyleFilterSetVariables(nameplate) -- sets: isTarget, isTargetingMe, isFocused
+		--NP:StyleFilterSetVariables(nameplate) -- sets: isTarget, isTargetingMe, isFocused
 
 		if UnitIsUnit(unit, "player") and NP.db.units.PLAYER.enable then
 			nameplate.frameType = "PLAYER"
@@ -599,9 +599,9 @@ function NP:NamePlateCallBack(nameplate, event, unit)
 			NP:PlateFade(nameplate, 1, 0, 1)
 		end
 
-		NP:StyleFilterUpdate(nameplate, event) -- keep this at the end
+		--NP:StyleFilterUpdate(nameplate, event) -- keep this at the end
 	elseif event == "NAME_PLATE_UNIT_REMOVED" then
-		NP:StyleFilterClear(nameplate) -- keep this at the top
+		--NP:StyleFilterClear(nameplate) -- keep this at the top
 
 		if nameplate.frameType == "PLAYER" and (nameplate ~= _G.ElvNP_Test) then
 			NP.PlayerNamePlateAnchor:Hide()
@@ -620,7 +620,7 @@ function NP:NamePlateCallBack(nameplate, event, unit)
 		nameplate.Health.cur = nil
 		nameplate.Power.cur = nil
 
-		NP:StyleFilterClearVariables(nameplate)
+		--NP:StyleFilterClearVariables(nameplate)
 	elseif event == "PLAYER_TARGET_CHANGED" then -- we need to check if nameplate exists in here
 		NP:SetupTarget(nameplate) -- pass it, even as nil here
 	end
