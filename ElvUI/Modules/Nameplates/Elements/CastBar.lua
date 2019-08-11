@@ -80,11 +80,11 @@ end
 
 function NP:Castbar_PostCastStart(unit)
 	self:CheckInterrupt(unit)
-	NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
+	--NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
 end
 
 function NP:Castbar_PostCastFail()
-	NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
+	--NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
 end
 
 function NP:Castbar_PostCastInterruptible(unit)
@@ -92,7 +92,7 @@ function NP:Castbar_PostCastInterruptible(unit)
 end
 
 function NP:Castbar_PostCastStop()
-	NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
+	--NP:StyleFilterUpdate(self.__owner, 'FAKE_Casting')
 end
 
 function NP:Construct_Castbar(nameplate)
