@@ -26,13 +26,13 @@ A default texture will be applied if the widget is a StatusBar and doesn't have 
 The following options are listed by priority. The first check that returns true decides the color of the bar.
 
 .colorDisconnected - Use `self.colors.disconnected` to color the bar if the unit is offline (boolean)
+.colorHappiness    - Use `self.colors.happiness[happiness]` to color the bar.
 .colorTapping      - Use `self.colors.tapping` to color the bar if the unit isn't tapped by the player (boolean)
 .colorClass        - Use `self.colors.class[class]` to color the bar based on unit class. `class` is defined by the
                      second return of [UnitClass](http://wowprogramming.com/docs/api/UnitClass.html) (boolean)
 .colorClassNPC     - Use `self.colors.class[class]` to color the bar if the unit is a NPC (boolean)
 .colorClassPet     - Use `self.colors.class[class]` to color the bar if the unit is player controlled, but not a player
                      (boolean)
-.colorHappiness    - Use `self.colors.happiness[happiness]` to color the bar.
 .colorReaction     - Use `self.colors.reaction[reaction]` to color the bar based on the player's reaction towards the
                      unit. `reaction` is defined by the return value of
                      [UnitReaction](http://wowprogramming.com/docs/api/UnitReaction.html) (boolean)
@@ -215,23 +215,6 @@ local function SetColorDisconnected(element, state)
 	end
 end
 
---[[ Health:SetColorSelection(state)
-Used to toggle coloring by the unit's selection.
-
-* self  - the Health element
-* state - the desired state (boolean)
---]]
-local function SetColorSelection(element, state)
-	if(element.colorSelection ~= state) then
-		element.colorSelection = state
-		if(element.colorSelection) then
-			element.__owner:RegisterEvent('UNIT_FLAGS', ColorPath)
-		else
-			element.__owner:UnregisterEvent('UNIT_FLAGS', ColorPath)
-		end
-	end
-end
-
 --[[ Health:SetColorTapping(state)
 Used to toggle coloring if the unit isn't tapped by the player.
 
@@ -245,23 +228,6 @@ local function SetColorTapping(element, state)
 			element.__owner:RegisterEvent('UNIT_FACTION', ColorPath)
 		else
 			element.__owner:UnregisterEvent('UNIT_FACTION', ColorPath)
-		end
-	end
-end
-
---[[ Health:SetColorThreat(state)
-Used to toggle coloring by the unit's threat status.
-
-* self  - the Health element
-* state - the desired state (boolean)
---]]
-local function SetColorThreat(element, state)
-	if(element.colorThreat ~= state) then
-		element.colorThreat = state
-		if(element.colorThreat) then
-			element.__owner:RegisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
-		else
-			element.__owner:UnregisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
 		end
 	end
 end
@@ -300,16 +266,8 @@ local function Enable(self, unit)
 			self:RegisterEvent('UNIT_CONNECTION', ColorPath)
 		end
 
-		if(element.colorSelection) then
-			self:RegisterEvent('UNIT_FLAGS', ColorPath)
-		end
-
 		if(element.colorTapping) then
 			self:RegisterEvent('UNIT_FACTION', ColorPath)
-		end
-
-		if(element.colorThreat) then
-			self:RegisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
 		end
 
 		if(element.frequentUpdates) then
@@ -340,8 +298,6 @@ local function Disable(self)
 		self:UnregisterEvent('UNIT_MAXHEALTH', Path)
 		self:UnregisterEvent('UNIT_CONNECTION', ColorPath)
 		self:UnregisterEvent('UNIT_FACTION', ColorPath)
-		self:UnregisterEvent('UNIT_FLAGS', ColorPath)
-		self:UnregisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
 	end
 end
 

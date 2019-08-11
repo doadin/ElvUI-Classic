@@ -84,17 +84,6 @@ colors.power[1] = colors.power.RAGE
 colors.power[2] = colors.power.FOCUS
 colors.power[3] = colors.power.ENERGY
 colors.power[4] = colors.power.COMBO_POINTS
-colors.power[5] = colors.power.RUNES
-colors.power[6] = colors.power.RUNIC_POWER
-colors.power[7] = colors.power.SOUL_SHARDS
-colors.power[8] = colors.power.LUNAR_POWER
-colors.power[9] = colors.power.HOLY_POWER
-colors.power[11] = colors.power.MAELSTROM
-colors.power[12] = colors.power.CHI
-colors.power[13] = colors.power.INSANITY
-colors.power[16] = colors.power.ARCANE_CHARGES
-colors.power[17] = colors.power.FURY
-colors.power[18] = colors.power.PAIN
 
 local function colorsAndPercent(a, b, ...)
 	if(a <= 0 or b == 0) then

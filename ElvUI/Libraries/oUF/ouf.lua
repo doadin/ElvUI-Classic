@@ -54,10 +54,6 @@ local function updateActiveUnit(self, event, unit)
 		realUnit = 'target'
 	end
 
-	if(modUnit == 'pet' and realUnit ~= 'pet') then
-		modUnit = 'vehicle'
-	end
-
 	if(not unitExists(modUnit)) then return end
 
 	-- Change the active unit and run a full update.
@@ -293,11 +289,6 @@ local function initObject(unit, style, styleFunc, header, ...)
 			-- No header means it's a frame created through :Spawn().
 			object:SetAttribute('*type1', 'target')
 			object:SetAttribute('*type2', 'togglemenu')
-
-			-- No need to enable this for *target frames.
-			if(not (unit:match('target') or suffix == 'target')) then
-				object:SetAttribute('toggleForVehicle', true)
-			end
 
 			-- Other boss and target units are handled by :HandleUnit().
 			if(suffix == 'target') then
@@ -644,7 +635,7 @@ do
 
 		-- We set it here so layouts can't directly override it.
 		header:SetAttribute('initialConfigFunction', initialConfigFunction)
-		header:SetAttribute('_initialAttributeNames', '_onenter,_onleave,refreshUnitChange,_onstate-vehicleui')
+		header:SetAttribute('_initialAttributeNames', '_onenter,_onleave')
 		header:SetAttribute('_initialAttribute-_onenter', [[
 			local snippet = self:GetAttribute('clickcast_onenter')
 			if(snippet) then
@@ -655,22 +646,6 @@ do
 			local snippet = self:GetAttribute('clickcast_onleave')
 			if(snippet) then
 				self:Run(snippet)
-			end
-		]])
-		header:SetAttribute('_initialAttribute-refreshUnitChange', [[
-			local unit = self:GetAttribute('unit')
-			if(unit) then
-				RegisterStateDriver(self, 'vehicleui', '[@' .. unit .. ',unithasvehicleui]vehicle; novehicle')
-			else
-				UnregisterStateDriver(self, 'vehicleui')
-			end
-		]])
-		header:SetAttribute('_initialAttribute-_onstate-vehicleui', [[
-			local unit = self:GetAttribute('unit')
-			if(newstate == 'vehicle' and unit and UnitPlayerOrPetInRaid(unit) and not UnitTargetsVehicleInRaidUI(unit)) then
-				self:SetAttribute('toggleForVehicle', false)
-			else
-				self:SetAttribute('toggleForVehicle', true)
 			end
 		]])
 		header:SetAttribute('oUF-headerType', isPetHeader and 'pet' or 'group')
@@ -841,16 +816,13 @@ Used to register an element with oUF.
 * enable  - used to enable the element for a given unit frame and unit (function?)
 * disable - used to disable the element for a given unit frame (function?)
 --]]
-function oUF:AddElement(name, update, enable, disable, override)  -- ElvUI Changed added override
+function oUF:AddElement(name, update, enable, disable)
 	argcheck(name, 2, 'string')
 	argcheck(update, 3, 'function', 'nil')
 	argcheck(enable, 4, 'function', 'nil')
 	argcheck(disable, 5, 'function', 'nil')
 
-	if not override then
-		if(elements[name]) then return error('Element [%s] is already registered.', name) end
-	end
-
+	if(elements[name]) then return error('Element [%s] is already registered.', name) end
 	elements[name] = {
 		update = update;
 		enable = enable;

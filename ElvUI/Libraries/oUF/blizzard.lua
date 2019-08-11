@@ -1,12 +1,6 @@
 local parent, ns = ...
 local oUF = ns.oUF
 
--- sourced from Blizzard_ArenaUI/Blizzard_ArenaUI.lua
-local MAX_ARENA_ENEMIES = MAX_ARENA_ENEMIES or 5
-
--- sourced from FrameXML/TargetFrame.lua
-local MAX_BOSS_FRAMES = MAX_BOSS_FRAMES or 5
-
 -- sourced from FrameXML/PartyMemberFrame.lua
 local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS or 4
 
@@ -80,15 +74,6 @@ function oUF:DisableBlizzard(unit)
 		handleFrame(ComboFrame)
 	elseif(unit == 'targettarget') then
 		handleFrame(TargetFrameToT)
-	elseif(unit:match('boss%d?$')) then
-		local id = unit:match('boss(%d)')
-		if(id) then
-			handleFrame('Boss' .. id .. 'TargetFrame')
-		else
-			for i = 1, MAX_BOSS_FRAMES do
-				handleFrame(string.format('Boss%dTargetFrame', i))
-			end
-		end
 	elseif(unit:match('party%d?$')) then
 		local id = unit:match('party(%d)')
 		if(id) then
