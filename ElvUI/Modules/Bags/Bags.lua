@@ -267,18 +267,6 @@ function B:UpdateCountDisplay()
 
 		B:UpdateAllSlots(bagFrame)
 	end
-
-	--Reagent Bank
-	if B.BankFrame and B.BankFrame.reagentFrame then
-		for i = 1, B.REAGENTBANK_SIZE do
-			local slot = B.BankFrame.reagentFrame.slots[i]
-			if slot then
-				slot.Count:FontTemplate(E.Libs.LSM:Fetch("font", E.db.bags.countFont), E.db.bags.countFontSize, E.db.bags.countFontOutline)
-				slot.Count:SetTextColor(color.r, color.g, color.b)
-				B:UpdateReagentSlot(i)
-			end
-		end
-	end
 end
 
 function B:UpdateBagTypes(isBank)
@@ -837,9 +825,6 @@ function B:Layout(isBank)
 	local isSplit = B.db.split[isBank and 'bank' or 'player']
 
 	f.holderFrame:Width(holderWidth)
-	if isBank then
-		f.reagentFrame:Width(holderWidth)
-	end
 
 	f.totalSlots = 0
 	local lastButton
@@ -1632,12 +1617,10 @@ function B:ShowBankTab(f, showReagent)
 	if showReagent then
 		_G.BankFrame.selectedTab = 2
 		f.holderFrame:Hide()
-		f.reagentFrame:Show()
 		f.editBox:Point('RIGHT', f.depositButton, 'LEFT', -5, 0)
 		f.bagText:SetText(L["Reagent Bank"])
 	else
 		_G.BankFrame.selectedTab = 1
-		f.reagentFrame:Hide()
 		f.holderFrame:Show()
 		f.editBox:Point('RIGHT', f.purchaseBagButton, 'LEFT', -5, 0)
 		f.bagText:SetText(L["Bank"])
