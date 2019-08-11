@@ -27,7 +27,7 @@ function UF:Construct_Raid40Frames()
 	self.Power = UF:Construct_PowerBar(self, true, true, 'LEFT')
 	self.Power.frequentUpdates = false;
 
-	self.PowerPrediction = UF:Construct_PowerPrediction(self)
+	--self.PowerPrediction = UF:Construct_PowerPrediction(self)
 
 	self.Portrait3D = UF:Construct_Portrait(self, 'model')
 	self.Portrait2D = UF:Construct_Portrait(self, 'texture')
@@ -44,7 +44,7 @@ function UF:Construct_Raid40Frames()
 	self.InfoPanel = UF:Construct_InfoPanel(self)
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
-	self.HealthPrediction = UF:Construct_HealComm(self)
+	--self.HealthPrediction = UF:Construct_HealComm(self)
 	self.Fader = UF:Construct_Fader()
 	self.Cutaway = UF:Construct_Cutaway(self)
 
@@ -185,7 +185,7 @@ function UF:Update_Raid40Frames(frame, db)
 	UF:Configure_Power(frame)
 
 	-- Power Predicition
-	UF:Configure_PowerPrediction(frame)
+	--UF:Configure_PowerPrediction(frame)
 
 	--Portrait
 	UF:Configure_Portrait(frame)
@@ -208,7 +208,7 @@ function UF:Update_Raid40Frames(frame, db)
 	UF:Configure_DebuffHighlight(frame)
 
 	--OverHealing
-	UF:Configure_HealComm(frame)
+	--UF:Configure_HealComm(frame)
 
 	--Fader
 	UF:Configure_Fader(frame)
