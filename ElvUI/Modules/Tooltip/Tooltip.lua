@@ -424,11 +424,11 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 			end
 		end
 	end
-
+--[[
 	if isShiftKeyDown and isPlayerUnit then
 		self:AddInspectInfo(tt, unit, 0, color.r, color.g, color.b)
 	end
-
+]]
 	-- NPC ID's
 	if unit and self.db.npcID and not isPlayerUnit then
 		local guid = UnitGUID(unit) or ""
