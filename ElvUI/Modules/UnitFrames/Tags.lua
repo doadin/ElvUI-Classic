@@ -759,6 +759,23 @@ ElvUF.Tags.Methods['happiness:icon'] = function(unit)
 	end
 end
 
+ElvUF.Tags.Events['happiness:discord'] = 'UNIT_POWER_UPDATE'
+ElvUF.Tags.Methods['happiness:discord'] = function(unit)
+	local _, powerType = UnitPowerType(unit)
+	if (powerType == 'HAPPINESS') then
+		local left, right, top, bottom
+		local happiness = GetPetHappiness()
+
+		if(happiness == 1) then
+			return CreateTextureMarkup([[Interface\AddOns\ElvUI\Media\ChatEmojis\Rage]], 32, 32, 16, 16, 0, 1, 0, 1, 0, 0)
+		elseif(happiness == 2) then
+			return CreateTextureMarkup([[Interface\AddOns\ElvUI\Media\ChatEmojis\SlightFrown]], 32, 32, 16, 16, 0, 1, 0, 1, 0, 0)
+		elseif(happiness == 3) then
+			return CreateTextureMarkup([[Interface\AddOns\ElvUI\Media\ChatEmojis\HeartEyes]], 32, 32, 16, 16, 0, 1, 0, 1, 0, 0)
+		end
+	end
+end
+
 ElvUF.Tags.Events['happiness:color'] = 'UNIT_POWER_UPDATE'
 ElvUF.Tags.Methods['happiness:color'] = function(unit)
 	local _, powerType = UnitPowerType(unit)
@@ -768,9 +785,9 @@ ElvUF.Tags.Methods['happiness:color'] = function(unit)
 		if(happiness == 1) then
 			return Hex(1, 0, 0)
 		elseif(happiness == 2) then
-			return Hex(0, 1, 0)
-		elseif(happiness == 3) then
 			return Hex(1, 1, 0)
+		elseif(happiness == 3) then
+			return Hex(0, 1, 0)
 		end
 	end
 end
