@@ -1140,8 +1140,6 @@ function B:OnEvent(event, ...)
 		else
 			B:UpdateBagSlots(self, -1)
 		end
-	elseif event == 'PLAYERREAGENTBANKSLOTS_CHANGED' then
-		B:UpdateReagentSlot(...)
 	elseif (event == "QUEST_ACCEPTED" or event == "QUEST_REMOVED") and self:IsShown() then
 		B:UpdateAllSlots(self)
 	elseif (event == "BANK_BAG_SLOT_FLAGS_UPDATED" or event == "BAG_SLOT_FLAGS_UPDATED") then
@@ -1323,7 +1321,7 @@ function B:ContructContainerFrame(name, isBank)
 	f:SetFrameStrata(strata)
 	f:RegisterEvent("BAG_UPDATE") -- Has to be on both frames
 	f:RegisterEvent("BAG_UPDATE_COOLDOWN") -- Has to be on both frames
-	f.events = isBank and { "PLAYERREAGENTBANKSLOTS_CHANGED", "BANK_BAG_SLOT_FLAGS_UPDATED", "PLAYERBANKSLOTS_CHANGED" } or { "ITEM_LOCK_CHANGED", "ITEM_UNLOCKED", "BAG_SLOT_FLAGS_UPDATED", "QUEST_ACCEPTED", "QUEST_REMOVED" }
+	f.events = isBank and { "BANK_BAG_SLOT_FLAGS_UPDATED", "PLAYERBANKSLOTS_CHANGED" } or { "ITEM_LOCK_CHANGED", "ITEM_UNLOCKED", "BAG_SLOT_FLAGS_UPDATED", "QUEST_ACCEPTED", "QUEST_REMOVED" }
 
 	for _, event in pairs(f.events) do
 		f:RegisterEvent(event)
