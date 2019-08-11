@@ -24,7 +24,6 @@ local IsGuildMember = IsGuildMember
 local IsCharacterFriend = IsCharacterFriend
 local IsInGroup = IsInGroup
 local IsInRaid = IsInRaid
-local IsPartyLFG = IsPartyLFG
 local IsShiftKeyDown = IsShiftKeyDown
 local LeaveParty = LeaveParty
 local RaidNotice_AddMessage = RaidNotice_AddMessage
@@ -56,7 +55,7 @@ function M:ErrorFrameToggle(event)
 end
 
 function M:COMBAT_LOG_EVENT_UNFILTERED()
-	local inGroup, inRaid, inPartyLFG = IsInGroup(), IsInRaid(), IsPartyLFG()
+	local inGroup, inRaid = IsInGroup(), IsInRaid()
 	if not inGroup then return end -- not in group, exit.
 
 	local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, spellID, spellName = CombatLogGetCurrentEventInfo()
@@ -64,11 +63,11 @@ function M:COMBAT_LOG_EVENT_UNFILTERED()
 
 	local interruptAnnounce, msg = E.db.general.interruptAnnounce, format(INTERRUPT_MSG, destName, spellID, spellName)
 	if interruptAnnounce == "PARTY" then
-		SendChatMessage(msg, inPartyLFG and "INSTANCE_CHAT" or "PARTY")
+		SendChatMessage(msg, "PARTY")
 	elseif interruptAnnounce == "RAID" then
-		SendChatMessage(msg, inPartyLFG and "INSTANCE_CHAT" or (inRaid and "RAID" or "PARTY"))
+		SendChatMessage(msg, (inRaid and "RAID" or "PARTY"))
 	elseif interruptAnnounce == "RAID_ONLY" and inRaid then
-		SendChatMessage(msg, inPartyLFG and "INSTANCE_CHAT" or "RAID")
+		SendChatMessage(msg, "RAID")
 	elseif interruptAnnounce == "SAY" then
 		SendChatMessage(msg, "SAY")
 	elseif interruptAnnounce == "EMOTE" then
