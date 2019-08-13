@@ -33,22 +33,6 @@ local orientationValues = {
 	["RIGHT"] = L["Right"],
 }
 
-local threatValues = {
-	['GLOW'] = L["Glow"],
-	['BORDERS'] = L["Borders"],
-	['HEALTHBORDER'] = L["Health Border"],
-	["INFOPANELBORDER"] = L["InfoPanel Border"],
-	['ICONTOPLEFT'] = L["Icon: TOPLEFT"],
-	['ICONTOPRIGHT'] = L["Icon: TOPRIGHT"],
-	['ICONBOTTOMLEFT'] = L["Icon: BOTTOMLEFT"],
-	['ICONBOTTOMRIGHT'] = L["Icon: BOTTOMRIGHT"],
-	['ICONLEFT'] = L["Icon: LEFT"],
-	['ICONRIGHT'] = L["Icon: RIGHT"],
-	['ICONTOP'] = L["Icon: TOP"],
-	['ICONBOTTOM'] = L["Icon: BOTTOM"],
-	['NONE'] = L["NONE"],
-}
-
 local petAnchors = {
 	TOPLEFT = 'TOPLEFT',
 	LEFT = 'LEFT',
@@ -2804,14 +2788,6 @@ E.Options.args.unitframe = {
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
 									disabled = function() return E.db.unitframe.colors.healthselection or not E.db.unitframe.colors.healthclass end,
 								},
-								--[=[healththreat = {
-									order = 5,
-									type = 'toggle',
-									name = L["Threat Health"],
-									desc = L["Color health by threat status."],
-									get = function(info) return E.db.unitframe.colors[info[#info]] end,
-									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
-								},]=]
 								transparentHealth = {
 									order = 6,
 									type = 'toggle',
@@ -2933,14 +2909,6 @@ E.Options.args.unitframe = {
 									get = function(info) return E.db.unitframe.colors[info[#info]] end,
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
 								},
-								--[=[powerthreat = {
-									order = 4,
-									type = 'toggle',
-									name = L["Threat Power"],
-									desc = L["Color power by threat status."],
-									get = function(info) return E.db.unitframe.colors[info[#info]] end,
-									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
-								},]=]
 								spacer2 = {
 									order = 5,
 									type = "description",
@@ -3356,45 +3324,6 @@ E.Options.args.unitframe = {
 								},
 							},
 						},
-						--[[threatGroup = {
-							order = 8,
-							type = 'group',
-							name = L["Threat"],
-							get = function(info)
-								local n = tonumber(info[#info])
-								local t = E.db.unitframe.colors.threat[n]
-								local d = P.unitframe.colors.threat[n]
-								return t.r, t.g, t.b, t.a, d.r, d.g, d.b
-							end,
-							set = function(info, r, g, b)
-								local n = tonumber(info[#info])
-								local t = E.db.unitframe.colors.threat[n]
-								t.r, t.g, t.b = r, g, b
-								UF:Update_AllFrames()
-							end,
-							args = {
-								['0'] = {
-									order = 0,
-									name = L["Low Threat"],
-									type = 'color',
-								},
-								['1'] = {
-									order = 1,
-									name = L["Overnuking"],
-									type = 'color',
-								},
-								['2'] = {
-									order = 2,
-									name = L["Losing Threat"],
-									type = 'color',
-								},
-								['3'] = {
-									order = 3,
-									name = L["Securely Tanking"],
-									type = 'color',
-								},
-							},
-						},]]
 						healPrediction = {
 							order = 9,
 							name = L["Heal Prediction"],
@@ -3600,12 +3529,6 @@ E.Options.args.unitframe = {
 							name = L["TARGET"],
 							desc = L["Disables the target and target of target unitframes."],
 						},
-						focus = {
-							order = 3,
-							type = 'toggle',
-							name = L["Focus"],
-							desc = L["Disables the focus and target of focus unitframes."],
-						},
 						party = {
 							order = 6,
 							type = 'toggle',
@@ -3754,12 +3677,6 @@ E.Options.args.unitframe.args.player = {
 					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
 					get = function(info) return E.db.unitframe.units.player.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.player.power.hideonnpc = value; UF:CreateAndUpdateUF('player') end,
-				},
-				threatStyle = {
-					type = 'select',
-					order = 7,
-					name = L["Threat Display Mode"],
-					values = threatValues,
 				},
 				smartAuraPosition = {
 					order = 8,
@@ -4369,19 +4286,6 @@ E.Options.args.unitframe.args.target = {
 					get = function(info) return E.db.unitframe.units.target.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.target.power.hideonnpc = value; UF:CreateAndUpdateUF('target') end,
 				},
-				middleClickFocus = {
-					order = 7,
-					name = L["Middle Click - Set Focus"],
-					desc = L["Middle clicking the unit frame will cause your focus to match the unit."],
-					type = 'toggle',
-					disabled = function() return IsAddOnLoaded("Clique") end,
-				},
-				threatStyle = {
-					type = 'select',
-					order = 8,
-					name = L["Threat Display Mode"],
-					values = threatValues,
-				},
 				smartAuraPosition = {
 					order = 9,
 					type = "select",
@@ -4453,55 +4357,6 @@ E.Options.args.unitframe.args.target = {
 					name = L["Scale"],
 					isPercent = true,
 					min = 0.1, max = 2, step = 0.01,
-				},
-				spacer = {
-					order = 4,
-					type = "description",
-					name = " ",
-				},
-				anchorPoint = {
-					order = 5,
-					type = "select",
-					name = L["Anchor Point"],
-					values = positionValues,
-				},
-				xOffset = {
-					order = 6,
-					type = "range",
-					name = L["X-Offset"],
-					min = -100, max = 100, step = 1,
-				},
-				yOffset = {
-					order = 7,
-					type = "range",
-					name = L["Y-Offset"],
-					min = -100, max = 100, step = 1,
-				},
-			},
-		},
-		phaseIndicator = {
-			order = 450,
-			type = 'group',
-			name = L["Phase Indicator"],
-			get = function(info) return E.db.unitframe.units.target.phaseIndicator[info[#info]] end,
-			set = function(info, value) E.db.unitframe.units.target.phaseIndicator[info[#info]] = value; UF:CreateAndUpdateUF('target') end,
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Phase Indicator"],
-				},
-				enable = {
-					order = 2,
-					type = "toggle",
-					name = L["Enable"],
-				},
-				scale = {
-					order = 3,
-					type = "range",
-					name = L["Scale"],
-					isPercent = true,
-					min = 0.5, max = 1.5, step = 0.01,
 				},
 				spacer = {
 					order = 4,
@@ -4604,12 +4459,6 @@ E.Options.args.unitframe.args.targettarget = {
 					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
 					get = function(info) return E.db.unitframe.units.targettarget.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.targettarget.power.hideonnpc = value; UF:CreateAndUpdateUF('targettarget') end,
-				},
-				threatStyle = {
-					type = 'select',
-					order = 7,
-					name = L["Threat Display Mode"],
-					values = threatValues,
 				},
 				smartAuraPosition = {
 					order = 8,
@@ -4742,12 +4591,6 @@ E.Options.args.unitframe.args.targettargettarget = {
 					get = function(info) return E.db.unitframe.units.targettargettarget.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.targettargettarget.power.hideonnpc = value; UF:CreateAndUpdateUF('targettargettarget') end,
 				},
-				threatStyle = {
-					type = 'select',
-					order = 7,
-					name = L["Threat Display Mode"],
-					values = threatValues,
-				},
 				smartAuraPosition = {
 					order = 8,
 					type = "select",
@@ -4798,270 +4641,6 @@ E.Options.args.unitframe.args.targettargettarget = {
 		buffs = GetOptionsTable_Auras('buffs', false, UF.CreateAndUpdateUF, 'targettargettarget'),
 		debuffs = GetOptionsTable_Auras('debuffs', false, UF.CreateAndUpdateUF, 'targettargettarget'),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, 'targettargettarget'),
-	},
-}
-
---Focus
-E.Options.args.unitframe.args.focus = {
-	name = L["Focus"],
-	type = 'group',
-	order = 600,
-	childGroups = "tab",
-	get = function(info) return E.db.unitframe.units.focus[info[#info]] end,
-	set = function(info, value) E.db.unitframe.units.focus[info[#info]] = value; UF:CreateAndUpdateUF('focus') end,
-	disabled = function() return not E.UnitFrames.Initialized end,
-	args = {
-		enable = {
-			type = 'toggle',
-			order = 1,
-			name = L["Enable"],
-		},
-		showAuras = {
-			order = 2,
-			type = 'execute',
-			name = L["Show Auras"],
-			func = function()
-				local frame = ElvUF_Focus
-				if frame.forceShowAuras then
-					frame.forceShowAuras = nil;
-				else
-					frame.forceShowAuras = true;
-				end
-
-				UF:CreateAndUpdateUF('focus')
-			end,
-		},
-		resetSettings = {
-			type = 'execute',
-			order = 3,
-			name = L["Restore Defaults"],
-			func = function(info) E:StaticPopup_Show('RESET_UF_UNIT', L["Focus Frame"], nil, {unit='focus', mover='Focus Frame'}) end,
-		},
-		copyFrom = {
-			type = 'select',
-			order = 4,
-			name = L["Copy From"],
-			desc = L["Select a unit to copy settings from."],
-			values = UF.units,
-			set = function(info, value) UF:MergeUnitSettings(value, 'focus'); end,
-		},
-		generalGroup = {
-			order = 5,
-			type = "group",
-			name = L["General"],
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["General"],
-				},
-				width = {
-					order = 3,
-					name = L["Width"],
-					type = 'range',
-					min = 50, max = 1000, step = 1,
-				},
-				height = {
-					order = 4,
-					name = L["Height"],
-					type = 'range',
-					min = 10, max = 500, step = 1,
-				},
-				hideonnpc = {
-					type = 'toggle',
-					order = 6,
-					name = L["Text Toggle On NPC"],
-					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
-					get = function(info) return E.db.unitframe.units.focus.power.hideonnpc end,
-					set = function(info, value) E.db.unitframe.units.focus.power.hideonnpc = value; UF:CreateAndUpdateUF('focus') end,
-				},
-				threatStyle = {
-					type = 'select',
-					order = 7,
-					name = L["Threat Display Mode"],
-					values = threatValues,
-				},
-				smartAuraPosition = {
-					order = 8,
-					type = "select",
-					name = L["Smart Aura Position"],
-					desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
-					values = smartAuraPositionValues,
-				},
-				orientation = {
-					order = 9,
-					type = "select",
-					name = L["Frame Orientation"],
-					desc = L["Set the orientation of the UnitFrame."],
-					values = orientationValues,
-				},
-				colorOverride = {
-					order = 10,
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					type = 'select',
-					values = colorOverrideValues,
-				},
-				disableMouseoverGlow = {
-					order = 11,
-					type = "toggle",
-					name = L["Block Mouseover Glow"],
-					desc = L["Forces Mouseover Glow to be disabled for these frames"],
-				},
-				disableTargetGlow = {
-					order = 12,
-					type = "toggle",
-					name = L["Block Target Glow"],
-					desc = L["Forces Target Glow to be disabled for these frames"],
-				},
-			},
-		},
-		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, 'focus'),
-		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, 'focus'),
-		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUF, 'focus'),
-		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUF, 'focus'),
-		power = GetOptionsTable_Power(nil, UF.CreateAndUpdateUF, 'focus'),
-		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, 'focus'),
-		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, 'focus'),
-		fader = GetOptionsTable_Fader(UF.CreateAndUpdateUF, 'focus'),
-		buffs = GetOptionsTable_Auras('buffs', false, UF.CreateAndUpdateUF, 'focus'),
-		debuffs = GetOptionsTable_Auras('debuffs', false, UF.CreateAndUpdateUF, 'focus'),
-		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, 'focus'),
-		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, 'focus'),
-		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, 'focus'),
-	},
-}
-
---Focus Target
-E.Options.args.unitframe.args.focustarget = {
-	name = L["FocusTarget"],
-	type = 'group',
-	order = 700,
-	childGroups = "tab",
-	get = function(info) return E.db.unitframe.units.focustarget[info[#info]] end,
-	set = function(info, value) E.db.unitframe.units.focustarget[info[#info]] = value; UF:CreateAndUpdateUF('focustarget') end,
-	disabled = function() return not E.UnitFrames.Initialized end,
-	args = {
-		enable = {
-			type = 'toggle',
-			order = 1,
-			name = L["Enable"],
-		},
-		showAuras = {
-			order = 2,
-			type = 'execute',
-			name = L["Show Auras"],
-			func = function()
-				local frame = ElvUF_FocusTarget
-				if frame.forceShowAuras then
-					frame.forceShowAuras = nil;
-				else
-					frame.forceShowAuras = true;
-				end
-
-				UF:CreateAndUpdateUF('focustarget')
-			end,
-		},
-		resetSettings = {
-			type = 'execute',
-			order = 3,
-			name = L["Restore Defaults"],
-			func = function(info) E:StaticPopup_Show('RESET_UF_UNIT', L["FocusTarget Frame"], nil, {unit='focustarget', mover='FocusTarget Frame'}) end,
-		},
-		copyFrom = {
-			type = 'select',
-			order = 4,
-			name = L["Copy From"],
-			desc = L["Select a unit to copy settings from."],
-			values = UF.units,
-			set = function(info, value) UF:MergeUnitSettings(value, 'focustarget'); end,
-		},
-		generalGroup = {
-			order = 5,
-			type = "group",
-			name = L["General"],
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["General"],
-				},
-				width = {
-					order = 3,
-					name = L["Width"],
-					type = 'range',
-					min = 50, max = 1000, step = 1,
-				},
-				height = {
-					order = 4,
-					name = L["Height"],
-					type = 'range',
-					min = 10, max = 500, step = 1,
-				},
-				hideonnpc = {
-					type = 'toggle',
-					order = 6,
-					name = L["Text Toggle On NPC"],
-					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
-					get = function(info) return E.db.unitframe.units.focustarget.power.hideonnpc end,
-					set = function(info, value) E.db.unitframe.units.focustarget.power.hideonnpc = value; UF:CreateAndUpdateUF('focustarget') end,
-				},
-				threatStyle = {
-					type = 'select',
-					order = 7,
-					name = L["Threat Display Mode"],
-					values = threatValues,
-				},
-				smartAuraPosition = {
-					order = 8,
-					type = "select",
-					name = L["Smart Aura Position"],
-					desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
-					values = smartAuraPositionValues,
-				},
-				orientation = {
-					order = 9,
-					type = "select",
-					name = L["Frame Orientation"],
-					desc = L["Set the orientation of the UnitFrame."],
-					values = orientationValues,
-				},
-				colorOverride = {
-					order = 10,
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					type = 'select',
-					values = colorOverrideValues,
-				},
-				spacer = {
-					order = 11,
-					type = "description",
-					name = "",
-				},
-				disableMouseoverGlow = {
-					order = 12,
-					type = "toggle",
-					name = L["Block Mouseover Glow"],
-					desc = L["Forces Mouseover Glow to be disabled for these frames"],
-				},
-				disableTargetGlow = {
-					order = 13,
-					type = "toggle",
-					name = L["Block Target Glow"],
-					desc = L["Forces Target Glow to be disabled for these frames"],
-				},
-			},
-		},
-		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, 'focustarget'),
-		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUF, 'focustarget'),
-		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUF, 'focustarget'),
-		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, 'focustarget'),
-		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, 'focustarget'),
-		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, 'focustarget'),
-		fader = GetOptionsTable_Fader(UF.CreateAndUpdateUF, 'focustarget'),
-		buffs = GetOptionsTable_Auras('buffs', false, UF.CreateAndUpdateUF, 'focustarget'),
-		debuffs = GetOptionsTable_Auras('debuffs', false, UF.CreateAndUpdateUF, 'focustarget'),
-		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, 'focustarget'),
 	},
 }
 
@@ -5139,12 +4718,6 @@ E.Options.args.unitframe.args.pet = {
 					get = function(info) return E.db.unitframe.units.pet.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.pet.power.hideonnpc = value; UF:CreateAndUpdateUF('pet') end,
 				},
-				threatStyle = {
-					type = 'select',
-					order = 7,
-					name = L["Threat Display Mode"],
-					values = threatValues,
-				},
 				smartAuraPosition = {
 					order = 8,
 					type = "select",
@@ -5212,7 +4785,7 @@ E.Options.args.unitframe.args.pet = {
 				},
 			},
 		},
-		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, 'pet'),
+		--healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, 'pet'),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, 'pet'),
 		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUF, 'pet'),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUF, 'pet'),
@@ -5222,7 +4795,7 @@ E.Options.args.unitframe.args.pet = {
 		fader = GetOptionsTable_Fader(UF.CreateAndUpdateUF, 'pet'),
 		buffs = GetOptionsTable_Auras('buffs', false, UF.CreateAndUpdateUF, 'pet'),
 		debuffs = GetOptionsTable_Auras('debuffs', false, UF.CreateAndUpdateUF, 'pet'),
-		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, 'pet'),
+		--castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, 'pet'),
 		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, 'pet'),
 	},
 }
@@ -5300,12 +4873,6 @@ E.Options.args.unitframe.args.pettarget = {
 					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
 					get = function(info) return E.db.unitframe.units.pettarget.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.pettarget.power.hideonnpc = value; UF:CreateAndUpdateUF('pettarget') end,
-				},
-				threatStyle = {
-					type = 'select',
-					order = 7,
-					name = L["Threat Display Mode"],
-					values = threatValues,
 				},
 				smartAuraPosition = {
 					order = 8,
@@ -5417,12 +4984,6 @@ E.Options.args.unitframe.args.party = {
 					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
 					get = function(info) return E.db.unitframe.units.party.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.party.power.hideonnpc = value; UF:CreateAndUpdateHeaderGroup('party'); end,
-				},
-				threatStyle = {
-					type = 'select',
-					order = 6,
-					name = L["Threat Display Mode"],
-					values = threatValues,
 				},
 				colorOverride = {
 					order = 7,
@@ -5667,75 +5228,6 @@ E.Options.args.unitframe.args.party = {
 				},
 			},
 		},
-		roleIcon = {
-			order = 702,
-			type = 'group',
-			name = L["Role Icon"],
-			get = function(info) return E.db.unitframe.units.party.roleIcon[info[#info]] end,
-			set = function(info, value) E.db.unitframe.units.party.roleIcon[info[#info]] = value; UF:CreateAndUpdateHeaderGroup('party') end,
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Role Icon"],
-				},
-				enable = {
-					type = 'toggle',
-					name = L["Enable"],
-					order = 2,
-				},
-				position = {
-					type = 'select',
-					order = 3,
-					name = L["Position"],
-					values = positionValues,
-				},
-				attachTo = {
-					type = 'select',
-					order = 4,
-					name = L["Attach To"],
-					values = attachToValues,
-				},
-				xOffset = {
-					order = 5,
-					type = 'range',
-					name = L["xOffset"],
-					min = -300, max = 300, step = 1,
-				},
-				yOffset = {
-					order = 6,
-					type = 'range',
-					name = L["yOffset"],
-					min = -300, max = 300, step = 1,
-				},
-				size = {
-					type = 'range',
-					order = 7,
-					name = L["Size"],
-					min = 4, max = 100, step = 1,
-				},
-				tank = {
-					order = 8,
-					type = "toggle",
-					name = L["Show For Tanks"],
-				},
-				healer = {
-					order = 9,
-					type = "toggle",
-					name = L["Show For Healers"],
-				},
-				damager = {
-					order = 10,
-					type = "toggle",
-					name = L["Show For DPS"],
-				},
-				combatHide = {
-					order = 11,
-					type = "toggle",
-					name = L["Hide In Combat"],
-				},
-			},
-		},
 		raidRoleIcons = {
 			order = 703,
 			type = 'group',
@@ -5765,7 +5257,7 @@ E.Options.args.unitframe.args.party = {
 			},
 		},
 		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, 'party'),
-		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, 'party'),
+		--healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, 'party'),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, 'party'),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateHeaderGroup, 'party'),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'party'),
@@ -5774,7 +5266,7 @@ E.Options.args.unitframe.args.party = {
 		buffs = GetOptionsTable_Auras('buffs', true, UF.CreateAndUpdateHeaderGroup, 'party'),
 		debuffs = GetOptionsTable_Auras('debuffs', true, UF.CreateAndUpdateHeaderGroup, 'party'),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, 'party'),
-		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateHeaderGroup, 'party', 5),
+		--castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateHeaderGroup, 'party', 5),
 		petsGroup = {
 			order = 850,
 			type = 'group',
@@ -5955,8 +5447,7 @@ E.Options.args.unitframe.args.party = {
 		},
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, 'party'),
 		readycheckIcon = GetOptionsTable_ReadyCheckIcon(UF.CreateAndUpdateHeaderGroup, 'party'),
-		resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateHeaderGroup, 'party'),
-		summonIcon = GetOptionsTable_SummonIcon(UF.CreateAndUpdateHeaderGroup, 'party'),
+		--resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateHeaderGroup, 'party'),
 		phaseIndicator = {
 			order = 5005,
 			type = 'group',
@@ -6067,12 +5558,6 @@ E.Options.args.unitframe.args.raid = {
 					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
 					get = function(info) return E.db.unitframe.units.raid.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.raid.power.hideonnpc = value; UF:CreateAndUpdateHeaderGroup('raid'); end,
-				},
-				threatStyle = {
-					type = 'select',
-					order = 6,
-					name = L["Threat Display Mode"],
-					values = threatValues,
 				},
 				colorOverride = {
 					order = 7,
@@ -6269,7 +5754,7 @@ E.Options.args.unitframe.args.raid = {
 			},
 		},
 		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, 'raid'),
-		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, 'raid'),
+		--healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, 'raid'),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, 'raid'),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateHeaderGroup, 'raid'),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'raid'),
@@ -6324,75 +5809,6 @@ E.Options.args.unitframe.args.raid = {
 						end
 					end,
 					order = 6
-				},
-			},
-		},
-		roleIcon = {
-			order = 702,
-			type = 'group',
-			name = L["Role Icon"],
-			get = function(info) return E.db.unitframe.units.raid.roleIcon[info[#info]] end,
-			set = function(info, value) E.db.unitframe.units.raid.roleIcon[info[#info]] = value; UF:CreateAndUpdateHeaderGroup('raid') end,
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Role Icon"],
-				},
-				enable = {
-					type = 'toggle',
-					name = L["Enable"],
-					order = 2,
-				},
-				position = {
-					type = 'select',
-					order = 3,
-					name = L["Position"],
-					values = positionValues,
-				},
-				attachTo = {
-					type = 'select',
-					order = 4,
-					name = L["Attach To"],
-					values = attachToValues,
-				},
-				xOffset = {
-					order = 5,
-					type = 'range',
-					name = L["xOffset"],
-					min = -300, max = 300, step = 1,
-				},
-				yOffset = {
-					order = 6,
-					type = 'range',
-					name = L["yOffset"],
-					min = -300, max = 300, step = 1,
-				},
-				size = {
-					type = 'range',
-					order = 7,
-					name = L["Size"],
-					min = 4, max = 100, step = 1,
-				},
-				tank = {
-					order = 8,
-					type = "toggle",
-					name = L["Show For Tanks"],
-				},
-				healer = {
-					order = 9,
-					type = "toggle",
-					name = L["Show For Healers"],
-				},
-				damager = {
-					order = 10,
-					type = "toggle",
-					name = L["Show For DPS"],
-				},
-				combatHide = {
-					order = 11,
-					type = "toggle",
-					name = L["Hide In Combat"],
 				},
 			},
 		},
@@ -6476,8 +5892,7 @@ E.Options.args.unitframe.args.raid = {
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, 'raid'),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, 'raid'),
 		readycheckIcon = GetOptionsTable_ReadyCheckIcon(UF.CreateAndUpdateHeaderGroup, 'raid'),
-		resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateHeaderGroup, 'raid'),
-		summonIcon = GetOptionsTable_SummonIcon(UF.CreateAndUpdateHeaderGroup, 'raid'),
+		--resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateHeaderGroup, 'raid'),
 	},
 }
 
@@ -6539,12 +5954,6 @@ E.Options.args.unitframe.args.raid40 = {
 					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
 					get = function(info) return E.db.unitframe.units.raid40.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.raid40.power.hideonnpc = value; UF:CreateAndUpdateHeaderGroup('raid40'); end,
-				},
-				threatStyle = {
-					type = 'select',
-					order = 6,
-					name = L["Threat Display Mode"],
-					values = threatValues,
 				},
 				colorOverride = {
 					order = 7,
@@ -6741,7 +6150,7 @@ E.Options.args.unitframe.args.raid40 = {
 			},
 		},
 		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, 'raid40'),
-		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, 'raid40'),
+		--healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, 'raid40'),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, 'raid40'),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateHeaderGroup, 'raid40'),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'raid40'),
@@ -6948,8 +6357,7 @@ E.Options.args.unitframe.args.raid40 = {
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, 'raid40'),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, 'raid40'),
 		readycheckIcon = GetOptionsTable_ReadyCheckIcon(UF.CreateAndUpdateHeaderGroup, 'raid40'),
-		resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateHeaderGroup, 'raid40'),
-		summonIcon = GetOptionsTable_SummonIcon(UF.CreateAndUpdateHeaderGroup, 'raid40'),
+		--resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateHeaderGroup, 'raid40'),
 	},
 }
 
@@ -7003,12 +6411,6 @@ E.Options.args.unitframe.args.raidpet = {
 					order = 1,
 					type = "header",
 					name = L["General"],
-				},
-				threatStyle = {
-					type = 'select',
-					order = 5,
-					name = L["Threat Display Mode"],
-					values = threatValues,
 				},
 				colorOverride = {
 					order = 6,
@@ -7194,7 +6596,7 @@ E.Options.args.unitframe.args.raidpet = {
 			},
 		},
 		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, 'raidpet'),
-		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, 'raidpet'),
+		--healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, 'raidpet'),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'raidpet'),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateHeaderGroup, 'raidpet'),
 		fader = GetOptionsTable_Fader(UF.CreateAndUpdateHeaderGroup, 'raidpet'),
@@ -7243,6 +6645,7 @@ E.Options.args.unitframe.args.raidpet = {
 	},
 }
 
+--[=[
 --Tank Frames
 E.Options.args.unitframe.args.tank = {
 	name = L["TANK"],
@@ -7654,6 +7057,7 @@ E.Options.args.unitframe.args.assist.args.name.args.attachTextTo.values = { ["He
 E.Options.args.unitframe.args.assist.args.targetsGroup.args.name.args.attachTextTo.values = { ["Health"] = L["Health"], ["Frame"] = L["Frame"] }
 E.Options.args.unitframe.args.assist.args.targetsGroup.args.name.get = function(info) return E.db.unitframe.units.assist.targetsGroup.name[info[#info]] end
 E.Options.args.unitframe.args.assist.args.targetsGroup.args.name.set = function(info, value) E.db.unitframe.units.assist.targetsGroup.name[info[#info]] = value; UF.CreateAndUpdateHeaderGroup(UF, 'assist') end
+]=]
 
 --MORE COLORING STUFF YAY
 E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.classResourceGroup = {
