@@ -736,14 +736,6 @@ function AB:DisableBlizzard()
 	for _, frame in pairs({"MainMenuBar", "StanceBarFrame", "PossessBarFrame", "PETACTIONBAR_YPOS", "MULTICASTACTIONBAR_YPOS", 	"MultiBarBottomLeft", "MultiBarBottomRight", "MultiCastActionBarFrame", "ExtraActionBarFrame"}) do
 		_G.UIPARENT_MANAGED_FRAME_POSITIONS[frame] = nil
 	end
-
-	if _G.PlayerTalentFrame then
-		_G.PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-	else
-		hooksecurefunc("TalentFrame_LoadUI", function()
-			_G.PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-		end)
-	end
 end
 
 function AB:ToggleCountDownNumbers(bar, button, cd)
