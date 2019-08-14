@@ -3324,6 +3324,7 @@ E.Options.args.unitframe = {
 								},
 							},
 						},
+--[=[
 						healPrediction = {
 							order = 9,
 							name = L["Heal Prediction"],
@@ -3503,6 +3504,7 @@ E.Options.args.unitframe = {
 								},
 							},
 						},
+]=]
 					},
 				},
 				disabledBlizzardFrames = {
@@ -3541,6 +3543,7 @@ E.Options.args.unitframe = {
 						},
 					},
 				},
+--[=[
 				raidDebuffIndicator = {
 					order = 5,
 					type = "group",
@@ -3587,6 +3590,7 @@ E.Options.args.unitframe = {
 						},
 					},
 				},
+]=]
 			},
 		},
 	},
@@ -3718,7 +3722,7 @@ E.Options.args.unitframe.args.player = {
 				},
 			},
 		},
-		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, 'player'),
+		--healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, 'player'),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, 'player'),
 		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUF, 'player'),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUF, 'player'),
@@ -4321,7 +4325,7 @@ E.Options.args.unitframe.args.target = {
 				},
 			},
 		},
-		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, 'target'),
+		--healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, 'target'),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, 'target'),
 		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUF, 'target'),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUF, 'target'),
@@ -4331,7 +4335,7 @@ E.Options.args.unitframe.args.target = {
 		fader = GetOptionsTable_Fader(UF.CreateAndUpdateUF, 'target'),
 		buffs = GetOptionsTable_Auras('buffs', false, UF.CreateAndUpdateUF, 'target'),
 		debuffs = GetOptionsTable_Auras('debuffs', false, UF.CreateAndUpdateUF, 'target'),
-		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, 'target'),
+		--castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, 'target'),
 		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, 'target'),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, 'target'),
 		pvpIcon = {
