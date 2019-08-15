@@ -93,16 +93,6 @@ E.Options.args.chat = {
 						E.db.chat[info[#info]] = value
 					end,
 				},
-				lfgIcons = {
-					order = 6,
-					type = 'toggle',
-					name = L["LFG Icons"],
-					desc = L["Display LFG Icons in group chat."],
-					set = function(self, value)
-						E.db.chat.lfgIcons = value;
-						CH:CheckLFGRoles()
-					end,
-				},
 				fadeUndockedTabs = {
 					order = 7,
 					type = 'toggle',
@@ -139,22 +129,11 @@ E.Options.args.chat = {
 						CH:UpdateSettings()
 					end,
 				},
-				autoClosePetBattleLog = {
-					order = 12,
-					type = "toggle",
-					name = L["Auto-Close Pet Battle Log"],
-				},
 				useBTagName = {
 					order = 13,
 					type = "toggle",
 					name = L["Use Real ID BattleTag"],
 					desc = L["Use BattleTag instead of Real ID names in chat. Chat History will always use BattleTag."],
-				},
-				socialQueueMessages = {
-					order = 14,
-					type = "toggle",
-					name = L["Quick Join Messages"],
-					desc = L["Show clickable Quick Join messages inside of the chat."],
 				},
 				copyChatLines = {
 					order = 15,
@@ -204,45 +183,6 @@ E.Options.args.chat = {
 					name = L["Scroll Messages"],
 					desc = L["Number of messages you scroll for each step."],
 					min = 1, max = 10, step = 1,
-				},
-				voicechatGroup = {
-					order = 21,
-					type = 'group',
-					name = L["BINDING_HEADER_VOICE_CHAT"],
-					guiInline = true,
-					args = {
-						hideVoiceButtons = {
-							order = 1,
-							type = "toggle",
-							name = L["Hide Voice Buttons"],
-							desc = L["Completely hide the voice buttons."],
-							set = function(info, value)
-								E.db.chat[info[#info]] = value
-								E:StaticPopup_Show("CONFIG_RL")
-							end,
-						},
-						pinVoiceButtons = {
-							order = 2,
-							type = "toggle",
-							name = L["Pin Voice Buttons"],
-							desc = L["This will pin the voice buttons to the chat's tab panel. Unchecking it will create a voice button panel with a mover."],
-							disabled = function() return E.db.chat.hideVoiceButtons end,
-							set = function(info, value)
-								E.db.chat[info[#info]] = value
-								E:StaticPopup_Show("CONFIG_RL")
-							end,
-						},
-						desaturateVoiceIcons = {
-							order = 3,
-							type = "toggle",
-							name = L["Desaturate Voice Icons"],
-							disabled = function() return E.db.chat.hideVoiceButtons end,
-							set = function(info, value)
-								E.db.chat[info[#info]] = value
-								CH:UpdateVoiceChatIcons()
-							end,
-						},
-					},
 				},
 				timestampGroup = {
 					order = 22,

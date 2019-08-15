@@ -377,56 +377,6 @@ E.Options.args.general = {
 				},
 			},
 		},
-		totems = {
-			order = 6,
-			type = "group",
-			name = L["Class Totems"],
-			get = function(info) return E.db.general.totems[info[#info]] end,
-			set = function(info, value) E.db.general.totems[info[#info]] = value; Totems:PositionAndSize() end,
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Class Totems"],
-				},
-				enable = {
-					order = 2,
-					type = "toggle",
-					name = L["Enable"],
-					set = function(info, value) E.db.general.totems[info[#info]] = value; Totems:ToggleEnable() end,
-				},
-				size = {
-					order = 3,
-					type = 'range',
-					name = L["Button Size"],
-					min = 24, max = 60, step = 1,
-				},
-				spacing = {
-					order = 4,
-					type = 'range',
-					name = L["Button Spacing"],
-					min = 1, max = 10, step = 1,
-				},
-				sortDirection = {
-					order = 5,
-					type = 'select',
-					name = L["Sort Direction"],
-					values = {
-						['ASCENDING'] = L["Ascending"],
-						['DESCENDING'] = L["Descending"],
-					},
-				},
-				growthDirection = {
-					order = 6,
-					type = 'select',
-					name = L["Bar Direction"],
-					values = {
-						['VERTICAL'] = L["Vertical"],
-						['HORIZONTAL'] = L["Horizontal"],
-					},
-				},
-			},
-		},
 		chatBubblesGroup = {
 			order = 7,
 			type = "group",
@@ -478,6 +428,7 @@ E.Options.args.general = {
 				},
 			},
 		},
+--[=[
 		objectiveFrameGroup = {
 			order = 8,
 			type = "group",
@@ -518,189 +469,7 @@ E.Options.args.general = {
 				--},
 			},
 		},
-		threatGroup = {
-			order = 9,
-			type = "group",
-			name = L["Threat"],
-			get = function(info) return E.db.general.threat[info[#info]] end,
-			args = {
-				threatHeader = {
-					order = 40,
-					type = "header",
-					name = L["Threat"],
-				},
-				enable = {
-					order = 41,
-					type = "toggle",
-					name = L["Enable"],
-					set = function(info, value) E.db.general.threat.enable = value; Threat:ToggleEnable()end,
-				},
-				position = {
-					order = 42,
-					type = 'select',
-					name = L["Position"],
-					desc = L["Adjust the position of the threat bar to either the left or right datatext panels."],
-					values = {
-						['LEFTCHAT'] = L["Left Chat"],
-						['RIGHTCHAT'] = L["Right Chat"],
-					},
-					set = function(info, value) E.db.general.threat.position = value; Threat:UpdatePosition() end,
-				},
-				textSize = {
-					order = 43,
-					name = L["FONT_SIZE"],
-					type = "range",
-					min = 6, max = 22, step = 1,
-					set = function(info, value) E.db.general.threat.textSize = value; Threat:UpdatePosition() end,
-				},
-				textOutline = {
-					order = 44,
-					type = "select",
-					name = L["Font Outline"],
-					set = function(info, value) E.db.general.threat.textOutline = value; Threat:UpdatePosition() end,
-					values = C.Values.FontFlags,
-				},
-			},
-		},
-		alternativePowerGroup = {
-			order = 10,
-			type = "group",
-			name = L["Alternative Power"],
-			get = function(info) return E.db.general.altPowerBar[info[#info]] end,
-			set = function(info, value)
-				E.db.general.altPowerBar[info[#info]] = value;
-				Blizzard:UpdateAltPowerBarSettings();
-			end,
-			args = {
-				alternativePowerHeader = {
-					order = 1,
-					type = "header",
-					name = L["Alternative Power"],
-				},
-				enable = {
-					order = 2,
-					type = "toggle",
-					name = L["Enable"],
-					desc = L["Replace Blizzard's Alternative Power Bar"],
-					width = 'full',
-					set = function(info, value)
-						E.db.general.altPowerBar[info[#info]] = value;
-						E:StaticPopup_Show("PRIVATE_RL");
-					end,
-				},
-				width = {
-					order = 3,
-					type = "range",
-					name = L["Width"],
-					min = 50, max = 1000, step = 1,
-				},
-				height = {
-					order = 4,
-					type = "range",
-					name = L["Height"],
-					min = 5, max = 100, step = 1,
-				},
-				statusBarGroup = {
-					order = 5,
-					name = L["Status Bar"],
-					type = 'group',
-					guiInline = true,
-					set = function(info, value)
-						E.db.general.altPowerBar[info[#info]] = value;
-						Blizzard:UpdateAltPowerBarColors();
-					end,
-					get = function(info)
-						return E.db.general.altPowerBar[info[#info]]
-					end,
-					args = {
-						smoothbars = {
-							type = 'toggle',
-							order = 1,
-							name = L["Smooth Bars"],
-							desc = L["Bars will transition smoothly."],
-						},
-						statusBar = {
-							order = 2,
-							type = "select", dialogControl = 'LSM30_Statusbar',
-							name = L["StatusBar Texture"],
-							values = AceGUIWidgetLSMlists.statusbar,
-						},
-						statusBarColorGradient = {
-							order = 3,
-							name = L["Color Gradient"],
-							type = 'toggle',
-						},
-						statusBarColor = {
-							type = 'color',
-							order = 4,
-							name = L["COLOR"],
-							disabled = function()
-								return E.db.general.altPowerBar.statusBarColorGradient
-							end,
-							get = function(info)
-								local t = E.db.general.altPowerBar[info[#info]]
-								local d = P.general.altPowerBar[info[#info]]
-								return t.r, t.g, t.b, t.a, d.r, d.g, d.b
-							end,
-							set = function(info, r, g, b)
-								local t = E.db.general.altPowerBar[info[#info]]
-								t.r, t.g, t.b = r, g, b
-								Blizzard:UpdateAltPowerBarColors();
-							end,
-						},
-					},
-				},
-				textGroup = {
-					order = 6,
-					name = L["Text"],
-					type = 'group',
-					guiInline = true,
-					set = function(info, value)
-						E.db.general.altPowerBar[info[#info]] = value;
-						Blizzard:UpdateAltPowerBarColors();
-					end,
-					get = function(info)
-						return E.db.general.altPowerBar[info[#info]]
-					end,
-					args = {
-						font = {
-							type = "select", dialogControl = 'LSM30_Font',
-							order = 1,
-							name = L["Font"],
-							values = AceGUIWidgetLSMlists.font,
-						},
-						fontSize = {
-							order = 2,
-							name = L["FONT_SIZE"],
-							type = "range",
-							min = 6, max = 22, step = 1,
-						},
-						fontOutline = {
-							order = 3,
-							type = "select",
-							name = L["Font Outline"],
-							values = C.Values.FontFlags,
-						},
-						textFormat = {
-							order = 4,
-							type = 'select',
-							name = L["Text Format"],
-							sortByValue = true,
-							values = {
-								NONE = L["NONE"],
-								NAME = L["NAME"],
-								NAMEPERC = L["Name: Percent"],
-								NAMECURMAX = L["Name: Current / Max"],
-								NAMECURMAXPERC = L["Name: Current / Max - Percent"],
-								PERCENT = L["Percent"],
-								CURMAX = L["Current / Max"],
-								CURMAXPERC = L["Current / Max - Percent"],
-							},
-						},
-					},
-				},
-			},
-		},
+]=]
 		blizzUIImprovements = {
 			order = 11,
 			type = "group",
@@ -741,14 +510,6 @@ E.Options.args.general = {
 					name = L["Enhanced PVP Messages"],
 					desc = L["Display battleground messages in the middle of the screen."],
 				},
-				showMissingTalentAlert = {
-					order = 5,
-					type = "toggle",
-					name = L["Missing Talent Alert"],
-					desc = L["Show an alert frame if you have unspend talent points."],
-					get = function(info) return E.global.general.showMissingTalentAlert end,
-					set = function(info, value) E.global.general.showMissingTalentAlert = value; E:StaticPopup_Show("GLOBAL_RL") end,
-				},
 				raidUtility = {
 					order = 6,
 					type = "toggle",
@@ -756,43 +517,6 @@ E.Options.args.general = {
 					desc = L["Enables the ElvUI Raid Control panel."],
 					get = function(info) return E.private.general.raidUtility end,
 					set = function(info, value) E.private.general.raidUtility = value; E:StaticPopup_Show("PRIVATE_RL") end
-				},
-				voiceOverlay = {
-					order = 7,
-					type = "toggle",
-					name = L["Voice Overlay"],
-					desc = L["Replace Blizzard's Voice Overlay."],
-					get = function(info) return E.private.general.voiceOverlay end,
-					set = function(info, value) E.private.general.voiceOverlay = value; E:StaticPopup_Show("PRIVATE_RL") end
-				},
-				vehicleSeatIndicatorSize = {
-					order = 8,
-					type = "range",
-					name = L["Vehicle Seat Indicator Size"],
-					min = 64, max = 128, step = 4,
-					get = function(info) return E.db.general.vehicleSeatIndicatorSize end,
-					set = function(info, value) E.db.general.vehicleSeatIndicatorSize = value; Blizzard:UpdateVehicleFrame() end,
-				},
-				commandBarSetting = {
-					order = 9,
-					type = "select",
-					name = L["Order Hall Command Bar"],
-					get = function(info) return E.global.general.commandBarSetting end,
-					set = function(info, value) E.global.general.commandBarSetting = value; E:StaticPopup_Show("GLOBAL_RL") end,
-					width = "normal",
-					values = {
-						["DISABLED"] = L["Disable"],
-						["ENABLED"] = L["Enable"],
-						["ENABLED_RESIZEPARENT"] = L["Enable + Adjust Movers"],
-					},
-				},
-				disableTutorialButtons = {
-					order = 10,
-					type = 'toggle',
-					name = L["Disable Tutorial Buttons"],
-					desc = L["Disables the tutorial button found on some frames."],
-					get = function(info) return E.global.general.disableTutorialButtons end,
-					set = function(info, value) E.global.general.disableTutorialButtons = value; E:StaticPopup_Show("GLOBAL_RL") end,
 				},
 				itemLevelInfo = {
 					order = 11,

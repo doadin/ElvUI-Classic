@@ -1397,13 +1397,9 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:GetDisabledTexture():SetDesaturated(1)
 		f.sortButton:StyleButton(nil, true)
 		f.sortButton:SetScript('OnClick', function()
-			if B.db.useBlizzardCleanup then
-				SortBags()
-			else
-				f:UnregisterAllEvents() --Unregister to prevent unnecessary updates
-				if not f.registerUpdate then B:SortingFadeBags(f, true) end
-				B:CommandDecorator(B.SortBags, 'bags')()
-			end
+			f:UnregisterAllEvents() --Unregister to prevent unnecessary updates
+			if not f.registerUpdate then B:SortingFadeBags(f, true) end
+			B:CommandDecorator(B.SortBags, 'bags')()
 		end)
 		if E.db.bags.disableBagSort then
 			f.sortButton:Disable()

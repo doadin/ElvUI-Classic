@@ -74,33 +74,6 @@ E.Options.args.bags = {
 					desc = L["Use coin icons instead of colored text."],
 					set = function(info, value) E.db.bags[info[#info]] = value; B:UpdateGoldText(); end,
 				},
-				junkIcon = {
-					order = 4,
-					type = 'toggle',
-					name = L["Show Junk Icon"],
-					desc = L["Display the junk icon on all grey items that can be vendored."],
-					set = function(info, value) E.db.bags[info[#info]] = value; B:UpdateAllBagSlots(); end,
-				},
-				junkDesaturate = {
-					order = 5,
-					type = 'toggle',
-					name = L["Desaturate Junk Items"],
-					set = function(info, value) E.db.bags[info[#info]] = value; B:UpdateAllBagSlots(); end,
-				},
-				upgradeIcon = {
-					order = 6,
-					type = 'toggle',
-					name = L["Show Upgrade Icon"],
-					desc = L["Display the upgrade icon on items that WoW considers an upgrade for your character."],
-					set = function(info, value) E.db.bags[info[#info]] = value; B:UpdateAllBagSlots(); end,
-				},
-				scrapIcon = {
-					order = 7,
-					type = 'toggle',
-					name = L["Show Scrap Icon"],
-					desc = L["Display the scrap icon on items that can be scrapped."],
-					set = function(info, value) E.db.bags[info[#info]] = value; B:UpdateAllBagSlots(); end,
-				},
 				newItemGlow = {
 					order = 8,
 					type = 'toggle',
@@ -160,13 +133,6 @@ E.Options.args.bags = {
 					type = "toggle",
 					name = L["Disable Bank Sort"],
 					set = function(info, value) E.db.bags[info[#info]] = value; B:ToggleSortButtonState(true); end
-				},
-				useBlizzardCleanup = {
-					order = 17,
-					type = "toggle",
-					name = L["Use Blizzard Cleanup"],
-					desc = L["Use Blizzards method of cleaning up bags instead of the ElvUI sorting."],
-					set = function(info, value) E.db.bags[info[#info]] = value; end
 				},
 				strata = {
 					order = 18,

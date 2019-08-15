@@ -110,12 +110,6 @@ E.Options.args.tooltip = {
 					name = L["Guild Ranks"],
 					desc = L["Display guild ranks if a unit is guilded."],
 				},
-				showMount = {
-					order = 11,
-					type = 'toggle',
-					name = L["Current Mount"],
-					desc = L["Display current mount the unit is riding."],
-				},
 				spellID = {
 					order = 11,
 					type = 'toggle',
@@ -127,12 +121,6 @@ E.Options.args.tooltip = {
 					type = 'toggle',
 					name = L["NPC IDs"],
 					desc = L["Display the npc ID when mousing over a npc tooltip."],
-				},
-				role = {
-					order = 13,
-					type = 'toggle',
-					name = L["ROLE"],
-					desc = L["Display the unit role in the tooltip."],
 				},
 				fontGroup = {
 					order = 14,
