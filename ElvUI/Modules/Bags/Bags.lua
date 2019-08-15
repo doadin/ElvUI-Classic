@@ -1846,12 +1846,14 @@ function B:Initialize()
 	BagFrameHolder:Height(22)
 	BagFrameHolder:SetFrameLevel(BagFrameHolder:GetFrameLevel() + 400)
 
+--[=[
 	--Bag Assignment Dropdown Menu (also used by BagBar)
 	ElvUIAssignBagDropdown = CreateFrame("Frame", "ElvUIAssignBagDropdown", E.UIParent, "UIDropDownMenuTemplate")
 	ElvUIAssignBagDropdown:SetID(1)
 	ElvUIAssignBagDropdown:SetClampedToScreen(true)
 	ElvUIAssignBagDropdown:Hide()
 	_G.UIDropDownMenu_Initialize(ElvUIAssignBagDropdown, B.AssignBagFlagMenu, "MENU")
+]=]
 
 	if not E.private.bags.enable then
 		-- Set a different default anchor
