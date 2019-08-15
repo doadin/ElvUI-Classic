@@ -763,7 +763,6 @@ ElvUF.Tags.Events['happiness:discord'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:discord'] = function(unit)
     local hasPetUI, isHunterPet = HasPetUI()
     if (unit == 'pet' and hasPetUI and isHunterPet) then
-		local left, right, top, bottom
 		local happiness = GetPetHappiness()
 
 		if(happiness == 1) then

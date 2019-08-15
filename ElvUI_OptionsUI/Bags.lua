@@ -49,7 +49,7 @@ E.Options.args.bags = {
 						['ICON_TEXT'] = L["Icons and Text"],
 						["ICON_TEXT_ABBR"] = L["Icons and Text (Short)"],
 					},
-					set = function(info, value) E.db.bags[info[#info]] = value; B:UpdateTokens(); end,
+					set = function(info, value) E.db.bags[info[#info]] = value; end,
 				},
 				moneyFormat = {
 					order = 2,
@@ -120,7 +120,7 @@ E.Options.args.bags = {
 					order = 14,
 					type = "toggle",
 					name = L["Reverse Bag Slots"],
-					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAll() B:UpdateTokens() end,
+					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAll() end,
 				},
 				disableBagSort = {
 					order = 15,

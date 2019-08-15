@@ -162,7 +162,7 @@ function B:LoadBagBar()
 						_G.ToggleDropDownMenu(1, nil, ElvUIAssignBagDropdown, "cursor")
 					end
 				else
-					_G.MainMenuBarBackpackButton_OnClick(holder)
+					_G.BackpackButton_OnClick(holder)
 				end
 			end)
 		else

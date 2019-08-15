@@ -313,21 +313,6 @@ function M:UpdateSettings()
 		return;
 	end
 
-	local GarrisonLandingPageMinimapButton = _G.GarrisonLandingPageMinimapButton
-	if GarrisonLandingPageMinimapButton then
-		local pos = E.db.general.minimap.icons.classHall.position or "TOPLEFT"
-		local scale = E.db.general.minimap.icons.classHall.scale or 1
-		GarrisonLandingPageMinimapButton:ClearAllPoints()
-		GarrisonLandingPageMinimapButton:Point(pos, Minimap, pos, E.db.general.minimap.icons.classHall.xOffset or 0, E.db.general.minimap.icons.classHall.yOffset or 0)
-		GarrisonLandingPageMinimapButton:SetScale(scale)
-
-		local GarrisonLandingPageTutorialBox = _G.GarrisonLandingPageTutorialBox
-		if GarrisonLandingPageTutorialBox then
-			GarrisonLandingPageTutorialBox:SetScale(1/scale)
-			GarrisonLandingPageTutorialBox:SetClampedToScreen(true)
-		end
-	end
-
 	local GameTimeFrame = _G.GameTimeFrame
 	if GameTimeFrame then
 		if E.private.general.minimap.hideCalendar then
@@ -351,16 +336,6 @@ function M:UpdateSettings()
 		MiniMapMailFrame:SetScale(scale)
 	end
 
-	local QueueStatusMinimapButton = _G.QueueStatusMinimapButton
-	if QueueStatusMinimapButton then
-		local pos = E.db.general.minimap.icons.lfgEye.position or "BOTTOMRIGHT"
-		local scale = E.db.general.minimap.icons.lfgEye.scale or 1
-		QueueStatusMinimapButton:ClearAllPoints()
-		QueueStatusMinimapButton:Point(pos, Minimap, pos, E.db.general.minimap.icons.lfgEye.xOffset or 3, E.db.general.minimap.icons.lfgEye.yOffset or 0)
-		QueueStatusMinimapButton:SetScale(scale)
-		_G.QueueStatusFrame:SetScale(scale)
-	end
-
 	local MiniMapInstanceDifficulty = _G.MiniMapInstanceDifficulty
 	local GuildInstanceDifficulty = _G.GuildInstanceDifficulty
 	if MiniMapInstanceDifficulty and GuildInstanceDifficulty then
@@ -374,15 +349,6 @@ function M:UpdateSettings()
 		GuildInstanceDifficulty:ClearAllPoints()
 		GuildInstanceDifficulty:Point(pos, Minimap, pos, x, y)
 		GuildInstanceDifficulty:SetScale(scale)
-	end
-
-	local MiniMapChallengeMode = _G.MiniMapChallengeMode
-	if MiniMapChallengeMode then
-		local pos = E.db.general.minimap.icons.challengeMode.position or "TOPLEFT"
-		local scale = E.db.general.minimap.icons.challengeMode.scale or 1
-		MiniMapChallengeMode:ClearAllPoints()
-		MiniMapChallengeMode:Point(pos, Minimap, pos, E.db.general.minimap.icons.challengeMode.xOffset or 8, E.db.general.minimap.icons.challengeMode.yOffset or -8)
-		MiniMapChallengeMode:SetScale(scale)
 	end
 
 	if _G.HelpOpenTicketButton and _G.HelpOpenWebTicketButton then

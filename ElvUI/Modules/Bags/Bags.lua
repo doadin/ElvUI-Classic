@@ -6,9 +6,9 @@ local Search = E.Libs.ItemSearch
 
 --Lua functions
 local _G = _G
-local type, ipairs, pairs, unpack, select, assert, pcall = type, ipairs, pairs, unpack, select, assert, pcall
+local type, ipairs, pairs, unpack, select, pcall = type, ipairs, pairs, unpack, select, pcall
 local tinsert, tremove, twipe, tmaxn = tinsert, tremove, wipe, table.maxn
-local floor, ceil, abs = floor, ceil, abs
+local floor, abs = floor, abs
 local format, sub = format, strsub
 local tonumber = tonumber
 --WoW API / Variables
@@ -20,10 +20,7 @@ local CooldownFrame_Set = CooldownFrame_Set
 local CreateFrame = CreateFrame
 local DeleteCursorItem = DeleteCursorItem
 local GameTooltip_Hide = GameTooltip_Hide
-local GetBackpackAutosortDisabled = GetBackpackAutosortDisabled
-local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo
 local GetBagSlotFlag = GetBagSlotFlag
-local GetBankAutosortDisabled = GetBankAutosortDisabled
 local GetBankBagSlotFlag = GetBankBagSlotFlag
 local GetContainerItemCooldown = GetContainerItemCooldown
 local GetContainerItemID = GetContainerItemID
@@ -31,46 +28,35 @@ local GetContainerItemInfo = GetContainerItemInfo
 local GetContainerItemLink = GetContainerItemLink
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots
 local GetContainerNumSlots = GetContainerNumSlots
-local GetCurrencyLink = GetCurrencyLink
 local GetCVarBool = GetCVarBool
 local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local GetMoney = GetMoney
 local GetNumBankSlots = GetNumBankSlots
 local GetScreenWidth, GetScreenHeight = GetScreenWidth, GetScreenHeight
-local HandleModifiedItemClick = HandleModifiedItemClick
 local IsBagOpen, IsOptionFrameOpen = IsBagOpen, IsOptionFrameOpen
 local IsInventoryItemProfessionBag = IsInventoryItemProfessionBag
-local IsModifiedClick = IsModifiedClick
 local IsShiftKeyDown, IsControlKeyDown = IsShiftKeyDown, IsControlKeyDown
 local PickupContainerItem = PickupContainerItem
 local PlaySound = PlaySound
 local PutItemInBackpack = PutItemInBackpack
 local PutItemInBag = PutItemInBag
-local SetBackpackAutosortDisabled = SetBackpackAutosortDisabled
 local SetBagSlotFlag = SetBagSlotFlag
-local SetBankAutosortDisabled = SetBankAutosortDisabled
 local SetBankBagSlotFlag = SetBankBagSlotFlag
 local SetInsertItemsLeftToRight = SetInsertItemsLeftToRight
 local SetItemButtonCount = SetItemButtonCount
 local SetItemButtonDesaturated = SetItemButtonDesaturated
 local SetItemButtonTexture = SetItemButtonTexture
 local SetItemButtonTextureVertexColor = SetItemButtonTextureVertexColor
-local SortBags = SortBags
-local SortBankBags = SortBankBags
-local StaticPopup_Show = StaticPopup_Show
 local ToggleFrame = ToggleFrame
 local UseContainerItem = UseContainerItem
 
-local C_Item_DoesItemExist = C_Item.DoesItemExist
 local C_NewItems_IsNewItem = C_NewItems.IsNewItem
 local C_NewItems_RemoveNewItem = C_NewItems.RemoveNewItem
-local hooksecurefunc = hooksecurefunc
 
 local BAG_FILTER_ASSIGN_TO = BAG_FILTER_ASSIGN_TO
 local BAG_FILTER_CLEANUP = BAG_FILTER_CLEANUP
 local BAG_FILTER_IGNORE = BAG_FILTER_IGNORE
-local BAG_FILTER_LABELS = BAG_FILTER_LABELS
 local CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y = CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y
 local CONTAINER_SCALE = CONTAINER_SCALE
 local CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING = CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING
@@ -174,7 +160,6 @@ function B:UpdateSearch()
 		end
 	end
 
-	--Keep active search term when switching between bank and reagent bank
 	if search == SEARCH and prevSearch ~= "" then
 		search = prevSearch
 	elseif search == SEARCH then
@@ -531,14 +516,8 @@ function B:UpdateSlot(frame, bagID, slotID)
 end
 
 function B:UpdateBagSlots(frame, bagID)
-	if bagID == REAGENTBANK_CONTAINER then
-		for i=1, B.REAGENTBANK_SIZE do
-			B:UpdateReagentSlot(i)
-		end
-	else
-		for slotID = 1, GetContainerNumSlots(bagID) do
-			B:UpdateSlot(frame, bagID, slotID)
-		end
+	for slotID = 1, GetContainerNumSlots(bagID) do
+		B:UpdateSlot(frame, bagID, slotID)
 	end
 end
 
@@ -686,21 +665,13 @@ function B:AssignBagFlagMenu()
 
 	info.text = BAG_FILTER_IGNORE
 	info.func = function(_, _, _, value)
-		if holder.id == -1 then
-			SetBankAutosortDisabled(not value)
-		elseif holder.id == 0 then
-			SetBackpackAutosortDisabled(not value)
-		elseif holder.id > NUM_BAG_SLOTS then
+		if holder.id > NUM_BAG_SLOTS then
 			SetBankBagSlotFlag(holder.id - NUM_BAG_SLOTS, LE_BAG_FILTER_FLAG_IGNORE_CLEANUP, not value)
 		else
 			SetBagSlotFlag(holder.id, LE_BAG_FILTER_FLAG_IGNORE_CLEANUP, not value)
 		end
 	end
-	if (holder.id == -1) then
-		info.checked = GetBankAutosortDisabled()
-	elseif (holder.id == 0) then
-		info.checked = GetBackpackAutosortDisabled()
-	elseif (holder.id > NUM_BAG_SLOTS) then
+	if (holder.id > NUM_BAG_SLOTS) then
 		info.checked = GetBankBagSlotFlag(holder.id - NUM_BAG_SLOTS, LE_BAG_FILTER_FLAG_IGNORE_CLEANUP)
 	else
 		info.checked = GetBagSlotFlag(holder.id, LE_BAG_FILTER_FLAG_IGNORE_CLEANUP)
@@ -1096,11 +1067,7 @@ end
 function B:OnEvent(event, ...)
 	if event == 'ITEM_LOCK_CHANGED' or event == 'ITEM_UNLOCKED' then
 		local bag, slot = ...
-		if bag == REAGENTBANK_CONTAINER then
-			B:UpdateReagentSlot(slot)
-		else
-			B:UpdateSlot(self, bag, slot)
-		end
+		B:UpdateSlot(self, bag, slot)
 	elseif event == 'BAG_UPDATE' then
 		for _, bagID in ipairs(self.BagIDs) do
 			local numSlots = GetContainerNumSlots(bagID)
@@ -1540,18 +1507,10 @@ function B:CloseBags()
 	TT:GameTooltip_SetDefaultAnchor(_G.GameTooltip)
 end
 
-function B:ShowBankTab(f, showReagent)
-	if showReagent then
-		_G.BankFrame.selectedTab = 2
-		f.holderFrame:Hide()
-		f.editBox:Point('RIGHT', f.depositButton, 'LEFT', -5, 0)
-		f.bagText:SetText(L["Reagent Bank"])
-	else
-		_G.BankFrame.selectedTab = 1
-		f.holderFrame:Show()
-		f.editBox:Point('RIGHT', f.purchaseBagButton, 'LEFT', -5, 0)
-		f.bagText:SetText(L["Bank"])
-	end
+function B:ShowBankTab(f)
+	f.holderFrame:Show()
+	f.editBox:Point('RIGHT', f.purchaseBagButton, 'LEFT', -5, 0)
+	f.bagText:SetText(L["Bank"])
 end
 
 function B:ItemGlowOnFinished()
@@ -1905,7 +1864,6 @@ function B:Initialize()
 	B.Initialized = true
 	B.db = E.db.bags
 	B.BagFrames = {}
-	B.REAGENTBANK_SIZE = 98 -- numRow (7) * numColumn (7) * numSubColumn (2) = size = 98
 	B.ProfessionColors = {
 		[0x0008]   = { B.db.colors.profession.leatherworking.r, B.db.colors.profession.leatherworking.g, B.db.colors.profession.leatherworking.b },
 		[0x0010]   = { B.db.colors.profession.inscription.r, B.db.colors.profession.inscription.g, B.db.colors.profession.inscription.b },

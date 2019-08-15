@@ -423,22 +423,3 @@ if (_G.UIDROPDOWNMENU_VALUE_PATCH_VERSION or 0) < 2 then
 		end
 	end)
 end
-
---CommunitiesUI taint workaround
---credit: https://www.townlong-yak.com/bugs/Kjq4hm-DisplayModeTaint
-if (_G.UIDROPDOWNMENU_OPEN_PATCH_VERSION or 0) < 1 then
-	_G.UIDROPDOWNMENU_OPEN_PATCH_VERSION = 1
-	hooksecurefunc("UIDropDownMenu_InitializeHelper", function(frame)
-		if _G.UIDROPDOWNMENU_OPEN_PATCH_VERSION ~= 1 then
-			return
-		end
-		if _G.UIDROPDOWNMENU_OPEN_MENU and _G.UIDROPDOWNMENU_OPEN_MENU ~= frame
-		   and not issecurevariable(_G.UIDROPDOWNMENU_OPEN_MENU, "displayMode") then
-			_G.UIDROPDOWNMENU_OPEN_MENU = nil
-			local t, f, prefix, i = _G, issecurevariable, " \0", 1
-			repeat
-				i, t[prefix .. i] = i + 1, nil
-			until f("UIDROPDOWNMENU_OPEN_MENU")
-		end
-	end)
-end

@@ -19,7 +19,6 @@ local GetInspectSpecialization = GetInspectSpecialization
 local GetItemCount = GetItemCount
 local GetMouseFocus = GetMouseFocus
 local GetNumGroupMembers = GetNumGroupMembers
-local GetRelativeDifficultyColor = GetRelativeDifficultyColor
 local GetTime = GetTime
 local InCombatLockdown = InCombatLockdown
 local IsAltKeyDown = IsAltKeyDown
@@ -30,8 +29,6 @@ local IsShiftKeyDown = IsShiftKeyDown
 local NotifyInspect = NotifyInspect
 local SetTooltipMoney = SetTooltipMoney
 local UnitAura = UnitAura
-local UnitBattlePetLevel = UnitBattlePetLevel
-local UnitBattlePetType = UnitBattlePetType
 local UnitBuff = UnitBuff
 local UnitClass = UnitClass
 local UnitClassification = UnitClassification
@@ -238,11 +235,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 		local levelLine = self:GetLevelLine(tt, lineOffset)
 		if levelLine then
 			local diffColor = GetCreatureDifficultyColor(level)
-			local race, englishRace = UnitRace(unit)
-			local _, factionGroup = UnitFactionGroup(unit)
-			if(factionGroup and englishRace == "Pandaren") then
-				race = factionGroup.." "..race
-			end
+			local race = UnitRace(unit)
 			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r %s |c%s%s|r", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", race or '', color.colorStr, localeClass)
 		end
 	else
@@ -424,11 +417,13 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 			end
 		end
 	end
+
 --[[
 	if isShiftKeyDown and isPlayerUnit then
 		self:AddInspectInfo(tt, unit, 0, color.r, color.g, color.b)
 	end
 ]]
+
 	-- NPC ID's
 	if unit and self.db.npcID and not isPlayerUnit then
 		local guid = UnitGUID(unit) or ""

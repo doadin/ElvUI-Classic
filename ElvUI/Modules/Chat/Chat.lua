@@ -45,15 +45,12 @@ local FCFManager_ShouldSuppressMessageFlash = FCFManager_ShouldSuppressMessageFl
 local FCFTab_UpdateAlpha = FCFTab_UpdateAlpha
 local FlashClientIcon = FlashClientIcon
 local FloatingChatFrame_OnEvent = FloatingChatFrame_OnEvent
-local GetAchievementInfo = GetAchievementInfo
-local GetAchievementInfoFromHyperlink = GetAchievementInfoFromHyperlink
 local GetBNPlayerLink = GetBNPlayerLink
 local GetChannelName = GetChannelName
 local GetCursorPosition = GetCursorPosition
 local GetCVar, GetCVarBool = GetCVar, GetCVarBool
 local GetGuildRosterMOTD = GetGuildRosterMOTD
 local GetInstanceInfo = GetInstanceInfo
-local GetItemInfoFromHyperlink = GetItemInfoFromHyperlink
 local GetMouseFocus = GetMouseFocus
 local GetNumGroupMembers = GetNumGroupMembers
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID
@@ -74,33 +71,22 @@ local RemoveExtraSpaces = RemoveExtraSpaces
 local RemoveNewlines = RemoveNewlines
 local ScrollFrameTemplate_OnMouseWheel = ScrollFrameTemplate_OnMouseWheel
 local ShowUIPanel, HideUIPanel = ShowUIPanel, HideUIPanel
-local Social_GetShareAchievementLink = Social_GetShareAchievementLink
-local Social_GetShareItemLink = Social_GetShareItemLink
-local SocialQueueUtil_GetQueueName = SocialQueueUtil_GetQueueName
 local StaticPopup_Visible = StaticPopup_Visible
 local ToggleFrame = ToggleFrame
 local ToggleQuickJoinPanel = ToggleQuickJoinPanel
-local UnitExists, UnitIsUnit = UnitExists, UnitIsUnit
-local UnitGroupRolesAssigned = UnitGroupRolesAssigned
 local UnitName = UnitName
 local UnitRealmRelationship = UnitRealmRelationship
 
 local BNET_CLIENT_WOW = BNET_CLIENT_WOW
 local C_Club_GetInfoFromLastCommunityChatLine = C_Club.GetInfoFromLastCommunityChatLine
-local C_VoiceChat_GetMemberName = C_VoiceChat.GetMemberName
-local C_VoiceChat_SetPortraitTexture = C_VoiceChat.SetPortraitTexture
 local Chat_ShouldColorChatByClass = Chat_ShouldColorChatByClass
 local ChatFrame_ResolvePrefixedChannelName = ChatFrame_ResolvePrefixedChannelName
 local GetBNPlayerCommunityLink = GetBNPlayerCommunityLink
 local GetPlayerCommunityLink = GetPlayerCommunityLink
 local LE_REALM_RELATION_SAME = LE_REALM_RELATION_SAME
-local LFG_LIST_AND_MORE = LFG_LIST_AND_MORE
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
-local SOCIAL_QUEUE_QUEUED_FOR = gsub(SOCIAL_QUEUE_QUEUED_FOR, ':%s?$', '') --some language have `:` on end
-local SocialQueueUtil_GetRelationshipInfo = SocialQueueUtil_GetRelationshipInfo
 local SOUNDKIT = SOUNDKIT
-local UNKNOWN = UNKNOWN
-local Voice_GetVoiceChannelNotificationColor = Voice_GetVoiceChannelNotificationColor
+
 -- GLOBALS: ElvCharacterDB
 
 local msgList, msgCount, msgTime = {}, {}, {}
@@ -119,7 +105,6 @@ local DEFAULT_STRINGS = {
 	RAID_LEADER = L["RL"],
 	INSTANCE_CHAT = L["I"],
 	INSTANCE_CHAT_LEADER = L["IL"],
-	PET_BATTLE_COMBAT_LOG = _G.PET_BATTLE_COMBAT_LOG,
 }
 
 local hyperlinkTypes = {
@@ -128,7 +113,6 @@ local hyperlinkTypes = {
 	['unit'] = true,
 	['quest'] = true,
 	['enchant'] = true,
-	['achievement'] = true,
 	['instancelock'] = true,
 	['talent'] = true,
 	['glyph'] = true,
@@ -162,12 +146,6 @@ function CH:AddSmiley(key, texture)
 	end
 end
 
-local rolePaths = {
-	TANK = E:TextureString(E.Media.Textures.Tank, ":15:15:0:0:64:64:2:56:2:56"),
-	HEALER = E:TextureString(E.Media.Textures.Healer, ":15:15:0:0:64:64:2:56:2:56"),
-	DAMAGER = E:TextureString(E.Media.Textures.DPS, ":15:15")
-}
-
 local specialChatIcons
 do --this can save some main file locals
 	local x, y = ':16:16',':13:25'
@@ -188,65 +166,6 @@ do --this can save some main file locals
 	local itsSimpy = function() a = a - (b and 1 or -1) if (b and a == 1 or a == 0) or a == #c then b = not b end return c[a] end
 
 	specialChatIcons = {
-		-- Elv
-		["Illidelv-Area52"]		= ElvBlue,
-		["Elvz-Kil'jaeden"]		= ElvBlue,
-		["Elv-Spirestone"]		= ElvBlue,
-		-- Tirain (NOTE: lol)
-		["Tierone-Spirestone"]	= "Dr. ",
-		["Tirain-Spirestone"]	= MrHankey,
-		["Sinth-Spirestone"]	= MrHankey,
-		-- Mis (NOTE: I will forever have the picture you accidently shared of the manikin wearing a strapon burned in my brain)
-		["Misdîrect-Spirestone"]	= Rainbow,
-		["Misoracle-Spirestone"]	= Rainbow,
-		["MisLight-Spirestone"]		= Rainbow,
-		["MisDivine-Spirestone"]	= Rainbow,
-		["MisLust-Spirestone"]		= Rainbow,
-		["MisMayhem-Spirestone"]	= Rainbow,
-		["Mismonk-Spirestone"]		= Rainbow,
-		["Misillidan-Spirestone"]	= Rainbow,
-		["Mispel-Spirestone"]		= Rainbow,
-		["Misdecay-Spirestone"]		= Rainbow,
-		-- Affinity
-		["Affinichi-Illidan"]	= Bathrobe,
-		["Affinitii-Illidan"]	= Bathrobe,
-		["Affinity-Illidan"]	= Bathrobe,
-		["Uplift-Illidan"]		= Bathrobe,
-		-- Whiro
-		["Zistraeti-WyrmrestAccord"]	= ElvPurple, -- Warlock
-		-- Merathilis
-		["Asragoth-Shattrath"]		= ElvPurple,	-- [Alliance] Warlock
-		["Brítt-Shattrath"] 		= ElvBlue,		-- [Alliance] Warrior
-		["Damará-Shattrath"]		= ElvRed,		-- [Alliance] Paladin
-		["Jazira-Shattrath"]		= ElvBlue,		-- [Alliance] Priest
-		["Jústice-Shattrath"]		= ElvYellow,	-- [Alliance] Rogue
-		["Maithilis-Shattrath"]		= ElvGreen,		-- [Alliance] Monk
-		["Mattdemôn-Shattrath"]		= itsSimpy,		-- [Alliance] DH    --[[ note: not really Simpy; IMPOSTER lol ]]
-		["Melisendra-Shattrath"]	= ElvBlue,		-- [Alliance] Mage
-		["Merathilis-Shattrath"]	= ElvOrange,	-- [Alliance] Druid
-		["Merathilîs-Shattrath"]	= ElvBlue,		-- [Alliance] Shaman
-		-- Blazeflack
-		["Blazii-Silvermoon"]	= ElvBlue, -- Priest
-		["Chazii-Silvermoon"]	= ElvBlue, -- Shaman
-		-- Simpy
-		["Arieva-Cenarius"]		= itsSimpy, -- Hunter
-		["Buddercup-Cenarius"]	= itsSimpy, -- Rogue
-		["Cutepally-Cenarius"]	= itsSimpy, -- Paladin
-		["Ezek-Cenarius"]		= itsSimpy, -- DK
-		["Glice-Cenarius"]		= itsSimpy, -- Warrior
-		["Kalline-Cenarius"]	= itsSimpy, -- Shaman
-		["Puttietat-Cenarius"]	= itsSimpy, -- Druid
-		["Simpy-Cenarius"]		= itsSimpy, -- Warlock
-		["Twigly-Cenarius"]		= itsSimpy, -- Monk
-		["Imsojelly-Cenarius"]	= itsSimpy, -- [Horde] DK
-		["Imsojuicy-Cenarius"]	= itsSimpy, -- [Horde] Druid
-		["Imsopeachy-Cenarius"]	= itsSimpy, -- [Horde] DH
-		["Imsosalty-Cenarius"]	= itsSimpy, -- [Horde] Paladin
-		["Imsospicy-Cenarius"]	= itsSimpy, -- [Horde] Mage
-		["Bunne-CenarionCircle"]		= itsSimpy, -- Warrior
-		["Loppybunny-CenarionCircle"]	= itsSimpy, -- Mage
-		["Rubee-CenarionCircle"]		= itsSimpy, -- DH
-		["Wennie-CenarionCircle"]		= itsSimpy, -- Priest
 	}
 end
 
@@ -1353,13 +1272,6 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 			chatType == "OPENING" or chatType == "TRADESKILLS" or chatType == "PET_INFO" or chatType == "TARGETICONS" or chatType == "BN_WHISPER_PLAYER_OFFLINE") then
 			frame:AddMessage(arg1, info.r, info.g, info.b, info.id, nil, nil, isHistory, historyTime)
 		elseif (chatType == "LOOT") then
-			-- Append [Share] hyperlink if this is a valid social item and you are the looter.
-			if (arg12 == E.myguid and C_SocialIsSocialEnabled()) then
-				local itemID, creationContext = GetItemInfoFromHyperlink(arg1)
-				if (itemID and C_SocialGetLastItem() == itemID) then
-					arg1 = arg1 .. " " .. Social_GetShareItemLink(creationContext, true)
-				end
-			end
 			frame:AddMessage(arg1, info.r, info.g, info.b, info.id, nil, nil, isHistory, historyTime)
 		elseif ( strsub(chatType,1,7) == "COMBAT_" ) then
 			frame:AddMessage(arg1, info.r, info.g, info.b, info.id, nil, nil, isHistory, historyTime)
@@ -1367,27 +1279,6 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 			frame:AddMessage(arg1, info.r, info.g, info.b, info.id, nil, nil, isHistory, historyTime)
 		elseif ( strsub(chatType,1,10) == "BG_SYSTEM_" ) then
 			frame:AddMessage(arg1, info.r, info.g, info.b, info.id, nil, nil, isHistory, historyTime)
-		elseif ( strsub(chatType,1,11) == "ACHIEVEMENT" ) then
-			-- Append [Share] hyperlink
-			if (arg12 == E.myguid and C_SocialIsSocialEnabled()) then
-				local achieveID = GetAchievementInfoFromHyperlink(arg1)
-				if (achieveID) then
-					arg1 = arg1 .. " " .. Social_GetShareAchievementLink(achieveID, true)
-				end
-			end
-			frame:AddMessage(format(arg1, GetPlayerLink(arg2, ("[%s]"):format(coloredName))), info.r, info.g, info.b, info.id, nil, nil, isHistory, historyTime)
-		elseif ( strsub(chatType,1,18) == "GUILD_ACHIEVEMENT" ) then
-			local message = format(arg1, GetPlayerLink(arg2, ("[%s]"):format(coloredName)))
-			if (C_SocialIsSocialEnabled()) then
-				local achieveID = GetAchievementInfoFromHyperlink(arg1)
-				if (achieveID) then
-					local isGuildAchievement = select(12, GetAchievementInfo(achieveID))
-					if (isGuildAchievement) then
-						message = message .. " " .. Social_GetShareAchievementLink(achieveID, true)
-					end
-				end
-			end
-			frame:AddMessage(message, info.r, info.g, info.b, info.id, nil, nil, isHistory, historyTime)
 		elseif ( chatType == "IGNORED" ) then
 			frame:AddMessage(format(_G.CHAT_IGNORED, arg2), info.r, info.g, info.b, info.id, nil, nil, isHistory, historyTime)
 		elseif ( chatType == "FILTERED" ) then
@@ -2127,7 +2018,6 @@ local FindURL_Events = {
 	"CHAT_MSG_BN_WHISPER",
 	"CHAT_MSG_BN_WHISPER_INFORM",
 	"CHAT_MSG_BN_INLINE_TOAST_BROADCAST",
-	"CHAT_MSG_GUILD_ACHIEVEMENT",
 	"CHAT_MSG_GUILD",
 	"CHAT_MSG_OFFICER",
 	"CHAT_MSG_PARTY",
@@ -2422,145 +2312,6 @@ function CH:Initialize()
 		_G.CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Size(20, 22)
 		_G.CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Point("TOPRIGHT", CombatLogButton, "TOPRIGHT", 0, -1)
 		_G.CombatLogQuickButtonFrame_CustomTexture:Hide()
-	end
-
-	--Chat Heads Frame
-	self.ChatHeadFrame = CreateFrame("Frame", "ElvUIChatHeadFrame", E.UIParent)
-	self.ChatHeadFrame:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -80)
-	self.ChatHeadFrame:Height(20)
-	self.ChatHeadFrame:Width(200)
-	E:CreateMover(self.ChatHeadFrame, 'VOICECHAT', L["Voice Overlay"])
-	self.maxHeads = 5
-	self.volumeBarHeight = 3
-
-	local CHAT_HEAD_HEIGHT = 40
-	for i=1, self.maxHeads do
-		self.ChatHeadFrame[i] = CreateFrame("Frame", "ElvUIChatHeadFrame"..i, self.ChatHeadFrame)
-		self.ChatHeadFrame[i]:Width(self.ChatHeadFrame:GetWidth())
-		self.ChatHeadFrame[i]:Height(CHAT_HEAD_HEIGHT)
-
-		self.ChatHeadFrame[i].Portrait = CreateFrame("Frame", nil, self.ChatHeadFrame[i])
-		self.ChatHeadFrame[i].Portrait:Width(CHAT_HEAD_HEIGHT - self.volumeBarHeight)
-		self.ChatHeadFrame[i].Portrait:Height(CHAT_HEAD_HEIGHT - self.volumeBarHeight - E.Border*2)
-		self.ChatHeadFrame[i].Portrait:Point("TOPLEFT", self.ChatHeadFrame[i], "TOPLEFT")
-		self.ChatHeadFrame[i].Portrait:SetTemplate()
-		self.ChatHeadFrame[i].Portrait.texture = self.ChatHeadFrame[i].Portrait:CreateTexture(nil, "OVERLAY")
-		self.ChatHeadFrame[i].Portrait.texture:SetTexCoord(0.15, 0.85, 0.15, 0.85)
-		self.ChatHeadFrame[i].Portrait.texture:SetInside(self.ChatHeadFrame[i].Portrait)
-
-		self.ChatHeadFrame[i].Name = self.ChatHeadFrame[i]:CreateFontString(nil, "OVERLAY")
-		self.ChatHeadFrame[i].Name:FontTemplate(nil, 20)
-		self.ChatHeadFrame[i].Name:Point("LEFT", self.ChatHeadFrame[i].Portrait, "RIGHT", 2, 0)
-
-		self.ChatHeadFrame[i].StatusBar = CreateFrame("StatusBar", nil, self.ChatHeadFrame[i])
-		self.ChatHeadFrame[i].StatusBar:Point("TOPLEFT", self.ChatHeadFrame[i].Portrait, "BOTTOMLEFT", E.Border, -E.Spacing*3)
-		self.ChatHeadFrame[i].StatusBar:Width(CHAT_HEAD_HEIGHT - E.Border*2 - self.volumeBarHeight)
-		self.ChatHeadFrame[i].StatusBar:Height(self.volumeBarHeight)
-		self.ChatHeadFrame[i].StatusBar:CreateBackdrop()
-		self.ChatHeadFrame[i].StatusBar:SetStatusBarTexture(E.media.normTex)
-		self.ChatHeadFrame[i].StatusBar:SetMinMaxValues(0, 1)
-
-		self.ChatHeadFrame[i].StatusBar.anim = _G.CreateAnimationGroup(self.ChatHeadFrame[i].StatusBar)
-		self.ChatHeadFrame[i].StatusBar.anim.progress = self.ChatHeadFrame[i].StatusBar.anim:CreateAnimation("Progress")
-		self.ChatHeadFrame[i].StatusBar.anim.progress:SetEasing("Out")
-		self.ChatHeadFrame[i].StatusBar.anim.progress:SetDuration(.3)
-
-		self.ChatHeadFrame[i]:Hide()
-	end
-	self:SetChatHeadOrientation("TOP")
-end
-
-CH.TalkingList = {}
-function CH:GetAvailableHead()
-	for i=1, self.maxHeads do
-		if not self.ChatHeadFrame[i]:IsShown() then
-			return self.ChatHeadFrame[i]
-		end
-	end
-end
-
-function CH:GetHeadByID(memberID)
-	for i=1, self.maxHeads do
-		if self.ChatHeadFrame[i].memberID == memberID then
-			return self.ChatHeadFrame[i]
-		end
-	end
-end
-
-function CH:ConfigureHead(memberID, channelID)
-	local frame = self:GetAvailableHead()
-	if not frame then return end
-
-	frame.memberID = memberID
-	frame.channelID = channelID
-
-	C_VoiceChat_SetPortraitTexture(frame.Portrait.texture, memberID, channelID)
-
-	local memberName = C_VoiceChat_GetMemberName(memberID, channelID)
-	local r, g, b = Voice_GetVoiceChannelNotificationColor(channelID)
-	frame.Name:SetText(memberName or "")
-	frame.Name:SetVertexColor(r, g, b, 1)
-	frame:Show()
-end
-
-function CH:DeconfigureHead(memberID) -- memberID, channelID
-	local frame = self:GetHeadByID(memberID)
-	if not frame then return end
-
-	frame.memberID = nil
-	frame.channelID = nil
-	frame:Hide()
-end
-
-function CH:VoiceOverlay(event, ...)
-	if event == "VOICE_CHAT_CHANNEL_MEMBER_SPEAKING_STATE_CHANGED" then
-		local memberID, channelID, isTalking = ...
-
-		if isTalking then
-			CH.TalkingList[memberID] = channelID
-			self:ConfigureHead(memberID, channelID)
-		else
-			CH.TalkingList[memberID] = nil
-			self:DeconfigureHead(memberID, channelID)
-		end
-	elseif event == "VOICE_CHAT_CHANNEL_MEMBER_ENERGY_CHANGED" then
-		local memberID, channelID, volume = ...
-		local frame = CH:GetHeadByID(memberID)
-		if frame and channelID == frame.channelID then
-			frame.StatusBar.anim.progress:SetChange(volume)
-			frame.StatusBar.anim.progress:Play()
-
-			frame.StatusBar:SetStatusBarColor(E:ColorGradient(volume, 1, 0, 0, 1, 1, 0, 0, 1, 0))
-		end
-	--[[elseif event == "VOICE_CHAT_CHANNEL_TRANSMIT_CHANGED" then
-		local channelID, isTransmitting = ...
-		local localPlayerMemberID = C_VoiceChat.GetLocalPlayerMemberID(channelID)
-		if isTransmitting and not CH.TalkingList[localPlayerMemberID] then
-			CH.TalkingList[localPlayerMemberID] = channelID
-			self:ConfigureHead(localPlayerMemberID, channelID)
-		end]]
-	end
-end
-
-function CH:SetChatHeadOrientation(position)
-	if position == "TOP" then
-		for i=1, self.maxHeads do
-			self.ChatHeadFrame[i]:ClearAllPoints()
-			if i == 1 then
-				self.ChatHeadFrame[i]:Point("TOP", self.ChatHeadFrame, "BOTTOM", 0, -E.Border*3)
-			else
-				self.ChatHeadFrame[i]:Point("TOP", self.ChatHeadFrame[i - 1], "BOTTOM", 0, -E.Border*3)
-			end
-		end
-	else
-		for i=1, self.maxHeads do
-			self.ChatHeadFrame[i]:ClearAllPoints()
-			if i == 1 then
-				self.ChatHeadFrame[i]:Point("BOTTOM", self.ChatHeadFrame, "TOP", 0, E.Border*3)
-			else
-				self.ChatHeadFrame[i]:Point("BOTTOM", self.ChatHeadFrame[i - 1], "TOP", 0, E.Border*3)
-			end
-		end
 	end
 end
 

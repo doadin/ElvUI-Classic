@@ -9,16 +9,9 @@ local format, gsub, strsplit, strfind = format, gsub, strsplit, strfind
 --WoW API / Variables
 local ClearOverrideBindings = ClearOverrideBindings
 local CreateFrame = CreateFrame
-local GameTooltip_Hide = GameTooltip_Hide
 local GetBindingKey = GetBindingKey
-local GetFlyoutID = GetFlyoutID
-local GetMouseFocus = GetMouseFocus
-local GetNumFlyouts, GetFlyoutInfo = GetNumFlyouts, GetFlyoutInfo
-local hooksecurefunc = hooksecurefunc
 local InCombatLockdown = InCombatLockdown
-local PetDismiss = PetDismiss
 local RegisterStateDriver = RegisterStateDriver
-local SetClampedTextureRotation = SetClampedTextureRotation
 local SetCVar = SetCVar
 local SetModifiedClick = SetModifiedClick
 local SetOverrideBindingClick = SetOverrideBindingClick
@@ -615,19 +608,6 @@ function AB:FadeParent_OnEvent()
 	end
 end
 
-function AB:IconIntroTracker_Toggle()
-	local IconIntroTracker = _G.IconIntroTracker
-	if self.db.addNewSpells then
-		IconIntroTracker:RegisterEvent("SPELL_PUSHED_TO_ACTIONBAR")
-		IconIntroTracker:Show()
-		IconIntroTracker:SetParent(_G.UIParent)
-	else
-		IconIntroTracker:UnregisterAllEvents()
-		IconIntroTracker:Hide()
-		IconIntroTracker:SetParent(UIHider)
-	end
-end
-
 function AB:DisableBlizzard()
 	-- Hidden parent frame
 	UIHider = CreateFrame("Frame")
@@ -671,14 +651,7 @@ function AB:DisableBlizzard()
 			_G['OverrideActionBarButton'..i]:UnregisterAllEvents()
 			_G['OverrideActionBarButton'..i]:SetAttribute("statehidden", true)
 		end
-
-		-- _G['MultiCastActionButton'..i]:Hide()
-		-- _G['MultiCastActionButton'..i]:UnregisterAllEvents()
-		-- _G['MultiCastActionButton'..i]:SetAttribute("statehidden", true)
 	end
-
-	-- _G.ActionBarController:UnregisterAllEvents()
-	-- _G.ActionBarController:RegisterEvent('UPDATE_EXTRA_ACTIONBAR')
 
 	_G.MainMenuBar:EnableMouse(false)
 	_G.MainMenuBar:SetAlpha(0)
@@ -686,38 +659,13 @@ function AB:DisableBlizzard()
 	_G.MainMenuBar:SetFrameStrata('BACKGROUND')
 	_G.MainMenuBar:SetFrameLevel(0)
 
-	-- _G.MicroButtonAndBagsBar:SetScale(0.00001)
-	-- _G.MicroButtonAndBagsBar:EnableMouse(false)
-	-- _G.MicroButtonAndBagsBar:SetFrameStrata('BACKGROUND')
-	-- _G.MicroButtonAndBagsBar:SetFrameLevel(0)
-
 	_G.MainMenuBarArtFrame:UnregisterAllEvents()
 	_G.MainMenuBarArtFrame:Hide()
 	_G.MainMenuBarArtFrame:SetParent(UIHider)
 
-	-- _G.StatusTrackingBarManager:EnableMouse(false)
-	-- _G.StatusTrackingBarManager:UnregisterAllEvents()
-	-- _G.StatusTrackingBarManager:Hide()
-
 	_G.StanceBarFrame:UnregisterAllEvents()
 	_G.StanceBarFrame:Hide()
 	_G.StanceBarFrame:SetParent(UIHider)
-
-	-- _G.OverrideActionBar:UnregisterAllEvents()
-	-- _G.OverrideActionBar:Hide()
-	-- _G.OverrideActionBar:SetParent(UIHider)
-
-	-- _G.PossessBarFrame:UnregisterAllEvents()
-	-- _G.PossessBarFrame:Hide()
-	-- _G.PossessBarFrame:SetParent(UIHider)
-
-	-- _G.PetActionBarFrame:UnregisterAllEvents()
-	-- _G.PetActionBarFrame:Hide()
-	-- _G.PetActionBarFrame:SetParent(UIHider)
-
-	-- _G.MultiCastActionBarFrame:UnregisterAllEvents()
-	-- _G.MultiCastActionBarFrame:Hide()
-	-- _G.MultiCastActionBarFrame:SetParent(UIHider)
 
 	--Enable/disable functionality to automatically put spells on the actionbar.
 	--self:IconIntroTracker_Toggle()
@@ -731,7 +679,6 @@ function AB:DisableBlizzard()
 	_G.InterfaceOptionsActionBarsPanelPickupActionKeyDropDown:SetAlpha(0)
 	_G.InterfaceOptionsActionBarsPanelPickupActionKeyDropDown:SetScale(0.0001)
 	self:SecureHook('BlizzardOptionsPanel_OnEvent')
-	--InterfaceOptionsFrameCategoriesButton6:SetScale(0.00001)
 
 	for _, frame in pairs({"MainMenuBar", "StanceBarFrame", "PossessBarFrame", "PETACTIONBAR_YPOS", "MULTICASTACTIONBAR_YPOS", 	"MultiBarBottomLeft", "MultiBarBottomRight", "MultiCastActionBarFrame", "ExtraActionBarFrame"}) do
 		_G.UIPARENT_MANAGED_FRAME_POSITIONS[frame] = nil

@@ -8,13 +8,11 @@ local strmatch = strmatch
 
 local GetCVarBool = GetCVarBool
 local GetGuildInfo = GetGuildInfo
-local GetInstanceInfo = GetInstanceInfo
 local GetNumQuestLogEntries = GetNumQuestLogEntries
 local GetQuestDifficultyColor = GetQuestDifficultyColor
 local GetQuestLogTitle = GetQuestLogTitle
 local UnitClass = UnitClass
 local UnitIsPlayer = UnitIsPlayer
-local UnitIsUnit = UnitIsUnit
 local UnitName = UnitName
 local UnitPVPName = UnitPVPName
 local LEVEL = LEVEL

@@ -19,9 +19,9 @@ function mod:UpdateReputation(event)
 	if not mod.db.reputation.enable then return end
 
 	local bar = self.repBar
-	local ID, isFriend, friendText, standingLabel
+	local ID, standingLabel
 	local isCapped
-	local name, reaction, min, max, value, factionID = GetWatchedFactionInfo()
+	local name, reaction, min, max, value = GetWatchedFactionInfo()
 
 	if reaction == _G.MAX_REPUTATION_REACTION then
 		-- max rank, make it look like a full bar
@@ -45,7 +45,7 @@ function mod:UpdateReputation(event)
 		bar.statusBar:SetValue(value)
 
 		for i=1, numFactions do
-			local factionName, _, standingID,_,_,_,_,_,_,_,_,_,_, factionID = GetFactionInfo(i);
+			local factionName, _, standingID = GetFactionInfo(i);
 			if factionName == name then
 				ID = standingID
 			end
@@ -65,22 +65,22 @@ function mod:UpdateReputation(event)
 
 		if isCapped and textFormat ~= 'NONE' then
 			-- show only name and standing on exalted
-			text = format('%s: [%s]', name, isFriend and friendText or standingLabel)
+			text = format('%s: [%s]', name, standingLabel)
 		else
 			if textFormat == 'PERCENT' then
-				text = format('%s: %d%% [%s]', name, ((value - min) / (maxMinDiff) * 100), isFriend and friendText or standingLabel)
+				text = format('%s: %d%% [%s]', name, ((value - min) / (maxMinDiff) * 100), standingLabel)
 			elseif textFormat == 'CURMAX' then
-				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - min), E:ShortValue(max - min), isFriend and friendText or standingLabel)
+				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - min), E:ShortValue(max - min), standingLabel)
 			elseif textFormat == 'CURPERC' then
-				text = format('%s: %s - %d%% [%s]', name, E:ShortValue(value - min), ((value - min) / (maxMinDiff) * 100), isFriend and friendText or standingLabel)
+				text = format('%s: %s - %d%% [%s]', name, E:ShortValue(value - min), ((value - min) / (maxMinDiff) * 100), standingLabel)
 			elseif textFormat == 'CUR' then
-				text = format('%s: %s [%s]', name, E:ShortValue(value - min), isFriend and friendText or standingLabel)
+				text = format('%s: %s [%s]', name, E:ShortValue(value - min), standingLabel)
 			elseif textFormat == 'REM' then
-				text = format('%s: %s [%s]', name, E:ShortValue((max - min) - (value-min)), isFriend and friendText or standingLabel)
+				text = format('%s: %s [%s]', name, E:ShortValue((max - min) - (value-min)), standingLabel)
 			elseif textFormat == 'CURREM' then
-				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - min), E:ShortValue((max - min) - (value-min)), isFriend and friendText or standingLabel)
+				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - min), E:ShortValue((max - min) - (value-min)), standingLabel)
 			elseif textFormat == 'CURPERCREM' then
-				text = format('%s: %s - %d%% (%s) [%s]', name, E:ShortValue(value - min), ((value - min) / (maxMinDiff) * 100), E:ShortValue((max - min) - (value-min)), isFriend and friendText or standingLabel)
+				text = format('%s: %s - %d%% (%s) [%s]', name, E:ShortValue(value - min), ((value - min) / (maxMinDiff) * 100), E:ShortValue((max - min) - (value-min)), standingLabel)
 			end
 		end
 
@@ -98,7 +98,7 @@ function mod:ReputationBar_OnEnter()
 	GameTooltip:ClearLines()
 	GameTooltip:SetOwner(self, 'ANCHOR_CURSOR', 0, -4)
 
-	local name, reaction, min, max, value, factionID = GetWatchedFactionInfo()
+	local name, reaction, min, max, value = GetWatchedFactionInfo()
 
 	if name then
 		GameTooltip:AddLine(name)
