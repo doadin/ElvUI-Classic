@@ -49,45 +49,14 @@ local menuList = {
 			HideUIPanel(_G.SpellBookFrame)
 		end
 	end},
-	{text = _G.TALENTS_BUTTON,
-	func = function()
-		if not _G.PlayerTalentFrame then
-			_G.TalentFrame_LoadUI()
-		end
-
-		local PlayerTalentFrame = _G.PlayerTalentFrame
-		if not PlayerTalentFrame:IsShown() then
-			ShowUIPanel(PlayerTalentFrame)
-		else
-			HideUIPanel(PlayerTalentFrame)
-		end
-	end},
-	{text = _G.COLLECTIONS,
-	func = ToggleCollectionsJournal},
 	{text = _G.CHAT_CHANNELS,
 	func = _G.ToggleChannelFrame},
-	{text = _G.TIMEMANAGER_TITLE,
-	func = function() ToggleFrame(_G.TimeManagerFrame) end},
-	{text = _G.ACHIEVEMENT_BUTTON,
-	func = ToggleAchievementFrame},
+--	{text = _G.TIMEMANAGER_TITLE,
+--	func = function() ToggleFrame(_G.TimeManagerFrame) end},
 	{text = _G.SOCIAL_BUTTON,
 	func = ToggleFriendsFrame},
-	{text = L["Calendar"],
-	func = function() _G.GameTimeFrame:Click() end},
-	{text = _G.GARRISON_TYPE_8_0_LANDING_PAGE_TITLE,
-	func = function() GarrisonLandingPageMinimapButton_OnClick() end},
 	{text = _G.ACHIEVEMENTS_GUILD_TAB,
 	func = ToggleGuildFrame},
-	{text = _G.LFG_TITLE,
-	func = ToggleLFDParentFrame},
-	{text = _G.ENCOUNTER_JOURNAL,
-	func = function()
-		if not IsAddOnLoaded('Blizzard_EncounterJournal') then
-			_G.EncounterJournal_LoadUI()
-		end
-
-		ToggleFrame(_G.EncounterJournal)
-	end},
 	{text = _G.MAINMENU_BUTTON,
 	func = function()
 		if not _G.GameMenuFrame:IsShown() then
@@ -110,11 +79,6 @@ local menuList = {
 		end
 	end}
 }
-
---if(C_StorePublic.IsEnabled()) then
-	tinsert(menuList, {text = _G.BLIZZARD_STORE, func = function() _G.StoreMicroButton:Click() end})
---end
-tinsert(menuList, 	{text = _G.HELP_BUTTON, func = ToggleHelpFrame})
 
 function M:GetLocTextColor()
 	local pvpType = GetZonePVPInfo()
