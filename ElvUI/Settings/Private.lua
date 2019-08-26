@@ -97,6 +97,7 @@ V.skins = {
 		tooltip = true,
 		quest = true,
 		questChoice = true,
+		questtimers = true,
 		petition = true,
 		dressingroom = true,
 		pvp = true,
