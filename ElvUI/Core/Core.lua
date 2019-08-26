@@ -1288,7 +1288,7 @@ function E:DBConversions()
 			E.db.unitframe.OORAlpha = nil
 		end
 
-		local rangeCheckUnits = { 'target', 'targettarget', 'targettargettarget', 'focus', 'focustarget', 'pet', 'pettarget', 'boss', 'arena', 'party', 'raid', 'raid40', 'raidpet', 'tank', 'assist' }
+		local rangeCheckUnits = { 'target', 'targettarget', 'targettargettarget', 'focus', 'focustarget', 'pet', 'pettarget', 'party', 'raid', 'raid40', 'raidpet', 'tank', 'assist' }
 		for _, unit in pairs(rangeCheckUnits) do
 			if E.db.unitframe.units[unit].rangeCheck ~= nil then
 				local enabled = E.db.unitframe.units[unit].rangeCheck
@@ -1359,7 +1359,7 @@ function E:DBConversions()
 	end
 
 	--Heal Prediction is now a table instead of a bool
-	local healPredictionUnits = {'player','target','focus','pet','arena','party','raid','raid40','raidpet'}
+	local healPredictionUnits = {'player','target','focus','pet','party','raid','raid40','raidpet'}
 	for _, unit in pairs(healPredictionUnits) do
 		if type(E.db.unitframe.units[unit].healPrediction) ~= 'table' then
 			local enabled = E.db.unitframe.units[unit].healPrediction

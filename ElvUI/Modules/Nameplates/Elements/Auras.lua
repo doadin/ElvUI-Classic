@@ -238,7 +238,7 @@ function NP:PostUpdateAura(unit, button)
 	if button.isDebuff then
 		if (not button.isFriend and not button.isPlayer) then --[[and (not E.isDebuffWhiteList[name])]]
 			button:SetBackdropBorderColor(0.9, 0.1, 0.1)
-			button.icon:SetDesaturated((unit and not strfind(unit, 'arena%d')) and true or false)
+			button.icon:SetDesaturated(unit and true or false)
 		else
 			local color = (button.dtype and DebuffTypeColor[button.dtype]) or DebuffTypeColor.none
 			if button.name and (button.name == 'Unstable Affliction' or button.name == 'Vampiric Touch') and E.myclass ~= 'WARLOCK' then

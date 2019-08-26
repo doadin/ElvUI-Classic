@@ -28,7 +28,7 @@ local PANEL_HEIGHT = 100
 --Check if We are Raid Leader or Raid Officer
 local function CheckRaidStatus()
 	local _, instanceType = GetInstanceInfo()
-	if ((IsInGroup() and not IsInRaid()) or UnitIsGroupLeader('player') or UnitIsGroupAssistant("player")) and not (instanceType == "pvp" or instanceType == "arena") then
+	if ((IsInGroup() and not IsInRaid()) or UnitIsGroupLeader('player') or UnitIsGroupAssistant("player")) and not (instanceType == "pvp") then
 		return true
 	else
 		return false

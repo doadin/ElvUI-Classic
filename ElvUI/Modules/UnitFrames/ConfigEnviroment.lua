@@ -277,17 +277,11 @@ function UF:PLAYER_REGEN_DISABLED()
 		end
 	end
 
-	for i=1, 5 do
-		if self['arena'..i] and self['arena'..i].isForced then
-			self:UnforceShow(self['arena'..i])
-		end
-	end
-
-	for i=1, 4 do
-		if self['boss'..i] and self['boss'..i].isForced then
-			self:UnforceShow(self['boss'..i])
-		end
-	end
+	--for i=1, 4 do
+	--	if self['boss'..i] and self['boss'..i].isForced then
+	--		self:UnforceShow(self['boss'..i])
+	--	end
+	--end
 end
 
 UF:RegisterEvent('PLAYER_REGEN_DISABLED')
