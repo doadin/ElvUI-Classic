@@ -82,9 +82,7 @@ local menuList = {
 
 function M:GetLocTextColor()
 	local pvpType = GetZonePVPInfo()
-	if pvpType == "arena" then
-		return 0.84, 0.03, 0.03
-	elseif pvpType == "friendly" then
+	if pvpType == "friendly" then
 		return 0.05, 0.85, 0.03
 	elseif pvpType == "contested" then
 		return 0.9, 0.85, 0.05
