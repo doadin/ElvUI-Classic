@@ -139,7 +139,7 @@ function AB:UpdateMicroPositionDimensions()
 	local offset = E:Scale(E.PixelMode and 1 or 3)
 	local spacing = E:Scale(offset + self.db.microbar.buttonSpacing)
 
-	for i = 1, #_G.MICRO_BUTTONS - 1 do
+	for i = 1, #_G.MICRO_BUTTONS do
 		local button = _G[__buttonIndex[i]] or _G[_G.MICRO_BUTTONS[i]]
 		local lastColumnButton = i - self.db.microbar.buttonsPerRow
 		lastColumnButton = _G[__buttonIndex[lastColumnButton]] or _G[_G.MICRO_BUTTONS[lastColumnButton]]
