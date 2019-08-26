@@ -29,7 +29,8 @@ function B:MoveQuestWatchFrame()
 	QuestWatchFrameHolder:SetAllPoints(QuestWatchFrameMover)
 
 	QuestWatchFrame:ClearAllPoints()
-	QuestWatchFrame:SetPoint('TOP', QuestWatchFrameHolder, 'TOP')
+	QuestWatchFrame:SetAllPoints(QuestWatchFrameHolder)
+
 	B:SetQuestWatchFrameHeight()
 end
 
