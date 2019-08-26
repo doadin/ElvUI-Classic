@@ -263,23 +263,6 @@ ElvUF.Tags.Methods['health:percent'] = function(unit)
 	end
 end
 
-ElvUF.Tags.Events['health:percent-with-absorbs'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_ABSORB_AMOUNT_CHANGED UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
-ElvUF.Tags.Methods['health:percent-with-absorbs'] = function(unit)
-	local status = UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
-
-	if (status) then
-		return status
-	end
-
-	local absorb = UnitGetTotalAbsorbs(unit) or 0
-	if absorb == 0 then
-		return E:GetFormattedText('PERCENT', UnitHealth(unit), UnitHealthMax(unit))
-	end
-
-	local healthTotalIncludingAbsorbs = UnitHealth(unit) + absorb
-	return E:GetFormattedText('PERCENT', healthTotalIncludingAbsorbs, UnitHealthMax(unit))
-end
-
 ElvUF.Tags.Events['health:current-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
 ElvUF.Tags.Methods['health:current-nostatus'] = function(unit)
 	return E:GetFormattedText('CURRENT', UnitHealth(unit), UnitHealthMax(unit))
@@ -615,7 +598,7 @@ ElvUF.Tags.Methods['name:abbrev'] = function(unit)
 	return name ~= nil and E:ShortenString(name, 20) or '' --The value 20 controls how many characters are allowed in the name before it gets truncated. Change it to fit your needs.
 end
 
-ElvUF.Tags.Events['name:veryshort:status'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_HEALTH'
+ElvUF.Tags.Events['name:veryshort:status'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_HEALTH_FREQUENT'
 ElvUF.Tags.Methods['name:veryshort:status'] = function(unit)
 	local status = UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
 	local name = UnitName(unit)
@@ -626,7 +609,7 @@ ElvUF.Tags.Methods['name:veryshort:status'] = function(unit)
 	end
 end
 
-ElvUF.Tags.Events['name:short:status'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_HEALTH'
+ElvUF.Tags.Events['name:short:status'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_HEALTH_FREQUENT'
 ElvUF.Tags.Methods['name:short:status'] = function(unit)
 	local status = UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
 	local name = UnitName(unit)
@@ -637,7 +620,7 @@ ElvUF.Tags.Methods['name:short:status'] = function(unit)
 	end
 end
 
-ElvUF.Tags.Events['name:medium:status'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_HEALTH'
+ElvUF.Tags.Events['name:medium:status'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_HEALTH_FREQUENT'
 ElvUF.Tags.Methods['name:medium:status'] = function(unit)
 	local status = UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
 	local name = UnitName(unit)
@@ -648,7 +631,7 @@ ElvUF.Tags.Methods['name:medium:status'] = function(unit)
 	end
 end
 
-ElvUF.Tags.Events['name:long:status'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_HEALTH'
+ElvUF.Tags.Events['name:long:status'] = 'UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_HEALTH_FREQUENT'
 ElvUF.Tags.Methods['name:long:status'] = function(unit)
 	local status = UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
 	local name = UnitName(unit)
@@ -963,48 +946,6 @@ if E.myclass == 'MONK' then
 	ElvUF.Tags.Events['classpower:current-max'] = events
 	ElvUF.Tags.Events['classpower:current-max-percent'] = events
 	ElvUF.Tags.Events['classpower:percent'] = events
-end
-
-ElvUF.Tags.Events['absorbs'] = 'UNIT_ABSORB_AMOUNT_CHANGED'
-ElvUF.Tags.Methods['absorbs'] = function(unit)
-	local absorb = UnitGetTotalAbsorbs(unit) or 0
-	if absorb == 0 then
-		return nil
-	else
-		return E:ShortValue(absorb)
-	end
-end
-
-ElvUF.Tags.Events['incomingheals:personal'] = 'UNIT_HEAL_PREDICTION'
-ElvUF.Tags.Methods['incomingheals:personal'] = function(unit)
-	local heal = UnitGetIncomingHeals(unit, 'player') or 0
-	if heal == 0 then
-		return nil
-	else
-		return E:ShortValue(heal)
-	end
-end
-
-ElvUF.Tags.Events['incomingheals:others'] = 'UNIT_HEAL_PREDICTION'
-ElvUF.Tags.Methods['incomingheals:others'] = function(unit)
-	local personal = UnitGetIncomingHeals(unit, 'player') or 0
-	local heal = UnitGetIncomingHeals(unit) or 0
-	local others = heal - personal
-	if others == 0 then
-		return nil
-	else
-		return E:ShortValue(others)
-	end
-end
-
-ElvUF.Tags.Events['incomingheals'] = 'UNIT_HEAL_PREDICTION'
-ElvUF.Tags.Methods['incomingheals'] = function(unit)
-	local heal = UnitGetIncomingHeals(unit) or 0
-	if heal == 0 then
-		return nil
-	else
-		return E:ShortValue(heal)
-	end
 end
 
 local GroupUnits = {}

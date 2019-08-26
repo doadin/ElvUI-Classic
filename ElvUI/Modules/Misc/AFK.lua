@@ -27,7 +27,6 @@ local MoveViewLeftStop = MoveViewLeftStop
 local RemoveExtraSpaces = RemoveExtraSpaces
 local Screenshot = Screenshot
 local SetCVar = SetCVar
-local UnitCastingInfo = UnitCastingInfo
 local UnitIsAFK = UnitIsAFK
 local CinematicFrame = _G.CinematicFrame
 local MovieFrame = _G.MovieFrame
