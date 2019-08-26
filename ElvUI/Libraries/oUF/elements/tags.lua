@@ -116,15 +116,6 @@ local tagStrings = {
 		end
 	end]],
 
-	['arcanecharges'] = [[function()
-		if(GetSpecialization() == SPEC_MAGE_ARCANE) then
-			local num = UnitPower('player', Enum.PowerType.ArcaneCharges)
-			if(num > 0) then
-				return num
-			end
-		end
-	end]],
-
 	['classification'] = [[function(u)
 		local c = UnitClassification(u)
 		if(c == 'rare') then
@@ -190,15 +181,6 @@ local tagStrings = {
 			local raidName, _, group = GetRaidRosterInfo(i)
 			if( raidName == name ) then
 				return group
-			end
-		end
-	end]],
-
-	['holypower'] = [[function()
-		if(GetSpecialization() == SPEC_PALADIN_RETRIBUTION) then
-			local num = UnitPower('player', Enum.PowerType.HolyPower)
-			if(num > 0) then
-				return num
 			end
 		end
 	end]],
@@ -323,19 +305,6 @@ local tagStrings = {
 		end
 	end]],
 
-	['runes'] = [[function()
-		local amount = 0
-
-		for i = 1, 6 do
-			local _, _, ready = GetRuneCooldown(i)
-			if(ready) then
-				amount = amount + 1
-			end
-		end
-
-		return amount
-	end]],
-
 	['sex'] = [[function(u)
 		local s = UnitSex(u)
 		if(s == 2) then
@@ -383,13 +352,6 @@ local tagStrings = {
 		end
 	end]],
 
-	['soulshards'] = [[function()
-		local num = UnitPower('player', Enum.PowerType.SoulShards)
-		if(num > 0) then
-			return num
-		end
-	end]],
-
 	['status'] = [[function(u)
 		if(UnitIsDead(u)) then
 			return 'Dead'
@@ -400,21 +362,6 @@ local tagStrings = {
 		else
 			return _TAGS['resting'](u)
 		end
-	end]],
-
-	['threat'] = [[function(u)
-		local s = UnitThreatSituation(u)
-		if(s == 1) then
-			return '++'
-		elseif(s == 2) then
-			return '--'
-		elseif(s == 3) then
-			return 'Aggro'
-		end
-	end]],
-
-	['threatcolor'] = [[function(u)
-		return Hex(GetThreatStatusColor(UnitThreatSituation(u)))
 	end]],
 }
 
@@ -482,7 +429,6 @@ _ENV._VARS = vars
 
 local tagEvents = {
 	['affix']               = 'UNIT_CLASSIFICATION_CHANGED',
-	['arcanecharges']       = 'UNIT_POWER_UPDATE PLAYER_TALENT_UPDATE',
 	['classification']      = 'UNIT_CLASSIFICATION_CHANGED',
 	['cpoints']             = 'UNIT_POWER_FREQUENT PLAYER_TARGET_CHANGED',
 	['curhp']               = 'UNIT_HEALTH UNIT_MAXHEALTH',
