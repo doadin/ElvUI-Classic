@@ -8,9 +8,6 @@ local assert = assert
 local unpack = unpack
 --WoW API / Variables
 local CreateFrame = CreateFrame
-local C_StorePublic_IsEnabled = C_StorePublic.IsEnabled
-local UpdateMicroButtonsParent = UpdateMicroButtonsParent
-local GetCurrentRegionName = GetCurrentRegionName
 local RegisterStateDriver = RegisterStateDriver
 local InCombatLockdown = InCombatLockdown
 -- GLOBALS: ElvUI_MicroBar
@@ -141,22 +138,24 @@ function AB:UpdateMicroPositionDimensions()
 
 	for i = 1, #_G.MICRO_BUTTONS do
 		local button = _G[__buttonIndex[i]] or _G[_G.MICRO_BUTTONS[i]]
-		local lastColumnButton = i - self.db.microbar.buttonsPerRow
-		lastColumnButton = _G[__buttonIndex[lastColumnButton]] or _G[_G.MICRO_BUTTONS[lastColumnButton]]
+		if button:IsShown() then
+			local lastColumnButton = i - self.db.microbar.buttonsPerRow
+			lastColumnButton = _G[__buttonIndex[lastColumnButton]] or _G[_G.MICRO_BUTTONS[lastColumnButton]]
 
-		button:Size(self.db.microbar.buttonSize, self.db.microbar.buttonSize * 1.4)
-		button:ClearAllPoints()
+			button:Size(self.db.microbar.buttonSize, self.db.microbar.buttonSize * 1.4)
+			button:ClearAllPoints()
 
-		if prevButton == ElvUI_MicroBar then
-			button:Point('TOPLEFT', prevButton, 'TOPLEFT', offset, -offset)
-		elseif (i - 1) % self.db.microbar.buttonsPerRow == 0 then
-			button:Point('TOP', lastColumnButton, 'BOTTOM', 0, -spacing)
-			numRows = numRows + 1
-		else
-			button:Point('LEFT', prevButton, 'RIGHT', spacing, 0)
+			if prevButton == ElvUI_MicroBar then
+				button:Point('TOPLEFT', prevButton, 'TOPLEFT', offset, -offset)
+			elseif (i - 1) % self.db.microbar.buttonsPerRow == 0 then
+				button:Point('TOP', lastColumnButton, 'BOTTOM', 0, -spacing)
+				numRows = numRows + 1
+			else
+				button:Point('LEFT', prevButton, 'RIGHT', spacing, 0)
+			end
+
+			prevButton = button
 		end
-
-		prevButton = button
 	end
 
 	if AB.db.microbar.mouseover and not ElvUI_MicroBar:IsMouseOver() then
