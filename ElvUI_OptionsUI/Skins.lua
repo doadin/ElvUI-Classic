@@ -48,30 +48,6 @@ E.Options.args.skins = {
 				},
 			},
 		},
-		talkingHead = {
-			order = 2,
-			type = 'group',
-			name = L['TalkingHead'],
-			guiInline = true,
-			args = {
-				talkingHeadFrameScale = {
-					order = 24,
-					type = 'range',
-					name = L['Talking Head Scale'],
-					isPercent = true,
-					min = 0.5, max = 2, step = 0.01,
-					get = function(info) return E.db.general.talkingHeadFrameScale end,
-					set = function(info, value) E.db.general.talkingHeadFrameScale = value; B:ScaleTalkingHeadFrame() end,
-				},
-				talkingHeadFrameBackdrop = {
-					order = 25,
-					type = 'toggle',
-					name = L['Talking Head Backdrop'],
-					get = function(info) return E.db.general.talkingHeadFrameBackdrop end,
-					set = function(info, value) E.db.general.talkingHeadFrameBackdrop = value; E:StaticPopup_Show('CONFIG_RL') end
-				},
-			},
-		},
 		blizzard = {
 			order = 300,
 			type = 'group',
@@ -117,7 +93,7 @@ E.Options.args.skins = {
 					name = L['Interface Options'],
 					desc = L['TOGGLESKIN_DESC']
 				},
-				channels  = {
+				Channels  = {
 					type = 'toggle',
 					name = L['CHANNELS'],
 					desc = L['TOGGLESKIN_DESC'],
@@ -142,7 +118,7 @@ E.Options.args.skins = {
 					name = L['Friends'],
 					desc = L['TOGGLESKIN_DESC']
 				},
-				gmchat = {
+				GMChat = {
 					type = 'toggle',
 					name = L['GM Chat'],
 					desc = L['TOGGLESKIN_DESC'],
