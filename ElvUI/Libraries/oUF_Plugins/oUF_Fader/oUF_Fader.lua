@@ -12,8 +12,8 @@ local next, tinsert, tremove = next, tinsert, tremove
 local CreateFrame = CreateFrame
 local GetMouseFocus = GetMouseFocus
 local UnitAffectingCombat = UnitAffectingCombat
-local UnitCastingInfo = UnitCastingInfo
-local UnitChannelInfo = UnitChannelInfo
+local CastingInfo = CastingInfo
+local ChannelInfo = ChannelInfo
 local UnitExists = UnitExists
 local UnitHasVehicleUI = UnitHasVehicleUI
 local UnitHealth = UnitHealth
@@ -81,7 +81,7 @@ local function Update(self, _, unit)
 	end
 
 	if
-		(element.Casting and (UnitCastingInfo(unit) or UnitChannelInfo(unit))) or
+		(element.Casting and (CastingInfo() or ChannelInfo())) or
 		(element.Combat and UnitAffectingCombat(unit)) or
 		(element.PlayerTarget and UnitExists('target')) or
 		(element.UnitTarget and UnitExists(unit..'target')) or
