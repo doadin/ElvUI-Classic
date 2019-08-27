@@ -37,7 +37,7 @@ function UF:Construct_RaidFrames()
 	self.Debuffs = UF:Construct_Debuffs(self)
 	self.AuraWatch = UF:Construct_AuraWatch(self)
 	self.RaidDebuffs = UF:Construct_RaidDebuffs(self)
-	self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
+	--self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
 
@@ -196,7 +196,7 @@ function UF:Update_RaidFrames(frame, db)
 	UF:Configure_RaidIcon(frame)
 
 	--Debuff Highlight
-	UF:Configure_DebuffHighlight(frame)
+	--UF:Configure_DebuffHighlight(frame)
 
 	--OverHealing
 	--UF:Configure_HealComm(frame)

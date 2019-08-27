@@ -1,5 +1,5 @@
 local _, ns = ...
-local oUF = oUF or ns.oUF
+local oUF = _G.oUF or ns.oUF
 if not oUF then return end
 
 local playerClass = select(2,UnitClass("player"))
