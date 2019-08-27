@@ -51,7 +51,7 @@ function UF:Construct_PartyFrames()
 		self.Buffs = UF:Construct_Buffs(self)
 		self.Debuffs = UF:Construct_Debuffs(self)
 		self.AuraWatch = UF:Construct_AuraWatch(self)
-		--self.RaidDebuffs = UF:Construct_RaidDebuffs(self)
+		self.RaidDebuffs = UF:Construct_RaidDebuffs(self)
 		self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
 		self.MouseGlow = UF:Construct_MouseGlow(self)
 		self.TargetGlow = UF:Construct_TargetGlow(self)
@@ -223,7 +223,7 @@ function UF:Update_PartyFrames(frame, db)
 		UF:Configure_Auras(frame, 'Buffs')
 		UF:Configure_Auras(frame, 'Debuffs')
 
-		--UF:Configure_RaidDebuffs(frame)
+		UF:Configure_RaidDebuffs(frame)
 
 		UF:Configure_Castbar(frame)
 
