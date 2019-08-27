@@ -144,6 +144,7 @@ local function SetupCVars(noDisplayMsg)
 	SetCVar("lockActionBars", 1)
 	SetCVar("SpamFilter", 0)
 	SetCVar("cameraDistanceMaxZoomFactor", 2.6)
+	SetCVar("chatClassColorOverride", 0)
 
 	NP:CVarReset()
 
