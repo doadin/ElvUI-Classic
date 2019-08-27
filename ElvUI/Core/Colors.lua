@@ -5,7 +5,7 @@ RAID_CLASS_COLORS = {
 	["PALADIN"] = CreateColor(.96, .55, .73),
 	["PRIEST"] = CreateColor(.83, .83, .83),
 	["ROGUE"] = CreateColor(1, .95, .32),
-	["SHAMAN"] = CreateColor(.16, .31, .61),
+	["SHAMAN"] = CreateColor(0, .44, .86),
 	["WARLOCK"] = CreateColor(.58, .51, .79),
 	["WARRIOR"] = CreateColor(.78, .61, .43)
 }
