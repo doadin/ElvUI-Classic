@@ -15,10 +15,6 @@ local function LoadSkin()
 
 	-- Skin Blizzard Tooltips
 	local GameTooltip = _G.GameTooltip
-
-	GameTooltip:CreateBackdrop()
-	GameTooltip.backdrop:SetOutside(GameTooltip)
-
 	GameTooltipStatusBar:SetStatusBarTexture(E.media.normTex)
 	E:RegisterStatusBar(GameTooltipStatusBar)
 	GameTooltipStatusBar:CreateBackdrop('Transparent')
