@@ -72,6 +72,7 @@ E.screenwidth, E.screenheight = GetPhysicalScreenSize()
 E.isMacClient = IsMacClient()
 E.NewSign = '|TInterface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon:14:14|t' -- not used by ElvUI yet, but plugins like BenikUI and MerathilisUI use it.
 E.InfoColor = '|cfffe7b2c'
+E.TexturePath = [[Interface\\AddOns\\ElvUI_Classic\\Media\\Textures\\]]
 
 --Tables
 E.media = {}
