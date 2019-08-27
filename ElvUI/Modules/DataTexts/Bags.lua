@@ -30,15 +30,6 @@ end
 local function OnEnter(self)
 	DT:SetupTooltip(self)
 
-	for i = 1, MAX_WATCHED_TOKENS do
-		local name, count = GetBackpackCurrencyInfo(i)
-		if name and i == 1 then
-			DT.tooltip:AddLine(CURRENCY)
-			DT.tooltip:AddLine(" ")
-		end
-		if name and count then DT.tooltip:AddDoubleLine(name, count, 1, 1, 1) end
-	end
-
 	DT.tooltip:Show()
 end
 
