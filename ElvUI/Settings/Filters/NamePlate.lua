@@ -190,7 +190,6 @@ E.StyleFilterDefaults = {
 			scenario = false,
 			party = false,
 			raid = false,
-			arena = false,
 			pvp = false,
 		},
 		keyMod = {

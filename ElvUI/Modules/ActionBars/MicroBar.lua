@@ -8,9 +8,6 @@ local assert = assert
 local unpack = unpack
 --WoW API / Variables
 local CreateFrame = CreateFrame
-local C_StorePublic_IsEnabled = C_StorePublic.IsEnabled
-local UpdateMicroButtonsParent = UpdateMicroButtonsParent
-local GetCurrentRegionName = GetCurrentRegionName
 local RegisterStateDriver = RegisterStateDriver
 local InCombatLockdown = InCombatLockdown
 -- GLOBALS: ElvUI_MicroBar
@@ -78,24 +75,24 @@ function AB:HandleMicroButton(button)
 		button.Flash:SetTexture()
 	end
 
-	pushed:SetTexCoord(0.22, 0.81, 0.26, 0.82)
+	pushed:SetTexCoord(0.17, 0.87, 0.5, 0.908)
 	pushed:SetInside(f)
 
-	normal:SetTexCoord(0.22, 0.81, 0.21, 0.82)
+	normal:SetTexCoord(0.17, 0.87, 0.5, 0.908)
 	normal:SetInside(f)
 
 	if disabled then
-		disabled:SetTexCoord(0.22, 0.81, 0.21, 0.82)
+		disabled:SetTexCoord(0.17, 0.87, 0.5, 0.908)
 		disabled:SetInside(f)
 	end
 end
 
 function AB:MainMenuMicroButton_SetNormal()
-	_G.MainMenuBarPerformanceBar:Point("TOPLEFT", _G.MainMenuMicroButton, "TOPLEFT", 9, -36)
+	_G.MainMenuBarPerformanceBar:Point('TOPLEFT', _G.MainMenuMicroButton, 'TOPLEFT', 9, -36)
 end
 
 function AB:MainMenuMicroButton_SetPushed()
-	_G.MainMenuBarPerformanceBar:Point("TOPLEFT", _G.MainMenuMicroButton, "TOPLEFT", 8, -37)
+	_G.MainMenuBarPerformanceBar:Point('TOPLEFT', _G.MainMenuMicroButton, 'TOPLEFT', 8, -37)
 end
 
 function AB:UpdateMicroButtonsParent()
@@ -106,10 +103,14 @@ end
 
 -- we use this table to sort the micro buttons on our bar to match Blizzard's button placements.
 local __buttonIndex = {
-	[8] = "CollectionsMicroButton",
-	[9] = "EJMicroButton",
-	[10] = (not C_StorePublic_IsEnabled() and GetCurrentRegionName() == "CN") and "HelpMicroButton" or "StoreMicroButton",
-	[11] = "MainMenuMicroButton"
+	'CharacterMicroButton',
+	'SpellbookMicroButton',
+	'TalentMicroButton',
+	'QuestLogMicroButton',
+	'SocialsMicroButton',
+	'WorldMapMicroButton',
+	'MainMenuMicroButton',
+	'HelpMicroButton'
 }
 
 function AB:UpdateMicroBarVisibility()
@@ -124,7 +125,7 @@ function AB:UpdateMicroBarVisibility()
 		visibility = visibility:gsub('[\n\r]','')
 	end
 
-	RegisterStateDriver(ElvUI_MicroBar.visibility, "visibility", (self.db.microbar.enabled and visibility) or "hide")
+	RegisterStateDriver(ElvUI_MicroBar.visibility, 'visibility', (self.db.microbar.enabled and visibility) or 'hide')
 end
 
 function AB:UpdateMicroPositionDimensions()
@@ -135,24 +136,26 @@ function AB:UpdateMicroPositionDimensions()
 	local offset = E:Scale(E.PixelMode and 1 or 3)
 	local spacing = E:Scale(offset + self.db.microbar.buttonSpacing)
 
-	for i=1, #_G.MICRO_BUTTONS-1 do
+	for i = 1, #_G.MICRO_BUTTONS do
 		local button = _G[__buttonIndex[i]] or _G[_G.MICRO_BUTTONS[i]]
-		local lastColumnButton = i-self.db.microbar.buttonsPerRow
-		lastColumnButton = _G[__buttonIndex[lastColumnButton]] or _G[_G.MICRO_BUTTONS[lastColumnButton]]
+		if button:IsShown() then
+			local lastColumnButton = i - self.db.microbar.buttonsPerRow
+			lastColumnButton = _G[__buttonIndex[lastColumnButton]] or _G[_G.MICRO_BUTTONS[lastColumnButton]]
 
-		button:Size(self.db.microbar.buttonSize, self.db.microbar.buttonSize * 1.4)
-		button:ClearAllPoints()
+			button:Size(self.db.microbar.buttonSize, self.db.microbar.buttonSize * 1.4)
+			button:ClearAllPoints()
 
-		if prevButton == ElvUI_MicroBar then
-			button:Point('TOPLEFT', prevButton, 'TOPLEFT', offset, -offset)
-		elseif (i - 1) % self.db.microbar.buttonsPerRow == 0 then
-			button:Point('TOP', lastColumnButton, 'BOTTOM', 0, -spacing)
-			numRows = numRows + 1
-		else
-			button:Point('LEFT', prevButton, 'RIGHT', spacing, 0)
+			if prevButton == ElvUI_MicroBar then
+				button:Point('TOPLEFT', prevButton, 'TOPLEFT', offset, -offset)
+			elseif (i - 1) % self.db.microbar.buttonsPerRow == 0 then
+				button:Point('TOP', lastColumnButton, 'BOTTOM', 0, -spacing)
+				numRows = numRows + 1
+			else
+				button:Point('LEFT', prevButton, 'RIGHT', spacing, 0)
+			end
+
+			prevButton = button
 		end
-
-		prevButton = button
 	end
 
 	if AB.db.microbar.mouseover and not ElvUI_MicroBar:IsMouseOver() then
@@ -161,8 +164,8 @@ function AB:UpdateMicroPositionDimensions()
 		ElvUI_MicroBar:SetAlpha(self.db.microbar.alpha)
 	end
 
-	AB.MicroWidth = (((_G.CharacterMicroButton:GetWidth() + spacing) * self.db.microbar.buttonsPerRow) - spacing) + (offset * 2)
-	AB.MicroHeight = (((_G.CharacterMicroButton:GetHeight() + spacing) * numRows) - spacing) + (offset * 2)
+	AB.MicroWidth = (((_G['CharacterMicroButton']:GetWidth() + spacing) * self.db.microbar.buttonsPerRow) - spacing) + (offset * 2)
+	AB.MicroHeight = (((_G['CharacterMicroButton']:GetHeight() + spacing) * numRows) - spacing) + (offset * 2)
 	ElvUI_MicroBar:Size(AB.MicroWidth, AB.MicroHeight)
 
 	if ElvUI_MicroBar.mover then
@@ -182,8 +185,8 @@ function AB:SetupMicroBar()
 	microBar:EnableMouse(false)
 
 	microBar.visibility = CreateFrame('Frame', nil, E.UIParent, 'SecureHandlerStateTemplate')
-	microBar.visibility:SetScript("OnShow", function() microBar:Show() end)
-	microBar.visibility:SetScript("OnHide", function() microBar:Hide() end)
+	microBar.visibility:SetScript('OnShow', function() microBar:Show() end)
+	microBar.visibility:SetScript('OnHide', function() microBar:Hide() end)
 
 	E.FrameLocks.ElvUI_MicroBar = true
 	for _, x in pairs(_G.MICRO_BUTTONS) do

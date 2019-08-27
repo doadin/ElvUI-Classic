@@ -302,7 +302,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.movers.ElvAB_2 = "BOTTOM,ElvUIParent,BOTTOM,0,4"
 		E.db.movers.ElvAB_3 = "BOTTOM,ElvUIParent,BOTTOM,-1,139"
 		E.db.movers.ElvAB_5 = "BOTTOM,ElvUIParent,BOTTOM,-92,57"
-		E.db.movers.ElvUF_FocusMover = "BOTTOM,ElvUIParent,BOTTOM,342,59"
 		E.db.movers.ElvUF_PartyMover = "BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,4,248"
 		E.db.movers.ElvUF_PetMover = "BOTTOM,ElvUIParent,BOTTOM,-342,100"
 		E.db.movers.ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,-1,95"
@@ -383,9 +382,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.unitframe.units.targettarget.raidicon.yOffset = 0
 		E.db.unitframe.units.targettarget.threatStyle = "GLOW"
 		E.db.unitframe.units.targettarget.width = 270
-			--Focus
-		E.db.unitframe.units.focus.castbar.width = 270
-		E.db.unitframe.units.focus.width = 270
 			--Pet
 		E.db.unitframe.units.pet.castbar.iconSize = 32
 		E.db.unitframe.units.pet.castbar.width = 270
@@ -395,21 +391,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.unitframe.units.pet.infoPanel.height = 14
 		E.db.unitframe.units.pet.portrait.camDistanceScale = 2
 		E.db.unitframe.units.pet.width = 270
-			--Boss
-		E.db.unitframe.units.boss.buffs.maxDuration = 300
-		E.db.unitframe.units.boss.buffs.sizeOverride = 27
-		E.db.unitframe.units.boss.buffs.yOffset = 16
-		E.db.unitframe.units.boss.castbar.width = 246
-		E.db.unitframe.units.boss.debuffs.maxDuration = 300
-		E.db.unitframe.units.boss.debuffs.numrows = 1
-		E.db.unitframe.units.boss.debuffs.sizeOverride = 27
-		E.db.unitframe.units.boss.debuffs.yOffset = -16
-		E.db.unitframe.units.boss.height = 60
-		E.db.unitframe.units.boss.infoPanel.height = 17
-		E.db.unitframe.units.boss.portrait.camDistanceScale = 2
-		E.db.unitframe.units.boss.portrait.width = 45
-		E.db.unitframe.units.boss.width = 246
-			--Party
+		--Party
 		E.db.unitframe.units.party.height = 74
 		E.db.unitframe.units.party.power.height = 13
 		E.db.unitframe.units.party.rdebuffs.font = "PT Sans Narrow"
@@ -482,16 +464,6 @@ local function SetupAuras(style, noDisplayMsg)
 	E:CopyTable(E.db.unitframe.units.target.buffs, P.unitframe.units.target.buffs)
 	E:CopyTable(E.db.unitframe.units.target.debuffs, P.unitframe.units.target.debuffs)
 	E:CopyTable(E.db.unitframe.units.target.aurabar, P.unitframe.units.target.aurabar)
-	if frame then
-		UF:Configure_Auras(frame, "Buffs")
-		UF:Configure_Auras(frame, "Debuffs")
-		UF:Configure_AuraBars(frame)
-	end
-
-	frame = UF.focus
-	E:CopyTable(E.db.unitframe.units.focus.buffs, P.unitframe.units.focus.buffs)
-	E:CopyTable(E.db.unitframe.units.focus.debuffs, P.unitframe.units.focus.debuffs)
-	E:CopyTable(E.db.unitframe.units.focus.aurabar, P.unitframe.units.focus.aurabar)
 	if frame then
 		UF:Configure_Auras(frame, "Buffs")
 		UF:Configure_Auras(frame, "Debuffs")

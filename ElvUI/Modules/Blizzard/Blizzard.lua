@@ -15,7 +15,7 @@ function B:Initialize()
 	self:PositionCaptureBar()
 	self:PositionDurabilityFrame()
 	self:PositionGMFrames()
-	--self:QuestWatchFrame()
+	self:QuestWatchFrame()
 end
 
 E:RegisterModule(B:GetName())

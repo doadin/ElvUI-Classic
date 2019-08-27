@@ -55,110 +55,6 @@ function DT:PanelLayoutOptions()
 	end
 end
 
-local function CreateCustomCurrencyOptions(currencyID)
-	local currency = E.global.datatexts.customCurrencies[currencyID] --The datatext has been registered prior to this
-	if currency then
-		E.Options.args.datatexts.args.customCurrency.args.currencies.args[currency.NAME] = {
-			order = 1,
-			type = "group",
-			name = currency.NAME,
-			guiInline = false,
-			args = {
-				removeDT = {
-					order = 1,
-					type = "execute",
-					name = L["DELETE"],
-					func = function()
-						--Remove stored entries of this currency datatext
-						DT:RemoveCustomCurrency(currency.NAME)
-						--Remove options group
-						E.Options.args.datatexts.args.customCurrency.args.currencies.args[currency.NAME] = nil
-						--Remove entry from registered datatext storage
-						DT.RegisteredDataTexts[currency.NAME] = nil
-						--Remove from persistent storage
-						E.global.datatexts.customCurrencies[currencyID] = nil
-						--Remove currency from datatext selection
-						datatexts[currency.NAME] = nil
-						DT:PanelLayoutOptions()
-						--Reload datatexts to clear panel
-						DT:LoadDataTexts()
-					end,
-				},
-				spacer = {
-					order = 2,
-					type = "description",
-					name = "\n",
-				},
-				displayStyle = {
-					order = 3,
-					type = "select",
-					name = L["Display Style"],
-					get = function(info) return E.global.datatexts.customCurrencies[currencyID].DISPLAY_STYLE end,
-					set = function(info, value)
-						--Save new display style
-						E.global.datatexts.customCurrencies[currencyID].DISPLAY_STYLE = value
-						--Update internal value
-						DT:UpdateCustomCurrencySettings(currency.NAME, "DISPLAY_STYLE", value)
-						--Reload datatexts
-						DT:LoadDataTexts()
-					end,
-					values = {
-						["ICON"] = L["Icons Only"],
-						["ICON_TEXT"] = L["Icons and Text"],
-						["ICON_TEXT_ABBR"] = L["Icons and Text (Short)"],
-					},
-				},
-				showMax = {
-					order = 4,
-					type = "toggle",
-					name = L["Current / Max"],
-					get = function(info) return E.global.datatexts.customCurrencies[currencyID].SHOW_MAX end,
-					set = function(info, value)
-						--Save new value
-						E.global.datatexts.customCurrencies[currencyID].SHOW_MAX = value
-						--Update internal value
-						DT:UpdateCustomCurrencySettings(currency.NAME, "SHOW_MAX", value)
-						--Reload datatexts
-						DT:LoadDataTexts()
-					end,
-				},
-				useTooltip = {
-					order = 5,
-					type = "toggle",
-					name = L["Use Tooltip"],
-					get = function(info) return E.global.datatexts.customCurrencies[currencyID].USE_TOOLTIP end,
-					set = function(info, value)
-						--Save new value
-						E.global.datatexts.customCurrencies[currencyID].USE_TOOLTIP = value
-						--Update internal value
-						DT:UpdateCustomCurrencySettings(currency.NAME, "USE_TOOLTIP", value)
-					end,
-				},
-				displayInMainTooltip = {
-					order = 6,
-					type = "toggle",
-					name = L["Display In Main Tooltip"],
-					desc = L["If enabled, then this currency will be displayed in the main Currencies datatext tooltip."],
-					get = function(info) return E.global.datatexts.customCurrencies[currencyID].DISPLAY_IN_MAIN_TOOLTIP end,
-					set = function(info, value)
-						--Save new value
-						E.global.datatexts.customCurrencies[currencyID].DISPLAY_IN_MAIN_TOOLTIP = value
-						--Update internal value
-						DT:UpdateCustomCurrencySettings(currency.NAME, "DISPLAY_IN_MAIN_TOOLTIP", value)
-					end,
-				},
-			},
-		}
-	end
-end
-
-local function SetupCustomCurrencies()
-	--Create options for all stored custom currency datatexts
-	for currencyID in pairs(E.global.datatexts.customCurrencies) do
-		CreateCustomCurrencyOptions(currencyID)
-	end
-end
-
 local clientTable = {
 	['WoW'] = "WoW",
 	['D3'] = "D3",
@@ -422,62 +318,6 @@ E.Options.args.datatexts = {
 				},
 			},
 		},
-		currencies = {
-			order = 5,
-			type = "group",
-			name = L["CURRENCY"],
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["CURRENCY"],
-				},
-				displayedCurrency = {
-					order = 2,
-					type = "select",
-					name = L["Displayed Currency"],
-					get = function(info) return E.db.datatexts.currencies.displayedCurrency end,
-					set = function(info, value) E.db.datatexts.currencies.displayedCurrency = value; DT:LoadDataTexts() end,
-					values = DT.CurrencyList,
-				},
-				displayStyle = {
-					order = 3,
-					type = "select",
-					name = L["Currency Format"],
-					get = function(info) return E.db.datatexts.currencies.displayStyle end,
-					set = function(info, value) E.db.datatexts.currencies.displayStyle = value; DT:LoadDataTexts() end,
-					hidden = function() return (E.db.datatexts.currencies.displayedCurrency == "GOLD") end,
-					values = {
-						["ICON"] = L["Icons Only"],
-						["ICON_TEXT"] = L["Icons and Text"],
-						["ICON_TEXT_ABBR"] = L["Icons and Text (Short)"],
-					},
-				},
-				goldFormat = {
-					order = 3,
-					type = 'select',
-					name = L["Gold Format"],
-					desc = L["The display format of the money text that is shown in the gold datatext and its tooltip."],
-					hidden = function() return (E.db.datatexts.currencies.displayedCurrency ~= "GOLD") end,
-					values = {
-						['SMART'] = L["Smart"],
-						['FULL'] = L["Full"],
-						['SHORT'] = L["SHORT"],
-						['SHORTINT'] = L["Short (Whole Numbers)"],
-						['CONDENSED'] = L["Condensed"],
-						['BLIZZARD'] = L["Blizzard Style"],
-						['BLIZZARD2'] = L["Blizzard Style"].." 2",
-					},
-				},
-				goldCoins = {
-					order = 4,
-					type = 'toggle',
-					name = L["Show Coins"],
-					desc = L["Use coin icons instead of colored text."],
-					hidden = function() return (E.db.datatexts.currencies.displayedCurrency ~= "GOLD") end,
-				},
-			},
-		},
 		time = {
 			order = 6,
 			type = "group",
@@ -545,55 +385,8 @@ E.Options.args.datatexts = {
 				},
 			},
 		},
-		customCurrency = {
-			order = 8,
-			type = "group",
-			name = L["Custom Currency"],
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Custom Currency"],
-				},
-				description = {
-					order = 2,
-					type = "description",
-					name = L["This allows you to create a new datatext which will track the currency with the supplied currency ID. The datatext can be added to a panel immediately after creation."],
-				},
-				addCustomCurrency = {
-					order = 3,
-					type = "input",
-					name = L["Add Currency ID"],
-					desc = "http://www.wowhead.com/currencies",
-					get = function() return "" end,
-					set = function(info, value)
-						local currencyID = tonumber(value)
-						if not currencyID then return; end
-						--Register a new datatext where name is the name of the currency
-						DT:RegisterCustomCurrencyDT(currencyID)
-						--Create options for this datatext
-						CreateCustomCurrencyOptions(currencyID)
-						DT:PanelLayoutOptions()
-						--Reload datatexts in case the currency we just added was already selected on a panel
-						DT:LoadDataTexts()
-					end,
-				},
-				spacer = {
-					order = 4,
-					type = "description",
-					name = "\n",
-				},
-				currencies = {
-					order = 5,
-					type = "group",
-					name = L["Custom Currencies"],
-					args = {}
-				},
-			},
-		},
 	},
 }
 
 DT:PanelLayoutOptions()
-SetupCustomCurrencies()
 SetupFriendClients()
