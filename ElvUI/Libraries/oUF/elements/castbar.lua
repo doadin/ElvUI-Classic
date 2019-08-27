@@ -420,7 +420,7 @@ local function Enable(self, unit)
 
 		local safeZone = element.SafeZone
 		if(safeZone and safeZone:IsObjectType('Texture') and not safeZone:GetTexture()) then
-			safeZone:SetColorTexture(1, 0, 0)
+			safeZone:SetTexture(1, 0, 0)
 		end
 
 		return true

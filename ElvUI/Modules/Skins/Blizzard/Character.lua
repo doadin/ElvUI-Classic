@@ -79,8 +79,8 @@ local function LoadSkin()
 
 		slot = _G['Character'..slot]
 		slot:StripTextures()
-		slot:StyleButton(false)
 		slot:SetTemplate('Default', true, true)
+		slot:StyleButton()
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
@@ -185,8 +185,6 @@ local function LoadSkin()
 		factionName:Point('LEFT', factionBar, 'LEFT', -150, 0)
 		factionName.SetWidth = E.noop
 
-		factionHeader:SetNormalTexture('Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton')
-		factionHeader.SetNormalTexture = E.noop
 		factionHeader:GetNormalTexture():Size(14)
 		factionHeader:SetHighlightTexture(nil)
 		factionHeader:Point('TOPLEFT', factionBar, 'TOPLEFT', -175, 0)
@@ -210,9 +208,9 @@ local function LoadSkin()
 			factionIndex = factionOffset + i
 			if factionIndex <= numFactions then
 				if factionHeader.isCollapsed then
-					factionHeader:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+					factionHeader:SetNormalTexture(E.Media.Textures.PlusButton)
 				else
-					factionHeader:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+					factionHeader:SetNormalTexture(E.Media.Textures.MinusButton)
 				end
 			end
 		end
@@ -236,19 +234,16 @@ local function LoadSkin()
 	SkillFrame:StripTextures()
 
 	SkillFrameExpandButtonFrame:DisableDrawLayer('BACKGROUND')
-
-	SkillFrameCollapseAllButton:SetNormalTexture('Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton')
-	SkillFrameCollapseAllButton.SetNormalTexture = E.noop
 	SkillFrameCollapseAllButton:GetNormalTexture():Size(15)
 	SkillFrameCollapseAllButton:Point('LEFT', SkillFrameExpandTabLeft, 'RIGHT', -40, -3)
 
 	SkillFrameCollapseAllButton:SetHighlightTexture(nil)
 
-	hooksecurefunc(SkillFrameCollapseAllButton, 'SetNormalTexture', function(self, texture)
-		if find(texture, 'MinusButton') then
-			self:GetNormalTexture():SetTexCoord(0.545, 0.975, 0.085, 0.925)
+	hooksecurefunc('SkillFrame_UpdateSkills', function()
+		if strfind(SkillFrameCollapseAllButton:GetNormalTexture():GetTexture(), 'MinusButton') then
+			SkillFrameCollapseAllButton:SetNormalTexture(E.Media.Textures.MinusButton)
 		else
-			self:GetNormalTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
+			SkillFrameCollapseAllButton:SetNormalTexture(E.Media.Textures.PlusButton)
 		end
 	end)
 
@@ -267,19 +262,18 @@ local function LoadSkin()
 		border:StripTextures()
 		background:SetTexture(nil)
 
-		label:SetNormalTexture('Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton')
-		label.SetNormalTexture = E.noop
 		label:GetNormalTexture():Size(14)
 		label:SetHighlightTexture(nil)
-
-		hooksecurefunc(label, 'SetNormalTexture', function(self, texture)
-			if find(texture, 'MinusButton') then
-				self:GetNormalTexture():SetTexCoord(0.545, 0.975, 0.085, 0.925)
-			else
-				self:GetNormalTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
-			end
-		end)
 	end
+
+	hooksecurefunc('SkillFrame_SetStatusBar', function(statusBarID, skillIndex, numSkills)
+		local skillLine = _G["SkillTypeLabel"..statusBarID]
+		if strfind(skillLine:GetNormalTexture():GetTexture(), 'MinusButton') then
+			skillLine:SetNormalTexture(E.Media.Textures.MinusButton)
+		else
+			skillLine:SetNormalTexture(E.Media.Textures.PlusButton)
+		end
+	end)
 
 	SkillListScrollFrame:StripTextures()
 	S:HandleScrollBar(SkillListScrollFrameScrollBar)
