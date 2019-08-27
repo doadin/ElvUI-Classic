@@ -1421,13 +1421,14 @@ function UF:Initialize()
 		E.RaidUtility.Initialize = E.noop
 	end
 
-	local ORD = ns.oUF_RaidDebuffs or _G.oUF_RaidDebuffs
-	if not ORD then return end
-	ORD.ShowDispellableDebuff = true
-	ORD.FilterDispellableDebuff = true
-	ORD.MatchBySpellName = false
-
 	self:UpdateRangeCheckSpells()
+
+	local ORD = ns.oUF_RaidDebuffs or _G.oUF_RaidDebuffs
+	if ORD then
+		ORD.ShowDispellableDebuff = true
+		ORD.FilterDispellableDebuff = true
+		ORD.MatchBySpellName = false
+	end
 end
 
 local function InitializeCallback()
