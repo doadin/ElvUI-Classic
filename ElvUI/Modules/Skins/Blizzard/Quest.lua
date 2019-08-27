@@ -151,6 +151,25 @@ local function LoadSkin()
 	hooksecurefunc('QuestInfo_ShowRequiredMoney', function()
 	end)
 
+	hooksecurefunc('QuestInfo_Display', function()
+		QuestInfoTitleHeader:SetTextColor(1, .8, .1)
+		QuestInfoDescriptionHeader:SetTextColor(1, .8, .1)
+		QuestInfoObjectivesHeader:SetTextColor(1, .8, .1)
+		QuestInfoRewardsFrame.Header:SetTextColor(1, .8, .1)
+		-- other text
+		QuestInfoDescriptionText:SetTextColor(1, 1, 1)
+		QuestInfoObjectivesText:SetTextColor(1, 1, 1)
+		QuestInfoGroupSize:SetTextColor(1, 1, 1)
+		QuestInfoRewardText:SetTextColor(1, 1, 1)
+		-- reward frame text
+		QuestInfoRewardsFrame.ItemChooseText:SetTextColor(1, 1, 1)
+		QuestInfoRewardsFrame.ItemReceiveText:SetTextColor(1, 1, 1)
+		QuestInfoRewardsFrame.PlayerTitleText:SetTextColor(1, 1, 1)
+		QuestInfoRewardsFrame.XPFrame.ReceiveText:SetTextColor(1, 1, 1)
+
+		QuestInfoRewardsFrame.spellHeaderPool.textR, QuestInfoRewardsFrame.spellHeaderPool.textG, QuestInfoRewardsFrame.spellHeaderPool.textB = 1, 1, 1
+	end)
+
 	QuestInfoTimerText:SetTextColor(1, 1, 1)
 	QuestInfoAnchor:SetTextColor(1, 1, 1)
 

@@ -44,35 +44,31 @@ local function LoadSkin()
 	-- GossipFrame
 	local GossipFrame = _G.GossipFrame
 	S:HandlePortraitFrame(GossipFrame, true)
+	GossipFrame.backdrop:SetPoint("BOTTOMRIGHT", -30, 60)
+	S:HandleCloseButton(GossipFrameCloseButton)
 
 	local GossipGreetingScrollFrame = _G.GossipGreetingScrollFrame
 	GossipGreetingScrollFrame:SetTemplate()
 
-	if E.private.skins.parchmentRemover.enable then
+	S:HandleScrollBar(GossipGreetingScrollFrameScrollBar)
+
+	for i = 1, _G.NUMGOSSIPBUTTONS do
+		_G['GossipTitleButton'..i]:GetFontString():SetTextColor(1, 1, 1)
+	end
+
+	_G.GossipGreetingText:SetTextColor(1, 1, 1)
+
+	hooksecurefunc('GossipFrameUpdate', function()
 		for i = 1, _G.NUMGOSSIPBUTTONS do
-			_G['GossipTitleButton'..i]:GetFontString():SetTextColor(1, 1, 1)
-		end
-
-		_G.GossipGreetingText:SetTextColor(1, 1, 1)
-
-		hooksecurefunc('GossipFrameUpdate', function()
-			for i = 1, _G.NUMGOSSIPBUTTONS do
-				local button = _G['GossipTitleButton'..i]
-				if button:GetFontString() then
-					local Text = button:GetFontString():GetText()
-					if Text and strfind(Text, '|cff000000') then
-						button:GetFontString():SetText(gsub(Text, '|cff000000', '|cffffe519'))
-					end
+			local button = _G['GossipTitleButton'..i]
+			if button:GetFontString() then
+				local Text = button:GetFontString():GetText()
+				if Text and strfind(Text, '|cff000000') then
+					button:GetFontString():SetText(gsub(Text, '|cff000000', '|cffffe519'))
 				end
 			end
-		end)
-	else
-		GossipGreetingScrollFrame.spellTex = GossipGreetingScrollFrame:CreateTexture(nil, 'ARTWORK')
-		GossipGreetingScrollFrame.spellTex:SetTexture([[Interface\QuestFrame\QuestBG]])
-		GossipGreetingScrollFrame.spellTex:Point('TOPLEFT', 2, -2)
-		GossipGreetingScrollFrame.spellTex:Size(506, 615)
-		GossipGreetingScrollFrame.spellTex:SetTexCoord(0, 1, 0.02, 1)
-	end
+		end
+	end)
 
 	_G.GossipFrameGreetingGoodbyeButton:StripTextures()
 	S:HandleButton(_G.GossipFrameGreetingGoodbyeButton)
