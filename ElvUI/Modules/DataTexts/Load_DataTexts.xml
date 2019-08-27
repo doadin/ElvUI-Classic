@@ -21,6 +21,4 @@
 	<Script file='System.lua'/>
 	<Script file='Time.lua'/>
 	<Script file='MovementSpeed.lua'/>
-	<Script file='Currencies.lua'/>
-	<Script file='CustomCurrency.lua'/>
 </Ui>

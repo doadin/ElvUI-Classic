@@ -7,20 +7,17 @@ local strjoin = strjoin
 local BASE_MOVEMENT_SPEED = BASE_MOVEMENT_SPEED
 local GetUnitSpeed = GetUnitSpeed
 local IsFalling = IsFalling
-local IsFlying = IsFlying
 local IsSwimming = IsSwimming
 
 local displayString, lastPanel = ''
 local movementSpeedText, beforeFalling = L["Mov. Speed:"]
 
 local function OnEvent(self)
-	local _, runSpeed, flightSpeed, swimSpeed = GetUnitSpeed("player")
+	local _, runSpeed, _, swimSpeed = GetUnitSpeed("player")
 
 	local speed = runSpeed
 	if IsSwimming("player") then
 		speed = swimSpeed
-	elseif IsFlying("player") then
-		speed = flightSpeed
 	end
 
 	if IsFalling("player") then
