@@ -1,158 +1,87 @@
 local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local S = E:GetModule('Skins')
 
---Cache global variables
 --Lua functions
 local _G = _G
-local pairs = pairs
 local unpack = unpack
-local find, format, match,  split = string.find, string.format, string.match, string.split
+local find = string.find
 --WoW API / Variables
-local GetItemInfo = GetItemInfo
-local GetItemQualityColor = GetItemQualityColor
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end
 
-	local QuestStrip = {
-		'QuestFrame',
-		'QuestLogFrame',
-		'EmptyQuestLogFrame',
-		'QuestFrameDetailPanel',
-		'QuestDetailScrollFrame',
-		'QuestDetailScrollChildFrame',
-		'QuestRewardScrollFrame',
-		'QuestRewardScrollChildFrame',
-		'QuestFrameProgressPanel',
-		'QuestFrameRewardPanel',
-		'QuestFrameRewardPanel'
-	}
+	QuestLogFrame:StripTextures()
+	QuestLogFrame:CreateBackdrop('Transparent')
+	QuestLogFrame.backdrop:Point('TOPLEFT', 10, -12)
+	QuestLogFrame.backdrop:Point('BOTTOMRIGHT', -1, 8)
 
-	for _, object in pairs(QuestStrip) do
-		_G[object]:StripTextures(true)
+	for frame, numItems in pairs({['QuestLogItem'] = MAX_NUM_ITEMS, ['QuestProgressItem'] = MAX_REQUIRED_ITEMS}) do
+		for i = 1, numItems do
+			local item = _G[frame..i]
+			local icon = _G[frame..i..'IconTexture']
+
+			item:StripTextures()
+			item:SetTemplate('Default')
+			item:StyleButton()
+			item:Size(143, 40)
+			item:SetFrameLevel(item:GetFrameLevel() + 2)
+
+			icon:Size(E.PixelMode and 38 or 32)
+			icon:SetDrawLayer('OVERLAY')
+			icon:Point('TOPLEFT', E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
+			S:HandleIcon(icon)
+		end
 	end
 
-	local QuestButtons = {
-		'QuestLogFrameAbandonButton',
-		'QuestFrameExitButton',
-		'QuestFramePushQuestButton',
-		'QuestFrameCompleteButton',
-		'QuestFrameGoodbyeButton',
-		'QuestFrameCompleteQuestButton',
-		'QuestFrameCancelButton',
-		'QuestFrameAcceptButton',
-		'QuestFrameDeclineButton'
-	}
-
-	for _, button in pairs(QuestButtons) do
-		_G[button]:StripTextures()
-		S:HandleButton(_G[button])
-	end
-
-	for i = 1, MAX_NUM_ITEMS do
-		local item = _G['QuestLogItem'..i]
-		local icon = _G['QuestLogItem'..i..'IconTexture']
-		local count = _G['QuestLogItem'..i..'Count']
-
-		item:StripTextures()
-		item:SetTemplate('Default')
-		item:StyleButton(nil, true)
-		item:Width(item:GetWidth() - 4)
-		item:SetFrameLevel(item:GetFrameLevel() + 2)
-
-		icon:SetDrawLayer('OVERLAY')
-		icon:Size(icon:GetWidth() -(E.Spacing*2), icon:GetHeight() -(E.Spacing*2))
-		icon:Point('TOPLEFT', E.Border, -E.Border)
-		S:HandleIcon(icon)
-
-		-- count:SetParent(item.backdrop)
-		-- count:SetDrawLayer('OVERLAY')
-	end
-
-	for i = 1, 6 do
-		local item = _G['QuestProgressItem'..i]
-		local icon = _G['QuestProgressItem'..i..'IconTexture']
-		local count = _G['QuestProgressItem'..i..'Count']
-
-		item:StripTextures()
-		item:SetTemplate('Default')
-		item:StyleButton(nil, true)
-		item:Width(item:GetWidth() - 4)
-		item:SetFrameLevel(item:GetFrameLevel() + 2)
-
-		icon:SetDrawLayer('OVERLAY')
-		icon:Size(icon:GetWidth() -(E.Spacing*2), icon:GetHeight() -(E.Spacing*2))
-		icon:Point('TOPLEFT', E.Border, -E.Border)
-		S:HandleIcon(icon)
-
-		-- count:SetParent(item.backdrop)
-		-- count:SetDrawLayer('OVERLAY')
-	end
-
---[[	for i = 1, 6 do
-		local item = _G['QuestLogRewardItem'..i]
-		local icon = _G['QuestLogRewardItem'..i..'IconTexture']
-		local count = _G['QuestLogRewardItem'..i..'Count']
-
-		item:StripTextures()
-		item:SetTemplate('Default')
-		item:StyleButton(nil, true)
-		item:Width(item:GetWidth() - 4)
-		item:SetFrameLevel(item:GetFrameLevel() + 2)
-
-		icon:SetDrawLayer('OVERLAY')
-		icon:Size(icon:GetWidth() -(E.Spacing*2), icon:GetHeight() -(E.Spacing*2))
-		icon:Point('TOPLEFT', E.Border, -E.Border)
-		S:HandleIcon(icon)
-
-		count:SetParent(item.backdrop)
-		count:SetDrawLayer('OVERLAY')
-	end--]]
-
-	local function QuestQualityColors(frame, text, quality, link)
+	local function QuestQualityColors(frame, text, link, quality)
 		if link and not quality then
 			quality = select(3, GetItemInfo(link))
 		end
 
 		if quality then
-			if frame then
-				frame:SetBackdropBorderColor(GetItemQualityColor(quality))
-				frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-			end
+			frame:SetBackdropBorderColor(GetItemQualityColor(quality))
+			frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+
 			text:SetTextColor(GetItemQualityColor(quality))
 		else
-			if frame then
-				frame:SetBackdropBorderColor(unpack(E['media'].bordercolor))
-				frame.backdrop:SetBackdropBorderColor(unpack(E['media'].bordercolor))
-			end
+			frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			frame.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+
 			text:SetTextColor(1, 1, 1)
 		end
 	end
 
---[[	QuestRewardItemHighlight:StripTextures()
-	QuestRewardItemHighlight:SetTemplate('Default', nil, true)
-	QuestRewardItemHighlight:SetBackdropBorderColor(1, 1, 0)
-	QuestRewardItemHighlight:SetBackdropColor(0, 0, 0, 0)
-	QuestRewardItemHighlight:Size(142, 40)
+	QuestInfoItemHighlight:StripTextures()
 
-	hooksecurefunc('QuestRewardItem_OnClick', function(self)
-		QuestRewardItemHighlight:ClearAllPoints();
-		QuestRewardItemHighlight:SetOutside(self:GetName()..'IconTexture')
-		_G[self:GetName()..'Name']:SetTextColor(1, 1, 0)
+	hooksecurefunc('QuestInfoItem_OnClick', function(self)
+		if self.type == 'choice' then
+			_G[self:GetName()]:SetBackdropBorderColor(1, 0.80, 0.10)
+			_G[self:GetName()].backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
+			_G[self:GetName()..'Name']:SetTextColor(1, 0.80, 0.10)
 
-		for i = 1, MAX_NUM_ITEMS do
-			local questItem = _G['QuestRewardItem'..i]
-			local questName = _G['QuestRewardItem'..i..'Name']
-			local link = questItem.type and GetQuestItemLink(questItem.type, questItem:GetID())
+			for i = 1, MAX_NUM_ITEMS do
+				local item = _G['QuestInfoItem'..i]
+				local name = _G['QuestInfoItem'..i..'Name']
+				local link = item.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
 
-			if questItem ~= self then
-				QuestQualityColors(nil, questName, nil, link)
+				if item ~= self then
+					QuestQualityColors(item, name, link)
+				end
 			end
 		end
-	end)--]]
+	end)
 
-	local function QuestObjectiveTextColor()
+	S:HandleButton(QuestLogFrameAbandonButton)
+	QuestLogFrameAbandonButton:Point('BOTTOMLEFT', 14, 14)
+
+	S:HandleButton(QuestFramePushQuestButton)
+	QuestFramePushQuestButton:Point('LEFT', QuestLogFrameAbandonButton, 'RIGHT', 2, 0)
+
+	S:HandleButton(QuestFrameExitButton)
+	QuestFrameExitButton:Point('BOTTOMRIGHT', -9, 14)
+
+	local function QuestObjectiveText()
 		local numObjectives = GetNumQuestLeaderBoards()
 		local objective
 		local _, type, finished
@@ -161,7 +90,7 @@ local function LoadSkin()
 			_, type, finished = GetQuestLogLeaderBoard(i)
 			if type ~= 'spell' then
 				numVisibleObjectives = numVisibleObjectives + 1
-				objective = _G['QuestLogObjective'..numVisibleObjectives]
+				objective = _G['QuestInfoObjective'..numVisibleObjectives]
 				if finished then
 					objective:SetTextColor(1, 0.80, 0.10)
 				else
@@ -171,148 +100,171 @@ local function LoadSkin()
 		end
 	end
 
-	hooksecurefunc('QuestLog_UpdateQuestDetails', function()
-		local requiredMoney = GetQuestLogRequiredMoney()
-		if requiredMoney > 0 then
-			if requiredMoney > GetMoney() then
-				QuestLogRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
-			else
-				QuestLogRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+	hooksecurefunc('QuestInfo_Display', function()
+		for i = 1, #_G.QuestInfoRewardsFrame.RewardButtons do
+			local questItem = _G.QuestInfoRewardsFrame.RewardButtons[i]
+			if not questItem:IsShown() then break end
+
+			local point, relativeTo, relativePoint, _, y = questItem:GetPoint()
+			if point and relativeTo and relativePoint then
+				if i == 1 then
+					questItem:Point(point, relativeTo, relativePoint, 0, y)
+				elseif relativePoint == 'BOTTOMLEFT' then
+					questItem:Point(point, relativeTo, relativePoint, 0, -4)
+				else
+					questItem:Point(point, relativeTo, relativePoint, 4, 0)
+				end
+			end
+
+			questItem.Name:SetTextColor(1, 1, 1)
+		end
+
+		if E.private.skins.parchmentRemover.enable then
+			_G.QuestInfoTitleHeader:SetTextColor(1, .8, .1)
+			_G.QuestInfoDescriptionHeader:SetTextColor(1, .8, .1)
+			_G.QuestInfoObjectivesHeader:SetTextColor(1, .8, .1)
+			_G.QuestInfoRewardsFrame.Header:SetTextColor(1, .8, .1)
+			_G.QuestInfoDescriptionText:SetTextColor(1, 1, 1)
+			_G.QuestInfoObjectivesText:SetTextColor(1, 1, 1)
+			_G.QuestInfoGroupSize:SetTextColor(1, 1, 1)
+			_G.QuestInfoRewardText:SetTextColor(1, 1, 1)
+			_G.QuestInfoQuestType:SetTextColor(1, 1, 1)
+			_G.QuestInfoRewardsFrame.ItemChooseText:SetTextColor(1, 1, 1)
+			_G.QuestInfoRewardsFrame.ItemReceiveText:SetTextColor(1, 1, 1)
+			if _G.QuestInfoRewardsFrame.SpellLearnText then
+				_G.QuestInfoRewardsFrame.SpellLearnText:SetTextColor(1, 1, 1)
+			end
+
+			_G.QuestInfoRewardsFrame.PlayerTitleText:SetTextColor(1, 1, 1)
+			_G.QuestInfoRewardsFrame.XPFrame.ReceiveText:SetTextColor(1, 1, 1)
+
+			local questID = Quest_GetQuestID()
+			local numObjectives = GetNumQuestLeaderBoards()
+			local numVisibleObjectives = 0
+
+			local waypointText = C_QuestLog_GetNextWaypointText(questID)
+			if waypointText then
+				numVisibleObjectives = numVisibleObjectives + 1
+				local objective = _G['QuestInfoObjective'..numVisibleObjectives]
+				objective:SetTextColor(1, .8, .1)
+			end
+
+			for i = 1, numObjectives do
+				local _, _, finished = GetQuestLogLeaderBoard(i)
+				if (type ~= 'spell' and type ~= 'log' and numVisibleObjectives < _G.MAX_OBJECTIVES) then
+					numVisibleObjectives = numVisibleObjectives + 1
+					local objective = _G['QuestInfoObjective'..numVisibleObjectives]
+					if objective then
+						if finished then
+							objective:SetTextColor(1, .8, .1)
+						else
+							objective:SetTextColor(.63, .09, .09)
+						end
+					end
+				end
 			end
 		end
 	end)
 
-	hooksecurefunc('QuestFrameItems_Update', function(questState)
-		local textColor = {1, 1, 1}
-		local titleTextColor = {1, 0.80, 0.10}
 
-		QuestFont:SetTextColor(unpack(textColor))
-		QuestFontNormalSmall:SetTextColor(unpack(textColor))
-		QuestDescription:SetTextColor(unpack(textColor))
-		QuestObjectiveText:SetTextColor(unpack(textColor))
+	hooksecurefunc('QuestInfo_ShowRewards', function()
+		for i = 1, MAX_NUM_ITEMS do
+			local item = _G['QuestInfoItem'..i]
+			local name = _G['QuestInfoItem'..i..'Name']
+			local link = item.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
 
-		QuestTitleText:SetTextColor(unpack(titleTextColor))
-		QuestTitleFont:SetTextColor(unpack(titleTextColor))
+			QuestQualityColors(item, name, link)
+		end
+	end)
 
-		QuestDetailRewardTitleText:SetTextColor(unpack(titleTextColor))
-		QuestDetailObjectiveTitleText:SetTextColor(unpack(titleTextColor))
-		QuestDetailItemReceiveText:SetTextColor(unpack(textColor))
-		QuestDetailSpellLearnText:SetTextColor(unpack(textColor))
-		QuestDetailItemChooseText:SetTextColor(unpack(textColor))
-
-		QuestLogRewardTitleText:SetTextColor(unpack(titleTextColor))
-		QuestLogTitleText:SetTextColor(unpack(titleTextColor))
-		QuestLogQuestTitle:SetTextColor(unpack(titleTextColor))
-		QuestLogDescriptionTitle:SetTextColor(unpack(titleTextColor))
-		QuestLogObjectivesText:SetTextColor(unpack(textColor))
-		QuestLogQuestDescription:SetTextColor(unpack(textColor))
-		QuestLogItemChooseText:SetTextColor(unpack(textColor))
-		QuestLogItemReceiveText:SetTextColor(unpack(textColor))
-		QuestLogSpellLearnText:SetTextColor(unpack(textColor))
-
-		QuestRewardRewardTitleText:SetTextColor(unpack(titleTextColor))
-		QuestRewardTitleText:SetTextColor(unpack(titleTextColor))
-		QuestRewardItemChooseText:SetTextColor(unpack(textColor))
-		QuestRewardItemReceiveText:SetTextColor(unpack(textColor))
-		QuestRewardSpellLearnText:SetTextColor(unpack(textColor))
-		QuestRewardText:SetTextColor(unpack(textColor))
-
-		if GetQuestLogRequiredMoney() > 0 then
-			if GetQuestLogRequiredMoney() > GetMoney() then
+	hooksecurefunc('QuestInfo_ShowRequiredMoney', function()
+		local requiredMoney = GetQuestLogRequiredMoney()
+		if requiredMoney > 0 then
+			if requiredMoney > GetMoney() then
 				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
 			else
 				QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
 			end
 		end
+	end)
 
-		QuestObjectiveTextColor()
+	QuestInfoTimerText:SetTextColor(1, 1, 1)
+	QuestInfoAnchor:SetTextColor(1, 1, 1)
 
-		local numQuestRewards, numQuestChoices
-		if questState == 'QuestLog' then
-			numQuestRewards, numQuestChoices = GetNumQuestLogRewards(), GetNumQuestLogChoices()
-		else
-			numQuestRewards, numQuestChoices = GetNumQuestRewards(), GetNumQuestChoices()
+	QuestLogDetailScrollFrame:StripTextures()
+
+	QuestLogFrame:HookScript('OnShow', function()
+		if not QuestLogDetailScrollFrame.backdrop then
+			QuestLogDetailScrollFrame:CreateBackdrop('Transparent')
 		end
 
-		local rewardsCount = numQuestChoices + numQuestRewards
-		if rewardsCount > 0 then
-			local questItem, itemName, link
-			local questItemName = questState..'Item'
+		QuestLogDetailScrollFrame.backdrop:Point('TOPLEFT', 0, 2)
+		QuestLogDetailScrollFrame.backdrop:Point('BOTTOMRIGHT', 0, -2)
+		QuestLogDetailScrollFrame:Point('TOPRIGHT', -32, -76)
+		QuestLogDetailScrollFrame:Size(302, 300)
 
-			for i = 1, rewardsCount do
-				questItem = _G[questItemName..i]
-				itemName = _G[questItemName..i..'Name']
-				link = questItem.type and (questState == 'QuestLog' and GetQuestLogItemLink or GetQuestItemLink)(questItem.type, questItem:GetID())
+		if not QuestLogDetailScrollFrame.backdrop then
+			QuestLogDetailScrollFrame:CreateBackdrop('Transparent')
+		end
 
-				QuestQualityColors(questItem, itemName, nil, link)
-			end
+		QuestLogDetailScrollFrameScrollBar:Point('TOPLEFT', QuestLogDetailScrollFrame, 'TOPRIGHT', 5, -12)
+	end)
+
+	QuestLogDetailScrollFrame:HookScript('OnShow', function()
+		if not QuestLogDetailScrollFrame.backdrop then
+			QuestLogDetailScrollFrame:CreateBackdrop('Transparent')
 		end
 	end)
 
-	QuestLogTimerText:SetTextColor(1, 1, 1)
+	QuestLogSkillHighlight:SetTexture(E.Media.Textures.Highlight)
+	QuestLogSkillHighlight:SetAlpha(0.35)
 
-	QuestFrame:CreateBackdrop('Transparent')
-	QuestFrame.backdrop:Point('TOPLEFT', 15, -11)
-	QuestFrame.backdrop:Point('BOTTOMRIGHT', -30, 67)
+	S:HandleCloseButton(QuestLogFrameCloseButton)
 
-	QuestLogFrame:CreateBackdrop('Transparent')
-	QuestLogFrame.backdrop:Point('TOPLEFT', 10, -12)
-	QuestLogFrame.backdrop:Point('BOTTOMRIGHT', -1, 8)
-
-	QuestLogListScrollFrame:StripTextures()
-	QuestLogListScrollFrame:CreateBackdrop('Default', true)
-
-	QuestLogDetailScrollFrame:StripTextures()
-	QuestLogDetailScrollFrame:CreateBackdrop('Default', true)
-
-	QuestLogDetailScrollFrame:ClearAllPoints()
-	QuestLogDetailScrollFrame:Point('TOPLEFT', QuestLogListScrollFrame, 'TOPRIGHT', 25, 0)
-
-	QuestLogNoQuestsText:ClearAllPoints()
-	QuestLogNoQuestsText:Point('CENTER', EmptyQuestLogFrame, 'CENTER', -45, 65)
-
-	QuestLogFrameAbandonButton:Point('BOTTOMLEFT', 18, 15)
-	QuestLogFrameAbandonButton:Width(100)
-
-	QuestFramePushQuestButton:ClearAllPoints()
-	QuestFramePushQuestButton:Point('LEFT', QuestLogFrameAbandonButton, 'RIGHT', 2, 0)
-	QuestFramePushQuestButton:Width(100)
-
-	QuestFrameExitButton:Point('BOTTOMRIGHT', -8, 15)
-	QuestFrameExitButton:Width(100)
+	EmptyQuestLogFrame:StripTextures()
 
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
 	S:HandleScrollBar(QuestDetailScrollFrameScrollBar)
-	S:HandleScrollBar(QuestLogListScrollFrameScrollBar)
-	QuestLogListScrollFrameScrollBar:Point('TOPLEFT', QuestLogListScrollFrame, 'TOPRIGHT', 5, -16)
 	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
 	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
 
-	S:HandleCloseButton(QuestFrameCloseButton, QuestFrame.backdrop)
+	-- Quest Frame
+	QuestFrame:StripTextures(true)
+	QuestFrame:CreateBackdrop('Transparent')
+	QuestFrame.backdrop:Point('TOPLEFT', 15, -11)
+	QuestFrame.backdrop:Point('BOTTOMRIGHT', -20, 0)
+	QuestFrame:Width(374)
 
-	S:HandleCloseButton(QuestLogFrameCloseButton)
-	QuestLogFrameCloseButton:ClearAllPoints()
-	QuestLogFrameCloseButton:Point('TOPRIGHT', 2, -9)
+	QuestFrameDetailPanel:StripTextures(true)
+	QuestDetailScrollFrame:StripTextures(true)
+	QuestDetailScrollFrame:Height(403)
+	QuestDetailScrollChildFrame:StripTextures(true)
+	QuestRewardScrollFrame:StripTextures(true)
+	QuestRewardScrollFrame:Height(403)
+	QuestRewardScrollChildFrame:StripTextures(true)
+	QuestFrameProgressPanel:StripTextures(true)
+	QuestProgressScrollFrame:Height(403)
+	QuestFrameRewardPanel:StripTextures(true)
 
-	for i = 1, 6 do
-		local item = _G['QuestProgressItem'..i]
-		local icon = _G['QuestProgressItem'..i..'IconTexture']
-		local count = _G['QuestProgressItem'..i..'Count']
+	S:HandleButton(QuestFrameAcceptButton, true)
+	QuestFrameAcceptButton:Point('BOTTOMLEFT', 20, 4)
 
-		item:StripTextures()
-		item:SetTemplate('Default')
-		item:StyleButton(nil, true)
-		item:Width(item:GetWidth() - 4)
-		item:SetFrameLevel(item:GetFrameLevel() + 2)
+	S:HandleButton(QuestFrameDeclineButton, true)
+	QuestFrameDeclineButton:Point('BOTTOMRIGHT', -37, 4)
 
-		icon:SetDrawLayer('OVERLAY')
-		icon:Size(icon:GetWidth() -(E.Spacing*2), icon:GetHeight() -(E.Spacing*2))
-		icon:Point('TOPLEFT', E.Border, -E.Border)
-		S:HandleIcon(icon)
+	S:HandleButton(QuestFrameCompleteButton, true)
+	QuestFrameCompleteButton:Point('BOTTOMLEFT', 20, 4)
 
-		-- count:SetParent(item.backdrop)
-		-- count:SetDrawLayer('OVERLAY')
-	end
+	S:HandleButton(QuestFrameGoodbyeButton, true)
+	QuestFrameGoodbyeButton:Point('BOTTOMRIGHT', -37, 4)
+
+	S:HandleButton(QuestFrameCompleteQuestButton, true)
+	QuestFrameCompleteQuestButton:Point('BOTTOMLEFT', 20, 4)
+
+	S:HandleButton(QuestFrameCancelButton)
+	QuestFrameCancelButton:Point('BOTTOMRIGHT', -37, 4)
+
+	S:HandleCloseButton(QuestFrameCloseButton)
 
 	hooksecurefunc('QuestFrameProgressItems_Update', function()
 		QuestProgressTitleText:SetTextColor(1, 0.80, 0.10)
@@ -332,57 +284,58 @@ local function LoadSkin()
 			local name = _G['QuestProgressItem'..i..'Name']
 			local link = item.type and GetQuestItemLink(item.type, item:GetID())
 
-			QuestQualityColors(item, name, nil, link)
+			QuestQualityColors(item, name, link)
 		end
 	end)
 
 	for i = 1, QUESTS_DISPLAYED do
 		local questLogTitle = _G['QuestLogTitle'..i]
-		local highlight = _G['QuestLogTitle'..i..'Highlight']
-
-		questLogTitle:SetNormalTexture('Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton')
+		questLogTitle:SetNormalTexture(E.Media.Textures.Plus)
 		questLogTitle.SetNormalTexture = E.noop
-		questLogTitle:GetNormalTexture():Size(14)
-		questLogTitle:GetNormalTexture():Point('LEFT', 3, 0)
-
-		highlight:SetTexture('')
-		highlight.SetTexture = E.noop
+		questLogTitle:GetNormalTexture():Size(16)
+		questLogTitle:GetNormalTexture():Point('LEFT', 5, 0)
+		questLogTitle:SetHighlightTexture('')
+		questLogTitle.SetHighlightTexture = E.noop
 
 		hooksecurefunc(questLogTitle, 'SetNormalTexture', function(self, texture)
+			local tex = self:GetNormalTexture()
+
 			if find(texture, 'MinusButton') then
-				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+				tex:SetTexture(E.Media.Textures.Minus)
 			elseif find(texture, 'PlusButton') then
-				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+				tex:SetTexture(E.Media.Textures.Plus)
 			else
-				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0)
- 			end
+				tex:SetTexture()
+			end
 		end)
 	end
 
 	QuestLogCollapseAllButton:StripTextures()
 	QuestLogCollapseAllButton:Point('TOPLEFT', -45, 7)
 
-	QuestLogCollapseAllButton:SetNormalTexture('Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton')
+	QuestLogCollapseAllButton:SetNormalTexture(E.Media.Textures.Plus)
 	QuestLogCollapseAllButton.SetNormalTexture = E.noop
-	QuestLogCollapseAllButton:GetNormalTexture():Size(15)
+	QuestLogCollapseAllButton:GetNormalTexture():Size(16)
 
 	QuestLogCollapseAllButton:SetHighlightTexture('')
 	QuestLogCollapseAllButton.SetHighlightTexture = E.noop
 
-	QuestLogCollapseAllButton:SetDisabledTexture('Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton')
+	QuestLogCollapseAllButton:SetDisabledTexture(E.Media.Textures.Plus)
 	QuestLogCollapseAllButton.SetDisabledTexture = E.noop
-	QuestLogCollapseAllButton:GetDisabledTexture():Size(15)
-	QuestLogCollapseAllButton:GetDisabledTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+	QuestLogCollapseAllButton:GetDisabledTexture():Size(16)
+	QuestLogCollapseAllButton:GetDisabledTexture():SetTexture(E.Media.Textures.Plus)
 	QuestLogCollapseAllButton:GetDisabledTexture():SetDesaturated(true)
 
 	hooksecurefunc(QuestLogCollapseAllButton, 'SetNormalTexture', function(self, texture)
+		local tex = self:GetNormalTexture()
+
 		if find(texture, 'MinusButton') then
-			self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+			tex:SetTexture(E.Media.Textures.Minus)
 		elseif find(texture, 'PlusButton') then
-			self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+			tex:SetTexture(E.Media.Textures.Plus)
 		else
-			self:GetNormalTexture():SetTexCoord(0, 0, 0, 0)
- 		end
+			tex:SetTexture(E.Media.Textures.Plus)
+		end
 	end)
 end
 
