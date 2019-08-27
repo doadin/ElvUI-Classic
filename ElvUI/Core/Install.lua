@@ -283,8 +283,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.databars.reputation.height = 10
 		E.db.databars.reputation.orientation = "HORIZONTAL"
 		E.db.databars.reputation.width = 222
-		--DataTexts
-		E.db.datatexts.panels.LeftChatDataPanel.right = "Quick Join"
 		--General
 		E.db.general.bonusObjectivePosition = "AUTO"
 		E.db.general.minimap.size = 220
