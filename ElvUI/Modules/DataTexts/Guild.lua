@@ -3,18 +3,16 @@ local DT = E:GetModule('DataTexts')
 
 --Lua functions
 local _G = _G
-local ipairs, select, sort, unpack, wipe, ceil = ipairs, select, sort, unpack, wipe, ceil
-local format, strfind, strjoin, strsplit = format, strfind, strjoin, strsplit
+local ipairs, sort, unpack, wipe, ceil = ipairs, sort, unpack, wipe, ceil
+local format, strjoin, strsplit = format, strjoin, strsplit
 --WoW API / Variables
 local GetDisplayedInviteType = GetDisplayedInviteType
-local GetGuildFactionInfo = GetGuildFactionInfo
 local GetGuildInfo = GetGuildInfo
-local GetGuildRosterInfo = GetGuildRosterInfo
 local GetGuildRosterMOTD = GetGuildRosterMOTD
 local GetMouseFocus = GetMouseFocus
 local GetNumGuildMembers = GetNumGuildMembers
 local GetQuestDifficultyColor = GetQuestDifficultyColor
-local C_GuildInfo_GuildRoster = C_GuildInfo.GuildRoster
+local GetGuildRosterInfo = GetGuildRosterInfo
 local InviteToGroup = InviteToGroup
 local IsInGuild = IsInGuild
 local IsShiftKeyDown = IsShiftKeyDown
@@ -26,7 +24,6 @@ local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
 local InCombatLockdown = InCombatLockdown
 
-local COMBAT_FACTION_CHANGE = COMBAT_FACTION_CHANGE
 local GUILD = GUILD
 local GUILD_MOTD = GUILD_MOTD
 local REMOTE_CHAT = REMOTE_CHAT
@@ -42,7 +39,6 @@ local guildMotDString = "%s |cffaaaaaa- |cffffffff%s"
 local levelNameString = "|cff%02x%02x%02x%d|r |cff%02x%02x%02x%s|r %s"
 local levelNameStatusString = "|cff%02x%02x%02x%d|r %s%s %s"
 local nameRankString = "%s |cff999999-|cffffffff %s"
-local standingString = E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b).."%s:|r |cFFFFFFFF%s/%s (%s%%)"
 local moreMembersOnlineString = strjoin("", "+ %d ", _G.FRIENDS_LIST_ONLINE, "...")
 local noteString = strjoin("", "|cff999999   ", _G.LABEL_NOTE, ":|r %s")
 local officerNoteString = strjoin("", "|cff999999   ", _G.GUILD_RANK1_DESC, ":|r %s")
@@ -101,36 +97,22 @@ local function UpdateGuildMessage()
 	guildMotD = GetGuildRosterMOTD()
 end
 
-local FRIEND_ONLINE = select(2, strsplit(" ", _G.ERR_FRIEND_ONLINE_SS, 2))
-local resendRequest = false
 local eventHandlers = {
-	['CHAT_MSG_SYSTEM'] = function(self, arg1)
-		if(FRIEND_ONLINE ~= nil and arg1 and strfind(arg1, FRIEND_ONLINE)) then
-			resendRequest = true
-		end
-	end,
 	-- when we enter the world and guildframe is not available then
 	-- load guild frame, update guild message and guild xp
 	["PLAYER_ENTERING_WORLD"] = function()
 		if not _G.GuildFrame and IsInGuild() then
 			LoadAddOn("Blizzard_GuildUI")
-			C_GuildInfo_GuildRoster()
 		end
 	end,
 	-- Guild Roster updated, so rebuild the guild table
 	["GUILD_ROSTER_UPDATE"] = function(self)
-		if(resendRequest) then
-			resendRequest = false
-			return C_GuildInfo_GuildRoster()
-		else
-			BuildGuildTable()
-			UpdateGuildMessage()
-			if GetMouseFocus() == self then
-				self:GetScript("OnEnter")(self, nil, true)
-			end
+		BuildGuildTable()
+		UpdateGuildMessage()
+		if GetMouseFocus() == self then
+			self:GetScript("OnEnter")(self, nil, true)
 		end
 	end,
-	["PLAYER_GUILD_UPDATE"] = C_GuildInfo_GuildRoster,
 	-- our guild message of the day changed
 	["GUILD_MOTD"] = function (self, arg1)
 		guildMotD = arg1
@@ -239,13 +221,6 @@ local function OnEnter(self, _, noUpdate)
 		DT.tooltip:AddLine(format(guildMotDString, GUILD_MOTD, guildMotD), ttsubh.r, ttsubh.g, ttsubh.b, 1)
 	end
 
-	local _, _, standingID, barMin, barMax, barValue = GetGuildFactionInfo()
-	if standingID ~= 8 then -- Not Max Rep
-		barMax = barMax - barMin
-		barValue = barValue - barMin
-		DT.tooltip:AddLine(format(standingString, COMBAT_FACTION_CHANGE, E:ShortValue(barValue), E:ShortValue(barMax), ceil((barValue / barMax) * 100)))
-	end
-
 	local zonec, grouped
 
 	DT.tooltip:AddLine(' ')
@@ -272,10 +247,6 @@ local function OnEnter(self, _, noUpdate)
 	end
 
 	DT.tooltip:Show()
-
-	if not noUpdate then
-		C_GuildInfo_GuildRoster()
-	end
 end
 
 local function ValueColorUpdate(hex)
