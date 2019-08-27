@@ -574,14 +574,6 @@ function TT:CheckBackdropColor(tt)
 	end
 end
 
-function TT:SetStyle(tt)
-	if not tt or tt:IsForbidden() then return end
-	tt:SetTemplate("Transparent", nil, true) --ignore updates
-
-	local r, g, b = E:GetBackdropColor(tt)
-	tt:SetBackdropColor(r, g, b, self.db.colorAlpha)
-end
-
 function TT:MODIFIER_STATE_CHANGED(_, key)
 	if key == "LSHIFT" or key == "RSHIFT" or key == "LCTRL" or key == "RCTRL" or key == "LALT" or key == "RALT" then
 		local owner = GameTooltip:GetOwner()
