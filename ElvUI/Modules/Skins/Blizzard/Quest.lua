@@ -41,12 +41,12 @@ local function LoadSkin()
 
 		if quality then
 			frame:SetBackdropBorderColor(GetItemQualityColor(quality))
-			frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+			--frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 
 			text:SetTextColor(GetItemQualityColor(quality))
 		else
 			frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
-			frame.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			--frame.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 
 			text:SetTextColor(1, 1, 1)
 		end
@@ -226,6 +226,7 @@ local function LoadSkin()
 	QuestRewardScrollChildFrame:StripTextures(true)
 	QuestFrameProgressPanel:StripTextures(true)
 	QuestProgressScrollFrame:Height(403)
+	QuestProgressScrollFrame:StripTextures()
 	QuestFrameRewardPanel:StripTextures(true)
 
 	S:HandleButton(QuestFrameAcceptButton, true)
