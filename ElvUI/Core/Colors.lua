@@ -1,12 +1,12 @@
 RAID_CLASS_COLORS = {
 	["DRUID"] = CreateColor(1, .49, .03),
-	["HUNTER"] = CreateColor(.67, .84, .45),
-	["MAGE"] = CreateColor(.41, .8, 1),
+	["HUNTER"] = CreateColor(.67, .83, .45),
+	["MAGE"] = CreateColor(.24, .78, .92),
 	["PALADIN"] = CreateColor(.96, .55, .73),
-	["PRIEST"] = CreateColor(.83, .83, .83),
-	["ROGUE"] = CreateColor(1, .95, .32),
+	["PRIEST"] = CreateColor(1, 1, 1),
+	["ROGUE"] = CreateColor(1, .96, .42),
 	["SHAMAN"] = CreateColor(0, .44, .86),
-	["WARLOCK"] = CreateColor(.58, .51, .79),
+	["WARLOCK"] = CreateColor(.53, .53, .93),
 	["WARRIOR"] = CreateColor(.78, .61, .43)
 }
 
