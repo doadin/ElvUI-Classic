@@ -977,9 +977,9 @@ mod.StyleFilterEventFunctions = { -- a prefunction to the injected ouf watch
 	['PLAYER_TARGET_CHANGED'] = function(self)
 		self.isTarget = self.unit and UnitIsUnit(self.unit, 'target') or nil
 	end,
-	['PLAYER_FOCUS_CHANGED'] = function(self)
-		self.isFocused = self.unit and UnitIsUnit(self.unit, 'focus') or nil
-	end,
+	--['PLAYER_FOCUS_CHANGED'] = function(self)
+		--self.isFocused = self.unit and UnitIsUnit(self.unit, 'focus') or nil
+	--end,
 	['RAID_TARGET_UPDATE'] = function(self)
 		self.RaidTargetIndex = self.unit and GetRaidTargetIndex(self.unit) or nil
 	end,
@@ -1090,9 +1090,9 @@ function mod:StyleFilterConfigure()
 					mod.StyleFilterTriggerEvents.UNIT_TARGET = 1
 				end
 
-				if t.isFocus or t.notFocus then
-					mod.StyleFilterTriggerEvents.PLAYER_FOCUS_CHANGED = 1
-				end
+				--if t.isFocus or t.notFocus then
+					--mod.StyleFilterTriggerEvents.PLAYER_FOCUS_CHANGED = 1
+				--end
 
 				if t.isResting then
 					mod.StyleFilterTriggerEvents.PLAYER_UPDATE_RESTING = 1
@@ -1297,7 +1297,7 @@ function mod:StyleFilterEvents(nameplate)
 	-- these events get added onto StyleFilterDefaultEvents to be watched,
 	-- the ones added from here should not by registered already
 	mod:StyleFilterRegister(nameplate,'MODIFIER_STATE_CHANGED', true)
-	mod:StyleFilterRegister(nameplate,'PLAYER_FOCUS_CHANGED', true)
+	--mod:StyleFilterRegister(nameplate,'PLAYER_FOCUS_CHANGED', true)
 	mod:StyleFilterRegister(nameplate,'PLAYER_TARGET_CHANGED', true)
 	mod:StyleFilterRegister(nameplate,'PLAYER_UPDATE_RESTING', true)
 	mod:StyleFilterRegister(nameplate,'RAID_TARGET_UPDATE', true)

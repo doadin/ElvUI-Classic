@@ -203,7 +203,7 @@ local options = {
 
 			self:RegisterEvent('UNIT_TARGET', Update)
 			self:RegisterEvent('PLAYER_TARGET_CHANGED', Update, true)
-			self:RegisterEvent('PLAYER_FOCUS_CHANGED', Update, true)
+			--self:RegisterEvent('PLAYER_FOCUS_CHANGED', Update, true)
 		end,
 		events = {'UNIT_TARGET','PLAYER_TARGET_CHANGED','PLAYER_FOCUS_CHANGED'},
 		disable = function(self)
@@ -212,12 +212,12 @@ local options = {
 			end
 		end
 	},
-	Focus = {
-		enable = function(self)
-			self:RegisterEvent('PLAYER_FOCUS_CHANGED', Update, true)
-		end,
-		events = {'PLAYER_FOCUS_CHANGED'}
-	},
+	--Focus = {
+		--enable = function(self)
+			--self:RegisterEvent('PLAYER_FOCUS_CHANGED', Update, true)
+		--end,
+		--events = {'PLAYER_FOCUS_CHANGED'}
+	--},
 	Health = {
 		enable = function(self)
 			self:RegisterEvent('UNIT_HEALTH', Update)

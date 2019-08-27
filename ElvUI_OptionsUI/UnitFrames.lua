@@ -773,12 +773,6 @@ local function GetOptionsTable_Fader(updateFunc, groupName, numUnits)
 				name = (groupName == 'player' and L["Target"]) or L["Player Target"],
 				disabled = function() return not E.db.unitframe.units[groupName].fader.enable or E.db.unitframe.units[groupName].fader.range end,
 			},
-			focus = {
-				type = 'toggle',
-				order = 8,
-				name = L["Focus"],
-				disabled = function() return not E.db.unitframe.units[groupName].fader.enable or E.db.unitframe.units[groupName].fader.range end,
-			},
 			health = {
 				type = 'toggle',
 				order = 9,
@@ -2332,34 +2326,13 @@ E.Options.args.unitframe = {
 			type = "description",
 			name = " ",
 		},
-		focusShortcut = {
-			order = 16,
-			type = "execute",
-			name = L["Focus"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "focus") end,
-			disabled = function() return not E.UnitFrames.Initialized end,
-		},
-		focustargetShortcut = {
-			order = 17,
-			type = "execute",
-			name = L["FocusTarget"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "focustarget") end,
-			disabled = function() return not E.UnitFrames.Initialized end,
-		},
 		petShortcut = {
-			order = 18,
+			order = 17,
 			type = "execute",
 			name = L["PET"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "unitframe", "pet") end,
 			disabled = function() return not E.UnitFrames.Initialized end,
-		},
-		spacer5 = {
-			order = 19,
-			type = "description",
-			name = " ",
 		},
 		pettargetShortcut = {
 			order = 20,
