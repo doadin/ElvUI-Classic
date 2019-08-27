@@ -204,11 +204,6 @@ function UF:Configure_HealthBar(frame)
 			health:SetOrientation(db.health.orientation)
 		end
 
-		--Party/Raid Frames can toggle frequent updates
-		if db.health.frequentUpdates == nil then db.health.frequentUpdates = true end
-
-		health:SetFrequentUpdates(db.health.frequentUpdates)
-
 		if db.health.bgUseBarTexture then
 			health.bg:SetTexture(E.Libs.LSM:Fetch('statusbar', E.db.unitframe.statusbar))
 		end
