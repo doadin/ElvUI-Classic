@@ -11,7 +11,5 @@ RAID_CLASS_COLORS = {
 }
 
 for _, v in pairs(RAID_CLASS_COLORS) do
-	if v:GenerateHexColor() then
-		v.colorStr = v:GenerateHexColor()
-	end
+	v.colorStr = v:GenerateHexColor()
 end

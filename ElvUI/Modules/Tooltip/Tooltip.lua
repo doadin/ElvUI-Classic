@@ -233,10 +233,15 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 		end
 
 		local levelLine = self:GetLevelLine(tt, lineOffset)
+
+		local diffColor = GetCreatureDifficultyColor(level)
+		local race = UnitRace(unit)
+		local levelString = format("|cff%02x%02x%02x%s|r %s |c%s%s|r", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", race or '', color.colorStr, localeClass)
+
 		if levelLine then
-			local diffColor = GetCreatureDifficultyColor(level)
-			local race = UnitRace(unit)
-			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r %s |c%s%s|r", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", race or '', color.colorStr, localeClass)
+			levelLine:SetText(levelString)
+		else
+			GameTooltip:AddLine(levelString)
 		end
 	else
 		if UnitIsTapDenied(unit) then
