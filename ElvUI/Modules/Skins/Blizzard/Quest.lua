@@ -100,69 +100,40 @@ local function LoadSkin()
 		end
 	end
 
-	hooksecurefunc('QuestInfo_Display', function()
-		for i = 1, #_G.QuestInfoRewardsFrame.RewardButtons do
-			local questItem = _G.QuestInfoRewardsFrame.RewardButtons[i]
-			if not questItem:IsShown() then break end
+	hooksecurefunc(_G, 'QuestLog_UpdateQuestDetails', function()
+		_G.QuestLogQuestTitle:SetTextColor(1, .8, .1)
+		_G.QuestLogObjectivesText:SetTextColor(1, 1, 1)
 
-			local point, relativeTo, relativePoint, _, y = questItem:GetPoint()
-			if point and relativeTo and relativePoint then
-				if i == 1 then
-					questItem:Point(point, relativeTo, relativePoint, 0, y)
-				elseif relativePoint == 'BOTTOMLEFT' then
-					questItem:Point(point, relativeTo, relativePoint, 0, -4)
-				else
-					questItem:Point(point, relativeTo, relativePoint, 4, 0)
-				end
-			end
+		_G.QuestLogDescriptionTitle:SetTextColor(1, .8, .1)
+		_G.QuestLogQuestDescription:SetTextColor(1, 1, 1)
 
-			questItem.Name:SetTextColor(1, 1, 1)
-		end
+		_G.QuestLogRewardTitleText:SetTextColor(1, .8, .1)
 
-		if E.private.skins.parchmentRemover.enable then
-			_G.QuestInfoTitleHeader:SetTextColor(1, .8, .1)
-			_G.QuestInfoDescriptionHeader:SetTextColor(1, .8, .1)
-			_G.QuestInfoObjectivesHeader:SetTextColor(1, .8, .1)
-			_G.QuestInfoRewardsFrame.Header:SetTextColor(1, .8, .1)
-			_G.QuestInfoDescriptionText:SetTextColor(1, 1, 1)
-			_G.QuestInfoObjectivesText:SetTextColor(1, 1, 1)
-			_G.QuestInfoGroupSize:SetTextColor(1, 1, 1)
-			_G.QuestInfoRewardText:SetTextColor(1, 1, 1)
-			_G.QuestInfoQuestType:SetTextColor(1, 1, 1)
-			_G.QuestInfoRewardsFrame.ItemChooseText:SetTextColor(1, 1, 1)
-			_G.QuestInfoRewardsFrame.ItemReceiveText:SetTextColor(1, 1, 1)
-			if _G.QuestInfoRewardsFrame.SpellLearnText then
-				_G.QuestInfoRewardsFrame.SpellLearnText:SetTextColor(1, 1, 1)
-			end
+		_G.QuestLogItemChooseText:SetTextColor(1, 1, 1)
+		_G.QuestLogSpellLearnText:SetTextColor(1, 1, 1)
 
-			_G.QuestInfoRewardsFrame.PlayerTitleText:SetTextColor(1, 1, 1)
-			_G.QuestInfoRewardsFrame.XPFrame.ReceiveText:SetTextColor(1, 1, 1)
+		local numObjectives = GetNumQuestLeaderBoards()
+		local numVisibleObjectives = 0
 
-			local questID = Quest_GetQuestID()
-			local numObjectives = GetNumQuestLeaderBoards()
-			local numVisibleObjectives = 0
-
-			local waypointText = C_QuestLog_GetNextWaypointText(questID)
-			if waypointText then
+		for i = 1, numObjectives do
+			local _, _, finished = GetQuestLogLeaderBoard(i)
+			if (type ~= 'spell' and type ~= 'log' and numVisibleObjectives < _G.MAX_OBJECTIVES) then
 				numVisibleObjectives = numVisibleObjectives + 1
-				local objective = _G['QuestInfoObjective'..numVisibleObjectives]
-				objective:SetTextColor(1, .8, .1)
-			end
-
-			for i = 1, numObjectives do
-				local _, _, finished = GetQuestLogLeaderBoard(i)
-				if (type ~= 'spell' and type ~= 'log' and numVisibleObjectives < _G.MAX_OBJECTIVES) then
-					numVisibleObjectives = numVisibleObjectives + 1
-					local objective = _G['QuestInfoObjective'..numVisibleObjectives]
-					if objective then
-						if finished then
-							objective:SetTextColor(1, .8, .1)
-						else
-							objective:SetTextColor(.63, .09, .09)
-						end
+				local objective = _G['QuestLogObjective'..numVisibleObjectives]
+				if objective then
+					if finished then
+						objective:SetTextColor(1, .8, .1)
+					else
+						objective:SetTextColor(.63, .09, .09)
 					end
 				end
 			end
+		end
+
+		if QuestLogRequiredMoneyText:GetTextColor() == 0 then
+			QuestLogRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+		else
+			QuestLogRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
 		end
 	end)
 
@@ -178,14 +149,6 @@ local function LoadSkin()
 	end)
 
 	hooksecurefunc('QuestInfo_ShowRequiredMoney', function()
-		local requiredMoney = GetQuestLogRequiredMoney()
-		if requiredMoney > 0 then
-			if requiredMoney > GetMoney() then
-				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
-			else
-				QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
-			end
-		end
 	end)
 
 	QuestInfoTimerText:SetTextColor(1, 1, 1)

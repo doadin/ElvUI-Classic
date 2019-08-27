@@ -177,44 +177,9 @@ local function LoadSkin()
 	end)
 
 	-- Guild Frame
-	GuildFrameColumnHeader3:ClearAllPoints()
-	GuildFrameColumnHeader3:Point('TOPLEFT', 20, -70)
-
-	GuildFrameColumnHeader4:ClearAllPoints()
-	GuildFrameColumnHeader4:Point('LEFT', GuildFrameColumnHeader3, 'RIGHT', -2, -0)
-	GuildFrameColumnHeader4:Width(48)
-
-	GuildFrameColumnHeader1:ClearAllPoints()
-	GuildFrameColumnHeader1:Point('LEFT', GuildFrameColumnHeader4, 'RIGHT', -2, -0)
-	GuildFrameColumnHeader1:Width(105)
-
-	GuildFrameColumnHeader2:ClearAllPoints()
-	GuildFrameColumnHeader2:Point('LEFT', GuildFrameColumnHeader1, 'RIGHT', -2, -0)
-	GuildFrameColumnHeader2:Width(127)
+	GuildFrame:StripTextures()
 
 	for i = 1, GUILDMEMBERS_TO_DISPLAY do
-		local button = _G['GuildFrameButton'..i]
-		local name = _G['GuildFrameButton'..i..'Name']
-		local level = _G['GuildFrameButton'..i..'Level']
-
-		button.icon = button:CreateTexture('$parentIcon', 'ARTWORK')
-		button.icon:Point('LEFT', 48, 0)
-		button.icon:Size(15)
-		button.icon:SetTexture('Interface\\AddOns\\ElvUI\\Media\\Textures\\Icons-Classes')
-
-		button:CreateBackdrop('Default', true)
-		button.backdrop:SetAllPoints(button.icon)
-		S:HandleButtonHighlight(button)
-
-		level:ClearAllPoints()
-		level:Point('TOPLEFT', 10, -1)
-
-		name:Size(100, 14)
-		name:ClearAllPoints()
-		name:Point('LEFT', 85, 0)
-
-		_G['GuildFrameButton'..i..'Class']:Hide()
-
 		S:HandleButtonHighlight(_G['GuildFrameGuildStatusButton'..i])
 
 		_G['GuildFrameGuildStatusButton'..i..'Name']:Point('TOPLEFT', 14, 0)
@@ -246,8 +211,6 @@ local function LoadSkin()
 							buttonText:SetTextColor(0, 1, 0)
 						end
 					end
-
-					button.icon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFileName]))
 				end
 			end
 		else
@@ -268,7 +231,6 @@ local function LoadSkin()
 	end)
 
 	GuildFrameLFGFrame:StripTextures()
-	GuildFrameLFGFrame:SetTemplate('Transparent')
 
 	S:HandleCheckBox(GuildFrameLFGButton)
 
@@ -318,8 +280,8 @@ local function LoadSkin()
 	GuildMemberOfficerNoteBackground.backdrop:Point('TOPLEFT', 0, -2)
 	GuildMemberOfficerNoteBackground.backdrop:Point('BOTTOMRIGHT', 0, -1)
 
-	GuildFrameNotesLabel:Point('TOPLEFT', GuildFrame, 'TOPLEFT', 23, -340)
-	GuildFrameNotesText:Point('TOPLEFT', GuildFrameNotesLabel, 'BOTTOMLEFT', 0, -6)
+	--GuildFrameNotesLabel:Point('TOPLEFT', GuildFrame, 'TOPLEFT', 23, -340)
+	--GuildFrameNotesText:Point('TOPLEFT', GuildFrameNotesLabel, 'BOTTOMLEFT', 0, -6)
 
 	GuildMOTDEditButton:CreateBackdrop('Default')
 	GuildMOTDEditButton.backdrop:Point('TOPLEFT', -7, 3)
