@@ -142,6 +142,10 @@ local function CastStart(self, event, unit)
 	element:SetMinMaxValues(0, element.max)
 	element:SetValue(element.duration)
 
+	if strfind(texture, [[Interface\ICONS\Temp]]) then
+		texture = DEFAULT_ICON
+	end
+
 	if(element.Icon) then element.Icon:SetTexture(texture or DEFAULT_ICON) end
 	if(element.Shield) then element.Shield:SetShown(notInterruptible) end
 	if(element.Spark) then element.Spark:Show() end
