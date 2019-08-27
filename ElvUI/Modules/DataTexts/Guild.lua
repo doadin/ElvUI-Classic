@@ -259,4 +259,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('Guild', {'PLAYER_ENTERING_WORLD', 'CHAT_MSG_SYSTEM', "GUILD_ROSTER_UPDATE", "PLAYER_GUILD_UPDATE", "GUILD_MOTD"}, OnEvent, nil, Click, OnEnter, nil, GUILD)
+DT:RegisterDatatext('Guild', {'PLAYER_ENTERING_WORLD', "GUILD_ROSTER_UPDATE", "GUILD_MOTD"}, OnEvent, nil, Click, OnEnter, nil, GUILD)
