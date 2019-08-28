@@ -1080,7 +1080,6 @@ function CH:GetColoredName(event, _, arg2, _, _, _, _, _, arg8, _, _, _, arg12)
 	if ( strsub(chatType, 1, 7) == "CHANNEL" ) then
 		chatType = "CHANNEL"..arg8
 	end
-	local info = _G.ChatTypeInfo[chatType]
 
 	--ambiguate guild chat names
 	if (chatType == "GUILD") then
@@ -1089,7 +1088,7 @@ function CH:GetColoredName(event, _, arg2, _, _, _, _, _, arg8, _, _, _, arg12)
 		arg2 = Ambiguate(arg2, "none")
 	end
 
-	if ( arg12 and info and Chat_ShouldColorChatByClass(info) ) then
+	if ( arg12 ) then
 		local _, englishClass = GetPlayerInfoByGUID(arg12)
 
 		if ( englishClass ) then

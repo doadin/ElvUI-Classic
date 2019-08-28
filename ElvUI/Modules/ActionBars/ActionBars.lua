@@ -741,7 +741,6 @@ function AB:UpdateButtonConfig(bar, buttonName)
 		button.postKeybind = AB.FixKeybindText
 		button:SetAttribute("buttonlock", self.db.lockActionBars)
 		button:SetAttribute("checkselfcast", true)
-		button:SetAttribute("checkfocuscast", true)
 		if self.db.rightClickSelfCast then
 			button:SetAttribute("unit2", "player")
 		end

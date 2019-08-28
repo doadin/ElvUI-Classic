@@ -4151,13 +4151,6 @@ E.Options.args.nameplate = {
 							name = L["StatusBar Texture"],
 							values = _G.AceGUIWidgetLSMlists.statusbar,
 						},
-						loadDistance = {
-							order = 6,
-							type = "range",
-							name = L["Load Distance"],
-							desc = L["Only load nameplates for units within this range."],
-							min = 10, max = 100, step = 1,
-						},
 						overlapV = {
 							order = 7,
 							type = "range",
@@ -4729,39 +4722,6 @@ E.Options.args.nameplate = {
 									order = 9,
 									name = L["RAGE"],
 									type = 'color',
-								},
-							},
-						},
-						classResources = {
-							order = 8,
-							name = L["Class Resources"],
-							type = 'group',
-							guiInline = true,
-							get = function(info)
-								local t = E.db.nameplates.colors.classResources[info[#info]]
-								local d = P.nameplates.colors.classResources[info[#info]]
-								return t.r, t.g, t.b, t.a, d.r, d.g, d.b, d.a
-							end,
-							set = function(info, r, g, b, a)
-								local t = E.db.nameplates.colors.classResources[info[#info]]
-								t.r, t.g, t.b, t.a = r, g, b, a
-								NP:ConfigureAll()
-							end,
-							args = {
-								['WARLOCK'] = {
-									type = 'color',
-									order = 3,
-									name = L["SOUL_SHARDS"],
-								},
-								spacer1 = {
-									order = 5,
-									type = 'description',
-									name = ' ',
-								},
-								spacer2 = {
-									order = 20,
-									type = 'description',
-									name = ' ',
 								},
 							},
 						},

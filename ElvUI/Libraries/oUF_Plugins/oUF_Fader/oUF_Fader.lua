@@ -109,7 +109,7 @@ end
 local function onRangeUpdate(frame, elapsed)
 	frame.timer = (frame.timer or 0) + elapsed
 
-	if frame.timer >= .20 then
+	if (frame.timer >= .20) then
 		for _, object in next, onRangeObjects do
 			if object:IsVisible() then
 				object.Fader:ForceUpdate()
@@ -203,20 +203,13 @@ local options = {
 
 			self:RegisterEvent('UNIT_TARGET', Update)
 			self:RegisterEvent('PLAYER_TARGET_CHANGED', Update, true)
-			self:RegisterEvent('PLAYER_FOCUS_CHANGED', Update, true)
 		end,
-		events = {'UNIT_TARGET','PLAYER_TARGET_CHANGED','PLAYER_FOCUS_CHANGED'},
+		events = {'UNIT_TARGET','PLAYER_TARGET_CHANGED'},
 		disable = function(self)
 			if self.Fader.TargetHooked == 1 then
 				self.Fader.TargetHooked = 0 -- off state
 			end
 		end
-	},
-	Focus = {
-		enable = function(self)
-			self:RegisterEvent('PLAYER_FOCUS_CHANGED', Update, true)
-		end,
-		events = {'PLAYER_FOCUS_CHANGED'}
 	},
 	Health = {
 		enable = function(self)

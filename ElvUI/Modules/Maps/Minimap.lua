@@ -380,6 +380,7 @@ function M:Initialize()
 	_G.MinimapZoneTextButton:Hide()
 	--_G.MiniMapTracking:Hide()
 	_G.MiniMapMailBorder:Hide()
+	_G.MinimapToggleButton:Hide()
 	_G.MiniMapMailIcon:SetTexture(E.Media.Textures.Mail)
 
 	_G.MiniMapWorldMapButton:Hide()

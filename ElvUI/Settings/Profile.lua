@@ -1686,9 +1686,9 @@ P.datatexts = {
 	wordWrap = false,
 	panels = {
 		LeftChatDataPanel = {
-			left = 'Talent/Loot Specialization',
+			left = 'ElvUI Config',
 			middle = 'Durability',
-			right = 'BfA Missions',
+			right = 'Combat Time',
 		},
 		RightChatDataPanel = {
 			left = 'System',

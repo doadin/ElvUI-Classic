@@ -37,14 +37,12 @@ function UF:Construct_RaidFrames()
 	self.Debuffs = UF:Construct_Debuffs(self)
 	self.AuraWatch = UF:Construct_AuraWatch(self)
 	self.RaidDebuffs = UF:Construct_RaidDebuffs(self)
-	self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
-	self.ResurrectIndicator = UF:Construct_ResurrectionIcon(self)
+	--self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
 
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
-	--self.HealthPrediction = UF:Construct_HealComm(self)
 	self.Fader = UF:Construct_Fader()
 	self.Cutaway = UF:Construct_Cutaway(self)
 
@@ -197,11 +195,8 @@ function UF:Update_RaidFrames(frame, db)
 	--Raid Icon
 	UF:Configure_RaidIcon(frame)
 
-	-- Resurrect Icon
-	UF:Configure_ResurrectionIcon(frame)
-
 	--Debuff Highlight
-	UF:Configure_DebuffHighlight(frame)
+	--UF:Configure_DebuffHighlight(frame)
 
 	--OverHealing
 	--UF:Configure_HealComm(frame)

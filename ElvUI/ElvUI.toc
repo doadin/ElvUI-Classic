@@ -1,6 +1,11 @@
 ## Interface: 11302
+<<<<<<< HEAD
 ## Author: Elv 
 ## Version: 1.01
+=======
+## Author: Elv
+## Version: 1.02
+>>>>>>> development
 ## Title: |cfffe7b2cElvUI|r |cff1784d1Classic|r
 ## Notes: User Interface replacement AddOn for World of Warcraft.
 ## SavedVariables: ElvDB, ElvPrivateDB

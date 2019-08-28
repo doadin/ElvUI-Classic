@@ -15,10 +15,6 @@ local function LoadSkin()
 
 	-- Skin Blizzard Tooltips
 	local GameTooltip = _G.GameTooltip
-
-	GameTooltip:CreateBackdrop()
-	GameTooltip.backdrop:SetOutside(GameTooltip)
-
 	GameTooltipStatusBar:SetStatusBarTexture(E.media.normTex)
 	E:RegisterStatusBar(GameTooltipStatusBar)
 	GameTooltipStatusBar:CreateBackdrop('Transparent')
@@ -60,7 +56,6 @@ local function LoadSkin()
 
 	-- [Backdrop coloring] There has to be a more elegant way of doing this.
 	TT:SecureHookScript(GameTooltip, 'OnUpdate', 'CheckBackdropColor')
-
 end
 
 S:AddCallback('SkinTooltip', LoadSkin)

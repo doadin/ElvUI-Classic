@@ -52,8 +52,7 @@ function UF:Construct_PartyFrames()
 		self.Debuffs = UF:Construct_Debuffs(self)
 		self.AuraWatch = UF:Construct_AuraWatch(self)
 		self.RaidDebuffs = UF:Construct_RaidDebuffs(self)
-		self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
-		self.ResurrectIndicator = UF:Construct_ResurrectionIcon(self)
+		--self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
 		self.MouseGlow = UF:Construct_MouseGlow(self)
 		self.TargetGlow = UF:Construct_TargetGlow(self)
 		self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
@@ -230,9 +229,7 @@ function UF:Update_PartyFrames(frame, db)
 
 		UF:Configure_RaidIcon(frame)
 
-		UF:Configure_ResurrectionIcon(frame)
-
-		UF:Configure_DebuffHighlight(frame)
+	--	UF:Configure_DebuffHighlight(frame)
 
 	--	UF:Configure_HealComm(frame)
 

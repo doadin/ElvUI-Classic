@@ -144,6 +144,8 @@ local function SetupCVars(noDisplayMsg)
 	SetCVar("lockActionBars", 1)
 	SetCVar("SpamFilter", 0)
 	SetCVar("cameraDistanceMaxZoomFactor", 2.6)
+	SetCVar("chatClassColorOverride", 0)
+	SetCVar("colorChatNamesByClass", 1)
 
 	NP:CVarReset()
 
@@ -281,8 +283,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.databars.reputation.height = 10
 		E.db.databars.reputation.orientation = "HORIZONTAL"
 		E.db.databars.reputation.width = 222
-		--DataTexts
-		E.db.datatexts.panels.LeftChatDataPanel.right = "Quick Join"
 		--General
 		E.db.general.bonusObjectivePosition = "AUTO"
 		E.db.general.minimap.size = 220
