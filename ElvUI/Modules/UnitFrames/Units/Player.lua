@@ -46,7 +46,7 @@ function UF:Construct_PlayerFrame(frame)
 	--frame.HealthPrediction = self:Construct_HealComm(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
-	frame.Fader = self:Construct_Fader()
+	--frame.Fader = self:Construct_Fader()
 	frame.customTexts = {}
 
 	frame:Point('BOTTOMLEFT', E.UIParent, 'BOTTOM', -413, 68) --Set to default position
@@ -147,7 +147,7 @@ function UF:Update_PlayerFrame(frame, db)
 	end
 
 	--Fader
-	UF:Configure_Fader(frame)
+	--UF:Configure_Fader(frame)
 
 	--OverHealing
 	--UF:Configure_HealComm(frame)

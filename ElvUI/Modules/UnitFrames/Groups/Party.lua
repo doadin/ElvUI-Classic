@@ -67,7 +67,7 @@ function UF:Construct_PartyFrames()
 		self.unitframeType = "party"
 	end
 
-	self.Fader = UF:Construct_Fader()
+	--self.Fader = UF:Construct_Fader()
 	self.Cutaway = UF:Construct_Cutaway(self)
 
 	return self
@@ -241,7 +241,7 @@ function UF:Update_PartyFrames(frame, db)
 	end
 
 	--Fader
-	UF:Configure_Fader(frame)
+	--UF:Configure_Fader(frame)
 
 	--Cutaway
 	UF:Configure_Cutaway(frame)

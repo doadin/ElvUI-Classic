@@ -43,7 +43,7 @@ function UF:Construct_RaidFrames()
 
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
-	self.Fader = UF:Construct_Fader()
+	--self.Fader = UF:Construct_Fader()
 	self.Cutaway = UF:Construct_Cutaway(self)
 
 	self.customTexts = {}
@@ -202,7 +202,7 @@ function UF:Update_RaidFrames(frame, db)
 	--UF:Configure_HealComm(frame)
 
 	--Fader
-	UF:Configure_Fader(frame)
+	--UF:Configure_Fader(frame)
 
 	--Buff Indicators
 	UF:UpdateAuraWatch(frame)

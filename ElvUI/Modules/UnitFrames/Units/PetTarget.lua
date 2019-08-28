@@ -21,7 +21,7 @@ function UF:Construct_PetTargetFrame(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
-	frame.Fader = self:Construct_Fader()
+	--frame.Fader = self:Construct_Fader()
 	frame.customTexts = {}
 
 	frame:Point('BOTTOM', ElvUF_Pet, 'TOP', 0, 7) --Set to default position
@@ -89,7 +89,7 @@ function UF:Update_PetTargetFrame(frame, db)
 	UF:Configure_Auras(frame, 'Debuffs')
 
 	--Fader
-	UF:Configure_Fader(frame)
+	--UF:Configure_Fader(frame)
 
 	--CustomTexts
 	UF:Configure_CustomTexts(frame)
