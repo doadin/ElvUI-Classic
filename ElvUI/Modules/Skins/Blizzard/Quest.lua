@@ -314,8 +314,6 @@ local function LoadSkin()
 
 		if find(texture, 'MinusButton') then
 			tex:SetTexture(E.Media.Textures.Minus)
-		elseif find(texture, 'PlusButton') then
-			tex:SetTexture(E.Media.Textures.Plus)
 		else
 			tex:SetTexture(E.Media.Textures.Plus)
 		end
