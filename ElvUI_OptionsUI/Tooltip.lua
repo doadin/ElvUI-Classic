@@ -93,11 +93,6 @@ E.Options.args.tooltip = {
 					name = L["Target Info"],
 					desc = L["When in a raid group display if anyone in your raid is targeting the current tooltip unit."],
 				},
-				alwaysShowRealm = {
-					order = 8,
-					type = 'toggle',
-					name = L["Always Show Realm"],
-				},
 				playerTitles = {
 					order = 9,
 					type = 'toggle',
