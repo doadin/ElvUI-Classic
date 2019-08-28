@@ -4725,6 +4725,23 @@ E.Options.args.nameplate = {
 								},
 							},
 						},
+						classResources = {
+							order = 8,
+							name = L["Class Resources"],
+							type = 'group',
+							guiInline = true,
+							get = function(info)
+								local t = E.db.nameplates.colors.classResources[info[#info]]
+								local d = P.nameplates.colors.classResources[info[#info]]
+								return t.r, t.g, t.b, t.a, d.r, d.g, d.b, d.a
+							end,
+							set = function(info, r, g, b, a)
+								local t = E.db.nameplates.colors.classResources[info[#info]]
+								t.r, t.g, t.b, t.a = r, g, b, a
+								NP:ConfigureAll()
+							end,
+							args = {},
+						},
 					},
 				},
 			},

@@ -21,8 +21,8 @@ function UF:Construct_TargetFrame(frame)
 	frame.Buffs = self:Construct_Buffs(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame)
 	--frame.Castbar = self:Construct_Castbar(frame, L["Target Castbar"])
-	frame.Castbar.SafeZone = nil
-	frame.Castbar.LatencyTexture:Hide()
+	--frame.Castbar.SafeZone = nil
+	--frame.Castbar.LatencyTexture:Hide()
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
 --	frame.HealthPrediction = self:Construct_HealComm(frame)
 --	frame.DebuffHighlight = self:Construct_DebuffHighlight(frame)
@@ -30,7 +30,7 @@ function UF:Construct_TargetFrame(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
-	frame.Fader = self:Construct_Fader()
+	--frame.Fader = self:Construct_Fader()
 	frame.customTexts = {}
 	frame:Point('BOTTOMRIGHT', E.UIParent, 'BOTTOM', 413, 68)
 	E:CreateMover(frame, frame:GetName()..'Mover', L["Target Frame"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,target,generalGroup')
@@ -105,7 +105,7 @@ function UF:Update_TargetFrame(frame, db)
 	--UF:Configure_Castbar(frame)
 
 	--Fader
-	UF:Configure_Fader(frame)
+	--UF:Configure_Fader(frame)
 
 	--Debuff Highlight
 	--UF:Configure_DebuffHighlight(frame)

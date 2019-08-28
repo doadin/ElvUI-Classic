@@ -19,7 +19,7 @@ local GetRepairAllCost = GetRepairAllCost
 local InCombatLockdown = InCombatLockdown
 local IsAddOnLoaded = IsAddOnLoaded
 local IsGuildMember = IsGuildMember
-local IsCharacterFriend = IsCharacterFriend
+local IsCharacterFriend = C_FriendList.IsFriend
 local IsInGroup = IsInGroup
 local IsInRaid = IsInRaid
 local IsShiftKeyDown = IsShiftKeyDown
@@ -27,8 +27,6 @@ local LeaveParty = LeaveParty
 local RaidNotice_AddMessage = RaidNotice_AddMessage
 local RepairAllItems = RepairAllItems
 local SendChatMessage = SendChatMessage
-local StaticPopup_Hide = StaticPopup_Hide
-local StaticPopupSpecial_Hide = StaticPopupSpecial_Hide
 local UninviteUnit = UninviteUnit
 local UnitExists = UnitExists
 local UnitGUID = UnitGUID
@@ -165,22 +163,13 @@ function M:PVPMessageEnhancement(_, msg)
 	end
 end
 
-local hideStatic
 function M:AutoInvite(event, _, _, _, _, _, _, inviterGUID)
 	if not E.db.general.autoAcceptInvite then return end
 
 	if event == "PARTY_INVITE_REQUEST" then
-		-- Prevent losing que inside LFD if someone invites you to group
-		if _G.QueueStatusMinimapButton:IsShown() or IsInGroup() or (not inviterGUID or inviterGUID == "") then return end
-
 		if BNGetGameAccountInfoByGUID(inviterGUID) or IsCharacterFriend(inviterGUID) or IsGuildMember(inviterGUID) then
-			hideStatic = true
 			AcceptGroup()
 		end
-	elseif event == "GROUP_ROSTER_UPDATE" and hideStatic then
-		StaticPopupSpecial_Hide(_G.LFGInvitePopup) --New LFD popup when invited in custom created group
-		StaticPopup_Hide("PARTY_INVITE")
-		hideStatic = nil
 	end
 end
 
@@ -262,11 +251,11 @@ function M:Initialize()
 	self:RegisterEvent('PLAYER_ENTERING_WORLD')
 
 	--local blizzTracker = IsAddOnLoaded("Blizzard_ObjectiveTracker")
-	local inspectUI = IsAddOnLoaded("Blizzard_InspectUI")
+	--local inspectUI = IsAddOnLoaded("Blizzard_InspectUI")
 
-	if inspectUI then
-		M:SetupInspectPageInfo()
-	end
+	--if inspectUI then
+	--	M:SetupInspectPageInfo()
+	--end
 
 	--[[if blizzTracker then
 		M:SetupChallengeTimer()
@@ -276,9 +265,9 @@ function M:Initialize()
 		self:RegisterEvent("ADDON_LOADED")
 	end]]
 
-	if not inspectUI then
-		self:RegisterEvent("ADDON_LOADED")
-	end
+	--if not inspectUI then
+	--	self:RegisterEvent("ADDON_LOADED")
+	--end
 end
 
 E:RegisterModule(M:GetName())
