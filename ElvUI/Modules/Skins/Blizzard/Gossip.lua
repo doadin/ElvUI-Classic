@@ -44,16 +44,23 @@ local function LoadSkin()
 	-- GossipFrame
 	local GossipFrame = _G.GossipFrame
 	S:HandlePortraitFrame(GossipFrame, true)
-	GossipFrame.backdrop:SetPoint("BOTTOMRIGHT", -30, 60)
-	S:HandleCloseButton(GossipFrameCloseButton)
+	GossipFrame.backdrop:SetPoint("TOPLEFT", 15, -11)
+	GossipFrame.backdrop:SetPoint("BOTTOMRIGHT", -30, 0)
+
+	_G.GossipGreetingScrollFrame:Height(400)
+
+	S:HandleCloseButton(_G.GossipFrameCloseButton, GossipFrame.backdrop)
 
 	local GossipGreetingScrollFrame = _G.GossipGreetingScrollFrame
 	GossipGreetingScrollFrame:SetTemplate()
 
-	S:HandleScrollBar(GossipGreetingScrollFrameScrollBar)
+	S:HandleScrollBar(GossipGreetingScrollFrameScrollBar, 5)
+
+	GossipNpcNameFrame:Width(300)
+	GossipNpcNameFrame:Point("TOPLEFT", GossipFrame.backdrop, "TOPLEFT", 18, -10)
 
 	for i = 1, _G.NUMGOSSIPBUTTONS do
-		_G['GossipTitleButton'..i]:GetFontString():SetTextColor(1, 1, 1)
+		_G['GossipTitleButton'..i]:GetFontString():SetTextColor(1, 1, 0)
 	end
 
 	_G.GossipGreetingText:SetTextColor(1, 1, 1)
@@ -70,8 +77,8 @@ local function LoadSkin()
 		end
 	end)
 
-	_G.GossipFrameGreetingGoodbyeButton:StripTextures()
 	S:HandleButton(_G.GossipFrameGreetingGoodbyeButton)
+	_G.GossipFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", -37, 4)
 
 	local NPCFriendshipStatusBar = _G.NPCFriendshipStatusBar
 	NPCFriendshipStatusBar:StripTextures()
