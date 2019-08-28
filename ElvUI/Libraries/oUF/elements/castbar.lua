@@ -142,7 +142,8 @@ local function CastStart(self, event, unit)
 	element:SetMinMaxValues(0, element.max)
 	element:SetValue(element.duration)
 
-	if strfind(texture, [[Interface\ICONS\Temp]]) then
+	print(texture)
+	if texture == [[Interface\ICONS\Temp]] then
 		texture = DEFAULT_ICON
 	end
 
@@ -420,7 +421,7 @@ local function Enable(self, unit)
 
 		local safeZone = element.SafeZone
 		if(safeZone and safeZone:IsObjectType('Texture') and not safeZone:GetTexture()) then
-			safeZone:SetTexture(1, 0, 0)
+			safeZone:SetColorTexture(1, 0, 0)
 		end
 
 		return true

@@ -68,7 +68,7 @@ The following options are listed by priority. The first check that returns true 
     -- Add a background
     local Background = Power:CreateTexture(nil, 'BACKGROUND')
     Background:SetAllPoints(Power)
-    Background:SetTexture(1, 1, 1, .5)
+    Background:SetColorTexture(1, 1, 1, .5)
 
     -- Options
     Power.frequentUpdates = true
