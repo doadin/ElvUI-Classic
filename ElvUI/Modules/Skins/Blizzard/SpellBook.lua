@@ -79,7 +79,7 @@ local function LoadSkin()
 		highlight:SetAllPoints()
 		hooksecurefunc(highlight, 'SetTexture', function(self, texture)
 			if texture == 'Interface\\Buttons\\ButtonHilight-Square' or texture == 'Interface\\Buttons\\UI-PassiveHighlight' then
-				self:SetTexture(1, 1, 1, 0.3)
+				self:SetColorTexture(1, 1, 1, 0.3)
 			end
 		end)
 

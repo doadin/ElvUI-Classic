@@ -399,6 +399,8 @@ local function LoadSkin()
 	for i = 1, QUESTS_DISPLAYED do
 		local questLogTitle = _G['QuestLogTitle'..i]
 
+		_G['QuestLogTitle'..i..'Highlight']:SetAlpha(0)
+
 		questLogTitle:SetNormalTexture(E.Media.Textures.PlusButton)
 		questLogTitle.SetNormalTexture = E.noop
 
@@ -440,8 +442,8 @@ local function LoadSkin()
 	hooksecurefunc(QuestLogCollapseAllButton, 'SetNormalTexture', function(self, texture)
 		local tex = self:GetNormalTexture()
 
-		if find(texture, 'MinusButton') then
-			tex:SetTexture(E.Media.Textures.Minus)
+		if strfind(texture, 'MinusButton') then
+			tex:SetTexture(E.Media.Textures.MinusButton)
 		else
 			tex:SetTexture(E.Media.Textures.PlusButton)
 		end

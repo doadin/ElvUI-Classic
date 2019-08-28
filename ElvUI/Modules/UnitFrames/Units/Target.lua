@@ -21,8 +21,8 @@ function UF:Construct_TargetFrame(frame)
 	frame.Buffs = self:Construct_Buffs(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame)
 	--frame.Castbar = self:Construct_Castbar(frame, L["Target Castbar"])
-	frame.Castbar.SafeZone = nil
-	frame.Castbar.LatencyTexture:Hide()
+	--frame.Castbar.SafeZone = nil
+	--frame.Castbar.LatencyTexture:Hide()
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
 --	frame.HealthPrediction = self:Construct_HealComm(frame)
 --	frame.DebuffHighlight = self:Construct_DebuffHighlight(frame)
