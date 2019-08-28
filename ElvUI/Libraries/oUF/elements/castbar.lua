@@ -142,8 +142,7 @@ local function CastStart(self, event, unit)
 	element:SetMinMaxValues(0, element.max)
 	element:SetValue(element.duration)
 
-	print(texture)
-	if texture == [[Interface\ICONS\Temp]] then
+	if texture == 136235 then
 		texture = DEFAULT_ICON
 	end
 
