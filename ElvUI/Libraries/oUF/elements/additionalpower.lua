@@ -96,7 +96,6 @@ local UnitPowerType = UnitPowerType
 -- sourced from FrameXML/AlternatePowerBar.lua
 local ADDITIONAL_POWER_BAR_NAME = ADDITIONAL_POWER_BAR_NAME or 'MANA'
 local ADDITIONAL_POWER_BAR_INDEX = ADDITIONAL_POWER_BAR_INDEX or 0
-local ALT_MANA_BAR_PAIR_DISPLAY_INFO = ALT_MANA_BAR_PAIR_DISPLAY_INFO
 
 local function UpdateColor(self, event, unit, powertype)
 	if(not (unit and UnitIsUnit(unit, 'player') and powertype == ADDITIONAL_POWER_BAR_NAME)) then return end
@@ -279,13 +278,8 @@ local function Visibility(self, event, unit)
 	local element = self.AdditionalPower
 	local shouldEnable
 
-	if(not UnitHasVehicleUI('player')) then
-		if(UnitPowerMax(unit, ADDITIONAL_POWER_BAR_INDEX) ~= 0) then
-			if(element.displayPairs[playerClass]) then
-				local powerType = UnitPowerType(unit)
-				shouldEnable = element.displayPairs[playerClass][powerType]
-			end
-		end
+	if((UnitPowerType('player') ~= ADDITIONAL_POWER_BAR_INDEX) and (UnitPowerMax('player', ADDITIONAL_POWER_BAR_INDEX) ~= 0)) then
+		shouldEnable = true
 	end
 
 	if(shouldEnable) then
@@ -409,10 +403,6 @@ local function Enable(self, unit)
 		element.SetFrequentUpdates = SetFrequentUpdates
 
 		self:RegisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
-
-		if(not element.displayPairs) then
-			element.displayPairs = CopyTable(ALT_MANA_BAR_PAIR_DISPLAY_INFO)
-		end
 
 		if(element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
 			element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
