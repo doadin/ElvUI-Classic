@@ -279,6 +279,7 @@ local function Visibility(self, event, unit)
 	local element = self.AdditionalPower
 	local shouldEnable
 
+	--[[
 	if(not UnitHasVehicleUI('player')) then
 		if(UnitPowerMax(unit, ADDITIONAL_POWER_BAR_INDEX) ~= 0) then
 			if(element.displayPairs[playerClass]) then
@@ -287,6 +288,7 @@ local function Visibility(self, event, unit)
 			end
 		end
 	end
+	]]
 
 	if(shouldEnable) then
 		ElementEnable(self)
@@ -410,9 +412,9 @@ local function Enable(self, unit)
 
 		self:RegisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
 
-		if(not element.displayPairs) then
-			element.displayPairs = CopyTable(ALT_MANA_BAR_PAIR_DISPLAY_INFO)
-		end
+		--if(not element.displayPairs) then
+			--element.displayPairs = CopyTable(ALT_MANA_BAR_PAIR_DISPLAY_INFO)
+		--end
 
 		if(element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
 			element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
