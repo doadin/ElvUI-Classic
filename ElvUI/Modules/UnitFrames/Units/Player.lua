@@ -36,6 +36,9 @@ function UF:Construct_PlayerFrame(frame)
 	frame.ClassBar = 'ClassPower'
 
 	--Some classes need another set of different classbars.
+	if E.myclass == "DRUID" then
+		frame.AdditionalPower = self:Construct_AdditionalPowerBar(frame)
+	end
 
 	--frame.PowerPrediction = self:Construct_PowerPrediction(frame) -- must be AFTER Power & AdditionalPower
 	frame.MouseGlow = self:Construct_MouseGlow(frame)

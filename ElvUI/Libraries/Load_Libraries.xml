@@ -25,4 +25,5 @@
 	<Include file="LibBase64-1.0\lib.xml"/>
 	<Script file="LibAnim\LibAnim.lua"/>
 	<Script file="LibTranslit-1.0\LibTranslit-1.0.lua"/>
+	<Script file="LibClassicDurations\LibClassicDurations.xml"/>
 </Ui>
