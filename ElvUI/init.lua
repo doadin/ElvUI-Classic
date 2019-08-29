@@ -87,6 +87,8 @@ do
 	AddOn:AddLib('Base64', 'LibBase64-1.0-ElvUI')
 	AddOn:AddLib('Masque', 'Masque', true)
 	AddOn:AddLib('Translit', 'LibTranslit-1.0')
+	AddOn:AddLib('LCD', 'LibClassicDurations')
+
 	-- added on ElvUI_OptionsUI load: AceGUI, AceConfig, AceConfigDialog, AceConfigRegistry, AceDBOptions
 
 	-- backwards compatible for plugins
