@@ -47,7 +47,7 @@ local OnEnter = function(self)
 	end
 
 	DT.tooltip:AddLine(HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, STAT_HASTE).." ".. format(hasteFormatString, format("%.2F%%", haste))..FONT_COLOR_CODE_CLOSE)
-	DT.tooltip:AddLine(classTooltip..format(STAT_HASTE_BASE_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(rating)), GetCombatRatingBonus(rating)))
+	-- DT.tooltip:AddLine(classTooltip..format(STAT_HASTE_BASE_TOOLTIP, rating), rating))
 
 	DT.tooltip:Show()
 end
