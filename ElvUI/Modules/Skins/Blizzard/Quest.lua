@@ -184,7 +184,6 @@ local function LoadSkin()
 	hooksecurefunc('QuestInfo_Display', function()
 		for i = 1, #_G.QuestInfoRewardsFrame.RewardButtons do
 			local questItem = _G.QuestInfoRewardsFrame.RewardButtons[i]
-			print(questItem)
 			if not questItem:IsShown() then break end
 
 			local point, relativeTo, relativePoint, _, y = questItem:GetPoint()

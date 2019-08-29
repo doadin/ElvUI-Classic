@@ -19,15 +19,16 @@ local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.character ~= true then return end
 
 	-- Character Frame
-	CharacterFrame:StripTextures(true)
+	local CharacterFrame = _G.CharacterFrame
+	S:HandlePortraitFrame(CharacterFrame, true)
+	CharacterFrame.backdrop:Point("TOPLEFT", 15, -11)
+	CharacterFrame.backdrop:Point("BOTTOMRIGHT", -30, 76)
 
-	CharacterFrame:CreateBackdrop('Transparent')
-	CharacterFrame.backdrop:Point('TOPLEFT', 11, -12)
-	CharacterFrame.backdrop:Point('BOTTOMRIGHT', -32, 76)
+	PaperDollItemsFrame:Point("TOPLEFT", CharacterFrame.backdrop, "TOPLEFT", -12, 7)
 
 	S:HandleCloseButton(CharacterFrameCloseButton)
 
-	for i = 1, #CHARACTERFRAME_SUBFRAMES do
+	for i = 1, #_G.CHARACTERFRAME_SUBFRAMES do
 		local tab = _G['CharacterFrameTab'..i]
 		S:HandleTab(tab)
 	end
@@ -98,7 +99,11 @@ local function LoadSkin()
 		local textureName = GetInventoryItemTexture('player', self:GetID())
 		if textureName then
 			local rarity = GetInventoryItemQuality('player', self:GetID())
-			self:SetBackdropBorderColor(GetItemQualityColor(rarity))
+			if rarity then
+				self:SetBackdropBorderColor(GetItemQualityColor(rarity))
+			else
+				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			end
 		else
 			self:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
