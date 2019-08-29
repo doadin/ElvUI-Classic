@@ -278,21 +278,9 @@ local function Visibility(self, event, unit)
 	local element = self.AdditionalPower
 	local shouldEnable
 
-<<<<<<< 74db107d79f20781ef7a0dd60b630c5d6729614a
 	if((UnitPowerType('player') ~= ADDITIONAL_POWER_BAR_INDEX) and (UnitPowerMax('player', ADDITIONAL_POWER_BAR_INDEX) ~= 0)) then
 		shouldEnable = true
-=======
-	--[[
-	if(not UnitHasVehicleUI('player')) then
-		if(UnitPowerMax(unit, ADDITIONAL_POWER_BAR_INDEX) ~= 0) then
-			if(element.displayPairs[playerClass]) then
-				local powerType = UnitPowerType(unit)
-				shouldEnable = element.displayPairs[playerClass][powerType]
-			end
-		end
->>>>>>> UnitVehicle doesnt exist in classic. Comment out an additional line. @Azilroka
 	end
-	]]
 
 	if(shouldEnable) then
 		ElementEnable(self)
@@ -416,13 +404,6 @@ local function Enable(self, unit)
 
 		self:RegisterEvent('UNIT_DISPLAYPOWER', VisibilityPath)
 
-<<<<<<< 74db107d79f20781ef7a0dd60b630c5d6729614a
-=======
-		--if(not element.displayPairs) then
-			--element.displayPairs = CopyTable(ALT_MANA_BAR_PAIR_DISPLAY_INFO)
-		--end
-
->>>>>>> UnitVehicle doesnt exist in classic. Comment out an additional line. @Azilroka
 		if(element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
 			element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 		end
