@@ -10,7 +10,7 @@ local function LoadSkin()
 
 	local WorldMapFrame = _G.WorldMapFrame
 	WorldMapFrame:StripTextures()
-	WorldMapFrame.ScrollContainer:CreateBackdrop()
+	WorldMapFrame.BorderFrame:CreateBackdrop('Transparent')
 
 	S:HandleDropDownBox(_G.WorldMapContinentDropDown, 170)
 	S:HandleDropDownBox(_G.WorldMapZoneDropDown, 170)
