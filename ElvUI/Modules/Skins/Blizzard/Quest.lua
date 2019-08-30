@@ -25,6 +25,8 @@ local hooksecurefunc = hooksecurefunc
 local function HandleReward(frame)
 	if (not frame) then return end
 
+	frame:CreateBackdrop()
+
 	if frame.Icon then
 		S:HandleIcon(frame.Icon, true)
 
@@ -70,16 +72,16 @@ local function LoadSkin()
 			local icon = _G[frame..i..'IconTexture']
 			if item then
 				item:StripTextures()
-				item:CreateBackdrop('Transparent')
+				item:SetTemplate('Transparent')
 				item:StyleButton()
-				item:Size(143, 40)
+				--item:Size(143, 40)
 				item:SetFrameLevel(item:GetFrameLevel() + 2)
 			end
 			if icon then
 				icon:Size(E.PixelMode and 38 or 32)
 				icon:SetDrawLayer('OVERLAY')
 				icon:Point('TOPLEFT', E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
-				S:HandleIcon(icon)
+				S:HandleIcon(icon, true)
 			end
 		end
 	end
@@ -89,45 +91,33 @@ local function LoadSkin()
 			quality = select(3, GetItemInfo(link))
 		end
 
-		if quality then
-			if frame then
-				frame:SetBackdropBorderColor(GetItemQualityColor(quality))
-				frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-			end
+		if quality and quality > 1 then
+			frame.Icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 			text:SetTextColor(GetItemQualityColor(quality))
 		else
-			if frame then
-				frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
-				frame.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
-			end
+			frame.Icon.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			if text then
 				text:SetTextColor(1, 1, 1)
 			end
 		end
 	end
 
-	local QuestInfoItemHighlight = _G.QuestInfoItemHighlight
-	QuestInfoItemHighlight:StripTextures()
-	QuestInfoItemHighlight:SetTemplate(nil, nil, true)
-	QuestInfoItemHighlight:SetBackdropBorderColor(1, 1, 0)
-	QuestInfoItemHighlight:SetBackdropColor(0, 0, 0, 0)
-	QuestInfoItemHighlight:Size(142, 40)
+	_G.QuestInfoItemHighlight:StripTextures()
 
 	hooksecurefunc("QuestInfoItem_OnClick", function(self)
 		if self.type == "choice" then
-			_G[self:GetName()]:SetBackdropBorderColor(1, 0.80, 0.10)
-			_G[self:GetName()].backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
-			_G[self:GetName().."Name"]:SetTextColor(1, 0.80, 0.10)
+			--self:SetBackdropBorderColor(1, 0.80, 0.10)
 
 			for i = 1, _G.MAX_NUM_ITEMS do
-				local item = _G["QuestInfoItem"..i]
-				local name = _G["QuestInfoItem"..i.."Name"]
-				local link = item.type and (_G.QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
-
-				if item ~= self then
-					QuestQualityColors(item, name, link)
+				local item = _G["QuestInfoRewardsFrameQuestInfoItem"..i]
+				if item then
+					item.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					item.Name:SetTextColor(1, 1, 1)
 				end
 			end
+
+			self.backdrop:SetBackdropBorderColor(1, .8, .1)
+			self.Name:SetTextColor(1, .8, .1)
 		end
 	end)
 
@@ -143,19 +133,22 @@ local function LoadSkin()
 	S:HandleButton(_G.QuestFrameExitButton)
 	_G.QuestFrameExitButton:Point('BOTTOMRIGHT', -9, 14)
 
+	local textColor = {1, 1, 1}
+	local titleTextColor = {1, .8, .1}
+
 	hooksecurefunc(_G, 'QuestLog_UpdateQuestDetails', function()
-		_G.QuestLogQuestTitle:SetTextColor(1, .8, .1)
-		_G.QuestLogObjectivesText:SetTextColor(1, 1, 1)
+		_G.QuestLogQuestTitle:SetTextColor(unpack(titleTextColor))
+		_G.QuestLogObjectivesText:SetTextColor(unpack(textColor))
 
-		_G.QuestLogDescriptionTitle:SetTextColor(1, .8, .1)
-		_G.QuestLogQuestDescription:SetTextColor(1, 1, 1)
+		_G.QuestLogDescriptionTitle:SetTextColor(unpack(titleTextColor))
+		_G.QuestLogQuestDescription:SetTextColor(unpack(textColor))
 
-		_G.QuestLogRewardTitleText:SetTextColor(1, .8, .1)
+		_G.QuestLogRewardTitleText:SetTextColor(unpack(titleTextColor))
 
-		_G.QuestLogItemChooseText:SetTextColor(1, 1, 1)
-		_G.QuestLogSpellLearnText:SetTextColor(1, 1, 1)
+		_G.QuestLogItemChooseText:SetTextColor(unpack(textColor))
+		_G.QuestLogSpellLearnText:SetTextColor(unpack(textColor))
 
-		_G.QuestLogItemReceiveText:SetTextColor(1, 1, 1)
+		_G.QuestLogItemReceiveText:SetTextColor(unpack(textColor))
 
 		local numObjectives = GetNumQuestLeaderBoards()
 		local numVisibleObjectives = 0
@@ -183,9 +176,6 @@ local function LoadSkin()
 	end)
 
 	hooksecurefunc('QuestInfo_Display', function()
-		local textColor = {1, 1, 1}
-		local titleTextColor = {1, 0.80, 0.10}
-
 		-- Headers
 		_G.QuestInfoTitleHeader:SetTextColor(unpack(titleTextColor))
 		_G.QuestInfoDescriptionHeader:SetTextColor(unpack(titleTextColor))
@@ -209,6 +199,14 @@ local function LoadSkin()
 				_G.QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
 			else
 				_G.QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+			end
+		end
+
+		for i = 1, _G.MAX_NUM_ITEMS do
+			local item = _G["QuestInfoRewardsFrameQuestInfoItem"..i]
+			if item then
+				local link = item.type and (_G.QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
+				QuestQualityColors(item, item.Name, link)
 			end
 		end
 	end)
@@ -236,9 +234,9 @@ local function LoadSkin()
 		local requiredMoney = GetQuestLogRequiredMoney()
 		if requiredMoney > 0 then
 			if requiredMoney > GetMoney() then
-				_G.QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+				_G.QuestInfoRequiredMoneyText:SetTextColor(.6, .6, .6)
 			else
-				_G.QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+				_G.QuestInfoRequiredMoneyText:SetTextColor(1, .8, .1)
 			end
 		end
 	end)
@@ -347,15 +345,15 @@ local function LoadSkin()
 	_G.QuestFrameCloseButton:Point('TOPRIGHT', -18, -9)
 
 	hooksecurefunc('QuestFrameProgressItems_Update', function()
-		_G.QuestProgressTitleText:SetTextColor(1, 0.80, 0.10)
+		_G.QuestProgressTitleText:SetTextColor(1, .8, .1)
 		_G.QuestProgressText:SetTextColor(1, 1, 1)
-		_G.QuestProgressRequiredItemsText:SetTextColor(1, 0.80, 0.10)
+		_G.QuestProgressRequiredItemsText:SetTextColor(1, .8, 0.1)
 
 		if GetQuestMoneyToGet() > 0 then
 			if GetQuestMoneyToGet() > GetMoney() then
-				_G.QuestProgressRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+				_G.QuestProgressRequiredMoneyText:SetTextColor(.6, .6, .6)
 			else
-				_G.QuestProgressRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+				_G.QuestProgressRequiredMoneyText:SetTextColor(1, .8, .1)
 			end
 		end
 
