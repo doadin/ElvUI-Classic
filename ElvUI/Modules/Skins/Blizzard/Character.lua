@@ -262,7 +262,7 @@ local function LoadSkin()
 		local border = _G['SkillRankFrame'..i..'Border']
 		local background = _G['SkillRankFrame'..i..'Background']
 
-		bar:CreateBackdrop()
+		bar:CreateBackdrop('Default')
 		bar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(bar)
 
