@@ -100,7 +100,11 @@ local function LoadSkin()
 		local textureName = GetInventoryItemTexture('player', self:GetID())
 		if textureName then
 			local rarity = GetInventoryItemQuality('player', self:GetID())
-			self:SetBackdropBorderColor(GetItemQualityColor(rarity))
+			if rarity then
+				self:SetBackdropBorderColor(GetItemQualityColor(rarity))
+			else
+				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			end
 		else
 			self:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
