@@ -182,39 +182,21 @@ local function LoadSkin()
 		end
 	end)
 
-	local function QuestObjectiveText()
-		local numObjectives = GetNumQuestLeaderBoards()
-		local objective
-		local _, type, finished
-		local numVisibleObjectives = 0
-		for i = 1, numObjectives do
-			_, type, finished = GetQuestLogLeaderBoard(i)
-			if type ~= 'spell' then
-				numVisibleObjectives = numVisibleObjectives + 1
-				objective = _G['QuestInfoObjective'..numVisibleObjectives]
-				if finished then
-					objective:SetTextColor(1, 0.80, 0.10)
-				else
-					objective:SetTextColor(0.6, 0.6, 0.6)
-				end
-			end
-		end
-	end
-
 	hooksecurefunc('QuestInfo_Display', function()
 		local textColor = {1, 1, 1}
 		local titleTextColor = {1, 0.80, 0.10}
-		-- headers
+
+		-- Headers
 		_G.QuestInfoTitleHeader:SetTextColor(unpack(titleTextColor))
 		_G.QuestInfoDescriptionHeader:SetTextColor(unpack(titleTextColor))
 		_G.QuestInfoObjectivesHeader:SetTextColor(unpack(titleTextColor))
 		_G.QuestInfoRewardsFrame.Header:SetTextColor(unpack(titleTextColor))
-		-- other text
+		-- Other text
 		_G.QuestInfoDescriptionText:SetTextColor(unpack(textColor))
 		_G.QuestInfoObjectivesText:SetTextColor(unpack(textColor))
 		_G.QuestInfoGroupSize:SetTextColor(unpack(textColor))
 		_G.QuestInfoRewardText:SetTextColor(unpack(textColor))
-		-- reward frame text
+		-- Reward frame text
 		_G.QuestInfoRewardsFrame.ItemChooseText:SetTextColor(unpack(textColor))
 		_G.QuestInfoRewardsFrame.ItemReceiveText:SetTextColor(unpack(textColor))
 		_G.QuestInfoRewardsFrame.PlayerTitleText:SetTextColor(unpack(textColor))
@@ -229,8 +211,6 @@ local function LoadSkin()
 				_G.QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
 			end
 		end
-
-		QuestObjectiveText()
 	end)
 
 	for _, frame in pairs({'MoneyFrame', 'HonorFrame', 'XPFrame', 'SpellFrame', 'SkillPointFrame'}) do
