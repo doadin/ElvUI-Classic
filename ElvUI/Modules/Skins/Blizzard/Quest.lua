@@ -3,16 +3,21 @@ local S = E:GetModule('Skins')
 
 --Lua functions
 local _G = _G
-local gsub, type, pairs, ipairs, select, unpack, strstrfind = gsub, type, pairs, ipairs, select, unpack, strstrfind
+local gsub, type, pairs, ipairs, select, unpack, strfind = gsub, type, pairs, ipairs, select, unpack, strfind
 --WoW API / Variables
 local GetMoney = GetMoney
 local CreateFrame = CreateFrame
+local GetItemInfo = GetItemInfo
+local GetItemQualityColor = GetItemQualityColor
 local GetQuestID = GetQuestID
+local GetQuestItemLink = GetQuestItemLink
 local GetQuestLogTitle = GetQuestLogTitle
 local GetQuestLogRequiredMoney = GetQuestLogRequiredMoney
 local GetQuestLogLeaderBoard = GetQuestLogLeaderBoard
+local GetQuestMoneyToGet = GetQuestMoneyToGet
 local GetNumQuestLeaderBoards = GetNumQuestLeaderBoards
 local GetNumQuestLogRewardSpells = GetNumQuestLogRewardSpells
+local GetQuestLogItemLink = GetQuestLogItemLink
 local GetNumRewardSpells = GetNumRewardSpells
 local GetQuestLogSelection = GetQuestLogSelection
 local hooksecurefunc = hooksecurefunc
@@ -50,7 +55,6 @@ local function Quest_GetQuestID()
 	end
 end
 
-
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end
 
@@ -60,7 +64,7 @@ local function LoadSkin()
 	QuestLogFrame.backdrop:Point('BOTTOMRIGHT', -1, 8)
 	QuestLogFrame:Width(374)
 
-	for frame, numItems in pairs({['QuestLogItem'] = MAX_NUM_ITEMS, ['QuestProgressItem'] = MAX_REQUIRED_ITEMS, ['MapQuestInfoRewardsFrameQuestInfoItem'] = MAX_REQUIRED_ITEMS}) do
+	for frame, numItems in pairs({['QuestLogItem'] = _G.MAX_NUM_ITEMS, ['QuestProgressItem'] = _G.MAX_REQUIRED_ITEMS, ['MapQuestInfoRewardsFrameQuestInfoItem'] = _G.MAX_REQUIRED_ITEMS}) do
 		for i = 1, numItems do
 			local item = _G[frame..i]
 			local icon = _G[frame..i..'IconTexture']
@@ -115,10 +119,10 @@ local function LoadSkin()
 			_G[self:GetName()].backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
 			_G[self:GetName().."Name"]:SetTextColor(1, 0.80, 0.10)
 
-			for i = 1, MAX_NUM_ITEMS do
+			for i = 1, _G.MAX_NUM_ITEMS do
 				local item = _G["QuestInfoItem"..i]
 				local name = _G["QuestInfoItem"..i.."Name"]
-				local link = item.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
+				local link = item.type and (_G.QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
 
 				if item ~= self then
 					QuestQualityColors(item, name, link)
@@ -130,14 +134,14 @@ local function LoadSkin()
 	_G.QuestRewardScrollFrame:CreateBackdrop()
 	_G.QuestRewardScrollFrame:Height(_G.QuestRewardScrollFrame:GetHeight() - 2)
 
-	S:HandleButton(QuestLogFrameAbandonButton)
-	QuestLogFrameAbandonButton:Point('BOTTOMLEFT', 14, 14)
+	S:HandleButton(_G.QuestLogFrameAbandonButton)
+	_G.QuestLogFrameAbandonButton:Point('BOTTOMLEFT', 14, 14)
 
-	S:HandleButton(QuestFramePushQuestButton)
-	QuestFramePushQuestButton:Point('LEFT', QuestLogFrameAbandonButton, 'RIGHT', 2, 0)
+	S:HandleButton(_G.QuestFramePushQuestButton)
+	_G.QuestFramePushQuestButton:Point('LEFT', _G.QuestLogFrameAbandonButton, 'RIGHT', 2, 0)
 
-	S:HandleButton(QuestFrameExitButton)
-	QuestFrameExitButton:Point('BOTTOMRIGHT', -9, 14)
+	S:HandleButton(_G.QuestFrameExitButton)
+	_G.QuestFrameExitButton:Point('BOTTOMRIGHT', -9, 14)
 
 	hooksecurefunc(_G, 'QuestLog_UpdateQuestDetails', function()
 		_G.QuestLogQuestTitle:SetTextColor(1, .8, .1)
@@ -171,10 +175,10 @@ local function LoadSkin()
 			end
 		end
 
-		if QuestLogRequiredMoneyText:GetTextColor() == 0 then
-			QuestLogRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+		if _G.QuestLogRequiredMoneyText:GetTextColor() == 0 then
+			_G.QuestLogRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
 		else
-			QuestLogRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+			_G.QuestLogRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
 		end
 	end)
 
@@ -201,28 +205,28 @@ local function LoadSkin()
 		local textColor = {1, 1, 1}
 		local titleTextColor = {1, 0.80, 0.10}
 		-- headers
-		QuestInfoTitleHeader:SetTextColor(unpack(titleTextColor))
-		QuestInfoDescriptionHeader:SetTextColor(unpack(titleTextColor))
-		QuestInfoObjectivesHeader:SetTextColor(unpack(titleTextColor))
-		QuestInfoRewardsFrame.Header:SetTextColor(unpack(titleTextColor))
+		_G.QuestInfoTitleHeader:SetTextColor(unpack(titleTextColor))
+		_G.QuestInfoDescriptionHeader:SetTextColor(unpack(titleTextColor))
+		_G.QuestInfoObjectivesHeader:SetTextColor(unpack(titleTextColor))
+		_G.QuestInfoRewardsFrame.Header:SetTextColor(unpack(titleTextColor))
 		-- other text
-		QuestInfoDescriptionText:SetTextColor(unpack(textColor))
-		QuestInfoObjectivesText:SetTextColor(unpack(textColor))
-		QuestInfoGroupSize:SetTextColor(unpack(textColor))
-		QuestInfoRewardText:SetTextColor(unpack(textColor))
+		_G.QuestInfoDescriptionText:SetTextColor(unpack(textColor))
+		_G.QuestInfoObjectivesText:SetTextColor(unpack(textColor))
+		_G.QuestInfoGroupSize:SetTextColor(unpack(textColor))
+		_G.QuestInfoRewardText:SetTextColor(unpack(textColor))
 		-- reward frame text
-		QuestInfoRewardsFrame.ItemChooseText:SetTextColor(unpack(textColor))
-		QuestInfoRewardsFrame.ItemReceiveText:SetTextColor(unpack(textColor))
-		QuestInfoRewardsFrame.PlayerTitleText:SetTextColor(unpack(textColor))
-		QuestInfoRewardsFrame.XPFrame.ReceiveText:SetTextColor(unpack(textColor))
+		_G.QuestInfoRewardsFrame.ItemChooseText:SetTextColor(unpack(textColor))
+		_G.QuestInfoRewardsFrame.ItemReceiveText:SetTextColor(unpack(textColor))
+		_G.QuestInfoRewardsFrame.PlayerTitleText:SetTextColor(unpack(textColor))
+		_G.QuestInfoRewardsFrame.XPFrame.ReceiveText:SetTextColor(unpack(textColor))
 
-		QuestInfoRewardsFrame.spellHeaderPool.textR, QuestInfoRewardsFrame.spellHeaderPool.textG, QuestInfoRewardsFrame.spellHeaderPool.textB = unpack(textColor)
+		_G.QuestInfoRewardsFrame.spellHeaderPool.textR, _G.QuestInfoRewardsFrame.spellHeaderPool.textG, _G.QuestInfoRewardsFrame.spellHeaderPool.textB = unpack(textColor)
 
 		if GetQuestLogRequiredMoney() > 0 then
 			if GetQuestLogRequiredMoney() > GetMoney() then
-				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+				_G.QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
 			else
-				QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+				_G.QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
 			end
 		end
 
@@ -252,9 +256,9 @@ local function LoadSkin()
 		local requiredMoney = GetQuestLogRequiredMoney()
 		if requiredMoney > 0 then
 			if requiredMoney > GetMoney() then
-				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+				_G.QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
 			else
-				QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+				_G.QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
 			end
 		end
 	end)
@@ -375,7 +379,7 @@ local function LoadSkin()
 			end
 		end
 
-		for i = 1, MAX_REQUIRED_ITEMS do
+		for i = 1, _G.MAX_REQUIRED_ITEMS do
 			local item = _G['QuestProgressItem'..i]
 			local name = _G['QuestProgressItem'..i..'Name']
 			local link = item.type and GetQuestItemLink(item.type, item:GetID())
@@ -384,7 +388,7 @@ local function LoadSkin()
 		end
 	end)
 
-	for i = 1, QUESTS_DISPLAYED do
+	for i = 1, _G.QUESTS_DISPLAYED do
 		local questLogTitle = _G['QuestLogTitle'..i]
 
 		_G['QuestLogTitle'..i..'Highlight']:SetAlpha(0)
