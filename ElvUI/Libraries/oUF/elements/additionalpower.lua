@@ -281,6 +281,7 @@ local function Visibility(self, event, unit)
 	if((UnitPowerType('player') ~= ADDITIONAL_POWER_BAR_INDEX) and (UnitPowerMax('player', ADDITIONAL_POWER_BAR_INDEX) ~= 0)) then
 		shouldEnable = true
 	end
+	]]
 
 	if(shouldEnable) then
 		ElementEnable(self)
