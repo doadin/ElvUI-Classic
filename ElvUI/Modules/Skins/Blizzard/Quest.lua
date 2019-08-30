@@ -151,6 +151,8 @@ local function LoadSkin()
 		_G.QuestLogItemChooseText:SetTextColor(1, 1, 1)
 		_G.QuestLogSpellLearnText:SetTextColor(1, 1, 1)
 
+		_G.QuestLogItemReceiveText:SetTextColor(1, 1, 1)
+
 		local numObjectives = GetNumQuestLeaderBoards()
 		local numVisibleObjectives = 0
 
@@ -198,17 +200,17 @@ local function LoadSkin()
 	hooksecurefunc('QuestInfo_Display', function()
 		local textColor = {1, 1, 1}
 		local titleTextColor = {1, 0.80, 0.10}
-		-- headers
+		 headers
 		QuestInfoTitleHeader:SetTextColor(unpack(titleTextColor))
 		QuestInfoDescriptionHeader:SetTextColor(unpack(titleTextColor))
 		QuestInfoObjectivesHeader:SetTextColor(unpack(titleTextColor))
 		QuestInfoRewardsFrame.Header:SetTextColor(unpack(titleTextColor))
-		-- other text
+		 other text
 		QuestInfoDescriptionText:SetTextColor(unpack(textColor))
 		QuestInfoObjectivesText:SetTextColor(unpack(textColor))
 		QuestInfoGroupSize:SetTextColor(unpack(textColor))
 		QuestInfoRewardText:SetTextColor(unpack(textColor))
-		-- reward frame text
+		 reward frame text
 		QuestInfoRewardsFrame.ItemChooseText:SetTextColor(unpack(textColor))
 		QuestInfoRewardsFrame.ItemReceiveText:SetTextColor(unpack(textColor))
 		QuestInfoRewardsFrame.PlayerTitleText:SetTextColor(unpack(textColor))
