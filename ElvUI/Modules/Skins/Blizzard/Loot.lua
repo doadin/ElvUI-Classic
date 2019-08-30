@@ -16,8 +16,7 @@ local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
 local LOOT, ITEMS = LOOT, ITEMS
 
 local function LoadSkin()
-	if E.private.general.loot then return end
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.loot ~= true then return end
+	if E.private.general.loot or E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.loot ~= true then return end
 
 	local LootFrame = _G.LootFrame
 	LootFrame:StripTextures()
