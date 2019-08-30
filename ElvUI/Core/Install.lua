@@ -275,7 +275,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.databars.experience.height = 10
 		E.db.databars.experience.orientation = "HORIZONTAL"
 		E.db.databars.experience.textSize = 12
-		E.db.databars.experience.width = 348
+		E.db.databars.experience.width = 350
 		E.db.databars.honor.height = 10
 		E.db.databars.honor.orientation = "HORIZONTAL"
 		E.db.databars.honor.width = 222
