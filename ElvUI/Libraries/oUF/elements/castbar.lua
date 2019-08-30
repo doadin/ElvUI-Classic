@@ -293,27 +293,6 @@ local function CastFail(self, event, unit, castID, spellID)
 	end
 end
 
-local function CastInterruptible(self, event, unit)
-	if(self.unit ~= unit) then return end
-
-	local element = self.Castbar
-	if(not element:IsShown()) then return end
-
-	element.notInterruptible = event == 'UNIT_SPELLCAST_NOT_INTERRUPTIBLE'
-
-	if(element.Shield) then element.Shield:SetShown(element.notInterruptible) end
-
-	--[[ Callback: Castbar:PostCastInterruptible(unit)
-	Called after the element has been updated when a spell cast has become interruptible or uninterruptible.
-
-	* self - the Castbar widget
-	* unit - the unit for which the update has been triggered (string)
-	--]]
-	if(element.PostCastInterruptible) then
-		return element:PostCastInterruptible(unit)
-	end
-end
-
 local function onUpdate(self, elapsed)
 	if(self.casting or self.channeling) then
 		local isCasting = self.casting

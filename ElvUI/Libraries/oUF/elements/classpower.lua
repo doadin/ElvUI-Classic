@@ -56,7 +56,7 @@ local SPELL_POWER_COMBO_POINTS = Enum.PowerType.ComboPoints or 4
 -- Holds the class specific stuff.
 local ClassPowerID, ClassPowerType
 local ClassPowerEnable, ClassPowerDisable
-local RequireSpec, RequirePower, RequireSpell
+local RequirePower, RequireSpell
 
 local function UpdateColor(element, powerType)
 	local color = element.__owner.colors.power[powerType]
@@ -153,16 +153,14 @@ local function Visibility(self, event, unit)
 	local shouldEnable
 
 	if(ClassPowerID) then
-		if(not RequireSpec) then
-			-- use 'player' instead of unit because 'SPELLS_CHANGED' is a unitless event
-			if(not RequirePower or RequirePower == UnitPowerType('player')) then
-				if(not RequireSpell or IsPlayerSpell(RequireSpell)) then
-					self:UnregisterEvent('SPELLS_CHANGED', Visibility)
-					shouldEnable = true
-					unit = 'player'
-				else
-					self:RegisterEvent('SPELLS_CHANGED', Visibility, true)
-				end
+		-- use 'player' instead of unit because 'SPELLS_CHANGED' is a unitless event
+		if(not RequirePower or RequirePower == UnitPowerType('player')) then
+			if(not RequireSpell or IsPlayerSpell(RequireSpell)) then
+				self:UnregisterEvent('SPELLS_CHANGED', Visibility)
+				shouldEnable = true
+				unit = 'player'
+			else
+				self:RegisterEvent('SPELLS_CHANGED', Visibility, true)
 			end
 		end
 	end
