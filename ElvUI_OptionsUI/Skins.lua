@@ -57,11 +57,6 @@ E.Options.args.skins = {
 			disabled = function() return not E.private.skins.blizzard.enable end,
 			guiInline = true,
 			args = {
-				alertframes = {
-					type = 'toggle',
-					name = L['Alert Frames'],
-					desc = L['TOGGLESKIN_DESC']
-				},
 				auctionhouse = {
 					type = 'toggle',
 					name = L['Auctions'],
