@@ -274,7 +274,7 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 			* isStealable - whether the aura can be stolen or purged (boolean)
 			--]]
 			if(element.PostUpdateIcon) then
-				element:PostUpdateIcon(unit, button, index, position, duration, expiration, debuffType, isStealable)
+				element:PostUpdateIcon(unit, button, index, position, duration, expiration, debuffType, isStealable, caster, spellID, name)
 			end
 
 			return VISIBLE

@@ -173,7 +173,9 @@ end
 function M:LOOT_SLOT_CLEARED(_, slot)
 	if not lootFrame:IsShown() then return end
 
-	lootFrame.slots[slot]:Hide()
+	if lootFrame.slots[slot] then
+		lootFrame.slots[slot]:Hide()
+	end
 	anchorSlots(lootFrame)
 end
 

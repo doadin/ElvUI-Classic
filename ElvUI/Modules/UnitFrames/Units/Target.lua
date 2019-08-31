@@ -20,9 +20,9 @@ function UF:Construct_TargetFrame(frame)
 	frame.Portrait2D = self:Construct_Portrait(frame, 'texture')
 	frame.Buffs = self:Construct_Buffs(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame)
-	--frame.Castbar = self:Construct_Castbar(frame, L["Target Castbar"])
-	--frame.Castbar.SafeZone = nil
-	--frame.Castbar.LatencyTexture:Hide()
+	frame.Castbar = self:Construct_Castbar(frame, L["Target Castbar"])
+	frame.Castbar.SafeZone = nil
+	frame.Castbar.LatencyTexture:Hide()
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
 --	frame.HealthPrediction = self:Construct_HealComm(frame)
 --	frame.DebuffHighlight = self:Construct_DebuffHighlight(frame)
@@ -102,7 +102,7 @@ function UF:Update_TargetFrame(frame, db)
 	UF:Configure_Auras(frame, 'Debuffs')
 
 	--Castbar
-	--UF:Configure_Castbar(frame)
+	UF:Configure_Castbar(frame)
 
 	--Fader
 	--UF:Configure_Fader(frame)

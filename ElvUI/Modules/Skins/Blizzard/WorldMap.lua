@@ -10,19 +10,17 @@ local function LoadSkin()
 
 	local WorldMapFrame = _G.WorldMapFrame
 	WorldMapFrame:StripTextures()
-	WorldMapFrame:CreateBackdrop('Transparent')
+	WorldMapFrame.BorderFrame:CreateBackdrop('Transparent')
 
-	S:HandleDropDownBox(WorldMapContinentDropDown, 170)
-	S:HandleDropDownBox(WorldMapZoneDropDown, 170)
+	S:HandleDropDownBox(_G.WorldMapContinentDropDown, 170)
+	S:HandleDropDownBox(_G.WorldMapZoneDropDown, 170)
 
-	WorldMapZoneDropDown:Point('LEFT', WorldMapContinentDropDown, 'RIGHT', -24, 0)
-	WorldMapZoomOutButton:Point('LEFT', WorldMapZoneDropDown, 'RIGHT', -4, 3)
+	_G.WorldMapZoneDropDown:Point('LEFT', _G.WorldMapContinentDropDown, 'RIGHT', -24, 0)
+	_G.WorldMapZoomOutButton:Point('LEFT', _G.WorldMapZoneDropDown, 'RIGHT', -4, 3)
 
-	S:HandleButton(WorldMapZoomOutButton)
+	S:HandleButton(_G.WorldMapZoomOutButton)
 
-	S:HandleCloseButton(WorldMapFrameCloseButton)
-
-	WorldMapFrame.ScrollContainer:CreateBackdrop('Default')
+	S:HandleCloseButton(_G.WorldMapFrameCloseButton)
 end
 
 S:AddCallback('SkinWorldMap', LoadSkin)

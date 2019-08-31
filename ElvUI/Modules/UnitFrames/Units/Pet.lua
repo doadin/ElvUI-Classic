@@ -20,9 +20,9 @@ function UF:Construct_PetFrame(frame)
 	frame.Portrait2D = self:Construct_Portrait(frame, 'texture')
 	frame.Buffs = self:Construct_Buffs(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame)
-	--frame.Castbar = self:Construct_Castbar(frame, L["Pet Castbar"])
-	--frame.Castbar.SafeZone = nil
-	--frame.Castbar.LatencyTexture:Hide()
+	frame.Castbar = self:Construct_Castbar(frame, L["Pet Castbar"])
+	frame.Castbar.SafeZone = nil
+	frame.Castbar.LatencyTexture:Hide()
 	--frame.HealthPrediction = self:Construct_HealComm(frame)
 	frame.AuraWatch = self:Construct_AuraWatch(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
@@ -100,7 +100,7 @@ function UF:Update_PetFrame(frame, db)
 	--UF:Configure_Fader(frame)
 
 	--Castbar
-	--UF:Configure_Castbar(frame)
+	UF:Configure_Castbar(frame)
 
 	--OverHealing
 	--UF:Configure_HealComm(frame)

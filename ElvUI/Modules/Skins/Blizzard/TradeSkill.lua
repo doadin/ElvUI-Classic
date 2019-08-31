@@ -33,28 +33,18 @@ local function LoadSkin()
 
 	TradeSkillExpandButtonFrame:StripTextures()
 
-	TradeSkillCollapseAllButton:SetNormalTexture('Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton')
-	TradeSkillCollapseAllButton.SetNormalTexture = E.noop
 	TradeSkillCollapseAllButton:GetNormalTexture():SetPoint('LEFT', 3, 2)
 	TradeSkillCollapseAllButton:GetNormalTexture():Size(15)
 
 	TradeSkillCollapseAllButton:SetHighlightTexture('')
 	TradeSkillCollapseAllButton.SetHighlightTexture = E.noop
 
-	TradeSkillCollapseAllButton:SetDisabledTexture('Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton')
+	TradeSkillCollapseAllButton:SetDisabledTexture(E.Media.Textures.MinusButton)
 	TradeSkillCollapseAllButton.SetDisabledTexture = E.noop
 	TradeSkillCollapseAllButton:GetDisabledTexture():SetPoint('LEFT', 3, 2)
 	TradeSkillCollapseAllButton:GetDisabledTexture():Size(15)
 	TradeSkillCollapseAllButton:GetDisabledTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
 	TradeSkillCollapseAllButton:GetDisabledTexture():SetDesaturated(true)
-
-	hooksecurefunc(TradeSkillCollapseAllButton, 'SetNormalTexture', function(self, texture)
-		if find(texture, 'MinusButton') then
-			self:GetNormalTexture():SetTexCoord(0.545, 0.975, 0.085, 0.925)
-		else
-			self:GetNormalTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
-		end
-	end)
 
 	S:HandleDropDownBox(TradeSkillInvSlotDropDown, 140)
 	TradeSkillSubClassDropDown:ClearAllPoints()
@@ -71,24 +61,31 @@ local function LoadSkin()
 		local button = _G['TradeSkillSkill'..i]
 		local highlight = _G['TradeSkillSkill'..i..'Highlight']
 
-		button:SetNormalTexture('Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton')
-		button.SetNormalTexture = E.noop
 		button:GetNormalTexture():Size(14)
 		button:GetNormalTexture():SetPoint('LEFT', 2, 1)
 
 		highlight:SetTexture('')
 		highlight.SetTexture = E.noop
-
-		hooksecurefunc(button, 'SetNormalTexture', function(self, texture)
-			if find(texture, 'MinusButton') then
-				self:GetNormalTexture():SetTexCoord(0.545, 0.975, 0.085, 0.925)
-			elseif find(texture, 'PlusButton') then
-				self:GetNormalTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
-			else
-				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0)
-			end
-		end)
 	end
+
+	hooksecurefunc('TradeSkillFrame_Update', function()
+		for i = 1, TRADE_SKILLS_DISPLAYED do
+			local button = _G['TradeSkillSkill'..i]
+			local texture = button:GetNormalTexture():GetTexture()
+			if texture then
+				if strfind(texture, 'MinusButton') then
+					button:SetNormalTexture(E.Media.Textures.MinusButton)
+				elseif strfind(texture, 'PlusButton') then
+					button:SetNormalTexture(E.Media.Textures.PlusButton)
+				end
+			end
+		end
+		if TradeSkillCollapseAllButton.collapsed then
+			TradeSkillCollapseAllButton:SetNormalTexture(E.Media.Textures.PlusButton)
+		else
+			TradeSkillCollapseAllButton:SetNormalTexture(E.Media.Textures.MinusButton)
+		end
+	end)
 
 	TradeSkillDetailScrollFrame:StripTextures()
 	TradeSkillListScrollFrame:StripTextures()

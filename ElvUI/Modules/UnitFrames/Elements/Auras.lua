@@ -349,7 +349,22 @@ function UF:SortAuras()
 	return 1, #self --from/to range needed for the :SetPosition call in oUF aura element. Without this aura icon position gets all whacky when not sorted by index
 end
 
-function UF:PostUpdateAura(unit, button)
+function UF:PostUpdateAura(unit, button, index, position, duration, expiration, debuffType, isStealable, unitCaster, spellID, name)
+	if duration == 0 and expiration == 0 then
+		duration, expiration = E.Libs.LCD:GetAuraDurationByUnit(unit, spellID, unitCaster, name)
+
+		button.IsLibClassicDuration = true
+	end
+
+	if (button.cd) and (button.IsLibClassicDuration) then
+		if (duration and duration > 0) then
+			button.cd:SetCooldown(expiration - duration, duration)
+			button.cd:Show()
+		else
+			button.cd:Hide()
+		end
+	end
+
 	if button.isDebuff then
 		if(not button.isFriend and not button.isPlayer) then --[[and (not E.isDebuffWhiteList[name])]]
 			button:SetBackdropBorderColor(0.9, 0.1, 0.1)

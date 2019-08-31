@@ -32,7 +32,21 @@ function NP:Buffs_PostCreateIcon(button)
 	NP:Construct_AuraIcon(button)
 end
 
-function NP:Buffs_PostUpdateIcon(unit, button)
+function NP:Buffs_PostUpdateIcon(unit, button, index, position, duration, expiration, debuffType, isStealable, unitCaster, spellID, name)
+	if duration == 0 and expiration == 0 then
+		duration, expiration = E.Libs.LCD:GetAuraDurationByUnit(unit, spellID, unitCaster, name)
+
+		button.IsLibClassicDuration = true
+	end
+
+	if (button.cd) and (button.IsLibClassicDuration) then
+		if (duration and duration > 0) then
+			button.cd:SetCooldown(expiration - duration, duration)
+			button.cd:Show()
+		else
+			button.cd:Hide()
+		end
+	end
 	NP:PostUpdateAura(unit, button)
 end
 
@@ -45,7 +59,22 @@ function NP:Debuffs_PostCreateIcon(button)
 	NP:Construct_AuraIcon(button)
 end
 
-function NP:Debuffs_PostUpdateIcon(unit, button, index, position, duration, expiration, debuffType, isStealable)
+function NP:Debuffs_PostUpdateIcon(unit, button, index, position, duration, expiration, debuffType, isStealable, unitCaster, spellID, name)
+	if duration == 0 and expiration == 0 then
+		duration, expiration = E.Libs.LCD:GetAuraDurationByUnit(unit, spellID, unitCaster, name)
+
+		button.IsLibClassicDuration = true
+	end
+
+	if (button.cd) and (button.IsLibClassicDuration) then
+		if (duration and duration > 0) then
+			button.cd:SetCooldown(expiration - duration, duration)
+			button.cd:Show()
+		else
+			button.cd:Hide()
+		end
+	end
+
 	NP:PostUpdateAura(unit, button, index, position, duration, expiration, debuffType, isStealable)
 end
 
