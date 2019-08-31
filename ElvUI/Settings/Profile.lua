@@ -2294,7 +2294,7 @@ P.unitframe = {
 			},
 			name = {
 				position = 'CENTER',
-				text_format = '[namecolor][name:medium] [difficultycolor][smartlevel] [shortclassification]',
+				text_format = '[namecolor][name:medium] [difficultycolor][level] [shortclassification]',
 				xOffset = 0,
 				yOffset = 0,
 				attachTextTo = 'Health',
@@ -3037,7 +3037,7 @@ P.unitframe = {
 			name = {
 				position = 'CENTER',
 				attachTextTo = 'Health',
-				text_format = '[namecolor][name:medium] [difficultycolor][smartlevel]',
+				text_format = '[namecolor][name:medium] [difficultycolor][level]',
 				yOffset = 0,
 				xOffset = 0,
 			},
