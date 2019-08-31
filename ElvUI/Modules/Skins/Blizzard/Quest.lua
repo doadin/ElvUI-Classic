@@ -228,7 +228,10 @@ local function LoadSkin()
 		while _G["QuestTitleButton"..i]:IsVisible() do
 			local title = _G["QuestTitleButton"..i]
 			local icon = _G["QuestTitleButton"..i.."QuestIcon"]
-			title:SetText(title:GetText():gsub("|c[Ff][Ff]%x%x%x%x%x%x(.+)|r", "%1"))
+			local text = title:GetFontString()
+			local textString = gsub(title:GetText(), "|c[Ff][Ff]%x%x%x%x%x%x(.+)|r", "%1")
+
+			title:SetText(textString)
 
 			if (title.isActive == 1) then
 				icon:SetTexture(132048)
@@ -237,15 +240,15 @@ local function LoadSkin()
 			end
 
 			icon:SetDesaturation(1)
-			title:GetFontString():SetTextColor(.6, .6, .6)
+			text:SetTextColor(.6, .6, .6)
 
 			local numEntries = GetNumQuestLogEntries()
 			for k = 1, numEntries, 1 do
 				local questLogTitleText, _, _, _, _, isComplete, _, questId = GetQuestLogTitle(k)
-				if strmatch(questLogTitleText, title:GetText()) then
+				if strmatch(questLogTitleText, textString) then
 					if (isComplete == 1 or IsQuestComplete(questId)) then
 						icon:SetDesaturation(0)
-						title:GetFontString():SetTextColor(1, .8, .1)
+						text:SetTextColor(1, .8, .1)
 						break
 					end
 				end

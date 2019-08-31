@@ -60,8 +60,8 @@ local function LoadSkin()
 	GossipNpcNameFrame:Point("TOPLEFT", GossipFrame.backdrop, "TOPLEFT", 18, -10)
 
 	for i = 1, _G.NUMGOSSIPBUTTONS do
-		_G['GossipTitleButton'..i]:SetSize(16, 16)
-		_G['GossipTitleButton'..i]:SetPoint('TOPLEFT', 3, 1)
+		_G['GossipTitleButton'..i..'GossipIcon']:SetSize(16, 16)
+		_G['GossipTitleButton'..i..'GossipIcon']:SetPoint('TOPLEFT', 3, 1)
 	end
 
 	_G.GossipGreetingText:SetTextColor(1, 1, 1)
@@ -70,22 +70,27 @@ local function LoadSkin()
 		for i = 1, _G.NUMGOSSIPBUTTONS do
 			local button = _G['GossipTitleButton'..i]
 			local icon = _G['GossipTitleButton'..i..'GossipIcon']
-			local Text = button:GetText()
+			local text = button:GetFontString()
 
-			if Text and strfind("|c%x%x%x%x%x%x%x%x", Text) then
-				button:SetText(gsub(Text, "|c[Ff][Ff]%x%x%x%x%x%x(.+)|r", "%1"))
+			if text and text:GetText() then
+				local textString = gsub(text:GetText(), "|c[Ff][Ff]%x%x%x%x%x%x(.+)|r", "%1")
 
-				icon:SetDesaturation(1)
-				button:GetFontString():SetTextColor(.6, .6, .6)
+				button:SetText(textString)
+				text:SetTextColor(1, 1, 1)
 
-				local numEntries = GetNumQuestLogEntries()
-				for k = 1, numEntries, 1 do
-					local questLogTitleText, _, _, _, _, isComplete, _, questId = GetQuestLogTitle(k)
-					if strmatch(questLogTitleText, Text:GetText()) then
-						if (isComplete == 1 or IsQuestComplete(questId)) then
-							icon:SetDesaturation(0)
-							button:GetFontString():SetTextColor(1, .8, .1)
-							break
+				if button.type == 'Available' or button.type == 'Active' then
+					icon:SetDesaturation(1)
+					text:SetTextColor(.6, .6, .6)
+
+					local numEntries = GetNumQuestLogEntries()
+					for k = 1, numEntries, 1 do
+						local questLogTitleText, _, _, _, _, isComplete, _, questId = GetQuestLogTitle(k)
+						if strmatch(questLogTitleText, textString) then
+							if (isComplete == 1 or IsQuestComplete(questId)) then
+								icon:SetDesaturation(0)
+								button:GetFontString():SetTextColor(1, .8, .1)
+								break
+							end
 						end
 					end
 				end
