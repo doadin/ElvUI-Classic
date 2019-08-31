@@ -130,6 +130,10 @@ local function LoadSkin()
 	S:HandleCloseButton(TradeSkillFrameCloseButton)
 
 	hooksecurefunc('TradeSkillFrame_SetSelection', function(id)
+		local skillName, skillType, numAvailable, isExpanded = GetTradeSkillInfo(id);
+		if ( skillType == "header" ) then
+			return;
+		end
 		if TradeSkillSkillIcon:GetNormalTexture() then
 			TradeSkillSkillIcon:SetAlpha(1)
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
