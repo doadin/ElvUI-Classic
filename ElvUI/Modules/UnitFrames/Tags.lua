@@ -419,7 +419,7 @@ ElvUF.Tags.Methods['difficultycolor'] = function(unit)
 	elseif (-DiffColor <= GetQuestGreenRange()) then
 		r, g, b = 0, 1, 0
 	else
-		r, g, b = 0, 0, 0
+		r, g, b = 0.19, 0.19, 0.19
 	end
 
 	return Hex(r, g, b)
