@@ -88,6 +88,7 @@ do
 	AddOn:AddLib('Masque', 'Masque', true)
 	AddOn:AddLib('Translit', 'LibTranslit-1.0')
 	AddOn:AddLib('LCD', 'LibClassicDurations')
+	AddOn:AddLib('LCC', 'LibClassicCasterino')
 
 	-- added on ElvUI_OptionsUI load: AceGUI, AceConfig, AceConfigDialog, AceConfigRegistry, AceDBOptions
 
