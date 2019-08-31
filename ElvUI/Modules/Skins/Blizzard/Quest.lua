@@ -25,8 +25,6 @@ local hooksecurefunc = hooksecurefunc
 local function HandleReward(frame)
 	if (not frame) then return end
 
-	frame:CreateBackdrop()
-
 	if frame.Icon then
 		S:HandleIcon(frame.Icon, true)
 
@@ -78,9 +76,9 @@ local function LoadSkin()
 				item:SetFrameLevel(item:GetFrameLevel() + 2)
 			end
 			if icon then
-				icon:Size(E.PixelMode and 38 or 32)
+				--icon:Size(E.PixelMode and 38 or 32)
 				icon:SetDrawLayer('OVERLAY')
-				icon:Point('TOPLEFT', E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
+				--icon:Point('TOPLEFT', E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
 				S:HandleIcon(icon, true)
 			end
 		end
@@ -92,32 +90,41 @@ local function LoadSkin()
 		end
 
 		if quality and quality > 1 then
-			frame.Icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+			if frame and frame.Icon and frame.Icon.backdrop then
+				frame.Icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+			end
 			text:SetTextColor(GetItemQualityColor(quality))
 		else
-			frame.Icon.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			if frame and frame.Icon and frame.Icon.backdrop then
+				frame.Icon.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			end
 			if text then
 				text:SetTextColor(1, 1, 1)
 			end
 		end
 	end
 
-	_G.QuestInfoItemHighlight:StripTextures()
+	local QuestInfoItemHighlight = _G.QuestInfoItemHighlight
+	QuestInfoItemHighlight:StripTextures()
+	QuestInfoItemHighlight:SetTemplate(nil, nil, true)
+	QuestInfoItemHighlight:SetBackdropBorderColor(1, 1, 0)
+	QuestInfoItemHighlight:SetBackdropColor(0, 0, 0, 0)
+	QuestInfoItemHighlight:Size(142, 40)
 
 	hooksecurefunc("QuestInfoItem_OnClick", function(self)
 		if self.type == "choice" then
+			QuestInfoItemHighlight:ClearAllPoints()
+			QuestInfoItemHighlight:SetAllPoints(self.Icon)
 			--self:SetBackdropBorderColor(1, 0.80, 0.10)
 
 			for i = 1, _G.MAX_NUM_ITEMS do
 				local item = _G["QuestInfoRewardsFrameQuestInfoItem"..i]
 				if item then
-					item.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					item.Name:SetTextColor(1, 1, 1)
 				end
 			end
 
-			self.backdrop:SetBackdropBorderColor(1, .8, .1)
-			self.Name:SetTextColor(1, .8, .1)
+			self.Name:SetTextColor(1, 0.80, 0.10)
 		end
 	end)
 
@@ -208,6 +215,43 @@ local function LoadSkin()
 				local link = item.type and (_G.QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
 				QuestQualityColors(item, item.Name, link)
 			end
+		end
+	end)
+
+	for i = 1, MAX_NUM_QUESTS do
+		_G["QuestTitleButton"..i.."QuestIcon"]:SetPoint('TOPLEFT', 4, 2)
+		_G["QuestTitleButton"..i.."QuestIcon"]:SetSize(16, 16)
+	end
+
+	QuestFrameGreetingPanel:HookScript("OnShow", function()
+		local i = 1
+		while _G["QuestTitleButton"..i]:IsVisible() do
+			local title = _G["QuestTitleButton"..i]
+			local icon = _G["QuestTitleButton"..i.."QuestIcon"]
+			title:SetText(title:GetText():gsub("|c[Ff][Ff]%x%x%x%x%x%x(.+)|r", "%1"))
+
+			if (title.isActive == 1) then
+				icon:SetTexture(132048)
+			else
+				icon:SetTexture(132049)
+			end
+
+			icon:SetDesaturation(1)
+			title:GetFontString():SetTextColor(.6, .6, .6)
+
+			local numEntries = GetNumQuestLogEntries()
+			for k = 1, numEntries, 1 do
+				local questLogTitleText, _, _, _, _, isComplete, _, questId = GetQuestLogTitle(k)
+				if strmatch(questLogTitleText, title:GetText()) then
+					if (isComplete == 1 or IsQuestComplete(questId)) then
+						icon:SetDesaturation(0)
+						title:GetFontString():SetTextColor(1, .8, .1)
+						break
+					end
+				end
+			end
+
+			i = i + 1
 		end
 	end)
 
