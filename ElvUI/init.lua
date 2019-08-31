@@ -96,6 +96,9 @@ do
 	AddOn.Masque = AddOn.Libs.Masque
 end
 
+-- Register LibClassicDurations
+AddOn.Libs.LCD:Register(AddOnName)
+
 AddOn.oUF = Engine.oUF
 AddOn.ActionBars = AddOn:NewModule('ActionBars','AceHook-3.0','AceEvent-3.0')
 AddOn.AFK = AddOn:NewModule('AFK','AceEvent-3.0','AceTimer-3.0')
