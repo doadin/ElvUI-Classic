@@ -251,10 +251,10 @@ local function Update(self, event, unit)
 				auras[lastAuraIndex].count = count
 				auras[lastAuraIndex].debuffType = debuffType
 				auras[lastAuraIndex].duration = duration
-				auras[lastAuraIndex].expirationTime = expirationTime
+				auras[lastAuraIndex].expirationTime = expirationTime or 1
 				auras[lastAuraIndex].unitCaster = unitCaster
 				auras[lastAuraIndex].isStealable = isStealable
-				auras[lastAuraIndex].noTime = (duration == 0 and expirationTime == 0)
+				auras[lastAuraIndex].noTime = (duration == 0 and expirationTime == 0) or (not duration and not expirationTime)
 				auras[lastAuraIndex].filter = helpOrHarm
 				auras[lastAuraIndex].shouldConsolidate = shouldConsolidate
 			end
