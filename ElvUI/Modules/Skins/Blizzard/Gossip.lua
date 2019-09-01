@@ -82,6 +82,9 @@ local function LoadSkin()
 					if button.type == 'Active' then
 						icon:SetDesaturation(1)
 						text:SetTextColor(.6, .6, .6)
+					else
+						icon:SetDesaturation(0)
+						text:SetTextColor(1, .8, .1)
 					end
 
 					local numEntries = GetNumQuestLogEntries()
