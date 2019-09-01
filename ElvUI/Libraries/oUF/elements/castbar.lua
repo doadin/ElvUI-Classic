@@ -367,7 +367,7 @@ local function Enable(self, unit)
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-		if LibClassicCasterino then
+		if unit ~= 'player' and LibClassicCasterino then
 			local CastbarEventHandler = function(event, ...)
 				return EventFunctions[event](self, event, ...)
 			end
