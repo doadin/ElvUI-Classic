@@ -15,12 +15,16 @@ local function LoadSkin()
 	S:HandleDropDownBox(_G.WorldMapContinentDropDown, 170)
 	S:HandleDropDownBox(_G.WorldMapZoneDropDown, 170)
 
-	_G.WorldMapZoneDropDown:Point('LEFT', _G.WorldMapContinentDropDown, 'RIGHT', -24, 0)
-	_G.WorldMapZoomOutButton:Point('LEFT', _G.WorldMapZoneDropDown, 'RIGHT', -4, 3)
+	_G.WorldMapContinentDropDown:Point('TOPLEFT', WorldMapFrame, 'TOPLEFT', 296, -40)
+	_G.WorldMapZoneDropDown:Point('LEFT', _G.WorldMapContinentDropDown, 'RIGHT', -20, 0)
+	_G.WorldMapZoomOutButton:Point('LEFT', _G.WorldMapZoneDropDown, 'RIGHT', -9, 0)
+
+	_G.WorldMapZoomOutButton:Height(21)
 
 	S:HandleButton(_G.WorldMapZoomOutButton)
 
-	S:HandleCloseButton(_G.WorldMapFrameCloseButton)
+	S:HandleCloseButton(_G.WorldMapFrameCloseButton, WorldMapFrame.backdrop)
+	_G.WorldMapFrameCloseButton:SetFrameLevel(_G.WorldMapFrameCloseButton:GetFrameLevel() + 2)
 end
 
 S:AddCallback('SkinWorldMap', LoadSkin)
