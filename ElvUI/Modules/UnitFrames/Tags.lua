@@ -411,13 +411,13 @@ ElvUF.Tags.Methods['difficultycolor'] = function(unit)
 	local r, g, b
 	local DiffColor = UnitLevel(unit) - UnitLevel('player')
 	if (DiffColor >= 5) then
-		r, g, b = 1, 0, 0
+		r, g, b = 0.77, 0.12 , 0.23
 	elseif (DiffColor >= 3) then
-		r, g, b = 1, 0.5, 0
+		r, g, b = 1.0, 0.49, 0.04
 	elseif (DiffColor >= -2) then
-		r, g, b = 1, 1, 0
+		r, g, b = 1.0, 0.96, 0.41
 	elseif (-DiffColor <= GetQuestGreenRange()) then
-		r, g, b = 0, 1, 0
+		r, g, b = .1, 1, .1
 	else
 		r, g, b = 0.19, 0.19, 0.19
 	end
