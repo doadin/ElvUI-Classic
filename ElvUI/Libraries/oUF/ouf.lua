@@ -758,6 +758,8 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 			end
 		elseif(event == 'PLAYER_TARGET_CHANGED') then
 			local nameplate = C_NamePlate.GetNamePlateForUnit('target')
+			if nameplate and nameplate:IsForbidden() then return end
+
 			if(nameplateCallback) then
 				nameplateCallback(nameplate and nameplate.unitFrame, event, 'target')
 			end
@@ -769,7 +771,8 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 			end
 		elseif(event == 'NAME_PLATE_UNIT_ADDED' and unit) then
 			local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
-			if(not nameplate) then return end
+			if (not nameplate) then return end
+			if nameplate:IsForbidden() then return end
 
 			if(not nameplate.unitFrame) then
 				nameplate.style = style
@@ -797,6 +800,7 @@ function oUF:SpawnNamePlates(namePrefix, nameplateCallback, nameplateCVars)
 		elseif(event == 'NAME_PLATE_UNIT_REMOVED' and unit) then
 			local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
 			if(not nameplate) then return end
+			if nameplate:IsForbidden() then return end
 
 			nameplate.unitFrame:SetAttribute('unit', nil)
 
