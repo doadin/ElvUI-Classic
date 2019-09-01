@@ -7,6 +7,7 @@ local floor, huge, min = math.floor, math.huge, math.min
 local tsort = table.sort
 local tremove = table.remove
 local random = math.random
+local LCD = LibStub('LibClassicDurations', true)
 
 local function Round(number, decimalPlaces)
 	if decimalPlaces and decimalPlaces > 0 then
@@ -234,6 +235,10 @@ local function Update(self, event, unit)
 	else
 		for index = 1, 40 do
 			local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID, canApply, isBossDebuff, casterIsPlayer = UnitAura(unit, index, helpOrHarm)
+			if duration == 0 and expirationTime == 0 then
+				duration, expirationTime = LCD:GetAuraDurationByUnit(unit, SpellID, UnitCaster, Name)
+			end
+
 			if not name then break end
 
 			if (auraBars.filter or DefaultFilter)(self, unit, name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID, canApply, isBossDebuff, casterIsPlayer) then
