@@ -30,7 +30,9 @@ function UF:Construct_TargetFrame(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
+	frame.PvPIndicator = self:Construct_PvPIcon(frame)
 	--frame.Fader = self:Construct_Fader()
+	frame.Cutaway = self:Construct_Cutaway(frame)
 	frame.customTexts = {}
 	frame:Point('BOTTOMRIGHT', E.UIParent, 'BOTTOM', 413, 68)
 	E:CreateMover(frame, frame:GetName()..'Mover', L["Target Frame"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,target,generalGroup')
@@ -118,6 +120,12 @@ function UF:Update_TargetFrame(frame, db)
 
 	--AuraBars
 	UF:Configure_AuraBars(frame)
+
+	--PvP & Prestige Icon
+	UF:Configure_PVPIcon(frame)
+
+	--Cutaway
+	UF:Configure_Cutaway(frame)
 
 	--CustomTexts
 	UF:Configure_CustomTexts(frame)
