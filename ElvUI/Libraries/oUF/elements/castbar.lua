@@ -268,7 +268,7 @@ local function CastFail(self, event, unit, castID, spellID)
 	if(self.unit ~= unit) then return end
 
 	local element = self.Castbar
-	if(not element:IsShown()) then
+	if(not element:IsShown() or element.spellID ~= spellID) then
 		return
 	end
 
