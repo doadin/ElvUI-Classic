@@ -99,6 +99,11 @@ E.Options.args.skins = {
 					name = L['Character Frame'],
 					desc = L['TOGGLESKIN_DESC']
 				},
+				craft = {
+					type = 'toggle',
+					name = L['Craft'],
+					desc = L['TOGGLESKIN_DESC']
+				},
 				debug = {
 					type = 'toggle',
 					name = L['Debug Tools'],

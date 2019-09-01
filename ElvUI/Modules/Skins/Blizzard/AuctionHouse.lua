@@ -195,7 +195,6 @@ local function LoadSkin()
 	end)
 
 	S:HandleDropDownBox(_G.BrowseDropDown, 155)
-	_G.BrowseDropDown:Point('TOPLEFT', _G.BrowseLevelText, 'BOTTOMRIGHT', -5, 0)
 	S:HandleDropDownBox(_G.PriceDropDown)
 
 	-- Progress Frame
@@ -232,13 +231,6 @@ local function LoadSkin()
 
 			S:HandleIcon(Texture)
 			Texture:SetInside()
-
-			hooksecurefunc(ItemButton.IconBorder, 'SetVertexColor', function(_, r, g, b)
-				ItemButton:SetBackdropBorderColor(r, g, b)
-			end)
-			hooksecurefunc(ItemButton.IconBorder, 'Hide', function()
-				ItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
-			end)
 		end
 	end
 
