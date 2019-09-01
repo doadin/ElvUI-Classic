@@ -43,7 +43,6 @@ local function LoadSkin()
 	TradeSkillCollapseAllButton.SetDisabledTexture = E.noop
 	TradeSkillCollapseAllButton:GetDisabledTexture():SetPoint('LEFT', 3, 2)
 	TradeSkillCollapseAllButton:GetDisabledTexture():Size(15)
-	TradeSkillCollapseAllButton:GetDisabledTexture():SetTexCoord(0.045, 0.475, 0.085, 0.925)
 	TradeSkillCollapseAllButton:GetDisabledTexture():SetDesaturated(true)
 
 	S:HandleDropDownBox(TradeSkillInvSlotDropDown, 140)
@@ -80,6 +79,7 @@ local function LoadSkin()
 				end
 			end
 		end
+
 		if TradeSkillCollapseAllButton.collapsed then
 			TradeSkillCollapseAllButton:SetNormalTexture(E.Media.Textures.PlusButton)
 		else
@@ -130,10 +130,11 @@ local function LoadSkin()
 	S:HandleCloseButton(TradeSkillFrameCloseButton)
 
 	hooksecurefunc('TradeSkillFrame_SetSelection', function(id)
-		local skillName, skillType, numAvailable, isExpanded = GetTradeSkillInfo(id);
-		if ( skillType == "header" ) then
-			return;
+		local skillName, skillType, numAvailable, isExpanded = GetTradeSkillInfo(id)
+		if skillType == "header" then
+			return
 		end
+
 		if TradeSkillSkillIcon:GetNormalTexture() then
 			TradeSkillSkillIcon:SetAlpha(1)
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
@@ -148,7 +149,7 @@ local function LoadSkin()
 		local skillLink = GetTradeSkillItemLink(id)
 		if skillLink then
 			local quality = select(3, GetItemInfo(skillLink))
-			if quality then
+			if quality and quality > 1 then
 				TradeSkillSkillIcon:SetBackdropBorderColor(GetItemQualityColor(quality))
 				TradeSkillSkillName:SetTextColor(GetItemQualityColor(quality))
 			else
@@ -166,7 +167,7 @@ local function LoadSkin()
 
 			if reagentLink then
 				local quality = select(3, GetItemInfo(reagentLink))
-				if quality then
+				if quality and quality > 1 then
 					icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 					if playerReagentCount < reagentCount then
 						name:SetTextColor(0.5, 0.5, 0.5)
