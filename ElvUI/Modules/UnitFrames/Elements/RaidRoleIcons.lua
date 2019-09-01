@@ -69,12 +69,16 @@ function UF:RaidRoleUpdate()
 	if db and db.raidRoleIcons then
 		if isLeader and db.raidRoleIcons.position == 'TOPLEFT' then
 			leader:Point('LEFT', anchor, 'LEFT')
+			masterlooter:Point('LEFT', leader, 'RIGHT')
 		elseif isLeader and db.raidRoleIcons.position == 'TOPRIGHT' then
 			leader:Point('RIGHT', anchor, 'RIGHT')
+			masterlooter:Point('RIGHT', leader, 'LEFT')
 		elseif isAssist and db.raidRoleIcons.position == 'TOPLEFT' then
 			assistant:Point('LEFT', anchor, 'LEFT')
+			masterlooter:Point('LEFT', assistant, 'RIGHT')
 		elseif isAssist and db.raidRoleIcons.position == 'TOPRIGHT' then
 			assistant:Point('RIGHT', anchor, 'RIGHT')
+			masterlooter:Point('RIGHT', assistant, 'LEFT')
 		elseif isMasterLooter and db.raidRoleIcons.position == 'TOPLEFT' then
 			masterlooter:Point('LEFT', anchor, 'LEFT')
 		elseif isMasterLooter and db.raidRoleIcons.position == 'TOPRIGHT' then
