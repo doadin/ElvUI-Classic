@@ -16,7 +16,7 @@ local GetCraftReagentItemLink = GetCraftReagentItemLink
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or not E.private.skins.blizzard.craft ~= true then return end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.craft ~= true then return end
 
 	CraftFrame:StripTextures(true)
 	CraftFrame:CreateBackdrop('Transparent')
