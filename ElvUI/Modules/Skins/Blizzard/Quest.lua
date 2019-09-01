@@ -235,12 +235,13 @@ local function LoadSkin()
 
 			if (title.isActive == 1) then
 				icon:SetTexture(132048)
+				icon:SetDesaturation(1)
+				text:SetTextColor(.6, .6, .6)
 			else
 				icon:SetTexture(132049)
+				icon:SetDesaturation(0)
+				text:SetTextColor(1, .8, .1)
 			end
-
-			icon:SetDesaturation(1)
-			text:SetTextColor(.6, .6, .6)
 
 			local numEntries = GetNumQuestLogEntries()
 			for k = 1, numEntries, 1 do

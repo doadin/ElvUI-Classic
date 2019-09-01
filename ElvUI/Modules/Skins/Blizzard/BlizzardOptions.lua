@@ -238,43 +238,7 @@ local function LoadSkin()
 
 	local InterfaceOptions = {
 		_G.InterfaceOptionsFrame,
-		_G.InterfaceOptionsControlsPanel,
-		_G.InterfaceOptionsCombatPanel,
-		_G.InterfaceOptionsCombatPanelEnemyCastBars,
-		_G.InterfaceOptionsCombatTextPanel,
-		_G.InterfaceOptionsDisplayPanel,
-		_G.InterfaceOptionsObjectivesPanel,
-		_G.InterfaceOptionsSocialPanel,
-		_G.InterfaceOptionsActionBarsPanel,
-		_G.InterfaceOptionsNamesPanel,
-		_G.InterfaceOptionsNamesPanelFriendly,
-		_G.InterfaceOptionsNamesPanelEnemy,
-		_G.InterfaceOptionsNamesPanelUnitNameplates,
-		_G.InterfaceOptionsBattlenetPanel,
-		_G.InterfaceOptionsCameraPanel,
-		_G.InterfaceOptionsMousePanel,
-		_G.InterfaceOptionsHelpPanel,
-		_G.InterfaceOptionsAccessibilityPanel,
 		_G.VideoOptionsFrame,
-		_G.Display_,
-		_G.Graphics_,
-		_G.RaidGraphics_,
-		_G.Advanced_,
-		_G.NetworkOptionsPanel,
-		_G.InterfaceOptionsLanguagesPanel,
-		_G.AudioOptionsSoundPanel,
-		_G.AudioOptionsSoundPanelHardware,
-		_G.AudioOptionsSoundPanelVolume,
-		_G.AudioOptionsSoundPanelPlayback,
-		_G.AudioOptionsVoicePanel,
-		_G.AudioOptionsVoicePanelTalking,
-		_G.AudioOptionsVoicePanelListening,
-		_G.AudioOptionsVoicePanelBinding,
-		_G.AudioOptionsVoicePanelMicTest,
-		_G.AudioOptionsVoicePanelChatMode1,
-		_G.AudioOptionsVoicePanelChatMode2,
-		_G.CompactUnitFrameProfiles,
-		_G.CompactUnitFrameProfilesGeneralOptionsFrame,
 	}
 
 	for _, Frame in pairs(OptionsFrames) do
@@ -291,22 +255,34 @@ local function LoadSkin()
 		S:HandleButton(Tab)
 	end
 
+	local Ignore = {
+		VideoOptionsFrameCategoryFrame = true,
+		InterfaceOptionsFrameCategories = true,
+	}
+
+	local function SkinPanelChilds(panel)
+		if Ignore[panel:GetName()] then return end
+		for i = 1, panel:GetNumChildren() do
+			local Child = select(i, panel:GetChildren())
+			if Child:IsObjectType('CheckButton') then
+				S:HandleCheckBox(Child)
+			elseif Child:IsObjectType('Button') then
+				S:HandleButton(Child)
+			elseif Child:IsObjectType('Slider') then
+				S:HandleSliderFrame(Child)
+			elseif Child:IsObjectType('Tab') then
+				S:HandleTab(Child)
+			elseif Child:IsObjectType('Frame') and Child.Left and Child.Middle and Child.Right then
+				S:HandleDropDownBox(Child)
+			elseif Child:IsObjectType('Frame') then
+				SkinPanelChilds(Child)
+			end
+		end
+	end
+
 	for _, Panel in pairs(InterfaceOptions) do
 		if Panel then
-			for i = 1, Panel:GetNumChildren() do
-				local Child = select(i, Panel:GetChildren())
-				if Child:IsObjectType('CheckButton') then
-					S:HandleCheckBox(Child)
-				elseif Child:IsObjectType('Button') then
-					S:HandleButton(Child)
-				elseif Child:IsObjectType('Slider') then
-					S:HandleSliderFrame(Child)
-				elseif Child:IsObjectType('Tab') then
-					S:HandleTab(Child)
-				elseif Child:IsObjectType('Frame') and Child.Left and Child.Middle and Child.Right then
-					S:HandleDropDownBox(Child)
-				end
-			end
+			SkinPanelChilds(Panel)
 		end
 	end
 

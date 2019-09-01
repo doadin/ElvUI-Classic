@@ -30,8 +30,7 @@ local function LoadSkin()
 	S:HandleCloseButton(_G.CharacterFrameCloseButton)
 
 	for i = 1, #CHARACTERFRAME_SUBFRAMES do
-		local tab = _G['CharacterFrameTab'..i]
-		S:HandleTab(tab)
+		S:HandleTab(_G['CharacterFrameTab'..i])
 	end
 
 	_G.PaperDollFrame:StripTextures()
@@ -70,24 +69,15 @@ local function LoadSkin()
 	_G.MagicResFrame4:GetRegions():SetTexCoord(0.21875, 0.8125, 0.36328125, 0.4375)	--Frost
 	_G.MagicResFrame5:GetRegions():SetTexCoord(0.21875, 0.8125, 0.4765625, 0.55078125)	--Shadow
 
-	local slots = {'HeadSlot', 'NeckSlot', 'ShoulderSlot', 'BackSlot', 'ChestSlot', 'ShirtSlot', 'TabardSlot', 'WristSlot',
-		'HandsSlot', 'WaistSlot', 'LegsSlot', 'FeetSlot', 'Finger0Slot', 'Finger1Slot', 'Trinket0Slot', 'Trinket1Slot',
-		'MainHandSlot', 'SecondaryHandSlot', 'RangedSlot', 'AmmoSlot'
-	}
+	for _, slot in pairs({ PaperDollItemsFrame:GetChildren() }) do
+		local icon = _G[slot:GetName()..'IconTexture']
+		local cooldown = _G[slot:GetName()..'Cooldown']
 
-	for _, slot in pairs(slots) do
-		local icon = _G['Character'..slot..'IconTexture']
-		local cooldown = _G['Character'..slot..'Cooldown']
-
-		slot = _G['Character'..slot]
 		slot:StripTextures()
 		slot:SetTemplate('Default', true, true)
 		slot:StyleButton()
 
-		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:SetInside()
-
-		slot:SetFrameLevel(_G.PaperDollFrame:GetFrameLevel() + 2)
+		S:HandleIcon(icon)
 
 		if cooldown then
 			E:RegisterCooldown(cooldown)
@@ -100,7 +90,7 @@ local function LoadSkin()
 		local textureName = GetInventoryItemTexture('player', self:GetID())
 		if textureName then
 			local rarity = GetInventoryItemQuality('player', self:GetID())
-			if rarity then
+			if rarity and rarity > 1 then
 				self:SetBackdropBorderColor(GetItemQualityColor(rarity))
 			else
 				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
@@ -128,8 +118,7 @@ local function LoadSkin()
 	_G.PetResistanceFrame.backdrop:SetOutside(_G.PetMagicResFrame1, nil, nil, _G.PetMagicResFrame5)
 
 	for i = 1, 5 do
-		local frame = _G['PetMagicResFrame'..i]
-		frame:Size(24)
+		_G['PetMagicResFrame'..i]:Size(24)
 	end
 
 	_G.PetMagicResFrame1:GetRegions():SetTexCoord(0.21875, 0.78125, 0.25, 0.3203125)
