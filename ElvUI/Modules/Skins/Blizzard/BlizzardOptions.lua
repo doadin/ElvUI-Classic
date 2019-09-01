@@ -255,34 +255,22 @@ local function LoadSkin()
 		S:HandleButton(Tab)
 	end
 
-	local Ignore = {
-		VideoOptionsFrameCategoryFrame = true,
-		InterfaceOptionsFrameCategories = true,
-	}
-
-	local function SkinPanelChilds(panel)
-		if Ignore[panel:GetName()] then return end
-		for i = 1, panel:GetNumChildren() do
-			local Child = select(i, panel:GetChildren())
-			if Child:IsObjectType('CheckButton') then
-				S:HandleCheckBox(Child)
-			elseif Child:IsObjectType('Button') then
-				S:HandleButton(Child)
-			elseif Child:IsObjectType('Slider') then
-				S:HandleSliderFrame(Child)
-			elseif Child:IsObjectType('Tab') then
-				S:HandleTab(Child)
-			elseif Child:IsObjectType('Frame') and Child.Left and Child.Middle and Child.Right then
-				S:HandleDropDownBox(Child)
-			elseif Child:IsObjectType('Frame') then
-				SkinPanelChilds(Child)
-			end
-		end
-	end
-
 	for _, Panel in pairs(InterfaceOptions) do
 		if Panel then
-			SkinPanelChilds(Panel)
+			for i = 1, Panel:GetNumChildren() do
+				local Child = select(i, Panel:GetChildren())
+				if Child:IsObjectType('CheckButton') then
+					S:HandleCheckBox(Child)
+				elseif Child:IsObjectType('Button') then
+					S:HandleButton(Child)
+				elseif Child:IsObjectType('Slider') then
+					S:HandleSliderFrame(Child)
+				elseif Child:IsObjectType('Tab') then
+					S:HandleTab(Child)
+				elseif Child:IsObjectType('Frame') and Child.Left and Child.Middle and Child.Right then
+					S:HandleDropDownBox(Child)
+				end
+			end
 		end
 	end
 
