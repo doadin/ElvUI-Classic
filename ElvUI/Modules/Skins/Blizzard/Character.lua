@@ -70,16 +70,10 @@ local function LoadSkin()
 	_G.MagicResFrame4:GetRegions():SetTexCoord(0.21875, 0.8125, 0.36328125, 0.4375)	--Frost
 	_G.MagicResFrame5:GetRegions():SetTexCoord(0.21875, 0.8125, 0.4765625, 0.55078125)	--Shadow
 
-	local slots = {'HeadSlot', 'NeckSlot', 'ShoulderSlot', 'BackSlot', 'ChestSlot', 'ShirtSlot', 'TabardSlot', 'WristSlot',
-		'HandsSlot', 'WaistSlot', 'LegsSlot', 'FeetSlot', 'Finger0Slot', 'Finger1Slot', 'Trinket0Slot', 'Trinket1Slot',
-		'MainHandSlot', 'SecondaryHandSlot', 'RangedSlot', 'AmmoSlot'
-	}
+	for _, slot in pairs({ PaperDollItemsFrame:GetChildren() }) do
+		local icon = _G[slot:GetName()..'IconTexture']
+		local cooldown = _G[slot:GetName()..'Cooldown']
 
-	for _, slot in pairs(slots) do
-		local icon = _G['Character'..slot..'IconTexture']
-		local cooldown = _G['Character'..slot..'Cooldown']
-
-		slot = _G['Character'..slot]
 		slot:StripTextures()
 		slot:SetTemplate('Default', true, true)
 		slot:StyleButton()
@@ -100,7 +94,7 @@ local function LoadSkin()
 		local textureName = GetInventoryItemTexture('player', self:GetID())
 		if textureName then
 			local rarity = GetInventoryItemQuality('player', self:GetID())
-			if rarity then
+			if rarity and rarity > 1 then
 				self:SetBackdropBorderColor(GetItemQualityColor(rarity))
 			else
 				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
