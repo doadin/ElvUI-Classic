@@ -1387,7 +1387,7 @@ function UF:Initialize()
 
 	local ElvUF_Parent = CreateFrame('Frame', 'ElvUF_Parent', E.UIParent, 'SecureHandlerStateTemplate');
 	ElvUF_Parent:SetFrameStrata("LOW")
-	RegisterStateDriver(ElvUF_Parent, "visibility", "[petbattle] hide; show")
+	RegisterStateDriver(ElvUF_Parent, "visibility", "show")
 
 	self:UpdateColors()
 	ElvUF:RegisterStyle('ElvUF', function(frame, unit)

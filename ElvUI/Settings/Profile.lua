@@ -284,7 +284,7 @@ P.bags = {
 		backdropSpacing = 4,
 		showBackdrop = false,
 		mouseover = false,
-		visibility = '[petbattle] hide; show',
+		visibility = 'show',
 	},
 };
 
@@ -4243,7 +4243,7 @@ P.actionbar = {
 			MONK = '[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;',
 			WARRIOR = '[bonusbar:1] 7; [bonusbar:2] 8;'
 		},
-		visibility = '[petbattle] hide; show',
+		visibility = 'show',
 	},
 	bar2 = {
 		enabled = false,
@@ -4262,7 +4262,7 @@ P.actionbar = {
 		showGrid = true,
 		flyoutDirection = 'AUTOMATIC',
 		paging = {},
-		visibility = '[overridebar] hide; [petbattle] hide; show',
+		visibility = 'show',
 	},
 	bar3 = {
 		enabled = true,
@@ -4281,7 +4281,7 @@ P.actionbar = {
 		showGrid = true,
 		flyoutDirection = 'AUTOMATIC',
 		paging = {},
-		visibility = '[overridebar] hide; [petbattle] hide; show',
+		visibility = 'show',
 	},
 	bar4 = {
 		enabled = true,
@@ -4300,7 +4300,7 @@ P.actionbar = {
 		showGrid = true,
 		flyoutDirection = 'AUTOMATIC',
 		paging = {},
-		visibility = '[overridebar] hide; [petbattle] hide; show',
+		visibility = 'show',
 	},
 	bar5 = {
 		enabled = true,
@@ -4319,7 +4319,7 @@ P.actionbar = {
 		showGrid = true,
 		flyoutDirection = 'AUTOMATIC',
 		paging = {},
-		visibility = '[overridebar] hide; [petbattle] hide; show',
+		visibility = 'show',
 	},
 	bar6 = {
 		enabled = false,
@@ -4338,7 +4338,7 @@ P.actionbar = {
 		showGrid = true,
 		flyoutDirection = 'AUTOMATIC',
 		paging = {},
-		visibility = '[overridebar] hide; [petbattle] hide; show',
+		visibility = 'show',
 	},
 	barPet = {
 		enabled = true,

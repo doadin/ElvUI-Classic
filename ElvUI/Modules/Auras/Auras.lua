@@ -390,8 +390,8 @@ function A:CreateAuraHeader(filter)
 	header:SetClampedToScreen(true)
 	header:SetAttribute("unit", "player")
 	header:SetAttribute("filter", filter)
-	RegisterStateDriver(header, "visibility", "[petbattle] hide; show")
-	RegisterAttributeDriver(header, "unit", "[vehicleui] vehicle; player")
+	RegisterStateDriver(header, "visibility", "show")
+	RegisterAttributeDriver(header, "unit", "player")
 
 	if filter == "HELPFUL" then
 		header:SetAttribute('consolidateDuration', -1)
