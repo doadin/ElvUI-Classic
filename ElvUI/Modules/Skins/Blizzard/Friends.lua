@@ -392,7 +392,7 @@ local function LoadSkin()
 	GuildListScrollFrame:StripTextures()
 	S:HandleScrollBar(GuildListScrollFrameScrollBar)
 
-	S:HandleNextPrevButton(GuildFrameGuildListToggleButton)
+	S:HandleNextPrevButton(GuildFrameGuildListToggleButton, 'left')
 
 	S:HandleButton(GuildFrameGuildInformationButton)
 	S:HandleButton(GuildFrameAddMemberButton)
@@ -406,17 +406,14 @@ local function LoadSkin()
 	S:HandleCloseButton(GuildMemberDetailCloseButton, GuildMemberDetailFrame.backdrop)
 
 	S:HandleButton(GuildMemberRemoveButton)
-	GuildMemberRemoveButton:Point("BOTTOMLEFT", 3, 3)
 
 	S:HandleButton(GuildMemberGroupInviteButton)
-	GuildMemberGroupInviteButton:Point("LEFT", GuildMemberRemoveButton, "RIGHT", 13, 0)
 
-	S:HandleNextPrevButton(GuildFramePromoteButton)
+	S:HandleNextPrevButton(GuildFramePromoteButton, 'up')
 	GuildFramePromoteButton:SetHitRectInsets(0, 0, 0, 0)
 
 	S:HandleNextPrevButton(GuildFrameDemoteButton)
 	GuildFrameDemoteButton:SetHitRectInsets(0, 0, 0, 0)
-	GuildFrameDemoteButton:Point("LEFT", GuildFramePromoteButton, "RIGHT", 2, 0)
 
 	GuildMemberNoteBackground:StripTextures()
 	GuildMemberNoteBackground:CreateBackdrop("Default")
