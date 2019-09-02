@@ -285,7 +285,7 @@ function M:LOOT_OPENED(_, autoloot)
 		if color then
 			slot.name:SetTextColor(color.r, color.g, color.b)
 		end
-		slot.icon:SetTexture[[Interface\Icons\INV_Misc_Herb_AncientLichen]]
+		slot.icon:SetTexture([[Interface\Icons\Inv_misc_questionmark]])
 
 		w = max(w, slot.name:GetStringWidth())
 
