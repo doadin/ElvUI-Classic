@@ -467,28 +467,23 @@ local function LoadSkin()
 	GuildControlPopupFrameDropDownButton:Size(18)
 
 	local function SkinPlusMinus(button, minus)
-		button:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		local texture = E.Media.Textures.PlusButton
+		if minus then
+			texture = E.Media.Textures.MinusButton
+		end
+
+		button:SetNormalTexture(texture)
 		button.SetNormalTexture = E.noop
 
-		button:SetPushedTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		button:SetPushedTexture(texture)
 		button.SetPushedTexture = E.noop
 
 		button:SetHighlightTexture("")
 		button.SetHighlightTexture = E.noop
 
-		button:SetDisabledTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		button:SetDisabledTexture(texture)
 		button.SetDisabledTexture = E.noop
 		button:GetDisabledTexture():SetDesaturated(true)
-
-		if minus then
-			button:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
-			button:GetPushedTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
-			button:GetDisabledTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
-		else
-			button:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
-			button:GetPushedTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
-			button:GetDisabledTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
-		end
 	end
 
 	SkinPlusMinus(GuildControlPopupFrameAddRankButton)

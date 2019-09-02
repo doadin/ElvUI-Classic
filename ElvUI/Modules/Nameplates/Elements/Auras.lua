@@ -32,21 +32,24 @@ function NP:Buffs_PostCreateIcon(button)
 	NP:Construct_AuraIcon(button)
 end
 
-function NP:Buffs_PostUpdateIcon(unit, button, index, position, duration, expiration, debuffType, isStealable, unitCaster, spellID, name)
-	if duration == 0 and expiration == 0 then
-		duration, expiration = E.Libs.LCD:GetAuraDurationByUnit(unit, spellID, unitCaster, name)
+function NP:Buffs_PostUpdateIcon(unit, button, index)
+	local Name, _, _, _, Duration, ExpirationTime, UnitCaster, _, _, SpellID = UnitAura(unit, index, button.filter)
+
+	if Duration == 0 and ExpirationTime == 0 then
+		Duration, ExpirationTime = E.Libs.LCD:GetAuraDurationByUnit(unit, SpellID, UnitCaster, Name)
 
 		button.IsLibClassicDuration = true
 	end
 
 	if (button.cd) and (button.IsLibClassicDuration) then
-		if (duration and duration > 0) then
-			button.cd:SetCooldown(expiration - duration, duration)
+		if (Duration and Duration > 0) then
+			button.cd:SetCooldown(ExpirationTime - Duration, Duration)
 			button.cd:Show()
 		else
 			button.cd:Hide()
 		end
 	end
+
 	NP:PostUpdateAura(unit, button)
 end
 
@@ -59,16 +62,18 @@ function NP:Debuffs_PostCreateIcon(button)
 	NP:Construct_AuraIcon(button)
 end
 
-function NP:Debuffs_PostUpdateIcon(unit, button, index, position, duration, expiration, debuffType, isStealable, unitCaster, spellID, name)
-	if duration == 0 and expiration == 0 then
-		duration, expiration = E.Libs.LCD:GetAuraDurationByUnit(unit, spellID, unitCaster, name)
+function NP:Debuffs_PostUpdateIcon(unit, button, index, position, duration, expiration, debuffType, isStealable)
+	local Name, _, _, _, Duration, ExpirationTime, UnitCaster, _, _, SpellID = UnitAura(unit, index, button.filter)
+
+	if Duration == 0 and ExpirationTime == 0 then
+		Duration, ExpirationTime = E.Libs.LCD:GetAuraDurationByUnit(unit, SpellID, UnitCaster, Name)
 
 		button.IsLibClassicDuration = true
 	end
 
 	if (button.cd) and (button.IsLibClassicDuration) then
-		if (duration and duration > 0) then
-			button.cd:SetCooldown(expiration - duration, duration)
+		if (Duration and Duration > 0) then
+			button.cd:SetCooldown(ExpirationTime - Duration, Duration)
 			button.cd:Show()
 		else
 			button.cd:Hide()
