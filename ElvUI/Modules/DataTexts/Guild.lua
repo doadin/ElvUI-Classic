@@ -195,7 +195,12 @@ local function Click(self, btn)
 	elseif InCombatLockdown() then
 		_G.UIErrorsFrame:AddMessage(E.InfoColor.._G.ERR_NOT_IN_COMBAT)
 	else
-		ToggleGuildFrame()
+		--Workaround until blizz fixes ToggleGuildFrame correctly
+		if IsInGuild() then
+			ToggleFriendsFrame(3)
+		else
+			ToggleGuildFrame()
+		end
 	end
 end
 
