@@ -477,10 +477,14 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 	button.useMasque = useMasque
 	button.ignoreNormal = ignoreNormal
 
-	if flash then flash:SetTexture() end
 	if normal and not ignoreNormal then normal:SetTexture(); normal:Hide(); normal:SetAlpha(0) end
 	if normal2 then normal2:SetTexture(); normal2:Hide(); normal2:SetAlpha(0) end
 	if border and not button.useMasque then border:Kill() end
+
+	if flash then
+		flash:SetInside()
+		flash:SetTexCoord(unpack(E.TexCoords))
+	end
 
 	if count then
 		count:ClearAllPoints()
