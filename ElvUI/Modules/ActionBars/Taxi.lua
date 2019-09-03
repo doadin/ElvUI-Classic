@@ -9,7 +9,6 @@ local unpack = unpack
 local CreateFrame = CreateFrame
 local Masque = E.Masque
 local MasqueGroup = Masque and Masque:Group("ElvUI", "ActionBars")
-local TaxiButtonHolder
 
 --[[
 AB.customTaxiButton = {
@@ -20,7 +19,7 @@ AB.customTaxiButton = {
 ]]
 
 function AB:MoveTaxiButton()
-	TaxiButtonHolder = CreateFrame('Frame', nil, E.UIParent)
+	CreateFrame('Frame', 'TaxiButtonHolder', E.UIParent)
 	TaxiButtonHolder:Point('BOTTOM', E.UIParent, 'BOTTOM', 0, 150)
 	TaxiButtonHolder:Size(_G.MainMenuBarVehicleLeaveButton:GetSize())
 
@@ -31,20 +30,22 @@ function AB:MoveTaxiButton()
 	else
 		Button:CreateBackdrop(nil, true)
 		Button.backdrop:SetAllPoints()
-		Button:StyleButton()
+		Button:StyleButton(nil, true, true)
 	end
 
 	E:CreateMover(TaxiButtonHolder, 'TaxiButtonMover', L["Taxi Button"], nil, nil, nil, nil, nil, 'all,general')
 
-	hooksecurefunc(Button, 'SetPoint', function(_, parent)
+	hooksecurefunc(Button, 'SetPoint', function(_, _, parent)
 		if parent ~= TaxiButtonHolder then
-			_G.MainMenuBarVehicleLeaveButton:SetPoint('CENTER', TaxiButtonHolder, 'CENTER')
+			Button:ClearAllPoints()
+			Button:SetParent(UIParent)
+			Button:SetPoint('CENTER', TaxiButtonHolder, 'CENTER')
 		end
 	end)
 
-	hooksecurefunc(Button, 'SetHighlightTexture', function(self, tex)
+	hooksecurefunc(Button, 'SetHighlightTexture', function(_, tex)
 		if tex ~= self.hover then
-			self:SetHighlightTexture(self.hover)
+			Button:SetHighlightTexture(self.hover)
 		end
 	end)
 end
