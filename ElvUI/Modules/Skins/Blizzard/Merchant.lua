@@ -12,11 +12,10 @@ local function LoadSkin()
 
 	local MerchantFrame = _G.MerchantFrame
 	S:HandlePortraitFrame(MerchantFrame, true)
+	MerchantFrame.backdrop:Point('TOPLEFT', -5, 0)
+	MerchantFrame.backdrop:Point('BOTTOMRIGHT', -1, -1)
 
-	MerchantFrame.backdrop:Point('TOPLEFT', 6, 2)
-	MerchantFrame.backdrop:Point('BOTTOMRIGHT', 2, -1)
-
-	MerchantFrame:Width(360)
+	MerchantFrame:Height(423)
 
 	_G.MerchantBuyBackItem:StripTextures(true)
 	_G.MerchantBuyBackItem:CreateBackdrop('Transparent')
@@ -37,6 +36,7 @@ local function LoadSkin()
 		local icon = button.icon
 		local iconBorder = button.IconBorder
 		local item = _G['MerchantItem'..i]
+
 		item:StripTextures(true)
 		item:CreateBackdrop()
 
@@ -63,7 +63,13 @@ local function LoadSkin()
 		_G['MerchantItem'..i..'MoneyFrame']:Point('BOTTOMLEFT', button, 'BOTTOMRIGHT', 3, 0)
 	end
 
+	_G.MerchantItem1:Point('TOPLEFT', 6, -48)
+
+	_G.MerchantFrameCloseButton:Point('TOPRIGHT', 4, 4)
+
 	-- Skin buyback item frame + icon
+	_G.MerchantBuyBackItem:Point('BOTTOMRIGHT', -17, 34)
+
 	_G.MerchantBuyBackItemItemButton:StripTextures()
 	_G.MerchantBuyBackItemItemButton:StyleButton(false)
 	_G.MerchantBuyBackItemItemButton:SetTemplate(nil, true)
