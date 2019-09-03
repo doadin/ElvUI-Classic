@@ -64,7 +64,6 @@ function UF:Construct_PartyFrames()
 
 		self.Sparkle = CreateFrame("Frame", nil, self)
 		self.Sparkle:SetAllPoints(self.Health)
-		self.Castbar = UF:Construct_Castbar(self)
 
 		self.unitframeType = "party"
 	end
@@ -228,8 +227,6 @@ function UF:Update_PartyFrames(frame, db)
 		UF:Configure_Auras(frame, 'Debuffs')
 
 		UF:Configure_RaidDebuffs(frame)
-
-		UF:Configure_Castbar(frame)
 
 		UF:Configure_RaidIcon(frame)
 
