@@ -814,6 +814,7 @@ function B:Layout(isBank)
 				if isBank then
 					f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIBankBag" .. (bagID-4), f.ContainerHolder, "BankItemButtonBagTemplate")
 					B:CreateFilterIcon(f.ContainerHolder[i])
+					--[[
 					f.ContainerHolder[i]:SetScript('OnClick', function(holder, button)
 						if button == "RightButton" and holder.id then
 							ElvUIAssignBagDropdown.holder = holder
@@ -822,12 +823,13 @@ function B:Layout(isBank)
 							local inventoryID = holder:GetInventorySlot()
 							PutItemInBag(inventoryID);--Put bag on empty slot, or drop item in this bag
 						end
-					end)
+					end)]]
 				else
 					if bagID == 0 then --Backpack needs different setup
 						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBagBackpack", f.ContainerHolder, "ItemButtonTemplate, ItemAnimTemplate")
 						B:CreateFilterIcon(f.ContainerHolder[i])
 						f.ContainerHolder[i]:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+						--[[
 						f.ContainerHolder[i]:SetScript('OnClick', function(holder, button)
 							if button == "RightButton" and holder.id then
 								ElvUIAssignBagDropdown.holder = holder
@@ -838,10 +840,11 @@ function B:Layout(isBank)
 						end)
 						f.ContainerHolder[i]:SetScript('OnReceiveDrag', function()
 							PutItemInBackpack();--Put bag on empty slot, or drop item in this bag
-						end)
+						end)]]
 					else
 						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBag" .. (bagID-1) .. "Slot", f.ContainerHolder, "BagSlotButtonTemplate")
 						B:CreateFilterIcon(f.ContainerHolder[i])
+						--[[
 						f.ContainerHolder[i]:SetScript('OnClick', function(holder, button)
 							if button == "RightButton" and holder.id then
 								ElvUIAssignBagDropdown.holder = holder
@@ -850,7 +853,7 @@ function B:Layout(isBank)
 								local id = holder:GetID()
 								PutItemInBag(id);--Put bag on empty slot, or drop item in this bag
 							end
-						end)
+						end)]]
 					end
 				end
 
