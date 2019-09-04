@@ -74,6 +74,12 @@ E.Options.args.bags = {
 					desc = L["Use coin icons instead of colored text."],
 					set = function(info, value) E.db.bags[info[#info]] = value; B:UpdateGoldText(); end,
 				},
+				transparent = {
+					order = 4,
+					type = 'toggle',
+					name = L["Transparent Buttons"],
+					set = function(info, value) E.db.bags[info[#info]] = value; B:UpdateAllBagSlots(); end,
+				},
 				newItemGlow = {
 					order = 8,
 					type = 'toggle',
