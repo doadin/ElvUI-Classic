@@ -64,7 +64,7 @@ local LEVEL = LEVEL
 ------------------------------------------------------------------------
 
 local function UnitHealthValues(unit)
-	if not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) and _G.RealMobHealth then
+	if unit and not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) and _G.RealMobHealth then
 		local c, m, _, _ = _G.RealMobHealth.GetUnitHealth(unit);
 		return c, m
 	else
