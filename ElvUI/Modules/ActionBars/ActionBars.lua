@@ -624,34 +624,27 @@ function AB:DisableBlizzard()
 
 	-- Hide MultiBar Buttons, but keep the bars alive
 	for i=1,12 do
-		_G["ActionButton" .. i]:Hide()
 		_G["ActionButton" .. i]:UnregisterAllEvents()
 		_G["ActionButton" .. i]:SetAttribute("statehidden", true)
 
-		_G["MultiBarBottomLeftButton" .. i]:Hide()
 		_G["MultiBarBottomLeftButton" .. i]:UnregisterAllEvents()
 		_G["MultiBarBottomLeftButton" .. i]:SetAttribute("statehidden", true)
 
-		_G["MultiBarBottomRightButton" .. i]:Hide()
 		_G["MultiBarBottomRightButton" .. i]:UnregisterAllEvents()
 		_G["MultiBarBottomRightButton" .. i]:SetAttribute("statehidden", true)
 
-		_G["MultiBarRightButton" .. i]:Hide()
 		_G["MultiBarRightButton" .. i]:UnregisterAllEvents()
 		_G["MultiBarRightButton" .. i]:SetAttribute("statehidden", true)
 
-		_G["MultiBarLeftButton" .. i]:Hide()
 		_G["MultiBarLeftButton" .. i]:UnregisterAllEvents()
 		_G["MultiBarLeftButton" .. i]:SetAttribute("statehidden", true)
 
 		if _G["VehicleMenuBarActionButton" .. i] then
-			_G["VehicleMenuBarActionButton" .. i]:Hide()
 			_G["VehicleMenuBarActionButton" .. i]:UnregisterAllEvents()
 			_G["VehicleMenuBarActionButton" .. i]:SetAttribute("statehidden", true)
 		end
 
 		if _G['OverrideActionBarButton'..i] then
-			_G['OverrideActionBarButton'..i]:Hide()
 			_G['OverrideActionBarButton'..i]:UnregisterAllEvents()
 			_G['OverrideActionBarButton'..i]:SetAttribute("statehidden", true)
 		end
@@ -664,11 +657,9 @@ function AB:DisableBlizzard()
 	_G.MainMenuBar:SetFrameLevel(0)
 
 	_G.MainMenuBarArtFrame:UnregisterAllEvents()
-	_G.MainMenuBarArtFrame:Hide()
 	_G.MainMenuBarArtFrame:SetParent(UIHider)
 
 	_G.StanceBarFrame:UnregisterAllEvents()
-	_G.StanceBarFrame:Hide()
 	_G.StanceBarFrame:SetParent(UIHider)
 
 	--Enable/disable functionality to automatically put spells on the actionbar.
