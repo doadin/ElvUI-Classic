@@ -147,6 +147,9 @@ function UF:Update_PlayerFrame(frame, db)
 	frame:DisableElement('Castbar')
 	UF:Configure_Castbar(frame)
 
+	--Raid Icon
+	UF:Configure_RaidIcon(frame)
+
 	if (not db.enable and not E.private.unitframe.disabledBlizzardFrames.player) then
 		CastingBarFrame_OnLoad(_G.CastingBarFrame, 'player', true, false)
 		CastingBarFrame_OnLoad(_G.PetCastingBarFrame)
