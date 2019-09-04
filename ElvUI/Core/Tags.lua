@@ -43,6 +43,7 @@ local UnitPower = UnitPower
 local UnitPowerMax = UnitPowerMax
 local UnitPowerType = UnitPowerType
 local UnitReaction = UnitReaction
+local UnitPlayerControlled = UnitPlayerControlled
 
 local DEFAULT_AFK_MESSAGE = DEFAULT_AFK_MESSAGE
 local PVP = PVP
@@ -61,6 +62,15 @@ local LEVEL = LEVEL
 ------------------------------------------------------------------------
 --	Tags
 ------------------------------------------------------------------------
+
+local function UnitHealthValues(unit)
+	if not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) and _G.RealMobHealth then
+		local c, m, _, _ = _G.RealMobHealth.GetUnitHealth(unit);
+		return c, m
+	else
+		return UnitHealth(unit), UnitHealthMax(unit)
+	end
+end
 
 local function UnitName(unit)
 	local name, realm = _G.UnitName(unit)
@@ -91,7 +101,8 @@ ElvUF.Tags.Methods['healthcolor'] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
 		return Hex(0.84, 0.75, 0.65)
 	else
-		local r, g, b = ElvUF:ColorGradient(UnitHealth(unit), UnitHealthMax(unit), 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+		local cur, max = UnitHealthValues(unit)
+		local r, g, b = ElvUF:ColorGradient(cur, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
 		return Hex(r, g, b)
 	end
 end
@@ -102,7 +113,7 @@ ElvUF.Tags.Methods['health:current'] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText('CURRENT', UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText('CURRENT', UnitHealthValues(unit))
 	end
 end
 
@@ -113,7 +124,7 @@ ElvUF.Tags.Methods['health:deficit'] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText('DEFICIT', UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText('DEFICIT', UnitHealthValues(unit))
 	end
 end
 
@@ -124,7 +135,7 @@ ElvUF.Tags.Methods['health:current-percent'] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText('CURRENT_PERCENT', UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText('CURRENT_PERCENT', UnitHealthValues(unit))
 	end
 end
 
@@ -135,7 +146,7 @@ ElvUF.Tags.Methods['health:current-max'] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText('CURRENT_MAX', UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText('CURRENT_MAX', UnitHealthValues(unit))
 	end
 end
 
@@ -146,13 +157,13 @@ ElvUF.Tags.Methods['health:current-max-percent'] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText('CURRENT_MAX_PERCENT', UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText('CURRENT_MAX_PERCENT', UnitHealthValues(unit))
 	end
 end
 
 ElvUF.Tags.Events['health:max'] = 'UNIT_MAXHEALTH'
 ElvUF.Tags.Methods['health:max'] = function(unit)
-	local max = UnitHealthMax(unit)
+	local _, max = UnitHealthValues(unit)
 
 	return E:GetFormattedText('CURRENT', max, max)
 end
@@ -164,46 +175,46 @@ ElvUF.Tags.Methods['health:percent'] = function(unit)
 	if (status) then
 		return status
 	else
-		return E:GetFormattedText('PERCENT', UnitHealth(unit), UnitHealthMax(unit))
+		return E:GetFormattedText('PERCENT', UnitHealthValues(unit))
 	end
 end
 
 ElvUF.Tags.Events['health:current-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
 ElvUF.Tags.Methods['health:current-nostatus'] = function(unit)
-	return E:GetFormattedText('CURRENT', UnitHealth(unit), UnitHealthMax(unit))
+	return E:GetFormattedText('CURRENT', UnitHealthValues(unit))
 end
 
 ElvUF.Tags.Events['health:deficit-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
 ElvUF.Tags.Methods['health:deficit-nostatus'] = function(unit)
-	return E:GetFormattedText('DEFICIT', UnitHealth(unit), UnitHealthMax(unit))
+	return E:GetFormattedText('DEFICIT', UnitHealthValues(unit))
 end
 
 ElvUF.Tags.Events['health:current-percent-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
 ElvUF.Tags.Methods['health:current-percent-nostatus'] = function(unit)
-	return E:GetFormattedText('CURRENT_PERCENT', UnitHealth(unit), UnitHealthMax(unit))
+	return E:GetFormattedText('CURRENT_PERCENT', UnitHealthValues(unit))
 end
 
 ElvUF.Tags.Events['health:current-max-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
 ElvUF.Tags.Methods['health:current-max-nostatus'] = function(unit)
-	return E:GetFormattedText('CURRENT_MAX', UnitHealth(unit), UnitHealthMax(unit))
+	return E:GetFormattedText('CURRENT_MAX', UnitHealthValues(unit))
 end
 
 ElvUF.Tags.Events['health:current-max-percent-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
 ElvUF.Tags.Methods['health:current-max-percent-nostatus'] = function(unit)
-	return E:GetFormattedText('CURRENT_MAX_PERCENT', UnitHealth(unit), UnitHealthMax(unit))
+	return E:GetFormattedText('CURRENT_MAX_PERCENT', UnitHealthValues(unit))
 end
 
 ElvUF.Tags.Events['health:percent-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
 ElvUF.Tags.Methods['health:percent-nostatus'] = function(unit)
-	return E:GetFormattedText('PERCENT', UnitHealth(unit), UnitHealthMax(unit))
+	return E:GetFormattedText('PERCENT', UnitHealthValues(unit))
 end
 
 ElvUF.Tags.Events['health:deficit-percent:name'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_NAME_UPDATE'
 ElvUF.Tags.Methods['health:deficit-percent:name'] = function(unit)
-	local currentHealth = UnitHealth(unit)
-	local deficit = UnitHealthMax(unit) - currentHealth
+	local cur, max = UnitHealthValues(unit)
+	local deficit = max - cur
 
-	if (deficit > 0 and currentHealth > 0) then
+	if (deficit > 0 and cur > 0) then
 		return _TAGS["health:percent-nostatus"](unit)
 	else
 		return _TAGS.name(unit)
@@ -212,10 +223,10 @@ end
 
 ElvUF.Tags.Events['health:deficit-percent:name-long'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_NAME_UPDATE'
 ElvUF.Tags.Methods['health:deficit-percent:name-long'] = function(unit)
-	local currentHealth = UnitHealth(unit)
-	local deficit = UnitHealthMax(unit) - currentHealth
+	local cur, max = UnitHealthValues(unit)
+	local deficit = max - cur
 
-	if (deficit > 0 and currentHealth > 0) then
+	if (deficit > 0 and cur > 0) then
 		return _TAGS["health:percent-nostatus"](unit)
 	else
 		return _TAGS["name:long"](unit)
@@ -224,10 +235,10 @@ end
 
 ElvUF.Tags.Events['health:deficit-percent:name-medium'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_NAME_UPDATE'
 ElvUF.Tags.Methods['health:deficit-percent:name-medium'] = function(unit)
-	local currentHealth = UnitHealth(unit)
-	local deficit = UnitHealthMax(unit) - currentHealth
+	local cur, max = UnitHealthValues(unit)
+	local deficit = max - cur
 
-	if (deficit > 0 and currentHealth > 0) then
+	if (deficit > 0 and cur > 0) then
 		return _TAGS["health:percent-nostatus"](unit)
 	else
 		return _TAGS["name:medium"](unit)
@@ -236,10 +247,10 @@ end
 
 ElvUF.Tags.Events['health:deficit-percent:name-short'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_NAME_UPDATE'
 ElvUF.Tags.Methods['health:deficit-percent:name-short'] = function(unit)
-	local currentHealth = UnitHealth(unit)
-	local deficit = UnitHealthMax(unit) - currentHealth
+	local cur, max = UnitHealthValues(unit)
+	local deficit = max - cur
 
-	if (deficit > 0 and currentHealth > 0) then
+	if (deficit > 0 and cur > 0) then
 		return _TAGS["health:percent-nostatus"](unit)
 	else
 		return _TAGS["name:short"](unit)
@@ -248,10 +259,10 @@ end
 
 ElvUF.Tags.Events['health:deficit-percent:name-veryshort'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_NAME_UPDATE'
 ElvUF.Tags.Methods['health:deficit-percent:name-veryshort'] = function(unit)
-	local currentHealth = UnitHealth(unit)
-	local deficit = UnitHealthMax(unit) - currentHealth
+	local cur, max = UnitHealthValues(unit)
+	local deficit = max - cur
 
-	if (deficit > 0 and currentHealth > 0) then
+	if (deficit > 0 and cur > 0) then
 		return _TAGS["health:percent-nostatus"](unit)
 	else
 		return _TAGS["name:veryshort"](unit)

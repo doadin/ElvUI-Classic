@@ -50,6 +50,7 @@ local UnitPVPName = UnitPVPName
 local UnitRace = UnitRace
 local UnitReaction = UnitReaction
 local UnitRealmRelationship = UnitRealmRelationship
+local UnitPlayerControlled = UnitPlayerControlled
 
 -- GLOBALS: ElvUI_KeyBinder, ElvUI_ContainerFrame
 
@@ -457,7 +458,12 @@ function TT:GameTooltipStatusBar_OnValueChanged(tt, value)
 	elseif(value == 0 or (unit and UnitIsDeadOrGhost(unit))) then
 		tt.text:SetText(_G.DEAD)
 	else
-		tt.text:SetText(E:ShortValue(value).." / "..E:ShortValue(max))
+		if not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) and _G.RealMobHealth then
+			local c, m, _, _ = _G.RealMobHealth.GetUnitHealth(unit);
+			tt.text:SetText(E:ShortValue(c).." / "..E:ShortValue(m))
+		else
+			tt.text:SetText(E:ShortValue(value).." / "..E:ShortValue(max))
+		end
 	end
 end
 
