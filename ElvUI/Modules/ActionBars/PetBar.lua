@@ -300,6 +300,7 @@ function AB:CreateBarPet()
 	end)
 
 	_G.PetActionBarFrame.showgrid = 1
+	PetActionBar_ShowGrid()
 
 	self:RegisterEvent('PET_BAR_UPDATE', 'UpdatePet')
 	self:RegisterEvent('PLAYER_CONTROL_GAINED', 'UpdatePet')
