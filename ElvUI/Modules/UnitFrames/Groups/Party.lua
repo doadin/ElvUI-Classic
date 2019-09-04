@@ -42,7 +42,7 @@ function UF:Construct_PartyFrames()
 		self.Health = UF:Construct_HealthBar(self, true, true, 'RIGHT')
 		self.Power = UF:Construct_PowerBar(self, true, true, 'LEFT')
 		self.Power.frequentUpdates = false;
-		--self.PowerPrediction = UF:Construct_PowerPrediction(self)
+		self.PowerPrediction = UF:Construct_PowerPrediction(self)
 
 		self.Portrait3D = UF:Construct_Portrait(self, 'model')
 		self.Portrait2D = UF:Construct_Portrait(self, 'texture')
@@ -68,7 +68,7 @@ function UF:Construct_PartyFrames()
 		self.unitframeType = "party"
 	end
 
-	--self.Fader = UF:Construct_Fader()
+	self.Fader = UF:Construct_Fader()
 	self.Cutaway = UF:Construct_Cutaway(self)
 
 	return self
@@ -220,6 +220,9 @@ function UF:Update_PartyFrames(frame, db)
 
 		UF:Configure_Power(frame)
 
+		-- Power Predicition
+		UF:Configure_PowerPrediction(frame)
+
 		UF:Configure_Portrait(frame)
 
 		UF:EnableDisable_Auras(frame)
@@ -244,7 +247,7 @@ function UF:Update_PartyFrames(frame, db)
 	end
 
 	--Fader
-	--UF:Configure_Fader(frame)
+	UF:Configure_Fader(frame)
 
 	--Cutaway
 	UF:Configure_Cutaway(frame)

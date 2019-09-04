@@ -24,6 +24,7 @@ function UF:Construct_TargetFrame(frame)
 	frame.Castbar.SafeZone = nil
 	frame.Castbar.LatencyTexture:Hide()
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
+	frame.PowerPrediction = self:Construct_PowerPrediction(frame)
 --	frame.HealthPrediction = self:Construct_HealComm(frame)
 --	frame.DebuffHighlight = self:Construct_DebuffHighlight(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
@@ -31,7 +32,7 @@ function UF:Construct_TargetFrame(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
 	frame.PvPIndicator = self:Construct_PvPIcon(frame)
-	--frame.Fader = self:Construct_Fader()
+	frame.Fader = self:Construct_Fader()
 	frame.Cutaway = self:Construct_Cutaway(frame)
 	frame.customTexts = {}
 	frame:Point('BOTTOMRIGHT', E.UIParent, 'BOTTOM', 413, 68)
@@ -95,6 +96,8 @@ function UF:Update_TargetFrame(frame, db)
 	--Power
 	UF:Configure_Power(frame)
 
+	UF:Configure_PowerPrediction(frame)
+
 	--Portrait
 	UF:Configure_Portrait(frame)
 
@@ -107,7 +110,7 @@ function UF:Update_TargetFrame(frame, db)
 	UF:Configure_Castbar(frame)
 
 	--Fader
-	--UF:Configure_Fader(frame)
+	UF:Configure_Fader(frame)
 
 	--Debuff Highlight
 	--UF:Configure_DebuffHighlight(frame)

@@ -155,19 +155,6 @@ G.unitframe = {
 				[982] = true -- Mend Pet (45 yards)
 			}
 		},
-		DEATHKNIGHT = {
-			enemySpells = {
-				[49576] = true -- Death Grip
-			},
-			longEnemySpells = {
-				[47541] = true -- Death Coil (Unholy) (40 yards)
-			},
-			friendlySpells = {},
-			resSpells = {
-				[61999] = true -- Raise Ally (40 yards)
-			},
-			petSpells = {}
-		},
 		ROGUE = {
 			enemySpells = {
 				[185565] = true, -- Poisoned Knife (Assassination) (30 yards)
@@ -194,33 +181,6 @@ G.unitframe = {
 			resSpells = {},
 			petSpells = {}
 		},
-		MONK = {
-			enemySpells = {
-				[115546] = true -- Provoke (30 yards)
-			},
-			longEnemySpells = {
-				[117952] = true -- Crackling Jade Lightning (40 yards)
-			},
-			friendlySpells = {
-				[116670] = true -- Vivify (40 yards)
-			},
-			resSpells = {
-				[115178] = true -- Resuscitate (40 yards)
-			},
-			petSpells = {}
-		},
-		DEMONHUNTER = {
-			enemySpells = {
-				[183752] = true -- Consume Magic (20 yards)
-			},
-			longEnemySpells = {
-				[185123] = true, -- Throw Glaive (Havoc) (30 yards)
-				[204021] = true -- Fiery Brand (Vengeance) (30 yards)
-			},
-			friendlySpells = {},
-			resSpells = {},
-			petSpells = {}
-		}
 	}
 }
 

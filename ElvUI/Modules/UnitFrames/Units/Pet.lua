@@ -14,7 +14,7 @@ function UF:Construct_PetFrame(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, 'RIGHT')
 	frame.Health.frequentUpdates = true;
 	frame.Power = self:Construct_PowerBar(frame, true, true, 'LEFT')
-	--frame.PowerPrediction = self:Construct_PowerPrediction(frame)
+	frame.PowerPrediction = self:Construct_PowerPrediction(frame)
 	frame.Name = self:Construct_NameText(frame)
 	frame.Portrait3D = self:Construct_Portrait(frame, 'model')
 	frame.Portrait2D = self:Construct_Portrait(frame, 'texture')
@@ -29,7 +29,7 @@ function UF:Construct_PetFrame(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
-	--frame.Fader = self:Construct_Fader()
+	frame.Fader = self:Construct_Fader()
 	frame.Cutaway = self:Construct_Cutaway(frame)
 	frame.customTexts = {}
 
@@ -87,7 +87,7 @@ function UF:Update_PetFrame(frame, db)
 	UF:Configure_Power(frame)
 
 	--Power Predicition
-	--UF:Configure_PowerPrediction(frame)
+	UF:Configure_PowerPrediction(frame)
 
 	--Portrait
 	UF:Configure_Portrait(frame)
@@ -98,7 +98,7 @@ function UF:Update_PetFrame(frame, db)
 	UF:Configure_Auras(frame, 'Debuffs')
 
 	--Fader
-	--UF:Configure_Fader(frame)
+	UF:Configure_Fader(frame)
 
 	--Castbar
 	UF:Configure_Castbar(frame)
