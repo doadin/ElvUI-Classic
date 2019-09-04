@@ -13,6 +13,7 @@ local GetMinimapZoneText = GetMinimapZoneText
 local GetZonePVPInfo = GetZonePVPInfo
 local InCombatLockdown = InCombatLockdown
 local IsAddOnLoaded = IsAddOnLoaded
+local IsInGuild = IsInGuild
 local MainMenuMicroButton_SetNormal = MainMenuMicroButton_SetNormal
 local PlaySound = PlaySound
 local ShowUIPanel, HideUIPanel = ShowUIPanel, HideUIPanel
@@ -36,12 +37,18 @@ local menuList = {
 	end},
 	{text = _G.CHAT_CHANNELS,
 	func = _G.ToggleChannelFrame},
---	{text = _G.TIMEMANAGER_TITLE,
---	func = function() ToggleFrame(_G.TimeManagerFrame) end},
-	{text = _G.SOCIAL_BUTTON,
+	{text = _G.TIMEMANAGER_TITLE,
+	func = function() ToggleFrame(_G.TimeManagerFrame) end},
+	{text = _G.SOCIAL_LABEL,
 	func = ToggleFriendsFrame},
-	{text = _G.ACHIEVEMENTS_GUILD_TAB,
-	func = ToggleGuildFrame},
+	{text = _G.GUILD,
+	func = function()
+		if IsInGuild() then
+			ToggleFriendsFrame(3)
+		else
+			ToggleGuildFrame()
+		end
+	end},
 	{text = _G.MAINMENU_BUTTON,
 	func = function()
 		if not _G.GameMenuFrame:IsShown() then
