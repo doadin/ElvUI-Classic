@@ -1,6 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local AB = E:GetModule('ActionBars')
 local LAB = E.Libs.LAB
+local S = E:GetModule('Skins')
 
 --Lua functions
 local _G = _G
@@ -9,7 +10,7 @@ local unpack = unpack
 local CreateFrame = CreateFrame
 local Masque = E.Masque
 local MasqueGroup = Masque and Masque:Group("ElvUI", "ActionBars")
-
+local TaxiButtonHolder
 --[[
 AB.customTaxiButton = {
 	func = TaxiRequestEarlyLanding,
@@ -19,7 +20,7 @@ AB.customTaxiButton = {
 ]]
 
 function AB:MoveTaxiButton()
-	CreateFrame('Frame', 'TaxiButtonHolder', E.UIParent)
+	TaxiButtonHolder = CreateFrame('Frame', nil, E.UIParent)
 	TaxiButtonHolder:Point('BOTTOM', E.UIParent, 'BOTTOM', 0, 150)
 	TaxiButtonHolder:Size(_G.MainMenuBarVehicleLeaveButton:GetSize())
 
@@ -29,9 +30,14 @@ function AB:MoveTaxiButton()
 		Button:StyleButton(true, true, true)
 	else
 		Button:CreateBackdrop(nil, true)
-		Button.backdrop:SetAllPoints()
+		Button:GetNormalTexture():SetTexCoord(0.140625 + .08, 0.859375 - .06, 0.140625 + .08, 0.859375 - .08)
+		Button:GetPushedTexture():SetTexCoord(0.140625, 0.859375, 0.140625, 0.859375)
 		Button:StyleButton(nil, true, true)
 	end
+
+	Button:ClearAllPoints()
+	Button:SetParent(UIParent)
+	Button:SetPoint('CENTER', TaxiButtonHolder, 'CENTER')
 
 	E:CreateMover(TaxiButtonHolder, 'TaxiButtonMover', L["Taxi Button"], nil, nil, nil, nil, nil, 'all,general')
 
