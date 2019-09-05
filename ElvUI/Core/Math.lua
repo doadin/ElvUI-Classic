@@ -16,14 +16,14 @@ local C_Timer_After = C_Timer.After
 
 E.ShortPrefixValues = {}
 E.ShortPrefixStyles = {
-	["CHINESE"] = {{1e8,"Y"}, {1e4,"W"}},
-	["ENGLISH"] = {{1e12,"T"}, {1e9,"B"}, {1e6,"M"}, {1e3,"K"}},
-	["GERMAN"] = {{1e12,"Bio"}, {1e9,"Mrd"}, {1e6,"Mio"}, {1e3,"Tsd"}},
-	["KOREAN"] = {{1e8,"억"}, {1e4,"만"}, {1e3,"천"}},
-	["METRIC"] = {{1e12,"T"}, {1e9,"G"}, {1e6,"M"}, {1e3,"k"}}
+	['CHINESE'] = {{1e8,'Y'}, {1e4,'W'}},
+	['ENGLISH'] = {{1e12,'T'}, {1e9,'B'}, {1e6,'M'}, {1e3,'K'}},
+	['GERMAN'] = {{1e12,'Bio'}, {1e9,'Mrd'}, {1e6,'Mio'}, {1e3,'Tsd'}},
+	['KOREAN'] = {{1e8,'억'}, {1e4,'만'}, {1e3,'천'}},
+	['METRIC'] = {{1e12,'T'}, {1e9,'G'}, {1e6,'M'}, {1e3,'k'}}
 }
 
-local gftStyles = {
+E.GetFormattedTextStyles = {
 	['CURRENT'] = '%s',
 	['CURRENT_MAX'] = '%s - %s',
 	['CURRENT_PERCENT'] = '%s - %.1f%%',
@@ -49,15 +49,21 @@ function E:BuildPrefixValues()
 end
 
 --Return short value of a number
-function E:ShortValue(v)
-	local abs_v = v<0 and -v or v
+function E:ShortValue(value, dec)
+	local abs_value = value<0 and -value or value
+	local decimal = dec and format('%%.%df', tonumber(dec) or 0)
+
 	for i=1, #E.ShortPrefixValues do
-		if abs_v >= E.ShortPrefixValues[i][1] then
-			return format(E.ShortPrefixValues[i][2], v / E.ShortPrefixValues[i][1])
+		if abs_value >= E.ShortPrefixValues[i][1] then
+			if decimal then
+				return format(decimal..E.ShortPrefixValues[i][2], value / E.ShortPrefixValues[i][1])
+			else
+				return format(E.ShortPrefixValues[i][3], value / E.ShortPrefixValues[i][1])
+			end
 		end
 	end
 
-	return format("%.0f", v)
+	return format('%.0f', value)
 end
 
 function E:IsEvenNumber(num)
@@ -180,23 +186,32 @@ function E:GetXYOffset(position, override)
 	end
 end
 
-function E:GetFormattedText(style, min, max)
+function E:GetFormattedText(style, min, max, dec)
 	if max == 0 then max = 1 end
 
-	local gftUseStyle = gftStyles[style]
-	if style == 'DEFICIT' then
-		local gftDeficit = max - min
-		return ((gftDeficit > 0) and format(gftUseStyle, E:ShortValue(gftDeficit))) or ''
-	elseif style == 'PERCENT' then
-		return format(gftUseStyle, min / max * 100)
-	elseif style == 'CURRENT' or ((style == 'CURRENT_MAX' or style == 'CURRENT_MAX_PERCENT' or style == 'CURRENT_PERCENT') and min == max) then
-		return format(gftStyles.CURRENT, E:ShortValue(min))
-	elseif style == 'CURRENT_MAX' then
-		return format(gftUseStyle, E:ShortValue(min), E:ShortValue(max))
-	elseif style == 'CURRENT_PERCENT' then
-		return format(gftUseStyle, E:ShortValue(min), min / max * 100)
-	elseif style == 'CURRENT_MAX_PERCENT' then
-		return format(gftUseStyle, E:ShortValue(min), E:ShortValue(max), min / max * 100)
+	if style == 'CURRENT' or ((style == 'CURRENT_MAX' or style == 'CURRENT_MAX_PERCENT' or style == 'CURRENT_PERCENT') and min == max) then
+		return format(E.GetFormattedTextStyles.CURRENT, E:ShortValue(min, dec))
+	else
+		local useStyle = E.GetFormattedTextStyles[style]
+		if not useStyle then return end
+
+		if style == 'DEFICIT' then
+			local deficit = max - min
+			return (deficit > 0 and format(useStyle, E:ShortValue(deficit, dec))) or ''
+		elseif style == 'CURRENT_MAX' then
+			return format(useStyle, E:ShortValue(min, dec), E:ShortValue(max, dec))
+		elseif style == 'PERCENT' or style == 'CURRENT_PERCENT' or style == 'CURRENT_MAX_PERCENT' then
+			if dec then useStyle = gsub(useStyle, '%d', tonumber(dec) or 0) end
+			local perc = min / max * 100
+
+			if style == 'PERCENT' then
+				return format(useStyle, perc)
+			elseif style == 'CURRENT_PERCENT' then
+				return format(useStyle, E:ShortValue(min, dec), perc)
+			elseif style == 'CURRENT_MAX_PERCENT' then
+				return format(useStyle, E:ShortValue(min, dec), E:ShortValue(max, dec), perc)
+			end
+		end
 	end
 end
 
