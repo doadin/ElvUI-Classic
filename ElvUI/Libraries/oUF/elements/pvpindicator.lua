@@ -44,13 +44,12 @@ local function Update(self, event, unit)
 	local status
 	local factionGroup = UnitFactionGroup(unit) or 'Neutral'
 
-	if(factionGroup ~= 'Neutral' and UnitIsPVP(unit)) then
-		if(UnitIsPVPFreeForAll(unit)) then
-			status = 'FFA'
-		elseif UnitIsPVP(unit) then
-			status = factionGroup
-		end
+	if(UnitIsPVPFreeForAll(unit)) then
+		status = 'FFA'
+	elseif(factionGroup ~= 'Neutral' and UnitIsPVP(unit)) then
+		status = factionGroup
 	end
+
 
 	if(status) then
 		element:SetTexture([[Interface\TargetingFrame\UI-PVP-]] .. status)
