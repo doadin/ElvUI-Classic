@@ -240,6 +240,16 @@ local function LoadSkin()
 
 			S:HandleIcon(Texture)
 			Texture:SetInside()
+
+			hooksecurefunc(Name, "SetVertexColor", function(_, r, g, b)
+				if not (r == g) then
+					ItemButton:SetBackdropBorderColor(r, g, b)
+				else
+					ItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				end
+			end)
+
+			hooksecurefunc(Name, "Hide", function() ItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor)) end)
 		end
 	end
 
