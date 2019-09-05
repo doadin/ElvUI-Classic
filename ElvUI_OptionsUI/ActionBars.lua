@@ -149,6 +149,7 @@ local function BuildABConfig()
 				name = "Transparent",
 				set = function(info, value)
 					E.db.actionbar.transparent = value
+					E:StaticPopup_Show("PRIVATE_RL")
 				end,
 			},
 			movementModifier = {
