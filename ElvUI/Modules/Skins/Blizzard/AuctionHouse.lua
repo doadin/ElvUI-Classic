@@ -132,6 +132,15 @@ local function LoadSkin()
 
 	_G.BrowseFilterScrollFrame:StripTextures()
 
+	_G.BrowseBidText:ClearAllPoints()
+	_G.BrowseBidText:Point('RIGHT', _G.BrowseBidButton, 'LEFT', -270, 2)
+
+	_G.BrowseCloseButton:Point('BOTTOMRIGHT', 66, 6)
+	_G.BrowseBuyoutButton:Point('RIGHT', _G.BrowseCloseButton, 'LEFT', -4, 0)
+	_G.BrowseBidButton:Point('RIGHT', _G.BrowseBuyoutButton, 'LEFT', -4, 0)
+
+	_G.BrowseBidPrice:Point('BOTTOM', 25, 10)
+
 	S:HandleScrollBar(_G.BrowseFilterScrollFrameScrollBar)
 	S:HandleScrollBar(_G.BrowseScrollFrameScrollBar)
 	S:HandleNextPrevButton(_G.BrowsePrevPageButton, nil, nil, true)
@@ -184,7 +193,7 @@ local function LoadSkin()
 			self:GetNormalTexture():SetInside()
 
 			local quality = select(4, GetAuctionSellItemInfo())
-			if quality then
+			if quality and quality > 1 then
 				self:SetBackdropBorderColor(GetItemQualityColor(quality))
 			else
 				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
