@@ -43,8 +43,8 @@ function E:BuildPrefixValues()
 	end
 
 	local gftDec = tostring(E.db.general.decimalLength or 1)
-	for style, str in pairs(gftStyles) do
-		gftStyles[style] = gsub(str,"%d",gftDec)
+	for style, str in pairs(E.GetFormattedTextStyles) do
+		E.GetFormattedTextStyles[style] = gsub(str,"%d",gftDec)
 	end
 end
 
