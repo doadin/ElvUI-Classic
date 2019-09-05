@@ -44,10 +44,12 @@ local function Update(self, event, unit)
 	local status
 	local factionGroup = UnitFactionGroup(unit) or 'Neutral'
 
-	if(UnitIsPVPFreeForAll(unit)) then
-		status = 'FFA'
-	elseif UnitIsPVP(unit) then
-		status = factionGroup
+	if(factionGroup ~= 'Neutral' and UnitIsPVP(unit)) then
+		if(UnitIsPVPFreeForAll(unit)) then
+			status = 'FFA'
+		elseif UnitIsPVP(unit) then
+			status = factionGroup
+		end
 	end
 
 	if(status) then
