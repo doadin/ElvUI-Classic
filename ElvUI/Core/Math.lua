@@ -36,15 +36,15 @@ function E:BuildPrefixValues()
 	if next(E.ShortPrefixValues) then wipe(E.ShortPrefixValues) end
 
 	E.ShortPrefixValues = E:CopyTable(E.ShortPrefixValues, E.ShortPrefixStyles[E.db.general.numberPrefixStyle])
-	E.ShortValueDec = format("%%.%df", E.db.general.decimalLength or 1)
+	E.ShortValueDec = format('%%.%df', E.db.general.decimalLength or 1)
 
 	for _, style in ipairs(E.ShortPrefixValues) do
-		style[2] = E.ShortValueDec..style[2]
+		style[3] = E.ShortValueDec..style[2]
 	end
 
-	local gftDec = tostring(E.db.general.decimalLength or 1)
+	local dec = tostring(E.db.general.decimalLength or 1)
 	for style, str in pairs(E.GetFormattedTextStyles) do
-		E.GetFormattedTextStyles[style] = gsub(str,"%d",gftDec)
+		E.GetFormattedTextStyles[style] = gsub(str, '%d', dec)
 	end
 end
 
