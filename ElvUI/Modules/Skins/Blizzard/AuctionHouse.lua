@@ -120,6 +120,8 @@ local function LoadSkin()
 		_G[Filter..'NormalTexture'].SetAlpha = E.noop
 	end
 
+	_G.BrowseLevelHyphen:Point('RIGHT', 13, 0)
+
 	S:HandleCloseButton(_G.AuctionFrameCloseButton, AuctionFrame.backdrop)
 
 	_G.AuctionFrameMoneyFrame:Point('BOTTOMRIGHT', AuctionFrame, 'BOTTOMLEFT', 181, 11)
@@ -202,6 +204,10 @@ local function LoadSkin()
 			self:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	end)
+
+	S:HandleRadioButton(_G.AuctionsShortAuctionButton)
+	S:HandleRadioButton(_G.AuctionsMediumAuctionButton)
+	S:HandleRadioButton(_G.AuctionsLongAuctionButton)
 
 	S:HandleDropDownBox(_G.BrowseDropDown, 155)
 	S:HandleDropDownBox(_G.PriceDropDown)
