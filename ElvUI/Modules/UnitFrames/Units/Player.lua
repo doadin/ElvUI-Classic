@@ -46,7 +46,7 @@ function UF:Construct_PlayerFrame(frame)
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
 	frame.RestingIndicator = self:Construct_RestingIndicator(frame)
 	frame.CombatIndicator = self:Construct_CombatIndicator(frame)
-	--frame.HealthPrediction = self:Construct_HealComm(frame)
+	frame.HealthPrediction = self:Construct_HealComm(frame)
 	frame.PvPText = self:Construct_PvPIndicator(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
@@ -162,7 +162,7 @@ function UF:Update_PlayerFrame(frame, db)
 	UF:Configure_Fader(frame)
 
 	--OverHealing
-	--UF:Configure_HealComm(frame)
+	UF:Configure_HealComm(frame)
 
 	--AuraBars
 	UF:Configure_AuraBars(frame)

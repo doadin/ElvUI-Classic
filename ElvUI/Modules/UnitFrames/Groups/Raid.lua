@@ -201,7 +201,7 @@ function UF:Update_RaidFrames(frame, db)
 	--UF:Configure_DebuffHighlight(frame)
 
 	--OverHealing
-	--UF:Configure_HealComm(frame)
+	UF:Configure_HealComm(frame)
 
 	--Raid Roles
 	UF:Configure_RaidRoleIcons(frame)
