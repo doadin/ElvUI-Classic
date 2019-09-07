@@ -785,12 +785,6 @@ local function GetOptionsTable_Fader(updateFunc, groupName, numUnits)
 				name = L["Power"],
 				disabled = function() return not E.db.unitframe.units[groupName].fader.enable or E.db.unitframe.units[groupName].fader.range end,
 			},
-			vehicle = {
-				type = 'toggle',
-				order = 11,
-				name = L["Vehicle"],
-				disabled = function() return not E.db.unitframe.units[groupName].fader.enable or E.db.unitframe.units[groupName].fader.range end,
-			},
 			casting = {
 				type = 'toggle',
 				order = 12,
