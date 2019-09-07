@@ -83,6 +83,7 @@ local UnitAura = UnitAura
 local UnitIsUnit = UnitIsUnit
 local floor, min = math.floor, math.min
 local LCD = LibStub('LibClassicDurations', true)
+local myClass = select(2, UnitClass('player'))
 
 -- GLOBALS: GameTooltip
 -- end block
@@ -164,6 +165,16 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 		local durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
 		if durationNew and durationNew > 0 then
 			duration, expiration = durationNew, expirationTimeNew
+		end
+	end
+
+	if myClass == "SHAMAN" then
+		for slot = 1, 4 do
+			local _, _, start, durationTime, icon = GetTotemInfo(slot)
+			if icon == texture then
+				duration = durationTime
+				expiration = start + duration
+			end
 		end
 	end
 
