@@ -223,7 +223,7 @@ local function LoadSkin()
 		_G["QuestTitleButton"..i.."QuestIcon"]:SetSize(16, 16)
 	end
 
-	QuestFrameGreetingPanel:HookScript("OnShow", function()
+	local function UpdateGreetingFrame()
 		local i = 1
 		while _G["QuestTitleButton"..i]:IsVisible() do
 			local title = _G["QuestTitleButton"..i]
@@ -257,7 +257,10 @@ local function LoadSkin()
 
 			i = i + 1
 		end
-	end)
+	end
+
+	_G.QuestFrameGreetingPanel:HookScript('OnShow', UpdateGreetingFrame)
+	hooksecurefunc("QuestFrameGreetingPanel_OnShow", UpdateGreetingFrame)
 
 	for _, frame in pairs({'MoneyFrame', 'HonorFrame', 'XPFrame', 'SpellFrame', 'SkillPointFrame'}) do
 		HandleReward(_G.MapQuestInfoRewardsFrame[frame])
