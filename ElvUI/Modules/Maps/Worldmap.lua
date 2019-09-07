@@ -28,25 +28,8 @@ function M:SetLargeWorldMap()
 	local WorldMapFrame = _G.WorldMapFrame
 	WorldMapFrame:SetParent(E.UIParent)
 	WorldMapFrame:SetScale(1)
-	WorldMapFrame.ScrollContainer.Child:SetScale(smallerMapScale)
-
-	if WorldMapFrame:GetAttribute('UIPanelLayout-area') ~= 'center' then
-		SetUIPanelAttribute(WorldMapFrame, 'area', 'center');
-	end
-
-	if WorldMapFrame:GetAttribute('UIPanelLayout-allowOtherPanels') ~= true then
-		SetUIPanelAttribute(WorldMapFrame, 'allowOtherPanels', true)
-	end
-
 	WorldMapFrame:OnFrameSizeChanged()
-end
-
-function M:GetCursorPosition()
-	local WorldMapFrame = _G.WorldMapFrame
-	local x,y = self.hooks[WorldMapFrame.ScrollContainer].GetCursorPosition(WorldMapFrame.ScrollContainer)
-	local s = WorldMapFrame:GetScale()
-
-	return x / s, y / s
+	WorldMapFrame.ScrollContainer.Child:SetScale(smallerMapScale)
 end
 
 function M:SetSmallWorldMap(smallerMapScale)
@@ -57,17 +40,16 @@ function M:SetSmallWorldMap(smallerMapScale)
 	WorldMapFrame:EnableMouse(false)
 	WorldMapFrame:SetFrameStrata('HIGH')
 
-	if WorldMapFrame:GetAttribute('UIPanelLayout-area') ~= 'center' then
-		SetUIPanelAttribute(WorldMapFrame, 'area', 'center')
-	end
-
-	if WorldMapFrame:GetAttribute('UIPanelLayout-allowOtherPanels') ~= true then
-		SetUIPanelAttribute(WorldMapFrame, 'allowOtherPanels', true)
-	end
-
 	_G.WorldMapTooltip:SetFrameLevel(WorldMapFrame.ScrollContainer:GetFrameLevel() + 110)
 end
 
+function M:GetCursorPosition()
+	local WorldMapFrame = _G.WorldMapFrame
+	local x,y = self.hooks[WorldMapFrame.ScrollContainer].GetCursorPosition(WorldMapFrame.ScrollContainer)
+	local s = WorldMapFrame:GetScale()
+
+	return x / s, y / s
+end
 
 local inRestrictedArea = false
 function M:UpdateRestrictedArea()
@@ -120,6 +102,11 @@ function M:PositionCoords()
 	CoordsHolder.mouseCoords:Point(position, CoordsHolder.playerCoords, INVERTED_POINTS[position], 0, y)
 end
 
+function M:SetMovementAlpha()
+	local WorldMapFrame = _G.WorldMapFrame
+	_G.PlayerMovementFrameFader.RemoveFrame(WorldMapFrame)
+	_G.PlayerMovementFrameFader.AddDeferredFrame(WorldMapFrame, E.global.general.mapAlphaWhenMoving, 1, .5, function() return GetCVarBool('mapFade') and not WorldMapFrame:IsMouseOver() end)
+end
 
 function M:Initialize()
 	self.Initialized = true
@@ -182,6 +169,8 @@ function M:Initialize()
 
 	--Enable/Disable map fading when moving
 	SetCVar('mapFade', (E.global.general.fadeMapWhenMoving == true and 1 or 0))
+
+	self:SetMovementAlpha()
 end
 
 E:RegisterInitialModule(M:GetName())

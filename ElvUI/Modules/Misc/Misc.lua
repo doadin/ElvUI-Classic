@@ -155,31 +155,6 @@ function M:DisbandRaidGroup()
 	LeaveParty()
 end
 
-function M:CheckMovement()
-	local WorldMapFrame = _G.WorldMapFrame
-	if not WorldMapFrame:IsShown() then return end
-
-	if GetUnitSpeed("player") ~= 0 then
-		if WorldMapFrame.BorderFrame:IsMouseOver() then
-			WorldMapFrame:SetAlpha(1)
-		else
-			WorldMapFrame:SetAlpha(E.global.general.mapAlphaWhenMoving)
-		end
-	else
-		WorldMapFrame:SetAlpha(1)
-	end
-end
-
-function M:UpdateMapAlpha()
-	if (E.global.general.mapAlphaWhenMoving >= 1) and self.MovingTimer then
-		self:CancelTimer(self.MovingTimer)
-		self.MovingTimer = nil
-	elseif (E.global.general.mapAlphaWhenMoving < 1) and not self.MovingTimer then
-		self.MovingTimer = self:ScheduleRepeatingTimer("CheckMovement", 0.1)
-	end
-end
-
-
 function M:PVPMessageEnhancement(_, msg)
 	if not E.db.general.enhancedPvpMessages then return end
 	local _, instanceType = GetInstanceInfo()
@@ -274,10 +249,6 @@ function M:Initialize()
 	self:RegisterEvent('GROUP_ROSTER_UPDATE', 'AutoInvite')
 	self:RegisterEvent('CVAR_UPDATE', 'ForceCVars')
 	self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-	if E.global.general.mapAlphaWhenMoving < 1 then
-		self.MovingTimer = self:ScheduleRepeatingTimer("CheckMovement", 0.1)
-	end
 
 	--local blizzTracker = IsAddOnLoaded("Blizzard_ObjectiveTracker")
 	--local inspectUI = IsAddOnLoaded("Blizzard_InspectUI")
