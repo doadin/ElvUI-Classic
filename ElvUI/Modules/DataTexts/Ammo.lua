@@ -1,6 +1,7 @@
 local E, L, V, P, G = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
 
+local _G = _G
 local select = select
 local format, join = string.format, string.join
 
@@ -108,12 +109,12 @@ local function OnClick(_, btn)
 				if link then
 					local subclass = select(7, GetItemInfo(link))
 					if subclass == quiver or subclass == pouch or subclass == soulBag then
-						ToggleBag(i)
+						_G.ToggleBag(i)
 					end
 				end
 			end
 		else
-			OpenAllBags()
+			_G.OpenAllBags()
 		end
 	end
 end

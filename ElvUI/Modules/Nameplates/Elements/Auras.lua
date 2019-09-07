@@ -6,7 +6,6 @@ local _G = _G
 local floor = floor
 local unpack = unpack
 local select = select
-local strfind = strfind
 local strsplit = strsplit
 local strmatch = strmatch
 local CreateFrame = CreateFrame

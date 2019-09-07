@@ -17,13 +17,13 @@ local GetNumGroupMembers = GetNumGroupMembers
 local GetRaidRosterInfo = GetRaidRosterInfo
 local GetRepairAllCost = GetRepairAllCost
 local InCombatLockdown = InCombatLockdown
-local IsAddOnLoaded = IsAddOnLoaded
 local IsGuildMember = IsGuildMember
 local IsCharacterFriend = C_FriendList.IsFriend
 local IsInGroup = IsInGroup
 local IsInRaid = IsInRaid
 local IsShiftKeyDown = IsShiftKeyDown
 local LeaveParty = LeaveParty
+local GetUnitSpeed = GetUnitSpeed
 local RaidNotice_AddMessage = RaidNotice_AddMessage
 local RepairAllItems = RepairAllItems
 local SendChatMessage = SendChatMessage
@@ -156,6 +156,7 @@ function M:DisbandRaidGroup()
 end
 
 function M:CheckMovement()
+	local WorldMapFrame = _G.WorldMapFrame
 	if not WorldMapFrame:IsShown() then return end
 
 	if GetUnitSpeed("player") ~= 0 then

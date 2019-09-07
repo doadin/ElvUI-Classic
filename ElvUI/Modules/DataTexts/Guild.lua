@@ -19,6 +19,7 @@ local IsShiftKeyDown = IsShiftKeyDown
 local LoadAddOn = LoadAddOn
 local RequestInviteFromUnit = RequestInviteFromUnit
 local SetItemRef = SetItemRef
+local ToggleFriendsFrame = ToggleFriendsFrame
 local ToggleGuildFrame = ToggleGuildFrame
 local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid

@@ -42,6 +42,7 @@ function M:SetLargeWorldMap()
 end
 
 function M:GetCursorPosition()
+	local WorldMapFrame = _G.WorldMapFrame
 	local x,y = self.hooks[WorldMapFrame.ScrollContainer].GetCursorPosition(WorldMapFrame.ScrollContainer)
 	local s = WorldMapFrame:GetScale()
 
@@ -64,7 +65,7 @@ function M:SetSmallWorldMap(smallerMapScale)
 		SetUIPanelAttribute(WorldMapFrame, 'allowOtherPanels', true)
 	end
 
-	WorldMapTooltip:SetFrameLevel(WorldMapFrame.ScrollContainer:GetFrameLevel() + 110)
+	_G.WorldMapTooltip:SetFrameLevel(WorldMapFrame.ScrollContainer:GetFrameLevel() + 110)
 end
 
 

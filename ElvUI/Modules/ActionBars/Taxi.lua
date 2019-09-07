@@ -5,9 +5,9 @@ local S = E:GetModule('Skins')
 
 --Lua functions
 local _G = _G
-local unpack = unpack
 --WoW API / Variables
 local CreateFrame = CreateFrame
+local hooksecurefunc = hooksecurefunc
 local Masque = E.Masque
 local MasqueGroup = Masque and Masque:Group("ElvUI", "ActionBars")
 local TaxiButtonHolder
@@ -36,7 +36,7 @@ function AB:MoveTaxiButton()
 	end
 
 	Button:ClearAllPoints()
-	Button:SetParent(UIParent)
+	Button:SetParent(_G.UIParent)
 	Button:SetPoint('CENTER', TaxiButtonHolder, 'CENTER')
 
 	E:CreateMover(TaxiButtonHolder, 'TaxiButtonMover', L["Taxi Button"], nil, nil, nil, nil, nil, 'all,general')
@@ -44,7 +44,7 @@ function AB:MoveTaxiButton()
 	hooksecurefunc(Button, 'SetPoint', function(_, _, parent)
 		if parent ~= TaxiButtonHolder then
 			Button:ClearAllPoints()
-			Button:SetParent(UIParent)
+			Button:SetParent(_G.UIParent)
 			Button:SetPoint('CENTER', TaxiButtonHolder, 'CENTER')
 		end
 	end)

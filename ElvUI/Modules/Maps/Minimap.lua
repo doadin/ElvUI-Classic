@@ -3,7 +3,6 @@ local M = E:GetModule('Minimap')
 
 --Lua functions
 local _G = _G
-local tinsert = tinsert
 local utf8sub = string.utf8sub
 --WoW API / Variables
 local CloseAllWindows = CloseAllWindows
@@ -12,7 +11,6 @@ local CreateFrame = CreateFrame
 local GetMinimapZoneText = GetMinimapZoneText
 local GetZonePVPInfo = GetZonePVPInfo
 local InCombatLockdown = InCombatLockdown
-local IsAddOnLoaded = IsAddOnLoaded
 local IsInGuild = IsInGuild
 local MainMenuMicroButton_SetNormal = MainMenuMicroButton_SetNormal
 local PlaySound = PlaySound
@@ -20,6 +18,7 @@ local ShowUIPanel, HideUIPanel = ShowUIPanel, HideUIPanel
 local ToggleCharacter = ToggleCharacter
 local ToggleFriendsFrame = ToggleFriendsFrame
 local ToggleGuildFrame = ToggleGuildFrame
+local ToggleFrame = ToggleFrame
 -- GLOBALS: GetMinimapShape
 
 --Create the minimap micro menu
@@ -38,7 +37,9 @@ local menuList = {
 	{text = _G.CHAT_CHANNELS,
 	func = _G.ToggleChannelFrame},
 	{text = _G.TIMEMANAGER_TITLE,
-	func = function() ToggleFrame(_G.TimeManagerFrame) end},
+	func = function()
+		ToggleFrame(_G.TimeManagerFrame)
+	end},
 	{text = _G.SOCIAL_LABEL,
 	func = ToggleFriendsFrame},
 	{text = _G.GUILD,

@@ -8,7 +8,6 @@ local unpack, select, ipairs = unpack, select, ipairs
 local wipe, tinsert, tconcat = wipe, tinsert, table.concat
 local floor, tonumber = floor, tonumber
 local strfind, format, strsub = strfind, format, strsub
-local strmatch, gmatch = strmatch, gmatch
 --WoW API / Variables
 local CanInspect = CanInspect
 local CreateFrame = CreateFrame
@@ -29,19 +28,13 @@ local IsShiftKeyDown = IsShiftKeyDown
 local NotifyInspect = NotifyInspect
 local SetTooltipMoney = SetTooltipMoney
 local UnitAura = UnitAura
-local UnitBuff = UnitBuff
 local UnitClass = UnitClass
-local UnitClassification = UnitClassification
-local UnitCreatureType = UnitCreatureType
 local UnitExists = UnitExists
 local UnitGUID = UnitGUID
-local UnitInParty = UnitInParty
-local UnitInRaid = UnitInRaid
 local UnitIsAFK = UnitIsAFK
 local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local UnitIsDND = UnitIsDND
 local UnitIsPlayer = UnitIsPlayer
-local UnitIsPVP = UnitIsPVP
 local UnitIsTapDenied = UnitIsTapDenied
 local UnitIsUnit = UnitIsUnit
 local UnitLevel = UnitLevel
@@ -49,8 +42,10 @@ local UnitName = UnitName
 local UnitPVPName = UnitPVPName
 local UnitRace = UnitRace
 local UnitReaction = UnitReaction
-local UnitRealmRelationship = UnitRealmRelationship
 local UnitPlayerControlled = UnitPlayerControlled
+local GetSpecialization = GetSpecialization
+local GetSpecializationInfo = GetSpecializationInfo
+local GetSpecializationInfoByID = GetSpecializationInfoByID
 
 -- GLOBALS: ElvUI_KeyBinder, ElvUI_ContainerFrame
 
