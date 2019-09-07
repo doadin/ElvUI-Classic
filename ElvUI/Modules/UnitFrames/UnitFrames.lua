@@ -1421,8 +1421,6 @@ function UF:Initialize()
 		E.RaidUtility.Initialize = E.noop
 	end
 
-	self:UpdateRangeCheckSpells()
-
 	local ORD = ns.oUF_RaidDebuffs or _G.oUF_RaidDebuffs
 	if ORD then
 		ORD.ShowDispellableDebuff = true
