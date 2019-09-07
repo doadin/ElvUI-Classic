@@ -4,6 +4,6 @@
 	<!--Script file="oUF_RaidDebuffs\oUF_RaidDebuffs.lua"/-->
 	<!--Script file="oUF_DebuffHighlight\oUF_DebuffHighlight.lua"/-->
 	<Script file="oUF_Fader\oUF_Fader.lua"/>
-    <Script file="oUF_Healcomm\oUF_Healcomm.lua"/>
-    <Script file="oUF_Cutaway\oUF_Cutaway.lua"/>
+	<Script file="oUF_Healcomm\oUF_Healcomm.lua"/>
+	<Script file="oUF_Cutaway\oUF_Cutaway.lua"/>
 </Ui>
