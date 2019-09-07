@@ -47,6 +47,7 @@ function UF:Construct_Raid40Frames()
 	self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
 	self.Fader = UF:Construct_Fader()
 	self.Cutaway = UF:Construct_Cutaway(self)
+	self.HealthPrediction = UF:Construct_HealComm(self)
 
 	self.customTexts = {}
 

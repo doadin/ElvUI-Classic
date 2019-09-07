@@ -42,7 +42,7 @@ function UF:Construct_RaidFrames()
 	self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
-
+	self.HealthPrediction = UF:Construct_HealComm(self)
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
 	self.Fader = UF:Construct_Fader()
