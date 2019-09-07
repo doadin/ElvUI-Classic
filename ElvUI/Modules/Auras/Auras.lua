@@ -12,6 +12,7 @@ local GetInventoryItemQuality = GetInventoryItemQuality
 local GetInventoryItemTexture = GetInventoryItemTexture
 local GetItemQualityColor = GetItemQualityColor
 local GetTime = GetTime
+local GetTotemInfo = GetTotemInfo
 local GetWeaponEnchantInfo = GetWeaponEnchantInfo
 local RegisterAttributeDriver = RegisterAttributeDriver
 local RegisterStateDriver = RegisterStateDriver
@@ -205,7 +206,7 @@ function A:UpdateAura(button, index)
 	if E.myclass == "SHAMAN" then
 		for slot = 1, 4 do
 			local _, _, start, durationTime, icon = GetTotemInfo(slot)
-			print(name)
+			--print(name)
 			if icon == texture then
 				duration = durationTime
 				expirationTime = start + duration
