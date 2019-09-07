@@ -102,7 +102,7 @@ local function Update(self, event, unit)
 	local guid = UnitGUID(unit)
 
 	local myIncomingHeal = (HealComm:GetHealAmount(guid, HealComm.ALL_HEALS) or 0) * (HealComm:GetHealModifier(guid) or 1)
-	print(myIncomingHeal)
+
 	local allIncomingHeal = 0
 	local absorb = 0
 	local healAbsorb = 0
