@@ -108,6 +108,13 @@ function M:SetMovementAlpha()
 	_G.PlayerMovementFrameFader.AddDeferredFrame(WorldMapFrame, E.global.general.mapAlphaWhenMoving, 1, .5, function() return GetCVarBool('mapFade') and not WorldMapFrame:IsMouseOver() end)
 end
 
+function M:ToggleMapFix()
+	if InCombatLockdown() then return end
+
+	WorldMapFrame:SetAttribute('UIPanelLayout-area', 'center')
+	WorldMapFrame:SetAttribute('UIPanelLayout-allowOtherPanels', true)
+end
+
 function M:Initialize()
 	self.Initialized = true
 
@@ -149,6 +156,10 @@ function M:Initialize()
 
 		WorldMapFrame.BlackoutFrame.Blackout:SetTexture()
 		WorldMapFrame.BlackoutFrame:EnableMouse(false)
+
+		ShowUIPanel(WorldMapFrame)
+		self:ToggleMapFix()
+		HideUIPanel(WorldMapFrame)
 
 		self:SecureHookScript(WorldMapFrame, 'OnShow', function()
 			self:SetSmallWorldMap(smallerMapScale)
