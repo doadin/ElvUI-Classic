@@ -61,7 +61,7 @@ G.unitframe = {
 				[2050] = true, -- Lesser Heal (40 yards)
 			},
 			resSpells = {
-				[2006] = true, -- Resurrection (40 yards)
+				[2006] = true, -- Resurrection (30 yards)
 			},
 			petSpells = {},
 		},
@@ -76,7 +76,6 @@ G.unitframe = {
 				[5185] = true, -- Healing Touch (40 yards)
 			},
 			resSpells = {
-				[50769] = true, -- Revive (30 yards)
 				[20484] = true, -- Rebirth (30 yards)
 			},
 			petSpells = {},
@@ -98,8 +97,7 @@ G.unitframe = {
 		},
 		SHAMAN = {
 			enemySpells = {
-				[51514] = true, -- Hex (20 yards)
-				[8042] = true, -- Earth Shock (25 yards)
+				[8042] = true, -- Earth Shock (20 yards)
 			},
 			longEnemySpells = {
 				[403] = true, -- Lightning Bolt (30 yards)
@@ -124,7 +122,7 @@ G.unitframe = {
 			},
 			resSpells = {},
 			petSpells = {
-				[755] = true, -- Health Funnel (45 yards)
+				[755] = true, -- Health Funnel (20 yards)
 			},
 		},
 		MAGE = {
@@ -134,7 +132,6 @@ G.unitframe = {
 			},
 			longEnemySpells = {
 				[133] = true, -- Fireball (35 yards)
-				[44614] = true, -- Frostfire Bolt (40 yards)
 			},
 			friendlySpells = {
 				[475] = true, -- Remove Curse (40 yards)
@@ -160,26 +157,23 @@ G.unitframe = {
 			longEnemySpells = {
 				[26679] = true, -- Deadly Throw (30 yards)
 			},
-			friendlySpells = {
-				[57934] = true, -- Tricks of the Trade (20 yards)
-			},
+			friendlySpells = {},
 			resSpells = {},
 			petSpells = {},
 		},
 		WARRIOR = {
 			enemySpells = {
-				[5246] = true, -- Intimidating Shout (8 yards)
-				[100] = true, -- Charge (25 yards)
+				[5246] = true, -- Intimidating Shout (10 yards)
 			},
 			longEnemySpells = {
-				[355] = true, -- Taunt (30 yards)
+				[100] = true, -- Charge (25 yards)
 			},
 			friendlySpells = {
 				[3411] = true, -- Intervene (25 yards)
 			},
 			resSpells = {},
 			petSpells = {},
-		},
+		}
 	}
 }
 
