@@ -40,7 +40,7 @@ local LE_GAME_ERR_NOT_ENOUGH_MONEY = LE_GAME_ERR_NOT_ENOUGH_MONEY
 local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS
 local UIErrorsFrame = UIErrorsFrame
 
-local INTERRUPT_MSG = INTERRUPTED.." %s's \124cff71d5ff\124Hspell:%d:0\124h[%s]\124h\124r!"
+local INTERRUPT_MSG = INTERRUPTED.." %s's |cff71d5ff%s|r!"
 
 function M:ErrorFrameToggle(event)
 	if not E.db.general.hideErrorFrame then return end
@@ -55,10 +55,10 @@ function M:COMBAT_LOG_EVENT_UNFILTERED()
 	local inGroup, inRaid = IsInGroup(), IsInRaid()
 	if not inGroup then return end -- not in group, exit.
 
-	local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, spellID, spellName = CombatLogGetCurrentEventInfo()
+	local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, spellName = CombatLogGetCurrentEventInfo()
 	if not (event == "SPELL_INTERRUPT" and (sourceGUID == E.myguid or sourceGUID == UnitGUID('pet'))) then return end -- No announce-able interrupt from player or pet, exit.
 
-	local interruptAnnounce, msg = E.db.general.interruptAnnounce, format(INTERRUPT_MSG, destName, spellID, spellName)
+	local interruptAnnounce, msg = E.db.general.interruptAnnounce, format(INTERRUPT_MSG, destName, spellName)
 	if interruptAnnounce == "PARTY" then
 		SendChatMessage(msg, "PARTY")
 	elseif interruptAnnounce == "RAID" then
