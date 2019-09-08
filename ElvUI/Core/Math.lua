@@ -190,16 +190,16 @@ function E:GetFormattedText(style, min, max, dec)
 	if max == 0 then max = 1 end
 
 	if style == 'CURRENT' or ((style == 'CURRENT_MAX' or style == 'CURRENT_MAX_PERCENT' or style == 'CURRENT_PERCENT') and min == max) then
-		return format(E.GetFormattedTextStyles.CURRENT, E:ShortValue(min, dec))
+		return format(E.GetFormattedTextStyles.CURRENT, min)
 	else
 		local useStyle = E.GetFormattedTextStyles[style]
 		if not useStyle then return end
 
 		if style == 'DEFICIT' then
 			local deficit = max - min
-			return (deficit > 0 and format(useStyle, E:ShortValue(deficit, dec))) or ''
+			return (deficit > 0 and format(useStyle, deficit)) or ''
 		elseif style == 'CURRENT_MAX' then
-			return format(useStyle, E:ShortValue(min, dec), E:ShortValue(max, dec))
+			return format(useStyle, min, max)
 		elseif style == 'PERCENT' or style == 'CURRENT_PERCENT' or style == 'CURRENT_MAX_PERCENT' then
 			if dec then useStyle = gsub(useStyle, '%d', tonumber(dec) or 0) end
 			local perc = min / max * 100
@@ -207,9 +207,9 @@ function E:GetFormattedText(style, min, max, dec)
 			if style == 'PERCENT' then
 				return format(useStyle, perc)
 			elseif style == 'CURRENT_PERCENT' then
-				return format(useStyle, E:ShortValue(min, dec), perc)
+				return format(useStyle, min, perc)
 			elseif style == 'CURRENT_MAX_PERCENT' then
-				return format(useStyle, E:ShortValue(min, dec), E:ShortValue(max, dec), perc)
+				return format(useStyle, min, max, perc)
 			end
 		end
 	end
