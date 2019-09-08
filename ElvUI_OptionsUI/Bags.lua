@@ -199,6 +199,7 @@ E.Options.args.bags = {
 						},
 					},
 				},
+--[=[
 				itemLevelGroup = {
 					order = 35,
 					type = "group",
@@ -270,6 +271,7 @@ E.Options.args.bags = {
 						},
 					},
 				},
+]=]
 			},
 		},
 		sizeGroup = {
