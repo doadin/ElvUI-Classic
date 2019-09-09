@@ -3601,7 +3601,6 @@ E.Options.args.unitframe = {
 						},
 					},
 				},
---[=[
 				raidDebuffIndicator = {
 					order = 5,
 					type = "group",
@@ -3648,7 +3647,6 @@ E.Options.args.unitframe = {
 						},
 					},
 				},
-]=]
 			},
 		},
 	},
@@ -6765,7 +6763,6 @@ E.Options.args.unitframe.args.raidpet = {
 	},
 }
 
---[=[
 --Tank Frames
 E.Options.args.unitframe.args.tank = {
 	name = L["TANK"],
@@ -7179,7 +7176,6 @@ E.Options.args.unitframe.args.assist.args.name.args.attachTextTo.values = { ["He
 E.Options.args.unitframe.args.assist.args.targetsGroup.args.name.args.attachTextTo.values = { ["Health"] = L["Health"], ["Frame"] = L["Frame"] }
 E.Options.args.unitframe.args.assist.args.targetsGroup.args.name.get = function(info) return E.db.unitframe.units.assist.targetsGroup.name[info[#info]] end
 E.Options.args.unitframe.args.assist.args.targetsGroup.args.name.set = function(info, value) E.db.unitframe.units.assist.targetsGroup.name[info[#info]] = value; UF.CreateAndUpdateHeaderGroup(UF, 'assist') end
-]=]
 
 --MORE COLORING STUFF YAY
 E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.classResourceGroup = {

@@ -9,11 +9,11 @@ if not _G.oUF_RaidDebuffs then
 	_G.oUF_RaidDebuffs = addon
 end
 
+local playerClass = select(2, UnitClass('player'))
+
 local format, floor = format, floor
 local type, pairs, wipe = type, pairs, wipe
 
-local GetActiveSpecGroup = GetActiveSpecGroup
-local GetSpecialization = GetSpecialization
 local GetSpellInfo = GetSpellInfo
 local GetTime = GetTime
 local UnitAura = UnitAura
@@ -77,71 +77,27 @@ do
 	local dispellClasses = {
 		['PRIEST'] = {
 			['Magic'] = true,
-			['Disease'] = true,
+			['Disease'] = true
 		},
 		['SHAMAN'] = {
-			['Magic'] = false,
-			['Curse'] = true,
+			['Poison'] = true,
+			['Disease'] = true
 		},
 		['PALADIN'] = {
 			['Poison'] = true,
-			['Magic'] = false,
-			['Disease'] = true,
+			['Magic'] = true,
+			['Disease'] = true
+		},
+		['MAGE'] = {
+			['Curse'] = true
 		},
 		['DRUID'] = {
-			['Magic'] = false,
 			['Curse'] = true,
-			['Poison'] = true,
-			['Disease'] = false,
-		},
-		['MONK'] = {
-			['Magic'] = false,
-			['Disease'] = true,
-			['Poison'] = true,
-		},
+			['Poison'] = true
+		}
 	}
 
-	DispellFilter = dispellClasses[select(2, UnitClass('player'))] or {}
-end
-
-local function CheckTalentTree(tree)
-	local activeGroup = GetActiveSpecGroup()
-	if activeGroup and GetSpecialization(false, false, activeGroup) then
-		return tree == GetSpecialization(false, false, activeGroup)
-	end
-end
-
-local playerClass = select(2, UnitClass('player'))
-local function CheckSpec(self, event, levels)
-	-- Not interested in gained points from leveling
-	if event == "CHARACTER_POINTS_CHANGED" and levels > 0 then return end
-
-	--Check for certain talents to see if we can dispel magic or not
-	if playerClass == "PALADIN" then
-		if CheckTalentTree(1) then
-			DispellFilter.Magic = true
-		else
-			DispellFilter.Magic = false
-		end
-	elseif playerClass == "SHAMAN" then
-		if CheckTalentTree(3) then
-			DispellFilter.Magic = true
-		else
-			DispellFilter.Magic = false
-		end
-	elseif playerClass == "DRUID" then
-		if CheckTalentTree(4) then
-			DispellFilter.Magic = true
-		else
-			DispellFilter.Magic = false
-		end
-	elseif playerClass == "MONK" then
-		if CheckTalentTree(2) then
-			DispellFilter.Magic = true
-		else
-			DispellFilter.Magic = false
-		end
-	end
+	DispellFilter = dispellClasses[playerClass] or {}
 end
 
 local function formatTime(s)
@@ -296,12 +252,10 @@ local function Update(self, event, unit)
 	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _spellId, _stackThreshold)
 
 	--Reset the DispellPriority
-	DispellPriority = {
-		['Magic']	= 4,
-		['Curse']	= 3,
-		['Disease']	= 2,
-		['Poison']	= 1,
-	}
+	DispellPriority['Magic'] = 4
+	DispellPriority['Curse'] = 3
+	DispellPriority['Disease'] = 2
+	DispellPriority['Poison'] = 1
 end
 
 
@@ -310,8 +264,6 @@ local function Enable(self)
 		self:RegisterEvent('UNIT_AURA', Update)
 		return true
 	end
-
-	self:RegisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec, true)
 end
 
 local function Disable(self)
@@ -319,8 +271,6 @@ local function Disable(self)
 		self:UnregisterEvent('UNIT_AURA', Update)
 		self.RaidDebuffs:Hide()
 	end
-
-	self:UnregisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
 end
 
 oUF:AddElement('RaidDebuffs', Update, Enable, Disable)
