@@ -34,7 +34,7 @@ local function OnEvent(self)
 		itemID, count = GetInventoryItemID("player", INVSLOT_AMMO), GetInventoryItemCount("player", INVSLOT_AMMO)
 		if itemID and (count > 0) then
 			name = GetItemInfo(itemID)
-			self.text:SetFormattedText(displayString, name, count)
+			self.text:SetFormattedText(displayString, name or 'Arrow', count) -- Does not need localized. It gets updated.
 		else
 			self.text:SetFormattedText(displayString, INVTYPE_AMMO, 0)
 		end
