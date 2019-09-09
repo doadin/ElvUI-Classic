@@ -184,18 +184,12 @@ local function LoadSkin()
 		end
 	end)
 
-	hooksecurefunc('QuestInfo_ShowRewards', function(self)
-		if self.type == 'reward' then
-			_G[self:GetName()]:SetBackdropBorderColor(1, 0.80, 0.10)
-			_G[self:GetName()].backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
-			_G[self:GetName()..'Name']:SetTextColor(1, 0.80, 0.10)
-
-			for i = 1, #_G.QuestInfoRewardsFrame.RewardButtons do
-				local button = _G['QuestInfoRewardsFrameQuestInfoItem'..i]
-				if button then
-					local link = button.type and (_G.QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(button.type, button:GetID())
-					QuestQualityColors(button, button.Name, link)
-				end
+	hooksecurefunc('QuestInfo_ShowRewards', function()
+		for i = 1, #_G.QuestInfoRewardsFrame.RewardButtons do
+			local button = _G['QuestInfoRewardsFrameQuestInfoItem'..i]
+			if button then
+				local link = button.type and (_G.QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(button.type, button:GetID())
+				QuestQualityColors(button, button.Name, link)
 			end
 		end
 	end)
