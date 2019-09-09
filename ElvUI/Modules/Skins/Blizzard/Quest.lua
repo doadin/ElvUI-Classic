@@ -30,7 +30,7 @@ local function HandleReward(button)
 	button.backdrop:SetInside()
 
 	if button.Icon then
-		button.Icon:Size(E.PixelMode and 36 or 32)
+		button.Icon:Size(E.PixelMode and 37 or 32)
 		button.Icon:SetDrawLayer('OVERLAY')
 		button.Icon:Point('TOPLEFT', E.PixelMode and 2 or 4, -(E.PixelMode and 2 or 4))
 		S:HandleIcon(button.Icon)
@@ -120,7 +120,7 @@ local function LoadSkin()
 			end
 
 			if button.Icon then
-				button.Icon:Size(E.PixelMode and 36 or 32)
+				button.Icon:Size(E.PixelMode and 37 or 32)
 				button.Icon:SetDrawLayer('OVERLAY')
 				button.Icon:Point('TOPLEFT', E.PixelMode and 2 or 4, -(E.PixelMode and 2 or 4))
 				S:HandleIcon(button.Icon)
