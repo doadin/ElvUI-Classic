@@ -75,26 +75,11 @@ local DispellPriority = {
 local DispellFilter
 do
 	local dispellClasses = {
-		['PRIEST'] = {
-			['Magic'] = true,
-			['Disease'] = true
-		},
-		['SHAMAN'] = {
-			['Poison'] = true,
-			['Disease'] = true
-		},
-		['PALADIN'] = {
-			['Poison'] = true,
-			['Magic'] = true,
-			['Disease'] = true
-		},
-		['MAGE'] = {
-			['Curse'] = true
-		},
-		['DRUID'] = {
-			['Curse'] = true,
-			['Poison'] = true
-		}
+		PRIEST = { Magic = true, Disease = true },
+		SHAMAN = { Poison = true, Disease = true },
+		PALADIN = { Poison = true, Magic = true, Disease = true },
+		MAGE = { Curse = true },
+		DRUID = { Curse = true, Poison = true }
 	}
 
 	DispellFilter = dispellClasses[playerClass] or {}
@@ -181,13 +166,6 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 	end
 end
 
-local blackList = {
-	[105171] = true, -- Deep Corruption
-	[108220] = true, -- Deep Corruption
-	[116095] = true, -- Disable, Slow
-	[137637] = true, -- Warbringer, Slow
-}
-
 local function Update(self, event, unit)
 	if unit ~= self.unit then return end
 	local _name, _icon, _count, _dtype, _duration, _endTime, _spellId, _
@@ -201,7 +179,7 @@ local function Update(self, event, unit)
 	local canAttack = UnitCanAttack("player", unit)
 
 	for i = 1, 40 do
-		local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId, canApplyAura, isBossDebuff = UnitAura(unit, i, 'HARMFUL')
+		local name, icon, count, debuffType, duration, expirationTime, _, _, _, spellId = UnitAura(unit, i, 'HARMFUL')
 		if (not name) then break end
 
 		--we coudln't dispell if the unit its charmed, or its not friendly
@@ -234,7 +212,7 @@ local function Update(self, event, unit)
 		end
 
 		priority = debuff and debuff.priority
-		if priority and not blackList[spellId] and (priority > _priority) then
+		if priority and (priority > _priority) then
 			_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellId = priority, name, icon, count, debuffType, duration, expirationTime, spellId
 		end
 	end
