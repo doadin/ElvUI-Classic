@@ -448,9 +448,9 @@ function TT:GameTooltipStatusBar_OnValueChanged(tt, value)
 	else
 		if unit and not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) and _G.RealMobHealth then
 			local c, m, _, _ = _G.RealMobHealth.GetUnitHealth(unit);
-			tt.text:SetText(E:ShortValue(c).." / "..E:ShortValue(m))
+			tt.text:SetText(c.." / "..m)
 		else
-			tt.text:SetText(E:ShortValue(value).." / "..E:ShortValue(max))
+			tt.text:SetText(value.." / "..max)
 		end
 	end
 end
