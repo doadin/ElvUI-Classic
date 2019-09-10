@@ -146,6 +146,7 @@ local function Update(self, event, unit)
 	if(element.myBar) then
 		element.myBar:SetMinMaxValues(0, maxHealth)
 		element.myBar:SetValue(myIncomingHeal)
+		print(myIncomingHeal)
 		element.myBar:Show()
 	end
 
