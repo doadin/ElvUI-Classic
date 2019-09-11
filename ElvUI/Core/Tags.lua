@@ -69,7 +69,7 @@ local SPELL_POWER_MANA = Enum.PowerType.Mana or 0
 ------------------------------------------------------------------------
 
 function E:UnitHealthValues(unit)
-	if unit and not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) and _G.RealMobHealth then
+	if _G.RealMobHealth and unit and not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) then
 		local c, m, _, _ = _G.RealMobHealth.GetUnitHealth(unit);
 		return c, m
 	else
