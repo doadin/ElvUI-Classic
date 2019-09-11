@@ -60,8 +60,9 @@ local HasPetUI = HasPetUI
 local GetPetHappiness = GetPetHappiness
 local CreateTextureMarkup = CreateTextureMarkup
 local CreateAtlasMarkup = CreateAtlasMarkup
+
+local SPELL_POWER_MANA = Enum.PowerType.Mana or 0
 -- GLOBALS: Hex, PowerBarColor, _TAGS, _COLORS
--- GLOBALS: SPELL_POWER_MANA
 
 ------------------------------------------------------------------------
 --	Tags
