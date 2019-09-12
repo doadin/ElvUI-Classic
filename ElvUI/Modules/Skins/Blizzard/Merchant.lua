@@ -82,8 +82,6 @@ local function LoadSkin()
 	_G.MerchantRepairAllIcon:SetTexCoord(0.34, 0.1, 0.34, 0.535, 0.535, 0.1, 0.535, 0.535)
 	_G.MerchantRepairAllIcon:SetInside()
 
-	_G.MerchantItem1:Point('TOPLEFT', 7, -47)
-
 	_G.MerchantMoneyBg:StripTextures()
 	_G.MerchantMoneyInset:StripTextures()
 
@@ -91,7 +89,7 @@ local function LoadSkin()
 	_G.MerchantBuyBackItem:CreateBackdrop('Transparent')
 	_G.MerchantBuyBackItem.backdrop:Point('TOPLEFT', -3, 3)
 	_G.MerchantBuyBackItem.backdrop:Point('BOTTOMRIGHT', 0, -7)
-	_G.MerchantBuyBackItem:Point('TOPLEFT', _G.MerchantItem10, 'BOTTOMLEFT', 0, -48)
+	_G.MerchantBuyBackItem:Point("TOPLEFT", _G.MerchantItem10, "BOTTOMLEFT", 0, -18)
 
 	_G.MerchantBuyBackItemItemButton:StripTextures()
 	_G.MerchantBuyBackItemItemButton:SetTemplate('Default', true)
@@ -147,6 +145,17 @@ local function LoadSkin()
 				MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 		end
+
+		_G.MerchantItem1:Point('TOPLEFT', 7, -47)
+		_G.MerchantItem2:Point("LEFT", _G.MerchantItem1, "RIGHT", 3, 0)
+		_G.MerchantItem3:Point("TOPLEFT", _G.MerchantItem1, "BOTTOMLEFT", 0, -15)
+		_G.MerchantItem4:Point("LEFT", _G.MerchantItem3, "RIGHT", 3, 0)
+		_G.MerchantItem5:Point("TOPLEFT", _G.MerchantItem3, "BOTTOMLEFT", 0, -15)
+		_G.MerchantItem6:Point("LEFT", _G.MerchantItem5, "RIGHT", 3, 0)
+		_G.MerchantItem7:Point("TOPLEFT", _G.MerchantItem5, "BOTTOMLEFT", 0, -15)
+		_G.MerchantItem8:Point("LEFT", _G.MerchantItem7, "RIGHT", 3, 0)
+		_G.MerchantItem9:Point("TOPLEFT", _G.MerchantItem7, "BOTTOMLEFT", 0, -15)
+		_G.MerchantItem10:Point("LEFT", _G.MerchantItem8, "RIGHT", 3, 0)
 	end)
 
 	hooksecurefunc('MerchantFrame_UpdateBuybackInfo', function()
