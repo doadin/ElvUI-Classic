@@ -6,7 +6,6 @@ local S = E:GetModule('Skins')
 local _G = _G
 local unpack = unpack
 local pairs = pairs
-local match = string.match
 --WoW API / Variables
 local GetInventoryItemLink = GetInventoryItemLink
 local GetItemInfo = GetItemInfo
@@ -24,7 +23,7 @@ local function LoadSkin()
 	S:HandleCloseButton(_G.InspectFrameCloseButton, InspectFrame.backdrop)
 	_G.InspectFrameCloseButton:Point('TOPRIGHT', -28, -9)
 
-	for i = 1, 3 do
+	for i = 1, #INSPECTFRAME_SUBFRAMES do
 		S:HandleTab(_G['InspectFrameTab'..i])
 	end
 
@@ -35,10 +34,13 @@ local function LoadSkin()
 		local cooldown = _G[slot:GetName()..'Cooldown']
 
 		slot:StripTextures()
-		slot:CreateBackdrop()
+		slot:CreateBackdrop('Default')
+		slot.backdrop:SetAllPoints()
+		slot:SetFrameLevel(slot:GetFrameLevel() + 2)
 		slot:StyleButton()
 
-		S:HandleIcon(icon)
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetInside()
 
 		if cooldown then
 			E:RegisterCooldown(cooldown)
@@ -49,7 +51,7 @@ local function LoadSkin()
 		if button.hasItem then
 			local itemID = GetInventoryItemID(InspectFrame.unit, button:GetID())
 			if itemID then
-				local _, _, quality = GetItemInfo(itemID)
+				local quality = select(3, GetItemInfo(itemID))
 				if not quality then
 					E:Delay(0.1, function()
 						if InspectFrame.unit then
@@ -57,7 +59,7 @@ local function LoadSkin()
 						end
 					end)
 					return
-				elseif quality then
+				elseif quality and quality > 1 then
 					button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 					return
 				end
