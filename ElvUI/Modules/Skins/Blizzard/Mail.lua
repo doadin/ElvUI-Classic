@@ -88,11 +88,11 @@ local function LoadSkin()
 		end
 	end)
 
-	S:HandleNextPrevButton(_G.InboxPrevPageButton)
+	S:HandleNextPrevButton(_G.InboxPrevPageButton, nil, nil, true)
 	_G.InboxPrevPageButton:Size(24)
 	_G.InboxPrevPageButton:Point('CENTER', _G.InboxFrame, 'BOTTOMLEFT', 12, 104)
 
-	S:HandleNextPrevButton(_G.InboxNextPageButton)
+	S:HandleNextPrevButton(_G.InboxNextPageButton, nil, nil, true)
 	_G.InboxNextPageButton:Size(24)
 	_G.InboxNextPageButton:Point('CENTER', _G.InboxFrame, 'BOTTOMLEFT', 319, 104)
 
