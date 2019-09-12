@@ -504,7 +504,7 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 		if flash then
 			flash:SetColorTexture(1.0, 0.2, 0.2, 0.45)
 			flash:ClearAllPoints()
-			flash:SetOutside(button.icon, 2, 2)
+			flash:SetOutside(icon, 2, 2)
 			flash:SetDrawLayer("BACKGROUND", -1)
 		end
 	else
