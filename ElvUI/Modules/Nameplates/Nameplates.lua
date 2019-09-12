@@ -596,6 +596,7 @@ function NP:Initialize()
 	end
 
 	hooksecurefunc(_G.NamePlateDriverFrame, "UpdateNamePlateOptions", function()
+		if InCombatLockdown() then return end
 		local Scale = E.global.general.UIScale
 		C_NamePlate_SetNamePlateSelfSize(NP.db.plateSize.personalWidth * Scale, NP.db.plateSize.personalHeight * Scale)
 		C_NamePlate_SetNamePlateEnemySize(NP.db.plateSize.enemyWidth * Scale, NP.db.plateSize.enemyHeight * Scale)
