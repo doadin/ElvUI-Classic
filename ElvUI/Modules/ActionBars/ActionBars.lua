@@ -481,9 +481,15 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 	if normal2 then normal2:SetTexture(); normal2:Hide(); normal2:SetAlpha(0) end
 	if border and not button.useMasque then border:Kill() end
 
-	if flash then
-		flash:SetInside()
-		flash:SetTexCoord(unpack(E.TexCoords))
+	if self.db.flashAnimation then
+		if flash then
+			flash:SetColorTexture(1.0, 0.2, 0.2, 0.45)
+			flash:SetInside()
+		end
+	else
+		if flash then
+			flash:SetTexture()
+		end
 	end
 
 	if count then
