@@ -38,7 +38,7 @@ local function LoadSkin()
 		button:StyleButton()
 		button:SetTemplate('Default', true)
 		button:Size(40)
-		button:Point('TOPLEFT', item, 'TOPLEFT', 4, -4)
+		button:Point('TOPLEFT', item, 'TOPLEFT', 3, -3)
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
@@ -72,11 +72,6 @@ local function LoadSkin()
 	_G.MerchantRepairItemButton:GetRegions():SetTexCoord(0.04, 0.24, 0.07, 0.5)
 	_G.MerchantRepairItemButton:GetRegions():SetInside()
 
-	S:HandleButton(_G.MerchantGuildBankRepairButton)
-	_G.MerchantGuildBankRepairButton:StyleButton()
-	_G.MerchantGuildBankRepairButtonIcon:SetTexCoord(0.61, 0.82, 0.1, 0.52)
-	_G.MerchantGuildBankRepairButtonIcon:SetInside()
-
 	S:HandleButton(_G.MerchantRepairAllButton)
 	_G.MerchantRepairAllIcon:StyleButton(false)
 	_G.MerchantRepairAllIcon:SetTexCoord(0.34, 0.1, 0.34, 0.535, 0.535, 0.1, 0.535, 0.535)
@@ -87,14 +82,20 @@ local function LoadSkin()
 
 	_G.MerchantBuyBackItem:StripTextures(true)
 	_G.MerchantBuyBackItem:CreateBackdrop('Transparent')
-	_G.MerchantBuyBackItem.backdrop:Point('TOPLEFT', -3, 3)
-	_G.MerchantBuyBackItem.backdrop:Point('BOTTOMRIGHT', 0, -7)
-	_G.MerchantBuyBackItem:Point("TOPLEFT", _G.MerchantItem10, "BOTTOMLEFT", 0, -18)
+	_G.MerchantBuyBackItem.backdrop:Point('TOPRIGHT', 0, -4)
+	_G.MerchantBuyBackItem.backdrop:Point('BOTTOMRIGHT', 0, -4)
+	_G.MerchantBuyBackItem:Point('TOPLEFT', _G.MerchantItem10, 'BOTTOMLEFT', 0, -15)
+	_G.MerchantBuyBackItem:Size(153, 44)
 
 	_G.MerchantBuyBackItemItemButton:StripTextures()
 	_G.MerchantBuyBackItemItemButton:SetTemplate('Default', true)
 	_G.MerchantBuyBackItemItemButton:StyleButton()
+	_G.MerchantBuyBackItemItemButton:Point('TOPLEFT', 3, -3)
 	_G.MerchantBuyBackItemItemButton:Size(40)
+
+	_G.MerchantBuyBackItemName:Point('TOPLEFT', 47, 3)
+
+	_G.MerchantBuyBackItemMoneyFrame:Point('BOTTOMLEFT', 47, 0)
 
 	_G.MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 	_G.MerchantBuyBackItemItemButtonIconTexture:SetInside()
@@ -135,27 +136,30 @@ local function LoadSkin()
 				local r, g, b = GetItemQualityColor(quality)
 
 				if quality and quality > 1 then
-					MerchantBuyBackItemItemButton:SetBackdropBorderColor(r, g, b)
-					MerchantBuyBackItemName:SetTextColor(r, g, b)
+					_G.MerchantBuyBackItemItemButton:SetBackdropBorderColor(r, g, b)
+					_G.MerchantBuyBackItemName:SetTextColor(r, g, b)
 				else
-					MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
-					MerchantBuyBackItemName:SetTextColor(1, 1, 1)
+					_G.MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					_G.MerchantBuyBackItemName:SetTextColor(1, 1, 1)
 				end
 			else
-				MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				_G.MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 		end
 
+		_G.MerchantRepairAllButton:ClearAllPoints()
+		_G.MerchantRepairAllButton:Point('BOTTOMLEFT', _G.MarchantFrame, 'BOTTOMLEFT', 124, 33)
+
 		_G.MerchantItem1:Point('TOPLEFT', 7, -47)
-		_G.MerchantItem2:Point("LEFT", _G.MerchantItem1, "RIGHT", 3, 0)
-		_G.MerchantItem3:Point("TOPLEFT", _G.MerchantItem1, "BOTTOMLEFT", 0, -15)
-		_G.MerchantItem4:Point("LEFT", _G.MerchantItem3, "RIGHT", 3, 0)
-		_G.MerchantItem5:Point("TOPLEFT", _G.MerchantItem3, "BOTTOMLEFT", 0, -15)
-		_G.MerchantItem6:Point("LEFT", _G.MerchantItem5, "RIGHT", 3, 0)
-		_G.MerchantItem7:Point("TOPLEFT", _G.MerchantItem5, "BOTTOMLEFT", 0, -15)
-		_G.MerchantItem8:Point("LEFT", _G.MerchantItem7, "RIGHT", 3, 0)
-		_G.MerchantItem9:Point("TOPLEFT", _G.MerchantItem7, "BOTTOMLEFT", 0, -15)
-		_G.MerchantItem10:Point("LEFT", _G.MerchantItem8, "RIGHT", 3, 0)
+		_G.MerchantItem2:Point('LEFT', _G.MerchantItem1, 'RIGHT', 3, 0)
+		_G.MerchantItem3:Point('TOPLEFT', _G.MerchantItem1, 'BOTTOMLEFT', 0, -15)
+		_G.MerchantItem4:Point('LEFT', _G.MerchantItem3, 'RIGHT', 3, 0)
+		_G.MerchantItem5:Point('TOPLEFT', _G.MerchantItem3, 'BOTTOMLEFT', 0, -15)
+		_G.MerchantItem6:Point('LEFT', _G.MerchantItem5, 'RIGHT', 3, 0)
+		_G.MerchantItem7:Point('TOPLEFT', _G.MerchantItem5, 'BOTTOMLEFT', 0, -15)
+		_G.MerchantItem8:Point('LEFT', _G.MerchantItem7, 'RIGHT', 3, 0)
+		_G.MerchantItem9:Point('TOPLEFT', _G.MerchantItem7, 'BOTTOMLEFT', 0, -15)
+		_G.MerchantItem10:Point('LEFT', _G.MerchantItem8, 'RIGHT', 3, 0)
 	end)
 
 	hooksecurefunc('MerchantFrame_UpdateBuybackInfo', function()
