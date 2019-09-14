@@ -62,7 +62,7 @@ local function LoadSkin()
 			currencyIcon:SetTexCoord(unpack(E.TexCoords))
 			currencyIcon:SetParent(currencyIcon.backdrop)
 		end
-	end	
+	end
 
 	_G.MerchantPageText:SetTextColor(1, 1, 1)
 	_G.MerchantPageText:Point('BOTTOM', -83, 56)
