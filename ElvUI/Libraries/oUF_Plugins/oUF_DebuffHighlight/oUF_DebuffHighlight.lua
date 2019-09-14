@@ -19,7 +19,6 @@ local function GetDebuffType(unit, filter, filterTable)
 	while true do
 		local name, texture, _, debufftype, _,_,_,_,_, spellID = UnitAura(unit, i, "HARMFUL")
 		if not texture then break end
-		print(debufftype)
 		local filterSpell = filterTable[spellID] or filterTable[name]
 
 		if(filterTable and filterSpell and filterSpell.enable) then
@@ -35,7 +34,7 @@ local function Update(object, event, unit)
 	if unit ~= object.unit then return; end
 
 	local debuffType, texture, wasFiltered, style, color = GetDebuffType(unit, object.DebuffHighlightFilter, object.DebuffHighlightFilterTable)
-
+	print(debuffType, texture, wasFiltered, style, color)
 	if(wasFiltered) then
 		if style == "GLOW" and object.DBHGlow then
 			object.DBHGlow:Show()
