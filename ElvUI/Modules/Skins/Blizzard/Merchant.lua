@@ -65,10 +65,10 @@ local function LoadSkin()
 	end
 
 	_G.MerchantPageText:SetTextColor(1, 1, 1)
-	_G.MerchantPageText:Point('BOTTOM', -83, 56)
+	_G.MerchantPageText:Point('BOTTOM', -83, 53)
 
 	S:HandleNextPrevButton(_G.MerchantPrevPageButton, nil, nil, true, true)
-	_G.MerchantPrevPageButton:Point('BOTTOMLEFT', _G.MerchantFrame, 'BOTTOMLEFT', 0, 50)
+	_G.MerchantPrevPageButton:Point('BOTTOMLEFT', _G.MerchantFrame, 'BOTTOMLEFT', 0, 47)
 	_G.MerchantPrevPageButton:Size(24)
 
 	S:HandleNextPrevButton(_G.MerchantNextPageButton, nil, nil, true, true)
