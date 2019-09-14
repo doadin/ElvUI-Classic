@@ -62,10 +62,18 @@ local function LoadSkin()
 			currencyIcon:SetTexCoord(unpack(E.TexCoords))
 			currencyIcon:SetParent(currencyIcon.backdrop)
 		end
-	end
+	end	
 
-	S:HandleNextPrevButton(_G.MerchantNextPageButton, nil, nil, true)
-	S:HandleNextPrevButton(_G.MerchantPrevPageButton, nil, nil, true)
+	_G.MerchantPageText:SetTextColor(1, 1, 1)
+	_G.MerchantPageText:Point('BOTTOM', -83, 56)
+
+	S:HandleNextPrevButton(_G.MerchantPrevPageButton, nil, nil, true, true)
+	_G.MerchantPrevPageButton:Point('BOTTOMLEFT', _G.MerchantFrame, 'BOTTOMLEFT', 0, 50)
+	_G.MerchantPrevPageButton:Size(24)
+
+	S:HandleNextPrevButton(_G.MerchantNextPageButton, nil, nil, true, true)
+	_G.MerchantNextPageButton:Point('TOPLEFT', _G.MerchantPrevPageButton, 'TOPLEFT', 142, 0)
+	_G.MerchantNextPageButton:Size(24)
 
 	S:HandleButton(_G.MerchantRepairItemButton)
 	_G.MerchantRepairItemButton:StyleButton(false)
