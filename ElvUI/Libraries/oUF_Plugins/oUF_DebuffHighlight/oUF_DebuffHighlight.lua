@@ -19,7 +19,7 @@ local function GetDebuffType(unit, filter, filterTable)
 	while true do
 		local name, texture, _, debufftype, _,_,_,_,_, spellID = UnitAura(unit, i, "HARMFUL")
 		if not texture then break end
-
+		print(debufftype)
 		local filterSpell = filterTable[spellID] or filterTable[name]
 
 		if(filterTable and filterSpell and filterSpell.enable) then
@@ -80,6 +80,7 @@ local function Enable(object)
 	if object.DebuffHighlightFilter and not CanDispel[playerClass] then
 		return
 	end
+
 	object:RegisterEvent("UNIT_AURA", Update)
 
 	return true
