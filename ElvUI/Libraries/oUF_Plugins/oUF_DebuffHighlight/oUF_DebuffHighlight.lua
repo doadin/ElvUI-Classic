@@ -34,7 +34,7 @@ local function Update(object, event, unit)
 	if unit ~= object.unit then return; end
 
 	local debuffType, texture, wasFiltered, style, color = GetDebuffType(unit, object.DebuffHighlightFilter, object.DebuffHighlightFilterTable)
-	print(debuffType, texture, wasFiltered, style, color)
+
 	if(wasFiltered) then
 		if style == "GLOW" and object.DBHGlow then
 			object.DBHGlow:Show()
@@ -45,6 +45,7 @@ local function Update(object, event, unit)
 		end
 	elseif debuffType then
 		color = DebuffTypeColor[debuffType]
+		print(object.DebuffHighlightBackdrop and object.DBHGlow, debuffType)
 		if object.DebuffHighlightBackdrop and object.DBHGlow then
 			object.DBHGlow:Show()
 			object.DBHGlow:SetBackdropBorderColor(color.r, color.g, color.b)
