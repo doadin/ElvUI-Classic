@@ -116,7 +116,8 @@ local eventHandlers = {
 	["GUILD_ROSTER_UPDATE"] = function(self)
 		if(resendRequest) then
 			resendRequest = false
-			return GuildRoster()
+			GuildRoster()
+			BuildGuildTable()
 		else
 			BuildGuildTable()
 			UpdateGuildMessage()
@@ -125,7 +126,10 @@ local eventHandlers = {
 			end
 		end
 	end,
-	["PLAYER_GUILD_UPDATE"] = GuildRoster,
+	["PLAYER_GUILD_UPDATE"] = function()
+		GuildRoster()
+		BuildGuildTable()
+	end,
 	-- our guild message of the day changed
 	["GUILD_MOTD"] = function (self, arg1)
 		guildMotD = arg1

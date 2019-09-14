@@ -24,7 +24,7 @@ local function GetDebuffType(unit, filter, filterTable)
 
 		if(filterTable and filterSpell and filterSpell.enable) then
 			return debufftype, texture, true, filterSpell.style, filterSpell.color
-		elseif debufftype and (not filter or (filter and dispellist[debufftype])) and not blackList[name] then
+		elseif debufftype and (not filter or (filter and dispellist[debufftype])) then
 			return debufftype, texture
 		end
 		i = i + 1
@@ -35,6 +35,7 @@ local function Update(object, event, unit)
 	if unit ~= object.unit then return; end
 
 	local debuffType, texture, wasFiltered, style, color = GetDebuffType(unit, object.DebuffHighlightFilter, object.DebuffHighlightFilterTable)
+
 	if(wasFiltered) then
 		if style == "GLOW" and object.DBHGlow then
 			object.DBHGlow:Show()
@@ -79,7 +80,6 @@ local function Enable(object)
 	if object.DebuffHighlightFilter and not CanDispel[playerClass] then
 		return
 	end
-
 	object:RegisterEvent("UNIT_AURA", Update)
 
 	return true
