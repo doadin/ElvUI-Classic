@@ -134,6 +134,7 @@ local function LoadSkin()
 	end
 
 	local function QuestQualityColors(button, text, link)
+		local quality
 		if link then
 			quality = select(3, GetItemInfo(link))
 		end

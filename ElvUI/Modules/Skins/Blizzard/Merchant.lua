@@ -64,8 +64,16 @@ local function LoadSkin()
 		end
 	end
 
-	S:HandleNextPrevButton(_G.MerchantNextPageButton, nil, nil, true)
-	S:HandleNextPrevButton(_G.MerchantPrevPageButton, nil, nil, true)
+	_G.MerchantPageText:SetTextColor(1, 1, 1)
+	_G.MerchantPageText:Point('BOTTOM', -83, 53)
+
+	S:HandleNextPrevButton(_G.MerchantPrevPageButton, nil, nil, true, true)
+	_G.MerchantPrevPageButton:Point('BOTTOMLEFT', _G.MerchantFrame, 'BOTTOMLEFT', 0, 47)
+	_G.MerchantPrevPageButton:Size(24)
+
+	S:HandleNextPrevButton(_G.MerchantNextPageButton, nil, nil, true, true)
+	_G.MerchantNextPageButton:Point('TOPLEFT', _G.MerchantPrevPageButton, 'TOPLEFT', 142, 0)
+	_G.MerchantNextPageButton:Size(24)
 
 	S:HandleButton(_G.MerchantRepairItemButton)
 	_G.MerchantRepairItemButton:StyleButton(false)
