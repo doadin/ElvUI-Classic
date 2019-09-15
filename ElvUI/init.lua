@@ -46,7 +46,7 @@ Engine[2] = {}
 Engine[3] = AddOn.privateVars.profile
 Engine[4] = AddOn.DF.profile
 Engine[5] = AddOn.DF.global
-_G[AddOnName] = Engine
+_G.ElvUI = Engine
 
 do
 	local locale = GetLocale()
