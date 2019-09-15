@@ -89,7 +89,7 @@ local function LoadSkin()
 	_G.MerchantRepairAllIcon:SetInside()
 
 	_G.MerchantRepairAllButton:ClearAllPoints()	
-	_G.MerchantRepairAllButton:Point('BOTTOMLEFT', _G.MarchantFrame, 'BOTTOMLEFT', 126, 61)
+	_G.MerchantRepairAllButton:Point('BOTTOMLEFT', _G.MerchantFrame, 'BOTTOMLEFT', 126, 61)
 
 	_G.MerchantMoneyBg:StripTextures()
 	_G.MerchantMoneyInset:StripTextures()
