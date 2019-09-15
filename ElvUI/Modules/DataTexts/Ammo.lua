@@ -24,20 +24,32 @@ local iconString = "|T%s:16:16:0:0:64:64:4:55:4:55|t"
 local displayString = ""
 
 local lastPanel
+local itemName = {}
 
-local function OnEvent(self)
+local function OnEvent(self, event, ...)
 	local name, count, itemID
+
+	if event == 'GET_ITEM_INFO_RECEIVED' then
+		itemID = ...
+		itemName[itemID] = GetItemInfo(itemID)
+		self:UnregisterEvent('GET_ITEM_INFO_RECEIVED')
+	end
+
 	if E.myclass == "WARLOCK" then
-		name, count = GetItemInfo(6265), GetItemCount(6265)
+		name, count = itemName[6265] or GetItemInfo(6265), GetItemCount(6265)
 		self.text:SetFormattedText(displayString, name or 'Soul Shard', count or 0) -- Does not need localized. It gets updated.
 	else
 		itemID, count = GetInventoryItemID("player", INVSLOT_AMMO), GetInventoryItemCount("player", INVSLOT_AMMO)
 		if itemID and (count > 0) then
-			name = GetItemInfo(itemID)
+			name = itemName[itemID] or GetItemInfo(itemID)
 			self.text:SetFormattedText(displayString, name or 'Arrow', count) -- Does not need localized. It gets updated.
 		else
 			self.text:SetFormattedText(displayString, INVTYPE_AMMO, 0)
 		end
+	end
+
+	if not name then
+		self:RegisterEvent('GET_ITEM_INFO_RECEIVED')
 	end
 
 	lastPanel = self
@@ -119,4 +131,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext(INVTYPE_AMMO, {"PLAYER_ENTERING_WORLD", "BAG_UPDATE", "UNIT_INVENTORY_CHANGED", "GET_ITEM_INFO_RECEIVED"}, OnEvent, nil, OnClick, OnEnter, nil, L["Ammo/Shard Counter"])
+DT:RegisterDatatext(INVTYPE_AMMO, {"PLAYER_ENTERING_WORLD", "BAG_UPDATE", "UNIT_INVENTORY_CHANGED"}, OnEvent, nil, OnClick, OnEnter, nil, L["Ammo/Shard Counter"])
