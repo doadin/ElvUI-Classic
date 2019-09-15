@@ -45,7 +45,6 @@ local function Update(object, event, unit)
 		end
 	elseif debuffType then
 		color = DebuffTypeColor[debuffType]
-		print(object.DebuffHighlightBackdrop and object.DBHGlow, debuffType)
 		if object.DebuffHighlightBackdrop and object.DBHGlow then
 			object.DBHGlow:Show()
 			object.DBHGlow:SetBackdropBorderColor(color.r, color.g, color.b)
