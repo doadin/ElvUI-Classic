@@ -31,7 +31,6 @@ local function UpdateSlot(self, slot)
 	totem[slot]:SetStatusBarColor(unpack(colors[slot]))
 	totem[slot]:SetValue(0)
 
-	-- Multipliers
 	if totem[slot].bg.multiplier then
 		local mu = totem[slot].bg.multiplier
 		local r, g, b = unpack(colors[slot])
@@ -43,15 +42,13 @@ local function UpdateSlot(self, slot)
 
 	if duration > 0 then
 		totem[slot]:SetValue(1 - ((GetTime() - startTime) / duration))
-		-- Status bar update
 		totem[slot]:SetScript("OnUpdate", UpdateTotem)
 	else
-		-- There's no need to update because it doesn't have any duration
 		totem[slot]:SetScript("OnUpdate", nil)
 	end
 end
 
-local function Update(self, unit)
+local function Update(self)
 	for i = 1, MAX_TOTEMS do
 		UpdateSlot(self, i)
 	end
@@ -62,16 +59,14 @@ local Path = function(self, ...)
 end
 
 local function Event(self, event, ...)
-	if event == "PLAYER_TOTEM_UPDATE" then
-		UpdateSlot(self, ...)
-	end
+	UpdateSlot(self, ...)
 end
 
 local function Enable(self, unit)
 	local totem = self.TotemBar
-
 	if totem then
 		self:RegisterEvent("PLAYER_TOTEM_UPDATE", Event, true)
+
 		return true
 	end
 end
