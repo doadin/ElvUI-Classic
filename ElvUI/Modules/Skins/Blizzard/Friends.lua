@@ -88,7 +88,7 @@ local function LoadSkin()
 		end
 	end)
 
-	for i = 1, 5 do
+	for i = 1, #_G.FRIENDSFRAME_SUBFRAMES do
 		S:HandleTab(_G['FriendsFrameTab'..i])
 	end
 
@@ -104,7 +104,7 @@ local function LoadSkin()
 		tab:SetScript('OnLeave', S.SetOriginalBackdrop)
 	end
 
-	for i = 1, FRIENDS_FRIENDS_TO_DISPLAY do
+	for i = 1, _G.FRIENDS_FRIENDS_TO_DISPLAY do
 		S:HandleButtonHighlight(_G['FriendsFriendsButton'..i])
 	end
 

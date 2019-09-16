@@ -15,7 +15,7 @@ local function LoadSkin()
 	local MerchantFrame = _G.MerchantFrame
 	S:HandlePortraitFrame(MerchantFrame, true)
 	MerchantFrame.backdrop:Point('TOPLEFT', -5, 0)
-	MerchantFrame.backdrop:Point('BOTTOMRIGHT', -1, -1)
+	MerchantFrame.backdrop:Point('BOTTOMRIGHT', 1, -1)
 	MerchantFrame:Height(423)
 
 	_G.MerchantFrameCloseButton:Point('TOPRIGHT', 4, 3)
@@ -32,14 +32,14 @@ local function LoadSkin()
 
 		item:StripTextures(true)
 		item:CreateBackdrop('Default')
-		item.backdrop:Point('TOPLEFT', -4, 4)
-		item.backdrop:Point('BOTTOMRIGHT', 2, -4)
+		item.backdrop:Point('TOPLEFT', -1, 3)
+		item.backdrop:Point('BOTTOMRIGHT', 2, -3)
 
 		button:StripTextures()
 		button:StyleButton()
 		button:SetTemplate('Default', true)
 		button:Size(40)
-		button:Point('TOPLEFT', item, 'TOPLEFT', 3, -3)
+		button:Point('TOPLEFT', item, 'TOPLEFT', 4, -2)
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
@@ -68,10 +68,10 @@ local function LoadSkin()
 	_G.MerchantNameText:SetTextColor(1, 1, 1)
 
 	_G.MerchantPageText:SetTextColor(1, 1, 1)
-	_G.MerchantPageText:Point('BOTTOM', 0, 7)
+	_G.MerchantPageText:Point('BOTTOM', -2, 10)
 
 	S:HandleNextPrevButton(_G.MerchantNextPageButton, nil, nil, nil, true)
-	_G.MerchantNextPageButton:Point('BOTTOMRIGHT', _G.MerchantFrame, 'BOTTOMRIGHT', -10, 7)
+	_G.MerchantNextPageButton:Point('BOTTOMRIGHT', _G.MerchantFrame, 'BOTTOMRIGHT', -11, 10)
 	_G.MerchantNextPageButton:Size(24)
 
 	S:HandleNextPrevButton(_G.MerchantPrevPageButton, nil, nil, nil, true)
@@ -88,46 +88,51 @@ local function LoadSkin()
 	_G.MerchantRepairAllIcon:SetTexCoord(0.34, 0.1, 0.34, 0.535, 0.535, 0.1, 0.535, 0.535)
 	_G.MerchantRepairAllIcon:SetInside()
 
-	_G.MerchantRepairAllButton:ClearAllPoints()	
+	_G.MerchantRepairAllButton:ClearAllPoints()
 	_G.MerchantRepairAllButton:Point('BOTTOMLEFT', _G.MerchantFrame, 'BOTTOMLEFT', 126, 61)
 
 	_G.MerchantMoneyBg:StripTextures()
 	_G.MerchantMoneyInset:StripTextures()
 
 	_G.MerchantMoneyFrame:ClearAllPoints()
-	_G.MerchantMoneyFrame:Point('BOTTOMLEFT', _G.MerchantFrame, 'BOTTOMLEFT', 4, 7)
+	_G.MerchantMoneyFrame:Point('BOTTOMLEFT', _G.MerchantFrame, 'BOTTOMLEFT', 7, 10)
 
 	_G.MerchantBuyBackItem:StripTextures(true)
-	_G.MerchantBuyBackItem:CreateBackdrop('Transparent')
-	_G.MerchantBuyBackItem.backdrop:Point('TOPLEFT', -4, 4)
-	_G.MerchantBuyBackItem.backdrop:Point('BOTTOMRIGHT', 2, -12)
-	_G.MerchantBuyBackItem:Point('TOPLEFT', _G.MerchantItem10, 'BOTTOMLEFT', 0, -11)
+	_G.MerchantBuyBackItem:CreateBackdrop('Transparent', true)
+	_G.MerchantBuyBackItem.backdrop:Point('TOPLEFT', -1, 3)
+	_G.MerchantBuyBackItem.backdrop:Point('BOTTOMRIGHT', 2, -2)
+	_G.MerchantBuyBackItem:Height(46)
+	_G.MerchantBuyBackItem:Point('TOPLEFT', _G.MerchantItem10, 'BOTTOMLEFT', 0, -13)
 
 	_G.MerchantBuyBackItemItemButton:StripTextures()
-	_G.MerchantBuyBackItemItemButton:SetTemplate('Default', true)
 	_G.MerchantBuyBackItemItemButton:StyleButton()
-	_G.MerchantBuyBackItemItemButton:Point('TOPLEFT', 3, -3)
+	_G.MerchantBuyBackItemItemButton:SetTemplate('Default', true)
 	_G.MerchantBuyBackItemItemButton:Size(40)
+	_G.MerchantBuyBackItemItemButton:Point('TOPLEFT', 4, -2)
 
-	_G.MerchantBuyBackItemName:Point('TOPLEFT', 47, 3)
-
-	_G.MerchantBuyBackItemMoneyFrame:Point('BOTTOMLEFT', 47, 0)
 
 	_G.MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 	_G.MerchantBuyBackItemItemButtonIconTexture:SetInside()
 
+	_G.MerchantBuyBackItemNameFrame:Point('LEFT', _G.MerchantBuyBackItemSlotTexture, 'RIGHT', -6, -17)
+
+	_G.MerchantBuyBackItemName:Point('LEFT', _G.MerchantBuyBackItemSlotTexture, 'RIGHT', -4, 5)
+
+	_G.MerchantBuyBackItemMoneyFrame:ClearAllPoints()
+	_G.MerchantBuyBackItemMoneyFrame:Point('BOTTOMLEFT', _G.MerchantBuyBackItemItemButton, 'BOTTOMRIGHT', 3, 0)
+
 	local function PositionMerchantItem()
 		_G.MerchantItem1:Point('TOPLEFT', _G.MerchantFrame, 'TOPLEFT', 7, -40)
 		_G.MerchantItem2:Point('TOPLEFT', _G.MerchantItem1, 'TOPLEFT', 163, 0)
-		_G.MerchantItem3:Point('TOPLEFT', _G.MerchantItem1, 'BOTTOMLEFT', 0, -11)
+		_G.MerchantItem3:Point('TOPLEFT', _G.MerchantItem1, 'BOTTOMLEFT', 0, -13)
 		_G.MerchantItem4:Point('TOPLEFT', _G.MerchantItem3, 'TOPLEFT', 163, 0)
-		_G.MerchantItem5:Point('TOPLEFT', _G.MerchantItem3, 'BOTTOMLEFT', 0, -11)
+		_G.MerchantItem5:Point('TOPLEFT', _G.MerchantItem3, 'BOTTOMLEFT', 0, -13)
 		_G.MerchantItem6:Point('TOPLEFT', _G.MerchantItem5, 'TOPLEFT', 163, 0)
-		_G.MerchantItem7:Point('TOPLEFT', _G.MerchantItem5, 'BOTTOMLEFT', 0, -11)
+		_G.MerchantItem7:Point('TOPLEFT', _G.MerchantItem5, 'BOTTOMLEFT', 0, -13)
 		_G.MerchantItem8:Point('TOPLEFT', _G.MerchantItem7, 'TOPLEFT', 163, 0)
-		_G.MerchantItem9:Point('TOPLEFT', _G.MerchantItem7, 'BOTTOMLEFT', 0, -11)
+		_G.MerchantItem9:Point('TOPLEFT', _G.MerchantItem7, 'BOTTOMLEFT', 0, -13)
 		_G.MerchantItem10:Point('TOPLEFT', _G.MerchantItem9, 'TOPLEFT', 163, 0)
-		_G.MerchantItem11:Point('TOPLEFT', _G.MerchantItem9, 'BOTTOMLEFT', 0, -11)
+		_G.MerchantItem11:Point('TOPLEFT', _G.MerchantItem9, 'BOTTOMLEFT', 0, -13)
 		_G.MerchantItem12:Point('TOPLEFT', _G.MerchantItem11, 'TOPLEFT', 163, 0)
 	end
 

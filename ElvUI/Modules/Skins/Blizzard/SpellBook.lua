@@ -26,7 +26,7 @@ local function LoadSkin()
 	_G.SpellBookPageNavigationFrame:StripTextures(true)
 
 	_G.SpellBookPageText:SetTextColor(1, 1, 1)
-	_G.SpellBookPageText:Point('BOTTOM', -10, 92)
+	_G.SpellBookPageText:Point('BOTTOM', -10, 87)
 
 	S:HandleNextPrevButton(_G.SpellBookPrevPageButton)
 	_G.SpellBookPrevPageButton:Point('BOTTOMRIGHT', _G.SpellBookFrame, 'BOTTOMRIGHT', -73, 87)
@@ -51,7 +51,7 @@ local function LoadSkin()
 	end
 
 	-- Spell Buttons
-	for i = 1, SPELLS_PER_PAGE do
+	for i = 1, _G.SPELLS_PER_PAGE do
 		local button = _G['SpellButton'..i]
 		local icon = _G['SpellButton'..i..'IconTexture']
 		local cooldown = _G['SpellButton'..i..'Cooldown']
@@ -75,6 +75,7 @@ local function LoadSkin()
 		button.bg:CreateBackdrop('Transparent', true)
 		button.bg:Point('TOPLEFT', -6, 6)
 		button.bg:Point('BOTTOMRIGHT', 112, -6)
+		button.bg:Height(46)
 		button.bg:SetFrameLevel(button.bg:GetFrameLevel() - 2)
 
 		icon:SetTexCoord(unpack(E.TexCoords))
@@ -111,7 +112,7 @@ local function LoadSkin()
 		end
 	end)
 
-	for i = 1, MAX_SKILLLINE_TABS do
+	for i = 1, _G.MAX_SKILLLINE_TABS do
 		local tab = _G['SpellBookSkillLineTab'..i]
 		local flash = _G['SpellBookSkillLineTab'..i..'Flash']
 
