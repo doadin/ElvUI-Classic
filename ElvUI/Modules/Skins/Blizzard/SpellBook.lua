@@ -36,7 +36,8 @@ local function LoadSkin()
 	_G.SpellBookNextPageButton:Point('TOPLEFT', _G.SpellBookPrevPageButton, 'TOPLEFT', 30, 0)
 	_G.SpellBookNextPageButton:Size(24)
 
-	S:HandleCloseButton(_G.SpellBookCloseButton)
+	S:HandleCloseButton(_G.SpellBookCloseButton, SpellBookFrame.backdrop)
+	_G.SpellBookCloseButton:Point('TOPRIGHT', -28, -9)
 
 	for i = 1, 3 do
 		local tab = _G['SpellBookFrameTabButton'..i]

@@ -89,7 +89,7 @@ local function LoadSkin()
 	_G.MerchantRepairAllIcon:SetInside()
 
 	_G.MerchantRepairAllButton:ClearAllPoints()
-	_G.MerchantRepairAllButton:Point('BOTTOMLEFT', _G.MerchantFrame, 'BOTTOMLEFT', 126, 61)
+	_G.MerchantRepairAllButton:Point('BOTTOMLEFT', _G.MerchantFrame, 'BOTTOMLEFT', 124, 57)
 
 	_G.MerchantMoneyBg:StripTextures()
 	_G.MerchantMoneyInset:StripTextures()
@@ -109,7 +109,6 @@ local function LoadSkin()
 	_G.MerchantBuyBackItemItemButton:SetTemplate('Default', true)
 	_G.MerchantBuyBackItemItemButton:Size(40)
 	_G.MerchantBuyBackItemItemButton:Point('TOPLEFT', 4, -2)
-
 
 	_G.MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 	_G.MerchantBuyBackItemItemButtonIconTexture:SetInside()
@@ -183,7 +182,7 @@ local function LoadSkin()
 			end
 		end
 
-		_G.MerchantRepairText:Point('BOTTOMLEFT', 14, 75)
+		_G.MerchantRepairText:Point('BOTTOMLEFT', 14, 69)
 
 		PositionMerchantItem()
 	end)
