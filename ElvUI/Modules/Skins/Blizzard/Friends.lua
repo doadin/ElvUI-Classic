@@ -114,9 +114,69 @@ local function LoadSkin()
 	S:HandleButton(_G.FriendsFrameAddFriendButton)
 	S:HandleButton(_G.FriendsFrameSendMessageButton)
 	S:HandleButton(_G.FriendsFrameUnsquelchButton)
+	S:HandleButton(_G.AddFriendEntryFrameAcceptButton)
+	S:HandleButton(_G.AddFriendEntryFrameCancelButton)
 
 	S:HandleDropDownBox(_G.FriendsFrameStatusDropDown)
 	_G.FriendsFrameStatusDropDown:Point('TOPLEFT', -12, 0)
+
+	--View Friends BN Frame
+	_G.FriendsFriendsFrame:CreateBackdrop("Transparent")
+
+	StripAllTextures = {
+		"FriendsFriendsFrame",
+		"FriendsFriendsList",
+	}
+
+	buttons = {
+		"FriendsFriendsSendRequestButton",
+		"FriendsFriendsCloseButton",
+	}
+
+	for _, object in pairs(StripAllTextures) do
+		_G[object]:StripTextures()
+	end
+
+	for _, button in pairs(buttons) do
+		S:HandleButton(_G[button])
+	end
+
+	_G.IgnoreListFrame:StripTextures()
+	_G.ScrollOfResurrectionFrame:StripTextures()
+	S:HandleButton(_G.ScrollOfResurrectionFrameAcceptButton)
+	S:HandleButton(_G.ScrollOfResurrectionFrameCancelButton)
+
+	_G.ScrollOfResurrectionFrameTargetEditBoxLeft:SetTexture()
+	_G.ScrollOfResurrectionFrameTargetEditBoxMiddle:SetTexture()
+	_G.ScrollOfResurrectionFrameTargetEditBoxRight:SetTexture()
+	_G.ScrollOfResurrectionFrameNoteFrame:StripTextures()
+	_G.ScrollOfResurrectionFrameNoteFrame:SetTemplate()
+	_G.ScrollOfResurrectionFrameTargetEditBox:SetTemplate()
+	_G.ScrollOfResurrectionFrame:SetTemplate('Transparent')
+
+	_G.RecruitAFriendFrame:StripTextures()
+	_G.RecruitAFriendFrame:SetTemplate("Transparent")
+	_G.RecruitAFriendFrame.MoreDetails.Text:FontTemplate()
+	S:HandleCloseButton(_G.RecruitAFriendFrameCloseButton)
+	S:HandleButton(_G.RecruitAFriendFrameSendButton)
+	S:HandleEditBox(_G.RecruitAFriendNameEditBox)
+	_G.RecruitAFriendNoteFrame:StripTextures()
+	S:HandleEditBox(_G.RecruitAFriendNoteFrame)
+
+	_G.RecruitAFriendSentFrame:StripTextures()
+	_G.RecruitAFriendSentFrame:SetTemplate("Transparent")
+	S:HandleCloseButton(_G.RecruitAFriendSentFrameCloseButton)
+	S:HandleButton(_G.RecruitAFriendSentFrame.OKButton)
+	hooksecurefunc("RecruitAFriend_Send", function()
+		_G.RecruitAFriendSentFrame:ClearAllPoints()
+		_G.RecruitAFriendSentFrame:Point("CENTER", E.UIParent, "CENTER", 0, 100)
+	end)
+
+	S:HandleScrollBar(_G.FriendsFriendsScrollFrameScrollBar)
+
+	S:HandleEditBox(_G.FriendsFriendsList)
+
+	S:HandleDropDownBox(_G.FriendsFriendsFrameDropDown, 150)
 
 	-- Ignore List
 	_G.IgnoreListFrame:StripTextures()
