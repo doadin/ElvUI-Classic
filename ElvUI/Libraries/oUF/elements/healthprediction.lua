@@ -83,7 +83,7 @@ A default texture will be applied to the Texture widgets if they don't have a te
 
 local _, ns = ...
 local oUF = ns.oUF
---local HealComm = LibStub("LibClassicHealComm-1.0")
+local HealComm = LibStub("LibClassicHealComm-1.0")
 
 local function Update(self, event, unit)
 	if(self.unit ~= unit) then return end
@@ -101,9 +101,9 @@ local function Update(self, event, unit)
 	end
 	local guid = UnitGUID(unit)
 
-	local myIncomingHeal = 0 --(HealComm:GetHealAmount(guid, HealComm.ALL_HEALS) or 0) * (HealComm:GetHealModifier(guid) or 1)
+	local myIncomingHeal = (HealComm:GetHealAmount(guid, HealComm.ALL_HEALS) or 0) * (HealComm:GetHealModifier(guid) or 1)
+	local allIncomingHeal = HealComm:GetOthersHealAmount(guid, HealComm.ALL_HEALS) or 0
 
-	local allIncomingHeal = 0
 	local absorb = 0
 	local healAbsorb = 0
 	local health, maxHealth = UnitHealth(unit), UnitHealthMax(unit)
@@ -225,21 +225,30 @@ local function Enable(self)
 		self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
 		self:RegisterEvent('UNIT_MAXHEALTH', Path)
 
-		---- Handle callbacks from HealComm
-		--local function HealComm_HealUpdated(event, casterGUID, spellID, healType, endTime, ...)
-		--	Path(self, ...)
-		--end
+		local function MultiUpdate(...)
+			for i = 1, select('#', ...) do
+				for _, frame in ipairs(oUF.objects) do
+					if frame.unit and (frame.HealthPrediction) and UnitGUID(frame.unit) == select(i, ...) then
+						Path(frame, nil, frame.unit)
+					end
+				end
+			end
+		end
 
-		--HealComm.RegisterCallback(element, "HealComm_HealStarted", HealComm_HealUpdated)
-		--HealComm.RegisterCallback(element, "HealComm_HealStopped", HealComm_HealUpdated)
-		--HealComm.RegisterCallback(element, "HealComm_HealDelayed", HealComm_HealUpdated)
-		--HealComm.RegisterCallback(element, "HealComm_HealUpdated", HealComm_HealUpdated)
-		--HealComm.RegisterCallback(element, "HealComm_ModifierChanged", HealComm_HealUpdated)
-		--HealComm.RegisterCallback(element, "HealComm_GUIDDisappeared", HealComm_HealUpdated)
+		local function HealComm_Heal_Update(event, casterGUID, spellID, healType, _, ...)
+			MultiUpdate(...)
+		end
 
-		--self:RegisterEvent('UNIT_HEAL_PREDICTION', Path)
-		--self:RegisterEvent('UNIT_ABSORB_AMOUNT_CHANGED', Path)
-		--self:RegisterEvent('UNIT_HEAL_ABSORB_AMOUNT_CHANGED', Path)
+		local function HealComm_Modified(event, guid)
+			MultiUpdate(guid)
+		end
+
+		HealComm.RegisterCallback(element, 'HealComm_HealStarted', HealComm_Heal_Update)
+		HealComm.RegisterCallback(element, 'HealComm_HealUpdated', HealComm_Heal_Update)
+		HealComm.RegisterCallback(element, 'HealComm_HealDelayed', HealComm_Heal_Update)
+		HealComm.RegisterCallback(element, 'HealComm_HealStopped', HealComm_Heal_Update)
+		HealComm.RegisterCallback(element, 'HealComm_ModifierChanged', HealComm_Modified)
+		HealComm.RegisterCallback(element, 'HealComm_GUIDDisappeared', HealComm_Modified)
 
 		if(not element.maxOverflow) then
 			element.maxOverflow = 1.05
