@@ -83,6 +83,7 @@ A default texture will be applied to the Texture widgets if they don't have a te
 
 local _, ns = ...
 local oUF = ns.oUF
+local myGUID = UnitGUID('player')
 local HealComm = LibStub("LibClassicHealComm-1.0")
 
 local function Update(self, event, unit)
@@ -102,7 +103,7 @@ local function Update(self, event, unit)
 
 	local guid = UnitGUID(unit)
 
-	local myIncomingHeal = (HealComm:GetHealAmount(guid, HealComm.ALL_HEALS) or 0) * (HealComm:GetHealModifier(guid) or 1)
+	local myIncomingHeal = (HealComm:GetHealAmount(guid, HealComm.ALL_HEALS, nil, myGUID) or 0) * (HealComm:GetHealModifier(myGUID) or 1)
 	local health, maxHealth = UnitHealth(unit), UnitHealthMax(unit)
 	local otherIncomingHeal = HealComm:GetOthersHealAmount(guid, HealComm.ALL_HEALS) or 0
 --	local allIncomingHeal, absorb, healAbsorb, hasOverHealAbsorb = 0, 0, 0, false
