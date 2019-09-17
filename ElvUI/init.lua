@@ -88,6 +88,7 @@ do
 	AddOn:AddLib('Translit', 'LibTranslit-1.0')
 	AddOn:AddLib('LCD', 'LibClassicDurations')
 	AddOn:AddLib('LCC', 'LibClassicCasterino')
+	AddOn:AddLib('RC', 'LibRangeCheck-2.0')
 
 	-- added on ElvUI_OptionsUI load: AceGUI, AceConfig, AceConfigDialog, AceConfigRegistry, AceDBOptions
 
