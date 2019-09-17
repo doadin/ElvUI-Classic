@@ -102,12 +102,11 @@ local function Update(self, event, unit)
 	local guid = UnitGUID(unit)
 
 	local myIncomingHeal = (HealComm:GetHealAmount(guid, HealComm.ALL_HEALS) or 0) * (HealComm:GetHealModifier(guid) or 1)
-	local allIncomingHeal = HealComm:GetOthersHealAmount(guid, HealComm.ALL_HEALS) or 0
-
+	local allIncomingHeal = 0
 	local absorb = 0
 	local healAbsorb = 0
 	local health, maxHealth = UnitHealth(unit), UnitHealthMax(unit)
-	local otherIncomingHeal = 0
+	local otherIncomingHeal = HealComm:GetOthersHealAmount(guid, HealComm.ALL_HEALS) or 0
 	local hasOverHealAbsorb = false
 
 	if(healAbsorb > allIncomingHeal) then
@@ -146,7 +145,6 @@ local function Update(self, event, unit)
 	if(element.myBar) then
 		element.myBar:SetMinMaxValues(0, maxHealth)
 		element.myBar:SetValue(myIncomingHeal)
-		-- print(myIncomingHeal)
 		element.myBar:Show()
 	end
 
