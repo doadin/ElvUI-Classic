@@ -41,7 +41,7 @@ function B:MoveQuestWatchFrame()
 	QuestWatchFrame:ClearAllPoints()
 	QuestWatchFrame:SetAllPoints(QuestWatchFrameHolder)
 
-	QuestWatchFrameHolder:SetAllPoints(QuestTimerFrameMover)
+	QuestTimerFrameHolder:SetAllPoints(QuestTimerFrameMover)
 
 	QuestTimerFrame:ClearAllPoints()
 	QuestTimerFrame:SetAllPoints(QuestTimerFrameHolder)
