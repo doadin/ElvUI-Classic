@@ -78,6 +78,7 @@ local mobilestatus = {
 }
 
 local function BuildGuildTable()
+	GuildRoster()
 	wipe(guildTable)
 
 	local totalMembers = GetNumGuildMembers()
@@ -109,14 +110,12 @@ local eventHandlers = {
 	["PLAYER_ENTERING_WORLD"] = function()
 		if not _G.GuildFrame and IsInGuild() then
 			LoadAddOn("Blizzard_GuildUI")
-			GuildRoster();
 		end
 	end,
 	-- Guild Roster updated, so rebuild the guild table
 	["GUILD_ROSTER_UPDATE"] = function(self)
 		if(resendRequest) then
 			resendRequest = false
-			GuildRoster()
 			BuildGuildTable()
 		else
 			BuildGuildTable()
@@ -127,7 +126,6 @@ local eventHandlers = {
 		end
 	end,
 	["PLAYER_GUILD_UPDATE"] = function()
-		GuildRoster()
 		BuildGuildTable()
 	end,
 	-- our guild message of the day changed
