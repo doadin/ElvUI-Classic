@@ -88,9 +88,9 @@ end
 local function Disable(object)
 	object:UnregisterEvent("UNIT_AURA", Update)
 
-	object.DBHGlow:Hide()
-	object.DebuffHighlightBackdrop:Hide()
-	object.DebuffHighlight:Hide()
+	if object.DBHGlow then object.DBHGlow:Hide() end
+	if object.DebuffHighlightBackdrop then object.DebuffHighlightBackdrop:Hide() end
+	if object.DebuffHighlight then object.DebuffHighlight:Hide() end
 end
 
 oUF:AddElement('DebuffHighlight', Update, Enable, Disable)
