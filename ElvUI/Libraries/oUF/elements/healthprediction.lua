@@ -99,16 +99,15 @@ local function Update(self, event, unit)
 	if(element.PreUpdate) then
 		element:PreUpdate(unit)
 	end
+
 	local guid = UnitGUID(unit)
 
 	local myIncomingHeal = (HealComm:GetHealAmount(guid, HealComm.ALL_HEALS) or 0) * (HealComm:GetHealModifier(guid) or 1)
-	local allIncomingHeal = 0
-	local absorb = 0
-	local healAbsorb = 0
 	local health, maxHealth = UnitHealth(unit), UnitHealthMax(unit)
 	local otherIncomingHeal = HealComm:GetOthersHealAmount(guid, HealComm.ALL_HEALS) or 0
-	local hasOverHealAbsorb = false
+--	local allIncomingHeal, absorb, healAbsorb, hasOverHealAbsorb = 0, 0, 0, false
 
+--[[
 	if(healAbsorb > allIncomingHeal) then
 		healAbsorb = healAbsorb - allIncomingHeal
 		allIncomingHeal = 0
@@ -141,7 +140,7 @@ local function Update(self, event, unit)
 
 		absorb = math.max(0, maxHealth - health - allIncomingHeal)
 	end
-
+]]
 	if(element.myBar) then
 		element.myBar:SetMinMaxValues(0, maxHealth)
 		element.myBar:SetValue(myIncomingHeal)
@@ -153,7 +152,7 @@ local function Update(self, event, unit)
 		element.otherBar:SetValue(otherIncomingHeal)
 		element.otherBar:Show()
 	end
-
+--[[
 	if(element.absorbBar) then
 		element.absorbBar:SetMinMaxValues(0, maxHealth)
 		element.absorbBar:SetValue(absorb)
@@ -181,7 +180,7 @@ local function Update(self, event, unit)
 			element.overHealAbsorb:Hide()
 		end
 	end
-
+]]
 	--[[ Callback: HealthPrediction:PostUpdate(unit, myIncomingHeal, otherIncomingHeal, absorb, healAbsorb, hasOverAbsorb, hasOverHealAbsorb)
 	Called after the element has been updated.
 
@@ -195,7 +194,8 @@ local function Update(self, event, unit)
 	* hasOverHealAbsorb - indicates if the amount of heal absorb is higher than the unit's current health (boolean)
 	--]]
 	if(element.PostUpdate) then
-		return element:PostUpdate(unit, myIncomingHeal, otherIncomingHeal, absorb, healAbsorb, hasOverAbsorb, hasOverHealAbsorb)
+		-- return element:PostUpdate(unit, myIncomingHeal, otherIncomingHeal, absorb, healAbsorb, hasOverAbsorb, hasOverHealAbsorb)
+		return element:PostUpdate(unit, myIncomingHeal, otherIncomingHeal)
 	end
 end
 
