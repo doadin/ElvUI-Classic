@@ -313,6 +313,34 @@ function M:UpdateSettings()
 		GuildInstanceDifficulty:SetScale(scale)
 	end
 
+	local MiniMapTrackingFrame = _G.MiniMapTrackingFrame
+	if (MiniMapTrackingFrame) then
+		if E.private.general.minimap.hideTracking then
+			MiniMapTrackingFrame:SetParent(E.HiddenFrame)
+		else
+			local pos = E.db.general.minimap.icons.tracking.position or "TOPLEFT"
+			local scale = E.db.general.minimap.icons.tracking.scale or 1
+			local x = E.db.general.minimap.icons.tracking.xOffset or 0
+			local y = E.db.general.minimap.icons.tracking.yOffset or 0
+
+			MiniMapTrackingFrame:ClearAllPoints()
+			MiniMapTrackingFrame:Point(pos, Minimap, pos, x, y)
+			MiniMapTrackingFrame:SetScale(scale)
+			MiniMapTrackingFrame:SetParent(Minimap)
+
+			if (_G.MiniMapTrackingBorder) then
+				_G.MiniMapTrackingBorder:Hide()
+			end
+
+			if (_G.MiniMapTrackingIcon) then
+				_G.MiniMapTrackingIcon:SetDrawLayer("ARTWORK")
+				_G.MiniMapTrackingIcon:SetTexCoord(unpack(E.TexCoords))
+				_G.MiniMapTrackingIcon:SetInside()
+				_G.MiniMapTrackingIcon:CreateBackdrop()
+			end
+		end
+	end
+
 	if _G.HelpOpenTicketButton and _G.HelpOpenWebTicketButton then
 		local scale = E.db.general.minimap.icons.ticket.scale or 1
 		_G.HelpOpenTicketButton:SetScale(scale)

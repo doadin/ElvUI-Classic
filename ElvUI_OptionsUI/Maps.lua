@@ -253,7 +253,7 @@ E.Options.args.maps = {
 					name = L["Minimap Buttons"],
 					args = {
 						calendar = {
-							order = 2,
+							order = 1,
 							type = "group",
 							name = L["Calendar"],
 							get = function(info) return E.db.general.minimap.icons.calendar[info[#info]] end,
@@ -309,6 +309,67 @@ E.Options.args.maps = {
 									name = L["yOffset"],
 									min = -50, max = 50, step = 1,
 									disabled = function() return (E.private.general.minimap.hideCalendar or not E.private.general.minimap.enable) end,
+								},
+
+							},
+						},
+						tracking = {
+							order = 2,
+							type = "group",
+							name = L["Tracking"],
+							get = function(info) return E.db.general.minimap.icons.tracking[info[#info]] end,
+							set = function(info, value) E.db.general.minimap.icons.tracking[info[#info]] = value; MM:UpdateSettings() end,
+							args = {
+								hideCalendar = {
+									order = 1,
+									type = "toggle",
+									name = L["Hide"],
+									get = function(info) return E.private.general.minimap.hideTracking end,
+									set = function(info, value) E.private.general.minimap.hideTracking = value; MM:UpdateSettings() end,
+									disabled = function() return not E.private.general.minimap.enable end,
+								},
+								spacer = {
+									order = 2,
+									type = "description",
+									name = "",
+									width = "full"
+								},
+								position = {
+									order = 3,
+									type = "select",
+									name = L["Position"],
+									disabled = function() return (E.private.general.minimap.hideTracking or not E.private.general.minimap.enable) end,
+									values = {
+										["LEFT"] = L["Left"],
+										["RIGHT"] = L["Right"],
+										["TOP"] = L["Top"],
+										["BOTTOM"] = L["Bottom"],
+										["TOPLEFT"] = L["Top Left"],
+										["TOPRIGHT"] = L["Top Right"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["BOTTOMRIGHT"] = L["Bottom Right"],
+									},
+								},
+								scale = {
+									order = 4,
+									type = "range",
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05,
+									disabled = function() return (E.private.general.minimap.hideTracking or not E.private.general.minimap.enable) end,
+								},
+								xOffset = {
+									order = 5,
+									type = "range",
+									name = L["xOffset"],
+									min = -50, max = 50, step = 1,
+									disabled = function() return (E.private.general.minimap.hideTracking or not E.private.general.minimap.enable) end,
+								},
+								yOffset = {
+									order = 6,
+									type = "range",
+									name = L["yOffset"],
+									min = -50, max = 50, step = 1,
+									disabled = function() return (E.private.general.minimap.hideTracking or not E.private.general.minimap.enable) end,
 								},
 
 							},

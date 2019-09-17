@@ -82,7 +82,7 @@ P.general = {
 				xOffset = 0,
 				yOffset = 0,
 			},
-			vehicleLeave = {
+			tracking = {
 				scale = 1,
 				position = 'BOTTOMLEFT',
 				xOffset = 2,

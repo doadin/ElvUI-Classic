@@ -21,6 +21,7 @@ V.general = {
 		enable = true,
 		hideClassHallReport = false,
 		hideCalendar = true,
+		hideTracking = true,
 	},
 	classColorMentionsSpeech = true,
 	raidUtility = true,
