@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...))
-if E.myclass ~= "WARLOCK" or E.myclass ~= "HUNTER" then return end
+if E.myclass ~= "WARLOCK" and E.myclass ~= "HUNTER" then return end
 
 local DT = E:GetModule("DataTexts")
 
