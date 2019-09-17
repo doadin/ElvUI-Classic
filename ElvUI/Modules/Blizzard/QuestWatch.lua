@@ -19,17 +19,32 @@ function B:SetQuestWatchFrameHeight()
 end
 
 function B:MoveQuestWatchFrame()
-	local QuestWatchFrameHolder = CreateFrame("Frame", "QuestWatchFrameHolder", E.UIParent)
+	local QuestWatchFrameHolder = CreateFrame("Frame", nil, E.UIParent)
 	QuestWatchFrameHolder:Size(130, 22)
 	QuestWatchFrameHolder:SetPoint('TOPRIGHT', E.UIParent, 'TOPRIGHT', -135, -300)
 
-	E:CreateMover(QuestWatchFrameHolder, 'QuestWatchFrameMover', L["Objective Frame"], nil, nil, nil, nil, nil, 'general,objectiveFrameGroup')
+	E:CreateMover(QuestWatchFrameHolder, 'QuestWatchFrameMover', L["Quest Objective Frame"], nil, nil, nil, nil, nil, 'general,objectiveFrameGroup')
+
+	local QuestTimerFrameHolder = CreateFrame("Frame", nil, E.UIParent)
+	QuestTimerFrameHolder:Size(158, 72)
+	QuestTimerFrameHolder:SetPoint('TOPRIGHT', E.UIParent, 'TOPRIGHT', -135, -300)
+
+	E:CreateMover(QuestTimerFrameHolder, 'QuestTimerFrameMover', L["Quest Timer Frame"], nil, nil, nil, nil, nil, 'general,objectiveFrameGroup')
+
 	local QuestWatchFrameMover = _G.QuestWatchFrameMover
+	local QuestTimerFrameMover = _G.QuestTimerFrameMover
 	local QuestWatchFrame = _G.QuestWatchFrame
+	local QuestTimerFrame = _G.QuestTimerFrame
+
 	QuestWatchFrameHolder:SetAllPoints(QuestWatchFrameMover)
 
 	QuestWatchFrame:ClearAllPoints()
 	QuestWatchFrame:SetAllPoints(QuestWatchFrameHolder)
+
+	QuestTimerFrameHolder:SetAllPoints(QuestTimerFrameMover)
+
+	QuestTimerFrame:ClearAllPoints()
+	QuestTimerFrame:SetAllPoints(QuestTimerFrameHolder)
 
 	B:SetQuestWatchFrameHeight()
 end

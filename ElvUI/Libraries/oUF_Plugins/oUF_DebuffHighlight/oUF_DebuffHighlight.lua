@@ -19,12 +19,11 @@ local function GetDebuffType(unit, filter, filterTable)
 	while true do
 		local name, texture, _, debufftype, _,_,_,_,_, spellID = UnitAura(unit, i, "HARMFUL")
 		if not texture then break end
-
 		local filterSpell = filterTable[spellID] or filterTable[name]
 
 		if(filterTable and filterSpell and filterSpell.enable) then
 			return debufftype, texture, true, filterSpell.style, filterSpell.color
-		elseif debufftype and (not filter or (filter and dispellist[debufftype])) and not blackList[name] then
+		elseif debufftype and (not filter or (filter and dispellist[debufftype])) then
 			return debufftype, texture
 		end
 		i = i + 1
@@ -35,6 +34,7 @@ local function Update(object, event, unit)
 	if unit ~= object.unit then return; end
 
 	local debuffType, texture, wasFiltered, style, color = GetDebuffType(unit, object.DebuffHighlightFilter, object.DebuffHighlightFilterTable)
+
 	if(wasFiltered) then
 		if style == "GLOW" and object.DBHGlow then
 			object.DBHGlow:Show()
@@ -88,9 +88,9 @@ end
 local function Disable(object)
 	object:UnregisterEvent("UNIT_AURA", Update)
 
-	object.DBHGlow:Hide()
-	object.DebuffHighlightBackdrop:Hide()
-	object.DebuffHighlight:Hide()
+	if object.DBHGlow then object.DBHGlow:Hide() end
+	if object.DebuffHighlightBackdrop then object.DebuffHighlightBackdrop:Hide() end
+	if object.DebuffHighlight then object.DebuffHighlight:Hide() end
 end
 
 oUF:AddElement('DebuffHighlight', Update, Enable, Disable)
