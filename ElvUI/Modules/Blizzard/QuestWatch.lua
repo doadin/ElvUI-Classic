@@ -6,7 +6,14 @@ local _G = _G
 local min = math.min
 --WoW API / Variables
 local CreateFrame = CreateFrame
+local GetNumQuestWatches = GetNumQuestWatches
+local GetQuestIndexForWatch = GetQuestIndexForWatch
+local GetNumQuestLeaderBoards = GetNumQuestLeaderBoards
 local GetScreenHeight = GetScreenHeight
+local ShowUIPanel = ShowUIPanel
+local QuestLog_SetSelection = QuestLog_SetSelection
+local QuestLog_Update = QuestLog_Update
+local hooksecurefunc = hooksecurefunc
 
 local ClickFrames = {}
 
@@ -52,7 +59,7 @@ function B:MoveQuestWatchFrame()
 end
 
 function B:OnQuestClick()
-	ShowUIPanel(QuestLogFrame)
+	ShowUIPanel(_G.QuestLogFrame)
 
 	QuestLog_SetSelection(self.Quest)
 
