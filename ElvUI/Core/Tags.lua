@@ -638,16 +638,16 @@ end
 
 ElvUF.Tags.Events['happiness:full'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:full'] = function(unit)
-    local hasPetUI, isHunterPet = HasPetUI()
-    if (unit == 'pet' and hasPetUI and isHunterPet) then
+	local hasPetUI, isHunterPet = HasPetUI()
+	if (unit == 'pet' and hasPetUI and isHunterPet) then
 		return _G['PET_HAPPINESS'..GetPetHappiness()]
 	end
 end
 
 ElvUF.Tags.Events['happiness:icon'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:icon'] = function(unit)
-    local hasPetUI, isHunterPet = HasPetUI()
-    if (unit == 'pet' and hasPetUI and isHunterPet) then
+	local hasPetUI, isHunterPet = HasPetUI()
+	if (unit == 'pet' and hasPetUI and isHunterPet) then
 		local left, right, top, bottom
 		local happiness = GetPetHappiness()
 
@@ -665,8 +665,8 @@ end
 
 ElvUF.Tags.Events['happiness:discord'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:discord'] = function(unit)
-    local hasPetUI, isHunterPet = HasPetUI()
-    if (unit == 'pet' and hasPetUI and isHunterPet) then
+	local hasPetUI, isHunterPet = HasPetUI()
+	if (unit == 'pet' and hasPetUI and isHunterPet) then
 		local happiness = GetPetHappiness()
 
 		if(happiness == 1) then
@@ -681,8 +681,8 @@ end
 
 ElvUF.Tags.Events['happiness:color'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:color'] = function(unit)
-    local hasPetUI, isHunterPet = HasPetUI()
-    if (unit == 'pet' and hasPetUI and isHunterPet) then
+	local hasPetUI, isHunterPet = HasPetUI()
+	if (unit == 'pet' and hasPetUI and isHunterPet) then
 		return Hex(_COLORS.happiness[GetPetHappiness()])
 	end
 end
@@ -914,16 +914,16 @@ end
 
 ElvUF.Tags.Events['classification:icon'] = 'UNIT_NAME_UPDATE'
 ElvUF.Tags.Methods['classification:icon'] = function(unit)
-    if UnitIsPlayer(unit) then
-        return
-    end
+	if UnitIsPlayer(unit) then
+		return
+	end
 
-    local classification = UnitClassification(unit)
-    if classification == "elite" or classification == "worldboss" then
-        return CreateAtlasMarkup("nameplates-icon-elite-gold", 32, 32)
-    elseif classification == "rareelite" or classification == 'rare' then
-        return CreateAtlasMarkup("nameplates-icon-elite-silver", 32, 32)
-    end
+	local classification = UnitClassification(unit)
+	if classification == "elite" or classification == "worldboss" then
+		return CreateAtlasMarkup("nameplates-icon-elite-gold", 32, 32)
+	elseif classification == "rareelite" or classification == 'rare' then
+		return CreateAtlasMarkup("nameplates-icon-elite-silver", 32, 32)
+	end
 end
 
 ElvUF.Tags.SharedEvents.PLAYER_GUILD_UPDATE = true
