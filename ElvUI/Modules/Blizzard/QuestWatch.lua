@@ -60,9 +60,7 @@ end
 
 function B:OnQuestClick()
 	ShowUIPanel(_G.QuestLogFrame)
-
 	QuestLog_SetSelection(self.Quest)
-
 	QuestLog_Update()
 end
 
