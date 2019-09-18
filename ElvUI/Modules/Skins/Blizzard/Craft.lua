@@ -22,19 +22,17 @@ local function LoadSkin()
 	CraftFrame:StripTextures(true)
 	CraftFrame:CreateBackdrop('Transparent')
 	CraftFrame.backdrop:Point('TOPLEFT', 10, -12)
-	CraftFrame.backdrop:Point('BOTTOMRIGHT', -34, 70)
+	CraftFrame.backdrop:Point('BOTTOMRIGHT', -32, 76)
 
 	CraftRankFrameBorder:StripTextures()
-
 	CraftRankFrame:StripTextures()
+	CraftRankFrame:Size(322, 16)
+	CraftRankFrame:ClearAllPoints()
+	CraftRankFrame:Point('TOP', -10, -45)
 	CraftRankFrame:CreateBackdrop()
-	CraftRankFrame:SetStatusBarTexture(E.media.normTex)
+	CraftRankFrame:SetStatusBarTexture(E['media'].normTex)
+	CraftRankFrame:SetStatusBarColor(0.13, 0.35, 0.80)
 	E:RegisterStatusBar(CraftRankFrame)
-
-	--CraftRankFrameSkillName:Hide()
-	--CraftRankFrameSkillRank:ClearAllPoints()
-	--CraftRankFrameSkillRank:SetParent(CraftRankFrame)
-	--CraftRankFrameSkillRank:Point('CENTER', CraftRankFrame, 'CENTER', 58, 0)
 
 	CraftListScrollFrame:StripTextures()
 
@@ -90,25 +88,24 @@ local function LoadSkin()
 		local name = _G['CraftReagent'..i..'Name']
 		local nameFrame = _G['CraftReagent'..i..'NameFrame']
 
-		reagent:SetTemplate('Default')
-		reagent:StyleButton(nil, true)
-		reagent:Size(143, 40)
-
-		icon.backdrop = CreateFrame('Frame', nil, reagent)
-		icon.backdrop:SetTemplate('Default')
-		icon.backdrop:Point('TOPLEFT', icon, -1, 1)
-		icon.backdrop:Point('BOTTOMRIGHT', icon, 1, -1)
-
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetDrawLayer('OVERLAY')
-		icon:Size(E.PixelMode and 38 or 32)
-		icon:Point('TOPLEFT', E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
+
+		icon.backdrop = CreateFrame('Frame', nil, reagent)
+		icon.backdrop:SetFrameLevel(reagent:GetFrameLevel() - 1)
+		icon.backdrop:SetTemplate('Default')
+		icon.backdrop:SetOutside(icon)
+
+		--icon:SetTexCoord(unpack(E.TexCoords))
+		--icon:SetDrawLayer('OVERLAY')
+		--icon:Size(E.PixelMode and 38 or 32)
+		--icon:Point('TOPLEFT', E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
 		icon:SetParent(icon.backdrop)
 
 		count:SetParent(icon.backdrop)
 		count:SetDrawLayer('OVERLAY')
 
-		name:Point('LEFT', nameFrame, 'LEFT', 20, 0)
+		--name:Point('LEFT', nameFrame, 'LEFT', 20, 0)
 
 		nameFrame:Kill()
 	end
@@ -120,7 +117,7 @@ local function LoadSkin()
 	CraftReagent8:Point('LEFT', CraftReagent7, 'RIGHT', 3, 0)
 
 	hooksecurefunc('CraftFrame_Update', function()
-		CraftRankFrame:SetStatusBarColor(0.13, 0.28, 0.85)
+		--CraftRankFrame:SetStatusBarColor(0.13, 0.28, 0.85)
 
 		for i = 1, CRAFTS_DISPLAYED do
 			local button = _G['Craft'..i]
@@ -157,6 +154,9 @@ local function LoadSkin()
 			CraftReagentLabel:SetAlpha(0)
 			CraftIcon:SetAlpha(0)
 		end
+
+		CraftIcon:Size(40)
+		CraftIcon:Point('TOPLEFT', 2, -3)
 
 		local skillLink = GetCraftItemLink(id)
 		if skillLink then
@@ -195,7 +195,7 @@ local function LoadSkin()
 			end
 		end
 
-		if (numReagents < 4) then
+		if (numReagents < 5) then
 			CraftDetailScrollFrameScrollBar:Hide();
 			CraftDetailScrollFrameTop:Hide();
 			CraftDetailScrollFrameBottom:Hide();
