@@ -80,7 +80,7 @@ local function OnEvent(self, event, ...)
 
 	if not name then
 		waitingItemID = itemID
-		self:UnregisterEvent('GET_ITEM_INFO_RECEIVED')
+		self:RegisterEvent('GET_ITEM_INFO_RECEIVED')
 	end
 
 	lastPanel = self
