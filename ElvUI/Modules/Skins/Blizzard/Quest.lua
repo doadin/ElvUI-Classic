@@ -278,7 +278,7 @@ local function LoadSkin()
 
 		local rewardsCount = numQuestChoices + numQuestRewards
 		if rewardsCount > 0 then
-			local button, name, link
+			local button, link
 			local questItemName = questState..'Item'
 
 			for i = 1, rewardsCount do
@@ -378,49 +378,22 @@ local function LoadSkin()
 
 	_G.QuestLogFrame:CreateBackdrop('Transparent')
 	_G.QuestLogFrame.backdrop:Point('TOPLEFT', 11, -12)
-	_G.QuestLogFrame.backdrop:Point('BOTTOMRIGHT', -32, 0)
+	_G.QuestLogFrame.backdrop:Point('BOTTOMRIGHT', -32, 45)
 
 	_G.QuestLogListScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestLogListScrollFrame.backdrop:Point('TOPLEFT', -1, 2)
-	_G.QuestLogListScrollFrame:Width(303)
 
 	_G.QuestLogDetailScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestLogDetailScrollFrame.backdrop:Point('TOPLEFT', -1, 2)
-	_G.QuestLogDetailScrollFrame:Size(303)
 
 	_G.QuestDetailScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestDetailScrollFrame.backdrop:Point('TOPLEFT', -6, 2)
-	_G.QuestDetailScrollFrame:Size(300, 396)
 
 	_G.QuestRewardScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestRewardScrollFrame.backdrop:Point('TOPLEFT', -6, 2)
-	_G.QuestRewardScrollFrame:Size(300, 396)
 
 	_G.QuestProgressScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestProgressScrollFrame.backdrop:Point('TOPLEFT', -6, 2)
-	_G.QuestProgressScrollFrame:Size(300, 396)
-
-	_G.QuestLogNoQuestsText:ClearAllPoints()
-	_G.QuestLogNoQuestsText:Point('CENTER', EmptyQuestLogFrame, 'CENTER', -45, 65)
-
-	_G.QuestLogFrameAbandonButton:Point('BOTTOMLEFT', 18, 7)
-	_G.QuestLogFrameAbandonButton:Width(107)
-	_G.QuestLogFrameAbandonButton:SetText(ABANDON_QUEST_ABBREV)
-
-	_G.QuestFramePushQuestButton:ClearAllPoints()
-	_G.QuestFramePushQuestButton:Point('LEFT', QuestLogFrameAbandonButton, 'RIGHT', 4, 0)
-	_G.QuestFramePushQuestButton:Width(106)
-	_G.QuestFramePushQuestButton:SetText(SHARE_QUEST_ABBREV)
-
-	_G.QuestFrameExitButton:Point('BOTTOMRIGHT', -38, 7)
-	_G.QuestFrameExitButton:Width(107)
-
-	_G.QuestFrameAcceptButton:Point('BOTTOMLEFT', 18, 7)
-	_G.QuestFrameDeclineButton:Point('BOTTOMRIGHT', -38, 7)
-	_G.QuestFrameCompleteButton:Point('BOTTOMLEFT', 18, 7)
-	_G.QuestFrameGoodbyeButton:Point('BOTTOMRIGHT', -38, 7)
-	_G.QuestFrameCompleteQuestButton:Point('BOTTOMLEFT', 18, 7)
-	_G.QuestFrameCancelButton:Point('BOTTOMRIGHT', -38, 7)
 
 	_G.QuestLogSkillHighlight:StripTextures()
 
