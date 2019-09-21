@@ -424,8 +424,9 @@ local function LoadSkin()
 	S:HandleCloseButton(_G.QuestLogFrameCloseButton, _G.QuestLogFrame.backdrop)
 	_G.QuestLogFrameCloseButton:Point('TOPRIGHT', -28, -9)
 
-	for i = 1, _G.QUESTS_DISPLAYED do
-		local questLogTitle = _G['QuestLogTitle'..i]
+	local index = 1
+	while _G['QuestLogTitle'..index] do
+		local questLogTitle = _G['QuestLogTitle'..index]
 
 		questLogTitle:SetNormalTexture(E.Media.Textures.PlusButton)
 		questLogTitle.SetNormalTexture = E.noop
@@ -438,9 +439,9 @@ local function LoadSkin()
 
 		questLogTitle:Width(300)
 
-		_G['QuestLogTitle'..i..'Highlight']:SetAlpha(0)
+		_G['QuestLogTitle'..index..'Highlight']:SetAlpha(0)
 
-		_G['QuestLogTitle'..i..'Tag']:Point('RIGHT', -30, 0)
+		_G['QuestLogTitle'..index..'Tag']:Point('RIGHT', -30, 0)
 
 		hooksecurefunc(questLogTitle, 'SetNormalTexture', function(self, texture)
 			local tex = self:GetNormalTexture()
@@ -453,6 +454,8 @@ local function LoadSkin()
 				tex:SetTexture()
 			end
 		end)
+
+		index = index + 1
 	end
 
 	local QuestLogCollapseAllButton = _G.QuestLogCollapseAllButton
