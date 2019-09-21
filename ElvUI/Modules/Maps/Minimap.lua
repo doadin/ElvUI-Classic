@@ -356,20 +356,21 @@ local function MinimapPostDrag()
 end
 
 function M:Initialize()
-	menuFrame:SetTemplate("Transparent", true)
+	self.Initialized = true
+
 	self:UpdateSettings()
 
 	if not E.private.general.minimap.enable then
-		_G.Minimap:SetMaskTexture(186178) -- textures/minimapmask.blp
+		Minimap:SetMaskTexture([[Interface\CharacterFrame\TempPortraitAlphaMask]])
 		return
 	end
-
-	self.Initialized = true
 
 	--Support for other mods
 	function GetMinimapShape()
 		return 'SQUARE'
 	end
+
+	menuFrame:SetTemplate("Transparent", true)
 
 	local Minimap = _G.Minimap
 	local mmholder = CreateFrame('Frame', 'MMHolder', Minimap)
