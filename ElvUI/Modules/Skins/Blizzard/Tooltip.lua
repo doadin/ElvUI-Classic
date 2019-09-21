@@ -8,7 +8,7 @@ local _G = _G
 local pairs = pairs
 --WoW API / Variables
 
-local function LoadSkin()
+function S:Tooltip_LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tooltip ~= true then return end
 
 	S:HandleCloseButton(_G.ItemRefCloseButton)
@@ -58,4 +58,4 @@ local function LoadSkin()
 	TT:SecureHookScript(GameTooltip, 'OnUpdate', 'CheckBackdropColor')
 end
 
-S:AddCallback('SkinTooltip', LoadSkin)
+S:AddCallback('SkinTooltip', S.Tooltip_LoadSkin)
