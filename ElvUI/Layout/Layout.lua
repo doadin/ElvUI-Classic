@@ -498,4 +498,4 @@ function LO:CreateMinimapPanels()
 	DT:RegisterPanel(f, 1, 'ANCHOR_BOTTOMRIGHT', 0, -10)
 end
 
-E:RegisterModule(LO:GetName())
+--E:RegisterModule(LO:GetName())
