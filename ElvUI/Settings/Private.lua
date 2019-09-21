@@ -23,6 +23,7 @@ V.general = {
 		hideCalendar = true,
 		hideTracking = true,
 	},
+	worldMap = true,
 	classColorMentionsSpeech = true,
 	raidUtility = true,
 	voiceOverlay = true,

@@ -30,8 +30,16 @@ E.Options.args.maps = {
 					name = L["General"],
 					guiInline = true,
 					args = {
-						smallerWorldMap = {
+						enable = {
 							order = 1,
+							type = "toggle",
+							name = L["Enable"],
+							desc = L["Enable/Disable the World Map Enhancements."],
+							get = function(info) return E.private.general.worldMap end,
+							set = function(info, value) E.private.general.worldMap = value; E:StaticPopup_Show("PRIVATE_RL") end,
+						},
+						smallerWorldMap = {
+							order = 2,
 							type = "toggle",
 							name = L["Smaller World Map"],
 							desc = L["Make the world map smaller."],
@@ -39,7 +47,7 @@ E.Options.args.maps = {
 							set = function(info, value) E.global.general.smallerWorldMap = value; E:StaticPopup_Show("GLOBAL_RL") end,
 						},
 						smallerWorldMapScale = {
-							order = 2,
+							order = 3,
 							type = "range",
 							name = L["Smaller World Map Scale"],
 							isPercent = true,
@@ -48,12 +56,12 @@ E.Options.args.maps = {
 							set = function(info, value) E.global.general.smallerWorldMapScale = value; E:StaticPopup_Show("GLOBAL_RL") end,
 						},
 						spacer1 = {
-							order = 3,
+							order = 4,
 							type = "description",
 							name = ""
 						},
 						fadeMapWhenMoving = {
-							order = 4,
+							order = 5,
 							type = "toggle",
 							name = L["MAP_FADE_TEXT"],
 							get = function(info) return E.global.general.fadeMapWhenMoving end,
@@ -63,7 +71,7 @@ E.Options.args.maps = {
 							end,
 						},
 						mapAlphaWhenMoving = {
-							order = 5,
+							order = 6,
 							type = "range",
 							name = L["Map Opacity When Moving"],
 							isPercent = true,
