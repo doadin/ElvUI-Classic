@@ -72,6 +72,9 @@ function E:UnitHealthValues(unit)
 	if _G.RealMobHealth and unit and not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) then
 		local c, m, _, _ = _G.RealMobHealth.GetUnitHealth(unit);
 		return c, m
+	elseif _G.MobHealthFrame and unit and not UnitIsPlayer(unit) and not UnitPlayerControlled(unit) then
+		local cur, full = _G.MI2_GetMobData(UnitName(unit), UnitLevel(unit), unit).healthCur, _G.MI2_GetMobData(UnitName(unit), UnitLevel(unit), unit).healthMax;
+		return cur, full
 	else
 		return UnitHealth(unit), UnitHealthMax(unit)
 	end
