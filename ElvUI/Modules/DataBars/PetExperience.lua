@@ -65,6 +65,8 @@ function mod:PetExperienceBar_OnEnter()
 	GameTooltip:SetOwner(self, 'ANCHOR_CURSOR', 0, -4)
 
 	local cur, max = mod:GetXP('pet')
+	if max <= 0 then max = 1 end
+
 	GameTooltip:AddLine(L["Pet Experience"])
 	GameTooltip:AddLine(' ')
 
