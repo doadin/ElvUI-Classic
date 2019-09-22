@@ -225,10 +225,10 @@ local function Enable(self)
 		self:RegisterEvent('UNIT_MAXHEALTH', Path)
 
 		local function MultiUpdate(...)
-			for i = 1, select('#', ...) do
-				for _, frame in ipairs(oUF.objects) do
-					if frame.unit and (frame.HealthPrediction) and UnitGUID(frame.unit) == select(i, ...) then
-						Path(frame, nil, frame.unit)
+			if self.HealthPrediction and self:IsVisible() then
+				for i = 1, select('#', ...) do
+					if self.unit and UnitGUID(self.unit) == select(i, ...) then
+						Path(self, nil, self.unit)
 					end
 				end
 			end
