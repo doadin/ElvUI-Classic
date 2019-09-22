@@ -926,7 +926,7 @@ if( playerClass == "PRIEST" ) then
 			if( spellName == Renew or spellName == GreaterHealHot ) then
 				healModifier = healModifier + talentData[ImprovedRenew].current
 
-				ticks = hotData[spellID].ticks
+				local ticks = hotData[spellID].ticks
 				duration = 15
 
 				healAmount = healAmount / ticks
@@ -1184,7 +1184,7 @@ function HealComm:UNIT_AURA(unit)
 	local increase, decrease, playerIncrease, playerDecrease = 1, 1, 1, 1
 
 	-- Scan debuffs
-	id = 1
+	local id = 1
 	while( true ) do
 		local _, _, stack, _, _, _, _, _, _, spellID = UnitAura(unit, id, "HARMFUL")
 		if( not spellID ) then break end
