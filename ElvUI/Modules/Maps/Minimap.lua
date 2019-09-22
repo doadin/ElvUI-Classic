@@ -381,7 +381,7 @@ function M:Initialize()
 	if _G.TimeManagerClockButton then _G.TimeManagerClockButton:Kill() end
 	if _G.FeedbackUIButton then _G.FeedbackUIButton:Kill() end
 
-	E:CreateMover(_G.MMHolder, 'MinimapMover', L["Minimap"], nil, nil, MinimapPostDrag, nil, nil, 'maps,minimap')
+	E:CreateMover(mmholder, 'MinimapMover', L["Minimap"], nil, nil, MinimapPostDrag, nil, nil, 'maps,minimap')
 
 	_G.MinimapCluster:EnableMouse(false)
 	Minimap:EnableMouseWheel(true)

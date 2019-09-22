@@ -60,6 +60,7 @@ function mod:Initialize()
 
 	self:LoadExperienceBar()
 	self:LoadReputationBar()
+	self:LoadPetExperienceBar()
 
 	self:RegisterEvent("PLAYER_LEVEL_UP")
 end

@@ -141,7 +141,7 @@ P.databars = {
 		reverseFill = false,
 		hideInCombat = false,
 	},
-	honor = {
+	petExperience = {
 		enable = true,
 		width = 10,
 		height = 180,
@@ -152,21 +152,7 @@ P.databars = {
 		mouseover = false,
 		orientation = 'VERTICAL',
 		reverseFill = false,
-		hideInCombat = false,
-		hideOutsidePvP = false,
-		hideBelowMaxLevel = false,
-	},
-	azerite = {
-		enable = true,
-		width = 10,
-		height = 180,
-		textFormat = 'NONE',
-		textSize = 11,
-		font = "PT Sans Narrow",
-		fontOutline = "NONE",
-		mouseover = false,
-		orientation = 'VERTICAL',
-		reverseFill = false,
+		hideAtMaxLevel = true,
 		hideInCombat = false,
 	},
 }

@@ -506,6 +506,23 @@ ElvUF.Tags.Methods['happiness:color'] = function(unit)
 	end
 end
 
+ElvUF.Tags.Events['loyalty'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
+ElvUF.Tags.Methods['loyalty'] = function(unit)
+	local hasPetUI, isHunterPet = HasPetUI()
+	if (unit == 'pet' and hasPetUI and isHunterPet) then
+		local loyalty = gsub(GetPetLoyalty(), '.-(%d).*', '%1')
+		return loyalty
+	end
+end
+
+ElvUF.Tags.Events['diet'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
+ElvUF.Tags.Methods['diet'] = function(unit)
+	local hasPetUI, isHunterPet = HasPetUI()
+	if (unit == 'pet' and hasPetUI and isHunterPet) then
+		return GetPetFoodTypes()
+	end
+end
+
 local unitStatus = {}
 ElvUF.Tags.OnUpdateThrottle['statustimer'] = 1
 ElvUF.Tags.Methods['statustimer'] = function(unit)

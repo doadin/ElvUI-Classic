@@ -374,7 +374,7 @@ local function LoadSkin()
 
 	_G.QuestFrame:CreateBackdrop('Transparent')
 	_G.QuestFrame.backdrop:Point('TOPLEFT', 11, -12)
-	_G.QuestFrame.backdrop:Point('BOTTOMRIGHT', -32, 0)
+	_G.QuestFrame.backdrop:Point('BOTTOMRIGHT', -32, 66)
 
 	_G.QuestLogFrame:CreateBackdrop('Transparent')
 	_G.QuestLogFrame.backdrop:Point('TOPLEFT', 11, -12)
