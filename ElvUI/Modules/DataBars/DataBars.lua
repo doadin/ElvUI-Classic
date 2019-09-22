@@ -43,6 +43,7 @@ end
 function mod:UpdateDataBarDimensions()
 	self:UpdateExperienceDimensions()
 	self:UpdateReputationDimensions()
+	self:UpdatePetExperienceDimensions()
 end
 
 function mod:PLAYER_LEVEL_UP(level)

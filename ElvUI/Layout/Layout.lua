@@ -439,8 +439,8 @@ end
 
 function LO:CreateMinimapPanels()
 	local Minimap = _G.Minimap
-	local lminipanel = CreateFrame('Frame', 'LeftMiniPanel', Minimap)
 
+	local lminipanel = CreateFrame('Frame', 'LeftMiniPanel', Minimap)
 	lminipanel:Point('TOPLEFT', Minimap, 'BOTTOMLEFT', -E.Border, -E.Spacing*3)
 	lminipanel:Point('BOTTOMRIGHT', Minimap, 'BOTTOM', 0, -(E.Spacing*3 + PANEL_HEIGHT))
 	lminipanel:SetTemplate(E.db.datatexts.panelTransparency and 'Transparent' or 'Default', true)
