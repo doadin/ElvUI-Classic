@@ -390,6 +390,10 @@ local function filterData(spells, filterGUID, bitFlag, time, ignoreGUID)
 	local healAmount = 0
 	local currentTime = GetTime()
 
+	if not spells then
+		return healAmount
+	end
+
 	for _, pending in pairs(spells) do
 		if( pending.bitType and bit.band(pending.bitType, bitFlag) > 0 ) then
 			for i=1, #(pending), 5 do
