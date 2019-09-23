@@ -26,17 +26,15 @@ function S:Tooltip_LoadSkin()
 		_G.ItemRefTooltip,
 		_G.ItemRefShoppingTooltip1,
 		_G.ItemRefShoppingTooltip2,
-		_G.ItemRefShoppingTooltip3,
 		_G.AutoCompleteBox,
 		_G.FriendsTooltip,
 		_G.ShoppingTooltip1,
 		_G.ShoppingTooltip2,
-		_G.ShoppingTooltip3,
-		_G.ReputationParagonTooltip,
 		_G.EmbeddedItemTooltip,
 		-- already have locals
 		GameTooltip,
 	}
+
 	for _, tt in pairs(tooltips) do
 		TT:SecureHookScript(tt, 'OnShow', 'SetStyle')
 	end

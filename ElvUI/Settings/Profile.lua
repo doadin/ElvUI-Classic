@@ -68,7 +68,6 @@ P.general = {
 				position = 'TOPRIGHT',
 				xOffset = 0,
 				yOffset = 0,
-				hide = true,
 			},
 			mail = {
 				scale = 1,
@@ -76,18 +75,11 @@ P.general = {
 				xOffset = 3,
 				yOffset = 4,
 			},
-			difficulty = {
-				scale = 1,
-				position = 'TOPLEFT',
-				xOffset = 0,
-				yOffset = 0,
-			},
 			tracking = {
 				scale = 1,
 				position = 'BOTTOMLEFT',
 				xOffset = 2,
 				yOffset = 2,
-				hide = false,
 			},
 			ticket = {
 				scale = 1,

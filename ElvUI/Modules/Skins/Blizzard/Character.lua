@@ -90,19 +90,12 @@ local function LoadSkin()
 		end
 	end
 
-	hooksecurefunc('PaperDollItemSlotButton_Update', function(self, cooldownOnly)
-		if cooldownOnly then return end
-
-		local textureName = GetInventoryItemTexture('player', self:GetID())
-		if textureName then
-			local rarity = GetInventoryItemQuality('player', self:GetID())
-			if rarity and rarity > 1 then
-				self:SetBackdropBorderColor(GetItemQualityColor(rarity))
-			else
-				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
-			end
+	hooksecurefunc('PaperDollItemSlotButton_Update', function(self)
+		local rarity = GetInventoryItemQuality('player', self:GetID())
+		if rarity and rarity > 1 then
+			E:SetBackdropBorderColor(self, GetItemQualityColor(rarity))
 		else
-			self:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			E:SetBackdropBorderColor(self, unpack(E.media.bordercolor))
 		end
 	end)
 

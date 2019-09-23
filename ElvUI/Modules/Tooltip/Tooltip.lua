@@ -568,7 +568,6 @@ function TT:SetStyle(tt)
 
 	local r, g, b = E:GetBackdropColor(tt)
 	tt:SetBackdropColor(r, g, b, self.db.colorAlpha)
-	tt:SetBackdropBorderColor(unpack(E.media.bordercolor))
 end
 
 function TT:MODIFIER_STATE_CHANGED(_, key)
