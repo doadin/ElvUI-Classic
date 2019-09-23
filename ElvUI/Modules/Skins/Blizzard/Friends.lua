@@ -20,6 +20,13 @@ for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
 	localizedTable[v] = k
 end
 
+local function SkinFriendRequest(frame)
+	if frame.isSkinned then return; end
+	S:HandleButton(frame.DeclineButton, nil, true)
+	S:HandleButton(frame.AcceptButton)
+	frame.isSkinned = true
+end
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.friends ~= true then return end
 
@@ -81,8 +88,14 @@ local function LoadSkin()
 	RaiseFrameLevel(_G.ScrollOfResurrectionSelectionFrameTargetEditBox)
 
 	--Pending invites
-	S:HandleButton(_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton)
-	hooksecurefunc(_G.FriendsFrameFriendsScrollFrame.invitePool, 'Acquire', function()
+	S:HandleButton(_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton, true)
+	_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton:SetScript('OnMouseUp', nil)
+	_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton:SetScript('OnMouseDown', nil)
+	S:HandleNextPrevButton(_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton.RightArrow)
+	S:HandleNextPrevButton(_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton.DownArrow)
+	_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton.RightArrow:SetPoint("LEFT", 11, 0)
+	_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton.DownArrow:SetPoint("TOPLEFT", 8, -10)
+	hooksecurefunc(_G.FriendsFrameFriendsScrollFrame.invitePool, "Acquire", function()
 		for object in pairs(_G.FriendsFrameFriendsScrollFrame.invitePool.activeObjects) do
 			SkinFriendRequest(object)
 		end
