@@ -7,13 +7,13 @@ local _G = _G
 local format = format
 local min = min
 --WoW API / Variables
-local GetXPExhaustion = GetXPExhaustion
 local GetExpansionLevel = GetExpansionLevel
 local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE
 local InCombatLockdown = InCombatLockdown
 local CreateFrame = CreateFrame
 
 function mod:UpdatePetExperience(event)
+	if E.myclass ~= 'HUNTER' then return end
 	if not mod.db.petExperience.enable then return end
 
 	local bar = self.petExpBar
@@ -79,6 +79,7 @@ end
 function mod:PetExperienceBar_OnClick() end
 
 function mod:UpdatePetExperienceDimensions()
+	if E.myclass ~= 'HUNTER' then return end
 	self.petExpBar:Width(self.db.petExperience.width)
 	self.petExpBar:Height(self.db.petExperience.height)
 
@@ -101,6 +102,7 @@ function mod:UpdatePetExperienceDimensions()
 end
 
 function mod:EnableDisable_PetExperienceBar()
+	if E.myclass ~= 'HUNTER' then return end
 	if (UnitLevel('pet') ~= MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()] or not self.db.petExperience.hideAtMaxLevel) and self.db.petExperience.enable then
 		self:UpdatePetExperience()
 		E:EnableMover(self.petExpBar.mover:GetName())
@@ -111,6 +113,7 @@ function mod:EnableDisable_PetExperienceBar()
 end
 
 function mod:LoadPetExperienceBar()
+	if E.myclass ~= 'HUNTER' then return end
 	self.petExpBar = self:CreateBar('ElvUI_PetExperienceBar', self.PetExperienceBar_OnEnter, self.PetExperienceBar_OnClick, 'LEFT', _G.LeftChatPanel, 'RIGHT', -E.Border + E.Spacing*3, 0)
 	self.petExpBar.statusBar:SetStatusBarColor(1, 1, .41, .8)
 
