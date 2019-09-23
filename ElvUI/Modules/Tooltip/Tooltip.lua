@@ -480,6 +480,11 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 		local left = " "
 		local right = " "
 		local bankCount = " "
+		local quality = select(3, GetItemInfo(link))
+
+		if quality and quality > 1 then
+			tt:SetBackdropBorderColor(GetItemQualityColor(quality))
+		end
 
 		if link ~= nil and self.db.spellID then
 			left = (("|cFFCA3C3C%s|r %s"):format(_G.ID, link)):match(":(%w+)")
@@ -563,6 +568,7 @@ function TT:SetStyle(tt)
 
 	local r, g, b = E:GetBackdropColor(tt)
 	tt:SetBackdropColor(r, g, b, self.db.colorAlpha)
+	tt:SetBackdropBorderColor(unpack(E.media.bordercolor))
 end
 
 function TT:MODIFIER_STATE_CHANGED(_, key)
