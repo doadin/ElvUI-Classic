@@ -76,17 +76,19 @@ local function LoadSkin()
 	HandleResistanceFrame('MagicResFrame')
 
 	for _, slot in pairs({ PaperDollItemsFrame:GetChildren() }) do
-		local icon = _G[slot:GetName()..'IconTexture']
-		local cooldown = _G[slot:GetName()..'Cooldown']
+		if slot:IsObjectType("Button") then
+			local icon = _G[slot:GetName()..'IconTexture']
+			local cooldown = _G[slot:GetName()..'Cooldown']
 
-		slot:StripTextures()
-		slot:SetTemplate('Default', true, true)
-		slot:StyleButton()
+			slot:StripTextures()
+			slot:SetTemplate('Default', true, true)
+			slot:StyleButton()
 
-		S:HandleIcon(icon)
+			S:HandleIcon(icon)
 
-		if cooldown then
-			E:RegisterCooldown(cooldown)
+			if cooldown then
+				E:RegisterCooldown(cooldown)
+			end
 		end
 	end
 
