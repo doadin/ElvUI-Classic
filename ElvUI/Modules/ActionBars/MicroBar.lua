@@ -117,6 +117,8 @@ function AB:UpdateMicroBarVisibility()
 	RegisterStateDriver(ElvUI_MicroBar.visibility, 'visibility', (self.db.microbar.enabled and visibility) or 'hide')
 end
 
+local VisibleMicroButtons = {}
+
 function AB:UpdateMicroPositionDimensions()
 	if not ElvUI_MicroBar then return end
 
@@ -124,25 +126,32 @@ function AB:UpdateMicroPositionDimensions()
 	local prevButton = ElvUI_MicroBar
 	local offset = E:Scale(E.PixelMode and 1 or 3)
 	local spacing = E:Scale(offset + self.db.microbar.buttonSpacing)
+	wipe(VisibleMicroButtons)
 
 	for i = 1, #MICRO_BUTTONS do
 		local button = _G[MICRO_BUTTONS[i]]
-		button:ClearAllPoints()
-
 		if button:IsShown() then
-			button:Size(self.db.microbar.buttonSize, self.db.microbar.buttonSize * 1.4)
-
-			if prevButton == ElvUI_MicroBar then
-				button:Point('TOPLEFT', ElvUI_MicroBar, 'TOPLEFT', offset, -offset)
-			elseif (i - 1) % self.db.microbar.buttonsPerRow == 0 then
-				button:Point('TOP', prevButton, 'BOTTOM', 0, -spacing)
-				numRows = numRows + 1
-			else
-				button:Point('LEFT', prevButton, 'RIGHT', spacing, 0)
-			end
-
-			prevButton = button
+			tinsert(VisibleMicroButtons, button:GetName())
 		end
+	end
+
+	for i = 1, #VisibleMicroButtons do
+		local button = _G[VisibleMicroButtons[i]]
+		local lastColumnButton = _G[VisibleMicroButtons[i - self.db.microbar.buttonsPerRow]]
+
+		button:ClearAllPoints()
+		button:Size(self.db.microbar.buttonSize, self.db.microbar.buttonSize * 1.4)
+
+		if prevButton == ElvUI_MicroBar then
+			button:Point('TOPLEFT', prevButton, 'TOPLEFT', offset, -offset)
+		elseif (i - 1) % self.db.microbar.buttonsPerRow == 0 then
+			button:Point('TOP', lastColumnButton, 'BOTTOM', 0, -spacing)
+			numRows = numRows + 1
+		else
+			button:Point('LEFT', prevButton, 'RIGHT', spacing, 0)
+		end
+
+		prevButton = button
 	end
 
 	if AB.db.microbar.mouseover and not ElvUI_MicroBar:IsMouseOver() then

@@ -6,7 +6,16 @@ local _G = _G
 local min = math.min
 --WoW API / Variables
 local CreateFrame = CreateFrame
+local GetNumQuestWatches = GetNumQuestWatches
+local GetQuestIndexForWatch = GetQuestIndexForWatch
+local GetNumQuestLeaderBoards = GetNumQuestLeaderBoards
 local GetScreenHeight = GetScreenHeight
+local ShowUIPanel = ShowUIPanel
+local QuestLog_SetSelection = QuestLog_SetSelection
+local QuestLog_Update = QuestLog_Update
+local hooksecurefunc = hooksecurefunc
+
+local ClickFrames = {}
 
 function B:SetQuestWatchFrameHeight()
 	local top = _G.QuestWatchFrame:GetTop() or 0
@@ -49,6 +58,63 @@ function B:MoveQuestWatchFrame()
 	B:SetQuestWatchFrameHeight()
 end
 
+function B:OnQuestClick()
+	ShowUIPanel(_G.QuestLogFrame)
+	QuestLog_SetSelection(self.Quest)
+	QuestLog_Update()
+end
+
+function B:SetClickFrame(index, quest, text)
+	if not ClickFrames[index] then
+		ClickFrames[index] = CreateFrame("Frame")
+	end
+
+	local Frame = ClickFrames[index]
+	Frame:SetScript("OnMouseUp", self.OnQuestClick)
+
+	Frame:SetAllPoints(text)
+	Frame.Quest = quest
+end
+
+function B:AddQuestClick()
+	local Index = 0
+
+	-- Reset clicks
+	for i = 1, 5 do
+		local Frame = ClickFrames[i]
+
+		if Frame then
+			Frame:SetScript("OnMouseUp", nil)
+		end
+	end
+
+	-- Set new clicks
+	for i = 1, GetNumQuestWatches() do
+		local Quest = GetQuestIndexForWatch(i)
+
+		if Quest then
+			local NumQuest = GetNumQuestLeaderBoards(Quest)
+
+			if NumQuest > 0 then
+				Index = Index + 1
+
+				local Text = _G["QuestWatchLine"..Index]
+
+				for j = 1, NumQuest do
+					Index = Index + 1
+				end
+
+				B:SetClickFrame(i, Quest, Text)
+			end
+		end
+	end
+end
+
+function B:AddHook()
+	hooksecurefunc("QuestWatch_Update", self.AddQuestClick)
+end
+
 function B:QuestWatchFrame()
 	self:MoveQuestWatchFrame()
+	self:AddHook()
 end
