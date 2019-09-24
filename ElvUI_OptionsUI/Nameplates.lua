@@ -8,7 +8,6 @@ local tconcat = table.concat
 local pairs, type, strsplit, strmatch, gsub = pairs, type, strsplit, strmatch, gsub
 local next, ipairs, tremove, tinsert, sort, tonumber, format = next, ipairs, tremove, tinsert, sort, tonumber, format
 
-local GetClassInfo = GetClassInfo
 local GetCVar = GetCVar
 local GetCVarBool = GetCVarBool
 local GetDifficultyInfo = GetDifficultyInfo
