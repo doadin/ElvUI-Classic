@@ -85,7 +85,6 @@ local function LoadSkin()
 	_G.ScrollOfResurrectionSelectionFrameList:SetTemplate()
 	S:HandleScrollBar(_G.ScrollOfResurrectionSelectionFrameListScrollFrameScrollBar, 4)
 	S:HandleEditBox(_G.ScrollOfResurrectionSelectionFrameTargetEditBox)
-	RaiseFrameLevel(_G.ScrollOfResurrectionSelectionFrameTargetEditBox)
 
 	--Pending invites
 	S:HandleButton(_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton, true)
