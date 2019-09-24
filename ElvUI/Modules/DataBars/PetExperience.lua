@@ -57,7 +57,7 @@ end
 
 function mod:PetExperienceBar_OnEnter()
 	local GameTooltip = _G.GameTooltip
-	if mod.db.experience.mouseover then
+	if mod.db.petExperience.mouseover then
 		E:UIFrameFadeIn(self, 0.4, self:GetAlpha(), 1)
 	end
 
