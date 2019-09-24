@@ -259,6 +259,7 @@ local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, disp
 	}
 end
 
+--[[
 G.unitframe.buffwatch = {
 	PRIEST = {
 		[194384] = ClassBuff(194384, "TOPRIGHT", {1, 1, 0.66}),          -- Atonement
@@ -321,6 +322,121 @@ G.unitframe.buffwatch = {
 	WARLOCK = {},
 	MAGE = {},
 	DEATHKNIGHT = {},
+}
+]]
+
+G.unitframe.buffwatch = {
+	PRIEST = {
+		[1243] = ClassBuff(1243, "TOPLEFT"), --Power Word: Fortitude Rank 1
+		[1244] = ClassBuff(1244, "TOPLEFT"), --Power Word: Fortitude Rank 2
+		[1245] = ClassBuff(1245, "TOPLEFT"), --Power Word: Fortitude Rank 3
+		[2791] = ClassBuff(2791, "TOPLEFT"), --Power Word: Fortitude Rank 4
+		[10937] = ClassBuff(10937, "TOPLEFT"), --Power Word: Fortitude Rank 5
+		[10938] = ClassBuff(10938, "TOPLEFT"), --Power Word: Fortitude Rank 6
+		[21562] = ClassBuff(21562, "TOPLEFT"), --Prayer of Fortitude Rank 1
+		[21564] = ClassBuff(21564, "TOPLEFT"), --Prayer of Fortitude Rank 2
+		[14752] = ClassBuff(14752, "TOPRIGHT"), --Divine Spirit Rank 1
+		[14818] = ClassBuff(14818, "TOPRIGHT"), --Divine Spirit Rank 2
+		[14819] = ClassBuff(14819, "TOPRIGHT"), --Divine Spirit Rank 3
+		[27841] = ClassBuff(27841, "TOPRIGHT"), --Divine Spirit Rank 4
+		[27581] = ClassBuff(27581, "TOPRIGHT"), --Prayer of Spirit Rank 1
+		[976] = ClassBuff(976, "BOTTOMLEFT"), --Shadow Protection Rank 1
+		[10957] = ClassBuff(10957, "BOTTOMLEFT"), --Shadow Protection Rank 2
+		[10958] = ClassBuff(10958, "BOTTOMLEFT"), --Shadow Protection Rank 3
+		[27683] = ClassBuff(27683, "BOTTOMLEFT"), --Prayer of Shadow Protection Rank 1
+	},
+	DRUID = {
+		[1126] = ClassBuff(1126, "TOPLEFT"), --Mark of the Wild Rank 1
+		[5232] = ClassBuff(5232, "TOPLEFT"), --Mark of the Wild Rank 2
+		[6756] = ClassBuff(6756, "TOPLEFT"), --Mark of the Wild Rank 3
+		[5234] = ClassBuff(5234, "TOPLEFT"), --Mark of the Wild Rank 4
+		[8907] = ClassBuff(8907, "TOPLEFT"), --Mark of the Wild Rank 5
+		[9884] = ClassBuff(9884, "TOPLEFT"), --Mark of the Wild Rank 6
+		[16878] = ClassBuff(16878, "TOPLEFT"), --Mark of the Wild Rank 7
+		[21849] = ClassBuff(21849, "TOPLEFT"), --Gift of the Wild Rank 1
+		[21850] = ClassBuff(21850, "TOPLEFT"), --Gift of the Wild Rank 2
+		[467] = ClassBuff(467, "TOPRIGHT"), --Thorns Rank 1
+		[782] = ClassBuff(782, "TOPRIGHT"), --Thorns Rank 2
+		[1075] = ClassBuff(1075, "TOPRIGHT"), --Thorns Rank 3
+		[8914] = ClassBuff(8914, "TOPRIGHT"), --Thorns Rank 4
+		[9756] = ClassBuff(9756, "TOPRIGHT"), --Thorns Rank 5
+		[9910] = ClassBuff(9910, "TOPRIGHT"), --Thorns Rank 6
+	},
+	PALADIN = {
+		[1044] = ClassBuff(1044, "CENTER"), --Blessing of Freedom
+		[6940] = ClassBuff(6940, "CENTER"), --Blessing Sacrifice Rank 1
+		[20729] = ClassBuff(20729, "CENTER"), --Blessing Sacrifice Rank 2
+		[19740] = ClassBuff(19740, "TOPLEFT"), --Blessing of Might Rank 1
+		[19834] = ClassBuff(19834, "TOPLEFT"), --Blessing of Might Rank 2
+		[19835] = ClassBuff(19835, "TOPLEFT"), --Blessing of Might Rank 3
+		[19836] = ClassBuff(19836, "TOPLEFT"), --Blessing of Might Rank 4
+		[19837] = ClassBuff(19837, "TOPLEFT"), --Blessing of Might Rank 5
+		[19838] = ClassBuff(19838, "TOPLEFT"), --Blessing of Might Rank 6
+		[25291] = ClassBuff(25291, "TOPLEFT"), --Blessing of Might Rank 7
+		[19742] = ClassBuff(19742, "TOPLEFT"), --Blessing of Wisdom Rank 1
+		[19850] = ClassBuff(19850, "TOPLEFT"), --Blessing of Wisdom Rank 2
+		[19852] = ClassBuff(19852, "TOPLEFT"), --Blessing of Wisdom Rank 3
+		[19853] = ClassBuff(19853, "TOPLEFT"), --Blessing of Wisdom Rank 4
+		[19854] = ClassBuff(19854, "TOPLEFT"), --Blessing of Wisdom Rank 5
+		[25290] = ClassBuff(25290, "TOPLEFT"), --Blessing of Wisdom Rank 6
+		[25782] = ClassBuff(25782, "TOPLEFT"), --Greater Blessing of Might Rank 1
+		[25916] = ClassBuff(25916, "TOPLEFT"), --Greater Blessing of Might Rank 2
+		[25894] = ClassBuff(25894, "TOPLEFT"), --Greater Blessing of Wisdom Rank 1
+		[25918] = ClassBuff(25918, "TOPLEFT"), --Greater Blessing of Wisdom Rank 2
+	},
+	SHAMAN = {
+		[29203] = ClassBuff(29203, "TOPLEFT"), --Healing Way
+		[16237] = ClassBuff(16237, "TOPRIGHT"), --Ancestral Fortitude
+	},
+	WARRIOR = {
+		[6673] = ClassBuff(6673, "TOPLEFT"), --Battle Shout Rank 1
+		[5242] = ClassBuff(5242, "TOPLEFT"), --Battle Shout Rank 2
+		[6192] = ClassBuff(6192, "TOPLEFT"), --Battle Shout Rank 3
+		[11549] = ClassBuff(11549, "TOPLEFT"), --Battle Shout Rank 4
+		[11550] = ClassBuff(11550, "TOPLEFT"), --Battle Shout Rank 5
+		[11551] = ClassBuff(11551, "TOPLEFT"), --Battle Shout Rank 6
+		[25289] = ClassBuff(25289, "TOPLEFT"), --Battle Shout Rank 7
+	},
+	MAGE = {
+		[1459] = ClassBuff(1459, "TOPLEFT"), --Arcane Intellect Rank 1
+		[1460] = ClassBuff(1460, "TOPLEFT"), --Arcane Intellect Rank 2
+		[1461] = ClassBuff(1461, "TOPLEFT"), --Arcane Intellect Rank 3
+		[10156] = ClassBuff(10156, "TOPLEFT"), --Arcane Intellect Rank 4
+		[10157] = ClassBuff(10157, "TOPLEFT"), --Arcane Intellect Rank 5
+		[23028] = ClassBuff(23028, "TOPLEFT"), --Arcane Brilliance Rank 1
+		[27127] = ClassBuff(27127, "TOPLEFT"), --Arcane Brilliance Rank 2
+		[604] = ClassBuff(604, "TOPRIGHT"), --Dampen Magic Rank 1
+		[8450] = ClassBuff(8450, "TOPRIGHT"), --Dampen Magic Rank 2
+		[8451] = ClassBuff(8451, "TOPRIGHT"), --Dampen Magic Rank 3
+		[10173] = ClassBuff(10173, "TOPRIGHT"), --Dampen Magic Rank 4
+		[10174] = ClassBuff(10174, "TOPRIGHT"), --Dampen Magic Rank 5
+		[1008] = ClassBuff(1008, "TOPRIGHT"), --Amplify Magic Rank 1
+		[8455] = ClassBuff(8455, "TOPRIGHT"), --Amplify Magic Rank 2
+		[10169] = ClassBuff(10169, "TOPRIGHT"), --Amplify Magic Rank 3
+		[10170] = ClassBuff(10170, "TOPRIGHT"), --Amplify Magic Rank 4
+	},
+	HUNTER = {
+		[19506] = ClassBuff(19506, "TOPLEFT"), --Trueshot Aura Rank 1
+		[20905] = ClassBuff(20905, "TOPLEFT"), --Trueshot Aura Rank 2
+		[20906] = ClassBuff(20906, "TOPLEFT"), --Trueshot Aura Rank 3
+	},
+	WARLOCK = {
+		[5597] = ClassBuff(5597, "TOPLEFT"), --Unending Breath
+		[6512] = ClassBuff(6512, "TOPRIGHT"), --Detect Lesser Invisibility
+		[2970] = ClassBuff(2970, "TOPRIGHT"), --Detect Invisibility
+		[11743] = ClassBuff(11743, "TOPRIGHT"), --Detect Greater Invisibility
+	},
+	PET = {
+		--Warlock Imp
+		[6307] = ClassBuff(6307, "BOTTOMLEFT"), --Blood Pact Rank 1
+		[7804] = ClassBuff(7804, "BOTTOMLEFT"), --Blood Pact Rank 2
+		[7805] = ClassBuff(7805, "BOTTOMLEFT"), --Blood Pact Rank 3
+		[11766] = ClassBuff(11766, "BOTTOMLEFT"), --Blood Pact Rank 4
+		[11767] = ClassBuff(11767, "BOTTOMLEFT"), --Blood Pact Rank 5
+		--Warlock Felhunter
+		[19480] = ClassBuff(19480, "BOTTOMLEFT"), --Paranoia
+	},
+	ROGUE = {}, --No buffs
 }
 
 -- Profile specific BuffIndicator
