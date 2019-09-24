@@ -15,7 +15,6 @@ local GetCraftItemLink = GetCraftItemLink
 local GetCraftReagentInfo = GetCraftReagentInfo
 local GetCraftReagentItemLink = GetCraftReagentItemLink
 local hooksecurefunc = hooksecurefunc
-local MAX_CRAFT_REAGENTS = MAX_CRAFT_REAGENTS
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.craft ~= true then return end
@@ -84,7 +83,7 @@ local function LoadSkin()
 		highlight.SetTexture = E.noop
 	end
 
-	for i = 1, MAX_CRAFT_REAGENTS do
+	for i = 1, _G.MAX_CRAFT_REAGENTS do
 		local reagent = _G['CraftReagent'..i]
 		local icon = _G['CraftReagent'..i..'IconTexture']
 		local count = _G['CraftReagent'..i..'Count']
