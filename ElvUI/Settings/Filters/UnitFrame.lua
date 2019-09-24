@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...)); --Engine
 
 --Lua functions
 local unpack = unpack
-local strlower = string.lower
+local strlower = strlower
 --WoW API / Variables
 local IsPlayerSpell = IsPlayerSpell
 

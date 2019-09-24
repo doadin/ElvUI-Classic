@@ -7,9 +7,9 @@ local next = next
 local pairs = pairs
 local tonumber = tonumber
 local tostring = tostring
-local gsub = string.gsub
-local match = string.match
-local format = string.format
+local gsub = gsub
+local strmatch = strmatch
+local format = format
 local GetSpellInfo = GetSpellInfo
 
 -- GLOBALS: MAX_PLAYER_LEVEL
@@ -26,7 +26,7 @@ end
 
 local function filterMatch(s,v)
 	local m1, m2, m3, m4 = "^"..v.."$", "^"..v..",", ","..v.."$", ","..v..","
-	return (match(s, m1) and m1) or (match(s, m2) and m2) or (match(s, m3) and m3) or (match(s, m4) and v..",")
+	return (strmatch(s, m1) and m1) or (strmatch(s, m2) and m2) or (strmatch(s, m3) and m3) or (strmatch(s, m4) and v..",")
 end
 
 local function removePriority(value)
@@ -175,7 +175,7 @@ local function UpdateFilterGroup()
 			},
 		}
 
-		local spellID = selectedSpell and match(selectedSpell, "(%d+)")
+		local spellID = selectedSpell and strmatch(selectedSpell, "(%d+)")
 		if spellID then spellID = tonumber(spellID) end
 
 		if not selectedSpell or E.global.unitframe.DebuffHighlightColors[(spellID or selectedSpell)] == nil then
@@ -356,7 +356,7 @@ local function UpdateFilterGroup()
 			},
 		}
 
-		local spellID = selectedSpell and match(selectedSpell, "(%d+)")
+		local spellID = selectedSpell and strmatch(selectedSpell, "(%d+)")
 		if spellID then spellID = tonumber(spellID) end
 
 		if not selectedSpell or E.global.unitframe.AuraBarColors[(spellID or selectedSpell)] == nil then
@@ -1324,7 +1324,7 @@ local function UpdateFilterGroup()
 			}
 		end
 
-		local spellID = selectedSpell and match(selectedSpell, "(%d+)")
+		local spellID = selectedSpell and strmatch(selectedSpell, "(%d+)")
 		if spellID then spellID = tonumber(spellID) end
 
 		if not selectedSpell or not E.global.unitframe.aurafilters[selectedFilter].spells[(spellID or selectedSpell)] then
@@ -1408,14 +1408,14 @@ E.Options.args.filters = {
 			type = 'input',
 			get = function(info) return "" end,
 			set = function(info, value)
-				if match(value, "^[%s%p]-$") then
+				if strmatch(value, "^[%s%p]-$") then
 					return
 				end
-				if match(value, ",") then
+				if strmatch(value, ",") then
 					E:Print(L["Filters are not allowed to have commas in their name. Stripping commas from filter name."])
 					value = gsub(value, ",", "")
 				end
-				if match(value, "^Friendly:") or match(value, "^Enemy:") then
+				if strmatch(value, "^Friendly:") or strmatch(value, "^Enemy:") then
 					return --dont allow people to create Friendly: or Enemy: filters
 				end
 				if G.unitframe.specialFilters[value] or E.global.unitframe.aurafilters[value] then

@@ -4,9 +4,9 @@ local S = E:GetModule('Skins')
 --Cache global variables
 --Lua functions
 local _G = _G
-local pairs = pairs
-local unpack = unpack
-local find, format, match = string.find, string.format, string.match
+local unpack, type, gsub = unpack, type, gsub
+local select, ipairs, pairs = select, ipairs, pairs
+local strfind, strmatch = strfind, strmatch
 --WoW API / Variables
 local GetMoney = GetMoney
 local GetQuestMoneyToGet = GetQuestMoneyToGet
@@ -17,7 +17,17 @@ local GetQuestLogItemLink = GetQuestLogItemLink
 local GetNumQuestLogRewards = GetNumQuestLogRewards
 local GetQuestLogRequiredMoney = GetQuestLogRequiredMoney
 local GetNumQuestLeaderBoards = GetNumQuestLeaderBoards
+local GetQuestLogLeaderBoard = GetQuestLogLeaderBoard
+local GetNumQuestLogChoices = GetNumQuestLogChoices
+local GetNumQuestRewards = GetNumQuestRewards
+local GetNumQuestChoices = GetNumQuestChoices
+local GetNumQuestLogEntries = GetNumQuestLogEntries
+local GetQuestLogTitle = GetQuestLogTitle
+local IsQuestComplete = IsQuestComplete
 local hooksecurefunc = hooksecurefunc
+local MAX_NUM_ITEMS = MAX_NUM_ITEMS
+local MAX_REQUIRED_ITEMS = MAX_REQUIRED_ITEMS
+local MAX_NUM_QUESTS = MAX_NUM_QUESTS
 
 local function HandleReward(button)
 	if not button then return end
@@ -177,7 +187,7 @@ local function LoadSkin()
 			_G[self:GetName()..'Name']:SetTextColor(1, 0.80, 0.10)
 
 			for _, button in ipairs(_G.QuestInfoRewardsFrame.RewardButtons) do
-				local link = button.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(button.type, button:GetID())
+				local link = button.type and (_G.QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(button.type, button:GetID())
 				if button ~= self then
 					QuestQualityColors(button, button.Name, link)
 				end
@@ -411,7 +421,7 @@ local function LoadSkin()
 	QuestLogHighlightFrame.Right:SetPoint('RIGHT', QuestLogHighlightFrame, 'CENTER')
 	QuestLogHighlightFrame.Right:SetTexture(E.media.blankTex)
 
-	hooksecurefunc(QuestLogSkillHighlight, 'SetVertexColor', function(_, r, g, b)
+	hooksecurefunc(_G.QuestLogSkillHighlight, 'SetVertexColor', function(_, r, g, b)
 		QuestLogHighlightFrame.Left:SetGradientAlpha('Horizontal', r, g, b, 0.35, r, g, b, 0)
 		QuestLogHighlightFrame.Right:SetGradientAlpha('Horizontal', r, g, b, 0, r, g, b, 0.35)
 	end)

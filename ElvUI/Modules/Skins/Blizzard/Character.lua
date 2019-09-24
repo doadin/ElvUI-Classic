@@ -6,9 +6,10 @@ local S = E:GetModule('Skins')
 local _G = _G
 local unpack = unpack
 local pairs = pairs
-local find, strfind = string.find, strfind
+local strfind = strfind
 --WoW API / Variables
-local GetInventoryItemTexture = GetInventoryItemTexture
+local HasPetUI = HasPetUI
+local GetPetHappiness = GetPetHappiness
 local GetInventoryItemQuality = GetInventoryItemQuality
 local GetItemQualityColor = GetItemQualityColor
 local GetNumFactions = GetNumFactions
@@ -75,7 +76,7 @@ local function LoadSkin()
 
 	HandleResistanceFrame('MagicResFrame')
 
-	for _, slot in pairs({ PaperDollItemsFrame:GetChildren() }) do
+	for _, slot in pairs({ _G.PaperDollItemsFrame:GetChildren() }) do
 		if slot:IsObjectType("Button") then
 			local icon = _G[slot:GetName()..'IconTexture']
 			local cooldown = _G[slot:GetName()..'Cooldown']

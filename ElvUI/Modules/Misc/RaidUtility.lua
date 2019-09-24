@@ -3,8 +3,7 @@ local RU = E:GetModule('RaidUtility')
 
 --Lua functions
 local _G = _G
-local unpack, ipairs, pairs, next = unpack, ipairs, pairs, next
-local strfind, tinsert, wipe, sort = strfind, tinsert, wipe, sort
+local unpack, pairs, strfind = unpack, pairs, strfind
 --WoW API / Variables
 local CreateFrame = CreateFrame
 local DoReadyCheck = DoReadyCheck
@@ -17,6 +16,7 @@ local ToggleFriendsFrame = ToggleFriendsFrame
 local UnitIsGroupAssistant = UnitIsGroupAssistant
 local UnitIsGroupLeader = UnitIsGroupLeader
 local PANEL_HEIGHT = 100
+local MAINTANK, MAINASSIST = MAINTANK, MAINASSIST
 
 --Check if We are Raid Leader or Raid Officer
 local function CheckRaidStatus()
@@ -121,7 +121,7 @@ function RU:Initialize()
 		local point = self:GetPoint()
 		local raidUtilPoint, closeButtonPoint, yOffset
 
-		if string.find(point, "BOTTOM") then
+		if strfind(point, "BOTTOM") then
 			raidUtilPoint = "BOTTOM"
 			closeButtonPoint = "TOP"
 			yOffset = 1
@@ -183,16 +183,16 @@ function RU:Initialize()
 	end)
 
 	--MainTank Button
-	self:CreateUtilButton("MainTankButton", RaidUtilityPanel, "SecureActionButtonTemplate, UIMenuButtonStretchTemplate", (DisbandRaidButton:GetWidth() / 2) - 2, 18, "TOPLEFT", DisbandRaidButton, "BOTTOMLEFT", 0, -5, MAINTANK, nil)
-	MainTankButton:SetAttribute("type", "maintank")
-	MainTankButton:SetAttribute("unit", "target")
-	MainTankButton:SetAttribute("action", "toggle")
+	self:CreateUtilButton("MainTankButton", RaidUtilityPanel, "SecureActionButtonTemplate, UIMenuButtonStretchTemplate", (_G.DisbandRaidButton:GetWidth() / 2) - 2, 18, "TOPLEFT", _G.DisbandRaidButton, "BOTTOMLEFT", 0, -5, MAINTANK, nil)
+	_G.MainTankButton:SetAttribute("type", "maintank")
+	_G.MainTankButton:SetAttribute("unit", "target")
+	_G.MainTankButton:SetAttribute("action", "toggle")
 
 	--MainAssist Button
-	self:CreateUtilButton("MainAssistButton", RaidUtilityPanel, "SecureActionButtonTemplate, UIMenuButtonStretchTemplate", (DisbandRaidButton:GetWidth() / 2) - 2, 18, "TOPRIGHT", DisbandRaidButton, "BOTTOMRIGHT", 0, -5, MAINASSIST, nil)
-	MainAssistButton:SetAttribute("type", "mainassist")
-	MainAssistButton:SetAttribute("unit", "target")
-	MainAssistButton:SetAttribute("action", "toggle")
+	self:CreateUtilButton("MainAssistButton", RaidUtilityPanel, "SecureActionButtonTemplate, UIMenuButtonStretchTemplate", (_G.DisbandRaidButton:GetWidth() / 2) - 2, 18, "TOPRIGHT", _G.DisbandRaidButton, "BOTTOMRIGHT", 0, -5, MAINASSIST, nil)
+	_G.MainAssistButton:SetAttribute("type", "mainassist")
+	_G.MainAssistButton:SetAttribute("unit", "target")
+	_G.MainAssistButton:SetAttribute("action", "toggle")
 
 	--Ready Check button
 	self:CreateUtilButton("ReadyCheckButton", RaidUtilityPanel, "UIMenuButtonStretchTemplate", RaidUtilityPanel:GetWidth() * 0.8, 18, "TOP", _G.DisbandRaidButton, "BOTTOM", 0, -28, _G.READY_CHECK, nil)

@@ -4,8 +4,8 @@ if E.myclass ~= "HUNTER" and E.myclass ~= "ROGUE" and E.myclass ~= "WARLOCK" and
 local DT = E:GetModule("DataTexts")
 
 local _G = _G
-local select = select
-local format, join = string.format, string.join
+local select, wipe = select, wipe
+local format, strjoin = format, strjoin
 
 local GetItemInfo = GetItemInfo
 local GetItemInfoInstant = GetItemInfoInstant
@@ -20,6 +20,10 @@ local GetItemQualityColor = GetItemQualityColor
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES
 local INVTYPE_AMMO = INVTYPE_AMMO
+local INVSLOT_RANGED = INVSLOT_RANGED
+local INVSLOT_AMMO = INVSLOT_AMMO
+local LE_ITEM_CLASS_QUIVER = LE_ITEM_CLASS_QUIVER
+local LE_ITEM_CLASS_CONTAINER = LE_ITEM_CLASS_CONTAINER
 
 local iconString = "|T%s:16:16:0:0:64:64:4:55:4:55|t"
 local displayString = ""
@@ -101,7 +105,7 @@ local function OnEnter(self)
 					local name, _, quality, _, _, _, _, _, equipLoc, texture = GetItemInfo(itemID)
 					local count = GetItemCount(itemID)
 					if equipLoc == "INVTYPE_AMMO" or equipLoc == "INVTYPE_THROWN" then
-						DT.tooltip:AddDoubleLine(join("", format(iconString, texture), " ", name), count, GetItemQualityColor(quality))
+						DT.tooltip:AddDoubleLine(strjoin("", format(iconString, texture), " ", name), count, GetItemQualityColor(quality))
 						itemCount[itemID] = count
 					end
 				end
@@ -120,7 +124,7 @@ local function OnEnter(self)
 				local used = total - free
 
 				DT.tooltip:AddLine(itemSubType)
-				DT.tooltip:AddDoubleLine(join("", format(iconString, texture), "  ", name), format("%d / %d", used, total), GetItemQualityColor(quality))
+				DT.tooltip:AddDoubleLine(strjoin("", format(iconString, texture), "  ", name), format("%d / %d", used, total), GetItemQualityColor(quality))
 			end
 		end
 	end
@@ -141,13 +145,13 @@ local function OnClick(_, btn)
 				end
 			end
 		else
-			ToggleAllBags()
+			_G.ToggleAllBags()
 		end
 	end
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", "%s: ", hex, "%d|r")
+	displayString = strjoin("", "%s: ", hex, "%d|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)
