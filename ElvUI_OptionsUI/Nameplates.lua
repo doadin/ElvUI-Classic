@@ -8,17 +8,11 @@ local tconcat = table.concat
 local pairs, type, strsplit, strmatch, gsub = pairs, type, strsplit, strmatch, gsub
 local next, ipairs, tremove, tinsert, sort, tonumber, format = next, ipairs, tremove, tinsert, sort, tonumber, format
 
-local C_SpecializationInfo_GetPvpTalentSlotInfo = C_SpecializationInfo.GetPvpTalentSlotInfo
 local GetClassInfo = GetClassInfo
 local GetCVar = GetCVar
 local GetCVarBool = GetCVarBool
 local GetDifficultyInfo = GetDifficultyInfo
-local GetNumClasses = GetNumClasses
-local GetNumSpecializationsForClassID = GetNumSpecializationsForClassID
-local GetPvpTalentInfoByID = GetPvpTalentInfoByID
-local GetSpecializationInfoForClassID = GetSpecializationInfoForClassID
 local GetSpellInfo = GetSpellInfo
-local GetTalentInfo = GetTalentInfo
 local SetCVar = SetCVar
 
 local raidTargetIcon = "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_%s:0|t %s"
