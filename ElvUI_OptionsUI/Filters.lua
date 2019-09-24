@@ -94,7 +94,7 @@ local function UpdateFilterGroup()
 					buttonElvUI = true,
 					type = 'execute',
 					func = function()
-						local value = selectedSpell:match(" %((%d+)%)$") or selectedSpell
+						local value = strmatch(selectedSpell, " %((%d+)%)$") or selectedSpell
 						if tonumber(value) then value = tonumber(value) end
 						E.global.unitframe.DebuffHighlightColors[value] = nil;
 						selectedSpell = nil;
@@ -265,7 +265,7 @@ local function UpdateFilterGroup()
 					type = 'execute',
 					buttonElvUI = true,
 					func = function()
-						local value = selectedSpell:match(" %((%d+)%)$") or selectedSpell
+						local value = strmatch(selectedSpell, " %((%d+)%)$") or selectedSpell
 						if tonumber(value) then value = tonumber(value) end
 						if G.unitframe.AuraBarColors[value] then
 							E.global.unitframe.AuraBarColors[value] = false;
@@ -1212,7 +1212,7 @@ local function UpdateFilterGroup()
 					type = 'execute',
 					buttonElvUI = true,
 					func = function()
-						local value = selectedSpell:match(" %((%d+)%)$") or selectedSpell
+						local value = strmatch(selectedSpell, " %((%d+)%)$") or selectedSpell
 						if tonumber(value) then value = tonumber(value) end
 						if G.unitframe.aurafilters[selectedFilter] then
 							if G.unitframe.aurafilters[selectedFilter].spells[value] then
