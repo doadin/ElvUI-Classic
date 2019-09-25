@@ -185,12 +185,12 @@ G.unitframe.aurafilters.DungeonDebuffs = {
 		[744] = Defaults(2), --Poison
 		[18267] = Defaults(2), --Curse of Weakness
 		[20800] = Defaults(2), --Immolate
-	--
+	-- Razorfen Downs
 		[12255] = Defaults(2), --Curse of Tuten'kash
 		[12252] = Defaults(2), --Web Spray
 		[7645] = Defaults(2), --Dominate Mind
 		[12946] = Defaults(2), --Putrid Stench
-	--
+	-- Razorfen Kraul
 		[14515] = Defaults(2), --Dominate Mind
 	-- Scarlet Monastry
 		[9034] = Defaults(2), --Immolate
@@ -211,24 +211,24 @@ G.unitframe.aurafilters.DungeonDebuffs = {
 		[6016] = Defaults(2), --Pierce Armor
 		[16869] = Defaults(2), --Ice Tomb
 		[17307] = Defaults(2), --Knockout
-	--
+	-- Sunken Temple
 		[12889] = Defaults(2), --Curse of Tongues
 		[12888] = Defaults(2), --Cause Insanity
 		[12479] = Defaults(2), --Hex of Jammal'an
 		[12493] = Defaults(2), --Curse of Weakness
 		[12890] = Defaults(2), --Deep Slumber
 		[24375] = Defaults(2), --War Stomp
-	--
+	-- Uldaman
 		[3356] = Defaults(2), --Flame Lash
 		[6524] = Defaults(2), --Ground Tremor
-	--
+	-- Wailing Caverns
 		[8040] = Defaults(2), --Druid's Slumber
 		[8142] = Defaults(2), --Grasping Vines
 		[7967] = Defaults(2), --Naralex's Nightmare
 		[8150] = Defaults(2), --Thundercrack
 	-- Zul'Farrak
 		[11836] = Defaults(2), --Freeze Solid
-	--
+	-- World Bosses
 		[21056] = Defaults(2), --Mark of Kazzak
 		[24814] = Defaults(2), --Seeping Fog
 	},
