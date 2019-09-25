@@ -133,6 +133,6 @@ function mod:LoadPetExperienceBar()
 
 	self:UpdatePetExperienceDimensions()
 
-	E:CreateMover(self.petExpBar, "PetExperienceBarMover", L["Pet Experience Bar"], nil, nil, nil, nil, nil, 'databars,experience')
+	E:CreateMover(self.petExpBar, "PetExperienceBarMover", L["Pet Experience Bar"], nil, nil, nil, nil, nil, 'databars,petExperience')
 	self:EnableDisable_PetExperienceBar()
 end
