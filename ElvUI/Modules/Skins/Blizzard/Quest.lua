@@ -377,7 +377,7 @@ local function LoadSkin()
 		end
 	end
 
-	_G.QuestFrameGreetingPanel:HookScript('OnShow', UpdateGreetingFrame)
+	_G.QuestFrameGreetingPanel:HookScript('OnUpdate', UpdateGreetingFrame)
 	hooksecurefunc('QuestFrameGreetingPanel_OnShow', UpdateGreetingFrame)
 
 	_G.QuestLogTimerText:SetTextColor(1, 1, 1)
@@ -407,6 +407,13 @@ local function LoadSkin()
 	_G.QuestProgressScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestProgressScrollFrame.backdrop:Point('TOPLEFT', -6, 2)
 
+	_G.QuestFrameGreetingPanel:StripTextures()
+	_G.QuestGreetingScrollFrame:StripTextures()
+	_G.QuestGreetingFrameHorizontalBreak:Kill()
+
+	S:HandleButton(_G.QuestFrameGreetingGoodbyeButton, true)
+	S:HandleScrollBar(_G.QuestGreetingScrollFrameScrollBar)
+
 	_G.QuestFrameAcceptButton:Point('BOTTOMLEFT', 18, 72)
 	_G.QuestFrameDeclineButton:Point('BOTTOMRIGHT', -38, 72)
 	_G.QuestFrameCompleteButton:Point('BOTTOMLEFT', 18, 72)
@@ -424,7 +431,7 @@ local function LoadSkin()
 	_G.QuestLogSkillHighlight:StripTextures()
 
 	local QuestLogHighlightFrame = _G.QuestLogHighlightFrame
-	QuestLogHighlightFrame:Width(300)
+	--QuestLogHighlightFrame:Width(300)
 	QuestLogHighlightFrame.SetWidth = E.noop
 
 	QuestLogHighlightFrame.Left = QuestLogHighlightFrame:CreateTexture(nil, 'ARTWORK')
@@ -445,10 +452,7 @@ local function LoadSkin()
 	_G.QuestFrameNpcNameText:Point('CENTER', _G.QuestNpcNameFrame, 'CENTER', -1, 0)
 
 	S:HandleCloseButton(_G.QuestFrameCloseButton, _G.QuestFrame.backdrop)
-	_G.QuestFrameCloseButton:Point('TOPRIGHT', -28, -9)
-
 	S:HandleCloseButton(_G.QuestLogFrameCloseButton, _G.QuestLogFrame.backdrop)
-	_G.QuestLogFrameCloseButton:Point('TOPRIGHT', -28, -9)
 
 	local index = 1
 	while _G['QuestLogTitle'..index] do
