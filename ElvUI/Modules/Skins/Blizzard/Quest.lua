@@ -392,9 +392,11 @@ local function LoadSkin()
 
 	_G.QuestLogListScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestLogListScrollFrame.backdrop:Point('TOPLEFT', -1, 2)
+	_G.QuestLogListScrollFrame:Width(303)
 
 	_G.QuestLogDetailScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestLogDetailScrollFrame.backdrop:Point('TOPLEFT', -1, 2)
+	_G.QuestLogDetailScrollFrame:Width(303)
 
 	_G.QuestDetailScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestDetailScrollFrame.backdrop:Point('TOPLEFT', -6, 2)
@@ -404,6 +406,20 @@ local function LoadSkin()
 
 	_G.QuestProgressScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestProgressScrollFrame.backdrop:Point('TOPLEFT', -6, 2)
+
+	_G.QuestFrameAcceptButton:Point('BOTTOMLEFT', 18, 72)
+	_G.QuestFrameDeclineButton:Point('BOTTOMRIGHT', -38, 72)
+	_G.QuestFrameCompleteButton:Point('BOTTOMLEFT', 18, 72)
+	_G.QuestFrameGoodbyeButton:Point('BOTTOMRIGHT', -38, 72)
+	_G.QuestFrameCompleteQuestButton:Point('BOTTOMLEFT', 18, 72)
+	_G.QuestFrameCancelButton:Point('BOTTOMRIGHT', -38, 72)
+
+	_G.QuestLogFrameAbandonButton:Point('BOTTOMLEFT', 18, 52)
+	_G.QuestLogFrameAbandonButton:Width(124)
+
+	_G.QuestFramePushQuestButton:Point('RIGHT', _G.QuestFrameExitButton, 'LEFT', -2, 0)
+
+	_G.QuestFrameExitButton:Point('BOTTOMRIGHT', -38, 52)
 
 	_G.QuestLogSkillHighlight:StripTextures()
 

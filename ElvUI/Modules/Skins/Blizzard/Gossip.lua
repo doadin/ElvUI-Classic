@@ -23,7 +23,8 @@ local function LoadSkin()
 	_G.GossipFrameNpcNameText:ClearAllPoints()
 	_G.GossipFrameNpcNameText:Point('CENTER', _G.GossipNpcNameFrame, 'CENTER', -1, 0)
 
-	S:HandleCloseButton(_G.GossipFrameCloseButton, GossipFrame.backdrop)
+	S:HandleCloseButton(_G.GossipFrameCloseButton)
+	_G.GossipFrameCloseButton:Point('TOPRIGHT', -28, -9)
 
 	for i = 1, _G.NUMGOSSIPBUTTONS do
 		_G['GossipTitleButton'..i..'GossipIcon']:SetSize(16, 16)
@@ -70,6 +71,7 @@ local function LoadSkin()
 	end)
 
 	S:HandleButton(_G.GossipFrameGreetingGoodbyeButton)
+	_G.GossipFrameGreetingGoodbyeButton:Point('BOTTOMRIGHT', -38, 72)
 
 	-- ItemTextFrame
 	_G.ItemTextFrame:StripTextures(true)
