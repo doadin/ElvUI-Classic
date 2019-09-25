@@ -41,7 +41,7 @@ local function HandleReward(button)
 
 	if button.Icon then
 		button.Icon:Size(E.PixelMode and 37 or 32)
-		button.Icon:SetDrawLayer('OVERLAY')
+		button.Icon:SetDrawLayer('ARTWORK')
 		button.Icon:Point('TOPLEFT', E.PixelMode and 2 or 4, -(E.PixelMode and 2 or 4))
 		S:HandleIcon(button.Icon)
 
