@@ -374,6 +374,20 @@ G.unitframe.buffwatch = {
 		[25916] = ClassBuff(25916, "TOPLEFT", {0.2, 0.8, 0.2}), --Greater Blessing of Might (Rank 2)
 		[25894] = ClassBuff(25894, "TOPLEFT", {0.2, 0.8, 0.2}), --Greater Blessing of Wisdom (Rank 1)
 		[25918] = ClassBuff(25918, "TOPLEFT", {0.2, 0.8, 0.2}), --Greater Blessing of Wisdom (Rank 2)
+		[465] = ClassBuff(465, "BOTTOMLEFT", {0.58, 1.00, 0.50}), --Devotion Aura (Rank 1)
+		[10290] = ClassBuff(10290, "BOTTOMLEFT", {0.58, 1.00, 0.50}), --Devotion Aura (Rank 2)
+		[643] = ClassBuff(643, "BOTTOMLEFT", {0.58, 1.00, 0.50}), --Devotion Aura (Rank 3)
+		[10291] = ClassBuff(10291, "BOTTOMLEFT", {0.58, 1.00, 0.50}), --Devotion Aura (Rank 4)
+		[1032] = ClassBuff(1032, "BOTTOMLEFT", {0.58, 1.00, 0.50}), --Devotion Aura (Rank 5)
+		[10292] = ClassBuff(10292, "BOTTOMLEFT", {0.58, 1.00, 0.50}), --Devotion Aura (Rank 6)
+		[10293] = ClassBuff(10293, "BOTTOMLEFT", {0.58, 1.00, 0.50}), --Devotion Aura (Rank 7)
+		[19977] = ClassBuff(19977, "BOTTOMRIGHT", {0.17, 1.00, 0.75}), --Blessing of Light (Rank 1)
+		[19978] = ClassBuff(19978, "BOTTOMRIGHT", {0.17, 1.00, 0.75}), --Blessing of Light (Rank 2)
+		[19979] = ClassBuff(19979, "BOTTOMRIGHT", {0.17, 1.00, 0.75}), --Blessing of Light (Rank 3)
+		[1022] = ClassBuff(1022, "TOPRIGHT", {0.17, 1.00, 0.75}), --Blessing of Protection (Rank 1)
+		[5599] = ClassBuff(5599, "TOPRIGHT", {0.17, 1.00, 0.75}), --Blessing of Protection (Rank 2)
+		[10278] = ClassBuff(10278, "TOPRIGHT", {0.17, 1.00, 0.75}), --Blessing of Protection (Rank 3)
+		[19746] = ClassBuff(19746, "BOTTOMLEFT", {0.83, 1.00, 0.07}), --Concentration Aura
 	},
 	SHAMAN = {
 		[29203] = ClassBuff(29203, "TOPRIGHT", {0.7, 0.3, 0.7}), --Healing Way
@@ -400,6 +414,12 @@ G.unitframe.buffwatch = {
 		[10491] = ClassBuff(10491, "LEFT", {0.67, 1.00, 0.80}), --Mana Spring Totem (Rank 2)
 		[10493] = ClassBuff(10493, "LEFT", {0.67, 1.00, 0.80}), --Mana Spring Totem (Rank 3)
 		[10494] = ClassBuff(10494, "LEFT", {0.67, 1.00, 0.80}), --Mana Spring Totem (Rank 4)
+		[8072] = ClassBuff(8072, "BOTTOMRIGHT", {0.00, 0.00, 0.26}), --Stoneskin Totem (Rank 1)
+		[8156] = ClassBuff(8156, "BOTTOMRIGHT", {0.00, 0.00, 0.26}), --Stoneskin Totem (Rank 2)
+		[8157] = ClassBuff(8157, "BOTTOMRIGHT", {0.00, 0.00, 0.26}), --Stoneskin Totem (Rank 3)
+		[10403] = ClassBuff(10403, "BOTTOMRIGHT", {0.00, 0.00, 0.26}), --Stoneskin Totem (Rank 4)
+		[10404] = ClassBuff(10404, "BOTTOMRIGHT", {0.00, 0.00, 0.26}), --Stoneskin Totem (Rank 5)
+		[10405] = ClassBuff(10405, "BOTTOMRIGHT", {0.00, 0.00, 0.26}), --Stoneskin Totem (Rank 6)
 	},
 	WARRIOR = {
 		[6673] = ClassBuff(6673, "TOPLEFT", {0.2, 0.2, 1}), --Battle Shout (Rank 1)
@@ -449,6 +469,11 @@ G.unitframe.buffwatch = {
 		[11767] = ClassBuff(11767, "BOTTOMLEFT", {0.89, 0.09, 0.05}), --Blood Pact (Rank 5)
 	--Warlock Felhunter
 		[19480] = ClassBuff(19480, "BOTTOMLEFT", {0.2, 0.8, 0.2}), --Paranoia
+	--Hunter Pets
+		[24604] = ClassBuff(24604, "TOPRIGHT", {0.08, 0.59, 0.41}), --Furious Howl (Rank 1)
+		[24605] = ClassBuff(24605, "TOPRIGHT", {0.08, 0.59, 0.41}), --Furious Howl (Rank 2)
+		[24603] = ClassBuff(24603, "TOPRIGHT", {0.08, 0.59, 0.41}), --Furious Howl (Rank 3)
+		[24597] = ClassBuff(24597, "TOPRIGHT", {0.08, 0.59, 0.41}), --Furious Howl (Rank 4)
 	},
 	ROGUE = {}, --No buffs
 }
