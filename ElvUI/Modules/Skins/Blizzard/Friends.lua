@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...)) --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local S = E:GetModule('Skins')
 
 --Cache global variables
@@ -21,7 +21,7 @@ for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
 end
 
 local function SkinFriendRequest(frame)
-	if frame.isSkinned then return; end
+	if frame.isSkinned then return end
 	S:HandleButton(frame.DeclineButton, nil, true)
 	S:HandleButton(frame.AcceptButton)
 	frame.isSkinned = true
@@ -32,11 +32,9 @@ local function LoadSkin()
 
 	-- Friends Frame
 	local FriendsFrame = _G.FriendsFrame
-	S:HandlePortraitFrame(FriendsFrame, true)
-	FriendsFrame.backdrop:Point('TOPLEFT', -5, 0)
-	FriendsFrame.backdrop:Point('BOTTOMRIGHT', -2, 0)
+	S:HandleFrame(FriendsFrame, true, nil, -5, 0, -2)
 
-	_G.FriendsFrameCloseButton:Point('TOPRIGHT', 2, 3)
+	_G.FriendsFrameCloseButton:Point('TOPRIGHT', 0, 2)
 
 	local FriendsFrameBattlenetFrame = _G.FriendsFrameBattlenetFrame
 	FriendsFrameBattlenetFrame:StripTextures()
@@ -96,9 +94,9 @@ local function LoadSkin()
 	_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton.DownArrow:SetTexture(E.Media.Textures.ArrowUp)
 	_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton.DownArrow:SetRotation(S.ArrowRotation['down'])
 
-	_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton.RightArrow:SetPoint("LEFT", 11, 0)
-	_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton.DownArrow:SetPoint("TOPLEFT", 8, -10)
-	hooksecurefunc(_G.FriendsFrameFriendsScrollFrame.invitePool, "Acquire", function()
+	_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton.RightArrow:SetPoint('LEFT', 11, 0)
+	_G.FriendsFrameFriendsScrollFrame.PendingInvitesHeaderButton.DownArrow:SetPoint('TOPLEFT', 8, -10)
+	hooksecurefunc(_G.FriendsFrameFriendsScrollFrame.invitePool, 'Acquire', function()
 		for object in pairs(_G.FriendsFrameFriendsScrollFrame.invitePool.activeObjects) do
 			SkinFriendRequest(object)
 		end
@@ -535,8 +533,7 @@ local function LoadSkin()
 	_G.GuildInfoTextBackground:SetTemplate('Default')
 	S:HandleScrollBar(_G.GuildInfoFrameScrollFrameScrollBar)
 
-	S:HandleCloseButton(_G.GuildInfoCloseButton, _G.GuildInfoFrame.backdrop)
-	_G.GuildInfoCloseButton:Point("TOPRIGHT", 2, -2)
+	S:HandleCloseButton(_G.GuildInfoCloseButton, _G.GuildInfoFrame.backdrop, nil, -2)
 
 	S:HandleButton(_G.GuildInfoSaveButton)
 	_G.GuildInfoSaveButton:Point('BOTTOMLEFT', 8, 8)
@@ -621,4 +618,4 @@ local function LoadSkin()
 	S:HandleScrollBar(_G.RaidInfoScrollFrameScrollBar)
 end
 
-S:AddCallback('Friends', LoadSkin)
+S:AddCallback('Skin_Friends', LoadSkin)
