@@ -595,18 +595,6 @@ function NP:Initialize()
 		BlizzPlateManaBar:UnregisterAllEvents()
 	end
 
-	hooksecurefunc(_G.NamePlateDriverFrame, "UpdateNamePlateOptions", function()
-		if not InCombatLockdown() then
-			local Scale = E.global.general.UIScale
-			C_NamePlate_SetNamePlateSelfSize(NP.db.plateSize.personalWidth * Scale, NP.db.plateSize.personalHeight * Scale)
-			C_NamePlate_SetNamePlateEnemySize(NP.db.plateSize.enemyWidth * Scale, NP.db.plateSize.enemyHeight * Scale)
-
-			if NP.InstanceType ~= 'party' and NP.InstanceType ~= 'raid' then
-				C_NamePlate_SetNamePlateFriendlySize(NP.db.plateSize.friendlyWidth * Scale, NP.db.plateSize.friendlyHeight * Scale)
-			end
-		end
-	end)
-
 	oUF:Spawn("player", "ElvNP_Player", "")
 
 	_G.ElvNP_Player:ClearAllPoints()
