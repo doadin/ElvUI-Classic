@@ -310,6 +310,11 @@ local function LoadSkin()
 		end
 	end
 
+	_G.AudioOptionsVoicePanelTestInputDevice.VUMeter:StripTextures()
+	_G.AudioOptionsVoicePanelTestInputDevice.VUMeter.Status:CreateBackdrop()
+	_G.AudioOptionsVoicePanelTestInputDevice.VUMeter.Status:SetStatusBarTexture(E.media.normTex)
+	E:RegisterStatusBar(_G.AudioOptionsVoicePanelTestInputDevice.VUMeter.Status)
+
 	_G.InterfaceOptionsFrameTab1:Point('BOTTOMLEFT', _G.InterfaceOptionsFrameCategories, 'TOPLEFT', 6, 1)
 	_G.InterfaceOptionsFrameTab2:Point('TOPLEFT', _G.InterfaceOptionsFrameTab1, 'TOPRIGHT', 1, 0)
 	_G.InterfaceOptionsSocialPanel.EnableTwitter.Logo:SetAtlas('WoWShare-TwitterLogo')
