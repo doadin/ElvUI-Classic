@@ -97,16 +97,13 @@ local function LoadSkin()
 		local tradeItemButton = _G['TradePlayerItem'..id..'ItemButton']
 		local tradeItemName = _G['TradePlayerItem'..id..'Name']
 		local link = GetTradePlayerItemLink(id)
+		tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		if link then
 			local quality = select(3, GetItemInfo(link))
 			tradeItemName:SetTextColor(GetItemQualityColor(quality))
 			if quality and quality > 1 then
 				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
-			else
-				tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
-		else
-			tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	end)
 
@@ -114,16 +111,13 @@ local function LoadSkin()
 		local tradeItemButton = _G['TradeRecipientItem'..id..'ItemButton']
 		local tradeItemName = _G['TradeRecipientItem'..id..'Name']
 		local link = GetTradeTargetItemLink(id)
+		tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		if link then
 			local quality = select(3, GetItemInfo(link))
 			tradeItemName:SetTextColor(GetItemQualityColor(quality))
 			if quality and quality > 1 then
 				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
-			else
-				tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
-		else
-			tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	end)
 end
