@@ -389,8 +389,6 @@ end
 function NP:ConfigureAll()
 	--NP:StyleFilterConfigure() -- keep this at the top
 
-	--local Scale = E.global.general.UIScale
-
 	NP:PLAYER_REGEN_ENABLED()
 
 	if NP.db.units.PLAYER.enable and NP.db.units.PLAYER.useStaticPosition then
