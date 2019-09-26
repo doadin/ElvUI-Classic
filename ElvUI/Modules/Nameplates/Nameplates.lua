@@ -384,10 +384,6 @@ function NP:PLAYER_ENTERING_WORLD()
 	if NP.db.units.PLAYER.enable and NP.db.units.PLAYER.useStaticPosition then
 		NP:UpdatePlate(_G.ElvNP_Player)
 	end
-
-	if instanceType == 'party' or instanceType == 'raid' then
-		NamePlateDriverFrame:UpdateNamePlateOptions()
-	end
 end
 
 function NP:ConfigureAll()
