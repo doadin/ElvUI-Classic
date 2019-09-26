@@ -20,7 +20,7 @@ local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.craft then return end
 
 	local CraftFrame = _G.CraftFrame
-	CraftFrame:StripTextures(true, nil, 11, -12, -32, 76)
+	S:HandleFrame(CraftFrame, true, nil, 11, -12, -32, 76)
 
 	local CraftRankFrame = _G.CraftRankFrame
 	CraftRankFrame:StripTextures()
