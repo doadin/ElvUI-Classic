@@ -93,7 +93,7 @@ local CreatedFrames = 0
 local lfgRoles = {}
 
 local PLAYER_REALM = gsub(E.myrealm,'[%s%-]','')
-local PLAYER_NAME = E.myname.."-"..PLAYER_REALM
+local PLAYER_NAME = E.myname
 
 local DEFAULT_STRINGS = {
 	GUILD = L["G"],
