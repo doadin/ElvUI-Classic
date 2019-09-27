@@ -15,6 +15,7 @@
 	<Script file="LibClassicCasterino-1.0\LibClassicCasterino.lua"/>
 	<Script file="LibClassicHealComm\ChatThrottleLib.lua"/>
 	<Script file="LibClassicHealComm\LibClassicHealComm.lua"/>
+	<Include file="LibClassicThreat\lib.xml"/>
 	<Include file="LibSharedMedia-3.0\lib.xml"/>
 	<Script file="LibSimpleSticky\LibSimpleSticky.lua"/>
 	<Include file='oUF\oUF.xml'/>
