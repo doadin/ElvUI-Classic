@@ -28,7 +28,7 @@ local function LoadSkin()
 	S:HandleScrollBar(ChannelFrame.ChannelList.ScrollBar)
 	ChannelFrame.ChannelList.ScrollBar:Point('BOTTOMLEFT', ChannelFrame.ChannelList, 'BOTTOMRIGHT', 0, 15)
 
-	S:HandleCloseButton(CreateChannelPopup.CloseButton)
+	S:HandleCloseButton(CreateChannelPopup.CloseButton, CreateChannelPopup.backdrop, 4, 4)
 	S:HandleButton(CreateChannelPopup.OKButton)
 	S:HandleButton(CreateChannelPopup.CancelButton)
 
