@@ -154,41 +154,55 @@ for textFormat in pairs(E.GetFormattedTextStyles) do
 	ElvUF.Tags.Events[format('power:%s', tagTextFormat)] = 'UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER'
 	ElvUF.Tags.Methods[format('power:%s', tagTextFormat)] = function(unit)
 		local pType = UnitPowerType(unit)
-		return E:GetFormattedText(textFormat, UnitPower(unit, pType), UnitPowerMax(unit, pType))
+		local min = UnitPower(unit, pType)
+
+		if min == 0 and tagTextFormat ~= 'deficit' then
+			return ''
+		else
+			return E:GetFormattedText(textFormat, UnitPower(unit, pType), UnitPowerMax(unit, pType))
+		end
 	end
 
 	ElvUF.Tags.Events[format('mana:%s', tagTextFormat)] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER'
 	ElvUF.Tags.Methods[format('mana:%s', tagTextFormat)] = function(unit)
-		return E:GetFormattedText(textFormat, UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA))
-	end
+		local min = UnitPower(unit, SPELL_POWER_MANA)
 
-	ElvUF.Tags.Events[format('health:%s:shortvalue', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
-	ElvUF.Tags.Methods[format('health:%s:shortvalue', tagTextFormat)] = function(unit)
-		local status = UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
-		if (status) then
-			return status
+		if min == 0 and tagTextFormat ~= 'deficit' then
+			return ''
 		else
-			local min, max = E:UnitHealthValues(unit)
-			return E:GetFormattedText(textFormat, min, max, nil, true)
+			return E:GetFormattedText(textFormat, UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA))
 		end
 	end
 
-	ElvUF.Tags.Events[format('health:%s-nostatus:shortvalue', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
-	ElvUF.Tags.Methods[format('health:%s-nostatus:shortvalue', tagTextFormat)] = function(unit)
-		local min, max = E:UnitHealthValues(unit)
-		return E:GetFormattedText(textFormat, min, max, nil, true)
-	end
+	if tagTextFormat ~= 'percent' then
+		ElvUF.Tags.Events[format('health:%s:shortvalue', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
+		ElvUF.Tags.Methods[format('health:%s:shortvalue', tagTextFormat)] = function(unit)
+			local status = UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
+			if (status) then
+				return status
+			else
+				local min, max = E:UnitHealthValues(unit)
+				return E:GetFormattedText(textFormat, min, max, nil, true)
+			end
+		end
+
+		ElvUF.Tags.Events[format('health:%s-nostatus:shortvalue', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+		ElvUF.Tags.Methods[format('health:%s-nostatus:shortvalue', tagTextFormat)] = function(unit)
+			local min, max = E:UnitHealthValues(unit)
+			return E:GetFormattedText(textFormat, min, max, nil, true)
+		end
 
 
-	ElvUF.Tags.Events[format('power:%s:shortvalue', tagTextFormat)] = 'UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER'
-	ElvUF.Tags.Methods[format('power:%s:shortvalue', tagTextFormat)] = function(unit)
-		local pType = UnitPowerType(unit)
-		return E:GetFormattedText(textFormat, UnitPower(unit, pType), UnitPowerMax(unit, pType), nil, true)
-	end
+		ElvUF.Tags.Events[format('power:%s:shortvalue', tagTextFormat)] = 'UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER'
+		ElvUF.Tags.Methods[format('power:%s:shortvalue', tagTextFormat)] = function(unit)
+			local pType = UnitPowerType(unit)
+			return E:GetFormattedText(textFormat, UnitPower(unit, pType), UnitPowerMax(unit, pType), nil, true)
+		end
 
-	ElvUF.Tags.Events[format('mana:%s:shortvalue', tagTextFormat)] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER'
-	ElvUF.Tags.Methods[format('mana:%s:shortvalue', tagTextFormat)] = function(unit)
-		return E:GetFormattedText(textFormat, UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA), nil, true)
+		ElvUF.Tags.Events[format('mana:%s:shortvalue', tagTextFormat)] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER'
+		ElvUF.Tags.Methods[format('mana:%s:shortvalue', tagTextFormat)] = function(unit)
+			return E:GetFormattedText(textFormat, UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA), nil, true)
+		end
 	end
 end
 
