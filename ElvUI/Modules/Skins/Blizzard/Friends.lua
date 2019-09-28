@@ -605,7 +605,7 @@ local function LoadSkin()
 	_G.RaidInfoFrame:SetTemplate('Transparent')
 
 	_G.RaidInfoFrame:HookScript('OnShow', function()
-		if GetNumRaidMembers() > 0 then
+		if GetNumSubgroupMembers() > 0 then
 			_G.RaidInfoFrame:Point('TOPLEFT', RaidFrame, 'TOPRIGHT', -14, -12)
 		else
 			_G.RaidInfoFrame:Point('TOPLEFT', RaidFrame, 'TOPRIGHT', -34, -12)
