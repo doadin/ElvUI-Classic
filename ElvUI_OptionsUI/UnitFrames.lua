@@ -2830,20 +2830,11 @@ E.Options.args.unitframe = {
 									get = function(info) return E.db.unitframe.colors[info[#info]] end,
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
 								},
-								healthselection = {
-									order = 2,
-									type = 'toggle',
-									name = L["Selection Health"],
-									desc = L["Color health by color selection."],
-									get = function(info) return E.db.unitframe.colors[info[#info]] end,
-									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
-								},
 								healthclass = {
 									order = 3,
 									type = 'toggle',
 									name = L["Class Health"],
 									desc = L["Color health by classcolor or reaction."],
-									disabled = function() return E.db.unitframe.colors.healthselection end,
 									get = function(info) return E.db.unitframe.colors[info[#info]] end,
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
 								},
@@ -2854,7 +2845,7 @@ E.Options.args.unitframe = {
 									desc = L["Forces reaction color instead of class color on units controlled by players."],
 									get = function(info) return E.db.unitframe.colors[info[#info]] end,
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
-									disabled = function() return E.db.unitframe.colors.healthselection or not E.db.unitframe.colors.healthclass end,
+									disabled = function() return not E.db.unitframe.colors.healthclass end,
 								},
 								transparentHealth = {
 									order = 6,
@@ -2960,20 +2951,11 @@ E.Options.args.unitframe = {
 									get = function(info) return E.db.unitframe.colors[info[#info]] end,
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
 								},
-								powerselection = {
-									order = 3,
-									type = 'toggle',
-									name = L["Selection Power"],
-									desc = L["Color power by color selection."],
-									get = function(info) return E.db.unitframe.colors[info[#info]] end,
-									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
-								},
 								powerclass = {
 									order = 4,
 									type = 'toggle',
 									name = L["Class Power"],
 									desc = L["Color power by classcolor or reaction."],
-									disabled = function() return E.db.unitframe.colors.powerselection end,
 									get = function(info) return E.db.unitframe.colors[info[#info]] end,
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
 								},
@@ -3305,89 +3287,6 @@ E.Options.args.unitframe = {
 								GOOD = {
 									order = 3,
 									name = L["Good"],
-									type = 'color',
-								},
-							},
-						},
-						selectionGroup = {
-							order = 7,
-							type = 'group',
-							name = L["Selection"],
-							get = function(info)
-								local n = tonumber(info[#info])
-								local t = E.db.unitframe.colors.selection[n]
-								local d = P.unitframe.colors.selection[n]
-								return t.r, t.g, t.b, t.a, d.r, d.g, d.b
-							end,
-							set = function(info, r, g, b)
-								local n = tonumber(info[#info])
-								local t = E.db.unitframe.colors.selection[n]
-								t.r, t.g, t.b = r, g, b
-								UF:Update_AllFrames()
-							end,
-							args = {
-								['0'] = {
-									order = 0,
-									name = L["Hostile"],
-									type = 'color',
-								},
-								['1'] = {
-									order = 1,
-									name = L["Unfriendly"],
-									type = 'color',
-								},
-								['2'] = {
-									order = 2,
-									name = L["Neutral"],
-									type = 'color',
-								},
-								['3'] = {
-									order = 3,
-									name = L["Friendly"],
-									type = 'color',
-								},
-								--[[ LS- said to just use "Player Extended" as "Player" and don't use "Player Simple" at all
-								['4'] = {
-									order = 4,
-									name = L["Player Simple"],
-									type = 'color',
-								},
-								]]
-								['5'] = {
-									order = 5,
-									name = L["Player"], -- Player Extended
-									type = 'color',
-								},
-								['6'] = {
-									order = 6,
-									name = L["PARTY"],
-									type = 'color',
-								},
-								['7'] = {
-									order = 7,
-									name = L["Party PVP"],
-									type = 'color',
-								},
-								['8'] = {
-									order = 8,
-									name = L["Friend"],
-									type = 'color',
-								},
-								['9'] = {
-									order = 9,
-									name = L["Dead"],
-									type = 'color',
-								},
-								--[[ disabled in oUF for now by LS-
-								['12'] = {
-									order = 12,
-									name = L["Self"],
-									type = 'color',
-								},
-								]]
-								['13'] = {
-									order = 13,
-									name = L["Battleground Friendly"],
 									type = 'color',
 								},
 							},
