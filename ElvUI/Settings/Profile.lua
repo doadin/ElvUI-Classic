@@ -637,8 +637,8 @@ P.nameplates = {
 				durationPosition = 'CENTER',
 				filters = {
 					minDuration = 0,
-					maxDuration = 0,
-					priority = '' --NamePlate Player Buffs
+					maxDuration = 300,
+					priority = 'Blacklist,blockNoDuration,Personal,TurtleBuffs,PlayerBuffs' --NamePlate Player Buffs
 				},
 			},
 			debuffs = {
@@ -665,7 +665,7 @@ P.nameplates = {
 				filters = {
 					minDuration = 0,
 					maxDuration = 0,
-					priority = '' --NamePlate Player Debuffs
+					priority = 'Blacklist,blockNoDuration,Personal,Boss,CCDebuffs,RaidDebuffs,Dispellable' --NamePlate Player Debuffs
 				},
 			},
 		},
@@ -865,7 +865,7 @@ P.nameplates = {
 				filters = {
 					minDuration = 0,
 					maxDuration = 0,
-					priority = '' --NamePlate FriendlyPlayer Buffs
+					priority = 'Blacklist,blockNoDuration,Personal,TurtleBuffs' --NamePlate FriendlyPlayer Buffs
 				},
 			},
 			debuffs = {
@@ -892,7 +892,7 @@ P.nameplates = {
 				filters = {
 					minDuration = 0,
 					maxDuration = 0,
-					priority = '' --NamePlate FriendlyPlayer Debuffs
+					priority = 'Blacklist,Dispellable,blockNoDuration,Personal,Boss,CCDebuffs' --NamePlate FriendlyPlayer Debuffs
 				},
 			},
 		},
@@ -1078,8 +1078,8 @@ P.nameplates = {
 				durationPosition = 'CENTER',
 				filters = {
 					minDuration = 0,
-					maxDuration = 0,
-					priority = '' --NamePlate EnemyPlayer Buffs
+					maxDuration = 300,
+					priority = 'Blacklist,Dispellable,PlayerBuffs,TurtleBuffs' --NamePlate EnemyPlayer Buffs
 				},
 			},
 			debuffs = {
@@ -1106,7 +1106,7 @@ P.nameplates = {
 				filters = {
 					minDuration = 0,
 					maxDuration = 0,
-					priority = '' --NamePlate EnemyPlayer Debuffs
+					priority = 'Blacklist,blockNoDuration,Personal,Boss,CCDebuffs,RaidDebuffs' --NamePlate EnemyPlayer Debuffs
 				},
 			},
 		},
@@ -1268,7 +1268,7 @@ P.nameplates = {
 				filters = {
 					minDuration = 0,
 					maxDuration = 0,
-					priority = '' --NamePlate FriendlyNPC Buffs
+					priority = 'Blacklist,blockNoDuration,Personal,TurtleBuffs' --NamePlate FriendlyNPC Buffs
 				},
 			},
 			debuffs = {
@@ -1295,7 +1295,7 @@ P.nameplates = {
 				filters = {
 					minDuration = 0,
 					maxDuration = 0,
-					priority = '' --NamePlate FriendlyNPC Debuffs
+					priority = 'Blacklist,Boss,CCDebuffs,RaidDebuffs,Dispellable' --NamePlate FriendlyNPC Debuffs
 				},
 			},
 			eliteIcon = {
@@ -1492,7 +1492,7 @@ P.nameplates = {
 				filters = {
 					minDuration = 0,
 					maxDuration = 0,
-					priority = '' --NamePlate EnemyNPC Buffs
+					priority = 'Blacklist,RaidBuffsElvUI,Dispellable,blockNoDuration,PlayerBuffs,TurtleBuffs,CastByUnit' --NamePlate EnemyNPC Buffs
 				},
 			},
 			debuffs = {
@@ -1518,7 +1518,7 @@ P.nameplates = {
 				filters = {
 					minDuration = 0,
 					maxDuration = 0,
-					priority = '' --NamePlate EnemyNPC Debuffs
+					priority = 'Blacklist,Personal,CCDebuffs' --NamePlate EnemyNPC Debuffs
 				},
 			},
 			eliteIcon = {
