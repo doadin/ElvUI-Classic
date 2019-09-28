@@ -151,12 +151,18 @@ local function LoadSkin()
 			local r, g, b = GetItemQualityColor(quality)
 
 			frame:SetBackdropBorderColor(r, g, b)
-			frame.backdrop:SetBackdropBorderColor(r, g, b)
+
+			if frame.backdrop then
+				frame.backdrop:SetBackdropBorderColor(r, g, b)
+			end
 
 			text:SetTextColor(r, g, b)
 		else
 			frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
-			frame.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+
+			if frame.backdrop then
+				frame.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			end
 
 			text:SetTextColor(1, 1, 1)
 		end
@@ -427,20 +433,6 @@ local function LoadSkin()
 
 	S:HandleButton(_G.QuestFrameGreetingGoodbyeButton, true)
 	S:HandleScrollBar(_G.QuestGreetingScrollFrameScrollBar)
-
-	_G.QuestFrameAcceptButton:Point('BOTTOMLEFT', 18, 72)
-	_G.QuestFrameDeclineButton:Point('BOTTOMRIGHT', -38, 72)
-	_G.QuestFrameCompleteButton:Point('BOTTOMLEFT', 18, 72)
-	_G.QuestFrameGoodbyeButton:Point('BOTTOMRIGHT', -38, 72)
-	_G.QuestFrameCompleteQuestButton:Point('BOTTOMLEFT', 18, 72)
-	_G.QuestFrameCancelButton:Point('BOTTOMRIGHT', -38, 72)
-
-	_G.QuestLogFrameAbandonButton:Point('BOTTOMLEFT', 18, 52)
-	_G.QuestLogFrameAbandonButton:Width(124)
-
-	_G.QuestFramePushQuestButton:Point('RIGHT', _G.QuestFrameExitButton, 'LEFT', -2, 0)
-
-	_G.QuestFrameExitButton:Point('BOTTOMRIGHT', -38, 52)
 
 	_G.QuestLogSkillHighlight:StripTextures()
 
