@@ -132,6 +132,7 @@ local function LoadSkin()
 		['QuestLogItem'] = MAX_NUM_ITEMS,
 		['QuestProgressItem'] = MAX_REQUIRED_ITEMS
 	}
+
 	for frame, numItems in pairs(items) do
 		for i = 1, numItems do
 			local item = _G[frame..i]
