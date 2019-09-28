@@ -258,9 +258,14 @@ local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, disp
 	local r2, g2, b2 = 1, 1, 1
 	if textColor then r2, g2, b2 = unpack(textColor) end
 
+	local rankText = GetSpellSubtext(id)
+	local spellRank = rankText and strfind(rankText, '%d') and GetSpellSubtext(id) or nil
+
 	return {
 		enabled = true,
 		id = id,
+		name = GetSpellInfo(id),
+		rank = spellRank,
 		point = point,
 		color = {r = r, g = g, b = b},
 		anyUnit = anyUnit,
