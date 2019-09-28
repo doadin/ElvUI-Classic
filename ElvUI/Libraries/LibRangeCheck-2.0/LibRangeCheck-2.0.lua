@@ -141,6 +141,7 @@ HarmSpells["PALADIN"] = {
 
 FriendSpells["PRIEST"] = {
     527, -- ["Purify"], -- 40
+    2061,
     17, -- ["Power Word: Shield"], -- 40
 }
 HarmSpells["PRIEST"] = {
