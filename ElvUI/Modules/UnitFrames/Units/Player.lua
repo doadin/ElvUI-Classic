@@ -42,6 +42,7 @@ function UF:Construct_PlayerFrame(frame)
 	end
 
 	frame.PowerPrediction = self:Construct_PowerPrediction(frame) -- must be AFTER Power & AdditionalPower
+	frame.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
@@ -175,6 +176,8 @@ function UF:Update_PlayerFrame(frame, db)
 	if E.db.unitframe.units.target.aurabar.attachTo == "PLAYER_AURABARS" and ElvUF_Target then
 		UF:Configure_AuraBars(ElvUF_Target)
 	end
+
+	UF:Configure_RaidRoleIcons(frame)
 
 	--PvP & Prestige Icon
 	UF:Configure_PVPIcon(frame)
