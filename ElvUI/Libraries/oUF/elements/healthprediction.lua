@@ -272,12 +272,15 @@ local function Disable(self)
 			element.overHealAbsorb:Hide()
 		end
 
-		self:UnregisterEvent('UNIT_HEALTH', Path)
+		HealComm.UnregisterCallback(element, 'HealComm_HealStarted')
+		HealComm.UnregisterCallback(element, 'HealComm_HealUpdated')
+		HealComm.UnregisterCallback(element, 'HealComm_HealDelayed')
+		HealComm.UnregisterCallback(element, 'HealComm_HealStopped')
+		HealComm.UnregisterCallback(element, 'HealComm_ModifierChanged')
+		HealComm.UnregisterCallback(element, 'HealComm_GUIDDisappeared')
+
 		self:UnregisterEvent('UNIT_MAXHEALTH', Path)
 		self:UnregisterEvent('UNIT_HEALTH_FREQUENT', Path)
-		self:UnregisterEvent('UNIT_HEAL_PREDICTION', Path)
-		self:UnregisterEvent('UNIT_ABSORB_AMOUNT_CHANGED', Path)
-		self:UnregisterEvent('UNIT_HEAL_ABSORB_AMOUNT_CHANGED', Path)
 	end
 end
 
