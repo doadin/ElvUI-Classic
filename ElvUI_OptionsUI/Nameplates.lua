@@ -78,93 +78,24 @@ local function filterPriority(auraType, unit, value, remove, movehere, friendSta
 	end
 end
 
-local specListOrder = 50 -- start at 50
-local classTable, classIndexTable, classOrder
-local function UpdateClassSpec(classTag, enabled)
-	if not (classTable[classTag] and classTable[classTag].classID) then return end
-	local classSpec = format("%s%s", classTag, "spec");
-	if (enabled == false) then
-		if E.Options.args.nameplate.args.filters.args.triggers.args.class.args[classSpec] then
-			E.Options.args.nameplate.args.filters.args.triggers.args.class.args[classSpec] = nil
-			specListOrder = specListOrder-1
-		end
-		return -- stop when we remove one OR when we pass disable with clear filter
-	end
-	if not E.Options.args.nameplate.args.filters.args.triggers.args.class.args[classSpec] then
-		specListOrder = specListOrder+1
-		E.Options.args.nameplate.args.filters.args.triggers.args.class.args[classSpec] = {
-			order = specListOrder,
-			type = "group",
-			name = classTable[classTag].name,
-			guiInline = true,
-			args = {},
-		}
-	end
-	local coloredName = (_G.CUSTOM_CLASS_COLORS and _G.CUSTOM_CLASS_COLORS[classTag]) or _G.RAID_CLASS_COLORS[classTag]
-	coloredName = (coloredName and coloredName.colorStr) or "ff666666"
-	for i=1, GetNumSpecializationsForClassID(classTable[classTag].classID) do
-		local specID, name = GetSpecializationInfoForClassID(classTable[classTag].classID, i)
-		local tagID = format("%s%s", classTag, specID)
-		if not E.Options.args.nameplate.args.filters.args.triggers.args.class.args[classSpec].args[tagID] then
-			E.Options.args.nameplate.args.filters.args.triggers.args.class.args[classSpec].args[tagID] = {
-				order = i,
-				name = format("|c%s%s|r", coloredName, name),
-				type = 'toggle',
-				get = function(info)
-					local tagTrigger = E.global.nameplate.filters[selectedNameplateFilter].triggers.class[classTag]
-					return tagTrigger and tagTrigger.specs and tagTrigger.specs[specID]
-				end,
-				set = function(info, value)
-					--set this to nil if false to keep its population to only enabled ones
-					local tagTrigger = E.global.nameplate.filters[selectedNameplateFilter].triggers.class[classTag]
-					if not tagTrigger.specs then
-						E.global.nameplate.filters[selectedNameplateFilter].triggers.class[classTag].specs = {}
-					end
-					E.global.nameplate.filters[selectedNameplateFilter].triggers.class[classTag].specs[specID] = value or nil
-					if not next(E.global.nameplate.filters[selectedNameplateFilter].triggers.class[classTag].specs) then
-						E.global.nameplate.filters[selectedNameplateFilter].triggers.class[classTag].specs = nil
-					end
-					NP:ConfigureAll()
-				end
-			}
-		end
-	end
-end
-
-local classTableInfo = {
-	WARRIOR = 1,
-	PALADIN = 2,
-	HUNTER = 3,
-	ROGUE = 4,
-	PRIEST = 5,
-	SHAMAN = 7,
-	MAGE = 8,
-	WARLOCK = 9,
-	DRUID = 11,
-}
-
 local function UpdateClassSection()
 	if E.global.nameplate.filters[selectedNameplateFilter] then
-		if not classTable then
-			classTable, classIndexTable = {}, {}
-			for classTag, classID in pairs(classTableInfo) do
-				local classDisplayName = LOCALIZED_CLASS_NAMES_MALE[classTag]
-				if not classTable[classTag] then
-					classTable[classTag] = {}
-				end
-				classTable[classTag].name = classDisplayName
-				classTable[classTag].classID = classID
-				tinsert(classIndexTable, classTag)
+		local classTable, classIndexTable = {}, {}
+		for _, classTag in pairs(CLASS_SORT_ORDER) do
+			local classDisplayName = LOCALIZED_CLASS_NAMES_MALE[classTag]
+			if not classTable[classTag] then
+				classTable[classTag] = {}
 			end
-			sort(classIndexTable)
+			classTable[classTag].name = classDisplayName
+			tinsert(classIndexTable, classTag)
 		end
-		classOrder = 0
+		sort(classIndexTable)
+		local classOrder = 0
 		local coloredName;
 		for _, classTag in ipairs(classIndexTable) do
 			classOrder = classOrder+1
 			coloredName = (_G.CUSTOM_CLASS_COLORS and _G.CUSTOM_CLASS_COLORS[classTag]) or _G.RAID_CLASS_COLORS[classTag]
 			coloredName = (coloredName and coloredName.colorStr) or "ff666666"
-			local classTrigger = E.global.nameplate.filters[selectedNameplateFilter].triggers.class
 			E.Options.args.nameplate.args.filters.args.triggers.args.class.args[classTag] = {
 				order = classOrder,
 				name = format("|c%s%s|r", coloredName, classTable[classTag].name),
@@ -184,7 +115,6 @@ local function UpdateClassSection()
 					else
 						E.global.nameplate.filters[selectedNameplateFilter].triggers.class[classTag] = nil
 					end
-					UpdateClassSpec(classTag, value)
 					NP:ConfigureAll()
 				end
 			}
@@ -1685,8 +1615,6 @@ local function UpdateFilterGroup()
 				['Not specified'] = 12,
 				Totem = 13,
 				Undead = 14,
-				['Wild Pet'] = 15,
-				['Non-combat Pet'] = 16
 			}
 
 			for k, v in pairs(E.CreatureTypes) do
@@ -1699,7 +1627,6 @@ local function UpdateFilterGroup()
 			end
 		end
 
-		specListOrder = 50 -- reset this to 50
 		UpdateClassSection()
 		UpdateStyleLists()
 	end
