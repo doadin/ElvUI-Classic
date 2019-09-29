@@ -30,6 +30,10 @@ G.unitframe.aurafilters.CCDebuffs = {
 	[2637] = Defaults(1), --Hibernate(Rank 1)
 	[18657] = Defaults(1), --Hibernate(Rank 2)
 	[18658] = Defaults(1), --Hibernate(Rank 3)
+    [19675] = Defaults(2), --Feral Charge Effect
+    [5211] = Defaults(4), --Mighty Bash(Rank 1)
+    [6798] = Defaults(4), --Mighty Bash(Rank 2)
+    [8983] = Defaults(4), --Mighty Bash(Rank 3)
 	--Hunter
 	[1499] = Defaults(3), --Freezing Trap(Rank 1)
 	[14310] = Defaults(3), --Freezing Trap(Rank 2)
@@ -71,6 +75,8 @@ G.unitframe.aurafilters.CCDebuffs = {
 	[2070] = Defaults(4), --Sap(Rank 2)
 	[11297] = Defaults(4), --Sap(Rank 3)
 	[2094] = Defaults(5), --Blind
+    [408] = Defaults(4), --Kidney Shot(Rank 1)
+    [8643] = Defaults(4), --Kidney Shot(Rank 2)
 	--Shaman
 	[2484] = Defaults(1), --Earthbind Totem
 	--Warlock
@@ -83,6 +89,10 @@ G.unitframe.aurafilters.CCDebuffs = {
 	[1715] = Defaults(2), --Hamstring(Rank 1)
 	[7372] = Defaults(2), --Hamstring(Rank 2)
 	[7373] = Defaults(2), --Hamstring(Rank 3)
+    [12809] = Defaults(2), --Concussion Blow
+    [20252] = Defaults(2), --Intercept(Rank 1)
+    [20616] = Defaults(2), --Intercept(Rank 2)
+    [20617] = Defaults(2), --Intercept(Rank 3)
 	--Racial
 	},
 }
