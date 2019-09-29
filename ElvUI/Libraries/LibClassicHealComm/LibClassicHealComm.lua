@@ -1296,7 +1296,7 @@ local function parseDirectHeal(casterGUID, spellID, amount, castTime, ...)
 	if unit == "player" then
 		endTime = select(5, CastingInfo())
 	else
-		endTime = GetTime() + castTime
+		endTime = GetTime() + (castTime or 1.5)
 	end
 
 	pendingHeals[casterGUID] = pendingHeals[casterGUID] or {}
