@@ -28,6 +28,7 @@ P.general = {
 		itemLevelFontSize = 12,
 		itemLevelFontOutline = 'OUTLINE',
 	},
+	durabilityScale = 1,
 	afk = true,
 	numberPrefixStyle = 'ENGLISH',
 	decimalLength = 1,
