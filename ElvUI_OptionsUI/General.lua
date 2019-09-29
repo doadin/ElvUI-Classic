@@ -528,7 +528,7 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general.raidUtility = value; E:StaticPopup_Show("PRIVATE_RL") end
 				},
 				DurabilityGroup = {
-					order = 12,
+					order = 7,
 					type = "group",
 					name = L["Durability"],
 					guiInline = true,
@@ -610,7 +610,7 @@ E.Options.args.general = {
 			},
 		},
 		misc = {
-			order = 12,
+			order = 20,
 			type = "group",
 			name = L["Miscellaneous"],
 			get = function(info) return E.db.general[info[#info]] end,
