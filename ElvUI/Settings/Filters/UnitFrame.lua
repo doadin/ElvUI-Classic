@@ -269,7 +269,7 @@ local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, disp
 		id = id,
 		name = name,
 		rank = spellRank,
-		point = point,
+		point = point or 'TOPLEFT',
 		color = {r = r, g = g, b = b},
 		anyUnit = anyUnit,
 		onlyShowMissing = onlyShowMissing,
