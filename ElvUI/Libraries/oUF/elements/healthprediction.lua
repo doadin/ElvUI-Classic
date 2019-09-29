@@ -81,8 +81,8 @@ local function Update(self, event, unit)
 
 	local guid = UnitGUID(unit)
 
-	local allIncomingHeal = HealComm:GetHealAmount(guid, HealComm.ALL_HEALS) or 0
-	local myIncomingHeal = (HealComm:GetHealAmount(guid, HealComm.ALL_HEALS, nil, myGUID) or 0) * (HealComm:GetHealModifier(myGUID) or 1)
+	local allIncomingHeal = HealComm:GetHealAmount(guid, element.HealType) or 0
+	local myIncomingHeal = (HealComm:GetHealAmount(guid, element.HealType, nil, myGUID) or 0) * (HealComm:GetHealModifier(myGUID) or 1)
 	local health, maxHealth = UnitHealth(unit), UnitHealthMax(unit)
 	local otherIncomingHeal = 0
 
@@ -170,6 +170,7 @@ local function Enable(self)
 	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
+		element.healType = element.healType or HealComm.ALL_HEALS
 
 		self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
 		self:RegisterEvent('UNIT_MAXHEALTH', Path)

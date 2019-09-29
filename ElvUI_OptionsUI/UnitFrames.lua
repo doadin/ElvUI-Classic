@@ -2187,16 +2187,18 @@ local function GetOptionsTable_HealPrediction(updateFunc, groupName, numGroup)
 				type = "toggle",
 				name = L["Enable"],
 			},
-			showOverAbsorbs = {
+			healType = {
 				order = 2,
-				type = "toggle",
-				name = L["Show Over Absorbs"],
-			},
-			showAbsorbAmount = {
-				order = 3,
-				type = "toggle",
-				name = L["Show Absorb Amount"],
-				disabled = function() return not E.db.unitframe.units[groupName].healPrediction.showOverAbsorbs end,
+				type = "select",
+				name = L["Type"],
+				values = {
+					ALL_HEALS = 'All Heals',
+					CHANNEL_HEALS = 'Channel Heals',
+					DIRECT_HEALS = 'Direct Heals',
+					HOT_HEALS = 'HoTs',
+					OVERTIME_HEALS = 'HoTs & Channel',
+					CASTED_HEALS = 'Direct & Channel Heals',
+				},
 			},
 			colors = {
 				order = 4,

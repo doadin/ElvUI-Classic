@@ -7,18 +7,18 @@ Dependencies: LibStub, ChatThrottleLib
 ]]
 
 local major = "LibClassicHealComm-1.0"
-local minor = 19
+local minor = 20
 assert(LibStub, string.format("%s requires LibStub.", major))
 
 local HealComm = LibStub:NewLibrary(major, minor)
 if( not HealComm ) then return end
 
 -- API CONSTANTS
---local ALL_DATA = 0x0f
+local ALL_DATA = 0x0f
 local DIRECT_HEALS = 0x01
 local CHANNEL_HEALS = 0x02
 local HOT_HEALS = 0x04
---local ABSORB_SHIELDS = 0x08
+local ABSORB_SHIELDS = 0x08
 local ALL_HEALS = bit.bor(DIRECT_HEALS, CHANNEL_HEALS, HOT_HEALS)
 local CASTED_HEALS = bit.bor(DIRECT_HEALS, CHANNEL_HEALS)
 local OVERTIME_HEALS = bit.bor(HOT_HEALS, CHANNEL_HEALS)
