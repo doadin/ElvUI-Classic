@@ -390,10 +390,6 @@ local function filterData(spells, filterGUID, bitFlag, time, ignoreGUID)
 	local healAmount = 0
 	local currentTime = GetTime()
 
-	if not spells then
-		return healAmount
-	end
-
 	for _, pending in pairs(spells) do
 		if( pending.bitType and bit.band(pending.bitType, bitFlag) > 0 ) then
 			for i=1, #(pending), 5 do
@@ -436,9 +432,14 @@ end
 -- Gets healing amount using the passed filters
 function HealComm:GetHealAmount(guid, bitFlag, time, casterGUID)
 	local amount = 0
-	if( casterGUID and pendingHeals[casterGUID] ) then
-		amount = filterData(pendingHeals[casterGUID], guid, bitFlag, time) + filterData(pendingHots[casterGUID], guid, bitFlag, time)
-	elseif( not casterGUID ) then
+	if casterGUID then
+		if pendingHeals[casterGUID] then
+			amount = amount + filterData(pendingHeals[casterGUID], guid, bitFlag, time)
+		end
+		if pendingHots[casterGUID] then
+			amount = amount + filterData(pendingHots[casterGUID], guid, bitFlag, time)
+		end
+	else
 		for _, spells in pairs(pendingHeals) do
 			amount = amount + filterData(spells, guid, bitFlag, time)
 		end
