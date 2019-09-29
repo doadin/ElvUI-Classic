@@ -252,6 +252,9 @@ E.ReverseTimer = {}
 
 -- BuffWatch: List of personal spells to show on unitframes as icon
 local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, displayText, decimalThreshold, textColor, textThreshold, xOffset, yOffset, sizeOverride)
+	local name = GetSpellInfo(id)
+	if not name then return end
+
 	local r, g, b = 1, 1, 1
 	if color then r, g, b = unpack(color) end
 
@@ -264,7 +267,7 @@ local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, disp
 	return {
 		enabled = true,
 		id = id,
-		name = GetSpellInfo(id),
+		name = name,
 		rank = spellRank,
 		point = point,
 		color = {r = r, g = g, b = b},
