@@ -407,7 +407,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.unitframe.units.raid.roleIcon.position = "BOTTOMRIGHT"
 		E.db.unitframe.units.raid.roleIcon.size = 12
 		E.db.unitframe.units.raid.roleIcon.xOffset = 0
-		E.db.unitframe.units.raid.visibility = "[@raid6,noexists] hide;show"
 		E.db.unitframe.units.raid.width = 92
 			--Raid40
 		E.db.unitframe.units.raid40.enable = false
@@ -430,7 +429,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 			E.db.movers.VOICECHAT = "TOPLEFT,ElvUIParent,TOPLEFT,250,-82"
 			E.db.unitframe.units.party.enable = false
 			E.db.unitframe.units.party.health.frequentUpdates = true
-			E.db.unitframe.units.raid.visibility = "[nogroup] hide;show"
 			E.db.unitframe.units.raid40.health.frequentUpdates = true
 		end
 	end
