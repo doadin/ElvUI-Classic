@@ -33,36 +33,41 @@ local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.quest then return end
 
 	local QuestStrip = {
-		'QuestFrame',
-		'QuestLogFrame',
-		'QuestLogQuestCount',
 		'EmptyQuestLogFrame',
-		'QuestFrameDetailPanel',
-		'QuestDetailScrollFrame',
 		'QuestDetailScrollChildFrame',
-		'QuestRewardScrollFrame',
-		'QuestRewardScrollChildFrame',
+		'QuestDetailScrollFrame',
+		'QuestFrame',
+		'QuestFrameDetailPanel',
+		'QuestFrameGreetingPanel',
 		'QuestFrameProgressPanel',
 		'QuestFrameRewardPanel',
-		'QuestLogListScrollFrame',
+		'QuestGreetingScrollFrame',
+		'QuestInfoItemHighlight',
 		'QuestLogDetailScrollFrame',
+		'QuestLogFrame',
+		'QuestLogListScrollFrame',
+		'QuestLogQuestCount',
+		'QuestLogSkillHighlight',
+		'QuestProgressScrollFrame',
+		'QuestRewardScrollChildFrame',
 		'QuestRewardScrollFrame',
-		'QuestProgressScrollFrame'
+		'QuestRewardScrollFrame'
 	}
 	for _, object in pairs(QuestStrip) do
 		_G[object]:StripTextures(true)
 	end
 
 	local QuestButtons = {
-		'QuestLogFrameAbandonButton',
-		'QuestFrameExitButton',
-		'QuestFramePushQuestButton',
-		'QuestFrameCompleteButton',
-		'QuestFrameGoodbyeButton',
-		'QuestFrameCompleteQuestButton',
-		'QuestFrameCancelButton',
 		'QuestFrameAcceptButton',
-		'QuestFrameDeclineButton'
+		'QuestFrameCancelButton',
+		'QuestFrameCompleteButton',
+		'QuestFrameCompleteQuestButton',
+		'QuestFrameDeclineButton',
+		'QuestFrameExitButton',
+		'QuestFrameGoodbyeButton',
+		'QuestFrameGreetingGoodbyeButton',
+		'QuestFramePushQuestButton',
+		'QuestLogFrameAbandonButton'
 	}
 	for _, button in pairs(QuestButtons) do
 		_G[button]:StripTextures()
@@ -70,17 +75,16 @@ local function LoadSkin()
 	end
 
 	local ScrollBars = {
-		'QuestLogDetailScrollFrameScrollBar',
 		'QuestDetailScrollFrameScrollBar',
+		'QuestGreetingScrollFrameScrollBar',
+		'QuestLogDetailScrollFrameScrollBar',
 		'QuestLogListScrollFrameScrollBar',
 		'QuestProgressScrollFrameScrollBar',
-		'QuestRewardScrollFrameScrollBar',
+		'QuestRewardScrollFrameScrollBar'
 	}
 	for _, object in pairs(ScrollBars) do
 		S:HandleScrollBar(_G[object])
 	end
-
-	QuestInfoItemHighlight:StripTextures()
 
 	local function handleItemButton(item)
 		if not item then return end
@@ -262,7 +266,7 @@ local function LoadSkin()
 
 	local textColor = {1, 1, 1}
 	local titleTextColor = {1, 0.80, 0.10}
-	hooksecurefunc('QuestFrameItems_Update', function(questState)
+	hooksecurefunc('QuestFrameItems_Update', function()
 		-- Headers
 		_G.QuestLogDescriptionTitle:SetTextColor(unpack(titleTextColor))
 		_G.QuestLogRewardTitleText:SetTextColor(unpack(titleTextColor))
@@ -311,7 +315,7 @@ local function LoadSkin()
 		for i = 1, _G.MAX_NUM_ITEMS do
 			item = _G['QuestLogItem'..i]
 			name = _G['QuestLogItem'..i..'Name']
-			link = item.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
+			link = item.type and (GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
 
 			questQualityColors(item, name, link)
 		end
@@ -427,14 +431,13 @@ local function LoadSkin()
 	_G.QuestProgressScrollFrame:CreateBackdrop('Transparent')
 	_G.QuestProgressScrollFrame.backdrop:Point('TOPLEFT', -6, 2)
 
-	_G.QuestFrameGreetingPanel:StripTextures()
-	_G.QuestGreetingScrollFrame:StripTextures()
 	_G.QuestGreetingFrameHorizontalBreak:Kill()
 
-	S:HandleButton(_G.QuestFrameGreetingGoodbyeButton, true)
-	S:HandleScrollBar(_G.QuestGreetingScrollFrameScrollBar)
+	_G.QuestLogFrameAbandonButton:Width(129)
 
-	_G.QuestLogSkillHighlight:StripTextures()
+	S:HandlePointXY(_G.QuestLogFrameAbandonButton, 15, 49)
+	S:HandlePointXY(_G.QuestFramePushQuestButton, -2)
+	S:HandlePointXY(_G.QuestFrameExitButton, -36, 49)
 
 	local QuestLogHighlightFrame = _G.QuestLogHighlightFrame
 	QuestLogHighlightFrame:Width(300)

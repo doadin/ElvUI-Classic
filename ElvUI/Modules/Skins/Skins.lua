@@ -308,6 +308,11 @@ function S:HandleButtonHighlight(frame, r, g, b)
 	rightGrad:SetGradientAlpha('Horizontal', r, g, b, 0, r, g, b, 0.35)
 end
 
+function S:HandlePointXY(frame, x, y)
+	local a, b, c, d, e = frame:GetPoint()
+	frame:SetPoint(a, b, c, x or d, y or e)
+end
+
 local function GrabScrollBarElement(frame, element)
 	local FrameName = frame:GetDebugName()
 	return frame[element] or FrameName and (_G[FrameName..element] or strfind(FrameName, element)) or nil
