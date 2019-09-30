@@ -57,6 +57,11 @@ function UF:Construct_PlayerFrame(frame)
 	frame.Fader = self:Construct_Fader()
 	frame.customTexts = {}
 
+	frame.EnergyManaRegen = CreateFrame("StatusBar", nil, frame.Power)
+	frame.EnergyManaRegen:SetFrameLevel(frame.Power:GetFrameLevel() + 3)
+	frame.EnergyManaRegen:SetAllPoints()
+	frame.EnergyManaRegen.Spark = frame.EnergyManaRegen:CreateTexture(nil, 'OVERLAY')
+
 	frame:Point('BOTTOMLEFT', E.UIParent, 'BOTTOM', -413, 68) --Set to default position
 	E:CreateMover(frame, frame:GetName()..'Mover', L["Player Frame"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,player,generalGroup')
 
