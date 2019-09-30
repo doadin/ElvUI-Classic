@@ -901,7 +901,7 @@ function E:UpdateBags(skipCallback)
 	Bags:Layout(true)
 	Bags:SizeAndPositionBagBar()
 	Bags:UpdateCountDisplay()
-	Bags:UpdateItemLevelDisplay()
+	--Bags:UpdateItemLevelDisplay()
 
 	if not skipCallback then
 		E.callbacks:Fire("StaggeredUpdate")
