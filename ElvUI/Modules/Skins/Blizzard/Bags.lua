@@ -70,6 +70,7 @@ local function LoadSkin()
 		containerFrame = _G['ContainerFrame'..i]
 		containerFrameClose = _G['ContainerFrame'..i..'CloseButton']
 
+		containerFrame:StripTextures(true)
 		S:HandleFrame(containerFrame, true, nil, 9, -4, -4, 2)
 
 		S:HandleCloseButton(containerFrameClose)
@@ -83,7 +84,6 @@ local function LoadSkin()
 			itemButtonCooldown = _G['ContainerFrame'..i..'Item'..k..'Cooldown']
 
 			itemButton:SetNormalTexture('')
-
 			itemButton:SetTemplate('Default', true)
 			itemButton:StyleButton()
 
@@ -100,9 +100,10 @@ local function LoadSkin()
 
 	-- BankFrame
 	local BankFrame = _G.BankFrame
-	S:HandleFrame(BankFrame, true, nil, 10, -11, -26, 93)
-
 	BankFrame:StripTextures(true)
+	S:HandleFrame(BankFrame, true, nil, 11, -12, -32, 93)
+
+	BankSlotsFrame:StripTextures()
 
 	S:HandleCloseButton(_G.BankCloseButton, BankFrame.backdrop)
 
@@ -111,8 +112,7 @@ local function LoadSkin()
 		button = _G['BankFrameItem'..i]
 		buttonIcon = _G['BankFrameItem'..i..'IconTexture']
 
-		button:SetNormalTexture('')
-
+		button:SetNormalTexture(nil)
 		button:SetTemplate('Default', true)
 		button:StyleButton()
 
@@ -126,7 +126,7 @@ local function LoadSkin()
 	BankFrame.itemBackdrop:Point('BOTTOMRIGHT', _G.BankFrameItem24, 'BOTTOMRIGHT', 6, -6)
 	BankFrame.itemBackdrop:SetFrameLevel(BankFrame:GetFrameLevel())
 
-	for i = 1, NUM_BANKBAGSLOTS, 1 do
+--[[	for i = 1, NUM_BANKBAGSLOTS, 1 do
 		button = _G['BankFrameItem'..i]
 		buttonIcon = _G['BankFrameItem'..i..'IconTexture']
 
@@ -140,13 +140,7 @@ local function LoadSkin()
 
 		-- _G['BankFrameItem'..i..'HighlightFrameTexture']:SetInside()
 		-- _G['BankFrameItem'..i..'HighlightFrameTexture']:SetTexture(unpack(E.media.rgbvaluecolor), 0.3)
-	end
-
-	BankFrame.bagBackdrop = CreateFrame('Frame', 'BankFrameBagBackdrop', BankFrame)
-	BankFrame.bagBackdrop:SetTemplate('Default')
-	BankFrame.bagBackdrop:Point('TOPLEFT', _G.BankFrameBag1, 'TOPLEFT', -6, 6)
-	BankFrame.bagBackdrop:Point('BOTTOMRIGHT', _G.BankFrameBag6, 'BOTTOMRIGHT', 6, -6)
-	BankFrame.bagBackdrop:SetFrameLevel(BankFrame:GetFrameLevel())
+	end--]]
 
 	S:HandleButton(_G.BankFramePurchaseButton)
 
