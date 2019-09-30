@@ -104,7 +104,16 @@ G.unitframe.aurafilters.TurtleBuffs = {
 	--Druid
 	--Hunter
 	--Mage
+	[11958] = Defaults(2), --Ice Block A
+	[27619] = Defaults(2), --Ice Block B
 	--Paladin
+	[498] = Defaults(2), --Divine Protection(Rank 1)
+	[5573] = Defaults(2), --Divine Protection(Rank 2)
+	[642] = Defaults(2), --Divine Shield(Rank 1)
+	[1020] = Defaults(2), --Divine Shield(Rank 2)
+	[1022] = Defaults(2), --Blessing of Protection(Rank 1)
+	[5599] = Defaults(2), --Blessing of Protection(Rank 2)
+	[10278] = Defaults(2), --Blessing of Protection(Rank 3)
 	--Priest
 	--Rogue
 	--Shaman
@@ -266,7 +275,7 @@ G.unitframe.aurafilters.DungeonDebuffs = {
 		[7068] = Defaults(2), --Veil of Shadow
 		[7125] = Defaults(2), --Toxic Saliva
 		[7621] = Defaults(2), --Arugal's Curse
-	--
+	--Stratholme
 		[16798] = Defaults(2), --Enchanting Lullaby
 		[12734] = Defaults(2), --Ground Smash
 		[17293] = Defaults(2), --Burning Winds
