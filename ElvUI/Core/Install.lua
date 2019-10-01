@@ -309,7 +309,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.movers.PetExperienceBarMover = "BOTTOM,ElvUIParent,BOTTOM,0,53"
 		E.db.movers.LevelUpBossBannerMover = "TOP,ElvUIParent,TOP,-1,-120"
 		E.db.movers.LootFrameMover = "TOPLEFT,ElvUIParent,TOPLEFT,418,-186"
-		E.db.movers.LossControlMover = "BOTTOM,ElvUIParent,BOTTOM,-1,507"
 		E.db.movers.MirrorTimer1Mover = "TOP,ElvUIParent,TOP,-1,-96"
 		E.db.movers.ObjectiveFrameMover = "TOPRIGHT,ElvUIParent,TOPRIGHT,-163,-325"
 		E.db.movers.ReputationBarMover = "TOPRIGHT,ElvUIParent,TOPRIGHT,-3,-246"

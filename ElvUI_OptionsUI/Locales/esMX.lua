@@ -268,7 +268,6 @@ L["Comparison Font Size"] = true
 L["Completely hide the voice buttons."] = true
 L["Condensed"] = true
 L["Configure Auras"] = "Configurar Auras"
-L["Contribution"] = true
 L["Control enemy nameplates toggling on or off when in combat."] = true
 L["Control friendly nameplates toggling on or off when in combat."] = true
 L["Controls how big of an area on the screen will accept clicks to target unit."] = true
