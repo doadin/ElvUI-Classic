@@ -199,7 +199,6 @@ E.Options.args.bags = {
 						},
 					},
 				},
---[=[
 				itemLevelGroup = {
 					order = 35,
 					type = "group",
@@ -240,7 +239,7 @@ E.Options.args.bags = {
 							name = L["Item Level Threshold"],
 							desc = L["The minimum item level required for it to be shown."],
 							type = 'range',
-							min = 1, max = 1000, step = 1,
+							min = 1, max = 200, step = 1,
 							disabled = function() return not E.db.bags.itemLevel end,
 							set = function(info, value) E.db.bags.itemLevelThreshold = value; B:UpdateItemLevelDisplay() end,
 						},
@@ -271,7 +270,6 @@ E.Options.args.bags = {
 						},
 					},
 				},
-]=]
 			},
 		},
 		sizeGroup = {

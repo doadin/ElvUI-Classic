@@ -401,7 +401,7 @@ function B:UpdateSlot(frame, bagID, slotID)
 		slot:SetBackdropBorderColor(r, g, b)
 		slot.ignoreBorderColors = true
 	elseif clink then
-		local name, _, itemRarity, _, _, _, _, _, itemEquipLoc, _, _, itemClassID, itemSubClassID = GetItemInfo(clink)
+		local name, _, itemRarity, itemLevel, _, _, _, _, itemEquipLoc, _, _, itemClassID, itemSubClassID = GetItemInfo(clink)
 		slot.name = name
 
 		local r, g, b
@@ -413,22 +413,18 @@ function B:UpdateSlot(frame, bagID, slotID)
 		if showBindType or showItemLevel then
 			local colorblind = GetCVarBool('colorblindmode')
 			local canShowItemLevel = showItemLevel and B:IsItemEligibleForItemLevelDisplay(itemClassID, itemSubClassID, itemEquipLoc, slot.rarity)
-			local itemLevelLines, bindTypeLines = colorblind and 4 or 3, colorblind and 8 or 7
-			local iLvl, BoE, BoU --GetDetailedItemLevelInfo this api dont work for some time correctly for ilvl
+			local bindTypeLines = colorblind and 4 or 3
+			local BoE, BoU --GetDetailedItemLevelInfo this api dont work for some time correctly for ilvl
 
 			for i = 2, bindTypeLines do
 				local line = _G["ElvUI_ScanTooltipTextLeft"..i]:GetText()
 				if not line or line == "" then break end
-				if canShowItemLevel and (i <= itemLevelLines) then
-					local itemLevel = line:match(MATCH_ITEM_LEVEL)
-					if itemLevel then iLvl = tonumber(itemLevel) end
-				end
 				if showBindType then
 					-- as long as we check the ilvl first, we can savely break on these because they fall after ilvl
 					if line == _G.ITEM_SOULBOUND or line == _G.ITEM_ACCOUNTBOUND or line == _G.ITEM_BNETACCOUNTBOUND then break end
 					BoE, BoU = line == _G.ITEM_BIND_ON_EQUIP, line == _G.ITEM_BIND_ON_USE
 				end
-				if ((not showBindType) or (BoE or BoU)) and ((not canShowItemLevel) or iLvl) then
+				if ((not showBindType) or (BoE or BoU)) then
 					break
 				end
 			end
@@ -438,8 +434,8 @@ function B:UpdateSlot(frame, bagID, slotID)
 				slot.bindType:SetVertexColor(r, g, b)
 			end
 
-			if iLvl and iLvl >= B.db.itemLevelThreshold then
-				slot.itemLevel:SetText(iLvl)
+			if canShowItemLevel and itemLevel and itemLevel >= B.db.itemLevelThreshold then
+				slot.itemLevel:SetText(itemLevel)
 				if B.db.itemLevelCustomColorEnable then
 					slot.itemLevel:SetTextColor(B.db.itemLevelCustomColor.r, B.db.itemLevelCustomColor.g, B.db.itemLevelCustomColor.b)
 				else

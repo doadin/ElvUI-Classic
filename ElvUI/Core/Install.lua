@@ -254,7 +254,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.bags.bagWidth = 474
 		E.db.bags.bankSize = 42
 		E.db.bags.bankWidth = 474
-		E.db.bags.itemLevelCustomColorEnable = true
 		E.db.bags.scrapIcon = true
 		--Chat
 		E.db.chat.fontSize = 10
