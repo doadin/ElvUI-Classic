@@ -353,50 +353,30 @@ E.Options.args.bags = {
 								B:UpdateAllBagSlots()
 							end,
 							args = {
-								leatherworking = {
-									order = 1,
+								quiver = {
+									order = 5,
 									type = 'color',
-									name = L["Leatherworking"],
+									name = L["Quiver"],
+								},
+								ammoPouch = {
+									order = 3,
+									type = 'color',
+									name = L["Ammo Pouch"],
 								},
 								herbs = {
-									order = 3,
+									order = 1,
 									type = 'color',
 									name = L["Herbalism"],
 								},
 								enchanting = {
-									order = 4,
+									order = 2,
 									type = 'color',
 									name = L["Enchanting"],
 								},
-								engineering = {
-									order = 5,
-									type = 'color',
-									name = L["Engineering"],
-								},
-								gems = {
-									order = 6,
-									type = 'color',
-									name = L["Gems"],
-								},
-								mining = {
-									order = 7,
-									type = 'color',
-									name = L["Mining"],
-								},
-								ammoPouch = {
-									order = 8,
-									type = 'color',
-									name = L["Ammo Pouch"],
-								},
 								soulBag = {
-									order = 9,
+									order = 4,
 									type = 'color',
 									name = L["Soul Bag"],
-								},
-								quiver = {
-									order = 9,
-									type = 'color',
-									name = L["Quiver"],
 								},
 							},
 						},
