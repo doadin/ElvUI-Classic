@@ -18,7 +18,7 @@ local function LoadSkin()
 	local InspectFrame = _G.InspectFrame
 	S:HandleFrame(InspectFrame, true, nil, 11, -12, -32, 76)
 
-	S:HandleCloseButton(_G.InspectFrameCloseButton, InspectFrame.backdrop, 3, 3)
+	S:HandleCloseButton(_G.InspectFrameCloseButton, InspectFrame.backdrop)
 
 	for i = 1, #_G.INSPECTFRAME_SUBFRAMES do
 		S:HandleTab(_G['InspectFrameTab'..i])
