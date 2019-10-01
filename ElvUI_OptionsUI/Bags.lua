@@ -388,15 +388,20 @@ E.Options.args.bags = {
 									type = 'color',
 									name = L["Mining"],
 								},
-								fishing = {
+								ammoPouch = {
 									order = 8,
 									type = 'color',
-									name = L["PROFESSIONS_FISHING"],
+									name = L["Ammo Pouch"],
 								},
-								cooking = {
+								soulBag = {
 									order = 9,
 									type = 'color',
-									name = L["PROFESSIONS_COOKING"],
+									name = L["Soul Bag"],
+								},
+								quiver = {
+									order = 9,
+									type = 'color',
+									name = L["Quiver"],
 								},
 							},
 						},
