@@ -460,8 +460,8 @@ local function LoadSkin()
 
 	_G.QuestFrameNpcNameText:Point('CENTER', _G.QuestNpcNameFrame, 'CENTER', -1, 0)
 
-	S:HandleCloseButton(_G.QuestFrameCloseButton, _G.QuestFrame.backdrop, 3, 3)
-	S:HandleCloseButton(_G.QuestLogFrameCloseButton, _G.QuestLogFrame.backdrop, 3, 3)
+	S:HandleCloseButton(_G.QuestFrameCloseButton, _G.QuestFrame.backdrop)
+	S:HandleCloseButton(_G.QuestLogFrameCloseButton, _G.QuestLogFrame.backdrop)
 
 	local index = 1
 	while _G['QuestLogTitle'..index] do

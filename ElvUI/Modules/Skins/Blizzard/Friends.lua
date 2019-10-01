@@ -533,7 +533,7 @@ local function LoadSkin()
 	_G.GuildInfoTextBackground:SetTemplate('Default')
 	S:HandleScrollBar(_G.GuildInfoFrameScrollFrameScrollBar)
 
-	S:HandleCloseButton(_G.GuildInfoCloseButton, _G.GuildInfoFrame.backdrop, nil, -2)
+	S:HandleCloseButton(_G.GuildInfoCloseButton, _G.GuildInfoFrame.backdrop)
 
 	S:HandleButton(_G.GuildInfoSaveButton)
 	_G.GuildInfoSaveButton:Point('BOTTOMLEFT', 8, 8)
