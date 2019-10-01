@@ -358,11 +358,6 @@ E.Options.args.bags = {
 									type = 'color',
 									name = L["Leatherworking"],
 								},
-								inscription = {
-									order = 2,
-									type = 'color',
-									name = L["INSCRIPTION"],
-								},
 								herbs = {
 									order = 3,
 									type = 'color',
