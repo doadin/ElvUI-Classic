@@ -15,12 +15,18 @@ local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.trade then return end
 
 	local TradeFrame = _G.TradeFrame
-	S:HandleFrame(TradeFrame, true)
+	S:HandleFrame(TradeFrame, true, nil, -5, 0, -7)
 
-	S:HandleCloseButton(TradeFrameCloseButton, TradeFrame.backdrop)
+	_G.TradeFramePlayerPortrait:Kill()
+	_G.TradeRecipientPortraitFrame:Kill()
 
 	S:HandleButton(_G.TradeFrameTradeButton, true)
 	S:HandleButton(_G.TradeFrameCancelButton, true)
+
+	S:HandlePointXY(_G.TradeFrameCloseButton, -6, 2)
+	S:HandlePointXY(_G.TradeFrameTradeButton, -91)
+	S:HandlePointXY(_G.TradePlayerItem1, 7)
+	S:HandlePointXY(_G.TradeRecipientItem1, 170)
 
 	S:HandleEditBox(_G.TradePlayerInputMoneyFrameGold)
 	S:HandleEditBox(_G.TradePlayerInputMoneyFrameSilver)
