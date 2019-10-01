@@ -94,7 +94,6 @@ G.profileCopy = {
 		experience = true,
 		reputation = true,
 		honor = true,
-		azerite = true
 	},
 	datatexts = {
 		general = true,

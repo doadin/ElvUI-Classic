@@ -270,8 +270,7 @@ function B:UpdateAllBagSlots()
 end
 
 function B:IsItemEligibleForItemLevelDisplay(classID, subClassID, equipLoc, rarity)
-	if ((classID == 3 and subClassID == 11) --Artifact Relics
-	or (equipLoc ~= nil and equipLoc ~= "" and equipLoc ~= "INVTYPE_BAG"
+	if ((equipLoc ~= nil and equipLoc ~= "" and equipLoc ~= "INVTYPE_BAG"
 		and equipLoc ~= "INVTYPE_QUIVER" and equipLoc ~= "INVTYPE_TABARD"))
 	and (rarity and rarity > 1) then
 		return true
