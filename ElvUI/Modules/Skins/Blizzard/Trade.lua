@@ -17,9 +17,6 @@ local function LoadSkin()
 	local TradeFrame = _G.TradeFrame
 	S:HandleFrame(TradeFrame, true, nil, -5, 0, -7)
 
-	_G.TradeFramePlayerPortrait:Kill()
-	_G.TradeRecipientPortraitFrame:Kill()
-
 	S:HandleButton(_G.TradeFrameTradeButton, true)
 	S:HandleButton(_G.TradeFrameCancelButton, true)
 
@@ -32,13 +29,22 @@ local function LoadSkin()
 	S:HandleEditBox(_G.TradePlayerInputMoneyFrameSilver)
 	S:HandleEditBox(_G.TradePlayerInputMoneyFrameCopper)
 
-	_G.TradeRecipientItemsInset:Kill()
-	_G.TradePlayerItemsInset:Kill()
-	_G.TradePlayerInputMoneyInset:Kill()
-	_G.TradePlayerEnchantInset:Kill()
-	_G.TradeRecipientEnchantInset:Kill()
-	_G.TradeRecipientMoneyInset:Kill()
-	_G.TradeRecipientMoneyBg:Kill()
+	local tradeFrames = {
+		'TradeFramePlayerPortrait',
+		'TradeFrameRecipientPortrait',
+		'TradePlayerEnchantInset',
+		'TradePlayerInputMoneyInset',
+		'TradePlayerItemsInset',
+		'TradeRecipientEnchantInset',
+		'TradeRecipientItemsInset',
+		'TradeRecipientMoneyBg',
+		'TradeRecipientMoneyInset',
+		'TradeRecipientPortraitFrame'
+	}
+
+	for _, frame in ipairs(tradeFrames) do
+		_G[frame]:Kill()
+	end
 
 	for i = 1, _G.MAX_TRADE_ITEMS do
 		local player = _G['TradePlayerItem'..i]
