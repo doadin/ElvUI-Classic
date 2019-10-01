@@ -31,7 +31,7 @@ local Update = function(self, elapsed)
 		if not (Now == nil) then
 			local Timer = Now - LastTickTime
 
-			if (CurrentValue > LastValue) or (Now >= LastTickTime + TickValue) then
+			if (CurrentValue > LastValue) then
 				LastTickTime = Now
 			end
 
@@ -47,24 +47,34 @@ local Update = function(self, elapsed)
 	end
 end
 
-local EventHandler = function(self, event)
+local EventHandler = function(self, event, _, _, spellID)
 	local powerType = UnitPowerType("player")
 
 	if powerType ~= Enum.PowerType.Mana then
 		return
 	end
 
-	if event == 'PLAYER_REGEN_ENABLED' then
-		TickValue = 2
-	elseif event == 'PLAYER_REGEN_DISABLED' then
-		TickValue = 5
-	end
-
 	if event == 'UNIT_POWER_UPDATE' and allowPowerEvent then
-		LastTickTime = GetTime()
+		local Time = GetTime()
+
+		TickValue = Time - LastTickTime
+
+		if TickValue > 5 then
+			if powerType == Enum.PowerType.Mana and InCombatLockdown() then
+				TickValue = 5
+			else
+				TickValue = 2
+			end
+		end
+
+		LastTickTime = Time
 	end
 
 	if event == 'UNIT_SPELLCAST_SUCCEEDED' then
+		if spellID == 75 or spellID == 5019 then
+			return
+		end
+
 		LastTickTime = GetTime() + 5
 		allowPowerEvent = false
 	end
