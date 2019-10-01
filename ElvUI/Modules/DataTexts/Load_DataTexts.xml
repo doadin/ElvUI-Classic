@@ -19,6 +19,7 @@
 	<Script file='Hit.lua'/>
 	<Script file='HPS.lua'/>
 	<Script file='Regen.lua'/>
+	<Script file='SpellCrit.lua'/>
 	<Script file='SpellHit.lua'/>
 	<Script file='SpellPower.lua'/>
 	<Script file='System.lua'/>
