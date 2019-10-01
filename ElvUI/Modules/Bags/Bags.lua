@@ -364,10 +364,6 @@ function B:UpdateSlot(frame, bagID, slotID)
 		slot.questIcon:Hide()
 	end
 
-	if slot.Azerite then
-		slot.Azerite:Hide()
-	end
-
 	slot.isJunk = (slot.rarity and slot.rarity == LE_ITEM_QUALITY_POOR) and not noValue
 	slot.junkDesaturate = slot.isJunk and E.db.bags.junkDesaturate
 
@@ -448,7 +444,7 @@ function B:UpdateSlot(frame, bagID, slotID)
 		if itemClassID == LE_ITEM_CLASS_QUESTITEM then
 			slot.newItemGlow:SetVertexColor(unpack(B.QuestColors.questItem))
 			slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
-			if(slot.questIcon) then
+			if slot.questIcon and B.db.questIcon then
 				slot.questIcon:Show()
 			end
 			slot.ignoreBorderColors = true
@@ -1831,15 +1827,11 @@ function B:UpdateSellFrameSettings()
 end
 
 B.BagIndice = {
-	leatherworking = 0x0008,
-	inscription = 0x0010,
+	quiver = 0x0001,
+	ammoPouch = 0x0002,
 	herbs = 0x0020,
 	enchanting = 0x0040,
 	engineering = 0x0080,
-	gems = 0x0200,
-	mining = 0x0400,
-	fishing = 0x8000,
-	cooking = 0x010000,
 	equipment = 2,
 	consumables = 3,
 	tradegoods = 4,

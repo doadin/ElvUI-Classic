@@ -80,6 +80,26 @@ E.Options.args.bags = {
 					name = L["Transparent Buttons"],
 					set = function(info, value) E.db.bags[info[#info]] = value; E:StaticPopup_Show("PRIVATE_RL"); end,
 				},
+				questIcon = {
+					order = 5,
+					type = "toggle",
+					name = L["Show Quest Icon"],
+					desc = L["Display an exclamation mark on items that starts a quest."],
+					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
+				},
+				junkIcon = {
+					order = 6,
+					type = "toggle",
+					name = L["Show Junk Icon"],
+					desc = L["Display the junk icon on all grey items that can be vendored."],
+					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
+				},
+				junkDesaturate = {
+					order = 7,
+					type = "toggle",
+					name = L["Desaturate Junk Items"],
+					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end,
+				},
 				newItemGlow = {
 					order = 8,
 					type = 'toggle',
@@ -347,6 +367,7 @@ E.Options.args.bags = {
 							set = function(info, r, g, b)
 								local t = E.db.bags.colors.profession[info[#info]]
 								t.r, t.g, t.b = r, g, b
+								if not E.Bags.Initialized then return end
 								B:UpdateBagColors('ProfessionColors', info[#info], r, g, b)
 								B:UpdateAllBagSlots()
 							end,
