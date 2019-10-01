@@ -15,6 +15,7 @@ local GetItemQualityColor = GetItemQualityColor
 local GetInventoryItemID = GetInventoryItemID
 
 local BANK_CONTAINER = BANK_CONTAINER
+local LE_ITEM_CLASS_QUESTITEM = LE_ITEM_CLASS_QUESTITEM
 
 local function LoadSkin()
 	if E.private.bags.enable then return end
@@ -123,17 +124,15 @@ local function LoadSkin()
 				item:SetBackdropBorderColor(unpack(professionColors[bagType]))
 				item.ignoreBorderColors = true
 			elseif link then
-				--local isQuestItem, questId, isActive = GetContainerItemQuestInfo(id, item:GetID())
-				local quality = select(3, GetItemInfo(link))
+				local _, _, quality, _, _, _, _, _, _, _, _, itemClassID = GetItemInfo(link)
 
-				--[[if questId and not isActive then
-					item:SetBackdropBorderColor(unpack(questColors.questStarter))
-					item.ignoreBorderColors = true
-					questIcon:Show()
-				elseif questId or isQuestItem then
+				if itemClassID == LE_ITEM_CLASS_QUESTITEM then
 					item:SetBackdropBorderColor(unpack(questColors.questItem))
 					item.ignoreBorderColors = true
-				else--]]if quality and quality > 1 then
+					if questIcon then
+						questIcon:Show()
+					end
+				elseif quality and quality > 1 then
 					item:SetBackdropBorderColor(GetItemQualityColor(quality))
 					item.ignoreBorderColors = true
 				else
@@ -154,7 +153,7 @@ local function LoadSkin()
 
 	S:HandleCloseButton(BankCloseButton, BankFrame.backdrop)
 
-	_G.BankSlotsFrame:StripTextures(true)
+	_G.BankSlotsFrame:StripTextures()
 
 	for i = 1, NUM_BANKGENERIC_SLOTS do
 		local button = _G['BankFrameItem'..i]
@@ -185,20 +184,6 @@ local function LoadSkin()
 	BankFrame.itemBackdrop:Point('BOTTOMRIGHT', _G.BankFrameItem24, 'BOTTOMRIGHT', 6, -6)
 	BankFrame.itemBackdrop:SetFrameLevel(BankFrame:GetFrameLevel())
 
-	for i = 1, NUM_BANKBAGSLOTS do
-		local button = _G.BankSlotsFrame['Bag'..i]
-
-		button:SetNormalTexture('')
-		button:SetTemplate('Default', true)
-		button:StyleButton()
-	end
-
-	_G.BankSlotsFrameIconTexture:SetInside()
-	_G.BankSlotsFrameIconTexture:SetTexCoord(unpack(E.TexCoords))
-
-	_G.BankSlotsFrameHighlightFrameTexture:SetInside()
-	_G.BankSlotsFrameHighlightFrameTexture:SetTexture(unpack(E.media.rgbvaluecolor), 0.3)
-
 	BankFrame.bagBackdrop = CreateFrame('Frame', 'BankFrameBagBackdrop', BankFrame)
 	BankFrame.bagBackdrop:SetTemplate('Default')
 	BankFrame.bagBackdrop:Point('TOPLEFT', _G.BankSlotsFrame.Bag1, 'TOPLEFT', -6, 6)
@@ -212,6 +197,16 @@ local function LoadSkin()
 
 		if button.isBag then
 			local link = GetInventoryItemLink('player', ContainerIDToInventoryID(id))
+
+			button:SetNormalTexture('')
+			button:SetTemplate('Default', true)
+			button:StyleButton()
+
+			button.icon:SetInside()
+			button.icon:SetTexCoord(unpack(E.TexCoords))
+
+			button.HighlightFrame.HighlightTexture:SetInside()
+			button.HighlightFrame.HighlightTexture:SetTexture(unpack(E.media.rgbvaluecolor), 0.3)
 
 			if link then
 				local quality = select(3, GetItemInfo(link))
@@ -228,29 +223,23 @@ local function LoadSkin()
 				button.ignoreBorderColors = nil
 			end
 		else
+			local questIcon = button.IconQuestTexture
 			local link = GetContainerItemLink(BANK_CONTAINER, id)
-			local questTexture = _G[button.IconQuestTexture]
 
-			if questTexture then
-				questTexture:Hide()
+			if questIcon then
+				questIcon:Hide()
 			end
 
 			if link then
-				--[[local isQuestItem, questId, isActive = GetContainerItemQuestInfo(BANK_CONTAINER, id)
+				local _, _, quality, _, _, _, _, _, _, _, _, itemClassID = GetItemInfo(link)
 
-				if questId and not isActive then
-					button:SetBackdropBorderColor(unpack(questColors.questStarter))
-					button.ignoreBorderColors = true
-
-					if questTexture then
-						questTexture:Show()
-					end
-				elseif questId or isQuestItem then
+				if itemClassID == LE_ITEM_CLASS_QUESTITEM then
 					button:SetBackdropBorderColor(unpack(questColors.questItem))
 					button.ignoreBorderColors = true
-				else--]]
-					local quality = select(3, GetItemInfo(link))
-
+					if questIcon then
+						questIcon:Show()
+					end
+				else
 					if quality and quality > 1 then
 						button:SetBackdropBorderColor(GetItemQualityColor(quality))
 						button.ignoreBorderColors = true
@@ -258,7 +247,7 @@ local function LoadSkin()
 						button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 						button.ignoreBorderColors = nil
 					end
-				--[[end--]]
+				end
 			else
 				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				button.ignoreBorderColors = nil
