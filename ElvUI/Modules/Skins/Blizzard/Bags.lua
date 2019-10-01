@@ -21,19 +21,6 @@ local function LoadSkin()
 	if E.private.bags.enable then return end
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.bags then return end
 
-	local professionColors = {
-		[0x0001] = {E.db.bags.colors.profession.quiver.r, E.db.bags.colors.profession.quiver.g, E.db.bags.colors.profession.quiver.b},
-		[0x0002] = {E.db.bags.colors.profession.ammoPouch.r, E.db.bags.colors.profession.ammoPouch.g, E.db.bags.colors.profession.ammoPouch.b},
-		[0x0004] = {E.db.bags.colors.profession.soulBag.r, E.db.bags.colors.profession.soulBag.g, E.db.bags.colors.profession.soulBag.b},
-		[0x0020] = {E.db.bags.colors.profession.herbs.r, E.db.bags.colors.profession.herbs.g, E.db.bags.colors.profession.herbs.b},
-		[0x0040] = {E.db.bags.colors.profession.enchanting.r, E.db.bags.colors.profession.enchanting.g, E.db.bags.colors.profession.enchanting.b},
-	}
-
-	local questColors = {
-		['questStarter'] = {E.db.bags.colors.items.questStarter.r, E.db.bags.colors.items.questStarter.g, E.db.bags.colors.items.questStarter.b},
-		['questItem'] =	{E.db.bags.colors.items.questItem.r, E.db.bags.colors.items.questItem.g, E.db.bags.colors.items.questItem.b}
-	}
-
 	-- ContainerFrame
 	for i = 1, NUM_CONTAINER_FRAMES do
 		local frame = _G['ContainerFrame'..i]
@@ -120,14 +107,14 @@ local function LoadSkin()
 
 			questIcon:Hide()
 
-			if professionColors[bagType] then
-				item:SetBackdropBorderColor(unpack(professionColors[bagType]))
+			if E.Bags.ProfessionColors[bagType] then
+				item:SetBackdropBorderColor(unpack(E.Bags.ProfessionColors[bagType]))
 				item.ignoreBorderColors = true
 			elseif link then
 				local _, _, quality, _, _, _, _, _, _, _, _, itemClassID = GetItemInfo(link)
 
 				if itemClassID == LE_ITEM_CLASS_QUESTITEM then
-					item:SetBackdropBorderColor(unpack(questColors.questItem))
+					item:SetBackdropBorderColor(unpack(E.Bags.QuestColors.questItem))
 					item.ignoreBorderColors = true
 					if questIcon then
 						questIcon:Show()
@@ -234,7 +221,7 @@ local function LoadSkin()
 				local _, _, quality, _, _, _, _, _, _, _, _, itemClassID = GetItemInfo(link)
 
 				if itemClassID == LE_ITEM_CLASS_QUESTITEM then
-					button:SetBackdropBorderColor(unpack(questColors.questItem))
+					button:SetBackdropBorderColor(unpack(E.Bags.QuestColors.questItem))
 					button.ignoreBorderColors = true
 					if questIcon then
 						questIcon:Show()
