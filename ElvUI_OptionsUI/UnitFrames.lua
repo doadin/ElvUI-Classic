@@ -1612,7 +1612,7 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 			},
 			width = {
 				type = 'select',
-				order = 3,
+				order = 4,
 				name = L["Style"],
 				values = {
 					['fill'] = L["Filled"],
@@ -1660,18 +1660,18 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 			height = {
 				type = 'range',
 				name = L["Height"],
-				order = 4,
+				order = 5,
 				min = ((E.db.unitframe.thinBorders or E.PixelMode) and 3 or 7), max = 50, step = 1,
 			},
 			offset = {
 				type = 'range',
 				name = L["Offset"],
 				desc = L["Offset of the powerbar to the healthbar, set to 0 to disable."],
-				order = 5,
+				order = 6,
 				min = 0, max = 20, step = 1,
 			},
 			configureButton = {
-				order = 6,
+				order = 7,
 				name = L["Coloring"],
 				desc = L["This opens the UnitFrames Color settings. These settings affect all unitframes."],
 				type = 'execute',
@@ -1679,24 +1679,24 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 			},
 			reverseFill = {
 				type = "toggle",
-				order = 7,
+				order = 8,
 				name = L["Reverse Fill"],
 			},
 			position = {
 				type = 'select',
-				order = 8,
+				order = 9,
 				name = L["Text Position"],
 				values = positionValues,
 			},
 			xOffset = {
-				order = 9,
+				order = 10,
 				type = 'range',
 				name = L["Text xOffset"],
 				desc = L["Offset position for text."],
 				min = -300, max = 300, step = 1,
 			},
 			yOffset = {
-				order = 10,
+				order = 11,
 				type = 'range',
 				name = L["Text yOffset"],
 				desc = L["Offset position for text."],
@@ -1704,12 +1704,20 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 			},
 			attachTextTo = {
 				type = 'select',
-				order = 11,
+				order = 12,
 				name = L["Attach Text To"],
 				values = attachToValues,
 			},
 		},
 	}
+
+	if groupName == 'player' then
+		config.args.EnergyManaRegen = {
+			type = 'toggle',
+			order = 3,
+			name = L["Energy/Mana Regen Tick"],
+		}
+	end
 
 	if hasDetatchOption then
 			config.args.detachFromFrame = {

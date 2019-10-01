@@ -1998,6 +1998,7 @@ P.unitframe = {
 			power = {
 				enable = true,
 				powerPrediction = false,
+				EnergyManaRegen = true,
 				reverseFill = false,
 				text_format = '[powercolor][power:current]',
 				width = 'fill',
