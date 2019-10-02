@@ -126,6 +126,7 @@ local Disable = function(self)
 		self:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED", EventHandler)
 		self:UnregisterEvent("UNIT_POWER_UPDATE", EventHandler)
 
+		element.Spark:Hide()
 		element:SetScript("OnUpdate", nil)
 
 		return false
