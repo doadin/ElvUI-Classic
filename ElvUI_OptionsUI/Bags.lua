@@ -341,7 +341,6 @@ E.Options.args.bags = {
 			order = 5,
 			type = "group",
 			name = L["COLORS"],
-			disabled = function() return not E.Bags.Initialized end,
 			args = {
 				header = {
 					order = 1,
