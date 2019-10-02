@@ -2082,6 +2082,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 8,
 				numrows = 1,
 				attachTo = 'DEBUFFS',
@@ -2101,6 +2102,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = true,
+				desaturate = true,
 				perrow = 8,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -2308,6 +2310,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = true,
+				desaturate = true,
 				perrow = 8,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -2327,6 +2330,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = true,
+				desaturate = true,
 				perrow = 8,
 				numrows = 1,
 				attachTo = 'BUFFS',
@@ -2475,6 +2479,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 7,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -2494,6 +2499,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = true,
+				desaturate = true,
 				perrow = 5,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -2603,6 +2609,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 7,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -2622,6 +2629,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = true,
+				desaturate = true,
 				perrow = 5,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -2735,6 +2743,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 7,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -2754,6 +2763,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 5,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -2898,6 +2908,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 7,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -2917,6 +2928,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 5,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -3046,6 +3058,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 4,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -3065,6 +3078,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = true,
+				desaturate = true,
 				perrow = 4,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -3319,6 +3333,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 3,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -3338,6 +3353,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 3,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -3540,6 +3556,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 3,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -3559,6 +3576,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 3,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -3745,6 +3763,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 3,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -3764,6 +3783,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 3,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -3861,6 +3881,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 6,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -3880,6 +3901,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 6,
 				numrows = 1,
 				attachTo = 'BUFFS',
@@ -4002,6 +4024,7 @@ P.unitframe = {
 			},
 			buffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 6,
 				numrows = 1,
 				attachTo = 'FRAME',
@@ -4021,6 +4044,7 @@ P.unitframe = {
 			},
 			debuffs = {
 				enable = false,
+				desaturate = true,
 				perrow = 6,
 				numrows = 1,
 				attachTo = 'BUFFS',

@@ -408,13 +408,18 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 		args = {
 			header = {
 				type = "header",
-				order = 1,
+				order = 0,
 				name = auraType == 'buffs' and L["Buffs"] or L["Debuffs"],
 			},
 			enable = {
 				type = 'toggle',
-				order = 2,
+				order = 1,
 				name = L["Enable"],
+			},
+			desaturate = {
+				type = 'toggle',
+				order = 2,
+				name = L["Desaturate Icon"],
 			},
 			perrow = {
 				type = 'range',
