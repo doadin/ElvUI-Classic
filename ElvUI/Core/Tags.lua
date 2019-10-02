@@ -113,11 +113,9 @@ end
 
 ElvUF.Tags.Events['status:text'] = 'PLAYER_FLAGS_CHANGED'
 ElvUF.Tags.Methods['status:text'] = function(unit)
-	local isAFK, isDND = UnitIsAFK(unit), UnitIsDND(unit)
-
-	if isAFK then
+	if UnitIsAFK(unit) then
 		return CHAT_FLAG_AFK
-	elseif isDND then
+	elseif UnitIsDND(unit) then
 		return CHAT_FLAG_DND
 	end
 
@@ -126,11 +124,9 @@ end
 
 ElvUF.Tags.Events['status:icon'] = 'PLAYER_FLAGS_CHANGED'
 ElvUF.Tags.Methods['status:icon'] = function(unit)
-	local isAFK, isDND = UnitIsAFK(unit), UnitIsDND(unit)
-
-	if isAFK then
+	if UnitIsAFK(unit) then
 		return CreateTextureMarkup("Interface\\FriendsFrame\\StatusIcon-Away", 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
-	elseif isDND then
+	elseif UnitIsDND(unit) then
 		return CreateTextureMarkup("Interface\\FriendsFrame\\StatusIcon-DnD", 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
 	end
 
