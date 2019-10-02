@@ -111,24 +111,30 @@ local function abbrev(name)
 	return name
 end
 
-ElvUF.Tags.Events['afk'] = 'PLAYER_FLAGS_CHANGED'
-ElvUF.Tags.Methods['afk'] = function(unit)
-	local isAFK = UnitIsAFK(unit)
+ElvUF.Tags.Events['status:text'] = 'PLAYER_FLAGS_CHANGED'
+ElvUF.Tags.Methods['status:text'] = function(unit)
+	local isAFK, isDND = UnitIsAFK(unit), UnitIsDND(unit)
+
 	if isAFK then
 		return CHAT_FLAG_AFK
-	else
-		return nil
+	elseif isDND then
+		return CHAT_FLAG_DND
 	end
+
+	return nil
 end
 
-ElvUF.Tags.Events['dnd'] = 'PLAYER_FLAGS_CHANGED'
-ElvUF.Tags.Methods['dnd'] = function(unit)
-    local isDND = UnitIsDND(unit)
-    if isDND then
-        return CHAT_FLAG_DND
-    else
-        return nil
-    end
+ElvUF.Tags.Events['status:icon'] = 'PLAYER_FLAGS_CHANGED'
+ElvUF.Tags.Methods['status:icon'] = function(unit)
+	local isAFK, isDND = UnitIsAFK(unit), UnitIsDND(unit)
+
+	if isAFK then
+		return CreateTextureMarkup("Interface\\FriendsFrame\\StatusIcon-Away", 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
+	elseif isDND then
+		return CreateTextureMarkup("Interface\\FriendsFrame\\StatusIcon-DnD", 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
+	end
+
+	return nil
 end
 
 ElvUF.Tags.Events['healthcolor'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
