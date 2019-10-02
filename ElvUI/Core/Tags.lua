@@ -45,7 +45,8 @@ local UnitPowerType = UnitPowerType
 local UnitReaction = UnitReaction
 local UnitPlayerControlled = UnitPlayerControlled
 
-local CHAT_MSG_AFK = CHAT_MSG_AFK
+local CHAT_FLAG_AFK = CHAT_FLAG_AFK:gsub('<(.-)>', '|r<|cffFF0000%1|r>')
+local CHAT_FLAG_DND = CHAT_FLAG_DND:gsub('<(.-)>', '|r<|cffFFFF00%1|r>')
 local PVP = PVP
 local UNITNAME_SUMMON_TITLE17 = UNITNAME_SUMMON_TITLE17
 local UNKNOWN = UNKNOWN
@@ -114,10 +115,20 @@ ElvUF.Tags.Events['afk'] = 'PLAYER_FLAGS_CHANGED'
 ElvUF.Tags.Methods['afk'] = function(unit)
 	local isAFK = UnitIsAFK(unit)
 	if isAFK then
-		return format('|cffFFFFFF<|r|cffFF0000%s|r|cFFFFFFFF>|r', CHAT_MSG_AFK)
+		return CHAT_FLAG_AFK
 	else
 		return nil
 	end
+end
+
+ElvUF.Tags.Events['dnd'] = 'PLAYER_FLAGS_CHANGED'
+ElvUF.Tags.Methods['dnd'] = function(unit)
+    local isDND = UnitIsDND(unit)
+    if isDND then
+        return CHAT_FLAG_DND
+    else
+        return nil
+    end
 end
 
 ElvUF.Tags.Events['healthcolor'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
