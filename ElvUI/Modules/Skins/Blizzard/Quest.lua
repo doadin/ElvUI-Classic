@@ -47,7 +47,6 @@ local function LoadSkin()
 		'QuestLogFrame',
 		'QuestLogListScrollFrame',
 		'QuestLogQuestCount',
-		'QuestLogSkillHighlight',
 		'QuestProgressScrollFrame',
 		'QuestRewardScrollChildFrame',
 		'QuestRewardScrollFrame',
@@ -374,6 +373,10 @@ local function LoadSkin()
 			local text = title:GetFontString()
 			local textString = gsub(title:GetText(), '|c[Ff][Ff]%x%x%x%x%x%x(.+)|r', '%1')
 
+			_G.GreetingText:SetTextColor(1, 1, 1)
+			_G.CurrentQuestsText:SetTextColor(1, 0.80, 0.10)
+			_G.AvailableQuestsText:SetTextColor(1, 0.80, 0.10)
+
 			title:SetText(textString)
 
 			if title.isActive == 1 then
@@ -387,8 +390,8 @@ local function LoadSkin()
 			end
 
 			local numEntries = GetNumQuestLogEntries()
-			for k = 1, numEntries, 1 do
-				local questLogTitleText, _, _, _, _, isComplete, _, questId = GetQuestLogTitle(k)
+			for i = 1, numEntries, 1 do
+				local questLogTitleText, _, _, _, _, isComplete, _, questId = GetQuestLogTitle(i)
 				if strmatch(questLogTitleText, textString) then
 					if (isComplete == 1 or IsQuestComplete(questId)) then
 						icon:SetDesaturation(0)
@@ -406,59 +409,34 @@ local function LoadSkin()
 
 	_G.QuestLogTimerText:SetTextColor(1, 1, 1)
 
-	_G.QuestFrame:CreateBackdrop('Transparent')
-	_G.QuestFrame.backdrop:Point('TOPLEFT', 11, -12)
-	_G.QuestFrame.backdrop:Point('BOTTOMRIGHT', -32, 66)
-
-	_G.QuestLogFrame:CreateBackdrop('Transparent')
-	_G.QuestLogFrame.backdrop:Point('TOPLEFT', 11, -12)
-	_G.QuestLogFrame.backdrop:Point('BOTTOMRIGHT', -32, 45)
-
-	_G.QuestLogListScrollFrame:CreateBackdrop('Transparent')
-	_G.QuestLogListScrollFrame.backdrop:Point('TOPLEFT', -1, 2)
-	_G.QuestLogListScrollFrame:Width(303)
-
-	_G.QuestLogDetailScrollFrame:CreateBackdrop('Transparent')
-	_G.QuestLogDetailScrollFrame.backdrop:Point('TOPLEFT', -1, 2)
-	_G.QuestLogDetailScrollFrame:Width(303)
-
-	_G.QuestDetailScrollFrame:CreateBackdrop('Transparent')
-	_G.QuestDetailScrollFrame.backdrop:Point('TOPLEFT', -6, 2)
-
-	_G.QuestRewardScrollFrame:CreateBackdrop('Transparent')
-	_G.QuestRewardScrollFrame.backdrop:Point('TOPLEFT', -6, 2)
-
-	_G.QuestProgressScrollFrame:CreateBackdrop('Transparent')
-	_G.QuestProgressScrollFrame.backdrop:Point('TOPLEFT', -6, 2)
-
-	_G.QuestGreetingFrameHorizontalBreak:Kill()
-
-	_G.QuestLogFrameAbandonButton:Width(129)
+	S:HandleFrame(_G.QuestFrame, true, nil, 11, -12, -32, 66)
+	S:HandleFrame(_G.QuestLogFrame, true, nil, 11, -12, -32, 45)
+	S:HandleFrame(_G.QuestLogListScrollFrame, true, nil, -1, 2)
+	S:HandleFrame(_G.QuestLogDetailScrollFrame, true, nil, -1, 2)
+	S:HandleFrame(_G.QuestDetailScrollFrame, true, nil, -6, 2)
+	S:HandleFrame(_G.QuestRewardScrollFrame, true, nil, -6, 2)
+	S:HandleFrame(_G.QuestProgressScrollFrame, true, nil, -6, 2)
+	S:HandleFrame(_G.QuestGreetingScrollFrame, true, nil, -6, 2)
 
 	S:HandlePointXY(_G.QuestLogFrameAbandonButton, 15, 49)
 	S:HandlePointXY(_G.QuestFramePushQuestButton, -2)
 	S:HandlePointXY(_G.QuestFrameExitButton, -36, 49)
+	S:HandlePointXY(_G.QuestFrameCompleteButton, 15, 70)
+	S:HandlePointXY(_G.QuestFrameGoodbyeButton, -36, 70)
+	S:HandlePointXY(_G.QuestFrameGreetingGoodbyeButton, -36, 70)
+	S:HandlePointXY(_G.QuestFrameNpcNameText, -1, 0)
 
-	local QuestLogHighlightFrame = _G.QuestLogHighlightFrame
-	QuestLogHighlightFrame:Width(300)
-	QuestLogHighlightFrame.SetWidth = E.noop
+	_G.QuestGreetingFrameHorizontalBreak:Kill()
 
-	QuestLogHighlightFrame.Left = QuestLogHighlightFrame:CreateTexture(nil, 'ARTWORK')
-	QuestLogHighlightFrame.Left:Size(152, 15)
-	QuestLogHighlightFrame.Left:SetPoint('LEFT', QuestLogHighlightFrame, 'CENTER')
-	QuestLogHighlightFrame.Left:SetTexture(E.media.blankTex)
+	_G.QuestLogListScrollFrame:Width(303)
+	_G.QuestLogDetailScrollFrame:Width(303)
+	_G.QuestLogFrameAbandonButton:Width(129)
 
-	QuestLogHighlightFrame.Right = QuestLogHighlightFrame:CreateTexture(nil, 'ARTWORK')
-	QuestLogHighlightFrame.Right:Size(152, 15)
-	QuestLogHighlightFrame.Right:SetPoint('RIGHT', QuestLogHighlightFrame, 'CENTER')
-	QuestLogHighlightFrame.Right:SetTexture(E.media.blankTex)
+	_G.QuestLogHighlightFrame:Width(303)
+	_G.QuestLogHighlightFrame.SetWidth = E.noop
 
-	hooksecurefunc(_G.QuestLogSkillHighlight, 'SetVertexColor', function(_, r, g, b)
-		QuestLogHighlightFrame.Left:SetGradientAlpha('Horizontal', r, g, b, 0.35, r, g, b, 0)
-		QuestLogHighlightFrame.Right:SetGradientAlpha('Horizontal', r, g, b, 0, r, g, b, 0.35)
-	end)
-
-	_G.QuestFrameNpcNameText:Point('CENTER', _G.QuestNpcNameFrame, 'CENTER', -1, 0)
+	_G.QuestLogSkillHighlight:SetTexture(E.Media.Textures.Highlight)
+	_G.QuestLogSkillHighlight:SetAlpha(0.35)
 
 	S:HandleCloseButton(_G.QuestFrameCloseButton, _G.QuestFrame.backdrop)
 	S:HandleCloseButton(_G.QuestLogFrameCloseButton, _G.QuestLogFrame.backdrop)
