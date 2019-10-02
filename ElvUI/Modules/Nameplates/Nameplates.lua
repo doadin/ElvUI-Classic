@@ -583,12 +583,6 @@ function NP:Initialize()
 	NP.GroupRoles = {}
 	NP.multiplier = 0.35
 
-	local BlizzPlateManaBar = _G.NamePlateDriverFrame.classNamePlatePowerBar
-	if BlizzPlateManaBar then
-		BlizzPlateManaBar:Hide()
-		BlizzPlateManaBar:UnregisterAllEvents()
-	end
-
 	oUF:Spawn("player", "ElvNP_Player", "")
 
 	_G.ElvNP_Player:ClearAllPoints()
