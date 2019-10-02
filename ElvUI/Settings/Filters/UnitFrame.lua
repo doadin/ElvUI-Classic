@@ -31,9 +31,13 @@ G.unitframe.aurafilters.CCDebuffs = {
 	[18657] = Defaults(1), --Hibernate(Rank 2)
 	[18658] = Defaults(1), --Hibernate(Rank 3)
 	[19675] = Defaults(2), --Feral Charge Effect
-	[5211] = Defaults(4), --Mighty Bash(Rank 1)
-	[6798] = Defaults(4), --Mighty Bash(Rank 2)
-	[8983] = Defaults(4), --Mighty Bash(Rank 3)
+	[5211] = Defaults(4), --Bash(Rank 1)
+	[6798] = Defaults(4), --Bash(Rank 2)
+	[8983] = Defaults(4), --Bash(Rank 3)
+	[16922] = Defaults(2), --Starfire Stun
+	[9005] = Defaults(2), --Pounce(Rank 1)
+	[9823] = Defaults(2), --Pounce(Rank 2)
+	[9827] = Defaults(2), --Pounce(Rank 3)
 	--Hunter
 	[1499] = Defaults(3), --Freezing Trap(Rank 1)
 	[14310] = Defaults(3), --Freezing Trap(Rank 2)
@@ -47,6 +51,14 @@ G.unitframe.aurafilters.CCDebuffs = {
 	[1513] = Defaults(2), --Scare Beast(Rank 1)
 	[14326] = Defaults(2), --Scare Beast(Rank 2)
 	[14327] = Defaults(2), --Scare Beast(Rank 3)
+	[19577] = Defaults(2), --Intimidation
+	[19386] = Defaults(2), --Wyvern Sting(Rank 1)
+	[24132] = Defaults(2), --Wyvern Sting(Rank 2)
+	[24133] = Defaults(2), --Wyvern Sting(Rank 3)
+	[19229] = Defaults(2), --Improved Wing Clip
+	[19306] = Defaults(2), --Counterattack(Rank 1)
+	[20909] = Defaults(2), --Counterattack(Rank 2)
+	[20910] = Defaults(2), --Counterattack(Rank 3)
 	--Mage
 	[118] = Defaults(3), --Polymorph(Rank 1)
 	[12824] = Defaults(3), --Polymorph(Rank 2)
@@ -56,6 +68,8 @@ G.unitframe.aurafilters.CCDebuffs = {
 	[865] = Defaults(1), --Frost Nova(Rank 2)
 	[6131] = Defaults(1), --Frost Nova(Rank 3)
 	[10230] = Defaults(1), --Frost Nova(Rank 4)
+	[12494] = Defaults(2), --Frostbite
+	[12355] = Defaults(2), --Impact
 	--Paladin
 	[853] = Defaults(3), --Hammer of Justice(Rank 1)
 	[5588] = Defaults(3), --Hammer of Justice(Rank 2)
@@ -70,6 +84,13 @@ G.unitframe.aurafilters.CCDebuffs = {
 	[605] = Defaults(5), --Mind Control(Rank 1)
 	[10911] = Defaults(5), --Mind Control(Rank 2)
 	[10912] = Defaults(5), --Mind Control(Rank 3)
+	[15269] = Defaults(2), --Blackout
+	[15407] = Defaults(2), --Mind Flay(Rank 1)
+	[17311] = Defaults(2), --Mind Flay(Rank 2)
+	[17312] = Defaults(2), --Mind Flay(Rank 3)
+	[17313] = Defaults(2), --Mind Flay(Rank 4)
+	[17314] = Defaults(2), --Mind Flay(Rank 5)
+	[18807] = Defaults(2), --Mind Flay(Rank 6)
 	--Rogue
 	[6770] = Defaults(4), --Sap(Rank 1)
 	[2070] = Defaults(4), --Sap(Rank 2)
@@ -77,13 +98,27 @@ G.unitframe.aurafilters.CCDebuffs = {
 	[2094] = Defaults(5), --Blind
 	[408] = Defaults(4), --Kidney Shot(Rank 1)
 	[8643] = Defaults(4), --Kidney Shot(Rank 2)
+	[1833] = Defaults(2), --Cheap Shot
+	[1776] = Defaults(2), --Gouge(Rank 1)
+	[1777] = Defaults(2), --Gouge(Rank 2)
+	[8629] = Defaults(2), --Gouge(Rank 3)
+	[11285] = Defaults(2), --Gouge(Rank 4)
+	[11286] = Defaults(2), --Gouge(Rank 5)
+	[5530] = Defaults(2), -- Mace Stun Effect
 	--Shaman
 	[2484] = Defaults(1), --Earthbind Totem
+	[8056] = Defaults(2), --Frost Shock(Rank 1)
+	[8058] = Defaults(2), --Frost Shock(Rank 2)
+	[10472] = Defaults(2), --Frost Shock(Rank 3)
+	[10473] = Defaults(2), --Frost Shock(Rank 4)
 	--Warlock
 	[5782] = Defaults(3), --Fear(Rank 1)
 	[6213] = Defaults(3), --Fear(Rank 2)
 	[6215] = Defaults(3), --Fear(Rank 3)
 	[18223] = Defaults(2), --Curse of Exhaustion
+	[18093] = Defaults(2), --Pyroclasm
+	[710] = Defaults(2), --Banish(Rank 1)
+	[18647] = Defaults(2), --Banish(Rank 2)
 	--Warrior
 	[5246] = Defaults(4), --Intimidating Shout
 	[1715] = Defaults(2), --Hamstring(Rank 1)
@@ -94,6 +129,7 @@ G.unitframe.aurafilters.CCDebuffs = {
 	[20616] = Defaults(2), --Intercept(Rank 2)
 	[20617] = Defaults(2), --Intercept(Rank 3)
 	--Racial
+	[20549] = Defaults(2), --War Stomp
 	},
 }
 
@@ -119,7 +155,11 @@ G.unitframe.aurafilters.TurtleBuffs = {
 	--Shaman
 	--Warlock
 	--Warrior
+	--Consumables
+	[3169] = Defaults(2), --Limited Invulnerability Potion
 	--Racial
+	--All Classes
+	[19753] = Defaults(2), --Divine Intervention
 	},
 }
 
