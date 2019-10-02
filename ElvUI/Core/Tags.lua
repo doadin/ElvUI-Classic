@@ -45,7 +45,7 @@ local UnitPowerType = UnitPowerType
 local UnitReaction = UnitReaction
 local UnitPlayerControlled = UnitPlayerControlled
 
-local DEFAULT_AFK_MESSAGE = DEFAULT_AFK_MESSAGE
+local CHAT_MSG_AFK = CHAT_MSG_AFK
 local PVP = PVP
 local UNITNAME_SUMMON_TITLE17 = UNITNAME_SUMMON_TITLE17
 local UNKNOWN = UNKNOWN
@@ -114,7 +114,7 @@ ElvUF.Tags.Events['afk'] = 'PLAYER_FLAGS_CHANGED'
 ElvUF.Tags.Methods['afk'] = function(unit)
 	local isAFK = UnitIsAFK(unit)
 	if isAFK then
-		return format('|cffFFFFFF[|r|cffFF0000%s|r|cFFFFFFFF]|r', DEFAULT_AFK_MESSAGE)
+		return format('|cffFFFFFF<|r|cffFF0000%s|r|cFFFFFFFF>|r', CHAT_MSG_AFK)
 	else
 		return nil
 	end
