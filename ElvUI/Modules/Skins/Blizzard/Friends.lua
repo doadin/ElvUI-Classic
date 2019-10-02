@@ -36,9 +36,8 @@ local function LoadSkin()
 
 	_G.FriendsFrameCloseButton:Point('TOPRIGHT', 0, 2)
 
-	S:HandleDropDownBox(_G.FriendsFrameStatusDropDown)
-	_G.FriendsFrameStatusDropDown:ClearAllPoints()
-	_G.FriendsFrameStatusDropDown:Point('TOPRIGHT', _G.FriendsListFrame, 'TOPRIGHT', 11, -55)
+	S:HandleDropDownBox(_G.FriendsFrameStatusDropDown, 72)
+	S:HandlePointXY(_G.FriendsFrameStatusDropDown, 266, -55)
 
 	for i = 1, #_G.FRIENDSFRAME_SUBFRAMES do
 		S:HandleTab(_G['FriendsFrameTab'..i])
