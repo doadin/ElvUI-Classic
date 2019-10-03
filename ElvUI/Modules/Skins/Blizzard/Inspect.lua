@@ -82,11 +82,11 @@ local function LoadSkin()
 	InspectHonorFrame.backdrop:SetFrameLevel(InspectHonorFrame:GetFrameLevel())
 
 	_G.InspectHonorFrameProgressButton:CreateBackdrop('Transparent')
-	_G.InspectHonorFrameProgressBar:Width(325)
-	S:HandlePointXY(_G.InspectHonorFrameProgressBar, 19, -74)
 
 	local InspectHonorFrameProgressBar = _G.InspectHonorFrameProgressBar
+	InspectHonorFrameProgressBar:Width(325)
 	InspectHonorFrameProgressBar:SetStatusBarTexture(E.media.normTex)
+	S:HandlePointXY(InspectHonorFrameProgressBar, 19, -74)
 	E:RegisterStatusBar(InspectHonorFrameProgressBar)
 
 end
