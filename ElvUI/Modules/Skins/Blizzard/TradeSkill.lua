@@ -125,7 +125,7 @@ local function LoadSkin()
 	S:HandleEditBox(_G.TradeSkillInputBox)
 	S:HandleNextPrevButton(_G.TradeSkillIncrementButton)
 
-	S:HandleCloseButton(_G.TradeSkillFrameCloseButton)
+	S:HandleCloseButton(_G.TradeSkillFrameCloseButton, TradeSkillFrame.backdrop)
 
 	_G.TradeSkillSkillIcon:CreateBackdrop()
 
