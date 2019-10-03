@@ -1828,9 +1828,9 @@ end
 B.BagIndice = {
 	quiver = 0x0001,
 	ammoPouch = 0x0002,
+	soulBag = 0x0004,
 	herbs = 0x0020,
 	enchanting = 0x0040,
-	engineering = 0x0080,
 	equipment = 2,
 	consumables = 3,
 	tradegoods = 4,
