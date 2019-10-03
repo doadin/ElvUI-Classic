@@ -2308,6 +2308,10 @@ P.unitframe = {
 				yOffset = 0,
 				overlayAlpha = 0.35,
 			},
+			raidRoleIcons = {
+				enable = true,
+				position = 'TOPLEFT',
+			},
 			buffs = {
 				enable = true,
 				desaturate = true,

@@ -34,6 +34,8 @@ function UF:Construct_TargetFrame(frame)
 	frame.PvPIndicator = self:Construct_PvPIcon(frame)
 	frame.Fader = self:Construct_Fader()
 	frame.Cutaway = self:Construct_Cutaway(frame)
+	frame.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(frame)
+
 	frame.customTexts = {}
 	frame:Point('BOTTOMRIGHT', E.UIParent, 'BOTTOM', 413, 68)
 	E:CreateMover(frame, frame:GetName()..'Mover', L["Target Frame"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,target,generalGroup')
@@ -120,6 +122,8 @@ function UF:Update_TargetFrame(frame, db)
 
 	--Raid Icon
 	UF:Configure_RaidIcon(frame)
+
+	UF:Configure_RaidRoleIcons(frame)
 
 	--AuraBars
 	UF:Configure_AuraBars(frame)
