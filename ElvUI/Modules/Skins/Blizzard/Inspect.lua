@@ -86,9 +86,10 @@ local function LoadSkin()
 	local InspectHonorFrameProgressBar = _G.InspectHonorFrameProgressBar
 	InspectHonorFrameProgressBar:Width(325)
 	InspectHonorFrameProgressBar:SetStatusBarTexture(E.media.normTex)
-	S:HandlePointXY(InspectHonorFrameProgressBar, 19, -74)
-	E:RegisterStatusBar(InspectHonorFrameProgressBar)
 
+	S:HandlePointXY(InspectHonorFrameProgressBar, 19, -74)
+
+	E:RegisterStatusBar(InspectHonorFrameProgressBar)
 end
 
 S:AddCallbackForAddon('Blizzard_InspectUI', 'Skin_Blizzard_InspectUI', LoadSkin)
