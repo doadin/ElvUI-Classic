@@ -77,11 +77,18 @@ local function LoadSkin()
 	_G.InspectModelFrameRotateRightButton:Point('TOPLEFT', _G.InspectModelFrameRotateLeftButton, 'TOPRIGHT', 3, 0)
 
 	-- Honor Frame
-	_G.InspectHonorFrame:StripTextures()
+	local InspectHonorFrame = _G.InspectHonorFrame
+	S:HandleFrame(InspectHonorFrame, true, nil, 18, -105, -39, 83)
+	InspectHonorFrame.backdrop:SetFrameLevel(InspectHonorFrame:GetFrameLevel())
 
-	_G.InspectHonorFrameProgressButton:CreateBackdrop()
-	_G.InspectHonorFrameProgressBar:SetStatusBarTexture(E.media.normTex)
-	E:RegisterStatusBar(_G.InspectHonorFrameProgressBar)
+	_G.InspectHonorFrameProgressButton:CreateBackdrop('Transparent')
+	_G.InspectHonorFrameProgressBar:Width(325)
+	S:HandlePointXY(_G.InspectHonorFrameProgressBar, 19, -74)
+
+	local InspectHonorFrameProgressBar = _G.InspectHonorFrameProgressBar
+	InspectHonorFrameProgressBar:SetStatusBarTexture(E.media.normTex)
+	E:RegisterStatusBar(InspectHonorFrameProgressBar)
+
 end
 
 S:AddCallbackForAddon('Blizzard_InspectUI', 'Skin_Blizzard_InspectUI', LoadSkin)
