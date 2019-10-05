@@ -91,10 +91,9 @@ local function LoadSkin()
 		if item then
 			item:StripTextures()
 			item:CreateBackdrop()
-			item:StyleButton()
+			item.backdrop:SetInside()
 			item:Size(143, 40)
 			item:SetFrameLevel(item:GetFrameLevel() + 2)
-			item.backdrop:SetInside()
 		end
 
 		if item.Icon then
@@ -109,10 +108,9 @@ local function LoadSkin()
 		end
 
 		if item.Count then
-			item.Count:SetParent(item.backdrop)
 			item.Count:SetDrawLayer('OVERLAY')
 			item.Count:ClearAllPoints()
-			item.Count:Point('BOTTOMRIGHT', item.Icon, 'BOTTOMRIGHT', 2, 0)
+			item.Count:SetPoint('BOTTOMRIGHT', item.Icon, 'BOTTOMRIGHT', 0, 0)
 		end
 
 		if item.NameFrame then
@@ -121,7 +119,7 @@ local function LoadSkin()
 		end
 
 		if item.Name then
-			item.Name:SetFontObject('GameFontHighlightSmall')
+			item.Name:FontTemplate()
 		end
 
 		if item.CircleBackground then
