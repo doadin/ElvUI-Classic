@@ -212,7 +212,6 @@ end
 
 function B:UpdateCountDisplay()
 	if E.private.bags.enable ~= true then return end
-	local color = E.db.bags.countFontColor
 
 	for _, bagFrame in pairs(B.BagFrames) do
 		for _, bagID in ipairs(bagFrame.BagIDs) do
@@ -220,7 +219,6 @@ function B:UpdateCountDisplay()
 				local slot = bagFrame.Bags[bagID][slotID]
 				if slot and slot.Count then
 					slot.Count:FontTemplate(E.Libs.LSM:Fetch("font", E.db.bags.countFont), E.db.bags.countFontSize, E.db.bags.countFontOutline)
-					slot.Count:SetTextColor(color.r, color.g, color.b)
 				end
 			end
 		end
@@ -340,6 +338,13 @@ function B:UpdateSlot(frame, bagID, slotID)
 	slot.isJunk = (slot.rarity and slot.rarity == LE_ITEM_QUALITY_POOR) and not noValue
 	slot.junkDesaturate = slot.isJunk and E.db.bags.junkDesaturate
 
+	SetItemButtonTexture(slot, texture)
+	SetItemButtonCount(slot, count)
+	SetItemButtonDesaturated(slot, slot.locked or slot.junkDesaturate)
+
+	local color = E.db.bags.countFontColor
+	slot.Count:SetTextColor(color.r, color.g, color.b)
+
 	if slot.JunkIcon then
 		if slot.isJunk and E.db.bags.junkIcon then
 			slot.JunkIcon:Show()
@@ -364,7 +369,7 @@ function B:UpdateSlot(frame, bagID, slotID)
 		E.ScanTooltip:Show()
 	end
 
-	if professionColors then
+	if B.db.specialtyColors and professionColors then
 		local r, g, b = unpack(professionColors)
 		slot.newItemGlow:SetVertexColor(r, g, b)
 		slot:SetBackdropBorderColor(r, g, b)
@@ -433,12 +438,14 @@ function B:UpdateSlot(frame, bagID, slotID)
 			local rr, gg, bb = unpack(E.media.bordercolor)
 			slot.newItemGlow:SetVertexColor(rr, gg, bb)
 			slot:SetBackdropBorderColor(rr, gg, bb)
+			slot:SetBackdropColor(unpack(E.db.bags.transparent and E.media.backdropfadecolor or E.media.backdropcolor))
 			slot.ignoreBorderColors = nil
 		end
 	else
 		local rr, gg, bb = unpack(E.media.bordercolor)
 		slot.newItemGlow:SetVertexColor(rr, gg, bb)
 		slot:SetBackdropBorderColor(rr, gg, bb)
+		slot:SetBackdropColor(unpack(E.db.bags.transparent and E.media.backdropfadecolor or E.media.backdropcolor))
 		slot.ignoreBorderColors = nil
 	end
 
@@ -463,10 +470,6 @@ function B:UpdateSlot(frame, bagID, slotID)
 	end
 
 	slot.readable = readable
-
-	SetItemButtonTexture(slot, texture)
-	SetItemButtonCount(slot, count)
-	SetItemButtonDesaturated(slot, slot.locked or slot.junkDesaturate)
 
 	if _G.GameTooltip:GetOwner() == slot and not slot.hasItem then
 		GameTooltip_Hide()
@@ -680,7 +683,6 @@ function B:Layout(isBank)
 			end
 
 			f.Bags[bagID].numSlots = numSlots
-			f.Bags[bagID].assigned = assignedBag
 			f.Bags[bagID].type = select(2, GetContainerNumFreeSlots(bagID))
 
 			--Hide unused slots
