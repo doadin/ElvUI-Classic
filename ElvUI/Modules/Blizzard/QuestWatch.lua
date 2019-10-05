@@ -115,6 +115,8 @@ function B:AddHook()
 end
 
 function B:QuestWatchFrame()
-	self:MoveQuestWatchFrame()
-	self:AddHook()
+	if E.db.ObjectiveTracker then
+		self:MoveQuestWatchFrame()
+		self:AddHook()
+	end
 end

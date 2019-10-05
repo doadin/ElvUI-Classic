@@ -21,6 +21,7 @@ P.general = {
 	bonusObjectivePosition = 'LEFT',
 	talkingHeadFrameScale = 0.9,
 	talkingHeadFrameBackdrop = false,
+	objectiveTracker = true,
 	itemLevel = {
 		displayCharacterInfo = true,
 		displayInspectInfo = true,

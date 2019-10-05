@@ -543,6 +543,11 @@ E.Options.args.general = {
 						}
 					}
 				},
+				objectiveTracker = {
+					order = 8,
+					type = 'toggle',
+					name = L["ObjectTracker Enhancements"],
+				},
 --[=[
 				itemLevelInfo = {
 					order = 11,
