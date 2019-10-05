@@ -74,6 +74,7 @@ local EventHandler = function(self, event, _, _, spellID)
 			return
 		end
 
+		self.EnergyManaRegen.Spark:Hide()
 		LastTickTime = GetTime() + 5
 		allowPowerEvent = false
 	end
