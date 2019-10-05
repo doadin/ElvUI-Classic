@@ -3076,7 +3076,7 @@ P.unitframe = {
 				clickThrough = false,
 				minDuration = 0,
 				maxDuration = 300,
-				priority = 'Blacklist,TurtleBuffs', --Party Buffs
+				priority = 'Blacklist,CastByPlayers', --Party Buffs
 				xOffset = 0,
 				yOffset = 0,
 			},
