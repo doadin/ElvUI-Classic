@@ -68,7 +68,10 @@ function UF:Configure_ClassBar(frame, cur)
 
 		local maxClassBarButtons = UF.classMaxResourceBar[E.myclass] or MAX_COMBO_POINTS
 		for i = 1, maxClassBarButtons do
-			bars[i]:Hide()
+			if frame.ClassBar == 'ClassPower' then
+				bars[i]:Hide()
+			end
+
 			bars[i].backdrop:Hide()
 
 			if i <= frame.MAX_CLASS_BAR then
@@ -477,6 +480,7 @@ local TotemColors = {
 function UF:Construct_Totems(frame)
 	local totems = CreateFrame("Frame", nil, frame)
 	totems:CreateBackdrop(nil, nil, nil, self.thinBorders, true)
+	totems.Destroy = {}
 
 	for i = 1, 4 do
 		local r, g, b = unpack(TotemColors[i])
@@ -491,6 +495,7 @@ function UF:Construct_Totems(frame)
 		UF.statusbars[totems[i]] = true
 
 		totems[i]:SetMinMaxValues(0, 1)
+		totems[i]:SetValue(0)
 
 		totems[i].bg = totems[i]:CreateTexture(nil, "BORDER")
 		totems[i].bg:SetAllPoints(totems[i])
@@ -499,12 +504,12 @@ function UF:Construct_Totems(frame)
 
 		totems[i].bg:SetVertexColor(r * .3, g * .3, b * .3)
 
-		totems[i].Destroy = CreateFrame("Button", totems[i]:GetName().."Destroy", totems[i], "SecureUnitButtonTemplate")
-		totems[i].Destroy:RegisterForClicks("RightButtonUp")
-		totems[i].Destroy:SetID(i)
-		totems[i].Destroy:SetAllPoints()
-		totems[i].Destroy:SetAttribute("type2", "destroytotem")
-		totems[i].Destroy:SetAttribute("*totem-slot*",i)
+		totems.Destroy[i] = CreateFrame("Button", totems[i]:GetName().."Destroy", UIParent, "SecureUnitButtonTemplate")
+		totems.Destroy[i]:RegisterForClicks("RightButtonUp")
+		totems.Destroy[i]:SetAllPoints(totems[i])
+		totems.Destroy[i]:SetID(i)
+		totems.Destroy[i]:SetAttribute("type2", "destroytotem")
+		totems.Destroy[i]:SetAttribute("*totem-slot*", i)
 	end
 
 	frame.MAX_CLASS_BAR = 4
