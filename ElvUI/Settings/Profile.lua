@@ -2187,6 +2187,14 @@ P.unitframe = {
 				xOffset = 0,
 				yOffset = 8,
 			},
+			resurrectIcon = {
+				enable = true,
+				size = 30,
+				attachTo = 'CENTER',
+				attachToObject = 'Frame',
+				xOffset = 0,
+				yOffset = 0,
+			},
 			stagger = {
 				enable = true,
 				width = 10,
@@ -2307,6 +2315,14 @@ P.unitframe = {
 			raidRoleIcons = {
 				enable = true,
 				position = 'TOPLEFT',
+			},
+			resurrectIcon = {
+				enable = true,
+				size = 30,
+				attachTo = 'CENTER',
+				attachToObject = 'Frame',
+				xOffset = 0,
+				yOffset = 0,
 			},
 			buffs = {
 				enable = true,
