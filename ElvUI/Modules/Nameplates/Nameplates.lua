@@ -37,10 +37,6 @@ do
 	function NP:UnitExists(unit)
 		return UnitExists(unit)
 	end
-
-	function NP:UnitSelectionType(unit, considerHostile)
-		return 0
-	end
 end
 
 local function CopySettings(from, to)
