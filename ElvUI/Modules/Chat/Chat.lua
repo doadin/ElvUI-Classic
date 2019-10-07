@@ -168,6 +168,8 @@ do --this can save some main file locals
 		-- Simpy
 		["Simpy-Myzrael"]		= itsSimpy, -- Warlock
 		["Cutepally-Myzrael"]	= itsSimpy, -- Paladin
+		["Imsocheesy-Myzrael"]	= itsSimpy, -- [Horde] Priest
+		["Imsospicy-Myzrael"]	= itsSimpy, -- [Horde] Mage
 	}
 end
 
