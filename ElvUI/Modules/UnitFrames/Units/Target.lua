@@ -35,6 +35,7 @@ function UF:Construct_TargetFrame(frame)
 	frame.Fader = self:Construct_Fader()
 	frame.Cutaway = self:Construct_Cutaway(frame)
 	frame.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(frame)
+	frame.ResurrectIndicator = UF:Construct_ResurrectionIcon(frame)
 
 	frame.customTexts = {}
 	frame:Point('BOTTOMRIGHT', E.UIParent, 'BOTTOM', 413, 68)
@@ -107,6 +108,9 @@ function UF:Update_TargetFrame(frame, db)
 	UF:EnableDisable_Auras(frame)
 	UF:Configure_Auras(frame, 'Buffs')
 	UF:Configure_Auras(frame, 'Debuffs')
+
+	-- Resurrect
+	UF:Configure_ResurrectionIcon(frame)
 
 	--Castbar
 	UF:Configure_Castbar(frame)

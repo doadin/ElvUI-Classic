@@ -303,15 +303,14 @@ local function MinimapPostDrag()
 	_G.MinimapBackdrop:SetAllPoints(_G.Minimap)
 end
 
-function M:GetMinimapShape()
-	--Support for other mods
-	if E.private.general.minimap.enable then
-		function GetMinimapShape()
-			return 'SQUARE'
-		end
+local function GetMinimapShape()
+	return 'SQUARE'
+end
 
-		_G.Minimap:Size(E.db.general.minimap.size, E.db.general.minimap.size)
-	end
+function M:SetGetMinimapShape()
+	--This is just to support for other mods
+	_G.GetMinimapShape = GetMinimapShape
+	_G.Minimap:Size(E.db.general.minimap.size, E.db.general.minimap.size)
 end
 
 function M:Initialize()
@@ -380,12 +379,13 @@ function M:Initialize()
 	Minimap:SetScript("OnMouseWheel", M.Minimap_OnMouseWheel)
 	Minimap:SetScript("OnMouseDown", M.Minimap_OnMouseDown)
 	Minimap:SetScript("OnMouseUp", E.noop)
-	self:RegisterEvent("PLAYER_LOGIN", "UpdateSettings")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "Update_ZoneText")
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "Update_ZoneText")
 	self:RegisterEvent("ZONE_CHANGED", "Update_ZoneText")
 	self:RegisterEvent("ZONE_CHANGED_INDOORS", "Update_ZoneText")
 	self:RegisterEvent('ADDON_LOADED')
+
+	self:UpdateSettings()
 end
 
-E:RegisterInitialModule(M:GetName())
+E:RegisterModule(M:GetName())

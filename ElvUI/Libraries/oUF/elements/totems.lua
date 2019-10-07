@@ -87,15 +87,16 @@ local function UpdateTotem(self, event, slot)
 		end
 
 		if totem:IsObjectType("Statusbar") then
+			totem:SetValue(0)
 			totem:SetScript("OnUpdate",function(self,elapsed)
 				self.total = (self.total or 0) + elapsed
 				if (self.total >= .01) then
 					self.total = 0
-					--local _, _, start, duration = GetTotemInfo(slot)
-					if ((GetTime() - start) == 0) then
+					local _, _, startTime, expiration = GetTotemInfo(slot)
+					if ((GetTime() - startTime) == 0) then
 						self:SetValue(0)
 					else
-						self:SetValue(1 - ((GetTime() - start) / duration))
+						self:SetValue(1 - ((GetTime() - startTime) / expiration))
 					end
 				end
 			end)
