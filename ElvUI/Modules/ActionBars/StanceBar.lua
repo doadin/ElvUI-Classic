@@ -294,11 +294,6 @@ function AB:AdjustMaxStanceButtons(event)
 		return
 	end
 
-	local visibility = self.db.stanceBar.visibility
-	if visibility and visibility:match('[\n\r]') then
-		visibility = visibility:gsub('[\n\r]','')
-	end
-
 	for i=1, #bar.buttons do
 		bar.buttons[i]:Hide()
 	end
@@ -327,8 +322,6 @@ function AB:AdjustMaxStanceButtons(event)
 	if event == 'UPDATE_SHAPESHIFT_FORMS' then
 		self:StyleShapeShift()
 	end
-
-	RegisterStateDriver(bar, "visibility", (numButtons == 0 and "hide") or visibility)
 end
 
 function AB:UpdateStanceBindings()
