@@ -96,7 +96,7 @@ local function LoadSkin()
 		end
 
 		if item.Icon then
-			item.Icon:Size(E.PixelMode and 37 or 32)
+			item.Icon:Size(E.PixelMode and 35 or 32)
 			item.Icon:SetDrawLayer('ARTWORK')
 			item.Icon:Point('TOPLEFT', E.PixelMode and 2 or 4, -(E.PixelMode and 2 or 4))
 			S:HandleIcon(item.Icon)
