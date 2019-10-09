@@ -41,6 +41,10 @@ function UF:Construct_TargetFrame(frame)
 	frame:Point('BOTTOMRIGHT', E.UIParent, 'BOTTOM', 413, 68)
 	E:CreateMover(frame, frame:GetName()..'Mover', L["Target Frame"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,target,generalGroup')
 
+	frame.Power.Holder = CreateFrame("Frame", nil, frame.Power)
+	frame.Power.Holder:Point("BOTTOM", frame, "BOTTOM", 0, -20)
+	E:CreateMover(frame.Power.Holder, 'TargetPowerBarMover', L["Target Powerbar"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,target,power')
+
 	frame.unitframeType = "target"
 end
 

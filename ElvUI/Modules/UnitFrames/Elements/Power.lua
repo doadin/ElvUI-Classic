@@ -132,25 +132,10 @@ function UF:Configure_Power(frame)
 		if frame.POWERBAR_DETACHED then
 			power:Width(frame.POWERBAR_WIDTH - ((frame.BORDER + frame.SPACING)*2))
 			power:Height(frame.POWERBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
-			if not power.Holder or (power.Holder and not power.Holder.mover) then
-				power.Holder = CreateFrame("Frame", nil, power)
-				power.Holder:Size(frame.POWERBAR_WIDTH, frame.POWERBAR_HEIGHT)
-				power.Holder:Point("BOTTOM", frame, "BOTTOM", 0, -20)
-				power:ClearAllPoints()
-				power:Point("BOTTOMLEFT", power.Holder, "BOTTOMLEFT", frame.BORDER+frame.SPACING, frame.BORDER+frame.SPACING)
-				--Currently only Player and Target can detach power bars, so doing it this way is okay for now
-				if frame.unitframeType and frame.unitframeType == "player" then
-					E:CreateMover(power.Holder, 'PlayerPowerBarMover', L["Player Powerbar"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,player,power')
-				elseif frame.unitframeType and frame.unitframeType == "target" then
-					E:CreateMover(power.Holder, 'TargetPowerBarMover', L["Target Powerbar"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,target,power')
-				end
-			else
-				power.Holder:Size(frame.POWERBAR_WIDTH, frame.POWERBAR_HEIGHT)
-				power:ClearAllPoints()
-				power:Point("BOTTOMLEFT", power.Holder, "BOTTOMLEFT", frame.BORDER+frame.SPACING, frame.BORDER+frame.SPACING)
-				power.Holder.mover:SetScale(1)
-				power.Holder.mover:SetAlpha(1)
-			end
+
+			power.Holder:Size(frame.POWERBAR_WIDTH, frame.POWERBAR_HEIGHT)
+			power:Point("BOTTOMLEFT", power.Holder, "BOTTOMLEFT", frame.BORDER+frame.SPACING, frame.BORDER+frame.SPACING)
+			E:EnableMover(power.Holder.mover:GetName())
 
 			power:SetFrameLevel(50) --RaisedElementParent uses 100, we want lower value to allow certain icons and texts to appear above power
 		elseif frame.USE_POWERBAR_OFFSET then
@@ -193,12 +178,8 @@ function UF:Configure_Power(frame)
 			power:SetFrameLevel(frame.Health:GetFrameLevel() - 5)
 		end
 
-		--Hide mover until we detach again
 		if not frame.POWERBAR_DETACHED then
-			if power.Holder and power.Holder.mover then
-				power.Holder.mover:SetScale(0.0001)
-				power.Holder.mover:SetAlpha(0)
-			end
+			E:DisableMover(power.Holder.mover:GetName())
 		end
 
 		if db.power.strataAndLevel and db.power.strataAndLevel.useCustomStrata then

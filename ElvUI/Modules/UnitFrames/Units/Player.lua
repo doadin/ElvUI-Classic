@@ -67,6 +67,10 @@ function UF:Construct_PlayerFrame(frame)
 	frame:Point('BOTTOMLEFT', E.UIParent, 'BOTTOM', -413, 68) --Set to default position
 	E:CreateMover(frame, frame:GetName()..'Mover', L["Player Frame"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,player,generalGroup')
 
+	frame.Power.Holder = CreateFrame("Frame", nil, frame.Power)
+	frame.Power.Holder:Point("BOTTOM", frame, "BOTTOM", 0, -20)
+	E:CreateMover(frame.Power.Holder, 'PlayerPowerBarMover', L["Player Powerbar"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,player,power')
+
 	frame.unitframeType = "player"
 end
 
