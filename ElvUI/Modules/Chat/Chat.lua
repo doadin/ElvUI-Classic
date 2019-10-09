@@ -398,7 +398,7 @@ function CH:StyleChat(frame)
 	--Work around broken SetAltArrowKeyMode API
 	editbox.historyLines = ElvCharacterDB.ChatEditHistory
 	editbox.historyIndex = 0
-	--editbox:HookScript("OnKeyDown", OnKeyDown)
+	editbox:HookScript("OnKeyDown", OnKeyDown)
 	editbox:Hide()
 
 	editbox:HookScript("OnEditFocusGained", function(editBox)
@@ -1780,11 +1780,21 @@ function CH:SetChatFont(dropDown, chatFrame, fontSize)
 	chatFrame:FontTemplate(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
 end
 
+local SecureSlashCMD = {
+	'^/rl',
+	'^/tar',
+	'^/target',
+}
+
 function CH:ChatEdit_AddHistory(_, line) -- editBox, line
 	line = line and strtrim(line)
 
 	if line and strlen(line) > 0 then
-		if strfind(line, '/rl') then return end
+		for _, command in next, SecureSlashCMD do
+			if strmatch(line, command) then
+				return
+			end
+		end
 
 		for index, text in pairs(ElvCharacterDB.ChatEditHistory) do
 			if text == line then
