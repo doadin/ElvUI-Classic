@@ -1784,6 +1784,18 @@ local SecureSlashCMD = {
 	'^/rl',
 	'^/tar',
 	'^/target',
+	'^/startattack',
+	'^/stopattack',
+	'^/assist',
+	'^/cast',
+	'^/use',
+	'^/castsequence',
+	'^/cancelaura',
+	'^/cancelform',
+	'^/equip',
+	'^/exit',
+	'^/camp',
+	'^/logout'
 }
 
 function CH:ChatEdit_AddHistory(_, line) -- editBox, line
