@@ -1713,6 +1713,11 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 				name = L["Attach Text To"],
 				values = attachToValues,
 			},
+			autoHide = {
+				order = 12,
+				type = 'toggle',
+				name = L["Auto-Hide"],
+			},
 		},
 	}
 

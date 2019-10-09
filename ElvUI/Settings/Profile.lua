@@ -1993,6 +1993,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				powerPrediction = false,
 				EnergyManaRegen = true,
 				reverseFill = false,
