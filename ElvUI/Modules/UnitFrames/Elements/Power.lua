@@ -178,7 +178,7 @@ function UF:Configure_Power(frame)
 			power:SetFrameLevel(frame.Health:GetFrameLevel() - 5)
 		end
 
-		if not frame.POWERBAR_DETACHED then
+		if not frame.POWERBAR_DETACHED and power.Holder then
 			E:DisableMover(power.Holder.mover:GetName())
 		end
 
@@ -237,8 +237,8 @@ function UF:PostUpdatePower(unit, cur, _, max)
 		self:SetValue(random(1, max))
 	end
 
-	if unit == 'player' then
-		if parent.db.power.autoHide and parent.POWERBAR_DETACHED then
+	if parent.db and parent.db.power then
+		if unit == 'player' and parent.db.power.autoHide and parent.POWERBAR_DETACHED then
 			if (cur == 0) then
 				self:Hide()
 			else
@@ -247,9 +247,9 @@ function UF:PostUpdatePower(unit, cur, _, max)
 		elseif not self:IsShown() then
 			self:Show()
 		end
-	end
 
-	if parent.db and parent.db.power and parent.db.power.hideonnpc then
-		UF:PostNamePosition(parent, unit)
+		if parent.db.power.hideonnpc then
+			UF:PostNamePosition(parent, unit)
+		end
 	end
 end
