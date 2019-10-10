@@ -103,6 +103,7 @@ local Enable = function(self, unit)
 			spark:SetSize(20, 20)
 			spark:SetBlendMode('ADD')
 			spark:SetPoint('CENTER', element:GetStatusBarTexture(), 'RIGHT')
+			spark:Hide()
 		end
 
 		self:RegisterEvent("PLAYER_REGEN_ENABLED", EventHandler, true)
