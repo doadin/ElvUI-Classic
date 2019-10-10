@@ -5,6 +5,7 @@ local TickValue = 2
 local CurrentValue = UnitPower('player')
 local LastValue = CurrentValue
 local allowPowerEvent = true
+local myClass = select(2, UnitClass("player"))
 
 local Update = function(self, elapsed)
 	local element = self.EnergyManaRegen
@@ -15,6 +16,7 @@ local Update = function(self, elapsed)
 		local powerType = UnitPowerType("player")
 
 		if powerType ~= Enum.PowerType.Energy and powerType ~= Enum.PowerType.Mana then
+			element.Spark:Hide()
 			return
 		end
 
@@ -88,7 +90,7 @@ local Enable = function(self, unit)
 	local element = self.EnergyManaRegen
 	local Power = self.Power
 
-	if (unit == "player") and element and Power then
+	if (unit == "player") and element and Power and myClass ~= 'WARRIOR' then
 		element.__owner = self
 
 		if(element:IsObjectType('StatusBar')) then
@@ -103,7 +105,6 @@ local Enable = function(self, unit)
 			spark:SetSize(20, 20)
 			spark:SetBlendMode('ADD')
 			spark:SetPoint('CENTER', element:GetStatusBarTexture(), 'RIGHT')
-			spark:Hide()
 		end
 
 		self:RegisterEvent("PLAYER_REGEN_ENABLED", EventHandler, true)
