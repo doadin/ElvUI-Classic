@@ -71,6 +71,7 @@ function UF:Construct_PlayerFrame(frame)
 	frame.Power.Holder:Size(250, 20)
 	frame.Power.Holder:Point("BOTTOM", frame, "BOTTOM", 0, -20)
 	E:CreateMover(frame.Power.Holder, 'PlayerPowerBarMover', L["Player Powerbar"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,player,power')
+	E:DisableMover(frame.Power.Holder.mover:GetName())
 
 	frame.unitframeType = "player"
 end
