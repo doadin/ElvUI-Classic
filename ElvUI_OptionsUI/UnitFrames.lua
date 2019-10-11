@@ -3036,36 +3036,6 @@ E.Options.args.unitframe = {
 									name = L["ENERGY"],
 									type = 'color',
 								},
-								RUNIC_POWER = {
-									order = 24,
-									name = L["RUNIC_POWER"],
-									type = 'color',
-								},
-								PAIN = {
-									order = 25,
-									name = L["PAIN"],
-									type = 'color',
-								},
-								FURY = {
-									order = 26,
-									name = L["FURY"],
-									type = 'color',
-								},
-								LUNAR_POWER = {
-									order = 27,
-									name = L["LUNAR_POWER"],
-									type = 'color'
-								},
-								INSANITY = {
-									order = 28,
-									name = L["INSANITY"],
-									type = 'color'
-								},
-								MAELSTROM = {
-									order = 29,
-									name = L["MAELSTROM"],
-									type = 'color'
-								},
 							},
 						},
 						castBars = {
