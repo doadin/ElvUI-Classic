@@ -242,7 +242,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 				pvpFlag = format(" (%s)", _G.PVP)
 			end
 
-			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", WrapTextInColorCode(ElvUF.Tags.Methods["classification"](unit) or "",ElvUF.Tags.Methods['classificationcolor'](unit) or ""), creatureType or "", pvpFlag)
+			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", (ElvUF.Tags.Methods['classificationcolor'](unit) or "")..(ElvUF.Tags.Methods["classification"](unit) or "")..'|r', creatureType or "", pvpFlag)
 		end
 	end
 
