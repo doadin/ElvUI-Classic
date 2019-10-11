@@ -234,7 +234,6 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 
 		local levelLine = self:GetLevelLine(tt, 2)
 		if levelLine then
-			local creatureClassification = UnitClassification(unit)
 			local creatureType = UnitCreatureType(unit)
 			local pvpFlag = ""
 			local diffColor = GetCreatureDifficultyColor(level)
@@ -243,7 +242,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 				pvpFlag = format(" (%s)", _G.PVP)
 			end
 
-			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", WrapTextInColorCode(creatureClassification or "","FFAF5050"), creatureType or "", pvpFlag)
+			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", WrapTextInColorCode(ElvUF.Tags.Methods["classification"](unit) or "",ElvUF.Tags.Methods['classificationcolor'](unit) or ""), creatureType or "", pvpFlag)
 		end
 	end
 
