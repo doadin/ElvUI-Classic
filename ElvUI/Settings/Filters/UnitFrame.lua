@@ -487,8 +487,22 @@ G.unitframe.aurafilters.DungeonDebuffs = {
 G.unitframe.aurafilters.RaidBuffsElvUI = {
 	type = 'Whitelist',
 	spells = {
-		--Mythic/Mythic+
-		--Raids
+	--Molten Core
+	    --Magmadar
+	    [19451] = Defaults(), --Frenzy
+	    --Shazzrah
+		[19714] = Defaults(), --Deaden Magic
+		--Garr
+		[19516] = Defaults(), --Enrage
+		--Baron Geddon
+		[19695] = Defaults(), --Inferno
+		[20478] = Defaults(), --Armageddon
+		--Sulfuron Harbinger
+		[19779] = Defaults(), --Inspire
+		--Majordomo Executus
+		[20620] = Defaults(), --Aegis of Ragnaros
+		[21075] = Defaults(), --Damage Shield
+		[20619] = Defaults(), --Magic Reflection
 	},
 }
 
