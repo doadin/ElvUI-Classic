@@ -488,9 +488,9 @@ G.unitframe.aurafilters.RaidBuffsElvUI = {
 	type = 'Whitelist',
 	spells = {
 	--Molten Core
-	    --Magmadar
-	    [19451] = Defaults(), --Frenzy
-	    --Shazzrah
+		--Magmadar
+		[19451] = Defaults(), --Frenzy
+		--Shazzrah
 		[19714] = Defaults(), --Deaden Magic
 		--Garr
 		[19516] = Defaults(), --Enrage
