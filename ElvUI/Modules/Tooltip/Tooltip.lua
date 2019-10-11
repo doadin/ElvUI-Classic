@@ -57,13 +57,6 @@ local AFK_LABEL = " |cffFFFFFF[|r|cffFF0000"..L["AFK"].."|r|cffFFFFFF]|r"
 local DND_LABEL = " |cffFFFFFF[|r|cffFFFF00"..L["DND"].."|r|cffFFFFFF]|r"
 local keybindFrame
 
-local classification = {
-	worldboss = format("|cffAF5050 %s|r", _G.BOSS),
-	rareelite = format("|cffAF5050+ %s|r", _G.ITEM_QUALITY3_DESC),
-	elite = "|cffAF5050+|r",
-	rare = format("|cffAF5050 %s|r", _G.ITEM_QUALITY3_DESC)
-}
-
 function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 	if tt:IsForbidden() then return end
 	if E.private.tooltip.enable ~= true then return end
@@ -250,7 +243,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 				pvpFlag = format(" (%s)", _G.PVP)
 			end
 
-			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", classification[creatureClassification] or "", creatureType or "", pvpFlag)
+			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", WrapTextInColorCode(creatureClassification or "","|cffAF5050"), creatureType or "", pvpFlag)
 		end
 	end
 
