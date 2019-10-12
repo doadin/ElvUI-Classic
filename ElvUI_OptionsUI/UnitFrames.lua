@@ -4393,6 +4393,34 @@ E.Options.args.unitframe.args.target = {
 				},
 			},
 		},
+		raidRoleIcons = {
+			order = 703,
+			type = 'group',
+			name = L["RL Icon"],
+			get = function(info) return E.db.unitframe.units.target.raidRoleIcons[info[#info]] end,
+			set = function(info, value) E.db.unitframe.units.target.raidRoleIcons[info[#info]] = value; UF:CreateAndUpdateUF('target') end,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["RL Icon"],
+				},
+				enable = {
+					type = 'toggle',
+					name = L["Enable"],
+					order = 2,
+				},
+				position = {
+					type = 'select',
+					order = 3,
+					name = L["Position"],
+					values = {
+						['TOPLEFT'] = 'TOPLEFT',
+						['TOPRIGHT'] = 'TOPRIGHT',
+					},
+				},
+			},
+		},
 	},
 }
 
