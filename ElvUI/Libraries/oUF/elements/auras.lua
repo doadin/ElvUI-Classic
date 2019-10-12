@@ -161,7 +161,7 @@ end
 local function updateIcon(element, unit, index, offset, filter, isDebuff, visible)
 	local name, texture, count, debuffType, duration, expiration, caster, isStealable, nameplateShowSelf, spellID, canApply, isBossDebuff, casterIsPlayer, nameplateShowAll, timeMod, effect1, effect2, effect3 = UnitAura(unit, index, filter)
 
-	if LCD and spellID then
+	if LCD and spellID and unit ~= 'player' then
 		local durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
 		if durationNew and durationNew > 0 then
 			duration, expiration = durationNew, expirationTimeNew
