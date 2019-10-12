@@ -238,7 +238,7 @@ local function Update(self, event, unit)
 			local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID, canApply, isBossDebuff, casterIsPlayer = UnitAura(unit, index, helpOrHarm)
 			if not name then break end
 
-			if LCD and unit ~= 'player' then
+			if LCD and not UnitIsUnit('player', unit) then
 				local durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, unitCaster, name)
 				if durationNew and durationNew > 0 then
 					duration = durationNew

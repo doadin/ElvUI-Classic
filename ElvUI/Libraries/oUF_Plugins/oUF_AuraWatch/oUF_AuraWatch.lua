@@ -94,7 +94,7 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 		button.onlyShowMissing = setting and setting.onlyShowMissing or false
 		button.anyUnit = setting and setting.anyUnit or false
 
-		if LCD and unit ~= 'player' then
+		if LCD and not UnitIsUnit('player', unit) then
 			local durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
 			if durationNew and durationNew > 0 then
 				duration = durationNew
