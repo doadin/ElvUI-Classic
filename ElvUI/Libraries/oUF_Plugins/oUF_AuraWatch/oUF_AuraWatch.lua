@@ -55,16 +55,16 @@ local function createAuraIcon(element, index)
 	return button
 end
 
-local function customFilter(element, _, button, name, _, _, _, _, _, _, _, _, spellID)
-	if button.onlyShowMissing then
+local function customFilter(element, _, button, name, _, _, debuffType, _, _, caster, isStealable, _, spellID, _, _, casterIsPlayer)
+	local setting = element.watched[spellID]
+	if not setting then
 		return false
 	end
 
-	if (not button.anyUnit and not button.isPlayer) then
-		return
-	end
+	button.onlyShowMissing = setting.onlyShowMissing
+	button.anyUnit = setting.anyUnit
 
-	return element.watched[spellID] and element.watched[spellID].enabled or false
+	return setting.enabled and not setting.onlyShowMissing and (setting.anyUnit or caster == 'player' or casterIsPlayer)
 end
 
 local function updateIcon(element, unit, index, offset, filter, isDebuff, visible)
@@ -82,17 +82,12 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 			element.createdIcons = element.createdIcons + 1
 		end
 
-		local setting = element.watched[spellID]
-
 		button.caster = caster
 		button.filter = filter
 		button.isDebuff = isDebuff
 		button.debuffType = debuffType
 		button.isPlayer = caster == 'player'
 		button.spellID = spellID
-
-		button.onlyShowMissing = setting and setting.onlyShowMissing or false
-		button.anyUnit = setting and setting.anyUnit or false
 
 		if LCD and not UnitIsUnit('player', unit) then
 			local durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
@@ -107,6 +102,7 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 			canApply, isBossDebuff, casterIsPlayer, nameplateShowAll, timeMod, effect1, effect2, effect3)
 
 		if(show) then
+			local setting = element.watched[spellID]
 			if(button.cd) then
 				button.cd:Hide()
 
