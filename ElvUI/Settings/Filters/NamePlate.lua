@@ -38,7 +38,7 @@ G.nameplate.filters = {
 			}
 		},
 		actions = {
-			alpha = 30
+			alpha = 60
 		}
 	},
 }
