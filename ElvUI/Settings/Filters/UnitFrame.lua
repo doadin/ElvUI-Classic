@@ -532,11 +532,11 @@ local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, displayText
 		anyUnit = anyUnit or false,
 		onlyShowMissing = onlyShowMissing or false,
 		styleOverride = 'Default',
-		displayText = displayText or false,
+		displayText = displayText or true,
 		textThreshold = textThreshold or -1,
 		xOffset = xOffset or 0,
 		yOffset = yOffset or 0,
-		sizeOverride = sizeOverride or 0
+		sizeOverride = sizeOverride or 0,
 	}
 end
 
