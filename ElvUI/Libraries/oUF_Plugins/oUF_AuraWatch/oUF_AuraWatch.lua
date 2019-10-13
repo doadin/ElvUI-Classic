@@ -117,7 +117,7 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 					button.first = true
 					button:SetScript('OnUpdate', updateText)
 				else
-					if(duration and duration > 0) then
+					if (expiration and expiration > 0) and (duration and duration > 0) then
 						button.cd:SetCooldown(expiration - duration, duration)
 						button.cd:Show()
 					end
