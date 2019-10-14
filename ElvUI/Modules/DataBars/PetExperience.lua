@@ -68,11 +68,11 @@ function mod:PetExperienceBar_OnEnter()
 	local cur, max = mod:GetXP('pet')
 	if max <= 0 then max = 1 end
 
-	GameTooltip:AddLine(L['Pet Experience'])
+	GameTooltip:AddLine(L["Pet Experience"])
 	GameTooltip:AddLine(' ')
 
-	GameTooltip:AddDoubleLine(L['XP:'], format(' %d / %d (%d%%)', cur, max, cur/max * 100), 1, 1, 1)
-	GameTooltip:AddDoubleLine(L['Remaining:'], format(' %d (%d%% - %d '..L['Bars']..')', max - cur, (max - cur) / max * 100, 20 * (max - cur) / max), 1, 1, 1)
+	GameTooltip:AddDoubleLine(L["XP:"], format(' %d / %d (%d%%)', cur, max, cur/max * 100), 1, 1, 1)
+	GameTooltip:AddDoubleLine(L["Remaining:"], format(' %d (%d%% - %d '..L["Bars"]..')', max - cur, (max - cur) / max * 100, 20 * (max - cur) / max), 1, 1, 1)
 
 	GameTooltip:Show()
 end
@@ -134,6 +134,6 @@ function mod:LoadPetExperienceBar()
 
 	self:UpdatePetExperienceDimensions()
 
-	E:CreateMover(self.petExpBar, 'PetExperienceBarMover', L['Pet Experience Bar'], nil, nil, nil, nil, nil, 'databars,petExperience')
+	E:CreateMover(self.petExpBar, 'PetExperienceBarMover', L["Pet Experience Bar"], nil, nil, nil, nil, nil, 'databars,petExperience')
 	self:EnableDisable_PetExperienceBar()
 end

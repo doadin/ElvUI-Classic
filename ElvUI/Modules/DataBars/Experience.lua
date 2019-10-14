@@ -101,14 +101,14 @@ function mod:ExperienceBar_OnEnter()
 	GameTooltip:ClearLines()
 	GameTooltip:SetOwner(self, 'ANCHOR_CURSOR', 0, -4)
 
-	GameTooltip:AddLine(L['Experience'])
+	GameTooltip:AddLine(L["Experience"])
 	GameTooltip:AddLine(' ')
 
-	GameTooltip:AddDoubleLine(L['XP:'], format(' %d / %d (%d%%)', cur, max, cur/max * 100), 1, 1, 1)
-	GameTooltip:AddDoubleLine(L['Remaining:'], format(' %d (%d%% - %d '..L['Bars']..')', max - cur, (max - cur) / max * 100, 20 * (max - cur) / max), 1, 1, 1)
+	GameTooltip:AddDoubleLine(L["XP:"], format(' %d / %d (%d%%)', cur, max, cur/max * 100), 1, 1, 1)
+	GameTooltip:AddDoubleLine(L["Remaining:"], format(' %d (%d%% - %d '..L["Bars"]..')', max - cur, (max - cur) / max * 100, 20 * (max - cur) / max), 1, 1, 1)
 
 	if rested then
-		GameTooltip:AddDoubleLine(L['Rested:'], format('+%d (%d%%)', rested, rested / max * 100), 1, 1, 1)
+		GameTooltip:AddDoubleLine(L["Rested:"], format('+%d (%d%%)', rested, rested / max * 100), 1, 1, 1)
 	end
 
 	GameTooltip:Show()
@@ -181,6 +181,6 @@ function mod:LoadExperienceBar()
 
 	self:UpdateExperienceDimensions()
 
-	E:CreateMover(self.expBar, 'ExperienceBarMover', L['Experience Bar'], nil, nil, nil, nil, nil, 'databars,experience')
+	E:CreateMover(self.expBar, 'ExperienceBarMover', L["Experience Bar"], nil, nil, nil, nil, nil, 'databars,experience')
 	self:EnableDisable_ExperienceBar()
 end
