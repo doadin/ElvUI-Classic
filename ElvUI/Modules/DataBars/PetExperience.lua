@@ -14,7 +14,7 @@ local InCombatLockdown = InCombatLockdown
 local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE
 
 function mod:UpdatePetExperience(event)
-	if E.myclass ~= 'HUNTER' then return end
+	if E.myclass ~= 'HUNTER' and HasPetUI() then return end
 	if not mod.db.petExperience.enable then return end
 
 	local bar = self.petExpBar
@@ -126,9 +126,9 @@ function mod:LoadPetExperienceBar()
 	self.petExpBar.eventFrame:RegisterEvent('PLAYER_REGEN_ENABLED')
 	self.petExpBar.eventFrame:SetScript('OnEvent', function(self, event)
 		if event == 'UNIT_PET' then
-			self:EnableDisable_PetExperienceBar()
+			mod:EnableDisable_PetExperienceBar()
 		else
-			self:UpdatePetExperience(event)
+			mod:UpdatePetExperience(event)
 		end
 	end)
 
