@@ -3036,36 +3036,6 @@ E.Options.args.unitframe = {
 									name = L["ENERGY"],
 									type = 'color',
 								},
-								RUNIC_POWER = {
-									order = 24,
-									name = L["RUNIC_POWER"],
-									type = 'color',
-								},
-								PAIN = {
-									order = 25,
-									name = L["PAIN"],
-									type = 'color',
-								},
-								FURY = {
-									order = 26,
-									name = L["FURY"],
-									type = 'color',
-								},
-								LUNAR_POWER = {
-									order = 27,
-									name = L["LUNAR_POWER"],
-									type = 'color'
-								},
-								INSANITY = {
-									order = 28,
-									name = L["INSANITY"],
-									type = 'color'
-								},
-								MAELSTROM = {
-									order = 29,
-									name = L["MAELSTROM"],
-									type = 'color'
-								},
 							},
 						},
 						castBars = {
@@ -4423,6 +4393,34 @@ E.Options.args.unitframe.args.target = {
 				},
 			},
 		},
+		raidRoleIcons = {
+			order = 703,
+			type = 'group',
+			name = L["RL Icon"],
+			get = function(info) return E.db.unitframe.units.target.raidRoleIcons[info[#info]] end,
+			set = function(info, value) E.db.unitframe.units.target.raidRoleIcons[info[#info]] = value; UF:CreateAndUpdateUF('target') end,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["RL Icon"],
+				},
+				enable = {
+					type = 'toggle',
+					name = L["Enable"],
+					order = 2,
+				},
+				position = {
+					type = 'select',
+					order = 3,
+					name = L["Position"],
+					values = {
+						['TOPLEFT'] = 'TOPLEFT',
+						['TOPRIGHT'] = 'TOPRIGHT',
+					},
+				},
+			},
+		},
 	},
 }
 
@@ -4819,11 +4817,14 @@ E.Options.args.unitframe.args.pet = {
 					order = 3,
 					min = 4, max = 50, step = 1,
 				},
-				fontSize = {
-					type = 'range',
-					name = L["FONT_SIZE"],
+				style = {
+					name = L["Style"],
 					order = 4,
-					min = 7, max = 212, step = 1,
+					type = 'select',
+					values = {
+						['coloredIcon'] = L["Colored Icon"],
+						['texturedIcon'] = L["Textured Icon"],
+					},
 				},
 			},
 		},
@@ -5246,11 +5247,14 @@ E.Options.args.unitframe.args.party = {
 					order = 3,
 					min = 4, max = 50, step = 1,
 				},
-				fontSize = {
-					type = 'range',
-					name = L["FONT_SIZE"],
+				style = {
+					name = L["Style"],
 					order = 4,
-					min = 7, max = 212, step = 1,
+					type = 'select',
+					values = {
+						['coloredIcon'] = L["Colored Icon"],
+						['texturedIcon'] = L["Textured Icon"],
+					},
 				},
 				profileSpecific = {
 					type = 'toggle',
@@ -5830,11 +5834,14 @@ E.Options.args.unitframe.args.raid = {
 					order = 3,
 					min = 4, max = 50, step = 1,
 				},
-				fontSize = {
-					type = 'range',
-					name = L["FONT_SIZE"],
+				style = {
+					name = L["Style"],
 					order = 4,
-					min = 7, max = 212, step = 1,
+					type = 'select',
+					values = {
+						['coloredIcon'] = L["Colored Icon"],
+						['texturedIcon'] = L["Textured Icon"],
+					},
 				},
 				profileSpecific = {
 					type = 'toggle',
@@ -6227,11 +6234,14 @@ E.Options.args.unitframe.args.raid40 = {
 					order = 3,
 					min = 4, max = 50, step = 1,
 				},
-				fontSize = {
-					type = 'range',
-					name = L["FONT_SIZE"],
+				style = {
+					name = L["Style"],
 					order = 4,
-					min = 7, max = 212, step = 1,
+					type = 'select',
+					values = {
+						['coloredIcon'] = L["Colored Icon"],
+						['texturedIcon'] = L["Textured Icon"],
+					},
 				},
 				profileSpecific = {
 					type = 'toggle',
@@ -6250,75 +6260,6 @@ E.Options.args.unitframe.args.raid40 = {
 						end
 					end,
 					order = 6
-				},
-			},
-		},
-		roleIcon = {
-			order = 702,
-			type = 'group',
-			name = L["Role Icon"],
-			get = function(info) return E.db.unitframe.units.raid40.roleIcon[info[#info]] end,
-			set = function(info, value) E.db.unitframe.units.raid40.roleIcon[info[#info]] = value; UF:CreateAndUpdateHeaderGroup('raid40') end,
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Role Icon"],
-				},
-				enable = {
-					type = 'toggle',
-					name = L["Enable"],
-					order = 2,
-				},
-				position = {
-					type = 'select',
-					order = 3,
-					name = L["Position"],
-					values = positionValues,
-				},
-				attachTo = {
-					type = 'select',
-					order = 4,
-					name = L["Attach To"],
-					values = attachToValues,
-				},
-				xOffset = {
-					order = 5,
-					type = 'range',
-					name = L["xOffset"],
-					min = -300, max = 300, step = 1,
-				},
-				yOffset = {
-					order = 6,
-					type = 'range',
-					name = L["yOffset"],
-					min = -300, max = 300, step = 1,
-				},
-				size = {
-					type = 'range',
-					order = 7,
-					name = L["Size"],
-					min = 4, max = 100, step = 1,
-				},
-				tank = {
-					order = 8,
-					type = "toggle",
-					name = L["Show For Tanks"],
-				},
-				healer = {
-					order = 9,
-					type = "toggle",
-					name = L["Show For Healers"],
-				},
-				damager = {
-					order = 10,
-					type = "toggle",
-					name = L["Show For DPS"],
-				},
-				combatHide = {
-					order = 11,
-					type = "toggle",
-					name = L["Hide In Combat"],
 				},
 			},
 		},
@@ -6675,11 +6616,14 @@ E.Options.args.unitframe.args.raidpet = {
 					order = 3,
 					min = 4, max = 50, step = 1,
 				},
-				fontSize = {
-					type = 'range',
-					name = L["FONT_SIZE"],
+				style = {
+					name = L["Style"],
 					order = 4,
-					min = 7, max = 212, step = 1,
+					type = 'select',
+					values = {
+						['coloredIcon'] = L["Colored Icon"],
+						['texturedIcon'] = L["Textured Icon"],
+					},
 				},
 				configureButton = {
 					type = 'execute',
@@ -6866,11 +6810,14 @@ E.Options.args.unitframe.args.tank = {
 					order = 3,
 					min = 4, max = 50, step = 1,
 				},
-				fontSize = {
-					type = 'range',
-					name = L["FONT_SIZE"],
+				style = {
+					name = L["Style"],
 					order = 4,
-					min = 7, max = 212, step = 1,
+					type = 'select',
+					values = {
+						['coloredIcon'] = L["Colored Icon"],
+						['texturedIcon'] = L["Textured Icon"],
+					},
 				},
 				profileSpecific = {
 					type = 'toggle',
@@ -7073,11 +7020,14 @@ E.Options.args.unitframe.args.assist = {
 					order = 3,
 					min = 4, max = 50, step = 1,
 				},
-				fontSize = {
-					type = 'range',
-					name = L["FONT_SIZE"],
+				style = {
+					name = L["Style"],
 					order = 4,
-					min = 7, max = 212, step = 1,
+					type = 'select',
+					values = {
+						['coloredIcon'] = L["Colored Icon"],
+						['texturedIcon'] = L["Textured Icon"],
+					},
 				},
 				profileSpecific = {
 					type = 'toggle',

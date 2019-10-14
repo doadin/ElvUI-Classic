@@ -4315,6 +4315,8 @@ E.Options.args.nameplate = {
 					desc = L["Delete a created filter, you cannot delete pre-existing filters, only custom ones."],
 					type = 'execute',
 					buttonElvUI = true,
+					confirm = true,
+					confirmText = L["Delete Filter"],
 					func = function()
 						for profile in pairs(E.data.profiles) do
 							if E.data.profiles[profile].nameplates and E.data.profiles[profile].nameplates.filters and E.data.profiles[profile].nameplates.filters[selectedNameplateFilter] then

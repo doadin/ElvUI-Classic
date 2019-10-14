@@ -510,15 +510,14 @@ G.unitframe.aurafilters.RaidBuffsElvUI = {
 E.ReverseTimer = {}
 
 -- BuffWatch: List of personal spells to show on unitframes as icon
-local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, displayText, decimalThreshold, textColor, textThreshold, xOffset, yOffset, sizeOverride)
+local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, displayText, textThreshold, xOffset, yOffset, sizeOverride)
+	if not id then return end
+
 	local name = GetSpellInfo(id)
 	if not name then return end
 
 	local r, g, b = 1, 1, 1
 	if color then r, g, b = unpack(color) end
-
-	local r2, g2, b2 = 1, 1, 1
-	if textColor then r2, g2, b2 = unpack(textColor) end
 
 	local rankText = GetSpellSubtext(id)
 	local spellRank = rankText and strfind(rankText, '%d') and GetSpellSubtext(id) or nil
@@ -530,16 +529,14 @@ local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, disp
 		rank = spellRank,
 		point = point or 'TOPLEFT',
 		color = {r = r, g = g, b = b},
-		anyUnit = anyUnit,
-		onlyShowMissing = onlyShowMissing,
-		style = style or 'coloredIcon',
-		displayText = displayText or false,
-		decimalThreshold = decimalThreshold or 5,
-		textColor = {r = r2, g = g2, b = b2},
+		anyUnit = anyUnit or false,
+		onlyShowMissing = onlyShowMissing or false,
+		styleOverride = 'Default',
+		displayText = displayText or true,
 		textThreshold = textThreshold or -1,
 		xOffset = xOffset or 0,
 		yOffset = yOffset or 0,
-		sizeOverride = sizeOverride or 0
+		sizeOverride = sizeOverride or 0,
 	}
 end
 
@@ -590,7 +587,7 @@ G.unitframe.buffwatch = {
 		[5234] = ClassBuff(5234, "TOPLEFT", {0.2, 0.8, 0.8}, true), --Mark of the Wild (Rank 4)
 		[8907] = ClassBuff(8907, "TOPLEFT", {0.2, 0.8, 0.8}, true), --Mark of the Wild (Rank 5)
 		[9884] = ClassBuff(9884, "TOPLEFT", {0.2, 0.8, 0.8}, true), --Mark of the Wild (Rank 6)
-		[16878] = ClassBuff(16878, "TOPLEFT", {0.2, 0.8, 0.8}, true), --Mark of the Wild (Rank 7)
+		[9885] = ClassBuff(9885, "TOPLEFT", {0.2, 0.8, 0.8}, true), --Mark of the Wild (Rank 7)
 		[21849] = ClassBuff(21849, "TOPLEFT", {0.2, 0.8, 0.8}, true), --Gift of the Wild (Rank 1)
 		[21850] = ClassBuff(21850, "TOPLEFT", {0.2, 0.8, 0.8}, true), --Gift of the Wild (Rank 2)
 		[467] = ClassBuff(467, "TOPRIGHT", {0.4, 0.2, 0.8}, true), --Thorns (Rank 1)
