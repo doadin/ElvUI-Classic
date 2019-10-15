@@ -1,4 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...)); --Engine
+local UF = E:GetModule('UnitFrames');
 
 --Lua functions
 local unpack = unpack
@@ -524,11 +525,7 @@ G.unitframe.aurafilters.RaidBuffsElvUI = {
 E.ReverseTimer = {}
 
 -- BuffWatch: List of personal spells to show on unitframes as icon
-local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, displayText, textThreshold, xOffset, yOffset, sizeOverride)
-	if not id then return end
-
-	local name = GetSpellInfo(id)
-	if not name then return end
+function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displayText, textThreshold, xOffset, yOffset, sizeOverride)
 
 	local r, g, b = 1, 1, 1
 	if color then r, g, b = unpack(color) end
