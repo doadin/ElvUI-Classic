@@ -185,6 +185,7 @@ local DEVELOPERS = {
 	"Luckyone",
 	"thurin",
 	"catskull",
+	"Crum"
 }
 
 local TESTERS = {

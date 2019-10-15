@@ -579,7 +579,7 @@ local function UpdateFilterGroup()
 							order = 5,
 							type = 'select',
 							values = {
-								['Default'] = L['Default'],
+								['Default'] = L["Default"],
 								['coloredIcon'] = L["Colored Icon"],
 								['texturedIcon'] = L["Textured Icon"],
 							},
@@ -812,7 +812,7 @@ local function UpdateFilterGroup()
 						order = 5,
 						type = 'select',
 						values = {
-							['Default'] = L['Default'],
+							['Default'] = L["Default"],
 							['coloredIcon'] = L["Colored Icon"],
 							['texturedIcon'] = L["Textured Icon"],
 						},
@@ -1042,7 +1042,7 @@ local function UpdateFilterGroup()
 						order = 5,
 						type = 'select',
 						values = {
-							['Default'] = L['Default'],
+							['Default'] = L["Default"],
 							['coloredIcon'] = L["Colored Icon"],
 							['texturedIcon'] = L["Textured Icon"],
 						},
