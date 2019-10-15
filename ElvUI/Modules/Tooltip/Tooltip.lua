@@ -190,7 +190,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 			name = name..DND_LABEL
 		end
 
-		_G.GameTooltipTextLeft1:SetFormattedText("|c%s%s|r", color.colorStr, name)
+		_G.GameTooltipTextLeft1:SetFormattedText("|c%s%s|r", color.colorStr or 'FFFFFFFF', name or UNKNOWN)
 
 		local lineOffset = 2
 		if guildName then
