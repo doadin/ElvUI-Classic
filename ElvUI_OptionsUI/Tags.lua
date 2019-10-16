@@ -43,6 +43,6 @@ for Tag in next, E.oUF.Tags.Events do
 	E.Options.args.tagGroup.args.general.args[E.TagInfo[Tag].category].args[Tag] = {
 		type = "description",
 		fontSize = "medium",
-		name = format('%s - %s', Tag, E.TagInfo[Tag] and E.TagInfo[Tag].description or ''),
+		name = format('%s - %s', Tag, E.TagInfo[Tag].description),
 	}
 end
