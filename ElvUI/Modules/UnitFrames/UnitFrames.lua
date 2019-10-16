@@ -85,7 +85,7 @@ UF.instanceMapIDs = {
 
 UF.headerGroupBy = {
 	['CLASS'] = function(header)
-		header:SetAttribute("groupingOrder", "DEATHKNIGHT,DEMONHUNTER,DRUID,HUNTER,MAGE,PALADIN,PRIEST,ROGUE,SHAMAN,WARLOCK,WARRIOR,MONK")
+		header:SetAttribute("groupingOrder", "DRUID,HUNTER,MAGE,PALADIN,PRIEST,ROGUE,SHAMAN,WARLOCK,WARRIOR")
 		header:SetAttribute('sortMethod', 'NAME')
 		header:SetAttribute("groupBy", 'CLASS')
 	end,
@@ -93,16 +93,6 @@ UF.headerGroupBy = {
 		header:SetAttribute("groupingOrder", "MAINTANK,MAINASSIST,NONE")
 		header:SetAttribute('sortMethod', 'NAME')
 		header:SetAttribute("groupBy", 'ROLE')
-	end,
-	['ROLE'] = function(header)
-		header:SetAttribute("groupingOrder", "TANK,HEALER,DAMAGER,NONE")
-		header:SetAttribute('sortMethod', 'NAME')
-		header:SetAttribute("groupBy", 'ASSIGNEDROLE')
-	end,
-	['ROLE2'] = function(header)
-		header:SetAttribute("groupingOrder", "TANK,DAMAGER,HEALER,NONE")
-		header:SetAttribute('sortMethod', 'NAME')
-		header:SetAttribute("groupBy", 'ASSIGNEDROLE')
 	end,
 	['NAME'] = function(header)
 		header:SetAttribute("groupingOrder", "1,2,3,4,5,6,7,8")
@@ -113,11 +103,6 @@ UF.headerGroupBy = {
 		header:SetAttribute("groupingOrder", "1,2,3,4,5,6,7,8")
 		header:SetAttribute('sortMethod', 'INDEX')
 		header:SetAttribute("groupBy", 'GROUP')
-	end,
-	['CLASSROLE'] = function(header)
-		header:SetAttribute("groupingOrder", "DEATHKNIGHT,WARRIOR,DEMONHUNTER,ROGUE,MONK,PALADIN,DRUID,SHAMAN,HUNTER,PRIEST,MAGE,WARLOCK")
-		header:SetAttribute('sortMethod', 'NAME')
-		header:SetAttribute("groupBy", 'CLASS')
 	end,
 	['PETNAME'] = function(header)
 		header:SetAttribute("groupingOrder", "1,2,3,4,5,6,7,8")
