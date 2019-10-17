@@ -14,7 +14,7 @@ E.Options.args.tagGroup = {
 		general = {
 			order = 2,
 			type = "group",
-			name = "General",
+			name = "",
 			guiInline = true,
 			childGroups = 'tab',
 			args = {},
@@ -193,7 +193,7 @@ for Tag in next, E.oUF.Tags.Events do
 		E.Options.args.tagGroup.args.general.args[E.TagInfo[Tag].category] = {
 			order = 925,
 			type = "group",
-			name = E.TagInfo[Tag].category,
+			name = E.InfoColor..E.TagInfo[Tag].category,
 			args = {}
 		}
 	end
