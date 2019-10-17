@@ -19,7 +19,6 @@ E.Options.args.tagGroup = {
 			childGroups = 'tab',
 			args = {
 				Colors = {
-					order = 925,
 					type = "group",
 					name = E.InfoColor..'Colors',
 					args = {
@@ -43,7 +42,6 @@ for Tag in next, E.oUF.Tags.Events do
 
 	if not E.Options.args.tagGroup.args.general.args[E.TagInfo[Tag].category] then
 		E.Options.args.tagGroup.args.general.args[E.TagInfo[Tag].category] = {
-			order = 925,
 			type = "group",
 			name = E.InfoColor..E.TagInfo[Tag].category,
 			args = {}
