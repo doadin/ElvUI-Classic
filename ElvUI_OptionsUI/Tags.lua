@@ -180,13 +180,13 @@ E.TagInfo = {
 }
 
 -- We need to implement this
--- |cffXXXXXX [tags] or text here |r 
--- description = "Custom color your Text: replace the XXXXXX with a Hex color code" 
+-- |cffXXXXXX [tags] or text here |r
+-- description = "Custom color your Text: replace the XXXXXX with a Hex color code"
 
 for Tag in next, E.oUF.Tags.Events do
 	if not E.TagInfo[Tag] then
 		E.TagInfo[Tag] = { category = 'Miscellanous', description = "" }
-		print("['"..Tag.."'] = { category = 'Miscellanous', description = '' }")
+		E:Print("['"..Tag.."'] = { category = 'Miscellanous', description = '' }")
 	end
 
 	if not E.Options.args.tagGroup.args.general.args[E.TagInfo[Tag].category] then
