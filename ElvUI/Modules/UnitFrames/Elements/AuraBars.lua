@@ -28,6 +28,8 @@ end
 function UF:Construct_AuraBars(statusBar)
 	statusBar:CreateBackdrop(nil, nil, nil, UF.thinBorders, true)
 	statusBar:SetScript('OnMouseDown', OnClick)
+	statusBar:SetPoint("LEFT")
+	statusBar:SetPoint("RIGHT")
 
 	statusBar.icon:CreateBackdrop(nil, nil, nil, UF.thinBorders, true)
 	UF.statusbars[statusBar] = true
@@ -41,8 +43,11 @@ function UF:Construct_AuraBars(statusBar)
 	UF:Update_FontString(statusBar.timeText)
 	UF:Update_FontString(statusBar.nameText)
 
-	statusBar:SetPoint("LEFT")
-	statusBar:SetPoint("RIGHT")
+	statusBar.nameText:SetJustifyH('LEFT')
+	statusBar.nameText:SetJustifyV('MIDDLE')
+
+	statusBar.nameText:SetPoint('RIGHT', statusBar.timeText, 'LEFT', 4, 0)
+	statusBar.nameText:SetWordWrap(false)
 
 	statusBar.bg = statusBar:CreateTexture(nil, 'BORDER')
 	statusBar.bg:Show()
@@ -52,7 +57,8 @@ function UF:Construct_AuraBars(statusBar)
 end
 
 function UF:AuraBars_SetPosition(from, to)
-	local height = (self.height + self.spacing) or 1
+	local height = self.height
+	local spacing = self.spacing
 	local anchor = self.initialAnchor
 	local growth = self.growth == 'DOWN' and -1 or 1
 
@@ -61,7 +67,7 @@ function UF:AuraBars_SetPosition(from, to)
 		if(not button) then break end
 
 		button:ClearAllPoints()
-		button:SetPoint(anchor, self, anchor, (height + self.spacing), (i > 1 and ((i - 1) * (height + growth)) or 0))
+		button:SetPoint(anchor, self, anchor, (height + spacing), (i > 1 and ((i - 1) * (height + spacing + growth)) or 0))
 	end
 end
 
