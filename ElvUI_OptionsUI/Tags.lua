@@ -25,7 +25,7 @@ E.Options.args.tagGroup = {
 						customTagColorInfo = {
 							type = "description",
 							fontSize = "medium",
-							name = '|cffXXXXXX [tags] or text here |r - Custom color your Text: replace the XXXXXX with a Hex color code',
+							name = '||cffXXXXXX [tags] or text here ||r - Custom color your Text: replace the XXXXXX with a Hex color code',
 						}
 					}
 				},
