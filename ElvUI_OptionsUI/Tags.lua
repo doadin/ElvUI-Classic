@@ -17,14 +17,23 @@ E.Options.args.tagGroup = {
 			name = "",
 			guiInline = true,
 			childGroups = 'tab',
-			args = {},
+			args = {
+				Colors = {
+					order = 925,
+					type = "group",
+					name = E.InfoColor..'Colors',
+					args = {
+						customTagColorInfo = {
+							type = "description",
+							fontSize = "medium",
+							name = '|cffXXXXXX [tags] or text here |r - Custom color your Text: replace the XXXXXX with a Hex color code',
+						}
+					}
+				},
+			},
 		},
 	}
 }
-
--- We need to implement this
--- |cffXXXXXX [tags] or text here |r
--- description = "Custom color your Text: replace the XXXXXX with a Hex color code"
 
 for Tag in next, E.oUF.Tags.Events do
 	if not E.TagInfo[Tag] then
