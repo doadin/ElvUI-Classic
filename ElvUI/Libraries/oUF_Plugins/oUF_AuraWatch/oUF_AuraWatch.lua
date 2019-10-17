@@ -91,11 +91,10 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 		button.spellID = spellID
 		button.isPlayer = caster == 'player' or casterIsPlayer
 
-		if LCD and not UnitIsUnit('player', unit) then
+		if LCD and spellID and not UnitIsUnit('player', unit) then
 			local durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
 			if durationNew and durationNew > 0 then
-				duration = durationNew
-				expiration = expirationTimeNew
+				duration, expiration = durationNew, expirationTimeNew
 			end
 		end
 
