@@ -150,6 +150,7 @@ function UF:Configure_AuraBars(frame)
 			auraBars.defaultDebuffColor = nil;
 		end
 
+		auraBars.maxBars = db.aurabar.maxBars
 		auraBars.spacing = ((-frame.BORDER + frame.SPACING*3) + db.aurabar.spacing)
 		auraBars.width = frame.UNIT_WIDTH - auraBars.height
 	else
