@@ -89,6 +89,9 @@ UF.headerGroupBy = {
 		header:SetAttribute('sortMethod', 'NAME')
 		header:SetAttribute("groupBy", 'CLASS')
 	end,
+	['ROLE'] = function(header) UF.headerGroupBy['CLASS'](header) end,
+	['ROLE2'] = function(header) UF.headerGroupBy['CLASS'](header) end,
+	['CLASSROLE'] = function(header) UF.headerGroupBy['CLASS'](header) end,
 	['MTMA'] = function(header)
 		header:SetAttribute("groupingOrder", "MAINTANK,MAINASSIST,NONE")
 		header:SetAttribute('sortMethod', 'NAME')
