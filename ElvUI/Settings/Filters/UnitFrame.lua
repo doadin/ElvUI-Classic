@@ -804,6 +804,13 @@ G.unitframe.ChannelTicks = {
 	[1510] = 6, --Volley(Rank 1)
 	[14294] = 6, --Volley(Rank 2)
 	[14295] = 6, --Volley(Rank 3)
+	[136] = 5, --Mend Pet(Rank 1)
+	[3111] = 5, --Mend Pet(Rank 2)
+	[3661] = 5, --Mend Pet(Rank 3)
+	[3662] = 5, --Mend Pet(Rank 4)
+	[13542] = 5, --Mend Pet(Rank 5)
+	[13543] = 5, --Mend Pet(Rank 6)
+	[13544] = 5, --Mend Pet(Rank 7)
 }
 
 local f = CreateFrame("Frame")
