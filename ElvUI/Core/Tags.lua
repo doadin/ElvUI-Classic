@@ -1091,5 +1091,5 @@ E.TagInfo = {
 }
 
 function E:AddTagInfo(tagName, category, description, order)
-	E.TagInfo[tagName] = {category = category or 'Miscellanous', description = description or '', order = order or nil }
+	E.TagInfo[tagName] = {category = category or 'Miscellanous', description = description or '', order = order and tonumber(order) or nil }
 end
