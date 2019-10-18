@@ -1090,6 +1090,6 @@ E.TagInfo = {
 	['resting'] = { category = 'Miscellanous', description = "Shows 'Resting' when the unit is resting" },
 }
 
-function E:AddTagInfo(tagName, category, description)
-	E.TagInfo[tagName] = {category = category or 'Miscellanous', description = description or '' }
+function E:AddTagInfo(tagName, category, description, order)
+	E.TagInfo[tagName] = {category = category or 'Miscellanous', description = description or '', order = order or nil }
 end
