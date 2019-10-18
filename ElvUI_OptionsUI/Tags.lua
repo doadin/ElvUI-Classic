@@ -6,13 +6,20 @@ E.Options.args.tagGroup = {
 	type = "group",
 	name = L["Available Tags"],
 	args = {
-		header = {
+		link = {
 			order = 1,
+			type = "input",
+			width = "full",
+			name = L["Guide:"],
+			get = function() return "https://www.tukui.org/forum/viewtopic.php?f=9&t=6" end,
+		},
+		header = {
+			order = 2,
 			type = "header",
 			name = L["Available Tags"],
 		},
 		general = {
-			order = 2,
+			order = 3,
 			type = "group",
 			name = "",
 			guiInline = true,
@@ -37,7 +44,7 @@ E.Options.args.tagGroup = {
 for Tag in next, E.oUF.Tags.Events do
 	if not E.TagInfo[Tag] then
 		E.TagInfo[Tag] = { category = 'Miscellanous', description = "" }
-		E:Print("['"..Tag.."'] = { category = 'Miscellanous', description = '' }")
+		--E:Print("['"..Tag.."'] = { category = 'Miscellanous', description = '' }")
 	end
 
 	if not E.Options.args.tagGroup.args.general.args[E.TagInfo[Tag].category] then
