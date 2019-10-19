@@ -99,6 +99,10 @@ function UF:Configure_AuraBars(frame)
 		if not frame:IsElementEnabled('AuraBars') then
 			frame:EnableElement('AuraBars')
 		end
+
+		auraBars.friendlyAuraType = db.aurabar.friendlyAuraType
+		auraBars.enemyAuraType = db.aurabar.enemyAuraType
+
 		auraBars:Show()
 
 		local buffColor = self.db.colors.auraBarBuff
