@@ -49,7 +49,7 @@ G.nameplate.filters = {
 			},
 		},
 		triggers = {
-			notTargetMe = true,
+			requireTarget = true,
 			nameplateType = {
 				friendlyPlayer = false,
 				enemyPlayer = false,
@@ -66,7 +66,7 @@ G.nameplate.filters = {
 			},
 		},
 		triggers = {
-			notTarget = false,
+			requireTarget = true,
 			nameplateType = {
 				friendlyPlayer = false,
 				enemyPlayer = false,
