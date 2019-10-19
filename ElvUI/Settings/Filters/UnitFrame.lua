@@ -141,6 +141,21 @@ G.unitframe.aurafilters.CCDebuffs = {
 		[20617] = Defaults(2), --Intercept(Rank 3)
 	--Racial
 		[20549] = Defaults(2), --War Stomp
+	--Sunder Armor, Faerie Fire
+        [7386] = Defaults(6), --Sunder Armor(Rank 1)
+        [7405] = Defaults(6), --Sunder Armor(Rank 2)
+        [8380] = Defaults(6), --Sunder Armor(Rank 3)
+        [11596] = Defaults(6), --Sunder Armor(Rank 4)
+        [11597] = Defaults(6), --Sunder Armor(Rank 5)
+        [770] = Defaults(5), --Faerie Fire(Rank 1)
+        [778] = Defaults(5), --Faerie Fire(Rank 2)
+        [9749] = Defaults(5), --Faerie Fire(Rank 3)
+        [9907] = Defaults(5), --Faerie Fire(Rank 4)
+        [16857] = Defaults(5), --Faerie Fire (Feral)(Rank 1)
+        [17390] = Defaults(5), --Faerie Fire (Feral)(Rank 2)
+        [17391] = Defaults(5), --Faerie Fire (Feral)(Rank 3)
+        [17392] = Defaults(5), --Faerie Fire (Feral)(Rank 4)
+	    
 	},
 }
 
