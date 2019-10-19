@@ -329,7 +329,7 @@ local Infinity = math.huge
 -- will return the the value to display, the formatter id to use and calculates the next update for the Aura
 function E:GetTimeInfo(s, threshhold, hhmm, mmss)
 	if s == Infinity then
-		s = 0
+		return
 	end
 
 	if s < MINUTE then
