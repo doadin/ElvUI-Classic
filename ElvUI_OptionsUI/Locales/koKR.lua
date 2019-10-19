@@ -720,6 +720,8 @@ L["Make the unitframe glow yellow when it is below this percent of health, it wi
 L["Make the world map smaller."] = "월드맵을 작게 표시합니다."
 L["Map Opacity When Moving"] = "이동시 지도 불투명도"
 L["Maps"] = "지도"
+L["Mark Quest Reward"] = true
+L["Marks the most valuable quest reward with a gold coin."] = true
 L["Masque Support"] = "Masque 지원"
 L["Match Frame Width"] = "프레임 너비와 맞춤"
 L["Match if Name or NPC ID is NOT in the list."] = true

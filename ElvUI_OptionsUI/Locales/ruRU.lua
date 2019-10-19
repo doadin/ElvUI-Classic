@@ -720,6 +720,8 @@ L["Make the unitframe glow yellow when it is below this percent of health, it wi
 L["Make the world map smaller."] = "Сделать карту мира меньше. Она больше не будет занимать весь экран в увеличенном варианте."
 L["Map Opacity When Moving"] = "Прозрачность карты в движении"
 L["Maps"] = "Карты"
+L["Mark Quest Reward"] = true
+L["Marks the most valuable quest reward with a gold coin."] = true
 L["Masque Support"] = "Поддержка Masque"
 L["Match Frame Width"] = "По ширине рамки"
 L["Match if Name or NPC ID is NOT in the list."] = true

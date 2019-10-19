@@ -22,6 +22,7 @@ P.general = {
 	talkingHeadFrameScale = 0.9,
 	talkingHeadFrameBackdrop = false,
 	objectiveTracker = true,
+	questRewardMostValueIcon = true,
 	itemLevel = {
 		displayCharacterInfo = true,
 		displayInspectInfo = true,

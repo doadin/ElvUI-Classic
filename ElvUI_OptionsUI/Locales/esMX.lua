@@ -720,6 +720,8 @@ L["Make the unitframe glow yellow when it is below this percent of health, it wi
 L["Make the world map smaller."] = true
 L["Map Opacity When Moving"] = true
 L["Maps"] = "Mapas"
+L["Mark Quest Reward"] = true
+L["Marks the most valuable quest reward with a gold coin."] = true
 L["Masque Support"] = true
 L["Match Frame Width"] = "Coincidir con la Anchura del Marco"
 L["Match if Name or NPC ID is NOT in the list."] = true
