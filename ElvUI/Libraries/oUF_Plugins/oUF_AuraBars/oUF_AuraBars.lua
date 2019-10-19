@@ -10,7 +10,7 @@ local myClass = select(2, UnitClass('player'))
 
 local DAY, HOUR, MINUTE = 86400, 3600, 60
 local function FormatTime(s)
-	if s == infinity then s = 0 end
+	if s == infinity then return end
 
 	if s < MINUTE then
 		return ("%.1fs"):format(s)
@@ -219,7 +219,7 @@ local function showShamanTotems(element, unit, _, offset)
 	for slot = 1, 4 do
 		local haveTotem, totemName, startTime, duration, icon = GetTotemInfo(slot)
 
-		if startTime > 0 then
+		if haveTotem and startTime > 0 then
 			local position = visible + offset + 1
 			local statusBar = element[position]
 			if(not statusBar) then
