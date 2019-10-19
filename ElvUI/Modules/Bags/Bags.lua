@@ -425,8 +425,6 @@ function B:UpdateSlot(frame, bagID, slotID)
 		slot.ignoreBorderColors = nil
 	end
 
-	E.ScanTooltip:Hide()
-
 	if E.db.bags.newItemGlow then
 		E:Delay(0.1, B.CheckSlotNewItem, B, slot, bagID, slotID)
 	end
