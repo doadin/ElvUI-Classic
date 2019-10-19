@@ -6,6 +6,7 @@ local CurrentValue = UnitPower('player')
 local LastValue = CurrentValue
 local allowPowerEvent = true
 local myClass = select(2, UnitClass("player"))
+local Mp5Delay = 5
 
 local Update = function(self, elapsed)
 	local element = self.EnergyManaRegen
@@ -38,11 +39,21 @@ local Update = function(self, elapsed)
 
 			if Timer > 0 then
 				element.Spark:Show()
+				element:SetMinMaxValues(0, 2)
+				element.Spark:SetVertexColor(1, 1, 1, 1)
 				element:SetValue(Timer)
 				allowPowerEvent = true
+				
+				LastValue = CurrentValue
+			elseif Timer < 0 then
+				-- if negative, it's mp5delay
+				element.Spark:Show()
+				element:SetMinMaxValues(0, 5)
+				element.Spark:SetVertexColor(1, 1, 0, 1)
+				
+				element:SetValue(math.abs(Timer))
 			end
 
-			LastValue = CurrentValue
 			element.sinceLastUpdate = 0
 		end
 	end
@@ -76,7 +87,6 @@ local EventHandler = function(self, event, _, _, spellID)
 			return
 		end
 
-		self.EnergyManaRegen.Spark:Hide()
 		LastTickTime = GetTime() + 5
 		allowPowerEvent = false
 	end
