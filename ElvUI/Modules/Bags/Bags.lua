@@ -325,7 +325,7 @@ function B:UpdateSlot(frame, bagID, slotID)
 	local slot = frame.Bags[bagID][slotID]
 	local bagType = frame.Bags[bagID].type
 
-	local texture, count, locked, rarity, readable, _, _, _, noValue = GetContainerItemInfo(bagID, slotID)
+	local texture, count, locked, rarity, readable, _, itemLink, _, noValue, itemID = GetContainerItemInfo(bagID, slotID)
 	slot.name, slot.rarity, slot.locked = nil, rarity, locked
 
 	local clink = GetContainerItemLink(bagID, slotID)
@@ -359,15 +359,6 @@ function B:UpdateSlot(frame, bagID, slotID)
 	local professionColors = B.ProfessionColors[bagType]
 	local showItemLevel = B.db.itemLevel and clink and not professionColors
 	local showBindType = B.db.showBindType and (slot.rarity and slot.rarity > LE_ITEM_QUALITY_COMMON)
-	if showBindType or showItemLevel then
-		E.ScanTooltip:SetOwner(_G.UIParent, "ANCHOR_NONE")
-		if slot.GetInventorySlot then -- this fixes bank bagid -1
-			E.ScanTooltip:SetInventoryItem("player", slot:GetInventorySlot())
-		else
-			E.ScanTooltip:SetBagItem(bagID, slotID)
-		end
-		E.ScanTooltip:Show()
-	end
 
 	if B.db.specialtyColors and professionColors then
 		local r, g, b = unpack(professionColors)
@@ -389,31 +380,16 @@ function B:UpdateSlot(frame, bagID, slotID)
 		end
 
 		if showBindType or showItemLevel then
-			local colorblind = GetCVarBool('colorblindmode')
 			local canShowItemLevel = showItemLevel and B:IsItemEligibleForItemLevelDisplay(itemClassID, itemSubClassID, itemEquipLoc, slot.rarity)
-			local bindTypeLines = colorblind and 4 or 3
-			local BoE, BoU --GetDetailedItemLevelInfo this api dont work for some time correctly for ilvl
+			local iLvl, bindType = GetDetailedItemLevelInfo(itemLink), select(14, GetItemInfo(itemLink))
 
-			for i = 2, bindTypeLines do
-				local line = _G["ElvUI_ScanTooltipTextLeft"..i]:GetText()
-				if not line or line == "" then break end
-				if showBindType then
-					-- as long as we check the ilvl first, we can savely break on these because they fall after ilvl
-					if line == _G.ITEM_SOULBOUND or line == _G.ITEM_ACCOUNTBOUND or line == _G.ITEM_BNETACCOUNTBOUND then break end
-					BoE, BoU = line == _G.ITEM_BIND_ON_EQUIP, line == _G.ITEM_BIND_ON_USE
-				end
-				if ((not showBindType) or (BoE or BoU)) then
-					break
-				end
-			end
-
-			if BoE or BoU then
-				slot.bindType:SetText(BoE and L["BoE"] or L["BoU"])
+			if bindType == 2 or bindType == 3 then
+				slot.bindType:SetText(bindType == 2 and L["BoE"] or L["BoU"])
 				slot.bindType:SetVertexColor(r, g, b)
 			end
 
-			if canShowItemLevel and itemLevel and itemLevel >= B.db.itemLevelThreshold then
-				slot.itemLevel:SetText(itemLevel)
+			if iLvl and iLvl >= B.db.itemLevelThreshold and canShowItemLevel then
+				slot.itemLevel:SetText(iLvl)
 				if B.db.itemLevelCustomColorEnable then
 					slot.itemLevel:SetTextColor(B.db.itemLevelCustomColor.r, B.db.itemLevelCustomColor.g, B.db.itemLevelCustomColor.b)
 				else
@@ -840,10 +816,7 @@ function B:UpdateAll()
 end
 
 function B:OnEvent(event, ...)
-	if event == 'ITEM_LOCK_CHANGED' or event == 'ITEM_UNLOCKED' then
-		local bag, slot = ...
-		B:UpdateSlot(self, bag, slot)
-	elseif event == 'BAG_UPDATE' then
+	if event == 'BAG_UPDATE' then
 		for _, bagID in ipairs(self.BagIDs) do
 			local numSlots = GetContainerNumSlots(bagID)
 			if (not self.Bags[bagID] and numSlots ~= 0) or (self.Bags[bagID] and numSlots ~= self.Bags[bagID].numSlots) then
@@ -979,7 +952,7 @@ function B:ContructContainerFrame(name, isBank)
 	f:SetFrameStrata(strata)
 	f:RegisterEvent("BAG_UPDATE") -- Has to be on both frames
 	f:RegisterEvent("BAG_UPDATE_COOLDOWN") -- Has to be on both frames
-	f.events = isBank and { "BANK_BAG_SLOT_FLAGS_UPDATED", "PLAYERBANKSLOTS_CHANGED" } or { "ITEM_LOCK_CHANGED", "ITEM_UNLOCKED", "BAG_SLOT_FLAGS_UPDATED", "QUEST_ACCEPTED", "QUEST_REMOVED" }
+	f.events = isBank and { "PLAYERREAGENTBANKSLOTS_CHANGED", "BANK_BAG_SLOT_FLAGS_UPDATED", "PLAYERBANKSLOTS_CHANGED" } or { "BAG_SLOT_FLAGS_UPDATED", "QUEST_ACCEPTED", "QUEST_REMOVED" }
 
 	for _, event in pairs(f.events) do
 		f:RegisterEvent(event)
