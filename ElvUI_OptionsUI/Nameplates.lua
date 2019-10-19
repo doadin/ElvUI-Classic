@@ -94,7 +94,7 @@ local function UpdateClassSection()
 		local coloredName;
 		for _, classTag in ipairs(classIndexTable) do
 			classOrder = classOrder+1
-			coloredName = (_G.CUSTOM_CLASS_COLORS and _G.CUSTOM_CLASS_COLORS[classTag]) or _G.RAID_CLASS_COLORS[classTag]
+			coloredName = E:ClassColor(classTag)
 			coloredName = (coloredName and coloredName.colorStr) or "ff666666"
 			E.Options.args.nameplate.args.filters.args.triggers.args.class.args[classTag] = {
 				order = classOrder,
