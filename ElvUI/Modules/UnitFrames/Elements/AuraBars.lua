@@ -97,16 +97,6 @@ function UF:Configure_AuraBars(frame)
 			frame:EnableElement('AuraBars')
 		end
 
-		local index = 1
-		while auraBars[index] do
-			local button = auraBars[index]
-			if button then
-				button.db = auraBars.db
-			end
-
-			index = index + 1
-		end
-
 		auraBars.friendlyAuraType = db.aurabar.friendlyAuraType
 		auraBars.enemyAuraType = db.aurabar.enemyAuraType
 
@@ -192,6 +182,7 @@ function UF:PostUpdateBar_AuraBars(unit, statusBar, index, position, duration, e
 	local spellID = statusBar.spellID
 	local spellName = statusBar.spell
 
+	statusBar.db = self.db
 	statusBar.icon:SetTexCoord(unpack(E.TexCoords))
 
 	local colors = E.global.unitframe.AuraBarColors[spellID] or E.global.unitframe.AuraBarColors[tostring(spellID)] or E.global.unitframe.AuraBarColors[spellName]
