@@ -38,6 +38,8 @@ local function onUpdate(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed >= 0.01 then
 		if self.noTime then
+			self:SetValue(1)
+			self.timeText:SetText('')
 			self:SetScript("OnUpdate", nil)
 		else
 			local timeNow = GetTime()
