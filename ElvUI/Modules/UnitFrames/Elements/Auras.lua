@@ -431,7 +431,7 @@ end
 function UF:AuraFilter(unit, button, name, _, _, debuffType, duration, expiration, caster, isStealable, _, spellID, _, isBossDebuff, casterIsPlayer)
 	if not name then return end -- checking for an aura that is not there, pass nil to break while loop
 
-	local db = button.db
+	local db = button.db or self.db
 	if not db then return true elseif db.filters then db = db.filters end
 
 	local isPlayer = (caster == 'player' or caster == 'vehicle')
