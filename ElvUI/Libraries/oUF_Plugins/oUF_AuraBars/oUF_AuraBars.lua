@@ -75,14 +75,10 @@ local function createAuraBar(element, index)
 	local nameText = statusBar:CreateFontString(nil, 'OVERLAY', 'NumberFontNormal')
 	nameText:SetPoint('LEFT', statusBar, 'LEFT', 2, 0)
 
-	local countText = statusBar:CreateFontString(nil, 'OVERLAY', 'NumberFontNormal')
-	countText:SetPoint('LEFT', nameText, 'RIGHT', 2, 0)
-
 	local timeText = statusBar:CreateFontString(nil, 'OVERLAY', 'NumberFontNormal')
 	timeText:SetPoint('RIGHT', statusBar, 'RIGHT', -2, 0)
 
 	statusBar.icon = icon
-	statusBar.countText = countText
 	statusBar.nameText = nameText
 	statusBar.timeText = timeText
 	statusBar.spark = spark
@@ -132,9 +128,13 @@ local function updateBar(element, unit, index, offset, filter, isDebuff, visible
 
 		if(show) then
 			statusBar.icon:SetTexture(texture)
-			statusBar.countText:SetText(count > 1 and count)
-			statusBar.nameText:SetText(name)
 			statusBar.spark:Hide()
+
+			if count > 1 then
+				statusBar.nameText:SetFormattedText('[%d] %s', count, name)
+			else
+				statusBar.nameText:SetText(name)
+			end
 
 			statusBar.duration = duration
 			statusBar.expiration = expiration
@@ -169,7 +169,8 @@ local function updateBar(element, unit, index, offset, filter, isDebuff, visible
 end
 
 local function SetPosition(element, from, to)
-	local height = (element.height + element.spacing) or 1
+	local height = element.height
+	local spacing = element.spacing or 1
 	local anchor = element.initialAnchor
 	local growth = element.growth == 'DOWN' and -1 or 1
 
@@ -178,7 +179,7 @@ local function SetPosition(element, from, to)
 		if(not button) then break end
 
 		button:ClearAllPoints()
-		button:SetPoint(anchor, element, anchor, (height + element.gap), (i > 1 and ((i - 1) * (height + growth)) or 0))
+		button:SetPoint(anchor, element, anchor, (height + element.gap), growth * (i > 1 and ((i - 1) * (height + spacing)) or 0))
 	end
 end
 
