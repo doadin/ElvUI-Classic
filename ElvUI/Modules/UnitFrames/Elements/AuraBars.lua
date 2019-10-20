@@ -66,7 +66,7 @@ function UF:AuraBars_SetPosition(from, to)
 		if(not button) then break end
 
 		button:ClearAllPoints()
-		button:SetPoint(anchor, self, anchor, (height + spacing), (i > 1 and ((i - 1) * (height + spacing + growth)) or 0))
+		button:SetPoint(anchor, self, anchor, -(E.Border), (i > 1 and ((i - 1) * (height + spacing + growth)) or E.Border*2))
 	end
 end
 
@@ -83,6 +83,7 @@ function UF:Construct_AuraBarHeader(frame)
 	auraBar.gap = (frame.BORDER + frame.SPACING*3)
 	auraBar.spacing = (frame.BORDER + frame.SPACING*3)
 	auraBar.sparkEnabled = true
+	auraBar.initialAnchor = 'BOTTOMRIGHT'
 	auraBar.type = 'aurabar'
 
 	return auraBar
@@ -110,7 +111,7 @@ function UF:Configure_AuraBars(frame)
 
 		auraBars.maxBars = db.aurabar.maxBars
 		auraBars.spacing = ((-frame.BORDER + frame.SPACING*3) + db.aurabar.spacing)
-		auraBars.width = frame.UNIT_WIDTH - auraBars.height
+		auraBars.width = frame.UNIT_WIDTH - auraBars.height - (frame.BORDER * 3)
 
 		if not auraBars.Holder then
 			local holder = CreateFrame('Frame', nil, auraBars)
@@ -170,6 +171,8 @@ function UF:Configure_AuraBars(frame)
 		auraBars:ClearAllPoints()
 		auraBars:Point(anchorPoint..'LEFT', attachTo, anchorTo..'LEFT', offsetLeft, yOffset)
 		auraBars:Point(anchorPoint..'RIGHT', attachTo, anchorTo..'RIGHT', offsetRight, yOffset)
+
+		auraBars:ForceUpdate()
 	elseif frame:IsElementEnabled('AuraBars') then
 		frame:DisableElement('AuraBars')
 		auraBars:Hide()
