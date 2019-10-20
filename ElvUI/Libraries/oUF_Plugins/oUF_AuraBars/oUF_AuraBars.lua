@@ -270,7 +270,7 @@ local function UpdateAuras(self, event, unit)
 		local fromRange, toRange
 
 		if(element.PreSetPosition) then
-			fromRange, toRange = element:PreSetPosition(visible)
+			fromRange, toRange = element:PreSetPosition(element.maxBars)
 		end
 
 		if(fromRange or element.createdBars > element.anchoredBars) then
