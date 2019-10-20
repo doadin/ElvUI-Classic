@@ -193,7 +193,7 @@ function UF:PostUpdateBar_AuraBars(unit, statusBar, index, position, duration, e
 
 	if UF.db.colors.auraBarByType then
 		if statusBar.filter == 'HARMFUL' then
-			if (statusBar.caster == 'player' or not debuffType or (debuffType == '' or debuffType == 'none')) then
+			if (not debuffType or (debuffType == '' or debuffType == 'none')) then
 				colors = UF.db.colors.auraBarDebuff
 			else
 				colors = DebuffTypeColor[debuffType]
