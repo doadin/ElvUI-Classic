@@ -66,7 +66,7 @@ function UF:AuraBars_SetPosition(from, to)
 		if(not button) then break end
 
 		button:ClearAllPoints()
-		button:SetPoint(anchor, self, anchor, -(E.Border), (i > 1 and ((i - 1) * (height + spacing + growth)) or E.Border*2))
+		button:SetPoint(anchor, self, anchor, -(E.Border), (i > 1 and (((i - 1) * (height + spacing + growth)) + (E.Border * 3)) or E.Border*2))
 	end
 end
 
