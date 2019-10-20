@@ -814,6 +814,9 @@ G.unitframe.ChannelTicks = {
 	[8918] = 5, --Tranquility(Rank 2)
 	[9862] = 5, --Tranquility(Rank 3)
 	[9863] = 5, --Tranquility(Rank 4)
+	[16914] = 10, --Hurricane(Rank 1)
+	[17401] = 10, --Hurricane(Rank 2)
+	[17402] = 10, --Hurricane(Rank 3)
 	--Hunter
 	[1510] = 6, --Volley(Rank 1)
 	[14294] = 6, --Volley(Rank 2)
