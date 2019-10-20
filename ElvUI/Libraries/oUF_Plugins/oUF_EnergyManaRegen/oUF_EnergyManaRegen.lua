@@ -96,7 +96,15 @@ local EventHandler = function(self, event, _, _, spellID)
 	end
 
 	if event == 'UNIT_SPELLCAST_SUCCEEDED' then
-		if Mp5IgnoredSpells[spellID] then
+		local spellCost = false
+		local costTable = GetSpellPowerCost(spellID)
+		for _, costInfo in next, costTable do
+			if costInfo.cost then
+				spellCost = true
+			end
+		end
+
+		if (CurrentValue > LastValue) and (not spellCost or Mp5IgnoredSpells[spellID]) then
 			return
 		end
 
