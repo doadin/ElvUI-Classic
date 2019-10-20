@@ -186,28 +186,22 @@ function UF:PostUpdateBar_AuraBars(unit, statusBar, index, position, duration, e
 
 	local colors = E.global.unitframe.AuraBarColors[spellID] or E.global.unitframe.AuraBarColors[tostring(spellID)] or E.global.unitframe.AuraBarColors[spellName]
 
+	if UF.db.colors.auraBarByType and statusBar.filter == 'HARMFUL' then
+		if (not debuffType or (debuffType == '' or debuffType == 'none')) then
+			colors = UF.db.colors.auraBarDebuff
+		else
+			colors = DebuffTypeColor[debuffType]
+		end
+	elseif statusBar.filter == 'HARMFUL' then
+		colors = UF.db.colors.auraBarDebuff
+	elseif not colors and statusBar.filter == 'HELPFUL' then
+		colors = UF.db.colors.auraBarBuff
+	end
+
 	statusBar.custom_backdrop = UF.db.colors.customaurabarbackdrop and UF.db.colors.aurabar_backdrop
 	if E.db.unitframe.colors.auraBarTurtle and (E.global.unitframe.aurafilters.TurtleBuffs.spells[spellID] or E.global.unitframe.aurafilters.TurtleBuffs.spells[spellName]) and not colors and (spellName ~= GOTAK or (spellName == GOTAK and spellID == GOTAK_ID)) then
 		colors = E.db.unitframe.colors.auraBarTurtleColor
 	end
-
-	if UF.db.colors.auraBarByType then
-		if statusBar.filter == 'HARMFUL' then
-			if (not debuffType or (debuffType == '' or debuffType == 'none')) then
-				colors = UF.db.colors.auraBarDebuff
-			else
-				colors = DebuffTypeColor[debuffType]
-			end
-		else
-			colors = UF.db.colors.auraBarBuff
-		end
-	else
-		if statusBar.filter == 'HARMFUL' then
-			colors = UF.db.colors.auraBarDebuff
-		end
-	end
-
-	if colors and E:CheckClassColor(colors.r, colors.g, colors.b) then colors = E:ClassColor(E.myclass, true) end
 
 	if statusBar.bg then
 		if (UF.db.colors.transparentAurabars and not statusBar.isTransparent) or (statusBar.isTransparent and (not UF.db.colors.transparentAurabars or statusBar.invertColors ~= UF.db.colors.invertAurabars)) then
