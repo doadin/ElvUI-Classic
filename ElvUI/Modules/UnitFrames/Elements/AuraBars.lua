@@ -186,16 +186,18 @@ function UF:PostUpdateBar_AuraBars(unit, statusBar, index, position, duration, e
 
 	local colors = E.global.unitframe.AuraBarColors[spellID] or E.global.unitframe.AuraBarColors[tostring(spellID)] or E.global.unitframe.AuraBarColors[spellName]
 
-	if UF.db.colors.auraBarByType and statusBar.filter == 'HARMFUL' then
-		if (not debuffType or (debuffType == '' or debuffType == 'none')) then
+	if not colors then
+		if UF.db.colors.auraBarByType and statusBar.filter == 'HARMFUL' then
+			if (not debuffType or (debuffType == '' or debuffType == 'none')) then
+				colors = UF.db.colors.auraBarDebuff
+			else
+				colors = DebuffTypeColor[debuffType]
+			end
+		elseif statusBar.filter == 'HARMFUL' then
 			colors = UF.db.colors.auraBarDebuff
 		else
-			colors = DebuffTypeColor[debuffType]
+			colors = UF.db.colors.auraBarBuff
 		end
-	elseif statusBar.filter == 'HARMFUL' then
-		colors = UF.db.colors.auraBarDebuff
-	elseif not colors and statusBar.filter == 'HELPFUL' then
-		colors = UF.db.colors.auraBarBuff
 	end
 
 	statusBar.custom_backdrop = UF.db.colors.customaurabarbackdrop and UF.db.colors.aurabar_backdrop
