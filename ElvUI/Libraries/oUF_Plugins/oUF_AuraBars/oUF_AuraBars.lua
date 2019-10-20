@@ -146,8 +146,6 @@ local function updateBar(element, unit, index, offset, filter, isDebuff, visible
 			if filter == 'HARMFUL' then
 				if not debuffType or debuffType == '' then debuffType = 'none' end
 				r, g, b = DebuffTypeColor[debuffType].r, DebuffTypeColor[debuffType].g, DebuffTypeColor[debuffType].b
-				if element.debuffColor then r, g, b = unpack(element.debuffColor) end
-				if debuffType == 'none' and element.defaultDebuffColor then r, g, b = unpack(element.defaultDebuffColor) end
 			end
 
 			statusBar:SetStatusBarColor(r, g, b)

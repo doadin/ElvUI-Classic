@@ -85,10 +85,6 @@ function UF:Construct_AuraBarHeader(frame)
 	auraBar.sparkEnabled = true
 	auraBar.type = 'aurabar'
 
-	auraBar.buffColor = {}
-	auraBar.debuffColor = {}
-	auraBar.defaultDebuffColor = {}
-
 	return auraBar
 end
 
@@ -108,34 +104,9 @@ function UF:Configure_AuraBars(frame)
 
 		auraBars:Show()
 
-		local buffColor = UF.db.colors.auraBarBuff
-		local debuffColor = UF.db.colors.auraBarDebuff
 		local attachTo = frame
 
-		if E:CheckClassColor(buffColor.r, buffColor.g, buffColor.b) then
-			buffColor = E:ClassColor(E.myclass, true)
-		end
-
-		if E:CheckClassColor(debuffColor.r, debuffColor.g, debuffColor.b) then
-			debuffColor = E:ClassColor(E.myclass, true)
-		end
-
 		auraBars.height = db.aurabar.height
-		auraBars.buffColor[1] = buffColor.r
-		auraBars.buffColor[2] = buffColor.g
-		auraBars.buffColor[3] = buffColor.b
-
-		if UF.db.colors.auraBarByType then
-			wipe(auraBars.debuffColor)
-			auraBars.defaultDebuffColor[1] = debuffColor.r
-			auraBars.defaultDebuffColor[2] = debuffColor.g
-			auraBars.defaultDebuffColor[3] = debuffColor.b
-		else
-			auraBars.debuffColor[1] = debuffColor.r
-			auraBars.debuffColor[2] = debuffColor.g
-			auraBars.debuffColor[3] = debuffColor.b
-			wipe(auraBars.defaultDebuffColor)
-		end
 
 		auraBars.maxBars = db.aurabar.maxBars
 		auraBars.spacing = ((-frame.BORDER + frame.SPACING*3) + db.aurabar.spacing)
@@ -218,6 +189,18 @@ function UF:PostUpdateBar_AuraBars(unit, statusBar, index, position, duration, e
 	statusBar.custom_backdrop = UF.db.colors.customaurabarbackdrop and UF.db.colors.aurabar_backdrop
 	if E.db.unitframe.colors.auraBarTurtle and (E.global.unitframe.aurafilters.TurtleBuffs.spells[spellID] or E.global.unitframe.aurafilters.TurtleBuffs.spells[spellName]) and not colors and (spellName ~= GOTAK or (spellName == GOTAK and spellID == GOTAK_ID)) then
 		colors = E.db.unitframe.colors.auraBarTurtleColor
+	end
+
+	if UF.db.colors.auraBarByType then
+		if statusBar.filter == 'HARMFUL' then
+			if (statusBar.caster == 'player' or not debuffType or (debuffType == '' or debuffType == 'none')) then
+				colors = UF.db.colors.auraBarDebuff
+			else
+				colors = DebuffTypeColor[debuffType]
+			end
+		else
+			colors = UF.db.colors.auraBarBuff
+		end
 	end
 
 	if statusBar.bg then
