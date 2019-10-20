@@ -201,7 +201,13 @@ function UF:PostUpdateBar_AuraBars(unit, statusBar, index, position, duration, e
 		else
 			colors = UF.db.colors.auraBarBuff
 		end
+	else
+		if statusBar.filter == 'HARMFUL' then
+			colors = UF.db.colors.auraBarDebuff
+		end
 	end
+
+	if colors and E:CheckClassColor(colors.r, colors.g, colors.b) then colors = E:ClassColor(E.myclass, true) end
 
 	if statusBar.bg then
 		if (UF.db.colors.transparentAurabars and not statusBar.isTransparent) or (statusBar.isTransparent and (not UF.db.colors.transparentAurabars or statusBar.invertColors ~= UF.db.colors.invertAurabars)) then
