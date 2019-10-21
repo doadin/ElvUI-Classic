@@ -608,13 +608,13 @@ if( playerClass == "DRUID" ) then
 		local TreeofLife = GetSpellInfo(33891)
 		local WildGrowth = GetSpellInfo(48438)
 
-		hotData[Rejuvenation] = {interval = 3, levels = {4, 10, 16, 22, 28, 34, 40, 46, 52, 58, 60, 63, 69, 75, 80}, averages = {32, 56, 116, 180, 244, 304, 388, 488, 608, 756, 888, 932, 1060, 1192, 1690}}
 		hotData[Regrowth] = {interval = 3, ticks = 7, coeff = 1.316, levels = {12, 18, 24, 30, 36, 42, 48, 54, 60, 65, 71, 77}, averages = {98, 175, 259, 343, 427, 546, 686, 861, 1064, 1274, 1792, 2345}}
+		hotData[Rejuvenation] = {interval = 3, levels = {4, 10, 16, 22, 28, 34, 40, 46, 52, 58, 60, 63, 69, 75, 80}, averages = {32, 56, 116, 180, 244, 304, 388, 488, 608, 756, 888, 932, 1060, 1192, 1690}}
 
-		spellData[Regrowth] = {coeff = 0.2867, levels = hotData[Regrowth].levels, averages = {avg(84, 98), avg(164, 188), avg(240, 274), avg(318, 360), avg(405, 457), avg(511, 575), avg(646, 724), avg(809, 905), avg(1003, 1119), avg(1215, 1355), avg(1710, 1908), avg(2234, 2494)}, increase = {122, 155, 173, 180, 180, 178, 169, 156, 136, 115, 97, 23}}
 		spellData[HealingTouch] = { levels = {1, 8, 14, 20, 26, 32, 38, 44, 50, 56, 60, 62, 69, 74, 79}, averages = {avg(37, 51), avg(88, 112), avg(195, 243), avg(363, 445), avg(490, 594), avg(636, 766), avg(802, 960), avg(1199, 1427), avg(1299, 1539), avg(1620, 1912), avg(1944, 2294), avg(2026, 2392), avg(2321, 2739), avg(3223, 3805), avg(3750, 4428)}}
-
+		spellData[Regrowth] = {coeff = 0.2867, levels = hotData[Regrowth].levels, averages = {avg(84, 98), avg(164, 188), avg(240, 274), avg(318, 360), avg(405, 457), avg(511, 575), avg(646, 724), avg(809, 905), avg(1003, 1119), avg(1215, 1355), avg(1710, 1908), avg(2234, 2494)}, increase = {122, 155, 173, 180, 180, 178, 169, 156, 136, 115, 97, 23}}
 		spellData[Tranquility] = {coeff = 1.144681, ticks = 4, levels = {30, 40, 50, 60, 70, 75, 80}, averages = {351, 515, 765, 1097, 1518, 2598, 3035}}
+
 		talentData[GiftofNature] = {mod = 0.02, current = 0}
 		talentData[ImprovedRejuv] = {mod = 0.05, current = 0}
 
@@ -626,8 +626,8 @@ if( playerClass == "DRUID" ) then
 
 			spellData[Nourish] = {coeff = 0.358005, levels = {80}, averages = {avg(1883, 2187)}}
 
-			talentData[EmpoweredTouch] = {mod = 0.2, current = 0}
 			talentData[EmpoweredRejuv] = {mod = 0.04, current = 0}
+			talentData[EmpoweredTouch] = {mod = 0.2, current = 0}
 			talentData[Genesis] = {mod = 0.01, current = 0}
 			talentData[MasterShapeshifter] = {mod = 0.02, current = 0}
 			talentData[NaturesSplendor] = {mod = 1, current = 0}
@@ -1018,25 +1018,29 @@ if( playerClass == "PRIEST" ) then
 		local TwinDisciplines = GetSpellInfo(47586)
 		local GreaterHealHot = GetSpellInfo(22009)
 
-		hotData[Renew] = {coeff = 1, interval = 3, ticks = 5, levels = {8, 14, 20, 26, 32, 38, 44, 50, 56, 60, 65, 70, 75, 80}, averages = {45, 100, 175, 245, 315, 400, 510, 650, 810, 970, 1010, 1110, 1235, 1400}}
 		hotData[GreaterHealHot] = {coeff = 1, interval = 3, ticks = 5, level = 32, average = 315}
+		hotData[Renew] = {coeff = 1, interval = 3, ticks = 5, levels = {8, 14, 20, 26, 32, 38, 44, 50, 56, 60, 65, 70, 75, 80}, averages = {45, 100, 175, 245, 315, 400, 510, 650, 810, 970, 1010, 1110, 1235, 1400}}
 
-		spellData[GreaterHeal] = {coeff = 3 / 3.5, levels = {40, 46, 52, 58, 60, 63, 68, 73, 78}, increase = {204, 197, 184, 165, 162, 142, 111, 92, 30}, averages = {avg(899, 1013), avg(1149, 1289), avg(1437, 1609), avg(1798, 2006), avg(1966, 2194), avg(2074, 2410), avg(2394, 2784), avg(3395, 3945), avg(3950, 4590)}}
-		spellData[PrayerofHealing] = {coeff = 0.2798, levels = {30, 40, 50, 60, 60, 68, 76}, increase = {65, 64, 60, 48, 50, 33, 18}, averages = {avg(301, 321), avg(444, 472), avg(657, 695), avg(939, 991), avg(997, 1053), avg(1246, 1316), avg(2091, 2209)}}
 		spellData[FlashHeal] = {coeff = 1.5 / 3.5, levels = {20, 26, 32, 38, 44, 52, 58, 61, 67, 73, 79}, increase = {114, 118, 120, 117, 118, 111, 100, 89, 67, 56, 9}, averages = {avg(193, 237), avg(258, 314), avg(327, 393), avg(400, 478), avg(518, 616), avg(644, 764), avg(812, 958), avg(913, 1059), avg(1101, 1279), avg(1578, 1832), avg(1887, 2198)}}
-		spellData[BindingHeal] = {coeff = 1.5 / 3.5, levels = {64, 72, 78}, averages = {avg(1042, 1338), avg(1619, 2081), avg(1952, 2508)}, increase = {30, 24, 7}}
-		spellData[Penance] = {coeff = 0.857, ticks = 3, levels = {60, 70, 75, 80}, averages = {avg(670, 756), avg(805, 909), avg(1278, 1442), avg(1484, 1676)}}
+		spellData[GreaterHeal] = {coeff = 3 / 3.5, levels = {40, 46, 52, 58, 60, 63, 68, 73, 78}, increase = {204, 197, 184, 165, 162, 142, 111, 92, 30}, averages = {avg(899, 1013), avg(1149, 1289), avg(1437, 1609), avg(1798, 2006), avg(1966, 2194), avg(2074, 2410), avg(2394, 2784), avg(3395, 3945), avg(3950, 4590)}}
 		spellData[Heal] = {coeff = 3 / 3.5, levels = {16, 22, 28, 34}, averages = {avg(295, 341), avg(429, 491), avg(566, 642), avg(712, 804)}, increase = {153, 185, 208, 207}}
 		spellData[LesserHeal] = {levels = {1, 4, 10}, averages = {avg(46, 56), avg(71, 85), avg(135, 157)}, increase = {71, 83, 112}}
+		spellData[PrayerofHealing] = {coeff = 0.2798, levels = {30, 40, 50, 60, 60, 68, 76}, increase = {65, 64, 60, 48, 50, 33, 18}, averages = {avg(301, 321), avg(444, 472), avg(657, 695), avg(939, 991), avg(997, 1053), avg(1246, 1316), avg(2091, 2209)}}
 
-		talentData[SpiritualHealing] = {mod = 0.02, current = 0}
-		talentData[EmpoweredHealing] = {mod = 0.08, current = 0}
-		talentData[BlessedResilience] = {mod = 0.01, current = 0}
-		talentData[FocusedPower] = {mod = 0.02, current = 0}
-		talentData[DivineProvidence] = {mod = 0.02, current = 0}
 		talentData[ImprovedRenew] = {mod = 0.05, current = 0}
-		talentData[EmpoweredRenew] = {mod = 0.05, current = 0}
-		talentData[TwinDisciplines] = {mod = 0.01, current = 0}
+		talentData[SpiritualHealing] = {mod = 0.02, current = 0}
+
+		if WotLK then
+			spellData[BindingHeal] = {coeff = 1.5 / 3.5, levels = {64, 72, 78}, averages = {avg(1042, 1338), avg(1619, 2081), avg(1952, 2508)}, increase = {30, 24, 7}}
+			spellData[Penance] = {coeff = 0.857, ticks = 3, levels = {60, 70, 75, 80}, averages = {avg(670, 756), avg(805, 909), avg(1278, 1442), avg(1484, 1676)}}
+
+			talentData[BlessedResilience] = {mod = 0.01, current = 0}
+			talentData[DivineProvidence] = {mod = 0.02, current = 0}
+			talentData[EmpoweredHealing] = {mod = 0.08, current = 0}
+			talentData[EmpoweredRenew] = {mod = 0.05, current = 0}
+			talentData[FocusedPower] = {mod = 0.02, current = 0}
+			talentData[TwinDisciplines] = {mod = 0.01, current = 0}
+		end
 
 		itemSetsData["Oracle"] = {21351, 21349, 21350, 21348, 21352}
 
@@ -1105,7 +1109,7 @@ if( playerClass == "PRIEST" ) then
 					totalTicks = 5
 				end
 
-				spellPower = spellPower * ((hotData[spellName].coeff * 1.88) * (1 + (talentData[EmpoweredRenew].current)))
+				spellPower = spellPower * ((hotData[spellName].coeff * 1.88) * (1 + (WotLK and talentData[EmpoweredRenew].current or 0)))
 				spellPower = spellPower / hotData[spellName].ticks
 				healAmount = healAmount / hotData[spellName].ticks
 			end
@@ -1126,27 +1130,33 @@ if( playerClass == "PRIEST" ) then
 				healModifier = healModifier + activeGraceModifier
 			end
 
-			healModifier = healModifier + talentData[FocusedPower].current
-			healModifier = healModifier + talentData[BlessedResilience].current
+			if WotLK then
+				healModifier = healModifier + talentData[FocusedPower].current
+				healModifier = healModifier + talentData[BlessedResilience].current
+			end
+
 			healModifier = healModifier + talentData[SpiritualHealing].current
 
 			-- Greater Heal
 			if( spellName == GreaterHeal ) then
-				spellPower = spellPower * ((spellData[spellName].coeff * 1.88) * (1 + talentData[EmpoweredHealing].current))
+				spellPower = spellPower * ((spellData[spellName].coeff * 1.88) * (1 + (WotLK and talentData[EmpoweredHealing].current or 0)))
 			-- Flash Heal
 			elseif( spellName == FlashHeal ) then
-				spellPower = spellPower * ((spellData[spellName].coeff * 1.88) * (1 + talentData[EmpoweredHealing].spent * 0.04))
+				spellPower = spellPower * ((spellData[spellName].coeff * 1.88) * (1 + (WotLK and (talentData[EmpoweredHealing].spent * 0.04) or 0)))
 			-- Binding Heal
 			elseif( spellName == BindingHeal ) then
 				healModifier = healModifier + talentData[DivineProvidence].current
-				spellPower = spellPower * ((spellData[spellName].coeff * 1.88) * (1 + talentData[EmpoweredHealing].spent * 0.04))
+				spellPower = spellPower * ((spellData[spellName].coeff * 1.88) * (1 + (WotLK and (talentData[EmpoweredHealing].spent * 0.04) or 0)))
 			-- Penance
 			elseif( spellName == Penance ) then
 				spellPower = spellPower * (spellData[spellName].coeff * 1.88)
 				spellPower = spellPower / spellData[spellName].ticks
 			-- Prayer of Heaing
 			elseif( spellName == PrayerofHealing ) then
-				healModifier = healModifier + talentData[DivineProvidence].current
+				if WotLK then
+					healModifier = healModifier + talentData[DivineProvidence].current
+				end
+
 				spellPower = spellPower * (spellData[spellName].coeff * 1.88)
 			-- Heal
 			elseif( spellName == Heal ) then
@@ -1193,14 +1203,14 @@ if( playerClass == "SHAMAN" ) then
 		spellData[HealingWave] = {levels = {1, 6, 12, 18, 24, 32, 40, 48, 56, 60, 63, 70, 75, 80}, averages = {avg(34, 44), avg(64, 78), avg(129, 155), avg(268, 316), avg(376, 440), avg(536, 622), avg(740, 854), avg(1017, 1167), avg(1367, 1561), avg(1620, 1850), avg(1725, 1969), avg(2134, 2438), avg(2624, 2996), avg(3034, 3466)}, increase = {55, 74, 102, 142, 151, 158, 156, 150, 132, 110, 107, 71, 40, 0}}
 		spellData[LesserHealingWave] = {coeff = 1.5 / 3.5, levels = {20, 28, 36, 44, 52, 60, 66, 72, 77}, increase = {102, 109, 110, 108, 100, 84, 58, 40, 18}, averages = {avg(162, 186), avg(247, 281), avg(337, 381), avg(458, 514), avg(631, 705), avg(832, 928), avg(1039, 1185), avg(1382, 1578), avg(1606, 1834)}}
 
-		talentData[ImpChainHeal] = {mod = 0.10, current = 0}
 		talentData[HealingWay] = {mod = 0, current = 0}
+		talentData[ImpChainHeal] = {mod = 0.10, current = 0}
 		talentData[Purification] = {mod = 0.02, current = 0}
 
 		if WotLK then
+			hotData[Earthliving] = {interval = 3, ticks = 4, coeff = 0.80, levels = {30, 40, 50, 60, 70, 80}, averages = {116, 160, 220, 348, 456, 652}}
 			hotData[Riptide] = {interval = 3, ticks = 5, coeff = 0.50, levels = {60, 70, 75, 80}, averages = {665, 885, 1435, 1670}}
 			talentData[TidalWaves] = {mod = 0.04, current = 0}
-			hotData[Earthliving] = {interval = 3, ticks = 4, coeff = 0.80, levels = {30, 40, 50, 60, 70, 80}, averages = {116, 160, 220, 348, 456, 652}}
 		end
 
 		itemSetsData["T7 Resto"] = {40508, 40509, 40510, 40512, 40513, 39583, 39588, 39589, 39590, 39591}
