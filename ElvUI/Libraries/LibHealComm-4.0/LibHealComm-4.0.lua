@@ -910,8 +910,11 @@ if( playerClass == "PALADIN" ) then
 		spellData[FlashofLight] = { coeff = 1.5 / 3.5 * 1.25, levels = {20, 26, 34, 42, 50, 58, 66, 74, 79}, averages = {avg(81, 93), avg(124, 144), avg(189, 211), avg(256, 288), avg(346, 390), avg(445, 499), avg(588, 658), avg(682, 764), avg(785, 879)}, increase = {60, 70, 73, 72, 66, 57, 42, 20, 3}}
 
 		talentData[HealingLight] = { mod = 0.04, current = 0 }
-		talentData[Divinity] = { mod = 0.01, current = 0 }
-		talentData[TouchedbytheLight] = { mod = 0.10, current = 0 }
+
+		if WotLK then
+			talentData[Divinity] = { mod = 0.01, current = 0 }
+			talentData[TouchedbytheLight] = { mod = 0.10, current = 0 }
+		end
 
 		local flashLibrams = {[42616] = 436, [42615] = 375, [42614] = 331, [42613] = 293, [42612] = 204, [28592] = 89, [25644] = 79, [23006] = 43, [23201] = 28}
 		local holyLibrams = {[45436] = 160, [40268] = 141, [28296] = 47}
@@ -960,7 +963,10 @@ if( playerClass == "PALADIN" ) then
 			end
 
 			healModifier = healModifier + talentData[HealingLight].current
-			healModifier = healModifier * (1 + talentData[Divinity].current)
+
+			if WotLK then
+				healModifier = healModifier * (1 + talentData[Divinity].current)
+			end
 
 			if( playerCurrentRelic ) then
 				if( spellName == HolyLight and holyLibrams[playerCurrentRelic] ) then
