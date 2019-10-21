@@ -1261,7 +1261,6 @@ if( playerClass == "SHAMAN" ) then
 
 			healModifier = healModifier + talentData[Purification].current
 
-			-- Riptide
 			if( spellName == Riptide ) then
 				if( equippedSetCache["T9 Resto"] >= 2 ) then
 					spModifier = spModifier * 1.20
@@ -1272,10 +1271,8 @@ if( playerClass == "SHAMAN" ) then
 				healAmount = healAmount / hotData[spellName].ticks
 
 				totalTicks = hotData[spellName].ticks
-				-- Glyph of Riptide, +6 seconds
-				if( glyphCache[63273] ) then totalTicks = totalTicks + 2 end
 
-			-- Earthliving Weapon
+				if( glyphCache[63273] ) then totalTicks = totalTicks + 2 end
 			elseif( spellName == Earthliving ) then
 				spellPower = (spellPower * (hotData[spellName].coeff * 1.88) * 0.45)
 				spellPower = spellPower / hotData[spellName].ticks
@@ -1306,8 +1303,7 @@ if( playerClass == "SHAMAN" ) then
 					healModifier = healModifier * 1.05
 				end
 
-				-- Add +25% from Riptide being up and reset the flag
-				if( riptideData[guid] ) then
+				if (riptideData[guid]) then
 					healModifier = healModifier * 1.25
 					riptideData[guid] = nil
 				end
@@ -1372,9 +1368,12 @@ if( playerClass == "HUNTER" ) then
 		end
 
 		CalculateHealing = function(guid, spellID)
-			local amount = spellData[spellID].average
+			local spellName, spellRank = GetSpellInfo(spellID), SpellIDToRank[spellID]
+			local amount = spellData[spellName].averages[spellRank]
+
 			if( equippedSetCache["Giantstalker"] >= 3 ) then amount = amount * 1.1 end
-			return CHANNEL_HEALS, ceil(amount / spellData[spellID].ticks), spellData[spellID].ticks, spellData[spellID].ticks
+
+			return CHANNEL_HEALS, ceil(amount / spellData[spellName].ticks), spellData[spellName].ticks, spellData[spellName].ticks
 		end
 	end
 end
@@ -1395,9 +1394,10 @@ if( playerClass == "WARLOCK" ) then
 		end
 
 		CalculateHealing = function(guid, spellID)
-			local amount = spellData[spellID].average
+			local spellName, spellRank = GetSpellInfo(spellID), SpellIDToRank[spellID]
+			local amount = spellData[spellName].averages[spellRank]
 
-			return CHANNEL_HEALS, ceil(amount / spellData[spellID].ticks), spellData[spellID].ticks, spellData[spellID].ticks
+			return CHANNEL_HEALS, ceil(amount / spellData[spellName].ticks), spellData[spellName].ticks, spellData[spellName].ticks
 		end
 	end
 end
