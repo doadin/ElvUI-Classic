@@ -59,9 +59,7 @@ end
 
 local function customFilter(element, _, button, name, _, _, debuffType, _, _, caster, isStealable, _, spellID)
 	local setting = element.watched[spellID]
-	if not setting then
-		return false
-	end
+	if not setting then return false end
 
 	button.onlyShowMissing = setting.onlyShowMissing
 	button.anyUnit = setting.anyUnit
@@ -145,7 +143,7 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 			if(button.icon) then button.icon:SetTexture(texture) end
 			if(button.count) then button.count:SetText(count > 1 and count) end
 
-			local size = setting.sizeOverride and setting.sizeOverride > 0 and setting.sizeOverride or element.size
+			local size = setting.sizeOverride and setting.sizeOverride > 0 and setting.sizeOverride or element.size or 16
 			button:SetSize(size, size)
 
 			button:SetID(index)
@@ -189,7 +187,6 @@ local function onlyShowMissingIcon(element, unit, offset)
 		if(button.overlay) then button.overlay:Hide() end
 
 		local size = setting.sizeOverride and setting.sizeOverride > 0 and setting.sizeOverride or element.size
-
 		button:SetSize(size, size)
 		button.spellID = SpellID
 
@@ -208,11 +205,9 @@ local function onlyShowMissingIcon(element, unit, offset)
 end
 
 local function filterIcons(element, unit, filter, limit, isDebuff, offset, dontHide)
-	if(not offset) then offset = 0 end
-	local index = 1
-	local visible = 0
-	local hidden = 0
-	while(visible < limit) do
+	if (not offset) then offset = 0 end
+	local index, visible, hidden = 1, 0, 0
+	while (visible < limit) do
 		local result = updateIcon(element, unit, index, offset, filter, isDebuff, visible)
 		if(not result) then
 			break
@@ -285,7 +280,6 @@ local function Enable(self)
 		element.size = element.size or 16
 		element.createdIcons = element.createdIcons or 0
 		element.anchoredIcons = 0
-		element.showDebuffType = false -- Can replace RaidDebuffs?
 
 		self:RegisterEvent('UNIT_AURA', UpdateAuras)
 		element:Show()
