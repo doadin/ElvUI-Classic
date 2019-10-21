@@ -226,7 +226,7 @@ E.Options.args.auras = {
 							order = 2,
 							name = L['Color'],
 							hasAlpha = false,
-							disabled = function() return (E.db.auras.barColorGradient or not E.db.auras.barShow) end,
+							disabled = function() return not E.db.auras.barShow or (E.db.auras.barColorGradient or not E.db.auras.barShow) end,
 							get = function(info)
 								local t = E.db.auras.barColor
 								local d = P.auras.barColor
@@ -240,30 +240,35 @@ E.Options.args.auras = {
 						barColorGradient = {
 							order = 3,
 							type = 'toggle',
-							name = L['Color by Value']
+							name = L["Color by Value"],
+							disabled = function() return not E.db.auras.barShow end,
 						},
 						barWidth = {
 							order = 4,
 							type = 'range',
 							name = L["Width"],
 							min = 1, max = 10, step = 1,
+							disabled = function() return not E.db.auras.barShow end,
 						},
 						barHeight = {
 							order = 5,
 							type = 'range',
 							name = L["Height"],
 							min = 1, max = 10, step = 1,
+							disabled = function() return not E.db.auras.barShow end,
 						},
 						barSpacing = {
 							order = 6,
 							type = 'range',
 							name = L["Spacing"],
-							min = 1, max = 10, step = 1,
+							min = -10, max = 10, step = 1,
+							disabled = function() return not E.db.auras.barShow end,
 						},
 						barPosition = {
 							order = 7,
 							type = 'select',
-							name = L['Position'],
+							name = L["Position"],
+							disabled = function() return not E.db.auras.barShow end,
 							values = {
 								['TOP'] = L['TOP'],
 								['BOTTOM'] = L['BOTTOM'],
