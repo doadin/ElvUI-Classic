@@ -48,7 +48,7 @@ function UF:Construct_Raid40Frames()
 	self.ResurrectIndicator = UF:Construct_ResurrectionIcon(self)
 	self.Fader = UF:Construct_Fader()
 	self.Cutaway = UF:Construct_Cutaway(self)
-	--self.HealthPrediction = UF:Construct_HealComm(self)
+	self.HealthPrediction = UF:Construct_HealComm(self)
 
 	self.customTexts = {}
 
@@ -209,7 +209,7 @@ function UF:Update_Raid40Frames(frame, db)
 	UF:Configure_DebuffHighlight(frame)
 
 	--OverHealing
-	--UF:Configure_HealComm(frame)
+	UF:Configure_HealComm(frame)
 
 	--Raid Roles
 	UF:Configure_RaidRoleIcons(frame)

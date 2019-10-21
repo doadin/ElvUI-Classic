@@ -8,9 +8,6 @@ local allowPowerEvent = true
 local myClass = select(2, UnitClass("player"))
 local Mp5Delay = 5
 local Mp5IgnoredSpells = {
-	[75] = true, -- auto shot
-	[883] = true, -- call pet
-	[5019] = true, -- shoot
 	[11689] = true, -- life tap 6
 	[11688] = true, -- life tap 5
 	[11687] = true, -- life tap 4
@@ -104,7 +101,7 @@ local EventHandler = function(self, event, _, _, spellID)
 			end
 		end
 
-		if (CurrentValue > LastValue) and (not spellCost or Mp5IgnoredSpells[spellID]) then
+		if (CurrentValue < LastValue) and (not spellCost or Mp5IgnoredSpells[spellID]) then
 			return
 		end
 
