@@ -870,7 +870,9 @@ if( playerClass == "DRUID" ) then
 
 			-- Tranquility
 			elseif( spellName == Tranquility ) then
-				healModifier = healModifier + talentData[Genesis].current
+				if WotLK then
+					healModifier = healModifier + talentData[Genesis].current
+				end
 
 				spellPower = spellPower * ((spellData[spellName].coeff * 1.88) * (1 + (WotLK and talentData[EmpoweredRejuv].current or 0)))
 				spellPower = spellPower / spellData[spellName].ticks
