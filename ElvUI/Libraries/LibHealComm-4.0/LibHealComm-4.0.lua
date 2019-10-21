@@ -1195,9 +1195,10 @@ if( playerClass == "SHAMAN" ) then
 			hotData[Riptide] = {interval = 3, ticks = 5, coeff = 0.50, levels = {60, 70, 75, 80}, averages = {665, 885, 1435, 1670}}
 			talentData[TidalWaves] = {mod = 0.04, current = 0}
 			hotData[Earthliving] = {interval = 3, ticks = 4, coeff = 0.80, levels = {30, 40, 50, 60, 70, 80}, averages = {116, 160, 220, 348, 456, 652}}
-			itemSetsData["T7 Resto"] = {40508, 40509, 40510, 40512, 40513, 39583, 39588, 39589, 39590, 39591}
-			itemSetsData["T9 Resto"] = {48280, 48281, 48282, 48283, 48284, 48295, 48296, 48297, 48298, 48299, 48301, 48302, 48303, 48304, 48300, 48306, 48307, 48308, 48309, 48305, 48286, 48287, 48288, 48289, 48285, 48293, 48292, 48291, 48290, 48294}
 		end
+
+		itemSetsData["T7 Resto"] = {40508, 40509, 40510, 40512, 40513, 39583, 39588, 39589, 39590, 39591}
+		itemSetsData["T9 Resto"] = {48280, 48281, 48282, 48283, 48284, 48295, 48296, 48297, 48298, 48299, 48301, 48302, 48303, 48304, 48300, 48306, 48307, 48308, 48309, 48305, 48286, 48287, 48288, 48289, 48285, 48293, 48292, 48291, 48290, 48294}
 
 		local lhwTotems = {[42598] = 320, [42597] = 267, [42596] = 236, [42595] = 204, [25645] = 79, [22396] = 80, [23200] = 53}
 		local chTotems = {[45114] = 243, [38368] = 102, [28523] = 87}
@@ -1308,7 +1309,7 @@ if( playerClass == "SHAMAN" ) then
 				end
 
 				local castTime = spellRank > 3 and 3 or spellRank == 3 and 2.5 or spellRank == 2 and 2 or 1.5
-				spellPower = spellPower * (((castTime / 3.5) * 1.88) + talentData[TidalWaves].current)
+				spellPower = spellPower * (((castTime / 3.5) * 1.88) + (WotLK and talentData[TidalWaves].current or 0))
 
 			-- Lesser Healing Wave
 			elseif( spellName == LesserHealingWave ) then
@@ -1318,7 +1319,7 @@ if( playerClass == "SHAMAN" ) then
 				end
 
 				spellPower = spellPower + (playerCurrentRelic and lhwTotems[playerCurrentRelic] or 0)
-				spellPower = spellPower * ((spellData[spellName].coeff * 1.88) + talentData[TidalWaves].spent * 0.02)
+				spellPower = spellPower * ((spellData[spellName].coeff * 1.88) + (WotLK and talentData[TidalWaves].spent * 0.02) or 0)
 			end
 
 			healAmount = calculateGeneralAmount(spellData[spellName].levels[spellRank], healAmount, spellPower, spModifier, healModifier)
