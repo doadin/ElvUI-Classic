@@ -1048,7 +1048,7 @@ if( playerClass == "PRIEST" ) then
 
 		local activeGraceGUID, activeGraceModifier
 		AuraHandler = function(unit, guid)
-			local _, _, _, stack, _, _, _, caster = AuraUtil.FindAuraByName(unit, Grace, 'HELPFUL')
+			local stack, _, _, _, caster = select(4, AuraUtil.FindAuraByName(unit, Grace, 'HELPFUL'))
 			if( caster == "player" ) then
 				activeGraceModifier = stack * 0.03
 				activeGraceGUID = guid
@@ -1093,13 +1093,18 @@ if( playerClass == "PRIEST" ) then
 				healModifier = healModifier + activeGraceModifier
 			end
 
-			healModifier = healModifier + talentData[FocusedPower].current
-			healModifier = healModifier + talentData[BlessedResilience].current
+			if WotLK then
+				healModifier = healModifier + talentData[FocusedPower].current
+				healModifier = healModifier + talentData[BlessedResilience].current
+			end
+
 			healModifier = healModifier + talentData[SpiritualHealing].current
 
 			if( spellName == Renew ) then
 				healModifier = healModifier + talentData[ImprovedRenew].current
-				healModifier = healModifier + talentData[TwinDisciplines].current
+				if WotLK then
+					healModifier = healModifier + talentData[TwinDisciplines].current
+				end
 
 				--if( equippedSetCache["Oracle"] >= 5 ) then ticks = ticks + 1 duration = 18 end
 
