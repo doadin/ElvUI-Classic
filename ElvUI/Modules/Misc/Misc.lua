@@ -4,15 +4,21 @@ local Bags = E:GetModule('Bags')
 
 --Lua functions
 local _G = _G
+local select = select
 local format = format
 --WoW API / Variables
+local CreateFrame = CreateFrame
 local AcceptGroup = AcceptGroup
 local BNGetGameAccountInfoByGUID = BNGetGameAccountInfoByGUID
 local CanMerchantRepair = CanMerchantRepair
 local GetCVarBool, SetCVar = GetCVarBool, SetCVar
 local GetGuildBankWithdrawMoney = GetGuildBankWithdrawMoney
 local GetInstanceInfo = GetInstanceInfo
+local GetItemInfo = GetItemInfo
 local GetNumGroupMembers = GetNumGroupMembers
+local GetQuestItemInfo = GetQuestItemInfo
+local GetQuestItemLink = GetQuestItemLink
+local GetNumQuestChoices = GetNumQuestChoices
 local GetRaidRosterInfo = GetRaidRosterInfo
 local GetRepairAllCost = GetRepairAllCost
 local InCombatLockdown = InCombatLockdown
@@ -187,12 +193,12 @@ do
 		bestValue = 0
 		numQuests = GetNumQuestChoices()
 
-		if numQuests < 2 then
-			return
+		if numQuests <= 0 then
+			return -- no choices, quick exit
 		end
 
 		if not self.QuestRewardGoldIconFrame then
-			local frame = CreateFrame("Frame", nil, QuestInfoRewardsFrameQuestInfoItem1)
+			local frame = CreateFrame("Frame", nil, _G.QuestInfoRewardsFrameQuestInfoItem1)
 			frame:SetFrameStrata("HIGH")
 			frame:Size(20)
 			frame.Icon = frame:CreateTexture(nil, "OVERLAY")
@@ -204,7 +210,7 @@ do
 
 		self.QuestRewardGoldIconFrame:Hide()
 
-		for i=1, numQuests do
+		for i = 1, numQuests do
 			questLink = GetQuestItemLink('choice', i)
 			_,_, amount = GetQuestItemInfo('choice', i)
 			itemSellPrice = questLink and select(11, GetItemInfo(questLink))
