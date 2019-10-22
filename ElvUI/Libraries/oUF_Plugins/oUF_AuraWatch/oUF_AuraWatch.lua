@@ -13,7 +13,7 @@ local function updateText(self, elapsed)
 	if self.elapsed >= 0.1 then
 		local timeNow = GetTime()
 		self.timeLeft = self.expiration - timeNow
-		if self.timeLeft > 0 and self.timeLeft <= self.textThreshold then
+		if self.timeLeft > 0 and self.timeLeft <= (self.textThreshold or 0) then
 			self.cd:SetCooldown(timeNow, self.timeLeft)
 			self.cd:Show()
 			self:SetScript("OnUpdate", nil)
@@ -64,7 +64,11 @@ local function customFilter(element, _, button, name, _, _, debuffType, _, _, ca
 	button.onlyShowMissing = setting.onlyShowMissing
 	button.anyUnit = setting.anyUnit
 
-	return setting.enabled and (not setting.onlyShowMissing and (setting.anyUnit or button.isPlayer))
+	if setting.anyUnit or caster == 'player' then
+		return setting.enable and (not setting.onlyShowMissing)
+	else
+		return false
+	end
 end
 
 local function updateIcon(element, unit, index, offset, filter, isDebuff, visible)

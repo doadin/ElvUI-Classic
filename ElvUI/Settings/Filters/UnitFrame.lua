@@ -536,7 +536,7 @@ function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displ
 	return {
 		enabled = true,
 		id = id,
-		name = name,
+		name = GetSpellInfo(id),
 		rank = spellRank,
 		point = point or 'TOPLEFT',
 		color = {r = r, g = g, b = b},
