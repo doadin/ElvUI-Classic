@@ -95,13 +95,6 @@ local function BuildABConfig()
 					AB:UpdatePetCooldownSettings()
 				end,
 			},
-			addNewSpells = {
-				order = 9,
-				type = "toggle",
-				name = L["Auto Add New Spells"],
-				desc = L["Allow newly learned spells to be automatically placed on an empty actionbar slot."],
-				set = function(info, value) E.db.actionbar.addNewSpells = value; AB:IconIntroTracker_Toggle() end,
-			},
 			rightClickSelfCast = {
 				order = 10,
 				type = "toggle",
@@ -183,6 +176,29 @@ local function BuildABConfig()
 				min = 0, max = 1, step = 0.01,
 				isPercent = true,
 				set = function(info, value) E.db.actionbar[info[#info]] = value; AB.fadeParent:SetAlpha(1-value) end,
+			},
+			equippedItem = {
+				order = 18,
+				type = "toggle",
+				name = L["Equipped Item"],
+				get = function(info) return E.db.actionbar[info[#info]] end,
+				set = function(info, value) E.db.actionbar[info[#info]] = value; AB:UpdateButtonSettings() end
+			},
+			equippedItemColor = {
+				order = 19,
+				type = "color",
+				name = L["Equipped Item Color"],
+				get = function(info)
+					local t = E.db.actionbar[info[#info]]
+					local d = P.actionbar[info[#info]]
+					return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+				end,
+				set = function(info, r, g, b)
+					local t = E.db.actionbar[info[#info]]
+					t.r, t.g, t.b = r, g, b
+					AB:UpdateButtonSettings()
+				end,
+				disabled = function() return not E.db.actionbar.equippedItem end
 			},
 			colorGroup = {
 				order = 20,
@@ -874,44 +890,25 @@ local function BuildABConfig()
 				},
 			},
 		}
-
-		if i == 6 then
-			group['bar'..i].args.enabled.set = function(info, value)
-				E.db.actionbar['bar'..i].enabled = value;
-				AB:PositionAndSizeBar("bar6")
-
-				--Update Bar 1 paging when Bar 6 is enabled/disabled
-				AB:UpdateBar1Paging()
-				AB:PositionAndSizeBar("bar1")
-			end
-		end
 	end
-	group.extraActionButton = {
-		type = "group",
-		name = L["Boss Button"],
-		order = 46,
-		disabled = function() return not E.ActionBars.Initialized; end,
-		get = function(info) return E.db.actionbar.extraActionButton[info[#info]] end,
-		args = {
-			alpha = {
-				order = 1,
-				type = 'range',
-				name = L["Alpha"],
-				desc = L["Change the alpha level of the frame."],
-				isPercent = true,
-				min = 0, max = 1, step = 0.01,
-				set = function(info, value) E.db.actionbar.extraActionButton[info[#info]] = value; AB:Extra_SetAlpha() end,
-			},
-			scale = {
-				order = 2,
-				type = "range",
-				name = L["Scale"],
-				isPercent = true,
-				min = 0.2, max = 2, step = 0.01,
-				set = function(info, value) E.db.actionbar.extraActionButton[info[#info]] = value; AB:Extra_SetScale() end,
-			},
-		},
+
+	group.bar1.args.pagingReset = {
+		type = 'execute',
+		name = L["Reset Action Paging"],
+		order = 2,
+		confirm = true,
+		confirmText = L["You are about to reset paging. Are you sure?"],
+		func = function() E.db.actionbar.bar1.paging[E.myclass] = P.actionbar.bar1.paging[E.myclass] AB:UpdateButtonSettings() end,
 	}
+
+	group.bar6.args.enabled.set = function(info, value)
+		E.db.actionbar.bar6.enabled = value;
+		AB:PositionAndSizeBar("bar6")
+
+		--Update Bar 1 paging when Bar 6 is enabled/disabled
+		AB:UpdateBar1Paging()
+		AB:PositionAndSizeBar("bar1")
+	end
 end
 
 E.Options.args.actionbar = {
@@ -986,14 +983,6 @@ E.Options.args.actionbar = {
 			name = L["Micro Bar"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "microbar") end,
-			disabled = function() return not E.ActionBars.Initialized; end,
-		},
-		extraActionButtonShortcut = {
-			order = 11,
-			type = "execute",
-			name = L["Boss Button"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "actionbar", "extraActionButton") end,
 			disabled = function() return not E.ActionBars.Initialized; end,
 		},
 		spacer3 = {

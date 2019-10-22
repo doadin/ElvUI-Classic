@@ -839,6 +839,11 @@ function AB:LAB_ButtonUpdate(button)
 	if button.config and (button.config.outOfRangeColoring ~= "hotkey") then
 		button.HotKey:SetTextColor(color.r, color.g, color.b)
 	end
+
+	if button.backdrop and AB.db.equippedItem then
+		color = (button:IsEquipped() and AB.db.equippedItemColor) or E.db.general.bordercolor
+		button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+	end
 end
 
 function AB:LAB_CooldownDone(button)
