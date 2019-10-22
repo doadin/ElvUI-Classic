@@ -77,12 +77,12 @@ local UnitPlayerControlled = UnitPlayerControlled
 local COMBATLOG_OBJECT_AFFILIATION_MINE = COMBATLOG_OBJECT_AFFILIATION_MINE
 
 local spellRankTableData = {
-	[1] = { 774, 8936, 5185, 740, 635, 19750, 139, 2060, 596, 2061, 2054, 2050, 1064, 331, 8004, 136, 755 },
-	[2] = { 1058, 8938, 5186, 8918, 639, 19939, 6074, 10963, 996, 9472, 2055, 2052, 10622, 332, 8008, 3111, 3698 },
-	[3] = { 1430, 8939, 5187, 9862, 647, 19940, 6075, 10964, 10960, 9473, 6063, 2053, 10623, 547, 8010, 3661, 3699 },
-	[4] = { 2090, 8940, 5188, 9863, 1026, 19941, 6076, 10965, 10961, 9474, 6064, 913, 10466, 3662, 3700 },
-	[5] = { 2091, 8941, 5189, 1042, 19942, 6077, 22009, 25314, 25316, 10915, 939, 10467, 13542, 11693 },
-	[6] = { 3627, 9750, 6778, 3472, 19943, 6078, 10916, 959, 10468, 13543, 11694 },
+	[1] = { 774, 8936, 5185, 740, 635, 19750, 139, 2060, 596, 2061, 2054, 2050, 1064, 331, 8004, 136, 755, 689 },
+	[2] = { 1058, 8938, 5186, 8918, 639, 19939, 6074, 10963, 996, 9472, 2055, 2052, 10622, 332, 8008, 3111, 3698, 699 },
+	[3] = { 1430, 8939, 5187, 9862, 647, 19940, 6075, 10964, 10960, 9473, 6063, 2053, 10623, 547, 8010, 3661, 3699, 709 },
+	[4] = { 2090, 8940, 5188, 9863, 1026, 19941, 6076, 10965, 10961, 9474, 6064, 913, 10466, 3662, 3700, 7651 },
+	[5] = { 2091, 8941, 5189, 1042, 19942, 6077, 22009, 25314, 25316, 10915, 939, 10467, 13542, 11693, 11699 },
+	[6] = { 3627, 9750, 6778, 3472, 19943, 6078, 10916, 959, 10468, 13543, 11694, 11700 },
 	[7] = { 8910, 9856, 8903, 10328, 10927, 10917, 8005, 13544, 11695 },
 	[8] = { 9839, 9857, 9758, 10329, 10928, 10395, },
 	[9] = { 9840, 9858, 25292, 10929, 10396, },
@@ -1351,8 +1351,6 @@ end
 
 if( playerClass == "HUNTER" ) then
 	LoadClassData = function()
-		-- Spell data
-
 		local MendPet = GetSpellInfo(136)
 
 		spellData[MendPet] = { interval = 1, levels = { 12, 20, 28, 36, 44, 52, 60 }, ticks = 5, averages = {100, 190, 340, 515, 710, 945, 1225 } }
@@ -1364,7 +1362,10 @@ if( playerClass == "HUNTER" ) then
 		end
 
 		CalculateHotHealing = function(guid, spellID)
-			return HOT_HEALS, 0, 0
+			local spellName, spellRank = GetSpellInfo(spellID), SpellIDToRank[spellID]
+			local amount = spellData[spellName].averages[spellRank]
+
+			return HOT_HEALS, amount, spellData[spellName].ticks
 		end
 
 		CalculateHealing = function(guid, spellID)
@@ -1380,17 +1381,21 @@ end
 
 if( playerClass == "WARLOCK" ) then
 	LoadClassData = function()
-		-- Spell data
-
 		local HealthFunnel = GetSpellInfo(755)
+		local DrainLife = GetSpellInfo(755)
+
 		spellData[HealthFunnel] = { interval = 1, levels = { 12, 20, 28, 36, 44, 52, 60 }, ticks = 10, averages = {11, 23, 42, 63, 88, 118, 152 } }
+		spellData[DrainLife] = { interval = 1, levels = { 14, 22, 30, 38, 46, 54 }, ticks = 5, averages = {10, 16, 29, 41, 55, 71 } }
 
 		GetHealTargets = function(bitType, guid, healAmount, spellID)
 			return compressGUID[UnitGUID("pet")], healAmount
 		end
 
 		CalculateHotHealing = function(guid, spellID)
-			return HOT_HEALS, 0, 0
+			local spellName, spellRank = GetSpellInfo(spellID), SpellIDToRank[spellID]
+			local amount = spellData[spellName].averages[spellRank]
+
+			return HOT_HEALS, amount, spellData[spellName].ticks
 		end
 
 		CalculateHealing = function(guid, spellID)
