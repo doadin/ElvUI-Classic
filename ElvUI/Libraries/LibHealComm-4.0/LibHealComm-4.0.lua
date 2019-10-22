@@ -1048,7 +1048,7 @@ if( playerClass == "PRIEST" ) then
 
 		local activeGraceGUID, activeGraceModifier
 		AuraHandler = function(unit, guid)
-			local stack, _, _, _, caster = select(4, UnitAura(unit, Grace, 'HELPFUL'))
+			local stack, _, _, _, caster = AuraUtil.FindAuraByName(unit, Grace, 'HELPFUL')
 			if( caster == "player" ) then
 				activeGraceModifier = stack * 0.03
 				activeGraceGUID = guid
