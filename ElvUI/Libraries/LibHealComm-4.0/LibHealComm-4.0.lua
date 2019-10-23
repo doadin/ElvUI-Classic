@@ -1997,7 +1997,7 @@ function HealComm:CHAT_MSG_ADDON(prefix, message, channel, sender)
 	if( prefix ~= COMM_PREFIX or channel ~= distribution or Ambiguate(sender, "none") == playerName ) then return end
 
 	local commType, extraArg, spellID, arg1, arg2, arg3, arg4, arg5, arg6 = strsplit(":", message)
-	local casterGUID = UnitGUID(sender)
+	local casterGUID = UnitGUID(Ambiguate(sender, "none"))
 	spellID = tonumber(spellID)
 
 	if( not commType or not spellID or not casterGUID ) then return end
@@ -2288,7 +2288,7 @@ function HealComm:UNIT_SPELLCAST_START(unit, cast, spellID)
 	local spellName = GetSpellInfo(spellID)
 	if (unit ~= "player" or not spellData[spellName] or UnitIsCharmed("player") or not UnitPlayerControlled("player") ) then return end
 	local castGUID = castGUIDs[spellID]
-	if( not castGUID or not guidToUnit[castGUID]) then
+	if( not castGUID) then
 		return
 	end
 
