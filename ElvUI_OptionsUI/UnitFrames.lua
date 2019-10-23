@@ -5167,7 +5167,7 @@ E.Options.args.unitframe.args.party = {
 							name = L["Restore Defaults"],
 							confirm = true,
 							func = function()
-								E.db.unitframe.units.party.visibility = P.db.unitframe.units.party.visibility
+								E.db.unitframe.units.party.visibility = P.unitframe.units.party.visibility
 								UF:CreateAndUpdateHeaderGroup('party', nil, nil, true)
 							end,
 						},
@@ -5751,7 +5751,7 @@ E.Options.args.unitframe.args.raid = {
 							name = L["Restore Defaults"],
 							confirm = true,
 							func = function()
-								E.db.unitframe.units.raid.visibility = P.db.unitframe.units.raid.visibility
+								E.db.unitframe.units.raid.visibility = P.unitframe.units.raid.visibility
 								UF:CreateAndUpdateHeaderGroup('raid', nil, nil, true)
 							end,
 						},
@@ -6158,7 +6158,7 @@ E.Options.args.unitframe.args.raid40 = {
 							name = L["Restore Defaults"],
 							confirm = true,
 							func = function()
-								E.db.unitframe.units.raid40.visibility = P.db.unitframe.units.raid40.visibility
+								E.db.unitframe.units.raid40.visibility = P.unitframe.units.raid40.visibility
 								UF:CreateAndUpdateHeaderGroup('raid', nil, nil, true)
 							end,
 						},
@@ -6551,7 +6551,7 @@ E.Options.args.unitframe.args.raidpet = {
 							name = L["Restore Defaults"],
 							confirm = true,
 							func = function()
-								E.db.unitframe.units.raidpet.visibility = P.db.unitframe.units.raidpet.visibility
+								E.db.unitframe.units.raidpet.visibility = P.unitframe.units.raidpet.visibility
 								UF:CreateAndUpdateHeaderGroup('raidpet', nil, nil, true)
 							end,
 						},
