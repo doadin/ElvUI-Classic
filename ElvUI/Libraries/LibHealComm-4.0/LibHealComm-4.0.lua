@@ -1773,11 +1773,13 @@ end
 local function parseDirectHeal(casterGUID, spellID, amount, castTime, ...)
 	local spellName = GetSpellInfo(spellID)
 	local unit = guidToUnit[casterGUID]
+
 	if( not unit or not spellName or not amount or select("#", ...) == 0 ) then return end
 
 	local endTime
 	if unit == "player" then
 		endTime = select(5, CastingInfo())
+		endTime = endTime / 1000
 	else
 		endTime = GetTime() + (castTime or 1.5)
 	end
@@ -1791,7 +1793,7 @@ local function parseDirectHeal(casterGUID, spellID, amount, castTime, ...)
 	pending.spellID = spellID
 	pending.bitType = DIRECT_HEALS
 
-	loadHealList(pending, amount, 1, 0, nil, ...)
+	loadHealList(pending, amount, 1, pending.endTime, nil, ...)
 
 	HealComm.callbacks:Fire("HealComm_HealStarted", casterGUID, spellID, pending.bitType, pending.endTime, unpack(tempPlayerList))
 end
@@ -1829,7 +1831,7 @@ local function parseChannelHeal(casterGUID, spellID, amount, totalTicks, ...)
 	pending.isMultiTarget = (select("#", ...) / inc) > 1
 	pending.bitType = CHANNEL_HEALS
 
-	loadHealList(pending, amount, 1, 0, ceil(pending.duration / pending.tickInterval), ...)
+	loadHealList(pending, amount, 1, pending.endTime, ceil(pending.duration / pending.tickInterval), ...)
 
 	HealComm.callbacks:Fire("HealComm_HealStarted", casterGUID, spellID, pending.bitType, pending.endTime, unpack(tempPlayerList))
 end
@@ -2004,7 +2006,7 @@ function HealComm:CHAT_MSG_ADDON(prefix, message, channel, sender)
 
 	-- New direct heal - D:<extra>:<spellID>:<amount>:target1,target2...
 	if( commType == "D" and arg1 and arg2 ) then
-		parseDirectHeal(casterGUID, spellID, tonumber(arg1), strsplit(",", arg2))
+		parseDirectHeal(casterGUID, spellID, tonumber(arg1), extraArg, strsplit(",", arg2))
 	-- New channel heal - C:<extra>:<spellID>:<amount>:<totalTicks>:target1,target2...
 	elseif( commType == "C" and arg1 and arg3 ) then
 		parseChannelHeal(casterGUID, spellID, tonumber(arg1), tonumber(arg2), strsplit(",", arg3))
