@@ -2729,6 +2729,7 @@ function HealComm:PLAYER_LOGIN()
 	self.eventFrame:RegisterEvent("GROUP_ROSTER_UPDATE")
 
 	self:ZONE_CHANGED_NEW_AREA()
+	self:GROUP_ROSTER_UPDATE()
 end
 
 if( not IsLoggedIn() ) then
