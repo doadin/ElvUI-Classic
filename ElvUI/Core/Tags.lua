@@ -932,25 +932,25 @@ end
 
 E.TagInfo = {
 	--Colors
-	['namecolor'] = { category = 'Colors', description = "Colors Names by Player Class / NPC Reaction" },
-	['reactioncolor'] = { category = 'Colors', description = "Colors Names NPC Reaction (Bad/Neutral/Good)" },
-	['powercolor'] = { category = 'Colors', description = "Colors Unit Power based upon its type" },
-	['happiness:color'] = { category = 'Colors', description = "Colors the following tags based upon pet happiness (e.g. 'Happy = green')" },
-	['difficultycolor'] = { category = 'Colors', description = "Colors the difficulty, red for impossible, orange for hard, green for easy" },
-	['difficulty'] = { category = 'Colors', description = "Changes color of the next tag based on how difficult the unit is compared to the players level" },
+	['namecolor'] = { category = 'Colors', description = "Colors names by player class / NPC reaction" },
+	['reactioncolor'] = { category = 'Colors', description = "Colors names by NPC reaction (Bad/Neutral/Good)" },
+	['powercolor'] = { category = 'Colors', description = "Colors unit power based upon its type" },
+	['happiness:color'] = { category = 'Colors', description = "Colors the following tags based upon pet happiness (e.g. happy = green)" },
+	['difficultycolor'] = { category = 'Colors', description = "Colors the following tags by difficulty, red for impossible, orange for hard, green for easy" },
+	['difficulty'] = { category = 'Colors', description = "Colors the next tag by difficulty, red for impossible, orange for hard, green for easy" },
 	['classificationcolor'] = { category = 'Colors', description = "Colors the following tags based upon the unit classification (e.g. Elite, Rare, Rareelite, ...)" },
 	['healthcolor'] = { category = 'Colors', description = "Changes color of health text, depending on the unit's current health" },
 	--Classification
-	['classification'] = { category = 'Classification', description = "Show the Unit Classification (e.g. 'ELITE' and 'RARE')" },
-	['shortclassification'] = { category = 'Classification', description = "Show the Unit Classification in short form (e.g. '+' for ELITE and 'R' for RARE)" },
-	['classification:icon'] = { category = 'Classification', description = "Show the Unit Classification in icon form (Gold for 'ELITE' Silver for 'RARE')" },
-	['rare'] = { category = 'Classification', description = "Shows 'Rare' when the unit is a rare or rare elite" },
+	['classification'] = { category = 'Classification', description = "Show the unit classification (e.g. 'ELITE' and 'RARE')" },
+	['shortclassification'] = { category = 'Classification', description = "Show the unit classification in short form (e.g. '+' for ELITE and 'R' for RARE)" },
+	['classification:icon'] = { category = 'Classification', description = "Show the unit classification in icon form (gold for 'ELITE' Silver for 'RARE')" },
+	['rare'] = { category = 'Classification', description = "Shows 'Rare' when the unit is a rare or rareelite" },
 	--Guild
-	['guild'] = { category = 'Guild', description = "Guild Name" },
+	['guild'] = { category = 'Guild', description = "Guild name" },
 	['guild:brackets'] = { category = 'Guild', description = "Guild name with < > (e.g. <MY GUILD>)" },
 	['guild:brackets:translit'] = { category = 'Guild', description = "Guild name with < > and transliteration (e.g. <MY GUILD>)" },
-	['guild:rank'] = { category = 'Guild', description = "Guild Rank" },
-	['guild:translit'] = { category = 'Guild', description = "Guild Name with transliteration for cyrillic letters" },
+	['guild:rank'] = { category = 'Guild', description = "Guild rank" },
+	['guild:translit'] = { category = 'Guild', description = "Guild name with transliteration for cyrillic letters" },
 	--Health
 	['curhp'] = { category = 'Health', description = "Display current HP without decimals" },
 	['perhp'] = { category = 'Health', description = "Display percentage HP without decimals" },
