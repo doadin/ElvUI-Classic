@@ -11,6 +11,7 @@ local COMM_PREFIX = "LHC40"
 C_ChatInfo.RegisterAddonMessagePrefix(COMM_PREFIX)
 
 local WotLK = WOW_PROJECT_ID == 3 -- Fake Number
+local LCD = LibStub('LibClassicDurations', true)
 
 local bit = bit
 local ceil = ceil
@@ -1840,14 +1841,21 @@ end
 -- When the person is within visible range of us, the aura is available by the time the message reaches the target
 -- as such, we can rely that at least one person is going to have the aura data on them (and that it won't be different, at least for this cast)
 local function findAura(casterGUID, spellID, ...)
-	for i=1, select("#", ...) do
+	for i = 1, select("#", ...) do
 		local guid = decompressGUID[select(i, ...)]
 		local unit = guid and guidToUnit[guid]
 		if( unit and UnitIsVisible(unit) ) then
 			local id = 1
 			while true do
-				local _, _, stack, _, duration, endTime, caster, _, _, spell = UnitAura(unit, id, 'HELPFUL')
+				local name, _, stack, _, duration, endTime, caster, _, _, spell = UnitAura(unit, id, 'HELPFUL')
 				if( not spell ) then break end
+
+				if LCD and spellID and not UnitIsUnit('player', unit) then
+					local durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
+					if durationNew and durationNew > 0 then
+						duration, endTime = durationNew, expirationTimeNew
+					end
+				end
 
 				if( spell == spellID and caster and UnitGUID(caster) == casterGUID ) then
 					return (stack and stack > 0 and stack or 1), duration or 0, endTime or 0
@@ -1867,6 +1875,7 @@ local function parseHotHeal(casterGUID, wasUpdated, spellID, tickAmount, totalTi
 	-- Retrieve the hot information
 	local inc = ( tickAmount == -1 or tickAmount == "-1" ) and 2 or 1
 	local stack, duration, endTime = findAura(casterGUID, spellID, ...)
+
 	if( not stack or not duration or not endTime ) then return end
 
 	pendingHeals[casterGUID] = pendingHeals[casterGUID] or {}
@@ -1996,7 +2005,7 @@ end
 -- Channels use tick total because the tick interval varies by haste
 -- Hots use tick interval because the total duration varies but the tick interval stays the same
 function HealComm:CHAT_MSG_ADDON(prefix, message, channel, sender)
-	if( prefix ~= COMM_PREFIX or channel ~= distribution or Ambiguate(sender, "none") == playerName ) then return end
+	if( prefix ~= COMM_PREFIX or channel ~= distribution ) then return end
 
 	local commType, extraArg, spellID, arg1, arg2, arg3, arg4, arg5, arg6 = strsplit(":", message)
 	local casterGUID = UnitGUID(Ambiguate(sender, "none"))
@@ -2287,8 +2296,12 @@ function HealComm:UNIT_SPELLCAST_SENT(unit, targetName, castGUID, spellID)
 end
 
 function HealComm:UNIT_SPELLCAST_START(unit, cast, spellID)
+	if( unit ~= "player") then return end
+
 	local spellName = GetSpellInfo(spellID)
-	if (unit ~= "player" or not spellData[spellName] or UnitIsCharmed("player") or not UnitPlayerControlled("player") ) then return end
+
+	if (not spellData[spellName] or UnitIsCharmed("player") or not UnitPlayerControlled("player") ) then return end
+
 	local castGUID = castGUIDs[spellID]
 	if( not castGUID) then
 		return
@@ -2311,22 +2324,21 @@ end
 HealComm.UNIT_SPELLCAST_CHANNEL_START = HealComm.UNIT_SPELLCAST_START
 
 function HealComm:UNIT_SPELLCAST_SUCCEEDED(unit, cast, spellID)
-	local spellName = GetSpellInfo(spellID)
 	if( unit ~= "player") then return end
+	local spellName = GetSpellInfo(spellID)
 
 	if spellData[spellName] then
 		parseHealEnd(playerGUID, nil, "name", spellID, false)
 		sendMessage(format("S::%d:0", spellID or 0))
 	elseif hotData[spellName] then
 		local castGUID, targets = castGUIDs[spellID]
-		if( not castGUID or not guidToUnit[castGUID]) then
+		if( not castGUID) then
 			return
 		end
 
 		local bitType, amount, totalTicks, tickInterval, _, hasVariableTicks = CalculateHotHealing(playerGUID, spellID)
 		if bitType  == HOT_HEALS then
-			targets, amount = GetHealTargets(bitType, playerGUID, hasVariableTicks and amount or max(amount, 0), spellName, hasVariableTicks)
-
+			targets, amount = GetHealTargets(bitType, castGUID, hasVariableTicks and amount or max(amount, 0), spellName, hasVariableTicks)
 			parseHotHeal(playerGUID, false, spellID, amount, totalTicks, tickInterval, strsplit(",", targets))
 
 			if( not hasVariableTicks ) then
