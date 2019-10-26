@@ -142,7 +142,7 @@ G.unitframe.aurafilters.CCDebuffs = {
 		[20617] = Defaults(2), --Intercept(Rank 3)
 	--Racial
 		[20549] = Defaults(2), --War Stomp
-	--Sunder Armor, Faerie Fire
+	--Sunder Armor, Faerie Fire, Faerie Fire (Feral)
 		[7386] = Defaults(6), --Sunder Armor(Rank 1)
 		[7405] = Defaults(6), --Sunder Armor(Rank 2)
 		[8380] = Defaults(6), --Sunder Armor(Rank 3)
@@ -156,6 +156,8 @@ G.unitframe.aurafilters.CCDebuffs = {
 		[17390] = Defaults(5), --Faerie Fire (Feral)(Rank 2)
 		[17391] = Defaults(5), --Faerie Fire (Feral)(Rank 3)
 		[17392] = Defaults(5), --Faerie Fire (Feral)(Rank 4)
+	--Winter's Chill Debuff
+        [12579] = Defaults(6), --Winter's Chill
 	},
 }
 
