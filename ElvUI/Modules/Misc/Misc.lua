@@ -12,7 +12,6 @@ local AcceptGroup = AcceptGroup
 local BNGetGameAccountInfoByGUID = BNGetGameAccountInfoByGUID
 local CanMerchantRepair = CanMerchantRepair
 local GetCVarBool, SetCVar = GetCVarBool, SetCVar
-local GetGuildBankWithdrawMoney = GetGuildBankWithdrawMoney
 local GetInstanceInfo = GetInstanceInfo
 local GetItemInfo = GetItemInfo
 local GetNumGroupMembers = GetNumGroupMembers
@@ -36,7 +35,6 @@ local UnitExists = UnitExists
 local UnitGUID = UnitGUID
 local UnitInRaid = UnitInRaid
 local UnitName = UnitName
-local IsInGuild = IsInGuild
 
 local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo
 local LE_GAME_ERR_GUILD_NOT_ENOUGH_MONEY = LE_GAME_ERR_GUILD_NOT_ENOUGH_MONEY
@@ -70,17 +68,19 @@ function M:COMBAT_LOG_EVENT_UNFILTERED()
 		SendChatMessage(msg, (inRaid and "RAID" or "PARTY"))
 	elseif interruptAnnounce == "RAID_ONLY" and inRaid then
 		SendChatMessage(msg, "RAID")
-	elseif interruptAnnounce == "SAY" then
+	elseif interruptAnnounce == "SAY" and IsInInstance() then
 		SendChatMessage(msg, "SAY")
+	elseif interruptAnnounce == "YELL" and IsInInstance() then
+		SendChatMessage(msg, "YELL")
 	elseif interruptAnnounce == "EMOTE" then
 		SendChatMessage(msg, "EMOTE")
 	end
 end
 
 do -- Auto Repair Functions
-	local STATUS, TYPE, COST, POSS
+	local STATUS, COST, POSS
 	function M:AttemptAutoRepair()
-		STATUS, TYPE, COST, POSS = "", E.db.general.autoRepair, GetRepairAllCost()
+		STATUS, COST, POSS = "", GetRepairAllCost()
 
 		if POSS and COST > 0 then
 			RepairAllItems()

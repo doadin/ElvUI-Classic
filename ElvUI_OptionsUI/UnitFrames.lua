@@ -2245,7 +2245,7 @@ local function GetOptionsTable_Cutaway(updateFunc, groupName, numGroup)
 	local config = {
 		order = 1021,
 		type = "group",
-		childGroups = "tabs",
+		childGroups = "tab",
 		name = L["Cutaway Bars"],
 		args = {
 			health = {
