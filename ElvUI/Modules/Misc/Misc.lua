@@ -59,7 +59,7 @@ function M:COMBAT_LOG_EVENT_UNFILTERED()
 	if not inGroup then return end -- not in group, exit.
 
 	local _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, _, spellName = CombatLogGetCurrentEventInfo()
-	if not (event == "SPELL_INTERRUPT" and (sourceGUID == E.myguid or sourceGUID == UnitGUID('pet'))) then return end -- No announce-able interrupt from player or pet, exit.
+	if not (strmatch(event, "_INTERRUPT") and (sourceGUID == E.myguid or sourceGUID == UnitGUID('pet'))) then return end -- No announce-able interrupt from player or pet, exit.
 
 	local interruptAnnounce, msg = E.db.general.interruptAnnounce, format(INTERRUPT_MSG, destName or UNKNOWN, spellName or UNKNOWN)
 	if interruptAnnounce == "PARTY" then
