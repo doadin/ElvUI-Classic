@@ -49,7 +49,6 @@ G.nameplate.filters = {
 			},
 		},
 		triggers = {
-			requireTarget = true,
 			nameplateType = {
 				friendlyPlayer = false,
 				enemyPlayer = false,
@@ -66,7 +65,6 @@ G.nameplate.filters = {
 			},
 		},
 		triggers = {
-			requireTarget = true,
 			nameplateType = {
 				friendlyPlayer = false,
 				enemyPlayer = false,
