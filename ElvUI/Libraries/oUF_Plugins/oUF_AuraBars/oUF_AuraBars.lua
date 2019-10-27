@@ -117,7 +117,7 @@ local function updateBar(element, unit, index, offset, filter, isDebuff, visible
 
 		if LCD and spellID and not UnitIsUnit('player', unit) then
 			local durationNew, expirationTimeNew
-			if UnitIsEnemy(unit, "player") and filter == 'HELPFUL' then
+			if filter == 'HELPFUL' and UnitIsEnemy(unit, "player") then
 				durationNew, expirationTimeNew = LCD:UnitAura(unit, index)
 			else
 				durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
