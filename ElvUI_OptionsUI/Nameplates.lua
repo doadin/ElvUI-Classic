@@ -26,7 +26,7 @@ local positionValues = {
 local carryFilterFrom, carryFilterTo
 local function filterMatch(s, v)
 	local m1, m2, m3, m4 = "^" .. v .. "$", "^" .. v .. ",", "," .. v .. "$", "," .. v .. ","
-	return (match(s, m1) and m1) or (match(s, m2) and m2) or (match(s, m3) and m3) or (match(s, m4) and v .. ",")
+	return (strmatch(s, m1) and m1) or (strmatch(s, m2) and m2) or (strmatch(s, m3) and m3) or (strmatch(s, m4) and v .. ",")
 end
 
 local function filterPriority(auraType, unit, value, remove, movehere, friendState)
@@ -50,7 +50,7 @@ local function filterPriority(auraType, unit, value, remove, movehere, friendSta
 		tremove(tbl, sm);tinsert(tbl, sv, movehere);
 		E.db.nameplates.units[unit][auraType].filters.priority = tconcat(tbl,',')
 	elseif found and friendState then
-		local realValue = match(value, "^Friendly:([^,]*)") or match(value, "^Enemy:([^,]*)") or value
+		local realValue = strmatch(value, "^Friendly:([^,]*)") or strmatch(value, "^Enemy:([^,]*)") or value
 		local friend = filterMatch(filter, E:EscapeString("Friendly:" .. realValue))
 		local enemy = filterMatch(filter, E:EscapeString("Enemy:" .. realValue))
 		local default = filterMatch(filter, E:EscapeString(realValue))
