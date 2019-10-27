@@ -283,6 +283,11 @@ local function Enable(self)
 		element.gap = element.gap or 2
 		element.maxBars = element.maxBars or 32
 
+		if not UnitIsUnit("player", self.unit) then
+			LCD.RegisterCallback('ElvUI', "UNIT_BUFF", function(event, unit)
+				Update(element, "UNIT_AURA", unit)
+			end)
+		end
 		-- Avoid parenting GameTooltip to frames with anchoring restrictions,
 		-- otherwise it'll inherit said restrictions which will cause issues
 		-- with its further positioning, clamping, etc
