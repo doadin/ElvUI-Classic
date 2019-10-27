@@ -2235,15 +2235,20 @@ local function GetUnitSettings(unit, name)
 						name = L["Enable"],
 						type = "toggle",
 					},
-					numAuras = {
+					desaturate = {
+						type = 'toggle',
 						order = 2,
+						name = L["Desaturate Icon"],
+					},
+					numAuras = {
+						order = 3,
 						name = L["# Displayed Auras"],
 						--desc = L["Controls how many auras are displayed, this will also affect the size of the auras."],
 						type = "range",
 						min = 1, max = 8, step = 1,
 					},
 					size = {
-						order = 3,
+						order = 4,
 						name = L["Icon Size"],
 						type = "range",
 						min = 6, max = 60, step = 1,
@@ -2523,15 +2528,20 @@ local function GetUnitSettings(unit, name)
 						name = L["Enable"],
 						type = "toggle",
 					},
-					numAuras = {
+					desaturate = {
+						type = 'toggle',
 						order = 2,
+						name = L["Desaturate Icon"],
+					},
+					numAuras = {
+						order = 3,
 						name = L["# Displayed Auras"],
 						desc = L["Controls how many auras are displayed, this will also affect the size of the auras."],
 						type = "range",
 						min = 1, max = 8, step = 1,
 					},
 					size = {
-						order = 3,
+						order = 4,
 						name = L["Icon Size"],
 						type = "range",
 						min = 6, max = 60, step = 1,
@@ -3296,59 +3306,6 @@ local function GetUnitSettings(unit, name)
 				},
 			},
 		}
---[=[
-		group.args.questIcon = {
-			order = 13,
-			name = L["Quest Icon"],
-			type = 'group',
-			get = function(info) return E.db.nameplates.units[unit].questIcon[info[#info]] end,
-			set = function(info, value) E.db.nameplates.units[unit].questIcon[info[#info]] = value; NP:SetCVars() NP:ConfigureAll() end,
-			args = {
-				header = {
-					order = 0,
-					type = "header",
-					name = L["Quest Icon"],
-				},
-				enable = {
-					type = 'toggle',
-					order = 1,
-					name = L["Enable"],
-				},
-				size = {
-					type = 'range',
-					order = 2,
-					name = L["Size"],
-					min = 10, max = 50, step = 1,
-				},
-				position = {
-					order = 3,
-					type = "select",
-					name = L["Icon Position"],
-					values = {
-						["CENTER"] = "CENTER",
-						["TOPLEFT"] = "TOPLEFT",
-						["BOTTOMLEFT"] = "BOTTOMLEFT",
-						["TOPRIGHT"] = "TOPRIGHT",
-						["BOTTOMRIGHT"] = "BOTTOMRIGHT",
-						["LEFT"] = "LEFT",
-						["RIGHT"] = "RIGHT",
-					},
-				},
-				xOffset = {
-					order = 4,
-					name = L["X-Offset"],
-					type = "range",
-					min = -100, max = 100, step = 1,
-				},
-				yOffset = {
-					order = 5,
-					name = L["Y-Offset"],
-					type = "range",
-					min = -100, max = 100, step = 1,
-				},
-			},
-		}
-]=]
 		group.args.general.args.visibilityShortcut = {
 			order = 100,
 			type = "execute",
