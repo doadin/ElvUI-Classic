@@ -560,6 +560,12 @@ local function Enable(self)
 			end
 
 			buffs:Show()
+
+			if not UnitIsUnit("player", self.unit) then
+				LCD.RegisterCallback('ElvUI', "UNIT_BUFF", function(event, unit)
+					Update(buffs, "UNIT_AURA", unit)
+				end)
+			end
 		end
 
 		local debuffs = self.Debuffs
