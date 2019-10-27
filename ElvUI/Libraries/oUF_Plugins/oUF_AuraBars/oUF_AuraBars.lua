@@ -116,7 +116,7 @@ local function updateBar(element, unit, index, offset, filter, isDebuff, visible
 		statusBar.isPlayer = caster == 'player' or caster == 'vehicle'
 
 		if LCD and spellID and not UnitIsUnit('player', unit) then
-			local durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
+			local durationNew, expirationTimeNew = LCD:UnitAura(unit, spellID, caster)
 			if durationNew and durationNew > 0 then
 				duration, expiration = durationNew, expirationTimeNew
 			end
@@ -210,53 +210,6 @@ local function filterBars(element, unit, filter, limit, isDebuff, offset, dontHi
 	return visible, hidden
 end
 
-local function showShamanTotems(element, unit, _, offset)
-	local visible = 0
-
-	for i = visible + offset + 1, #element do
-		element[i]:Hide()
-	end
-
-	for slot = 1, 4 do
-		local haveTotem, totemName, startTime, duration, icon = GetTotemInfo(slot)
-
-		if haveTotem and startTime > 0 then
-			local position = visible + offset + 1
-			local statusBar = element[position]
-			if(not statusBar) then
-				statusBar = (element.CreateBar or createAuraBar) (element, position)
-				table.insert(element, statusBar)
-				element.createdBars = element.createdBars + 1
-			end
-
-			if(statusBar.icon) then statusBar.icon:SetTexture(icon) end
-			if(statusBar.overlay) then statusBar.overlay:Hide() end
-
-			statusBar.spell = totemName
-			statusBar.duration = duration
-			statusBar.expiration = startTime + duration
-			statusBar.sparkEnabled = element.sparkEnabled
-
-			local r, g, b = .2, .6, 1
-			if element.buffColor then r, g, b = unpack(element.buffColor) end
-
-			statusBar.nameText:SetText(totemName)
-			statusBar.spark:Hide()
-			statusBar:SetStatusBarColor(r, g, b)
-			statusBar:SetScript('OnUpdate', onUpdate)
-			statusBar:Show()
-
-			if(element.PostUpdateBar) then
-				element:PostUpdateBar(unit, statusBar, nil, position)
-			end
-
-			visible = visible + 1
-		end
-	end
-
-	return visible
-end
-
 local function UpdateAuras(self, event, unit)
 	if(self.unit ~= unit) then return end
 
@@ -268,7 +221,6 @@ local function UpdateAuras(self, event, unit)
 		local filter = (isFriend and (element.friendlyAuraType or 'HELPFUL') or (element.enemyAuraType or 'HARMFUL'))
 
 		local visible, hidden = filterBars(element, unit, filter, element.maxBars, nil, 0)
-		if myClass == "SHAMAN" then visible = showShamanTotems(element, unit, filter, visible) end
 
 		local fromRange, toRange
 
