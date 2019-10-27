@@ -81,6 +81,7 @@ local CreateFrame = CreateFrame
 local GetSpellInfo = GetSpellInfo
 local UnitAura = UnitAura
 local UnitIsUnit = UnitIsUnit
+local UnitIsEnemy = UnitIsEnemy
 local floor, min = math.floor, math.min
 local LCD = LibStub('LibClassicDurations', true)
 local myClass = select(2, UnitClass('player'))
@@ -162,7 +163,12 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 	local name, texture, count, debuffType, duration, expiration, caster, isStealable, nameplateShowSelf, spellID, canApply, isBossDebuff, casterIsPlayer, nameplateShowAll, timeMod, effect1, effect2, effect3 = UnitAura(unit, index, filter)
 
 	if LCD and spellID and not UnitIsUnit('player', unit) then
-		local durationNew, expirationTimeNew = LCD:UnitAura(unit, spellID, caster)
+		local durationNew, expirationTimeNew
+		if UnitIsEnemy(unit, "player") and filter == 'HELPFUL' then
+			durationNew, expirationTimeNew = LCD:UnitAura(unit, index)
+		else
+			durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
+		end
 		if durationNew and durationNew > 0 then
 			duration, expiration = durationNew, expirationTimeNew
 		end
