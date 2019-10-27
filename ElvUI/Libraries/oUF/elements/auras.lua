@@ -168,16 +168,6 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 		end
 	end
 
-	if myClass == "SHAMAN" then
-		for slot = 1, 4 do
-			local _, _, start, durationTime, icon = GetTotemInfo(slot)
-			if icon == texture then
-				duration = durationTime
-				expiration = start + duration
-			end
-		end
-	end
-
 	-- ElvUI block
 	if element.forceShow or element.forceCreate then
 		spellID = 9853
