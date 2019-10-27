@@ -133,6 +133,15 @@ ElvUF.Tags.Methods['status:icon'] = function(unit)
 	return nil
 end
 
+ElvUF.Tags.Events['faction:icon'] = 'UNIT_FACTION'
+ElvUF.Tags.Methods['faction:icon'] = function(unit)
+	local factionGroup = UnitFactionGroup(unit)
+
+	if (factionGroup ~= 'Neutral') then
+		return CreateTextureMarkup("Interface\\FriendsFrame\\PlusManz-"..factionGroup, 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
+	end
+end
+
 ElvUF.Tags.Events['healthcolor'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
 ElvUF.Tags.Methods['healthcolor'] = function(unit)
 	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
