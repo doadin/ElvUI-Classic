@@ -163,9 +163,9 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 	local name, texture, count, debuffType, duration, expiration, caster, isStealable, nameplateShowSelf, spellID, canApply, isBossDebuff, casterIsPlayer, nameplateShowAll, timeMod, effect1, effect2, effect3 = UnitAura(unit, index, filter)
 
 	if LCD and spellID and not UnitIsUnit('player', unit) then
-		local durationNew, expirationTimeNew
+		local durationNew, expirationTimeNew, _
 		if filter == 'HELPFUL' and UnitIsEnemy(unit, "player") then
-			durationNew, expirationTimeNew = LCD:UnitAura(unit, index)
+			_, _, _, _, durationNew, expirationTimeNew = LCD:UnitAura(unit, index)
 		else
 			durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
 		end
