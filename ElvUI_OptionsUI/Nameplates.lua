@@ -1774,7 +1774,6 @@ local function GetUnitSettings(unit, name)
 							format = {
 								order = 2,
 								name = L["Text Format"],
-								desc = L["TEXT_FORMAT_DESC"],
 								type = "input",
 							},
 							position = {
@@ -1937,7 +1936,6 @@ local function GetUnitSettings(unit, name)
 							format = {
 								order = 2,
 								name = L["Text Format"],
-								desc = L["TEXT_FORMAT_DESC"],
 								type = "input",
 							},
 							position = {
@@ -2113,7 +2111,7 @@ local function GetUnitSettings(unit, name)
 							},
 							textPosition = {
 								order = 3,
-								name = L["Text Position"],
+								name = L["Position"],
 								type = "select",
 								values = {
 									["ONBAR"] = L["Cast Bar"],
@@ -2965,7 +2963,6 @@ local function GetUnitSettings(unit, name)
 					format = {
 						order = 2,
 						name = L["Text Format"],
-						desc = L["TEXT_FORMAT_DESC"],
 						type = "input",
 					},
 					position = {
@@ -3348,7 +3345,6 @@ local function GetUnitSettings(unit, name)
 				format = {
 					order = 2,
 					name = L["Text Format"],
-					desc = L["TEXT_FORMAT_DESC"],
 					type = "input",
 				},
 				position = {
