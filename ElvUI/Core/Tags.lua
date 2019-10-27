@@ -1094,6 +1094,7 @@ E.TagInfo = {
 	['affix'] = { category = 'Miscellanous', description = "Displays low level critter mobs" },
 	['class'] = { category = 'Miscellanous', description = "Display the class of the unit, if that unit is a player" },
 	['faction'] = { category = 'Miscellanous', description = "Displays 'Alliance' or 'Horde'" },
+	['faction:icon'] = { category = 'Miscellanous', description = "Displays 'Alliance' or 'Horde' Texture" },
 	['plus'] = { category = 'Miscellanous', description = "Displays the character '+' if the unit is an elite or rare-elite" },
 	['pvp'] = { category = 'Miscellanous', description = "Displays 'PvP' if the unit is flagged for PvP" },
 	['resting'] = { category = 'Miscellanous', description = "Display 'Resting' when the unit is resting" },
