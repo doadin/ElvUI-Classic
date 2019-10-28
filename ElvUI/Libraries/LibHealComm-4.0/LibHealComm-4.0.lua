@@ -1782,6 +1782,7 @@ local function parseDirectHeal(casterGUID, spellID, amount, castTime, ...)
 	local endTime
 	if unit == "player" then
 		endTime = select(5, CastingInfo())
+		if not endTime then return end
 		endTime = endTime / 1000
 	else
 		endTime = GetTime() + (castTime or 1.5)
@@ -1812,6 +1813,7 @@ local function parseChannelHeal(casterGUID, spellID, amount, totalTicks, ...)
 	local startTime, endTime
 	if unit == "player" then
 		startTime, endTime = select(4, ChannelInfo())
+		if not startTime then return end
 		startTime = startTime / 1000
 		endTime = endTime / 1000
 	else
@@ -2120,9 +2122,12 @@ if( isHealerClass ) then
 	eventRegistered["SPELL_AURA_REMOVED_DOSE"] = true
 end
 
-function HealComm:COMBAT_LOG_EVENT_UNFILTERED(timestamp, eventType, sourceGUID, sourceName, sourceFlags, destGUID, destName, destFlags, ...)
+function HealComm:COMBAT_LOG_EVENT_UNFILTERED(...)
+	local timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
+
 	if( not eventRegistered[eventType] ) then return end
-	local _, spellName = ...
+
+	local _, spellName = select(12, ...)
 	local spellID = select(7, GetSpellInfo(spellName))
 
 	-- Heal or hot ticked that the library is tracking
@@ -2716,7 +2721,11 @@ end
 
 -- General event handler
 local function OnEvent(self, event, ...)
-	HealComm[event](HealComm, ...)
+	if event == 'COMBAT_LOG_EVENT_UNFILTERED' then
+		HealComm[event](HealComm, CombatLogGetCurrentEventInfo())
+	else
+		HealComm[event](HealComm, ...)
+	end
 end
 
 -- Event handler
