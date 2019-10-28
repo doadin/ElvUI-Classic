@@ -123,7 +123,7 @@ local function Disable(self)
 	local element = self.ThreatIndicator
 	if(element) then
 		element:Hide()
-		LCT.UnregisterAllCallbacks(element)
+		LCT.UnregisterCallback(element, 'ThreatUpdated', Path)
 	end
 end
 
