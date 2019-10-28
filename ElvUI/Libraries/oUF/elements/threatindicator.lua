@@ -109,7 +109,7 @@ local function Enable(self)
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-		LCT.RegisterCallback(element, 'ThreatUpdated', function(unit_id, target_guid, threat) Path(element, nil, self.unit) end)
+		LCT.RegisterCallback(element, 'ThreatUpdated', function(unit_id, target_guid, threat) Path(self, nil, self.unit) end)
 
 		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\RAIDFRAME\UI-RaidFrame-Threat]])
