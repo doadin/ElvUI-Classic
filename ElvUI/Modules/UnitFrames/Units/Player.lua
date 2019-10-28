@@ -16,6 +16,7 @@ local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 -- GLOBALS: ElvUF_Target
 
 function UF:Construct_PlayerFrame(frame)
+	frame.ThreatIndicator = self:Construct_Threat(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, 'RIGHT')
 	frame.Health.frequentUpdates = true;
 	frame.Power = self:Construct_PowerBar(frame, true, true, 'LEFT')
@@ -119,6 +120,9 @@ function UF:Update_PlayerFrame(frame, db)
 	_G[frame:GetName()..'Mover']:Size(frame:GetSize())
 
 	UF:Configure_InfoPanel(frame)
+
+	--Threat
+	UF:Configure_Threat(frame)
 
 	--Rest Icon
 	UF:Configure_RestingIndicator(frame)

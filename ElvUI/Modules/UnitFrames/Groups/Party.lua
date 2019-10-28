@@ -57,6 +57,7 @@ function UF:Construct_PartyFrames()
 		self.ResurrectIndicator = UF:Construct_ResurrectionIcon(self)
 		self.MouseGlow = UF:Construct_MouseGlow(self)
 		self.PhaseIndicator = UF:Construct_PhaseIcon(self)
+		self.ThreatIndicator = UF:Construct_Threat(self)
 		self.TargetGlow = UF:Construct_TargetGlow(self)
 		self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 		self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
@@ -225,6 +226,8 @@ function UF:Update_PartyFrames(frame, db)
 		UF:Configure_PowerPrediction(frame)
 
 		UF:Configure_Portrait(frame)
+
+		UF:Configure_Threat(frame)
 
 		UF:EnableDisable_Auras(frame)
 		UF:Configure_Auras(frame, 'Buffs')

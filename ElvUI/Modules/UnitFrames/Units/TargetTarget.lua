@@ -18,6 +18,7 @@ function UF:Construct_TargetTargetFrame(frame)
 	frame.Buffs = self:Construct_Buffs(frame)
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame)
+	frame.ThreatIndicator = self:Construct_Threat(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
@@ -74,6 +75,9 @@ function UF:Update_TargetTargetFrame(frame, db)
 
 	--Name
 	UF:UpdateNameSettings(frame)
+
+	--Threat
+	UF:Configure_Threat(frame)
 
 	--Power
 	UF:Configure_Power(frame)

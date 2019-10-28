@@ -22,6 +22,7 @@ function UF:Construct_AssistFrames()
 
 	self.Health = UF:Construct_HealthBar(self, true)
 	self.Name = UF:Construct_NameText(self)
+	self.ThreatIndicator = UF:Construct_Threat(self)
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
@@ -140,6 +141,9 @@ function UF:Update_AssistFrames(frame, db)
 
 	--Name
 	UF:UpdateNameSettings(frame)
+
+	--Threat
+	UF:Configure_Threat(frame)
 
 	--Fader
 	UF:Configure_Fader(frame)

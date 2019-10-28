@@ -11,6 +11,7 @@ local tinsert = tinsert
 local IsAddOnLoaded = IsAddOnLoaded
 
 function UF:Construct_TargetFrame(frame)
+	frame.ThreatIndicator = self:Construct_Threat(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, 'RIGHT')
 	frame.Health.frequentUpdates = true;
 	frame.Power = self:Construct_PowerBar(frame, true, true, 'LEFT')
@@ -103,6 +104,9 @@ function UF:Update_TargetFrame(frame, db)
 
 	--Portrait
 	UF:Configure_Portrait(frame)
+
+	--Threat
+	UF:Configure_Threat(frame)
 
 	--Auras
 	UF:EnableDisable_Auras(frame)

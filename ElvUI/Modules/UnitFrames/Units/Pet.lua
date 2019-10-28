@@ -23,6 +23,7 @@ function UF:Construct_PetFrame(frame)
 	frame.Castbar = self:Construct_Castbar(frame, L["Pet Castbar"])
 	frame.Castbar.SafeZone = nil
 	frame.Castbar.LatencyTexture:Hide()
+	frame.ThreatIndicator = self:Construct_Threat(frame)
 	frame.HealthPrediction = self:Construct_HealComm(frame)
 	frame.AuraWatch = self:Construct_AuraWatch(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
@@ -91,6 +92,9 @@ function UF:Update_PetFrame(frame, db)
 
 	--Portrait
 	UF:Configure_Portrait(frame)
+
+	--Threat
+	UF:Configure_Threat(frame)
 
 	--Auras
 	UF:EnableDisable_Auras(frame)

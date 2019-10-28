@@ -40,6 +40,7 @@ function UF:Construct_RaidFrames()
 	self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
 	self.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(self)
 	self.ResurrectIndicator = UF:Construct_ResurrectionIcon(self)
+	self.ThreatIndicator = UF:Construct_Threat(self)
 	self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
@@ -186,6 +187,9 @@ function UF:Update_RaidFrames(frame, db)
 
 	--Portrait
 	UF:Configure_Portrait(frame)
+
+	--Threat
+	UF:Configure_Threat(frame)
 
 	--Auras
 	UF:EnableDisable_Auras(frame)

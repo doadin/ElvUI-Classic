@@ -26,5 +26,7 @@
 	<Script file='ReadyCheckIcon.lua'/>
 	<Script file='RestingIndicator.lua'/>
 	<Script file='ResurrectionIcon.lua'/>
+	<Script file='Threat.lua'/>
+
 	<Script file='FrameGlow.lua'/>
 </Ui>

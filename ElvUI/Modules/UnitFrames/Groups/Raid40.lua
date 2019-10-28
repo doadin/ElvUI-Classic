@@ -41,6 +41,7 @@ function UF:Construct_Raid40Frames()
 	self.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(self)
 	self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
+	self.ThreatIndicator = UF:Construct_Threat(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
 	self.InfoPanel = UF:Construct_InfoPanel(self)
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
@@ -188,6 +189,9 @@ function UF:Update_Raid40Frames(frame, db)
 
 	-- Power Predicition
 	UF:Configure_PowerPrediction(frame)
+
+	--Threat
+	UF:Configure_Threat(frame)
 
 	--Portrait
 	UF:Configure_Portrait(frame)
