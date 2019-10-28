@@ -17,7 +17,6 @@ local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
 function UF:Construct_PlayerFrame(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, 'RIGHT')
-	frame.Health.frequentUpdates = true;
 	frame.Power = self:Construct_PowerBar(frame, true, true, 'LEFT')
 	frame.Power.frequentUpdates = true;
 	frame.Castbar = self:Construct_Castbar(frame, L["Player Castbar"])

@@ -12,7 +12,6 @@ local tinsert = tinsert
 
 function UF:Construct_PetFrame(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, 'RIGHT')
-	frame.Health.frequentUpdates = true;
 	frame.Power = self:Construct_PowerBar(frame, true, true, 'LEFT')
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
 	frame.Name = self:Construct_NameText(frame)
