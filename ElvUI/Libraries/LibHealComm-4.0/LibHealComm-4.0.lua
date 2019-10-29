@@ -37,7 +37,6 @@ local wipe = wipe
 
 local Ambiguate = Ambiguate
 local CastingInfo = CastingInfo
-local CastSpellByID = CastSpellByID
 local ChannelInfo = ChannelInfo
 local CreateFrame = CreateFrame
 local GetInventoryItemLink = GetInventoryItemLink
@@ -68,6 +67,7 @@ local UnitGUID = UnitGUID
 local UnitHasVehicleUI = UnitHasVehicleUI
 local UnitIsCharmed = UnitIsCharmed
 local UnitIsVisible = UnitIsVisible
+local UnitIsUnit = UnitIsUnit
 local UnitLevel = UnitLevel
 local UnitName = UnitName
 local UnitPlayerControlled = UnitPlayerControlled
@@ -408,12 +408,12 @@ function HealComm:GetNextHealAmount(guid, bitFlag, time, ignoreGUID)
 							end
 
 						-- Channeled heals and hots, have to figure out how many times it'll tick within the given time band
-						elseif( ( pending.bitType == CHANNEL_HEALS or pending.bitType == HOT_HEALS ) and ( not pending.hasVariableTicks or pending.hasVariableTicks and amount[1] ) ) then
+						elseif( ( pending.bitType == CHANNEL_HEALS or pending.bitType == HOT_HEALS ) ) then
 							local secondsLeft = time and time - currentTime or endTime - currentTime
 							local nextTick = currentTime + (secondsLeft % pending.tickInterval)
 							if( not healTime or nextTick < healTime ) then
 								healTime = nextTick
-								healAmount = not pending.hasVariableTicks and amount * stack or amount[1] * stack
+								healAmount = amount * stack
 								healFrom = casterGUID
 							end
 						end
@@ -444,31 +444,20 @@ local function filterData(spells, filterGUID, bitFlag, time, ignoreGUID)
 					if( ( pending.bitType == DIRECT_HEALS or pending.bitType == BOMB_HEALS ) and ( not time or endTime <= time ) ) then
 						healAmount = healAmount + amount * stack
 					elseif( ( pending.bitType == CHANNEL_HEALS or pending.bitType == HOT_HEALS ) and endTime > currentTime ) then
+						local ticksLeft = pending[i + 4]
 						if( not time or time >= endTime ) then
-							if( not pending.hasVariableTicks ) then
-								healAmount = healAmount + amount
-							else
-								for _, heal in pairs(amount) do
-									healAmount = healAmount + heal
-								end
-							end
+							healAmount = healAmount + (amount * stack) * ticksLeft
 						else
 							local secondsLeft = endTime - currentTime
 							local bandSeconds = time - currentTime
-							local ticks = floor(min(bandSeconds, secondsLeft) / pending.tickInterval)
+							local ticks = math.floor(math.min(bandSeconds, secondsLeft) / pending.tickInterval)
 							local nextTickIn = secondsLeft % pending.tickInterval
 							local fractionalBand = bandSeconds % pending.tickInterval
 							if( nextTickIn > 0 and nextTickIn < fractionalBand ) then
 								ticks = ticks + 1
 							end
 
-							if( not pending.hasVariableTicks ) then
-								healAmount = healAmount + amount
-							else
-								for k = 1, min(ticks, #(amount)) do
-									healAmount = healAmount + amount[k]
-								end
-							end
+							healAmount = healAmount + (amount * stack) * math.min(ticks, ticksLeft)
 						end
 					end
 				end
@@ -606,19 +595,6 @@ if( playerClass == "DRUID" ) then
 
 		itemSetsData["Stormrage"] = {16903, 16898, 16904, 16897, 16900, 16899, 16901, 16902}
 
-		local hotTotals, hasRegrowth = {}, {}
-
-		AuraHandler = function(unit, guid)
-			hotTotals[guid] = 0
-			if( unitHasAura(unit, Rejuvenation) ) then hotTotals[guid] = hotTotals[guid] + 1 end
-			if( unitHasAura(unit, Regrowth) ) then
-				hasRegrowth[guid] = true
-				hotTotals[guid] = hotTotals[guid] + 1
-			else
-				hasRegrowth[guid] = nil
-			end
-		end
-
 		GetHealTargets = function(bitType, guid, healAmount, spellID, hasVariableTicks)
 			-- Tranquility pulses on everyone within 30 yards, if they are in range of Innervate they'll get Tranquility
 			local spellName = GetSpellInfo(spellID)
@@ -725,31 +701,21 @@ end
 
 if( playerClass == "PALADIN" ) then
 	LoadClassData = function()
-		local BeaconofLight = GetSpellInfo(53563)
 		local DivineFavor = GetSpellInfo(20216)
 		local FlashofLight = GetSpellInfo(19750)
 		local HealingLight = GetSpellInfo(20237)
 		local HolyLight = GetSpellInfo(635)
-		local SealofLight = GetSpellInfo(20165)
 
 		spellData[HolyLight] = { coeff = 2.5 / 3.5 * 1.25, levels = {1, 6, 14, 22, 30, 38, 46, 54, 60, 62, 70, 75, 80}, averages = {avg(50, 60), avg(96, 116), avg(203, 239), avg(397, 455), avg(628, 708), avg(894, 998), avg(1209, 1349), avg(1595, 1777), avg(2034, 2266), avg(2232, 2486), avg(2818, 3138), avg(4199, 4677), avg(4888, 5444)}, increase = {63, 81, 112, 139, 155, 159, 156, 135, 116, 115, 70, 52, 0}}
 		spellData[FlashofLight] = { coeff = 1.5 / 3.5 * 1.25, levels = {20, 26, 34, 42, 50, 58, 66, 74, 79}, averages = {avg(81, 93), avg(124, 144), avg(189, 211), avg(256, 288), avg(346, 390), avg(445, 499), avg(588, 658), avg(682, 764), avg(785, 879)}, increase = {60, 70, 73, 72, 66, 57, 42, 20, 3}}
 
 		talentData[HealingLight] = { mod = 0.04, current = 0 }
 
-		local flashLibrams = {[42616] = 436, [42615] = 375, [42614] = 331, [42613] = 293, [42612] = 204, [28592] = 89, [25644] = 79, [23006] = 43, [23201] = 28}
-		local holyLibrams = {[45436] = 160, [40268] = 141, [28296] = 47}
-		local flashSPLibrams = {[51472] = 510}
+		local flashLibrams = {[23006] = 83, [23201] = 53}
 
-		local activeBeaconGUID, hasDivineFavor
+		local hasDivineFavor
 
 		AuraHandler = function(unit, guid)
-			if( unitHasAura(unit, BeaconofLight) ) then
-				activeBeaconGUID = guid
-			elseif( activeBeaconGUID == guid ) then
-				activeBeaconGUID = nil
-			end
-
 			if( unit == "player" ) then
 				hasDivineFavor = unitHasAura("player", DivineFavor)
 			end
@@ -759,13 +725,7 @@ if( playerClass == "PALADIN" ) then
 			hasDivineFavor = unitHasAura("player", DivineFavor)
 		end
 
-		GetHealTargets = function(bitType, guid, healAmount, spellID, hasVariableTicks)
-			if( activeBeaconGUID and activeBeaconGUID ~= guid and guidToUnit[activeBeaconGUID] and UnitIsVisible(guidToUnit[activeBeaconGUID]) ) then
-				return format("%s,%s", compressGUID[guid], compressGUID[activeBeaconGUID]), healAmount
-			elseif( hasVariableTicks ) then
-				healAmount = table.concat(healAmount, "@")
-			end
-
+		GetHealTargets = function(bitType, guid, healAmount, spellID)
 			return compressGUID[guid], healAmount
 		end
 
@@ -778,14 +738,8 @@ if( playerClass == "PALADIN" ) then
 
 			healModifier = healModifier + talentData[HealingLight].current
 
-			if( playerCurrentRelic ) then
-				if( spellName == HolyLight and holyLibrams[playerCurrentRelic] ) then
-					healAmount = healAmount + (holyLibrams[playerCurrentRelic] * 0.805)
-				elseif( spellName == FlashofLight and flashLibrams[playerCurrentRelic] ) then
-					healAmount = healAmount + (flashLibrams[playerCurrentRelic] * 0.805)
-				elseif( spellName == FlashofLight and flashSPLibrams[playerCurrentRelic] ) then
-					spellPower = spellPower + flashSPLibrams[playerCurrentRelic]
-				end
+			if(playerCurrentRelic and spellName == FlashofLight and flashLibrams[playerCurrentRelic] ) then
+				healAmount = healAmount + (flashLibrams[playerCurrentRelic] * 0.805)
 			end
 
 			spellPower = spellPower * (spellData[spellName].coeff * 1.88)
@@ -809,7 +763,6 @@ if( playerClass == "PRIEST" ) then
 		local FlashHeal = GetSpellInfo(2061)
 		local Heal = GetSpellInfo(2054)
 		local LesserHeal = GetSpellInfo(2050)
-		local Grace = GetSpellInfo(47517)
 		local SpiritualHealing = GetSpellInfo(14898)
 		local ImprovedRenew = GetSpellInfo(14908)
 		local GreaterHealHot = GetSpellInfo(22009)
@@ -828,19 +781,8 @@ if( playerClass == "PRIEST" ) then
 
 		itemSetsData["Oracle"] = {21351, 21349, 21350, 21348, 21352}
 
-		local activeGraceGUID, activeGraceModifier
-		AuraHandler = function(unit, guid)
-			local stack, _, _, _, caster = select(4, AuraUtil.FindAuraByName(Grace, unit, 'HELPFUL'))
-			if( caster == "player" ) then
-				activeGraceModifier = stack * 0.03
-				activeGraceGUID = guid
-			elseif( activeGraceGUID == guid ) then
-				activeGraceGUID = nil
-			end
-		end
-
 		-- Check for beacon when figuring out who to heal
-		GetHealTargets = function(bitType, guid, healAmount, spellID, hasVariableTicks)
+		GetHealTargets = function(bitType, guid, healAmount, spellID)
 			local spellName = GetSpellInfo(spellID)
 			if( spellName == PrayerofHealing ) then
 				local targets = compressGUID[guid]
@@ -854,8 +796,6 @@ if( playerClass == "PRIEST" ) then
 				end
 
 				return targets, healAmount
-			elseif( hasVariableTicks ) then
-				healAmount = table.concat(healAmount, "@")
 			end
 
 			return compressGUID[guid], healAmount
@@ -868,11 +808,6 @@ if( playerClass == "PRIEST" ) then
 			local spellPower = GetSpellBonusHealing()
 			local healModifier, spModifier = playerHealModifier, 1
 			local totalTicks
-
-			-- Add grace if it's active on them
-			if( activeGraceGUID == guid and activeGraceModifier ) then
-				healModifier = healModifier + activeGraceModifier
-			end
 
 			healModifier = healModifier + talentData[SpiritualHealing].current
 
@@ -898,11 +833,6 @@ if( playerClass == "PRIEST" ) then
 			local healAmount = spellData[spellName].averages[spellRank]
 			local spellPower = GetSpellBonusHealing()
 			local healModifier, spModifier = playerHealModifier, 1
-
-			-- Add grace if it's active on them
-			if( activeGraceGUID == guid ) then
-				healModifier = healModifier + activeGraceModifier
-			end
 
 			healModifier = healModifier + talentData[SpiritualHealing].current
 
@@ -1060,28 +990,10 @@ end
 -- Healing modifiers
 if( not HealComm.aurasUpdated ) then
 	HealComm.aurasUpdated = true
-	HealComm.selfModifiers = nil
 	HealComm.healingModifiers = nil
 end
 
 HealComm.currentModifiers = HealComm.currentModifiers or {}
-
-HealComm.selfModifiers = HealComm.selfModifiers or {
-	[64850] = 0.50, -- Unrelenting Assault
-	[65925] = 0.50, -- Unrelenting Assault
-	[54428] = 0.50, -- Divine Plea
-	[32346] = 0.50, -- Stolen Soul
-	[64849] = 0.75, -- Unrelenting Assault
-	[72221] = 1.05, -- Luck of the Draw
-	[70873] = 1.10, -- Emerald Vigor (Valithria Dreamwalker)
-	[31884] = 1.20, -- Avenging Wrath
-	[72393] = 0.25, -- Hopelessness
-	[72397] = 0.40, -- Hopelessness
-	[72391] = 0.50, -- Hopelessness
-	[72396] = 0.60, -- Hopelessness
-	[72390] = 0.75, -- Hopelessness
-	[72395] = 0.80, -- Hopelessness
-}
 
 -- The only spell in the game with a name conflict is Ray of Pain from the Nagrand Void Walkers
 HealComm.healingModifiers = HealComm.healingModifiers or {
@@ -1109,7 +1021,7 @@ HealComm.healingStackMods = HealComm.healingStackMods or {
 	[28467] = function(name, rank, icon, stacks) return 1 - stacks * 0.10 end,
 }
 
-local healingStackMods, selfModifiers = HealComm.healingStackMods, HealComm.selfModifiers
+local healingStackMods = HealComm.healingStackMods
 local healingModifiers, currentModifiers = HealComm.healingModifiers, HealComm.currentModifiers
 
 local distribution
@@ -1204,10 +1116,6 @@ function HealComm:UNIT_AURA(unit)
 			elseif( healingStackMods[spellID] ) then
 				increase = increase * healingStackMods[name](name, rank, icon, stack)
 			end
-
-			if( unit == "player" and selfModifiers[spellID] ) then
-				playerIncrease = playerIncrease * selfModifiers[spellID]
-			end
 		end
 
 		id = id + 1
@@ -1225,10 +1133,6 @@ function HealComm:UNIT_AURA(unit)
 			decrease = min(decrease, healingModifiers[name])
 		elseif( healingStackMods[name] ) then
 			decrease = min(decrease, healingStackMods[name](name, rank, icon, stack))
-		end
-
-		if( unit == "player" and selfModifiers[spellID] ) then
-			playerDecrease = min(playerDecrease, selfModifiers[spellID])
 		end
 
 		id = id + 1
@@ -1495,12 +1399,6 @@ local function parseHealEnd(casterGUID, pending, checkField, spellID, interrupte
 	-- Double check and make sure we actually removed at least one person
 	if( #(tempPlayerList) == 0 ) then return end
 
-	-- Heals that also have a bomb associated to them have to end at this point, they will fire there own callback too
-	local bombPending = pending.hasBomb and pendingHeals[casterGUID][spellName]
-	if( bombPending and bombPending.bitType ) then
-		parseHealEnd(casterGUID, bombPending, "name", spellID, interrupted, ...)
-	end
-
 	local bitType = pending.bitType
 	-- Clear data if we're done
 	if( #(pending) == 0 ) then wipe(pending) end
@@ -1604,16 +1502,11 @@ HealComm.bucketFrame:SetScript("OnUpdate", function(self, elapsed)
 						wipe(data)
 					-- We're doing a bucket for a cast thats a multi-target heal like Wild Growth or Prayer of Healing
 					elseif( data.type == "heal" ) then
-						local bitType, amount, totalTicks, tickInterval, _, hasVariableTicks = CalculateHotHealing(data[1], data.spellID)
+						local bitType, amount, totalTicks, tickInterval, _ = CalculateHotHealing(data[1], data.spellID)
 						if( bitType ) then
-							local targets, amt = GetHealTargets(bitType, data[1], hasVariableTicks and amount or max(amount, 0), data.spellID, data, hasVariableTicks)
+							local targets, amt = GetHealTargets(bitType, data[1], max(amount, 0), data.spellID, data)
 							parseHotHeal(playerGUID, false, data.spellID, amt, totalTicks, tickInterval, strsplit(",", targets))
-
-							if( not hasVariableTicks ) then
-								sendMessage(format("H:%d:%d:%d::%d:%s", totalTicks, data.spellID, amt, tickInterval, targets))
-							else
-								sendMessage(format("VH::%d:%s::%d:%s", data.spellID, amt, totalTicks, targets))
-							end
+							sendMessage(format("H:%d:%d:%d::%d:%s", totalTicks, data.spellID, amt, tickInterval, targets))
 						end
 
 						wipe(data)
@@ -1656,7 +1549,6 @@ function HealComm:COMBAT_LOG_EVENT_UNFILTERED(...)
 			local amount, stack, _, ticksLeft = getRecord(pending, destGUID)
 			ticksLeft = ticksLeft - 1
 			local endTime = GetTime() + pending.tickInterval * ticksLeft
-			if( pending.hasVariableTicks ) then tremove(amount, 1) end
 
 			updateRecord(pending, destGUID, amount, stack, endTime, ticksLeft)
 
@@ -1829,19 +1721,14 @@ function HealComm:UNIT_SPELLCAST_SUCCEEDED(unit, cast, spellID)
 			return
 		end
 
-		local bitType, amount, totalTicks, tickInterval, _, hasVariableTicks = CalculateHotHealing(playerGUID, spellID)
+		local bitType, amount, totalTicks, tickInterval, _ = CalculateHotHealing(playerGUID, spellID)
 		if bitType  == HOT_HEALS then
-			targets, amount = GetHealTargets(bitType, castGUID, hasVariableTicks and amount or max(amount, 0), spellID, hasVariableTicks)
+			targets, amount = GetHealTargets(bitType, castGUID, max(amount, 0), spellID)
 
 			if not targets then return end -- only here until I compress/decompress npcs
 
 			parseHotHeal(playerGUID, false, spellID, amount, totalTicks, tickInterval, strsplit(",", targets))
-
-			if( not hasVariableTicks ) then
-				sendMessage(format("H:%d:%d:%d::%d:%s", totalTicks, spellID, amount, tickInterval, targets))
-			else
-				sendMessage(format("VH::%d:%s::%d:%s", spellID, amount, totalTicks, targets))
-			end
+			sendMessage(format("H:%d:%d:%d::%d:%s", totalTicks, spellID, amount, tickInterval, targets))
 		end
 	end
 end
