@@ -1322,7 +1322,7 @@ local function loadHealList(pending, amount, stack, endTime, ticksLeft, ...)
 	else
 		for i = 1, select("#", ...), 2 do
 			local guid = select(i, ...)
-			amount = not pending.hasVariableTicks and tonumber((select(i + 1, ...))) or loadHealAmount(strsplit("@", amount))
+			amount = tonumber((select(i + 1, ...)))
 			if( guid and amount ) then
 				updateRecord(pending, decompressGUID[guid], amount, stack, endTime, ticksLeft)
 				tinsert(tempPlayerList, decompressGUID[guid])
@@ -1462,32 +1462,6 @@ local function parseHotHeal(casterGUID, wasUpdated, spellID, tickAmount, totalTi
 		HealComm.callbacks:Fire("HealComm_HealStarted", casterGUID, spellID, pending.bitType, endTime, unpack(tempPlayerList))
 	else
 		HealComm.callbacks:Fire("HealComm_HealUpdated", casterGUID, spellID, pending.bitType, endTime, unpack(tempPlayerList))
-	end
-end
-
-local function parseHotBomb(casterGUID, wasUpdated, spellID, amount, ...)
-	local spellName = GetSpellInfo(spellID)
-	if( not amount or not spellName or select("#", ...) == 0 ) then return end
-
-	-- If we don't have a pending hot then there is no bomb as far as were concerned
-	local hotPending = pendingHeals[casterGUID] and pendingHeals[casterGUID][spellID]
-	if( not hotPending or not hotPending.bitType ) then return end
-	hotPending.hasBomb = true
-
-	pendingHeals[casterGUID][spellName] = pendingHeals[casterGUID][spellName] or {}
-
-	local pending = pendingHeals[casterGUID][spellName]
-	pending.endTime = hotPending.endTime
-	pending.spellID = spellID
-	pending.bitType = BOMB_HEALS
-	pending.stack = hotPending.stack
-
-	loadHealList(pending, amount, pending.stack, pending.endTime, nil, ...)
-
-	if( not wasUpdated ) then
-		HealComm.callbacks:Fire("HealComm_HealStarted", casterGUID, spellID, pending.bitType, pending.endTime, unpack(tempPlayerList))
-	else
-		HealComm.callbacks:Fire("HealComm_HealUpdated", casterGUID, spellID, pending.bitType, pending.endTime, unpack(tempPlayerList))
 	end
 end
 
@@ -2210,11 +2184,7 @@ function HealComm:OnInitialize()
 	hooksecurefunc("TargetLastFriend", function(...) HealComm:TargetLastFriend(...) end)
 	hooksecurefunc("TargetLastTarget", function(...) HealComm:TargetLastTarget(...) end)
 	hooksecurefunc("CastSpellByName", function(...) HealComm:CastSpellByName(...) end)
-
-	-- Fixes hook error for people who are not on 3.2 yet
-	if( CastSpellByID ) then
-		hooksecurefunc("CastSpellByID", function(...) HealComm:CastSpellByID(...) end)
-	end
+	hooksecurefunc("CastSpellByID", function(...) HealComm:CastSpellByID(...) end)
 end
 
 -- General event handler
