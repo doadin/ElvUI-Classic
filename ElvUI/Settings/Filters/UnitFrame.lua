@@ -763,6 +763,19 @@ P.unitframe.filters = {
 
 -- List of spells to display ticks
 G.unitframe.ChannelTicks = {
+	--First Aid
+	[23567] = 8, --Warsong Gulch Runecloth Bandage
+	[24414] = 8, --Arathi Basin Runecloth Bandage
+	[18610] = 8, --Heavy Runecloth Bandage
+	[18608] = 8, --Runecloth Bandage
+	[10839] = 8, --Heavy Mageweave Bandage
+	[10838] = 8, --Mageweave Bandage
+	[7927] = 8, --Heavy Silk Bandage
+	[7926] = 8, --Silk Bandage
+	[3268] = 7, --Heavy Wool Bandage
+	[3267] = 7, --Wool Bandage
+	[1159] = 6, --Heavy Linen Bandage
+	[746] = 6, --Linen Bandage
 	-- Warlock
 	[1120] = 5, -- Drain Soul(Rank 1)
 	[8288] = 5, -- Drain Soul(Rank 2)
