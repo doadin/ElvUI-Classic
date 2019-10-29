@@ -595,7 +595,7 @@ if( playerClass == "DRUID" ) then
 
 		itemSetsData["Stormrage"] = {16903, 16898, 16904, 16897, 16900, 16899, 16901, 16902}
 
-		GetHealTargets = function(bitType, guid, healAmount, spellID, hasVariableTicks)
+		GetHealTargets = function(bitType, guid, healAmount, spellID)
 			-- Tranquility pulses on everyone within 30 yards, if they are in range of Innervate they'll get Tranquility
 			local spellName = GetSpellInfo(spellID)
 			if( spellName == Tranquility ) then
@@ -603,14 +603,12 @@ if( playerClass == "DRUID" ) then
 				local playerGroup = guidToGroup[playerGUID]
 
 				for groupGUID, id in pairs(guidToGroup) do
-					if( id == playerGroup and playerGUID ~= groupGUID and not (UnitHasVehicleUI and UnitHasVehicleUI(guidToUnit[id])) and IsSpellInRange(Innervate, guidToUnit[groupGUID]) == 1 ) then
+					if( id == playerGroup and playerGUID ~= groupGUID and not IsSpellInRange(Innervate, guidToUnit[groupGUID]) == 1 ) then
 						targets = targets .. "," .. compressGUID[groupGUID]
 					end
 				end
 
 				return targets, healAmount
-			elseif( hasVariableTicks ) then
-				healAmount = table.concat(healAmount, "@")
 			end
 
 			return compressGUID[guid], healAmount
@@ -790,7 +788,7 @@ if( playerClass == "PRIEST" ) then
 
 				for groupGUID, id in pairs(guidToGroup) do
 					local unit = guidToUnit[groupGUID]
-					if( id == group and guid ~= groupGUID and UnitIsVisible(unit) and (UnitHasVehicleUI and not UnitHasVehicleUI(unit) or true) ) then
+					if( id == group and guid ~= groupGUID and UnitIsVisible(unit) ) then
 						targets = targets .. "," .. compressGUID[groupGUID]
 					end
 				end
