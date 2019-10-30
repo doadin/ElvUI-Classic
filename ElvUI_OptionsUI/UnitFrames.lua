@@ -1593,7 +1593,7 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 			},
 			textGroup = {
 				type = 'group',
-				name = L['Text Options'],
+				name = L["Text Options"],
 				guiInline = true,
 				args = {
 					position = {
@@ -1951,7 +1951,7 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 					['fill'] = L["Filled"],
 					['spaced'] = L["Spaced"],
 					['inset'] = L["Inset"],
-					['offset'] = L['Offset'],
+					['offset'] = L["Offset"],
 				},
 				set = function(info, value)
 					E.db.unitframe.units[groupName].power[info[#info]] = value;
@@ -2031,7 +2031,7 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 			},
 			textGroup = {
 				type = 'group',
-				name = L['Text Options'],
+				name = L["Text Options"],
 				guiInline = true,
 				args = {
 					position = {
