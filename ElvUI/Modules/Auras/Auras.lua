@@ -98,7 +98,7 @@ function A:UpdateTime(elapsed)
 		self.nextUpdate = nextUpdate
 
 		if useIndicatorColor then
-			self.time:SetFormattedText(gsub(E.TimeFormats[formatID][1], '(.*)%l', '%1'..indicatorColors[formatID]..E.TimeFormats[formatID][3]..FONT_COLOR_CODE_CLOSE), value1, value2)
+			self.time:SetFormattedText(E.TimeFormats[formatID][3], value1, indicatorColors[formatID], value2)
 		else
 			self.time:SetFormattedText(E.TimeFormats[formatID][1], value1, value2)
 		end
