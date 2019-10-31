@@ -9,7 +9,6 @@ local _G = _G
 local max = math.max
 --WoW API / Variables
 local CreateFrame = CreateFrame
-local InCombatLockdown = InCombatLockdown
 local RegisterAttributeDriver = RegisterAttributeDriver
 
 function UF:Construct_AssistFrames()
