@@ -76,7 +76,7 @@ function UF:Construct_AuraIcon(button)
 	button.stealable:SetTexture()
 
 	button:RegisterForClicks('RightButtonUp')
-	button:SetScript('OnClick', OnClick)
+	button:HookScript('OnClick', OnClick)
 
 	button.cd.CooldownOverride = 'unitframe'
 	E:RegisterCooldown(button.cd)
