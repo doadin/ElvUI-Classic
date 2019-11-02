@@ -81,8 +81,10 @@ local CreateFrame = CreateFrame
 local GetSpellInfo = GetSpellInfo
 local UnitAura = UnitAura
 local UnitIsUnit = UnitIsUnit
-local floor, min = floor, min
+local UnitIsEnemy = UnitIsEnemy
+local floor, min = math.floor, math.min
 local LCD = LibStub('LibClassicDurations', true)
+local myClass = select(2, UnitClass('player'))
 
 -- GLOBALS: GameTooltip
 -- end block
@@ -105,14 +107,6 @@ end
 local function createAuraIcon(element, index)
 	local button = CreateFrame('Button', element:GetDebugName() .. 'Button' .. index, element)
 	button:RegisterForClicks('RightButtonUp')
-	button:SetScript("OnClick", function(self, btn)
-		if btn == "RightButton" then
-			if self.filter == "HELPFUL" and UnitIsUnit("player", self.unit) then
-				CancelUnitBuff("player", self:GetID())
-				GameTooltip_Hide()
-			end
-		end
-	end)
 
 	local cd = CreateFrame('Cooldown', '$parentCooldown', button, 'CooldownFrameTemplate')
 	cd:SetAllPoints()
@@ -214,7 +208,6 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 		end
 
 		button.caster = caster
-		button.unit = unit
 		button.filter = filter
 		button.isDebuff = isDebuff
 		button.isPlayer = caster == 'player' or caster == 'vehicle'
