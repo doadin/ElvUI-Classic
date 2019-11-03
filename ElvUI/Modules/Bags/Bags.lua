@@ -100,6 +100,7 @@ function B:DisableBlizzard()
 	_G.BankFrame:UnregisterAllEvents()
 
 	for i=1, NUM_CONTAINER_FRAMES do
+		_G['ContainerFrame'..i]:UnregisterAllEvents()
 		_G['ContainerFrame'..i]:Kill()
 	end
 end
@@ -952,12 +953,17 @@ function B:ContructContainerFrame(name, isBank)
 	local f = CreateFrame('Button', name, E.UIParent)
 	f:SetTemplate('Transparent')
 	f:SetFrameStrata(strata)
+
 	f:RegisterEvent("BAG_UPDATE") -- Has to be on both frames
 	f:RegisterEvent("BAG_UPDATE_COOLDOWN") -- Has to be on both frames
 	f.events = isBank and { "BANK_BAG_SLOT_FLAGS_UPDATED", "PLAYERBANKSLOTS_CHANGED" } or { "BAG_SLOT_FLAGS_UPDATED", "QUEST_ACCEPTED", "QUEST_REMOVED" }
 
 	for _, event in pairs(f.events) do
 		f:RegisterEvent(event)
+	end
+
+	if not isBank then
+		f:UnregisterAllEvents()
 	end
 
 	f:SetScript('OnEvent', B.OnEvent)
@@ -1271,11 +1277,23 @@ end
 function B:OpenBags()
 	B.BagFrame:Show()
 
+	B.BagFrame:RegisterEvent("BAG_UPDATE")
+	B.BagFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
+	for _, event in pairs(B.BagFrame.events) do
+		B.BagFrame:RegisterEvent(event)
+	end
+
 	TT:GameTooltip_SetDefaultAnchor(_G.GameTooltip)
 end
 
 function B:CloseBags()
 	B.BagFrame:Hide()
+
+	B.BagFrame:UnregisterEvent("BAG_UPDATE")
+	B.BagFrame:UnregisterEvent("BAG_UPDATE_COOLDOWN")
+	for _, event in pairs(B.BagFrame.events) do
+		B.BagFrame:UnregisterEvent(event)
+	end
 
 	if B.BankFrame then
 		B.BankFrame:Hide()
