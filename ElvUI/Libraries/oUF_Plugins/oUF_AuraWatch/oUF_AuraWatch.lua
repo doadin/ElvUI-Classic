@@ -58,14 +58,26 @@ local function createAuraIcon(element, index)
 	return button
 end
 
-local function customFilter(element, _, button, name, _, _, debuffType, _, _, caster, isStealable, _, spellID)
+local function customFilter(element, _, button, name, _, _, debuffType, _, _, caster, isStealable, _, spellID, canApply, isBossDebuff, casterIsPlayer)
 	local setting = element.watched[spellID]
 	if not setting then return false end
 
 	button.onlyShowMissing = setting.onlyShowMissing
 	button.anyUnit = setting.anyUnit
 
-	return setting.enabled and (not setting.onlyShowMissing or (setting.anyUnit or button.isPlayer))
+	if setting.enabled then
+		if setting.onlyShowMissing and not setting.anyUnit and caster == 'player' then
+			return false
+		elseif setting.onlyShowMissing and setting.anyUnit and casterIsPlayer then
+			return true
+		elseif not setting.onlyShowMissing and setting.anyUnit and casterIsPlayer then
+			return true
+		elseif not setting.onlyShowMissing and not setting.anyUnit and caster == 'player' then
+			return true
+		end
+	end
+
+	return false
 end
 
 local function updateIcon(element, unit, index, offset, filter, isDebuff, visible)
@@ -146,7 +158,6 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 
 			local size = setting.sizeOverride and setting.sizeOverride > 0 and setting.sizeOverride or element.size or 16
 			button:SetSize(size, size)
-
 			button:SetID(index)
 			button:Show()
 			button:ClearAllPoints()
@@ -158,23 +169,32 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 
 			return VISIBLE
 		else
+
+			button.isFiltered = true
 			return HIDDEN
 		end
 	end
 end
 
-local missingBuffs = {}
+local missing = {}
 local function onlyShowMissingIcon(element, unit, offset)
-	wipe(missingBuffs)
+	wipe(missing)
 
 	for SpellID, setting in pairs(element.watched) do
 		if setting.onlyShowMissing then
-			missingBuffs[SpellID] = setting
+			missing[SpellID] = setting
+		end
+	end
+
+	for i = 1, #element do
+		local button = element[i]
+		if button.isFiltered and missing[button.spellID] then
+			missing[button.spellID] = nil
 		end
 	end
 
 	local visible = 0
-	for SpellID, setting in pairs(missingBuffs) do
+	for SpellID, setting in pairs(missing) do
 		local position = visible + offset + 1
 		local button = element[position]
 		if(not button) then
@@ -188,6 +208,7 @@ local function onlyShowMissingIcon(element, unit, offset)
 		if(button.overlay) then button.overlay:Hide() end
 
 		local size = setting.sizeOverride and setting.sizeOverride > 0 and setting.sizeOverride or element.size
+		button:SetID(position)
 		button:SetSize(size, size)
 		button.spellID = SpellID
 
@@ -238,17 +259,20 @@ local function UpdateAuras(self, event, unit)
 		if(element.PreUpdate) then element:PreUpdate(unit) end
 
 		local numBuffs = element.numBuffs or 32
-		local numDebuffs = element.numDebuffs or 40
+		local numDebuffs = element.numDebuffs or 16
 		local max = element.numTotal or numBuffs + numDebuffs
 
-		local visibleBuffs = filterIcons(element, unit, element.buffFilter or element.filter or 'HELPFUL', math.min(numBuffs, max), nil, 0, true)
+		for i = 1, #element do element[i].isFiltered = false end
 
-		local visibleDebuffs = filterIcons(element, unit, element.buffFilter or element.filter or 'HARMFUL', math.min(numDebuffs, max - visibleBuffs), true, visibleBuffs)
+		local visibleBuffs, hiddenBuffs = filterIcons(element, unit, element.buffFilter or element.filter or 'HELPFUL', math.min(numBuffs, max), nil, 0, true)
+
+		local visibleDebuffs, hiddenDebuffs = filterIcons(element, unit, element.buffFilter or element.filter or 'HARMFUL', math.min(numDebuffs, max - visibleBuffs), true, visibleBuffs)
 
 		element.visibleDebuffs = visibleDebuffs
 		element.visibleBuffs = visibleBuffs
 
 		element.visibleAuras = visibleBuffs + visibleDebuffs
+		element.allAuras = visibleBuffs + visibleDebuffs + hiddenBuffs + hiddenDebuffs
 
 		onlyShowMissingIcon(element, unit, element.visibleAuras)
 
