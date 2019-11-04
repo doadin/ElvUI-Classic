@@ -245,8 +245,6 @@ local function LoadSkin()
 			local highlight = _G['DropDownList'..level..'Button'..i..'Highlight']
 			local text = _G['DropDownList'..level..'Button'..i..'NormalText']
 
-			S:HandlePointXY(text, 5)
-
 			highlight:SetTexture(E.Media.Textures.Highlight)
 			highlight:SetBlendMode('BLEND')
 			highlight:SetDrawLayer('BACKGROUND')
@@ -259,6 +257,8 @@ local function LoadSkin()
 			button.backdrop:Hide()
 
 			if not button.notCheckable then
+				S:HandlePointXY(text, 5)
+
 				uncheck:SetTexture()
 				local _, co = check:GetTexCoord()
 				if co == 0 then
