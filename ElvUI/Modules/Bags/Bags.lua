@@ -977,17 +977,7 @@ function B:ContructContainerFrame(name, isBank)
 	f:SetTemplate('Transparent')
 	f:SetFrameStrata(strata)
 
-	f:RegisterEvent("BAG_UPDATE") -- Has to be on both frames
-	f:RegisterEvent("BAG_UPDATE_COOLDOWN") -- Has to be on both frames
 	f.events = isBank and { "BANK_BAG_SLOT_FLAGS_UPDATED", "PLAYERBANKSLOTS_CHANGED" } or { "ITEM_LOCK_CHANGED", "BAG_SLOT_FLAGS_UPDATED", "QUEST_ACCEPTED", "QUEST_REMOVED" }
-
-	for _, event in pairs(f.events) do
-		f:RegisterEvent(event)
-	end
-
-	if not isBank then
-		f:UnregisterAllEvents()
-	end
 
 	f:SetScript('OnEvent', B.OnEvent)
 	f:Hide()
@@ -1036,6 +1026,9 @@ function B:ContructContainerFrame(name, isBank)
 	f.ContainerHolder:Hide()
 
 	if isBank then
+		for _, event in pairs(f.events) do
+			f:RegisterEvent(event)
+		end
 		--Sort Button
 		f.sortButton = CreateFrame("Button", name..'SortButton', f)
 		f.sortButton:Size(16 + E.Border, 16 + E.Border)
@@ -1306,6 +1299,8 @@ function B:OpenBags()
 		B.BagFrame:RegisterEvent(event)
 	end
 
+	B:UpdateAllBagSlots()
+
 	TT:GameTooltip_SetDefaultAnchor(_G.GameTooltip)
 end
 
@@ -1375,6 +1370,9 @@ function B:OpenBank()
 		B:SetupItemGlow(B.BankFrame)
 	end
 
+	B.BankFrame:RegisterEvent("BAG_UPDATE")
+	B.BankFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
+
 	--Call :Layout first so all elements are created before we update
 	B:Layout(true)
 
@@ -1393,18 +1391,15 @@ function B:CloseBank()
 	B.BankFrame:Hide()
 	_G.BankFrame:Hide()
 	B.BagFrame:Hide()
-end
 
-function B:PlayerEnteringWorld()
-	B:UpdateBagTypes()
-	B:Layout()
+	B.BankFrame:UnregisterEvent("BAG_UPDATE")
+	B.BankFrame:UnregisterEvent("BAG_UPDATE_COOLDOWN")
 end
 
 function B:PLAYER_ENTERING_WORLD()
 	B:UpdateGoldText()
-
-	-- Update bag types for bagslot coloring
-	E:Delay(2, B.PlayerEnteringWorld)
+	B:UpdateBagTypes()
+	B:Layout()
 end
 
 function B:UpdateContainerFrameAnchors()
