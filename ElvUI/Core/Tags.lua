@@ -137,7 +137,7 @@ ElvUF.Tags.Events['faction:icon'] = 'UNIT_FACTION'
 ElvUF.Tags.Methods['faction:icon'] = function(unit)
 	local factionGroup = UnitFactionGroup(unit)
 
-	if (factionGroup == 'Horde' or factionGroup == 'Alliance') then
+	if factionGroup and (factionGroup == 'Horde' or factionGroup == 'Alliance') then
 		return CreateTextureMarkup("Interface\\FriendsFrame\\PlusManz-"..factionGroup, 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
 	else
 		return nil
@@ -518,7 +518,7 @@ end
 ElvUF.Tags.Events['happiness:full'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:full'] = function(unit)
 	local hasPetUI, isHunterPet = HasPetUI()
-	if (unit == 'pet' and hasPetUI and isHunterPet) then
+	if (UnitIsUnit('pet', unit) and hasPetUI and isHunterPet) then
 		return _G['PET_HAPPINESS'..GetPetHappiness()]
 	end
 end
@@ -526,7 +526,7 @@ end
 ElvUF.Tags.Events['happiness:icon'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:icon'] = function(unit)
 	local hasPetUI, isHunterPet = HasPetUI()
-	if (unit == 'pet' and hasPetUI and isHunterPet) then
+	if (UnitIsUnit('pet', unit) and hasPetUI and isHunterPet) then
 		local left, right, top, bottom
 		local happiness = GetPetHappiness()
 
@@ -545,7 +545,7 @@ end
 ElvUF.Tags.Events['happiness:discord'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:discord'] = function(unit)
 	local hasPetUI, isHunterPet = HasPetUI()
-	if (unit == 'pet' and hasPetUI and isHunterPet) then
+	if (UnitIsUnit('pet', unit) and hasPetUI and isHunterPet) then
 		local happiness = GetPetHappiness()
 
 		if(happiness == 1) then
@@ -561,7 +561,7 @@ end
 ElvUF.Tags.Events['happiness:color'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['happiness:color'] = function(unit)
 	local hasPetUI, isHunterPet = HasPetUI()
-	if (unit == 'pet' and hasPetUI and isHunterPet) then
+	if (UnitIsUnit('pet', unit) and hasPetUI and isHunterPet) then
 		return Hex(_COLORS.happiness[GetPetHappiness()])
 	end
 end
@@ -569,7 +569,7 @@ end
 ElvUF.Tags.Events['loyalty'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['loyalty'] = function(unit)
 	local hasPetUI, isHunterPet = HasPetUI()
-	if (unit == 'pet' and hasPetUI and isHunterPet) then
+	if (UnitIsUnit('pet', unit) and hasPetUI and isHunterPet) then
 		local loyalty = gsub(GetPetLoyalty(), '.-(%d).*', '%1')
 		return loyalty
 	end
@@ -578,7 +578,7 @@ end
 ElvUF.Tags.Events['diet'] = 'UNIT_HAPPINESS PET_UI_UPDATE'
 ElvUF.Tags.Methods['diet'] = function(unit)
 	local hasPetUI, isHunterPet = HasPetUI()
-	if (unit == 'pet' and hasPetUI and isHunterPet) then
+	if (UnitIsUnit('pet', unit) and hasPetUI and isHunterPet) then
 		return GetPetFoodTypes()
 	end
 end
