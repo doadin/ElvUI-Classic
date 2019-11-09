@@ -1396,10 +1396,16 @@ function B:CloseBank()
 	B.BankFrame:UnregisterEvent("BAG_UPDATE_COOLDOWN")
 end
 
-function B:PLAYER_ENTERING_WORLD()
-	B:UpdateGoldText()
+function B:PlayerEnteringWorld()
 	B:UpdateBagTypes()
 	B:Layout()
+end
+
+function B:PLAYER_ENTERING_WORLD()
+	B:UpdateGoldText()
+
+	-- Update bag types for bagslot coloring
+	E:Delay(2, B.PlayerEnteringWorld)
 end
 
 function B:UpdateContainerFrameAnchors()
