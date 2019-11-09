@@ -2,12 +2,13 @@ local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, Private
 local AB = E:GetModule('ActionBars')
 
 --Lua functions
-local next, ipairs, pairs = next, ipairs, pairs
+local gsub, ipairs, next, pairs = gsub, ipairs, next, pairs
 local floor, tinsert = floor, tinsert
 --WoW API / Variables
 local GetTime = GetTime
 local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
+local FONT_COLOR_CODE_CLOSE = FONT_COLOR_CODE_CLOSE
 
 local ICON_SIZE = 36 --the normal size for an icon (don't change this)
 local FONT_SIZE = 20 --the base font size to use at a scale of 1
