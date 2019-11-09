@@ -2614,6 +2614,7 @@ E.Options.args.unitframe = {
 	type = "group",
 	name = L["UnitFrames"],
 	childGroups = "tab",
+	order = 2,
 	get = function(info) return E.db.unitframe[info[#info]] end,
 	set = function(info, value) E.db.unitframe[info[#info]] = value end,
 	args = {
