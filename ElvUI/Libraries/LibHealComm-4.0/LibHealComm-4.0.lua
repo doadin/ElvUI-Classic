@@ -64,7 +64,6 @@ local UnitAura = UnitAura
 local UnitCanAssist = UnitCanAssist
 local UnitExists = UnitExists
 local UnitGUID = UnitGUID
-local UnitHasVehicleUI = UnitHasVehicleUI
 local UnitIsCharmed = UnitIsCharmed
 local UnitIsVisible = UnitIsVisible
 local UnitIsUnit = UnitIsUnit
@@ -643,7 +642,7 @@ if( playerClass == "DRUID" ) then
 
 				totalTicks = ticks
 
-				spellPower = spellPower * (duration / 15)
+				spellPower = spellPower * .2
 				healAmount = healAmount / ticks
 			elseif( spellName == Regrowth ) then
 				spellPower = spellPower * hotData[spellName].coeff
