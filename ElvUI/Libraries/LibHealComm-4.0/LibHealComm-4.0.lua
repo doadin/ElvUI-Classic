@@ -1,7 +1,7 @@
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then return end
 
 local major = "LibHealComm-4.0"
-local minor = 70
+local minor = 71
 assert(LibStub, format("%s requires LibStub.", major))
 
 local HealComm = LibStub:NewLibrary(major, minor)
@@ -1418,9 +1418,8 @@ local function parseHealEnd(casterGUID, pending, checkField, spellID, interrupte
 	local spellName = GetSpellInfo(spellID)
 	if( not spellName or not (pendingHeals[casterGUID] or pendingHots[casterGUID]) ) then return end
 
-	-- Hots use spell IDs while everything else uses spell names. Avoids naming conflicts for multi-purpose spells such as Lifebloom or Regrowth
 	if( not pending ) then
-		pending = checkField == "id" and pendingHots[casterGUID][spellName] or pendingHeals[casterGUID][spellName]
+		pending = (pendingHots[casterGUID][spellName] or pendingHeals[casterGUID][spellName])
 	end
 	if( not pending or not pending.bitType ) then return end
 
@@ -1455,7 +1454,7 @@ HealComm.parseHealEnd = parseHealEnd
 -- Heal delayed
 local function parseHealDelayed(casterGUID, startTime, endTime, spellName)
 	if not casterGUID then return end
-	local pending = pendingHeals[casterGUID][spellName] or pendingHots[casterGUID][spellName]
+	local pending = (pendingHeals[casterGUID][spellName] or pendingHots[casterGUID][spellName])
 	-- It's possible to get duplicate interrupted due to raid1 = party1, player = raid# etc etc, just block it here
 	if( pending.endTime == endTime and pending.startTime == startTime ) then return end
 
