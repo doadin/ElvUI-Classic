@@ -13,13 +13,9 @@ local function updateText(self, elapsed)
 	if self.elapsed >= 0.1 then
 		local timeNow = GetTime()
 		self.timeLeft = ((self.expiration or 0) - timeNow)
-		if self.cd.timer.text then
-			self.cd.timer.text:SetAlpha(0)
-		end
+		if self.cd.timer and self.cd.timer.text then self.cd.timer.text:SetAlpha(0) end
 		if self.timeLeft > 0 and self.timeLeft <= (self.textThreshold or 0) then
-			if self.cd.timer.text then
-				self.cd.timer.text:SetAlpha(1)
-			end
+			if self.cd.timer and self.cd.timer.text then self.cd.timer.text:SetAlpha(1) end
 			self:SetScript("OnUpdate", nil)
 		end
 	end
@@ -120,6 +116,7 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 						button.textThreshold = setting.textThreshold
 						button.duration = duration
 						button.expiration = expiration
+						if button.cd.timer and button.cd.timer.text then button.cd.timer.text:SetAlpha(0) end
 						button:SetScript('OnUpdate', updateText)
 					end
 
