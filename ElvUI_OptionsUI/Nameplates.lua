@@ -654,6 +654,22 @@ local function UpdateFilterGroup()
 									desc = L["If enabled then the filter will only activate when the unit is not tap denied."],
 									order = 14,
 								},
+								spacer1 = {
+									type = 'description',
+									name = " ",
+									width = 'full',
+									order = 15,
+								},
+								isCivilian = {
+									type = 'toggle',
+									name = L["Unit is Civilian"],
+									order = 16,
+								},
+								isNotCivilian = {
+									type = 'toggle',
+									name = L["Unit is Not Civilian"],
+									order = 17,
+								},
 							}
 						}
 					},
