@@ -8,6 +8,12 @@ local LCD = LibStub('LibClassicDurations', true)
 local VISIBLE = 1
 local HIDDEN = 0
 
+local tinsert = tinsert
+local wipe = wipe
+local UnitAura = UnitAura
+local UnitIsUnit = UnitIsUnit
+local GetSpellTexture = GetSpellTexture
+
 local function updateText(self, elapsed)
 	self.elapsed = (self.elapsed or 0) + elapsed
 	if self.elapsed >= 0.1 then
@@ -119,6 +125,7 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 
 				if(duration and duration > 0) then
 					button.cd:SetCooldown(expiration - duration, duration)
+					button.cd:Show()
 
 					if setting.displayText and setting.textThreshold ~= -1 then
 						button.textThreshold = setting.textThreshold
@@ -127,8 +134,6 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 						if button.cd.timer and button.cd.timer.text then button.cd.timer.text:SetAlpha(0) end
 						button:SetScript('OnUpdate', updateText)
 					end
-
-					button.cd:Show()
 				else
 					button.cd:Hide()
 				end
