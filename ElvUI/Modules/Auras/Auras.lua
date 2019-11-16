@@ -67,26 +67,7 @@ function A:UpdateTime(elapsed)
 		return
 	end
 
-	if not E:Cooldown_IsEnabled(self) then
-		if self.offset then
-			self.offset = nil
-		end
-
-		self.timeLeft = nil
-		self.time:SetText('')
-		self:SetScript("OnUpdate", nil)
-	else
-		if self.offset then
-			local expiration = select(self.offset, GetWeaponEnchantInfo())
-			if expiration then
-				self.timeLeft = expiration / 1e3
-			else
-				self.timeLeft = 0
-			end
-		else
-			self.timeLeft = self.timeLeft - elapsed
-		end
-
+	if E:Cooldown_IsEnabled(self) then
 		local timeColors, indicatorColors, timeThreshold = (self.timerOptions and self.timerOptions.timeColors) or E.TimeColors, (self.timerOptions and self.timerOptions.indicatorColors) or E.TimeIndicatorColors, (self.timerOptions and self.timerOptions.timeThreshold) or E.db.cooldown.threshold
 		if not timeThreshold then timeThreshold = E.TimeThreshold end
 
@@ -298,7 +279,6 @@ function A:UpdateAura(button, index)
 		end
 
 		button.texture:SetTexture(texture)
-		button.offset = nil
 	end
 end
 
@@ -320,24 +300,25 @@ function A:UpdateTempEnchant(button, index)
 			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 
-		button.offset = offset
 		button.nextUpdate = 0
-		button.timeLeft = expirationTime / 1e3
 
-		local duration
-		if button.timeLeft <= 3600.5 and button.timeLeft > 1800.5 then
-			duration = 3600
-		elseif button.timeLeft <= 1800.5 and button.timeLeft > 600.5 then
-			duration = 1800
-		else
-			duration = 600
+		local timeLeft = floor(expirationTime / 1e3)
+		if not button.duration then
+			if timeLeft <= 3600 and timeLeft > 1800 then
+				button.duration = 3600
+			elseif timeLeft <= 1800 and timeLeft > 600 then
+				button.duration = 1800
+			else
+				button.duration = 600
+			end
 		end
 
-		button.statusBar:SetMinMaxValues(0, duration)
+		button.timeLeft = timeLeft
+		button.statusBar:SetMinMaxValues(0, button.duration)
 		button:SetScript("OnUpdate", A.UpdateTime)
 	else
-		button.offset = nil
 		button.timeLeft = nil
+		button.duration = nil
 		button.time:SetText('')
 
 		button.statusBar:SetMinMaxValues(0, 1)
@@ -353,8 +334,8 @@ function A:UpdateTempEnchant(button, index)
 	end
 
 	local r, g, b
-	if button.timeLeft and self.db.barColorGradient then
-		r, g, b = E.oUF:ColorGradient((button.timeLeft or 0), expirationTime and (expirationTime / 1e3) or 0, .8, 0, 0, .8, .8, 0, 0, .8, 0)
+	if expirationTime and self.db.barColorGradient then
+		r, g, b = E.oUF:ColorGradient(expirationTime / 1e3, button.duration, .8, 0, 0, .8, .8, 0, 0, .8, 0)
 	else
 		r, g, b = self.db.barColor.r, self.db.barColor.g, self.db.barColor.b
 	end
@@ -529,6 +510,7 @@ function A:Initialize()
 
 	self.Initialized = true
 	self.db = E.db.auras
+
 	self.BuffFrame = self:CreateAuraHeader("HELPFUL")
 	self.BuffFrame:Point("TOPRIGHT", _G.MMHolder, "TOPLEFT", -(6 + E.Border), -E.Border - E.Spacing)
 	E:CreateMover(self.BuffFrame, "BuffsMover", L["Player Buffs"], nil, nil, nil, nil, nil, 'auras,buffs')
