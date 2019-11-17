@@ -7,19 +7,25 @@ local HIDDEN = 0
 local LCD = LibStub('LibClassicDurations', true)
 local infinity = math.huge
 local myClass = select(2, UnitClass('player'))
+local format = format
+local floor = floor
+local tinsert = tinsert
+local min = min
+local UnitIsUnit = UnitIsUnit
+local UnitAura = UnitAura
 
 local DAY, HOUR, MINUTE = 86400, 3600, 60
 local function FormatTime(s)
 	if s == infinity then return end
 
 	if s < MINUTE then
-		return ("%.1fs"):format(s)
+		return format("%.1fs", s)
 	elseif s < HOUR then
-		return ("%dm %ds"):format(s/60%60, s%60)
+		return format("%dm %ds", s/60%60, s%60)
 	elseif s < DAY then
-		return ("%dh %dm"):format(s/(60*60), s/60%60)
+		return format("%dh %dm", s/(60*60), s/60%60)
 	else
-		return ("%dd %dh"):format(s/DAY, (s / HOUR) - (floor(s/DAY) * 24))
+		return format("%dd %dh", s/DAY, (s / HOUR) - (floor(s/DAY) * 24))
 	end
 end
 
