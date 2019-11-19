@@ -875,6 +875,28 @@ ElvUF.Tags.Methods['name:title'] = function(unit)
 	end
 end
 
+ElvUF.Tags.Events['name:pvp:title'] = 'UNIT_NAME_UPDATE'
+ElvUF.Tags.Methods['name:pvp:title'] = function(unit)
+	if (UnitIsPlayer(unit)) then
+		local rank = UnitPVPRank(unit)
+		local name = GetPVPRankInfo(rank, unit)
+
+		return name
+	end
+end
+
+ElvUF.Tags.Events['name:pvp:rank'] = 'UNIT_NAME_UPDATE'
+ElvUF.Tags.Methods['name:pvp:rank'] = function(unit)
+	if (UnitIsPlayer(unit)) then
+		local rank = UnitPVPRank(unit)
+		local _, number = GetPVPRankInfo(rank, unit)
+
+		if number > 0 then
+			return number
+		end
+	end
+end
+
 ElvUF.Tags.SharedEvents.QUEST_LOG_UPDATE = true
 
 ElvUF.Tags.Events['quest:title'] = 'QUEST_LOG_UPDATE'
@@ -1058,7 +1080,9 @@ E.TagInfo = {
 	['name:short:status'] = { category = 'Names', description = "Replace the name of the unit with 'DEAD' or 'OFFLINE' if applicable (limited to 10 letters)" },
 	['name:medium:status'] = { category = 'Names', description = "Replace the name of the unit with 'DEAD' or 'OFFLINE' if applicable (limited to 15 letters)" },
 	['name:long:status'] = { category = 'Names', description = "Replace the name of the unit with 'DEAD' or 'OFFLINE' if applicable (limited to 20 letters)" },
-	['name:title'] = { category = 'Names', description = "Displays player name and title" },
+	['name:title'] = { category = 'Names', description = "Displays player name and pvp title" },
+	['name:pvp:title'] = { category = 'Names', description = "Displays player pvp title" },
+	['name:pvp:rank'] = { category = 'Names', description = "Displays player pvp rank number" },
 	['npctitle'] = { category = 'Names', description = "Displays the NPC title (e.g. General Goods Vendor)" },
 	['npctitle:brackets'] = { category = 'Names', description = "Displays the NPC title with < > brackets (e.g. <General Goods Vendor>)" },
 	--Party and Raid
