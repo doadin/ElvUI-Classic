@@ -905,7 +905,7 @@ ElvUF.Tags.Methods['name:pvp:icon'] = function(unit)
 		local texture = format("%s%02d", "Interface\\PvPRankBadges\\PvPRank", rankNumber)
 
 		if rankNumber > 0 then
-			return CreateTextureMarkup(texture, 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
+			return CreateTextureMarkup(texture, 12, 12, 12, 12, 0, 1, 0, 1, 0, 0)
 		end
 	end
 end
