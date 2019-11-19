@@ -889,10 +889,23 @@ ElvUF.Tags.Events['name:pvp:rank'] = 'UNIT_NAME_UPDATE'
 ElvUF.Tags.Methods['name:pvp:rank'] = function(unit)
 	if (UnitIsPlayer(unit)) then
 		local rank = UnitPVPRank(unit)
-		local _, number = GetPVPRankInfo(rank, unit)
+		local _, rankNumber = GetPVPRankInfo(rank, unit)
 
-		if number > 0 then
-			return number
+		if rankNumber > 0 then
+			return rankNumber
+		end
+	end
+end
+
+ElvUF.Tags.Events['name:pvp:icon'] = 'UNIT_NAME_UPDATE'
+ElvUF.Tags.Methods['name:pvp:icon'] = function(unit)
+	if (UnitIsPlayer(unit)) then
+		local rank = UnitPVPRank(unit)
+		local _, rankNumber = GetPVPRankInfo(rank, unit)
+		local texture = format("%s%02d", "Interface\\PvPRankBadges\\PvPRank", rankNumber)
+
+		if rankNumber > 0 then
+			return CreateTextureMarkup(texture, 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
 		end
 	end
 end
@@ -1083,6 +1096,7 @@ E.TagInfo = {
 	['name:title'] = { category = 'Names', description = "Displays player name and pvp title" },
 	['name:pvp:title'] = { category = 'Names', description = "Displays player pvp title" },
 	['name:pvp:rank'] = { category = 'Names', description = "Displays player pvp rank number" },
+	['name:pvp:icon'] = { category = 'Names', description = "Displays player pvp rank icon" },
 	['npctitle'] = { category = 'Names', description = "Displays the NPC title (e.g. General Goods Vendor)" },
 	['npctitle:brackets'] = { category = 'Names', description = "Displays the NPC title with < > brackets (e.g. <General Goods Vendor>)" },
 	--Party and Raid
