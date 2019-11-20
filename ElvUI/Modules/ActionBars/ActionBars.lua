@@ -908,51 +908,6 @@ function AB:Initialize()
 
 	self.fadeParent:SetScript("OnEvent", self.FadeParent_OnEvent)
 
-	function SpellButton_OnEnter(self)
-		local slot = SpellBook_GetSpellBookSlot(self);
-		GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-		if ( GameTooltip:SetSpellBookItem(slot, SpellBookFrame.bookType) ) then
-			self.UpdateTooltip = SpellButton_OnEnter;
-		else
-			self.UpdateTooltip = nil;
-		end
-
-		ClearOnBarHighlightMarks();
-		ClearPetActionHighlightMarks();
-		local slotType, actionID = GetSpellBookItemInfo(slot, SpellBookFrame.bookType);
-		if ( slotType == "SPELL" ) then
-			UpdateOnBarHighlightMarksBySpell(actionID);
-		elseif ( slotType == "FLYOUT" ) then
-			UpdateOnBarHighlightMarksByFlyout(actionID);
-		elseif ( slotType == "PETACTION" ) then
-			UpdateOnBarHighlightMarksByPetAction(actionID);
-			UpdatePetActionHighlightMarks(actionID);
-			PetActionBar_Update(PetActionBarFrame);
-		end
-
-		if ( self.SpellHighlightTexture and self.SpellHighlightTexture:IsShown() ) then
-			GameTooltip:AddLine(SPELLBOOK_SPELL_NOT_ON_ACTION_BAR, LIGHTBLUE_FONT_COLOR.r, LIGHTBLUE_FONT_COLOR.g, LIGHTBLUE_FONT_COLOR.b);
-		end
-
-		-- Update action bar highlights
-		ActionBarController_UpdateAll(true);
-		GameTooltip:Show();
-	end
-
-	function SpellButton_OnLeave(self)
-		ClearOnBarHighlightMarks();
-		ClearPetActionHighlightMarks();
-
-		-- Update action bar highlights
-		ActionBarController_UpdateAll(true);
-		PetActionBar_Update(PetActionBarFrame);
-		GameTooltip:Hide();
-	end
-
-	for _, Button in pairs({SpellBookSpellIconsFrame:GetChildren()}) do
-		Button:SetScript("OnLeave", SpellButton_OnLeave)
-	end
-
 	self:DisableBlizzard()
 	self:SetupMicroBar()
 	self:UpdateBar1Paging()
