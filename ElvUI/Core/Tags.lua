@@ -1003,6 +1003,7 @@ E.TagInfo = {
 	['difficulty'] = { category = 'Colors', description = "Colors the next tag by difficulty, red for impossible, orange for hard, green for easy" },
 	['classificationcolor'] = { category = 'Colors', description = "Changes color of health, depending on the unit's classification" },
 	['healthcolor'] = { category = 'Colors', description = "Changes color of health text, depending on the unit's current health" },
+	['manacolor'] = { category = 'Colors', description = "Changes the text color to a light-blue mana color" },
 	--Classification
 	['classification'] = { category = 'Classification', description = "Displays the unit's classification (e.g. 'ELITE' and 'RARE')" },
 	['shortclassification'] = { category = 'Classification', description = "Displays the unit's classification in short form (e.g. '+' for ELITE and 'R' for RARE)" },
@@ -1140,6 +1141,14 @@ E.TagInfo = {
 	['resting'] = { category = 'Status', description = "Displays 'zzz' if the unit is resting" },
 	['pvp'] = { category = 'Status', description = "Displays 'PvP' if the unit is pvp flagged" },
 	['offline'] = { category = 'Status', description = "Displays 'OFFLINE' if the unit is disconnected" },
+	--Speed
+	['speed:percent'] = { category = 'Speed', description = "" },
+	['speed:yardspersec-moving-raw'] = { category = 'Speed', description = "" },
+	['speed:percent-raw'] = { category = 'Speed', description = "" },
+	['speed:yardspersec-moving'] = { category = 'Speed', description = "" },
+	['speed:yardspersec-raw'] = { category = 'Speed', description = "" },
+	['speed:yardspersec'] = { category = 'Speed', description = "" },
+	['speed:percent-moving'] = { category = 'Speed', description = "" },
 	--Target
 	['target'] = { category = 'Target', description = "Displays the current target of the unit" },
 	['target:veryshort'] = { category = 'Target', description = "Displays the current target of the unit (limited to 5 letters)" },
@@ -1157,6 +1166,13 @@ E.TagInfo = {
 	['faction'] = { category = 'Miscellanous', description = "Displays 'Aliance' or 'Horde'" },
 	['faction:icon'] = { category = 'Miscellanous', description = "Displays 'Alliance' or 'Horde' Texture" },
 	['plus'] = { category = 'Miscellanous', description = "Displays the character '+' if the unit is an elite or rare-elite" },
+	['pvptimer'] = { category = 'Miscellanous', description = "Displays remaining time on pvp-flagged status" },
+	['race'] = { category = 'Miscellanous', description = "Displays the race" },
+	--Range
+	['nearbyplayers:8'] = { category = 'Range', description = "Displays all players within 8 yards" },
+	['nearbyplayers:10'] = { category = 'Range', description = "Displays all players within 10 yards" },
+	['nearbyplayers:30'] = { category = 'Range', description = "Displays all players within 30 yards" },
+	['distance'] = { category = 'Range', description = "Displays the distance" },
 }
 
 function E:AddTagInfo(tagName, category, description, order)
