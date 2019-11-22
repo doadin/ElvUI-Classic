@@ -1,7 +1,7 @@
 if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then return end
 
 local major = "LibHealComm-4.0"
-local minor = 79
+local minor = 81
 assert(LibStub, format("%s requires LibStub.", major))
 
 local HealComm = LibStub:NewLibrary(major, minor)
@@ -9,8 +9,6 @@ if( not HealComm ) then return end
 
 local COMM_PREFIX = "LHC40"
 C_ChatInfo.RegisterAddonMessagePrefix(COMM_PREFIX)
-
-local LCD = LibStub('LibClassicDurations', true)
 
 local bit = bit
 local ceil = ceil
@@ -70,6 +68,7 @@ local UnitIsUnit = UnitIsUnit
 local UnitLevel = UnitLevel
 local UnitName = UnitName
 local UnitPlayerControlled = UnitPlayerControlled
+local CheckInteractDistance = CheckInteractDistance
 
 local COMBATLOG_OBJECT_AFFILIATION_MINE = COMBATLOG_OBJECT_AFFILIATION_MINE
 
@@ -620,7 +619,7 @@ if( playerClass == "DRUID" ) then
 		local Rejuvenation = GetSpellInfo(774)
 		local Tranquility = GetSpellInfo(740)
 
-		hotData[Regrowth] = { interval = 3, ticks = 7, coeff = 0.325, levels = { 12, 18, 24, 30, 36, 42, 48, 54, 60 }, averages = { 98, 175, 259, 343, 427, 546, 686, 861, 1064 }}
+		hotData[Regrowth] = { interval = 3, ticks = 7, coeff = 0.5, levels = { 12, 18, 24, 30, 36, 42, 48, 54, 60 }, averages = { 98, 175, 259, 343, 427, 546, 686, 861, 1064 }}
 		hotData[Rejuvenation] = { interval = 3, levels = { 4, 10, 16, 22, 28, 34, 40, 46, 52, 58, 60 }, averages = { 32, 56, 116, 180, 244, 304, 388, 488, 608, 756, 888 }}
 
 		spellData[HealingTouch] = { levels = {1, 8, 14, 20, 26, 32, 38, 44, 50, 56, 60}, averages = {
@@ -635,7 +634,7 @@ if( playerClass == "DRUID" ) then
 			{avg(1516, 1796), avg(1521, 1802), avg(1527, 1808), avg(1533, 1814), avg(1539, 1820), avg(1545, 1826)},
 			{avg(1890, 2230), avg(1896, 2237), avg(1903, 2244), avg(1909, 2250), avg(1916, 2257)},
 			{avg(2267, 2677)} }}
-		spellData[Regrowth] = {coeff = 0.513, levels = hotData[Regrowth].levels, averages = {
+		spellData[Regrowth] = {coeff = 0.5 * (2 / 3.5) , levels = hotData[Regrowth].levels, averages = {
 			{avg(84, 98), avg(85, 100), avg(87, 102), avg(89, 104), avg(91, 106), avg(93, 107)},
 			{avg(164, 188), avg(166, 191), avg(169, 193), avg(171, 196), avg(174, 198), avg(176, 201)},
 			{avg(240, 274), avg(243, 278), avg(246, 281), avg(249, 284), avg(252, 287), avg(255, 290)},
@@ -867,6 +866,7 @@ if( playerClass == "PRIEST" ) then
 		local SpiritualHealing = GetSpellInfo(14898)
 		local ImprovedRenew = GetSpellInfo(14908)
 		local GreaterHealHot = GetSpellInfo(22009)
+		local CureDisease = GetSpellInfo(528)
 
 		hotData[Renew] = {coeff = 1, interval = 3, ticks = 5, levels = {8, 14, 20, 26, 32, 38, 44, 50, 56, 60}, averages = {
 			45, 100, 175, 245, 315, 400, 510, 650, 810, 970 }}
@@ -911,12 +911,13 @@ if( playerClass == "PRIEST" ) then
 		GetHealTargets = function(bitType, guid, healAmount, spellID)
 			local spellName = GetSpellInfo(spellID)
 			if( spellName == PrayerofHealing ) then
+				guid = UnitGUID("player")
 				local targets = compressGUID[guid]
 				local group = guidToGroup[guid]
 
 				for groupGUID, id in pairs(guidToGroup) do
 					local unit = guidToUnit[groupGUID]
-					if( id == group and guid ~= groupGUID and UnitIsVisible(unit) ) then
+					if( id == group and guid ~= groupGUID and (IsSpellInRange(CureDisease, unit) or CheckInteractDistance(unit, 4)) ) then
 						targets = targets .. "," .. compressGUID[groupGUID]
 					end
 				end
@@ -1389,7 +1390,7 @@ local function parseChannelHeal(casterGUID, spellID, amount, totalTicks, ...)
 	local unit = guidToUnit[casterGUID]
 	if( not unit or not spellName or not totalTicks or not amount or select("#", ...) == 0 ) then return end
 
-	spellData[spellName]._isChanneled = true
+	local tickInterval = spellName == GetSpellInfo(740) and 2 or 1
 
 	local startTime, endTime
 	if unit == "player" then
@@ -1398,15 +1399,8 @@ local function parseChannelHeal(casterGUID, spellID, amount, totalTicks, ...)
 		startTime = startTime / 1000
 		endTime = endTime / 1000
 	else
-		local duration
-		if spellName == GetSpellInfo(746) then
-			duration = spellData[spellName].ticks[SpellIDToRank[spellName]]
-		else
-			duration = (spellName == GetSpellInfo(136) and 5 or 10)
-		end
-
 		startTime = GetTime()
-		endTime = GetTime() + duration
+		endTime = startTime + totalTicks * tickInterval
 	end
 
 	pendingHots[casterGUID] = pendingHots[casterGUID] or {}
@@ -1442,13 +1436,6 @@ local function findAura(casterGUID, spellID, ...)
 				local name, _, stack, _, duration, endTime, caster, _, _, spell = UnitAura(unit, id, 'HELPFUL')
 				if( not spell ) then break end
 
-				if LCD and spellID and not UnitIsUnit('player', unit) then
-					local durationNew, expirationTimeNew = LCD:GetAuraDurationByUnit(unit, spellID, caster, name)
-					if durationNew and durationNew > 0 then
-						duration, endTime = durationNew, expirationTimeNew
-					end
-				end
-
 				if( spell == spellID and caster and UnitGUID(caster) == casterGUID ) then
 					return (stack and stack > 0 and stack or 1), duration or 0, endTime or 0
 				end
@@ -1465,10 +1452,16 @@ local function parseHotHeal(casterGUID, wasUpdated, spellID, tickAmount, totalTi
 	if( not tickAmount or not spellName or select("#", ...) == 0 ) then return end
 
 	-- Retrieve the hot information
-	local inc = ( tickAmount == -1 or tickAmount == "-1" ) and 2 or 1
+	local inc = 2
 	local stack, duration, endTime = findAura(casterGUID, spellID, ...)
 
-	if( not stack or not duration or not endTime ) then return end
+	if not ( tickAmount == -1 or tickAmount == "-1" ) then
+		inc = 1
+		duration = totalTicks * tickInterval
+		endTime = GetTime() + duration
+	end
+
+	if( not stack or stack == 0 or duration == 0 or endTime == 0 ) then return end
 
 	pendingHots[casterGUID] = pendingHots[casterGUID] or {}
 	pendingHots[casterGUID][spellName] = pendingHots[casterGUID][spellName] or {}
@@ -1670,8 +1663,22 @@ function HealComm:COMBAT_LOG_EVENT_UNFILTERED(...)
 
 	if( not eventRegistered[eventType] ) then return end
 
-	local _, spellName = select(12, ...)
-	local spellID = select(7, GetSpellInfo(spellName))
+	local _, spellName, spellSchool, auraType = select(12, ...)
+	local destUnit = guidToUnit[destGUID]
+	local spellID = destUnit and select(10, unitHasAura(destUnit, spellName)) or select(7, GetSpellInfo(spellName))
+
+-- check for a downranked hot
+	if auraType and guidToUnit[destGUID] then
+		for i=1,32 do
+			local name = UnitBuff(guidToUnit[destGUID],i)
+			if name == spellName then
+				spellID = select(10, UnitBuff(guidToUnit[destGUID],i))
+				break
+			elseif not name then
+				break
+			end
+		end
+	end
 
 	-- Heal or hot ticked that the library is tracking
 	-- It's more efficient/accurate to have the library keep track of this locally, spamming the comm channel would not be a very good thing especially when a single player can have 4 - 8 hots/channels going on them.
@@ -1716,6 +1723,24 @@ function HealComm:COMBAT_LOG_EVENT_UNFILTERED(...)
 					sendMessage(format("H:%d:%d:%d::%d:%s", totalTicks, spellID, amount, tickInterval, targets))
 				end
 			end
+		elseif spellData[spellName] and spellData[spellName]._isChanneled then
+			local bitType, amount, totalTicks, tickInterval = CalculateHealing(destGUID, spellID, destUnit)
+			if bitType == CHANNEL_HEALS then
+				local targets, amt = compressGUID[destGUID], max(amount, 0)
+				if targets then
+					local endTime = select(5, ChannelInfo())
+					if endTime then
+						endTime = endTime / 1000
+					else
+						endTime = GetTime() + totalTicks * tickInterval
+					end
+					local ticksLeft = min(floor((endTime - GetTime() + 0.001) / tickInterval), totalTicks)
+					if ticksLeft > 0 then
+						parseChannelHeal(sourceGUID, spellID, amt, ticksLeft, strsplit(",", targets))
+						sendMessage(format("C::%d:%d:%s:%s", spellID, amt, ticksLeft, targets))
+					end
+				end
+			end
 		end
 	-- Single stack of a hot was removed, this only applies when going from 2 -> 1, when it goes from 1 -> 0 it fires SPELL_AURA_REMOVED
 	elseif( eventType == "SPELL_AURA_REMOVED_DOSE" and bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) == COMBATLOG_OBJECT_AFFILIATION_MINE ) then
@@ -1728,11 +1753,16 @@ function HealComm:COMBAT_LOG_EVENT_UNFILTERED(...)
 			end
 		end
 	-- Aura faded
-	elseif( eventType == "SPELL_AURA_REMOVED" ) then
-		-- Hot faded that we cast
-		if( hotData[spellName] and compressGUID[destGUID] and bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) == COMBATLOG_OBJECT_AFFILIATION_MINE ) then
-			parseHealEnd(sourceGUID, nil, "id", spellID, false, compressGUID[destGUID])
-			sendMessage(format("HS::%d::%s", spellID, compressGUID[destGUID]))
+	elseif( eventType == "SPELL_AURA_REMOVED" and bit.band(sourceFlags, COMBATLOG_OBJECT_AFFILIATION_MINE) == COMBATLOG_OBJECT_AFFILIATION_MINE ) then
+		if compressGUID[destGUID] then
+			-- Hot faded that we cast
+			if hotData[spellName] then
+				parseHealEnd(sourceGUID, nil, "id", spellID, false, compressGUID[destGUID])
+				sendMessage(format("HS::%d::%s", spellID, compressGUID[destGUID]))
+			elseif spellData[spellName] and spellData[spellName]._isChanneled then
+				parseHealEnd(sourceGUID, nil, "id", spellID, false, compressGUID[destGUID])
+				sendMessage(format("S::%d:0:%s", spellID, compressGUID[destGUID]))
+			end
 		end
 	end
 end
@@ -1817,8 +1847,7 @@ function HealComm:UNIT_SPELLCAST_START(unit, cast, spellID)
 		parseDirectHeal(playerGUID, spellID, amt, (endTime - startTime) / 1000, strsplit(",", targets))
 		sendMessage(format("D:%d:%d:%d:%s", (endTime - startTime) / 1000, spellID or 0, amt or "", targets))
 	elseif( bitType == CHANNEL_HEALS ) then
-		parseChannelHeal(playerGUID, spellID, amt, ticks, strsplit(",", targets))
-		sendMessage(format("C::%d:%d:%s:%s", spellID or 0, amt, ticks, targets))
+		spellData[spellName]._isChanneled = true
 	end
 end
 
@@ -1832,38 +1861,14 @@ function HealComm:UNIT_SPELLCAST_SUCCEEDED(unit, cast, spellID)
 		parseHealEnd(playerGUID, nil, "name", spellID, false)
 		sendMessage(format("S::%d:0", spellID or 0))
 	end
-	if hotData[spellName] then
-		local castGUID, targets = castGUIDs[spellID]
-		if( not castGUID) then
-			return
-		end
-
-		local bitType, amount, totalTicks, tickInterval, _ = CalculateHotHealing(playerGUID, spellID)
-		if bitType  == HOT_HEALS then
-			targets, amount = GetHealTargets(bitType, castGUID, max(amount, 0), spellID)
-
-			if not targets then return end -- only here until I compress/decompress npcs
-
-			parseHotHeal(playerGUID, false, spellID, amount, totalTicks, tickInterval, strsplit(",", targets))
-			sendMessage(format("H:%d:%d:%d::%d:%s", totalTicks, spellID, amount, tickInterval, targets))
-		end
-	end
 end
 
 function HealComm:UNIT_SPELLCAST_STOP(unit, castGUID, spellID)
 	local spellName = GetSpellInfo(spellID)
-	if( unit ~= "player" or not spellData[spellName]) then return end
+	if( unit ~= "player" or not spellData[spellName] or spellData[spellName]._isChanneled ) then return end
 
 	parseHealEnd(playerGUID, nil, "name", spellID, true)
 	sendMessage(format("S::%d:1", spellID or 0))
-end
-
-function HealComm:UNIT_SPELLCAST_CHANNEL_STOP(unit, castGUID, spellID)
-	local spellName = GetSpellInfo(spellID)
-	if( unit ~= "player" or not spellData[spellName]) then return end
-
-	parseHealEnd(playerGUID, nil, "name", spellID, false)
-	sendMessage(format("S::%d:0", spellID or 0))
 end
 
 -- Cast didn't go through, recheck any charge data if necessary
@@ -2159,6 +2164,20 @@ function HealComm:OnInitialize()
 		spellData[FirstAid] = { ticks = {6, 6, 7, 7, 8, 8, 8, 8, 8, 8, 8, 10}, interval = 1, averages = {
 			66, 114, 161, 301, 400, 640, 800, 1104, 1360, 2000} }
 
+		local _GetHealTargets = GetHealTargets
+
+		GetHealTargets = function(bitType, guid, healAmount, spellID, data)
+			local spellName = GetSpellInfo(spellID)
+
+			if spellName == FirstAid then
+				return compressGUID[guid], healAmount
+			end
+
+			if _GetHealTargets then
+				return _GetHealTargets(bitType, guid, healAmount, spellID, data)
+			end
+		end
+
 		local _CalculateHealing = CalculateHealing
 
 		CalculateHealing = function(guid, spellID, unit)
@@ -2196,7 +2215,6 @@ function HealComm:OnInitialize()
 	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_SENT")
 	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_START")
 	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_STOP")
-	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
 	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
 	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_DELAYED")
 	self.eventFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
