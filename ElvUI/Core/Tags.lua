@@ -1149,6 +1149,7 @@ E.TagInfo = {
 	['speed:yardspersec-raw'] = { category = 'Speed', description = "" },
 	['speed:yardspersec'] = { category = 'Speed', description = "" },
 	['speed:percent-moving'] = { category = 'Speed', description = "" },
+	['speed:percent-moving-raw'] = { category = 'Speed', description = "" },
 	--Target
 	['target'] = { category = 'Target', description = "Displays the current target of the unit" },
 	['target:veryshort'] = { category = 'Target', description = "Displays the current target of the unit (limited to 5 letters)" },
