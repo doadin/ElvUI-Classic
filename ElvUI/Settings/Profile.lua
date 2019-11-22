@@ -247,6 +247,8 @@ P.bags = {
 		minutesIndicator = { r = 1, g = 1, b = 1 },
 		hoursIndicator = { r = 1, g = 1, b = 1 },
 		daysIndicator = { r = 1, g = 1, b = 1 },
+		hhmmColorIndicator = { r = 1, g = 1, b = 1 },
+		mmssColorIndicator = { r = 1, g = 1, b = 1 },
 
 		checkSeconds = false,
 		hhmmColor = { r = 1, g = 1, b = 1 },
@@ -381,6 +383,8 @@ P.nameplates = {
 		minutesIndicator = { r = 1, g = 1, b = 1 },
 		hoursIndicator = { r = 1, g = 1, b = 1 },
 		daysIndicator = { r = 1, g = 1, b = 1 },
+		hhmmColorIndicator = { r = 1, g = 1, b = 1 },
+		mmssColorIndicator = { r = 1, g = 1, b = 1 },
 
 		checkSeconds = false,
 		hhmmColor = { r = 1, g = 1, b = 1 },
@@ -1505,6 +1509,8 @@ P.auras = {
 		minutesIndicator = { r = 1, g = 1, b = 1 },
 		hoursIndicator = { r = 1, g = 1, b = 1 },
 		daysIndicator = { r = 1, g = 1, b = 1 },
+		hhmmColorIndicator = { r = 1, g = 1, b = 1 },
+		mmssColorIndicator = { r = 1, g = 1, b = 1 },
 
 		checkSeconds = false,
 		hhmmColor = { r = 1, g = 1, b = 1 },
@@ -1725,6 +1731,8 @@ P.unitframe = {
 		minutesIndicator = { r = 1, g = 1, b = 1 },
 		hoursIndicator = { r = 1, g = 1, b = 1 },
 		daysIndicator = { r = 1, g = 1, b = 1 },
+		hhmmColorIndicator = { r = 1, g = 1, b = 1 },
+		mmssColorIndicator = { r = 1, g = 1, b = 1 },
 
 		checkSeconds = false,
 		hhmmColor = { r = 1, g = 1, b = 1 },
@@ -4120,6 +4128,8 @@ P.cooldown = {
 	minutesIndicator = { r = 1, g = 1, b = 1 },
 	hoursIndicator = { r = 1, g = 1, b = 1 },
 	daysIndicator = { r = 1, g = 1, b = 1 },
+	hhmmColorIndicator = { r = 1, g = 1, b = 1 },
+	mmssColorIndicator = { r = 1, g = 1, b = 1 },
 
 	checkSeconds = false,
 	hhmmColor = { r = 0.43, g = 0.43, b = 0.43 },
@@ -4183,6 +4193,8 @@ P.actionbar = {
 		minutesIndicator = { r = 1, g = 1, b = 1 },
 		hoursIndicator = { r = 1, g = 1, b = 1 },
 		daysIndicator = { r = 1, g = 1, b = 1 },
+		hhmmColorIndicator = { r = 1, g = 1, b = 1 },
+		mmssColorIndicator = { r = 1, g = 1, b = 1 },
 
 		checkSeconds = false,
 		hhmmColor = { r = 1, g = 1, b = 1 },

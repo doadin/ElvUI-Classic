@@ -2,12 +2,13 @@ local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, Private
 local AB = E:GetModule('ActionBars')
 
 --Lua functions
-local next, ipairs, pairs = next, ipairs, pairs
+local gsub, ipairs, next, pairs = gsub, ipairs, next, pairs
 local floor, tinsert = floor, tinsert
 --WoW API / Variables
 local GetTime = GetTime
 local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
+local FONT_COLOR_CODE_CLOSE = FONT_COLOR_CODE_CLOSE
 
 local ICON_SIZE = 36 --the normal size for an icon (don't change this)
 local FONT_SIZE = 20 --the base font size to use at a scale of 1
@@ -40,7 +41,7 @@ function E:Cooldown_OnUpdate(elapsed)
 				self.nextUpdate = nextUpdate
 
 				if useIndicatorColor then
-					self.text:SetFormattedText(gsub(E.TimeFormats[formatID][1], E.TimeFormats[formatID][3], indicatorColors[formatID]..E.TimeFormats[formatID][3]..FONT_COLOR_CODE_CLOSE), value1, value2)
+					self.text:SetFormattedText(E.TimeFormats[formatID][3], value1, indicatorColors[formatID], value2)
 				else
 					self.text:SetFormattedText(E.TimeFormats[formatID][2], value1, value2)
 				end
@@ -220,6 +221,8 @@ end
 
 function E:GetCooldownColors(db)
 	if not db then db = self.db.cooldown end -- just incase someone calls this without a first arg use the global
+	local c13 = E:RGBToHex(db.hhmmColorIndicator.r, db.hhmmColorIndicator.g, db.hhmmColorIndicator.b) -- color for timers that are soon to expire
+	local c12 = E:RGBToHex(db.mmssColorIndicator.r, db.mmssColorIndicator.g, db.mmssColorIndicator.b) -- color for timers that are soon to expire
 	local c11 = E:RGBToHex(db.expireIndicator.r, db.expireIndicator.g, db.expireIndicator.b) -- color for timers that are soon to expire
 	local c10 = E:RGBToHex(db.secondsIndicator.r, db.secondsIndicator.g, db.secondsIndicator.b) -- color for timers that have seconds remaining
 	local c9 = E:RGBToHex(db.minutesIndicator.r, db.minutesIndicator.g, db.minutesIndicator.b) -- color for timers that have minutes remaining
@@ -232,7 +235,7 @@ function E:GetCooldownColors(db)
 	local c2 = db.minutesColor -- color for timers that have minutes remaining
 	local c1 = db.hoursColor -- color for timers that have hours remaining
 	local c0 = db.daysColor -- color for timers that have days remaining
-	return c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11
+	return c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13
 end
 
 function E:UpdateCooldownOverride(module)
@@ -340,7 +343,7 @@ function E:UpdateCooldownSettings(module)
 		cooldownDB, timeColors, indicatorColors = self.db[module].cooldown, E.TimeColors[module], E.TimeIndicatorColors[module]
 	end
 
-	timeColors[0], timeColors[1], timeColors[2], timeColors[3], timeColors[4], timeColors[5], timeColors[6], indicatorColors[0], indicatorColors[1], indicatorColors[2], indicatorColors[3], indicatorColors[4] = E:GetCooldownColors(cooldownDB)
+	timeColors[0], timeColors[1], timeColors[2], timeColors[3], timeColors[4], timeColors[5], timeColors[6], indicatorColors[0], indicatorColors[1], indicatorColors[2], indicatorColors[3], indicatorColors[4], indicatorColors[5], indicatorColors[6] = E:GetCooldownColors(cooldownDB)
 
 	if isModule then
 		E:UpdateCooldownOverride(module)
