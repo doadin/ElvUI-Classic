@@ -875,18 +875,18 @@ ElvUF.Tags.Methods['name:title'] = function(unit)
 	end
 end
 
-ElvUF.Tags.Events['name:pvp:title'] = 'UNIT_NAME_UPDATE'
-ElvUF.Tags.Methods['name:pvp:title'] = function(unit)
+ElvUF.Tags.Events['pvp:title'] = 'UNIT_NAME_UPDATE'
+ElvUF.Tags.Methods['pvp:title'] = function(unit)
 	if (UnitIsPlayer(unit)) then
 		local rank = UnitPVPRank(unit)
-		local name = GetPVPRankInfo(rank, unit)
+		local title = GetPVPRankInfo(rank, unit)
 
-		return name
+		return title
 	end
 end
 
-ElvUF.Tags.Events['name:pvp:rank'] = 'UNIT_NAME_UPDATE'
-ElvUF.Tags.Methods['name:pvp:rank'] = function(unit)
+ElvUF.Tags.Events['pvp:rank'] = 'UNIT_NAME_UPDATE'
+ElvUF.Tags.Methods['pvp:rank'] = function(unit)
 	if (UnitIsPlayer(unit)) then
 		local rank = UnitPVPRank(unit)
 		local _, rankNumber = GetPVPRankInfo(rank, unit)
@@ -897,8 +897,8 @@ ElvUF.Tags.Methods['name:pvp:rank'] = function(unit)
 	end
 end
 
-ElvUF.Tags.Events['name:pvp:icon'] = 'UNIT_NAME_UPDATE'
-ElvUF.Tags.Methods['name:pvp:icon'] = function(unit)
+ElvUF.Tags.Events['pvp:icon'] = 'UNIT_NAME_UPDATE'
+ElvUF.Tags.Methods['pvp:icon'] = function(unit)
 	if (UnitIsPlayer(unit)) then
 		local rank = UnitPVPRank(unit)
 		local _, rankNumber = GetPVPRankInfo(rank, unit)
@@ -1095,11 +1095,11 @@ E.TagInfo = {
 	['name:medium:status'] = { category = 'Names', description = "Replace the name of the unit with 'DEAD' or 'OFFLINE' if applicable (limited to 15 letters)" },
 	['name:long:status'] = { category = 'Names', description = "Replace the name of the unit with 'DEAD' or 'OFFLINE' if applicable (limited to 20 letters)" },
 	['name:title'] = { category = 'Names', description = "Displays player name and pvp title" },
-	['name:pvp:title'] = { category = 'Names', description = "Displays player pvp title" },
-	['name:pvp:rank'] = { category = 'Names', description = "Displays player pvp rank number" },
-	['name:pvp:icon'] = { category = 'Names', description = "Displays player pvp rank icon" },
 	['npctitle'] = { category = 'Names', description = "Displays the NPC title (e.g. General Goods Vendor)" },
 	['npctitle:brackets'] = { category = 'Names', description = "Displays the NPC title with < > brackets (e.g. <General Goods Vendor>)" },
+	['pvp:title'] = { category = 'Names', description = "Displays player pvp title" },
+	['pvp:rank'] = { category = 'Names', description = "Displays player pvp rank number" },
+	['pvp:icon'] = { category = 'Names', description = "Displays player pvp rank icon" },
 	--Party and Raid
 	['group'] = { category = 'Party and Raid', description = "Displays the group number the unit is in ('1' - '8')" },
 	['leader'] = { category = 'Party and Raid', description = "Displays 'L' if the unit is the group/raid leader" },
