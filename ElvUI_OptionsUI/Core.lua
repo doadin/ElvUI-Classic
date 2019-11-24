@@ -126,14 +126,14 @@ E.Options.args = {
 	Info_Separate = {
 		order = 3,
 		type = "group",
-		name = "<<< "..L["Info/Controls"].." >>>",
+		name = "  ------ "..L["Info/Controls"].." ------",
 		disabled = true,
 		args = {},
 	},
 	Plugin_Separate = {
 		order = 6,
 		type = "group",
-		name = "<<< "..L["Plugins"].." >>>",
+		name = "  --------- "..L["Plugins"].." ---------",
 		disabled = true,
 		args = {},
 	},
