@@ -11,7 +11,6 @@ local HideUIPanel = HideUIPanel
 local InCombatLockdown = InCombatLockdown
 local MOUSE_LABEL = MOUSE_LABEL:gsub("|T.-|t","")
 local PLAYER = PLAYER
-local hooksecurefunc = hooksecurefunc
 local IsPlayerMoving = IsPlayerMoving
 local PlayerMovementFrameFader = PlayerMovementFrameFader
 -- GLOBALS: CoordsHolder
@@ -158,6 +157,7 @@ end
 
 function M:EnableMapFading(frame)
 	if not E.global.general.fadeMapWhenMoving then return end
+	PlayerMovementFrameFader.RemoveFrame(_G.WorldMapFrame)
 
 	if not fadeFrame then
 		fadeFrame = CreateFrame("FRAME")
