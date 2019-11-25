@@ -2,13 +2,12 @@ local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, Private
 local AB = E:GetModule('ActionBars')
 
 --Lua functions
-local gsub, ipairs, next, pairs = gsub, ipairs, next, pairs
+local next, ipairs, pairs = next, ipairs, pairs
 local floor, tinsert = floor, tinsert
 --WoW API / Variables
 local GetTime = GetTime
 local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
-local FONT_COLOR_CODE_CLOSE = FONT_COLOR_CODE_CLOSE
 
 local ICON_SIZE = 36 --the normal size for an icon (don't change this)
 local FONT_SIZE = 20 --the base font size to use at a scale of 1
@@ -65,7 +64,7 @@ function E:Cooldown_OnSizeChanged(cd, width, force)
 	else
 		local text = cd.text or cd.time
 		if text then
-			local useCustomFont = (cd.timerOptions and cd.timerOptions.fontOptions and cd.timerOptions.fontOptions.enable) and E.Libs.LSM:Fetch("font", cd.timerOptions.fontOptions.font)
+			local useCustomFont = (cd.timerOptions and cd.timerOptions.fontOptions and cd.timerOptions.fontOptions.enable) and E.Libs.LSM:Fetch('font', cd.timerOptions.fontOptions.font)
 			if useCustomFont then
 				text:FontTemplate(useCustomFont, (fontScale * cd.timerOptions.fontOptions.fontSize), cd.timerOptions.fontOptions.fontOutline)
 			elseif fontScale then
@@ -113,7 +112,7 @@ function E:CreateCooldownTimer(parent)
 
 	local text = timer:CreateFontString(nil, 'OVERLAY')
 	text:Point('CENTER', 1, 1)
-	text:SetJustifyH("CENTER")
+	text:SetJustifyH('CENTER')
 	timer.text = text
 
 	-- can be used to modify elements created from this function
@@ -194,7 +193,7 @@ end
 
 function E:RegisterCooldown(cooldown)
 	if not cooldown.isHooked then
-		hooksecurefunc(cooldown, "SetCooldown", E.OnSetCooldown)
+		hooksecurefunc(cooldown, 'SetCooldown', E.OnSetCooldown)
 		cooldown.isHooked = true
 	end
 
@@ -288,14 +287,14 @@ function E:UpdateCooldownOverride(module)
 				if text then
 					if CD.timerOptions.fontOptions and CD.timerOptions.fontOptions.enable then
 						if not customFont then
-							customFont = E.Libs.LSM:Fetch("font", CD.timerOptions.fontOptions.font)
+							customFont = E.Libs.LSM:Fetch('font', CD.timerOptions.fontOptions.font)
 						end
 						if customFont then
 							text:FontTemplate(customFont, CD.timerOptions.fontOptions.fontSize, CD.timerOptions.fontOptions.fontOutline)
 						end
 					elseif cd.CooldownOverride then
 						if not customFont then
-							customFont = E.Libs.LSM:Fetch("font", E.db[cd.CooldownOverride].font)
+							customFont = E.Libs.LSM:Fetch('font', E.db[cd.CooldownOverride].font)
 						end
 
 						-- cd.auraType defined in `A:UpdateHeader` and `A:CreateIcon`
@@ -334,7 +333,7 @@ end
 function E:UpdateCooldownSettings(module)
 	local cooldownDB, timeColors, indicatorColors = self.db.cooldown, E.TimeColors, E.TimeIndicatorColors
 
-	-- update the module timecolors if the config called it but ignore "global" and "all":
+	-- update the module timecolors if the config called it but ignore 'global' and 'all':
 	-- global is the main call from config, all is the core file calls
 	local isModule = module and (module ~= 'global' and module ~= 'all') and self.db[module] and self.db[module].cooldown
 	if isModule then

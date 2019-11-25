@@ -1,10 +1,12 @@
 local E = unpack(ElvUI) --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
-local AddOnName, Engine = ...
+local D = E:GetModule("Distributor")
 
+local Engine = select(2, ...)
 Engine[1] = {}
-Engine[2] = E.Libs.ACL:GetLocale("ElvUI", E.global.general.locale or "enUS")
-
+Engine[2] = E.Libs.ACL:GetLocale('ElvUI', E.global.general.locale)
 local C, L = Engine[1], Engine[2]
+
+local _G, format, sort, tinsert = _G, format, sort, tinsert
 
 C.Values = {
 	FontFlags = {
@@ -15,16 +17,11 @@ C.Values = {
 	}
 }
 
-local D = E:GetModule("Distributor")
-local format = format
-local sort, tinsert = sort, tinsert
-
-local _G = _G
-E.Libs.AceGUI = _G.LibStub("AceGUI-3.0")
-E.Libs.AceConfig = _G.LibStub("AceConfig-3.0-ElvUI")
-E.Libs.AceConfigDialog = _G.LibStub("AceConfigDialog-3.0-ElvUI")
-E.Libs.AceConfigRegistry = _G.LibStub("AceConfigRegistry-3.0-ElvUI")
-E.Libs.AceDBOptions = _G.LibStub("AceDBOptions-3.0")
+E:AddLib('AceGUI', 'AceGUI-3.0')
+E:AddLib('AceConfig', 'AceConfig-3.0-ElvUI')
+E:AddLib('AceConfigDialog', 'AceConfigDialog-3.0-ElvUI')
+E:AddLib('AceConfigRegistry', 'AceConfigRegistry-3.0-ElvUI')
+E:AddLib('AceDBOptions', 'AceDBOptions-3.0')
 
 local UnitName = UnitName
 local UnitExists = UnitExists
@@ -57,17 +54,7 @@ E.Options.args = {
 		desc = L["Reset the size and position of this frame."],
 		customWidth = 175,
 		func = function()
-			if E.GUIFrame then
-				local status = E.GUIFrame.obj and E.GUIFrame.obj.status
-				if status then
-					E:ResetConfigSettings()
-
-					status.top, status.left = E:GetConfigPosition()
-					status.width, status.height = E:GetConfigDefaultSize()
-
-					E.GUIFrame.obj:ApplyStatus()
-				end
-			end
+			E:UpdateConfigSize(true)
 		end
 	},
 	ToggleTutorial = {

@@ -2,7 +2,6 @@ local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, Private
 
 --Lua functions
 local min, max, abs, floor = min, max, abs, floor
-local format, tonumber = format, tonumber
 --WoW API / Variables
 local UIParent = UIParent
 
@@ -73,10 +72,7 @@ function E:PixelScaleChanged(event, skip)
 	E:UIScale(true) -- repopulate variables
 	E:UIScale() -- setup the scale
 
-	if E.RefreshGUI then
-		E.Libs.AceConfigDialog:SetDefaultSize("ElvUI", E:GetConfigSize())
-		E:RefreshGUI()
-	end
+	E:UpdateConfigSize(true) -- reposition config
 
 	if skip or E.global.general.ignoreScalePopup then return end
 

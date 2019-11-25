@@ -992,7 +992,6 @@ ElvUF.Tags.Methods['quest:info'] = function(unit)
 	end
 end
 
-
 E.TagInfo = {
 	--Colors
 	['namecolor'] = { category = 'Colors', description = "Colors names by player class or NPC reaction" },
