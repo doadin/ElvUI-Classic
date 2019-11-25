@@ -8,11 +8,10 @@ local strfind = strfind
 local CreateFrame = CreateFrame
 local ShowUIPanel = ShowUIPanel
 local HideUIPanel = HideUIPanel
+local IsPlayerMoving = IsPlayerMoving
 local InCombatLockdown = InCombatLockdown
 local MOUSE_LABEL = MOUSE_LABEL:gsub("|T.-|t","")
 local PLAYER = PLAYER
-local IsPlayerMoving = IsPlayerMoving
-local PlayerMovementFrameFader = PlayerMovementFrameFader
 -- GLOBALS: CoordsHolder
 
 local INVERTED_POINTS = {
@@ -156,8 +155,6 @@ function M:StopMapFromFading()
 end
 
 function M:EnableMapFading(frame)
-	PlayerMovementFrameFader.RemoveFrame(_G.WorldMapFrame)
-
 	if not E.global.general.fadeMapWhenMoving then
 		return
 	end
