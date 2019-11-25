@@ -156,8 +156,11 @@ function M:StopMapFromFading()
 end
 
 function M:EnableMapFading(frame)
-	if not E.global.general.fadeMapWhenMoving then return end
 	PlayerMovementFrameFader.RemoveFrame(_G.WorldMapFrame)
+
+	if not E.global.general.fadeMapWhenMoving then
+		return
+	end
 
 	if not fadeFrame then
 		fadeFrame = CreateFrame("FRAME")
