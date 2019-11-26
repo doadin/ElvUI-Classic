@@ -83,7 +83,7 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 		if(not button) then
 			button = (element.CreateIcon or createAuraIcon) (element, position)
 
-			table.insert(element, button)
+			tinsert(element, button)
 			element.createdIcons = element.createdIcons + 1
 		end
 
