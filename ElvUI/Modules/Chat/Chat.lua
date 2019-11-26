@@ -170,6 +170,9 @@ do --this can save some main file locals
 		["Cutepally-Myzrael"]	= itsSimpy, -- Paladin
 		["Imsocheesy-Myzrael"]	= itsSimpy, -- [Horde] Priest
 		["Imsospicy-Myzrael"]	= itsSimpy, -- [Horde] Mage
+		-- Blazeflack
+		["Freezly-MirageRaceway"]	= ElvBlue, -- Mage
+		["Blazii-MirageRaceway"]	= ElvBlue, -- Priest
 	}
 end
 
