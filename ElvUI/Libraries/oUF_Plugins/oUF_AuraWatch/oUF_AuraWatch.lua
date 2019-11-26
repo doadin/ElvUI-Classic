@@ -154,7 +154,6 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 
 			return VISIBLE
 		else
-
 			button.isFiltered = true
 			return HIDDEN
 		end
