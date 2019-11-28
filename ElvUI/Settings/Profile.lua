@@ -306,14 +306,6 @@ local NP_PvPIcon = {
 	yOffset = 0,
 }
 
-local NP_PvPClassificationIndicator = {
-	enable = false,
-	position = 'LEFT',
-	size = 36,
-	xOffset = 0,
-	yOffset = 0,
-}
-
 local NP_Portrait = {
 	enable = false,
 	position = 'RIGHT',
