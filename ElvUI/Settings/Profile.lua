@@ -959,7 +959,8 @@ local UF_Auras = {
 	minDuration = 0,
 	maxDuration = 300,
 	priority = '',
-	sizeOverride = 0
+	sizeOverride = 0,
+	spacing = 1,
 }
 
 local UF_AuraBars = {
