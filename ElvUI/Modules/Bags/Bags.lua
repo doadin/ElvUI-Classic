@@ -1069,7 +1069,6 @@ function B:ContructContainerFrame(name, isBank)
 		f.bagsButton:GetPushedTexture():SetInside()
 		f.bagsButton:StyleButton(nil, true)
 		f.bagsButton.ttText = L["Toggle Bags"]
-		f.bagsButton.ttText2 = format("|cffFFFFFF%s|r", L["Right Click the bag icon to assign a type of item to this bag."])
 		f.bagsButton:SetScript("OnEnter", B.Tooltip_Show)
 		f.bagsButton:SetScript("OnLeave", GameTooltip_Hide)
 		f.bagsButton:SetScript('OnClick', function()
