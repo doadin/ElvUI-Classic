@@ -6,7 +6,6 @@ G.general = {
 	version = 1.17,
 	locale = E:GetLocale(),
 	eyefinity = false,
-	ignoreScalePopup = false,
 	smallerWorldMap = true,
 	smallerWorldMapScale = 0.9,
 	fadeMapWhenMoving = true,
