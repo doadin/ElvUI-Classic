@@ -158,7 +158,12 @@ end
 ElvUF.Tags.Events['health:deficit-percent:nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
 ElvUF.Tags.Methods['health:deficit-percent:nostatus'] = function(unit)
 	local min, max = E:UnitHealthValues(unit)
-	return E:GetFormattedText('PERCENT', max, min)
+	local deficit = (min / max) - 1
+	if deficit == 0 then
+		return ''
+	else
+		return E:GetFormattedText('PERCENT', deficit, -1)
+	end
 end
 
 for textFormat in pairs(E.GetFormattedTextStyles) do
