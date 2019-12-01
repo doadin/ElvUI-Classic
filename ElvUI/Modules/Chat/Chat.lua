@@ -372,6 +372,7 @@ function CH:StyleChat(frame)
 				ChatEdit_ParseText(editBox, 0)
 			end
 		end
+
 		editbox.characterCount:SetText((255 - strlen(text)))
 	end
 
@@ -1035,7 +1036,7 @@ function CH:GetBNFirstToonClassColor(id)
 			if numGameAccounts > 0 then
 				for y = 1, numGameAccounts do
 					local _, _, client, _, _, _, _, Class = BNGetFriendGameAccountInfo(i, y)
-					if (client == BNET_CLIENT_WOW) and Class and Class ~= '' then
+					if (Class and Class ~= '') and (client == BNET_CLIENT_WOW) then
 						return Class --return the first toon's class
 					end
 				end
@@ -1560,8 +1561,8 @@ function CH:ChatFrame_ConfigEventHandler(...)
 	return ChatFrame_ConfigEventHandler(...)
 end
 
-function CH:ChatFrame_SystemEventHandler(...)
-	return ChatFrame_SystemEventHandler(...)
+function CH:ChatFrame_SystemEventHandler(frame, event, message, ...)
+	return ChatFrame_SystemEventHandler(frame, event, message, ...)
 end
 
 function CH:ChatFrame_OnEvent(...)
@@ -1869,7 +1870,7 @@ function CH:UpdateFading()
 end
 
 function CH:DisplayChatHistory()
-	local data, d = ElvCharacterDB.ChatHistoryLog
+	local data = ElvCharacterDB.ChatHistoryLog
 	if not (data and next(data)) then return end
 
 	if not GetPlayerInfoByGUID(E.myguid) then
@@ -1880,7 +1881,7 @@ function CH:DisplayChatHistory()
 	CH.SoundTimer = true
 	for _, chat in pairs(_G.CHAT_FRAMES) do
 		for i=1, #data do
-			d = data[i]
+			local d = data[i]
 			if type(d) == 'table' then
 				for _, messageType in pairs(_G[chat].messageTypeList) do
 					if gsub(strsub(d[50],10),'_INFORM','') == messageType then
@@ -1935,6 +1936,7 @@ function CH:SaveChatHistory(event, ...)
 
 	if not CH.db.chatHistory then return end
 	local data = ElvCharacterDB.ChatHistoryLog
+	if not data then return end
 
 	local tempHistory = {}
 	for i = 1, select('#', ...) do
