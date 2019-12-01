@@ -1578,13 +1578,8 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				name = L["Attach Text To"],
 				values = attachToValues,
 			},
-			bgUseBarTexture = {
-				type = "toggle",
-				order = 3,
-				name = L["Use Health Texture on Background"],
-			},
 			colorOverride = {
-				order = 4,
+				order = 3,
 				name = L["Class Color Override"],
 				desc = L["Override the default class color setting."],
 				type = 'select',
@@ -1593,11 +1588,17 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				set = function(info, value) E.db.unitframe.units[groupName][info[#info]] = value; updateFunc(UF, groupName, numUnits) end,
 			},
 			configureButton = {
-				order = 5,
+				order = 4,
 				name = L["Coloring"],
 				desc = L["This opens the UnitFrames Color settings. These settings affect all unitframes."],
 				type = 'execute',
 				func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup", "healthGroup") end,
+			},
+			bgUseBarTexture = {
+				type = "toggle",
+				order = 5,
+				name = L["Use Health Texture on Background"],
+				customWidth = 250,
 			},
 			textGroup = {
 				type = 'group',
