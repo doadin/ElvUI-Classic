@@ -4420,6 +4420,12 @@ E.Options.args.unitframe.args.targettarget = {
 					get = function(info) return E.db.unitframe.units.targettarget.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.targettarget.power.hideonnpc = value; UF:CreateAndUpdateUF('targettarget') end,
 				},
+				threatStyle = {
+					type = 'select',
+					order = 7,
+					name = L["Threat Display Mode"],
+					values = threatValues,
+				},
 				smartAuraPosition = {
 					order = 8,
 					type = "select",
@@ -4544,6 +4550,12 @@ E.Options.args.unitframe.args.targettargettarget = {
 					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
 					get = function(info) return E.db.unitframe.units.targettargettarget.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.targettargettarget.power.hideonnpc = value; UF:CreateAndUpdateUF('targettargettarget') end,
+				},
+				threatStyle = {
+					type = 'select',
+					order = 7,
+					name = L["Threat Display Mode"],
+					values = threatValues,
 				},
 				smartAuraPosition = {
 					order = 8,
