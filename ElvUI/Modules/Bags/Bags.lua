@@ -1045,6 +1045,9 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:GetDisabledTexture():SetInside()
 		f.sortButton:GetDisabledTexture():SetDesaturated(1)
 		f.sortButton:StyleButton(nil, true)
+		f.sortButton.ttText = L["Sort Bags"]
+		f.sortButton:SetScript('OnEnter', B.Tooltip_Show)
+		f.sortButton:SetScript('OnLeave', GameTooltip_Hide)
 		f.sortButton:SetScript('OnClick', function()
 			if f.holderFrame:IsShown() then
 				f:UnregisterAllEvents() --Unregister to prevent unnecessary updates
@@ -1161,6 +1164,9 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:GetDisabledTexture():SetInside()
 		f.sortButton:GetDisabledTexture():SetDesaturated(1)
 		f.sortButton:StyleButton(nil, true)
+		f.sortButton.ttText = L["Sort Bags"]
+		f.sortButton:SetScript('OnEnter', B.Tooltip_Show)
+		f.sortButton:SetScript('OnLeave', GameTooltip_Hide)
 		f.sortButton:SetScript('OnClick', function()
 			f:UnregisterAllEvents() --Unregister to prevent unnecessary updates
 			if not f.registerUpdate then B:SortingFadeBags(f, true) end
