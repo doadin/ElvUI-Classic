@@ -1496,4 +1496,6 @@ function E:Initialize()
 		if Chat.Initialized then msg = select(2, Chat:FindURL('CHAT_MSG_DUMMY', msg)) end
 		print(msg)
 	end
+	--Slash Commands
+	SlashCmdList["STOPWATCH"] = Stopwatch_Toggle
 end
