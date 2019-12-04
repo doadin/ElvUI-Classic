@@ -192,24 +192,33 @@ function E:EnableBlizzardAddOns()
 	end
 end
 
-function E:ToggleDevConsole()
-	_G.DeveloperConsole:Toggle()
-end
-
-do -- Blizzard Slash Commands
+do -- Blizzard Commands
 	local SlashCmdList = _G.SlashCmdList
 
+	-- DeveloperConsole (without starting with `-console`)
+	if not SlashCmdList.DEVCON then
+		local DevConsole = _G.DeveloperConsole
+		if DevConsole then
+			_G.SLASH_DEVCON1 = '/devcon'
+			SlashCmdList.DEVCON = function()
+				DevConsole:Toggle()
+			end
+		end
+	end
+
 	-- ReloadUI: /rl, /reloadui, /reload  NOTE: /reload is from SLASH_RELOAD
-	SlashCmdList.RELOADUI = _G.ReloadUI
-	_G.SLASH_RELOADUI1 = '/rl'
-	_G.SLASH_RELOADUI2 = '/reloadui'
+	if not SlashCmdList.RELOADUI then
+		_G.SLASH_RELOADUI1 = '/rl'
+		_G.SLASH_RELOADUI2 = '/reloadui'
+		SlashCmdList.RELOADUI = _G.ReloadUI
+	end
 
 	-- Stopwatch: /sw, /timer, /stopwatch
-	if SlashCmdList.STOPWATCH then return end
-	-- dont add it if another adddon has created it
-	hooksecurefunc(_G, 'TimeManager_LoadUI', function()
-		SlashCmdList.STOPWATCH = _G.Stopwatch_Toggle
-	end)
+	if not SlashCmdList.STOPWATCH then
+		hooksecurefunc(_G, 'TimeManager_LoadUI', function()
+			SlashCmdList.STOPWATCH = _G.Stopwatch_Toggle
+		end)
+	end
 end
 
 function E:LoadCommands()
@@ -236,7 +245,6 @@ function E:LoadCommands()
 	self:RegisterChatCommand('cleanguild', 'MassGuildKick')
 	self:RegisterChatCommand('enableblizzard', 'EnableBlizzardAddOns')
 	self:RegisterChatCommand('estatus', 'ShowStatusReport')
-	self:RegisterChatCommand('devcon', 'ToggleDevConsole')
 	-- self:RegisterChatCommand('aprilfools', '') --Don't need this until next april fools
 
 	if E.private.actionbar.enable then
