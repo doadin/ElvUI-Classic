@@ -214,11 +214,11 @@ do -- Blizzard Commands
 	end
 
 	-- Stopwatch: /sw, /timer, /stopwatch
-	if not SlashCmdList.STOPWATCH then
-		hooksecurefunc(_G, 'TimeManager_LoadUI', function()
+	hooksecurefunc(_G, 'UIParentLoadAddOn', function(name)
+		if name == 'Blizzard_TimeManager' and not SlashCmdList.STOPWATCH then
 			SlashCmdList.STOPWATCH = _G.Stopwatch_Toggle
-		end)
-	end
+		end
+	end)
 end
 
 function E:LoadCommands()
