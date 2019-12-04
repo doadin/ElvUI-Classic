@@ -7,20 +7,24 @@ local _G = _G
 local tonumber, type, pairs, select = tonumber, type, pairs, select
 local lower, split, format = strlower, strsplit, format
 --WoW API / Variables
-local EnableAddOn, DisableAllAddOns = EnableAddOn, DisableAllAddOns
-local SetCVar = SetCVar
-local ReloadUI = ReloadUI
-local GuildControlGetNumRanks = GuildControlGetNumRanks
-local GuildControlGetRankName = GuildControlGetRankName
-local GetNumGuildMembers, GetGuildRosterInfo = GetNumGuildMembers, GetGuildRosterInfo
-local GetGuildRosterLastOnline = GetGuildRosterLastOnline
-local GuildUninvite = GuildUninvite
-local SendChatMessage = SendChatMessage
+local hooksecurefunc = hooksecurefunc
 local debugprofilestop = debugprofilestop
-local UpdateAddOnCPUUsage, GetAddOnCPUUsage = UpdateAddOnCPUUsage, GetAddOnCPUUsage
-local ResetCPUUsage = ResetCPUUsage
+local DisableAllAddOns = DisableAllAddOns
+local EnableAddOn = EnableAddOn
+local GetAddOnCPUUsage = GetAddOnCPUUsage
 local GetAddOnInfo = GetAddOnInfo
 local GetCVarBool = GetCVarBool
+local GetGuildRosterInfo = GetGuildRosterInfo
+local GetGuildRosterLastOnline = GetGuildRosterLastOnline
+local GetNumGuildMembers = GetNumGuildMembers
+local GuildControlGetNumRanks = GuildControlGetNumRanks
+local GuildControlGetRankName = GuildControlGetRankName
+local GuildUninvite = GuildUninvite
+local ReloadUI = ReloadUI
+local ResetCPUUsage = ResetCPUUsage
+local SendChatMessage = SendChatMessage
+local SetCVar = SetCVar
+local UpdateAddOnCPUUsage = UpdateAddOnCPUUsage
 -- GLOBALS: ElvUIGrid
 
 function E:Grid(msg)
@@ -190,6 +194,23 @@ end
 
 function E:ToggleDevConsole()
 	_G.DeveloperConsole:Toggle()
+end
+
+do -- Blizzard Slash Commands
+	local SlashCmdList = _G.SlashCmdList
+
+	-- ReloadUI
+	SlashCmdList.RELOADUI = _G.ReloadUI
+	_G.SLASH_RELOADUI1 = '/rl'
+	_G.SLASH_RELOADUI2 = '/reloadui'
+
+	if SlashCmdList.STOPWATCH then return end
+	hooksecurefunc(_G, 'UIParentLoadAddOn', function(name)
+		if name == 'Blizzard_TimeManager' then
+			-- Stopwatch: /sw, /timer, /stopwatch
+			SlashCmdList.STOPWATCH = _G.Stopwatch_Toggle
+		end
+	end)
 end
 
 function E:LoadCommands()
