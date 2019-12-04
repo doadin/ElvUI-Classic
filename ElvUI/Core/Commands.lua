@@ -199,17 +199,16 @@ end
 do -- Blizzard Slash Commands
 	local SlashCmdList = _G.SlashCmdList
 
-	-- ReloadUI
+	-- ReloadUI: /rl, /reloadui, /reload  NOTE: /reload is from SLASH_RELOAD
 	SlashCmdList.RELOADUI = _G.ReloadUI
 	_G.SLASH_RELOADUI1 = '/rl'
 	_G.SLASH_RELOADUI2 = '/reloadui'
 
+	-- Stopwatch: /sw, /timer, /stopwatch
 	if SlashCmdList.STOPWATCH then return end
-	hooksecurefunc(_G, 'UIParentLoadAddOn', function(name)
-		if name == 'Blizzard_TimeManager' then
-			-- Stopwatch: /sw, /timer, /stopwatch
-			SlashCmdList.STOPWATCH = _G.Stopwatch_Toggle
-		end
+	-- dont add it if another adddon has created it
+	hooksecurefunc(_G, 'TimeManager_LoadUI', function()
+		SlashCmdList.STOPWATCH = _G.Stopwatch_Toggle
 	end)
 end
 
