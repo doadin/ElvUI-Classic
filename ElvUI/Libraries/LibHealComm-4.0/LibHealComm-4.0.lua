@@ -2185,7 +2185,11 @@ function HealComm:OnInitialize()
 				local healAmount =  spellData[spellName].averages[spellRank]
 				local ticks = spellData[spellName].ticks[spellRank]
 
-				return CHANNEL_HEALS, ceil(healAmount / ticks), ticks, spellData[spellName].interval
+				if healAmount then
+					return CHANNEL_HEALS, ceil(healAmount / ticks), ticks, spellData[spellName].interval
+				else
+					return
+				end
 			end
 
 			if _CalculateHealing then
