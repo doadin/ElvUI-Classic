@@ -5,9 +5,8 @@ local E, L, V, P, G = unpack(select(2, ...))
 
 local _G = _G
 local wipe, date = wipe, date
-local format, select, type, ipairs, pairs = format, select, type, ipairs, pairs
+local format, type, ipairs, pairs, strlen = format, type, ipairs, pairs, strlen
 local strmatch, strfind, tonumber, tostring = strmatch, strfind, tonumber, tostring
-local strlen = strlen
 local GetAddOnEnableState = GetAddOnEnableState
 local GetCVar, SetCVar = GetCVar, SetCVar
 local GetCVarBool = GetCVarBool
@@ -19,6 +18,7 @@ local RequestBattlefieldScoreData = RequestBattlefieldScoreData
 local UIParentLoadAddOn = UIParentLoadAddOn
 local UnitHasVehicleUI = UnitHasVehicleUI
 local C_UIWidgetManager_GetStatusBarWidgetVisualizationInfo = C_UIWidgetManager.GetStatusBarWidgetVisualizationInfo
+-- GLOBALS: ElvDB
 
 function E:ClassColor(class, usePriestColor)
 	if not class then return end
@@ -383,7 +383,11 @@ function E:RequestBGInfo()
 	RequestBattlefieldScoreData()
 end
 
-function E:PLAYER_ENTERING_WORLD()
+function E:PLAYER_ENTERING_WORLD(_, initLogin)
+	if initLogin or not ElvDB.LuaErrorDisabledAddOns then
+		ElvDB.LuaErrorDisabledAddOns = {}
+	end
+
 	if not self.MediaUpdated then
 		self:UpdateMedia()
 		self.MediaUpdated = true
