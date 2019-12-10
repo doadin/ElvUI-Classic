@@ -184,16 +184,6 @@ function A:UpdateAura(button, index)
 	local name, texture, count, dtype, duration, expirationTime = UnitAura(unit, index, button.filter)
 
 	if name then
-		if E.myclass == "SHAMAN" then
-			for slot = 1, 4 do
-				local _, _, start, durationTime, icon = GetTotemInfo(slot)
-				if icon == texture then
-					duration = durationTime
-					expirationTime = start + duration
-				end
-			end
-		end
-
 		if (duration > 0) and expirationTime then
 			button.nextUpdate = 0
 			button.endTime = expirationTime
