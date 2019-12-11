@@ -171,7 +171,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 		local localeClass, class = UnitClass(unit)
 		if not localeClass or not class then return end
 
-		local name = UnitName(unit)
+		local name, realm = UnitName(unit)
 		local guildName, guildRankName = GetGuildInfo(unit)
 		local pvpName = UnitPVPName(unit)
 
@@ -179,6 +179,16 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 
 		if self.db.playerTitles and pvpName then
 			name = pvpName
+		end
+
+		if realm and realm ~= "" then
+			if(isShiftKeyDown) or self.db.alwaysShowRealm then
+				name = name.."-"..realm
+			elseif(relationship == _G.LE_REALM_RELATION_COALESCED) then
+				name = name.._G.FOREIGN_SERVER_LABEL
+			elseif(relationship == _G.LE_REALM_RELATION_VIRTUAL) then
+				name = name.._G.INTERACTIVE_SERVER_LABEL
+			end
 		end
 
 		if not color then color = PRIEST_COLOR end
