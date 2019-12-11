@@ -9,6 +9,8 @@ local strjoin = strjoin
 local GetBattlefieldScore = GetBattlefieldScore
 local GetNumBattlefieldScores = GetNumBattlefieldScores
 local GetBattlefieldStatData = GetBattlefieldStatData
+local BATTLEGROUND = BATTLEGROUND
+
 local displayString, lastPanel = ''
 local dataLayout = {
 	['LeftChatDataPanel'] = {
@@ -51,13 +53,13 @@ end
 function DT:BattlegroundStats()
 	DT:SetupTooltip(self)
 
+	local classColor = E:ClassColor(E.myclass)
 	local numStatInfo = GetNumBattlefieldStats()
 	if numStatInfo then
 		for i = 1, GetNumBattlefieldScores() do
 			local name = GetBattlefieldScore(i)
 			if name and name == E.myname then
-				local classColor = (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass]) or RAID_CLASS_COLORS[E.myclass]
-
+				DT.tooltip:AddDoubleLine(BATTLEGROUND, E.MapInfo.name, 1,1,1, classColor.r, classColor.g, classColor.b)
 				DT.tooltip:AddDoubleLine(L["Stats For:"], name, 1, 1, 1, classColor.r, classColor.g, classColor.b)
 				DT.tooltip:AddLine(" ")
 
