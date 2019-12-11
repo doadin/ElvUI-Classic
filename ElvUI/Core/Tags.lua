@@ -1107,9 +1107,6 @@ E.TagInfo = {
 	['name:title'] = { category = 'Names', description = "Displays player name and pvp title" },
 	['npctitle'] = { category = 'Names', description = "Displays the NPC title (e.g. General Goods Vendor)" },
 	['npctitle:brackets'] = { category = 'Names', description = "Displays the NPC title with < > brackets (e.g. <General Goods Vendor>)" },
-	['pvp:title'] = { category = 'Names', description = "Displays player pvp title" },
-	['pvp:rank'] = { category = 'Names', description = "Displays player pvp rank number" },
-	['pvp:icon'] = { category = 'Names', description = "Displays player pvp rank icon" },
 	--Party and Raid
 	['group'] = { category = 'Party and Raid', description = "Displays the group number the unit is in ('1' - '8')" },
 	['leader'] = { category = 'Party and Raid', description = "Displays 'L' if the unit is the group/raid leader" },
@@ -1133,6 +1130,13 @@ E.TagInfo = {
 	['maxpp'] = { category = 'Power', description = "Displays the max amount of power of the unit in whole numbers without decimals" },
 	['missingpp'] = { category = 'Power', description = "Displays the missing power of the unit in whole numbers when not at full power" },
 	['cpoints'] = { category = 'Power', description = "Displays amount of combo points the player has (only for player, shows nothing on 0)" },
+	--PvP
+	['pvptimer'] = { category = 'PvP', description = "Displays remaining time on pvp-flagged status" },
+	['faction'] = { category = 'PvP', description = "Displays 'Aliance' or 'Horde'" },
+	['faction:icon'] = { category = 'PvP', description = "Displays 'Alliance' or 'Horde' Texture" },
+	['pvp:title'] = { category = 'PvP', description = "Displays player pvp title" },
+	['pvp:rank'] = { category = 'PvP', description = "Displays player pvp rank number" },
+	['pvp:icon'] = { category = 'PvP', description = "Displays player pvp rank icon" },
 	--Quest
 	['quest:info'] = { category = 'Quest', description = "Displays the quest objectives" },
 	['quest:title'] = { category = 'Quest', description = "Displays the quest title" },
@@ -1174,10 +1178,7 @@ E.TagInfo = {
 	--Miscellanous
 	['affix'] = { category = 'Miscellanous', description = "Displays low level critter mobs" },
 	['class'] = { category = 'Miscellanous', description = "Displays the class of the unit, if that unit is a player" },
-	['faction'] = { category = 'Miscellanous', description = "Displays 'Aliance' or 'Horde'" },
-	['faction:icon'] = { category = 'Miscellanous', description = "Displays 'Alliance' or 'Horde' Texture" },
 	['plus'] = { category = 'Miscellanous', description = "Displays the character '+' if the unit is an elite or rare-elite" },
-	['pvptimer'] = { category = 'Miscellanous', description = "Displays remaining time on pvp-flagged status" },
 	['race'] = { category = 'Miscellanous', description = "Displays the race" },
 	--Range
 	['nearbyplayers:8'] = { category = 'Range', description = "Displays all players within 8 yards" },
