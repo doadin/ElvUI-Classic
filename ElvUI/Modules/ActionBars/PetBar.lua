@@ -17,6 +17,7 @@ local AutoCastShine_AutoCastStart = AutoCastShine_AutoCastStart
 local AutoCastShine_AutoCastStop = AutoCastShine_AutoCastStop
 local GetPetActionSlotUsable = GetPetActionSlotUsable
 local SetDesaturation = SetDesaturation
+local InCombatLockdown = InCombatLockdown
 local PetActionBar_UpdateCooldowns = PetActionBar_UpdateCooldowns
 local NUM_PET_ACTION_SLOTS = NUM_PET_ACTION_SLOTS
 -- GLOBALS: ElvUI_Bar4
@@ -190,6 +191,7 @@ function AB:PositionAndSizeBarPet()
 		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:Size(size)
+		--button:Show()
 
 		autoCast:SetOutside(button, autoCastSize, autoCastSize)
 
@@ -270,6 +272,17 @@ function AB:UpdatePetBindings()
 	end
 end
 
+function AB:ShowPetButtons()
+	if not InCombatLockdown() then
+		for i=1, NUM_PET_ACTION_SLOTS do
+			_G["PetActionButton"..i]:Show()
+		end
+
+		-- step 4, unhook after they are shown once so the code isn't repeated
+		AB:Unhook(_G, 'PetActionBar_Update')
+	end
+end
+
 function AB:CreateBarPet()
 	bar:CreateBackdrop(self.db.transparent and 'Transparent')
 	bar.backdrop:SetAllPoints()
@@ -296,6 +309,16 @@ function AB:CreateBarPet()
 			end
 		end
 	end)
+
+	do -- show down blizzard's show grid
+		-- step 1, shut down blizzards grid functions
+		_G.PetActionBar_ShowGrid = E.noop
+		_G.PetActionBar_HideGrid = E.noop
+		-- step 2, nil the tainting var
+		_G.PetActionBarFrame.showgrid = nil
+		-- step 3, show the icons when we aren't in combat
+		self:SecureHook(_G, 'PetActionBar_Update', 'ShowPetButtons')
+	end
 
 	self:RegisterEvent('PET_BAR_UPDATE', 'UpdatePet')
 	self:RegisterEvent('PLAYER_CONTROL_GAINED', 'UpdatePet')
