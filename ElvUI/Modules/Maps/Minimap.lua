@@ -260,6 +260,16 @@ function M:UpdateSettings()
 		MiniMapMailFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.mail.xOffset or 3, E.db.general.minimap.icons.mail.yOffset or 4)
 		MiniMapMailFrame:SetScale(scale)
 	end
+	
+	local MiniMapBattlefieldFrame = _G.MiniMapBattlefieldFrame
+	if MiniMapBattlefieldFrame then
+		local pos = E.db.general.minimap.icons.battlefield.position or "BOTTOMLEFT"
+		local scale = E.db.general.minimap.icons.battlefield.scale or 1
+		MiniMapBattlefieldFrame:ClearAllPoints()
+		MiniMapBattlefieldFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.battlefield.xOffset or -2, E.db.general.minimap.icons.battlefield.yOffset or -2)
+		MiniMapBattlefieldFrame:SetScale(scale)
+		MiniMapBattlefieldFrame:SetParent(Minimap)
+	end
 
 	local MiniMapTrackingFrame = _G.MiniMapTrackingFrame
 	if (MiniMapTrackingFrame) then
