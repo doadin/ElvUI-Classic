@@ -279,11 +279,11 @@ function TT:INSPECT_READY(event, unitGUID)
 			E:Delay(0.05, function()
 				local canUpdate = true
 				for _, x in ipairs(retryTable) do
-					local iLvl = E:GetGearSlotInfo(retryUnit, x)
-					if iLvl == 'tooSoon' then
+					local slotInfo = E:GetGearSlotInfo(retryUnit, x)
+					if slotInfo == 'tooSoon' then
 						canUpdate = false
 					else
-						iLevelDB[x] = iLvl
+						iLevelDB[x] = slotInfo.iLvl
 					end
 				end
 
@@ -554,7 +554,7 @@ function TT:GameTooltip_ShowStatusBar(tt)
 end
 
 function TT:CheckBackdropColor(tt)
-	if (not tt) or tt:IsForbidden() then return end
+	if not tt or tt:IsForbidden() then return end
 
 	local r, g, b = E:GetBackdropColor(tt)
 	if r and g and b then
@@ -590,7 +590,7 @@ function TT:ToggleItemQualityBorderColor()
 end
 
 function TT:SetStyle(tt)
-	if not tt or tt:IsForbidden() then return end
+	if not tt or (tt == E.ScanTooltip or tt.IsEmbedded) or tt:IsForbidden() then return end
 	tt:SetTemplate("Transparent", nil, true) --ignore updates
 
 	local r, g, b = E:GetBackdropColor(tt)
@@ -608,7 +608,7 @@ function TT:MODIFIER_STATE_CHANGED(_, key)
 end
 
 function TT:SetUnitAura(tt, unit, index, filter)
-	if tt:IsForbidden() then return end
+	if not tt or tt:IsForbidden() then return end
 	local _, _, _, _, _, _, caster, _, _, id = UnitAura(unit, index, filter)
 
 	if id then

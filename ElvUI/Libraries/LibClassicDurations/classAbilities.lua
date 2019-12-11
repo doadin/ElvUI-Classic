@@ -1,7 +1,7 @@
 local lib = LibStub and LibStub("LibClassicDurations", true)
 if not lib then return end
 
-local Type, Version = "SpellTable", 45
+local Type, Version = "SpellTable", 49
 if lib:GetDataVersion(Type) >= Version then return end  -- older versions didn't have that function
 
 local Spell = lib.AddAura
@@ -121,6 +121,7 @@ Spell(1604, { duration = 4 }) -- Common Daze
 Spell( 23605, { duration = 5 }) -- Nightfall (Axe) Proc
 Spell( 835, { duration = 3 }) -- Tidal Charm
 Spell( 11196, { duration = 60 }) -- Recently Bandaged
+Spell( 16928, { duration = 45 }) -- Armor Shatter, procced by Annihilator, axe weapon
 
 Spell({ 13099, 13138, 16566 }, {
     duration = function(spellID)
@@ -158,6 +159,7 @@ Spell( 12733, { duration = 30, type = "BUFF" }) -- Blacksmith trinket
 -- Spell( 15752, { duration = 10 }) -- Linken's Boomerang disarm
 Spell( 14530, { duration = 10, type = "BUFF" }) -- Nifty Stopwatch
 Spell( 13237, { duration = 3 }) -- Goblin Mortar trinket
+Spell( 21152, { duration = 3 }) -- Earthshaker, weapon proc
 Spell( 14253, { duration = 8, type = "BUFF" }) -- Black Husk Shield
 Spell( 9175, { duration = 15, type = "BUFF" }) -- Swift Boots
 Spell( 13141, { duration = 20, type = "BUFF" }) -- Gnomish Rocket Boots
@@ -356,7 +358,7 @@ Spell( 2457 , { duration = INFINITY, type = "BUFF" }) -- Battle Stance
 Spell( 2458 , { duration = INFINITY, type = "BUFF" }) -- Berserker Stance
 Spell( 71 , { duration = INFINITY, type = "BUFF" }) -- Def Stance
 
-Spell( 12294, { duration = 10 }) -- Mortal Strike Healing Reduction
+Spell({ 12294, 21551, 21552, 21553 }, { duration = 10 }) -- Mortal Strike Healing Reduction
 
 Spell({72, 1671, 1672}, { duration = 6 }) -- Shield Bash
 Spell( 18498, { duration = 3 }) -- Improved Shield Bash
@@ -521,7 +523,9 @@ Spell({ 17767, 17850, 17851, 17852, 17853, 17854 }, { duration = 10 }) -- Consum
 Spell( 18118, { duration = 5 }) -- Aftermath Proc
 Spell({ 132, 2970, 11743 }, { duration = 600 }) -- Detect Invisibility
 Spell( 5697, { duration = 600 }) -- Unending Breath
-Spell({ 17794, 17798, 17797, 17799, 17800 }, { duration = 12 }) -- Shadow Vulnerability (Imp Shadow Bolt)
+if class == "WARLOCK" then
+    Spell({ 17794, 17798, 17797, 17799, 17800 }, { duration = 12 }) -- Shadow Vulnerability (Imp Shadow Bolt)
+end
 Spell({ 18288 }, { duration = 1800, type = "BUFF", castFilter = true })  -- Amplify Curse
 Spell({ 1714, 11719 }, { duration = 30 }) -- Curse of Tongues
 Spell({ 702, 1108, 6205, 7646, 11707, 11708 },{ duration = 120 }) -- Curse of Weakness

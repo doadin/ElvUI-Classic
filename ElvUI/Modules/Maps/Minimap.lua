@@ -316,10 +316,7 @@ end
 function M:Initialize()
 	self.Initialized = true
 
-	if not E.private.general.minimap.enable then
-		Minimap:SetMaskTexture([[Interface\CharacterFrame\TempPortraitAlphaMask]])
-		return
-	end
+	if not E.private.general.minimap.enable then return end
 
 	menuFrame:SetTemplate("Transparent", true)
 
@@ -331,7 +328,6 @@ function M:Initialize()
 
 	Minimap:ClearAllPoints()
 	Minimap:Point("TOPRIGHT", mmholder, "TOPRIGHT", -E.Border, -E.Border)
-	Minimap:SetMaskTexture('Interface\\ChatFrame\\ChatFrameBackground')
 	Minimap:CreateBackdrop()
 	Minimap:SetFrameLevel(Minimap:GetFrameLevel() + 2)
 	Minimap:HookScript('OnEnter', function(mm)

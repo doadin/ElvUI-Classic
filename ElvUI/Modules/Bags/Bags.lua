@@ -231,7 +231,7 @@ function B:UpdateBagTypes(isBank)
 	local f = B:GetContainerFrame(isBank)
 	for _, bagID in ipairs(f.BagIDs) do
 		if f.Bags[bagID] then
-			f.Bags[bagID].type = select(2, GetContainerNumFreeSlots(bagID))
+			f.Bags[bagID].type = GetItemFamily(GetBagName(bagID))
 		end
 	end
 end
@@ -591,44 +591,12 @@ function B:Layout(isBank)
 			if not f.ContainerHolder[i] then
 				if isBank then
 					f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIBankBag" .. (bagID-4), f.ContainerHolder, "BankItemButtonBagTemplate")
-					--[[
-					f.ContainerHolder[i]:SetScript('OnClick', function(holder, button)
-						if button == "RightButton" and holder.id then
-							ElvUIAssignBagDropdown.holder = holder
-							_G.ToggleDropDownMenu(1, nil, ElvUIAssignBagDropdown, "cursor")
-						else
-							local inventoryID = holder:GetInventorySlot()
-							PutItemInBag(inventoryID);--Put bag on empty slot, or drop item in this bag
-						end
-					end)]]
 				else
 					if bagID == 0 then --Backpack needs different setup
 						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBagBackpack", f.ContainerHolder, "ItemButtonTemplate, ItemAnimTemplate")
 						f.ContainerHolder[i]:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-						--[[
-						f.ContainerHolder[i]:SetScript('OnClick', function(holder, button)
-							if button == "RightButton" and holder.id then
-								ElvUIAssignBagDropdown.holder = holder
-								_G.ToggleDropDownMenu(1, nil, ElvUIAssignBagDropdown, "cursor")
-							else
-								PutItemInBackpack();--Put bag on empty slot, or drop item in this bag
-							end
-						end)
-						f.ContainerHolder[i]:SetScript('OnReceiveDrag', function()
-							PutItemInBackpack();--Put bag on empty slot, or drop item in this bag
-						end)]]
 					else
 						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBag" .. (bagID-1) .. "Slot", f.ContainerHolder, "BagSlotButtonTemplate")
-						--[[
-						f.ContainerHolder[i]:SetScript('OnClick', function(holder, button)
-							if button == "RightButton" and holder.id then
-								ElvUIAssignBagDropdown.holder = holder
-								_G.ToggleDropDownMenu(1, nil, ElvUIAssignBagDropdown, "cursor")
-							else
-								local id = holder:GetID()
-								PutItemInBag(id);--Put bag on empty slot, or drop item in this bag
-							end
-						end)]]
 					end
 				end
 
@@ -683,7 +651,7 @@ function B:Layout(isBank)
 			end
 
 			f.Bags[bagID].numSlots = numSlots
-			f.Bags[bagID].type = select(2, GetContainerNumFreeSlots(bagID))
+			f.Bags[bagID].type = GetItemFamily(GetBagName(bagID))
 
 			--Hide unused slots
 			for y = 1, MAX_CONTAINER_ITEMS do
@@ -1045,6 +1013,9 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:GetDisabledTexture():SetInside()
 		f.sortButton:GetDisabledTexture():SetDesaturated(1)
 		f.sortButton:StyleButton(nil, true)
+		f.sortButton.ttText = L["Sort Bags"]
+		f.sortButton:SetScript('OnEnter', B.Tooltip_Show)
+		f.sortButton:SetScript('OnLeave', GameTooltip_Hide)
 		f.sortButton:SetScript('OnClick', function()
 			if f.holderFrame:IsShown() then
 				f:UnregisterAllEvents() --Unregister to prevent unnecessary updates
@@ -1069,7 +1040,6 @@ function B:ContructContainerFrame(name, isBank)
 		f.bagsButton:GetPushedTexture():SetInside()
 		f.bagsButton:StyleButton(nil, true)
 		f.bagsButton.ttText = L["Toggle Bags"]
-		f.bagsButton.ttText2 = format("|cffFFFFFF%s|r", L["Right Click the bag icon to assign a type of item to this bag."])
 		f.bagsButton:SetScript("OnEnter", B.Tooltip_Show)
 		f.bagsButton:SetScript("OnLeave", GameTooltip_Hide)
 		f.bagsButton:SetScript('OnClick', function()
@@ -1162,6 +1132,9 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:GetDisabledTexture():SetInside()
 		f.sortButton:GetDisabledTexture():SetDesaturated(1)
 		f.sortButton:StyleButton(nil, true)
+		f.sortButton.ttText = L["Sort Bags"]
+		f.sortButton:SetScript('OnEnter', B.Tooltip_Show)
+		f.sortButton:SetScript('OnLeave', GameTooltip_Hide)
 		f.sortButton:SetScript('OnClick', function()
 			f:UnregisterAllEvents() --Unregister to prevent unnecessary updates
 			if not f.registerUpdate then B:SortingFadeBags(f, true) end
@@ -1184,7 +1157,6 @@ function B:ContructContainerFrame(name, isBank)
 		f.bagsButton:GetPushedTexture():SetInside()
 		f.bagsButton:StyleButton(nil, true)
 		f.bagsButton.ttText = L["Toggle Bags"]
-		f.bagsButton.ttText2 = format("|cffFFFFFF%s|r", L["Right Click the bag icon to assign a type of item to this bag."])
 		f.bagsButton:SetScript("OnEnter", B.Tooltip_Show)
 		f.bagsButton:SetScript("OnLeave", GameTooltip_Hide)
 		f.bagsButton:SetScript('OnClick', function() ToggleFrame(f.ContainerHolder) end)

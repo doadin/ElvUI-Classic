@@ -63,7 +63,6 @@ local function LoadSkin()
 			portraitButton:Point('TOPLEFT', 12, -7)
 			portraitButton:StyleButton(nil, true)
 			portraitButton.hover:SetAllPoints()
-			portraitButton.Highlight:StripTextures()
 
 			frame.BagIcon = portraitButton:CreateTexture()
 			frame.BagIcon:SetTexCoord(unpack(E.TexCoords))

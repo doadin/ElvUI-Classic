@@ -468,9 +468,17 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 				name = L["Y-Offset"],
 				min = -1000, max = 1000, step = 1,
 			},
+			spacing = {
+				order = 8,
+				name = L["Spacing"],
+				type = "range",
+				min = 0,
+				max = 60,
+				step = 1
+			},
 			attachTo = {
 				type = 'select',
-				order = 8,
+				order = 9,
 				name = L["Attach To"],
 				desc = L["What to attach the buff anchor frame to."],
 				values = {
@@ -486,19 +494,19 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 			},
 			anchorPoint = {
 				type = 'select',
-				order = 9,
+				order = 10,
 				name = L["Anchor Point"],
 				desc = L["What point to anchor to the frame you set to attach to."],
 				values = positionValues,
 			},
 			clickThrough = {
-				order = 10,
+				order = 11,
 				name = L["Click Through"],
 				desc = L["Ignore mouse events."],
 				type = 'toggle',
 			},
 			sortMethod = {
-				order = 11,
+				order = 12,
 				name = L["Sort By"],
 				desc = L["Method to sort by."],
 				type = 'select',
@@ -511,7 +519,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 				},
 			},
 			sortDirection = {
-				order = 12,
+				order = 13,
 				name = L["Sort Direction"],
 				desc = L["Ascending or Descending order."],
 				type = 'select',
@@ -522,7 +530,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 			},
 			stacks = {
 				type = "group",
-				order = 13,
+				order = 14,
 				name = L["Stack Counter"],
 				guiInline = true,
 				get = function(info, value) return E.db.unitframe.units[groupName][auraType][info[#info]] end,
@@ -551,7 +559,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 			},
 			duration = {
 				type = "group",
-				order = 14,
+				order = 15,
 				name = L["Duration"],
 				guiInline = true,
 				get = function(info) return E.db.unitframe.units[groupName][auraType][info[#info]] end,
@@ -1570,13 +1578,8 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				name = L["Attach Text To"],
 				values = attachToValues,
 			},
-			bgUseBarTexture = {
-				type = "toggle",
-				order = 3,
-				name = L["Use Health Texture on Background"],
-			},
 			colorOverride = {
-				order = 4,
+				order = 3,
 				name = L["Class Color Override"],
 				desc = L["Override the default class color setting."],
 				type = 'select',
@@ -1585,11 +1588,17 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				set = function(info, value) E.db.unitframe.units[groupName][info[#info]] = value; updateFunc(UF, groupName, numUnits) end,
 			},
 			configureButton = {
-				order = 5,
+				order = 4,
 				name = L["Coloring"],
 				desc = L["This opens the UnitFrames Color settings. These settings affect all unitframes."],
 				type = 'execute',
 				func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup", "healthGroup") end,
+			},
+			bgUseBarTexture = {
+				type = "toggle",
+				order = 5,
+				name = L["Use Health Texture on Background"],
+				customWidth = 250,
 			},
 			textGroup = {
 				type = 'group',
@@ -4411,6 +4420,12 @@ E.Options.args.unitframe.args.targettarget = {
 					get = function(info) return E.db.unitframe.units.targettarget.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.targettarget.power.hideonnpc = value; UF:CreateAndUpdateUF('targettarget') end,
 				},
+				threatStyle = {
+					type = 'select',
+					order = 7,
+					name = L["Threat Display Mode"],
+					values = threatValues,
+				},
 				smartAuraPosition = {
 					order = 8,
 					type = "select",
@@ -4535,6 +4550,12 @@ E.Options.args.unitframe.args.targettargettarget = {
 					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
 					get = function(info) return E.db.unitframe.units.targettargettarget.power.hideonnpc end,
 					set = function(info, value) E.db.unitframe.units.targettargettarget.power.hideonnpc = value; UF:CreateAndUpdateUF('targettargettarget') end,
+				},
+				threatStyle = {
+					type = 'select',
+					order = 7,
+					name = L["Threat Display Mode"],
+					values = threatValues,
 				},
 				smartAuraPosition = {
 					order = 8,
