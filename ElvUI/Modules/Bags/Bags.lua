@@ -586,11 +586,6 @@ function B:Layout(isBank)
 			newBag = (bagID ~= -1 or bagID ~= 0) and B.db.split['bag'..bagID] or false
 		end
 
-		if (bagID == -2) then
-			newBag = true
-			isSplit = true
-		end
-
 		--Bag Containers
 		if (not isBank) or (isBank and bagID ~= -1 and numContainerSlots >= 1 and not (i - 1 > numContainerSlots)) then
 			if not f.ContainerHolder[i] then
@@ -603,6 +598,11 @@ function B:Layout(isBank)
 					elseif bagID == -2 then
 						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIKeyRing", f.ContainerHolder, "ItemButtonTemplate, ItemAnimTemplate")
 						f.ContainerHolder[i]:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+						f.ContainerHolder[i]:SetScript('OnReceiveDrag', function()
+							if (CursorHasItem()) then
+								PutKeyInKeyRing();
+							end
+						end)
 					else
 						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBag" .. (bagID-1) .. "Slot", f.ContainerHolder, "BagSlotButtonTemplate")
 					end
