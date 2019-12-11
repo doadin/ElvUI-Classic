@@ -586,6 +586,11 @@ function B:Layout(isBank)
 			newBag = (bagID ~= -1 or bagID ~= 0) and B.db.split['bag'..bagID] or false
 		end
 
+		if (bagID == -2) then
+			newBag = true
+			isSplit = true
+		end
+
 		--Bag Containers
 		if (not isBank) or (isBank and bagID ~= -1 and numContainerSlots >= 1 and not (i - 1 > numContainerSlots)) then
 			if not f.ContainerHolder[i] then
@@ -594,6 +599,9 @@ function B:Layout(isBank)
 				else
 					if bagID == 0 then --Backpack needs different setup
 						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBagBackpack", f.ContainerHolder, "ItemButtonTemplate, ItemAnimTemplate")
+						f.ContainerHolder[i]:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+					elseif bagID == -2 then
+						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIKeyRing", f.ContainerHolder, "ItemButtonTemplate, ItemAnimTemplate")
 						f.ContainerHolder[i]:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 					else
 						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBag" .. (bagID-1) .. "Slot", f.ContainerHolder, "BagSlotButtonTemplate")
@@ -621,6 +629,8 @@ function B:Layout(isBank)
 				f.ContainerHolder[i].iconTexture:SetTexCoord(unpack(E.TexCoords))
 				if bagID == 0 then --backpack
 					f.ContainerHolder[i].iconTexture:SetTexture("Interface\\ICONS\\INV_Misc_Bag_08")
+				elseif bagID == -2 then --keyring
+					f.ContainerHolder[i].iconTexture:SetTexture("Interface\\ICONS\\INV_Misc_Key_03")
 				end
 			end
 
@@ -953,7 +963,7 @@ function B:ContructContainerFrame(name, isBank)
 	f.isBank = isBank
 	f.bottomOffset = isBank and 8 or 28
 	f.topOffset = 50
-	f.BagIDs = isBank and {-1, 5, 6, 7, 8, 9, 10, 11} or {0, 1, 2, 3, 4}
+	f.BagIDs = isBank and {-1, 5, 6, 7, 8, 9, 10, 11} or {0, 1, 2, 3, 4, -2}
 	f.Bags = {}
 
 	local mover = (isBank and ElvUIBankMover) or ElvUIBagMover
@@ -1281,6 +1291,7 @@ function B:CloseBags()
 
 	B.BagFrame:UnregisterEvent("BAG_UPDATE")
 	B.BagFrame:UnregisterEvent("BAG_UPDATE_COOLDOWN")
+
 	for _, event in pairs(B.BagFrame.events) do
 		B.BagFrame:UnregisterEvent(event)
 	end
