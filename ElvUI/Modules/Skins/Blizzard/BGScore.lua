@@ -4,7 +4,7 @@ local S = E:GetModule('Skins')
 --Cache global variables
 --Lua functions
 local _G = _G
-local format, split = string.format, string.spli
+local format, split = string.format, string.split
 --WoW API / Variables
 local FauxScrollFrame_GetOffset = FauxScrollFrame_GetOffset
 local GetBattlefieldScore = GetBattlefieldScore
@@ -34,7 +34,7 @@ local function LoadSkin()
 	_G.WorldStateScoreFrameHonorGained:StyleButton()
 	_G.WorldStateScoreFrameName:StyleButton()
 
-	for i = 1, 5 do
+	for i = 1, 7 do
 		_G['WorldStateScoreColumn'..i]:StyleButton()
 	end
 
@@ -45,7 +45,7 @@ local function LoadSkin()
 
 		local _, name, faction, classToken, realm, classTextColor, nameText
 
-		for i = 1, MAX_SCORE_BUTTONS do
+		for i = 1, 22 do
 
 			name, _, _, _, _, faction, _, _, _, classToken = GetBattlefieldScore(offset + i)
 			if name then
