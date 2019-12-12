@@ -100,7 +100,7 @@ local function Enable(self)
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-		self:RegisterEvent("PLAYER_TARGET_CHANGED", Path)
+		self:RegisterEvent("PLAYER_TARGET_CHANGED", Path, true)
 
 		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\RAIDFRAME\UI-RaidFrame-Threat]])
