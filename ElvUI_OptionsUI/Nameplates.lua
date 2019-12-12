@@ -2248,11 +2248,6 @@ local function GetUnitSettings(unit, name)
 						name = L["Enable"],
 						type = "toggle",
 					},
-					desaturate = {
-						type = 'toggle',
-						order = 2,
-						name = L["Desaturate Icon"],
-					},
 					numAuras = {
 						order = 3,
 						name = L["# Displayed Auras"],
