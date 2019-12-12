@@ -101,7 +101,6 @@ local function Enable(self)
 		element.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent("UNIT_TARGET", Path)
-		self:RegisterEvent("PLAYER_TARGET_CHANGED", Path, true)
 
 		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\RAIDFRAME\UI-RaidFrame-Threat]])
@@ -117,7 +116,6 @@ local function Disable(self)
 		element:Hide()
 
 		self:UnregisterEvent("UNIT_TARGET", Path)
-		self:UnregisterEvent("PLAYER_TARGET_CHANGED", Path)
 	end
 end
 
