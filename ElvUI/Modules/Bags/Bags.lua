@@ -948,6 +948,18 @@ function B:VendorGrayCheck()
 	end
 end
 
+function B:HandleKeyRing()
+	for y = 1, MAX_CONTAINER_ITEMS do
+		if B.BagFrame.Bags[-2] and B.BagFrame.Bags[-2][y] then
+			if B.BagFrame.Bags[-2][y]:IsShown() then
+				B.BagFrame.Bags[-2][y]:Hide()
+			else
+				B.BagFrame.Bags[-2][y]:Show()
+			end
+		end
+	end
+end
+
 function B:ContructContainerFrame(name, isBank)
 	local strata = E.db.bags.strata or 'HIGH'
 
@@ -1188,6 +1200,22 @@ function B:ContructContainerFrame(name, isBank)
 		f.vendorGraysButton:SetScript("OnLeave", GameTooltip_Hide)
 		f.vendorGraysButton:SetScript("OnClick", B.VendorGrayCheck)
 
+		f.keyRingButton = CreateFrame('Button', nil, f.holderFrame)
+		f.keyRingButton:Size(16 + E.Border, 16 + E.Border)
+		f.keyRingButton:SetTemplate()
+		f.keyRingButton:Point("RIGHT", f.vendorGraysButton, "LEFT", -5, 0)
+		f.keyRingButton:SetNormalTexture("Interface\\ICONS\\INV_Misc_Key_03")
+		f.keyRingButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
+		f.keyRingButton:GetNormalTexture():SetInside()
+		f.keyRingButton:SetPushedTexture("Interface\\ICONS\\INV_Misc_Key_03")
+		f.keyRingButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
+		f.keyRingButton:GetPushedTexture():SetInside()
+		f.keyRingButton:StyleButton(nil, true)
+		f.keyRingButton.ttText = L["Key Ring"]
+		f.keyRingButton:SetScript("OnEnter", B.Tooltip_Show)
+		f.keyRingButton:SetScript("OnLeave", GameTooltip_Hide)
+		f.keyRingButton:SetScript("OnClick", B.HandleKeyRing)
+
 		--Search
 		f.editBox = CreateFrame('EditBox', name..'EditBox', f)
 		f.editBox:SetFrameLevel(f.editBox:GetFrameLevel() + 2)
@@ -1195,7 +1223,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox.backdrop:Point("TOPLEFT", f.editBox, "TOPLEFT", -20, 2)
 		f.editBox:Height(15)
 		f.editBox:Point('BOTTOMLEFT', f.holderFrame, 'TOPLEFT', (E.Border * 2) + 18, E.Border * 2 + 2)
-		f.editBox:Point('RIGHT', f.vendorGraysButton, 'LEFT', -5, 0)
+		f.editBox:Point('RIGHT', f.keyRingButton, 'LEFT', -5, 0)
 		f.editBox:SetAutoFocus(false)
 		f.editBox:SetScript("OnEscapePressed", B.ResetAndClear)
 		f.editBox:SetScript("OnEnterPressed", function(eb) eb:ClearFocus() end)
@@ -1282,6 +1310,8 @@ function B:OpenBags()
 	end
 
 	B:UpdateAllBagSlots()
+
+	B:HandleKeyRing()
 
 	TT:GameTooltip_SetDefaultAnchor(_G.GameTooltip)
 end
@@ -1700,7 +1730,6 @@ function B:Initialize()
 	B:SecureHook('ToggleBag', 'ToggleBags')
 	B:SecureHook('ToggleAllBags', 'ToggleBackpack')
 	B:SecureHook('ToggleBackpack')
-	B:Layout()
 
 	B:DisableBlizzard()
 	B:RegisterEvent("PLAYER_ENTERING_WORLD")
