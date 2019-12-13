@@ -137,7 +137,7 @@ ___
 **Skins:** Tweaks  
 **Tags:** Added name:abbrev  
 ___
-### Version 1.10 [09/24/2019] 1.11 [09/24/2019]
+### Version 1.10 & 1.11 [09/24/2019]
 **ActionBars:** Micro Bar issues fixed.  
 **DataBars:** Added Pet Experience Bar  
 **DataTexts:** Ammo  
