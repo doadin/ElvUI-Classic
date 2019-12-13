@@ -15,7 +15,7 @@ local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.bgscore then return end
 
 	local WorldStateScoreFrame = _G.WorldStateScoreFrame
-	S:HandleFrame(WorldStateScoreFrame, true, nil, 10, -15, -113, 67)
+	S:HandleFrame(WorldStateScoreFrame, true, nil, 0, -5, -107, 25)
 
 	_G.WorldStateScoreScrollFrame:StripTextures()
 	S:HandleScrollBar(_G.WorldStateScoreScrollFrameScrollBar)
