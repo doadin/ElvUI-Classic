@@ -50,8 +50,19 @@ local function Update(self, event, unit)
 
 	local status
 
-	if(unitExists(unit)) then
-		status = UnitIsUnit(unit, "targettarget")
+	if(unitExists(unit) and UnitIsFriend("player", unit)) then
+		if(UnitIsUnit(unit, "targettarget") and UnitIsEnemy("player", "target")) then
+			status = true
+		end
+		if(IsInGroup() and not status) then
+			for i=1,GetNumGroupMembers() do
+				local target = IsInRaid() and "raid"..i.."target" or "party"..i.."target"
+				if(UnitIsUnit(unit, target.."target") and UnitIsEnemy("player", target)) then
+					status = true
+					break
+				end
+			end
+		end
 	end
 
 	if(status) then
