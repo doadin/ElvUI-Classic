@@ -1,207 +1,210 @@
 ### Version 1.19 [ ETA: Soon ]
-ActionBars - Stancebar fixes 
-Bags - Added Keyring to bags and Bag-Bar (WIP) 
-Bags - Added option to toggle Keyring on/off 
-Cooldown Text - Durations for weapon enchants 
-Cooldown Text - Default colors set to white 
-DataTexts - Battleground error fixes (math.lua) 
-Keybind Mode - Error fixes (static popup.lua) 
-Libraries - LibHealComm-4.0 tweaks 
-Minimap - Added options for the Battleground button 
-NamePlates - Fixed desaturate icon on buffs/debuffs 
-Tags - Added PvP category for Available Tags 
-Tooltip - Added option to show server names 
-UnitFrames - ThreatIndicator is now based on "is targeted" (WIP) 
+**ActionBars:** Stancebar fixes  
+**Bags:** Added Keyring to bags and Bag-Bar (WIP)  
+**Bags:** Added option to toggle Keyring on/off  
+**Cooldowns:** Durations for weapon enchants  
+**Cooldowns:** Default colors set to white  
+**DataTexts:** Battleground error fixes (math.lua)  
+**Keybinds:** - Error fixes (static popup.lua)  
+**Libraries:** LibHealComm-4.0 tweaks  
+**Minimap:** Added options for the Battleground button  
+**NamePlates:** Fixed desaturate icon on buffs/debuffs  
+**Tags:** Added PvP category for Available Tags  
+**Tooltip:** Added option to show server names  
+**UnitFrames:** ThreatIndicator is now based on "is targeted" (WIP)  
 
-### Version 1.18 [ December 10, 2019 ]
-Libraries - LibClassicCasterino update 
-Libraries - LibClassDurations update 
-Libraries - LibRangeCheck update 
-Libraries - LibHealComm-4.0 tweaks 
-Bags - Tooltip fixes, Color fixes, tweaks 
-Chat - Added /luaerror off 
-Cooldown Text - Tweaks and fixes 
-Locales - Added back italian translation 
-Map - Tweaks 
-Tags - Added pvp:rank, pvp:icon, pvp:title 
-UnitFrames - Added "Spacing" option for Buffs/Debuffs 
-UnitFrames - Added threat indicator for TargetTarget and TargetTargetTarget 
-UnitFrames - Tank / Assist - Heal Prediction 
-UnitFrames - Default Max Duration for Filters set to 0 
+### Version 1.18 [12/10/2019]
+**Bags:** Tooltip fixes, Color fixes, tweaks  
+**Chat:** Added /luaerror off  
+**Cooldowns:** Tweaks and fixes  
+**Libraries:** LibClassDurations update  
+**Libraries:** LibClassicCasterino update  
+**Libraries:** LibHealComm-4.0 tweaks  
+**Libraries:** LibRangeCheck update  
+**Locales:** Added back italian translation  
+**Tags:** Added pvp:rank, pvp:icon, pvp:title  
+**UnitFrames:** Added "Spacing" option for Buffs/Debuffs  
+**UnitFrames:** Added threat indicator for TargetTarget and TargetTargetTarget  
+**UnitFrames:** Default Max Duration for Filters set to 0  
+**UnitFrames:** Tank / Assist - Heal Prediction  
+**World Map:** Tweaks  
 
-### Version 1.17 [ November 21, 2019 ]
-AuraBars - Color fixes 
-Bags - Tweaks and bugfixes 
-Castbars - Added "Multi-Shot" castbar 
-Castbars - Latency fixes 
-Chat - /stopwatch command is back 
-Libraries - LibClassicCasterino update 
-Libraries - LibClassDurations update 
-Libraries - LibRangeCheck update 
-Libraries - LibHealComm-4.0 tweaks 
-NamePlates - Added "Civilian" StyleFilter trigger 
-Skins - Trade skin bugfixes 
-Skins - Quest skin tweaks 
-Tags - Descriptions update 
-Tags - Fixed faction:icon 
-Tags - Added npctitle:brackets 
+### Version 1.17 [11/21/2019]
+**AuraBar:** Color fixes  
+**Bags:** Tweaks and bugfixes  
+**Castbar:** Added "Multi-Shot" castbar  
+**Castbar:** Latency fixes  
+**Chat:** /stopwatch command is back  
+**Libraries:** LibClassDurations update  
+**Libraries:** LibClassicCasterino update  
+**Libraries:** LibHealComm-4.0 tweaks  
+**Libraries:** LibRangeCheck update  
+**NamePlates:** Added "Civilian" StyleFilter trigger  
+**Skins:** Quest skin tweaks  
+**Skins:** Trade skin bugfixes  
+**Tags:** Added npctitle:brackets  
+**Tags:** Descriptions update  
+**Tags:** Fixed faction:icon  
 
-### Version 1.16
-ActionBars - Added option to restore bar 1 default paging 
-ActionBars - Added border for equipped items 
-ActionBars - Integrate ExtraActionBars 7-10 plugin by Blazeflack 
-Aura Bars - Fix color/size/filter issues 
-Auras - Integrate VisualAuraTimers by Blazeflack 
-Castbars - Added option to set text color 
-Castbars - Added haste check for hunter casts (Rapid Fire, Quick Shots) 
-Castbars - Added channel ticks for "Hurricane" 
-Castbars - Added channel ticks for "First Aid" 
-Cooldown Text - Added options to color time indicators seperately 
-Filters - Updated, spell ID fixes 
-HealComm - Heal Prediction is back (WIP) 
-Libraries - LibClassicDurations update 
-Libraries - LibClassicCasterino update 
-NamePlates - Tanking plates style filter fixes 
-OptionsUI - New layout for action bars, nameplate and unitframe options 
-Quests - Added option to mark most valuable quest reward with a gold coin 
-Skins - Guild skin tweaks 
-Skins - Trade skin tweaks 
-Tags - Added [faction:icon] tag 
-UnitFrames - Added option to restore visibility defaults 
-UnitFrames - Added class icon option for portraits 
-UnitFrames - Integrate CastBarOverlay by Blazeflack 
-UnitFrames - Added threat indicator option for Unitframes 
+### Version 1.16 [11/01/2019]
+**ActionBars:** Added border for equipped items  
+**ActionBars:** Added option to restore bar 1 default paging  
+**ActionBars:** Integrate ExtraActionBars 7-10 plugin by Blazeflack  
+**Aura Bars:** Fix color/size/filter issues  
+**Auras:** Integrate VisualAuraTimers by Blazeflack  
+**Castbar:** Added channel ticks for "First Aid"  
+**Castbar:** Added channel ticks for "Hurricane"  
+**Castbar:** Added haste check for hunter casts (Rapid Fire, Quick Shots)  
+**Castbar:** Added option to set text color  
+**Cooldowns:** Added options to color time indicators seperately  
+**Filters:** Updated, spell ID fixes  
+**HealComm:** Heal Prediction is back (WIP)  
+**Libraries:** LibClassicCasterino update  
+**Libraries:** LibClassicDurations update  
+**NamePlates:** Tanking plates style filter fixes  
+**OptionsUI:** New layout for action bars, nameplate and unitframe options  
+**Quests:** Added option to mark most valuable quest reward with a gold coin  
+**Skins:** Guild skin tweaks  
+**Skins:** Trade skin tweaks  
+**Tags:** Added [faction:icon] tag  
+**UnitFrames:** Added class icon option for portraits  
+**UnitFrames:** Added option to restore visibility defaults  
+**UnitFrames:** Added threat indicator option for Unitframes  
+**UnitFrames:** Integrate CastBarOverlay by Blazeflack  
 
-### Version 1.15  
-Libraries - LibClassicCasterino  
-Libraries - LibClassicDurations  
-Libraries - Removed LibClassicHealComm - License Conflicts (I obtained the license a little bit ago so I will be working on it)  
-Filters - Updated. Credits Luckyone & Catskull  
-UnitFrames - Power Strata/Level Fix  
-UnitFrames - Energy / Mana Regen Tweaks  
-UnitFrames - AuraBars Rework  
-UnitFrames - Buff Indicator Rework (Durations are added)  
-UnitFrames - Castbar Channel Ticks  
-UnitFrames - Raid Leader / Master Looter / Assist options added to Target  
-Cooldown Text - 2 secs for it to activate text.  
-Auras - Optimization Fixes  
-AutoAccept - Suppress Popup  
-Chat - Repeat History is back.  
-Skins - More Skin Tweaks  
-Config - Available Tags Section Added  
-Tooltip - NPC Classification Fix  
-  
-### Version 1.14  
-Libraries - LibClassicCasterino  
-Libraries - LibClassicHealComm  
-Minimap - Shift code around earlier to fix buttons.  
-Tags - New Tags | reactioncolor  
-Filters - Updated. Credits Luckyone & Catskull  
-UnitFrames - Leader/MasterLooter Indicator on Target  
-UnitFrames - Resurrect Icon on Player & Target  
-UnitFrames - Energy / Mana Regen Tweaks  
-UnitFrames - Totem Bar  
-Alerts - Blizzard Group Loot Roll is back on Mover.  
-Skins - More Skin Tweaks  
-Bags - Count Color Fixed  
-Bags - Specialty Bags Color Toggle  
-Tooltip - Mob Difficulty Color  
-  
-### Version 1.13  
-Libraries - LibClassicCasterino  
-Libraries - LibClassicHealComm  
-Tags - Fixed Power & Mana to hide at 0  
-Tags - New Tags | status:icon | status:text  
-Filters - Updated. Credits Luckyone  
-Nameplates - Power Fixes  
-Nameplates - StyleFilters Enabled  
-UnitFrames - Fixed AuraBar Filtering  
-UnitFrames - Spell Range for Priest  
-UnitFrames - Resurrect Icon  
-UnitFrames - Raid Roles (MasterLoot & Leader) on Player  
-UnitFrames - MT / MA Updated  
-UnitFrames - Energy / Mana Regen Added  
-UnitFrames - Power Prediction Fixed  
-Skins - More Skin Tweaks  
-Minimap - Set Size for Square Minimap on Load  
-Bags - Specialty Bags Colors Updated.  
-Bags - Item Level Fixed  
-DataTexts - Added Hit / Spell HIt / Spell Crit  
-  
-### Version 1.12  
-DataTexts - AttackPower  
-DataBars - Pet Experience Bar Tweaks  
-Minimap - Fixed Minimap Shape  
-Nameplates - Blizzard Friendly Nameplates work in instances again.  
-Skins - Tweaks  
-Tags - Added name:abbrev  
-Pixel Perfect should work again.  
-  
-### Version 1.10 - 1.11  
-Libraries - HealComm, ClassicDurations  
-Minimap - Skinned Tracking Icon  
-Quest Tracker - Quests are now Clickable  
-DataTexts - Ammo  
-DataBars - Added Pet Experience Bar  
-ActionBar - Micro Bar issues fixed.  
-Skins - Tweaks  
-Tags - Added MobInfo Support | Added ':shortvalue' tags for health, power & mana.  
-Filters - RaidDebuffs & BuffIndicator : Credits Luckyone  
-Maps - Now able to toggle off World Map Enhancements  
-  
-### Version 1.09  
-Libraries - HealComm, ClassicDurations, ClassicCasterino, UnitRange, DebuffHighlight  
-ActionBar - Button Flash Option Added  
-DataTexts - Ammo & Guild  
-Raid & Party - Loot Roll, Master Looter & Raid Utility  
-Quest Timer Mover  
-Skins - Tweaks  
-  
-### Version 1.08  
-RealMobHealth Compatibility  
-Tags - Difficulty Color | [classification:icon]  
-Bags - Sort Bank Added  
-UnitFrames - Range & Fader | HealComm | RaidDebuff | DebuffHighlight | Tank | Assist | Portrait  
-ActionBars - Taxi Button  
-  
-### Version 1.07  
-Updated LibClassicDurations  
-Movers - Added Durability Mover  
-Loot - Update Icon used for Empty Slot  
-  
-### Version 1.06  
-Update LibClassicCasterino.  
-  
-### Version 1.05  
-CastBar - Fixed Pushback & Interrupted  
-World Map - Resizable  
-Skins - Update Craft | AH | Quest | Gossip | TradeSkill  
-MiniMap - Changed Max Size  
-UnitFrames & Nameplates - Enabled Elements: Phase | PvP | Assist | Leader | Master Looter | Cutaway  
-  
-### Version 1.04  
+### Version 1.15 [10/19/2019]
+**Auras:** Optimization Fixes  
+**AutoAccept:** Suppress Popup  
+**Chat:** Repeat History is back.  
+**Config:** Available Tags Section Added  
+**Cooldowns:** 2 secs for it to activate text.  
+**Filters:** Updated. Credits Luckyone & Catskull  
+**Libraries:** LibClassicCasterino  
+**Libraries:** LibClassicDurations  
+**Libraries:** Removed LibClassicHealComm - License Conflicts (I obtained the license a little bit ago so I will be working on it)  
+**Skins:** More Skin Tweaks  
+**Tooltip:** NPC Classification Fix  
+**UnitFrames:** AuraBars Rework  
+**UnitFrames:** Buff Indicator Rework (Durations are added)  
+**UnitFrames:** Castbar Channel Ticks  
+**UnitFrames:** Energy / Mana Regen Tweaks  
+**UnitFrames:** Power Strata/Level Fix  
+**UnitFrames:** Raid Leader / Master Looter / Assist options added to Target  
+
+### Version 1.14 [10/08/2019]
+**Alerts:** Blizzard Group Loot Roll is back on Mover.  
+**Bags:** Count Color Fixed  
+**Bags:** Specialty Bags Color Toggle  
+**Filters:** Updated. Credits Luckyone & Catskull  
+**Libraries:** LibClassicCasterino  
+**Libraries:** LibClassicHealComm  
+**Minimap:** Shift code around earlier to fix buttons.  
+**Skins:** More Skin Tweaks  
+**Tags:** New Tags | reactioncolor  
+**Tooltip:** Mob Difficulty Color  
+**UnitFrames:** Energy / Mana Regen Tweaks  
+**UnitFrames:** Leader/MasterLooter Indicator on Target  
+**UnitFrames:** Resurrect Icon on Player & Target  
+**UnitFrames:** Totem Bar  
+
+### Version 1.13 [10/02/2019]
+**Bags:** Item Level Fixed  
+**Bags:** Specialty Bags Colors Updated.  
+**DataTexts:** Added Hit / Spell HIt / Spell Crit  
+**Filters:** Updated. Credits Luckyone  
+**Libraries:** LibClassicCasterino  
+**Libraries:** LibClassicHealComm  
+**Minimap:** Set Size for Square Minimap on Load  
+**Nameplates:** Power Fixes  
+**Nameplates:** StyleFilters Enabled  
+**Skins:** More Skin Tweaks  
+**Tags:** Fixed Power & Mana to hide at 0  
+**Tags:** New Tags | status:icon | status:text  
+**UnitFrames:** Energy / Mana Regen Added  
+**UnitFrames:** Fixed AuraBar Filtering  
+**UnitFrames:** MT / MA Updated  
+**UnitFrames:** Power Prediction Fixed  
+**UnitFrames:** Raid Roles (MasterLoot & Leader) on Player  
+**UnitFrames:** Resurrect Icon  
+**UnitFrames:** Spell Range for Priest  
+
+### Version 1.12 [09/26/2019]
+**DataBars:** Pet Experience Bar Tweaks  
+**DataTexts:** AttackPower  
+**Minimap:** Fixed Minimap Shape  
+**Misc:** Pixel Perfect should work again.  
+**Nameplates:** Blizzard Friendly Nameplates work in instances again.  
+**Skins:** Tweaks  
+**Tags:** Added name:abbrev  
+
+### Version 1.10 [09/24/2019] 1.11 [09/24/2019]
+**ActionBars:** Micro Bar issues fixed.  
+**DataBars:** Added Pet Experience Bar  
+**DataTexts:** Ammo  
+**Filters:** RaidDebuffs & BuffIndicator : Credits Luckyone  
+**Libraries:** HealComm, ClassicDurations  
+**Minimap:** Skinned Tracking Icon  
+**Quest Tracker:** Quests are now Clickable  
+**Skins:** Tweaks  
+**Tags:** Added MobInfo Support | Added ':shortvalue' tags for health, power & mana.  
+**World Map:** Now able to toggle off World Map Enhancements  
+
+### Version 1.09 [09/17/2019]
+**ActionBars:** Button Flash Option Added  
+**DataTexts:** Ammo & Guild  
+**Libraries:** HealComm, ClassicDurations, ClassicCasterino, UnitRange, DebuffHighlight  
+**Misc:** Quest Timer Mover  
+**Raid** & **Party:** Loot Roll, Master Looter & Raid Utility  
+**Skins:** Tweaks  
+
+### Version 1.08 [09/10/2019]
+**ActionBars:** Taxi Button  
+**Bags:** Sort Bank Added  
+**Misc:** RealMobHealth Compatibility  
+**Tags:** Difficulty Color | [classification:icon]  
+**UnitFrames:** Range & Fader | HealComm | RaidDebuff | DebuffHighlight | Tank | Assist | Portrait  
+
+### Version 1.07 [09/01/2019]
+**Loot:** Update Icon used for Empty Slot  
+**Misc:** Updated LibClassicDurations  
+**Movers:** Added Durability Mover  
+
+### Version 1.06 [09/01/2019]
+**Misc:** Update LibClassicCasterino.  
+
+### Version 1.05 [09/01/2019]
+**CastBar:** Fixed Pushback & Interrupted  
+**MiniMap:** Changed Max Size  
+**Skins:** Update Craft | AH | Quest | Gossip | TradeSkill  
+**UnitFrames** & **Nameplates:** Enabled Elements: Phase | PvP | Assist | Leader | Master Looter | Cutaway  
+**World Map:** Resizable  
+
+### Version 1.04 [08/31/2019]
 Integrated LibClassicCasterino & LibClassicDurations  
-Skins - Update StyleButton  
-MiniMap - Changed Max Size  
-UnitFrames - Druid Combo Points start with Claw  
-MiniMap - Get rid of tracking since it doesn't exist in Classic ( Right Click )  
-DataTexts - Crit | Haste | Armor  
-Chat - Voice Chat Button Skinned & Chat Shadows  
-  
-### Version 1.03  
-UnitFrames - Disable Fader  
-Skins - Fix StyleButton  
-  
-### Version 1.02  
-Chat - Class Color Names by Default  
-ActionBars - Fixed Typo for Micro Bar in Options Per Row  
-Minimap - Hid Toggle Minimap Button  
-UnitFrames - Fader | Range | Raid Debuffs  
-Tooltip - Fixed Guild & Level Output  
-  
-### Version 1.01  
-ActionBar - Fixed Micro Bar  
-Castbar - Fixed Icon Smiling Man (Blizzard Bug)  
-Tags - Removed Bad Tags  
-DataTexts - Removed Currencies | Fixed Bad Events  
-Misc - General Cleanup  
+**Chat:** Voice Chat Button Skinned & Chat Shadows  
+**DataTexts:** Crit | Haste | Armor  
+**MiniMap:** Changed Max Size  
+**MiniMap:** Get rid of tracking since it doesn't exist in Classic ( Right Click )  
+**Skins:** Update StyleButton  
+**UnitFrames:** Druid Combo Points start with Claw  
+
+### Version 1.03 [08/27/2019]
+**Skins:** Fix StyleButton  
+**UnitFrames:** Disable Fader  
+
+### Version 1.02 [08/27/2019]
+**ActionBars:** Fixed Typo for Micro Bar in Options Per Row  
+**Chat:** Class Color Names by Default  
+**Minimap:** Hid Toggle Minimap Button  
+**Tooltip:** Fixed Guild & Level Output  
+**UnitFrames:** Fader | Range | Raid Debuffs  
+
+### Version 1.01 [08/27/2019]
+**ActionBars:** Fixed Micro Bar  
+**Castbar:** Fixed Icon Smiling Man (Blizzard Bug)  
+**DataTexts:** Removed Currencies | Fixed Bad Events  
+**Misc:** General Cleanup  
+**Tags:** Removed Bad Tags  
+
+### Version 1.00 [08/17/2019]
+**Classic ElvUI**
