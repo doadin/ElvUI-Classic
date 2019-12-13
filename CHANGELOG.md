@@ -12,7 +12,7 @@
 **Tags:** Added PvP category for Available Tags  
 **Tooltip:** Added option to show server names  
 **UnitFrames:** ThreatIndicator is now based on "is targeted" (WIP)  
-
+___
 ### Version 1.18 [12/10/2019]
 **Bags:** Tooltip fixes, Color fixes, tweaks  
 **Chat:** Added /luaerror off  
@@ -28,7 +28,7 @@
 **UnitFrames:** Default Max Duration for Filters set to 0  
 **UnitFrames:** Tank / Assist - Heal Prediction  
 **World Map:** Tweaks  
-
+___
 ### Version 1.17 [11/21/2019]
 **AuraBar:** Color fixes  
 **Bags:** Tweaks and bugfixes  
@@ -45,7 +45,7 @@
 **Tags:** Added npctitle:brackets  
 **Tags:** Descriptions update  
 **Tags:** Fixed faction:icon  
-
+___
 ### Version 1.16 [11/01/2019]
 **ActionBars:** Added border for equipped items  
 **ActionBars:** Added option to restore bar 1 default paging  
@@ -71,7 +71,7 @@
 **UnitFrames:** Added option to restore visibility defaults  
 **UnitFrames:** Added threat indicator option for Unitframes  
 **UnitFrames:** Integrate CastBarOverlay by Blazeflack  
-
+___
 ### Version 1.15 [10/19/2019]
 **Auras:** Optimization Fixes  
 **AutoAccept:** Suppress Popup  
@@ -90,7 +90,7 @@
 **UnitFrames:** Energy / Mana Regen Tweaks  
 **UnitFrames:** Power Strata/Level Fix  
 **UnitFrames:** Raid Leader / Master Looter / Assist options added to Target  
-
+___
 ### Version 1.14 [10/08/2019]
 **Alerts:** Blizzard Group Loot Roll is back on Mover.  
 **Bags:** Count Color Fixed  
@@ -106,7 +106,7 @@
 **UnitFrames:** Leader/MasterLooter Indicator on Target  
 **UnitFrames:** Resurrect Icon on Player & Target  
 **UnitFrames:** Totem Bar  
-
+___
 ### Version 1.13 [10/02/2019]
 **Bags:** Item Level Fixed  
 **Bags:** Specialty Bags Colors Updated.  
@@ -127,7 +127,7 @@
 **UnitFrames:** Raid Roles (MasterLoot & Leader) on Player  
 **UnitFrames:** Resurrect Icon  
 **UnitFrames:** Spell Range for Priest  
-
+___
 ### Version 1.12 [09/26/2019]
 **DataBars:** Pet Experience Bar Tweaks  
 **DataTexts:** AttackPower  
@@ -136,7 +136,7 @@
 **Nameplates:** Blizzard Friendly Nameplates work in instances again.  
 **Skins:** Tweaks  
 **Tags:** Added name:abbrev  
-
+___
 ### Version 1.10 [09/24/2019] 1.11 [09/24/2019]
 **ActionBars:** Micro Bar issues fixed.  
 **DataBars:** Added Pet Experience Bar  
@@ -148,7 +148,7 @@
 **Skins:** Tweaks  
 **Tags:** Added MobInfo Support | Added ':shortvalue' tags for health, power & mana.  
 **World Map:** Now able to toggle off World Map Enhancements  
-
+___
 ### Version 1.09 [09/17/2019]
 **ActionBars:** Button Flash Option Added  
 **DataTexts:** Ammo & Guild  
@@ -156,29 +156,29 @@
 **Misc:** Quest Timer Mover  
 **Raid** & **Party:** Loot Roll, Master Looter & Raid Utility  
 **Skins:** Tweaks  
-
+___
 ### Version 1.08 [09/10/2019]
 **ActionBars:** Taxi Button  
 **Bags:** Sort Bank Added  
 **Misc:** RealMobHealth Compatibility  
 **Tags:** Difficulty Color | [classification:icon]  
 **UnitFrames:** Range & Fader | HealComm | RaidDebuff | DebuffHighlight | Tank | Assist | Portrait  
-
+___
 ### Version 1.07 [09/01/2019]
 **Loot:** Update Icon used for Empty Slot  
 **Misc:** Updated LibClassicDurations  
 **Movers:** Added Durability Mover  
-
+___
 ### Version 1.06 [09/01/2019]
 **Misc:** Update LibClassicCasterino.  
-
+___
 ### Version 1.05 [09/01/2019]
 **CastBar:** Fixed Pushback & Interrupted  
 **MiniMap:** Changed Max Size  
 **Skins:** Update Craft | AH | Quest | Gossip | TradeSkill  
 **UnitFrames** & **Nameplates:** Enabled Elements: Phase | PvP | Assist | Leader | Master Looter | Cutaway  
 **World Map:** Resizable  
-
+___
 ### Version 1.04 [08/31/2019]
 Integrated LibClassicCasterino & LibClassicDurations  
 **Chat:** Voice Chat Button Skinned & Chat Shadows  
@@ -187,24 +187,24 @@ Integrated LibClassicCasterino & LibClassicDurations
 **MiniMap:** Get rid of tracking since it doesn't exist in Classic ( Right Click )  
 **Skins:** Update StyleButton  
 **UnitFrames:** Druid Combo Points start with Claw  
-
+___
 ### Version 1.03 [08/27/2019]
 **Skins:** Fix StyleButton  
 **UnitFrames:** Disable Fader  
-
+___
 ### Version 1.02 [08/27/2019]
 **ActionBars:** Fixed Typo for Micro Bar in Options Per Row  
 **Chat:** Class Color Names by Default  
 **Minimap:** Hid Toggle Minimap Button  
 **Tooltip:** Fixed Guild & Level Output  
 **UnitFrames:** Fader | Range | Raid Debuffs  
-
+___
 ### Version 1.01 [08/27/2019]
 **ActionBars:** Fixed Micro Bar  
 **Castbar:** Fixed Icon Smiling Man (Blizzard Bug)  
 **DataTexts:** Removed Currencies | Fixed Bad Events  
 **Misc:** General Cleanup  
 **Tags:** Removed Bad Tags  
-
+___
 ### Version 1.00 [08/17/2019]
 **Classic ElvUI**
