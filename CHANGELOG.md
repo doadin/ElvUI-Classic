@@ -1,76 +1,76 @@
 ### Version 1.19 [ ETA: Soon ]
-ActionBars - Stancebar fixes
-Bags - Added Keyring to bags and Bag-Bar (WIP)
-Bags - Added option to toggle Keyring on/off
-Cooldown Text - Durations for weapon enchants
-Cooldown Text - Default colors set to white
-DataTexts - Battleground error fixes (math.lua)
-Keybind Mode - Error fixes (static popup.lua)
-Libraries - LibHealComm-4.0 tweaks
-Minimap - Added options for the Battleground button
-NamePlates - Fixed desaturate icon on buffs/debuffs
-Tags - Added PvP category for Available Tags
-Tooltip - Added option to show server names
-UnitFrames - ThreatIndicator is now based on "is targeted" (WIP)
+ActionBars - Stancebar fixes 
+Bags - Added Keyring to bags and Bag-Bar (WIP) 
+Bags - Added option to toggle Keyring on/off 
+Cooldown Text - Durations for weapon enchants 
+Cooldown Text - Default colors set to white 
+DataTexts - Battleground error fixes (math.lua) 
+Keybind Mode - Error fixes (static popup.lua) 
+Libraries - LibHealComm-4.0 tweaks 
+Minimap - Added options for the Battleground button 
+NamePlates - Fixed desaturate icon on buffs/debuffs 
+Tags - Added PvP category for Available Tags 
+Tooltip - Added option to show server names 
+UnitFrames - ThreatIndicator is now based on "is targeted" (WIP) 
 
 ### Version 1.18 [ December 10, 2019 ]
-Libraries • LibClassicCasterino update
-Libraries • LibClassDurations update
-Libraries • LibRangeCheck update
-Libraries • LibHealComm-4.0 tweaks
-Bags • Tooltip fixes, Color fixes, tweaks
-Chat • Added /luaerror off
-Cooldown Text • Tweaks and fixes
-Locales • Added back italian translation
-Map • Tweaks
-Tags • Added pvp:rank, pvp:icon, pvp:title
-UnitFrames • Added "Spacing" option for Buffs/Debuffs
-UnitFrames • Added threat indicator for TargetTarget and TargetTargetTarget
-UnitFrames - Tank / Assist - Heal Prediction
-UnitFrames • Default Max Duration for Filters set to 0
+Libraries - LibClassicCasterino update 
+Libraries - LibClassDurations update 
+Libraries - LibRangeCheck update 
+Libraries - LibHealComm-4.0 tweaks 
+Bags - Tooltip fixes, Color fixes, tweaks 
+Chat - Added /luaerror off 
+Cooldown Text - Tweaks and fixes 
+Locales - Added back italian translation 
+Map - Tweaks 
+Tags - Added pvp:rank, pvp:icon, pvp:title 
+UnitFrames - Added "Spacing" option for Buffs/Debuffs 
+UnitFrames - Added threat indicator for TargetTarget and TargetTargetTarget 
+UnitFrames - Tank / Assist - Heal Prediction 
+UnitFrames - Default Max Duration for Filters set to 0 
 
 ### Version 1.17 [ November 21, 2019 ]
-AuraBars • Color fixes
-Bags • Tweaks and bugfixes
-Castbars • Added "Multi-Shot" castbar
-Castbars • Latency fixes
-Chat • /stopwatch command is back
-Libraries • LibClassicCasterino update
-Libraries • LibClassDurations update
-Libraries • LibRangeCheck update
-Libraries • LibHealComm-4.0 tweaks
-NamePlates • Added "Civilian" StyleFilter trigger
-Skins • Trade skin bugfixes
-Skins • Quest skin tweaks
-Tags • Descriptions update
-Tags • Fixed faction:icon
-Tags • Added npctitle:brackets
+AuraBars - Color fixes 
+Bags - Tweaks and bugfixes 
+Castbars - Added "Multi-Shot" castbar 
+Castbars - Latency fixes 
+Chat - /stopwatch command is back 
+Libraries - LibClassicCasterino update 
+Libraries - LibClassDurations update 
+Libraries - LibRangeCheck update 
+Libraries - LibHealComm-4.0 tweaks 
+NamePlates - Added "Civilian" StyleFilter trigger 
+Skins - Trade skin bugfixes 
+Skins - Quest skin tweaks 
+Tags - Descriptions update 
+Tags - Fixed faction:icon 
+Tags - Added npctitle:brackets 
 
 ### Version 1.16
-ActionBars - Added option to restore bar 1 default paging.
-ActionBars - Added border for equipped items.
-ActionBars - Integrate ExtraActionBars 7-10 plugin by Blazeflack.
-Aura Bars - Fix color/size/filter issues.
-Auras - Integrate VisualAuraTimers by Blazeflack.
-Castbars - Added option to set text color.
-Castbars - Added haste check for hunter casts (Rapid Fire, Quick Shots)
-Castbars - Added channel ticks for "Hurricane"
-Castbars - Added channel ticks for "First Aid"
-Cooldown Text - Added options to color time indicators seperately.
-Filters - Updated, spell ID fixes.
-HealComm - Heal Prediction is back. (WIP)
-Libraries - LibClassicDurations update.
-Libraries - LibClassicCasterino update.
-NamePlates - Tanking plates style filter fixes.
-OptionsUI - New layout for action bars, nameplate and unitframe options.
-Quests - Added option to mark most valuable quest reward with a gold coin.
-Skins - Guild skin tweaks.
-Skins - Trade skin tweaks.
-Tags - Added [faction:icon] tag.
-UnitFrames - Added option to restore visibility defaults.
-UnitFrames - Added class icon option for portraits.
-UnitFrames - Integrate CastBarOverlay by Blazeflack
-UnitFrames - Added threat indicator option for Unitframes.
+ActionBars - Added option to restore bar 1 default paging 
+ActionBars - Added border for equipped items 
+ActionBars - Integrate ExtraActionBars 7-10 plugin by Blazeflack 
+Aura Bars - Fix color/size/filter issues 
+Auras - Integrate VisualAuraTimers by Blazeflack 
+Castbars - Added option to set text color 
+Castbars - Added haste check for hunter casts (Rapid Fire, Quick Shots) 
+Castbars - Added channel ticks for "Hurricane" 
+Castbars - Added channel ticks for "First Aid" 
+Cooldown Text - Added options to color time indicators seperately 
+Filters - Updated, spell ID fixes 
+HealComm - Heal Prediction is back (WIP) 
+Libraries - LibClassicDurations update 
+Libraries - LibClassicCasterino update 
+NamePlates - Tanking plates style filter fixes 
+OptionsUI - New layout for action bars, nameplate and unitframe options 
+Quests - Added option to mark most valuable quest reward with a gold coin 
+Skins - Guild skin tweaks 
+Skins - Trade skin tweaks 
+Tags - Added [faction:icon] tag 
+UnitFrames - Added option to restore visibility defaults 
+UnitFrames - Added class icon option for portraits 
+UnitFrames - Integrate CastBarOverlay by Blazeflack 
+UnitFrames - Added threat indicator option for Unitframes 
 
 ### Version 1.15  
 Libraries - LibClassicCasterino  
