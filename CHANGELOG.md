@@ -1,4 +1,4 @@
-### Version 1.19 [ ETA: Soon ]
+### Version 1.19 [12/14/2019]
 **ActionBars:** Stancebar fixes  
 **Bags:** Added Keyring to bags and Bag-Bar (WIP)  
 **Bags:** Added option to toggle Keyring on/off  
@@ -9,6 +9,7 @@
 **Libraries:** LibHealComm-4.0 tweaks  
 **Minimap:** Added options for the Battleground button  
 **NamePlates:** Fixed desaturate icon on buffs/debuffs  
+**Skins:** Battleground scoreboard skin tweaks  
 **Tags:** Added PvP category for Available Tags  
 **Tooltip:** Added option to show server names  
 **UnitFrames:** ThreatIndicator is now based on "is targeted" (WIP)  
