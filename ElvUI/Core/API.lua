@@ -18,6 +18,7 @@ local RequestBattlefieldScoreData = RequestBattlefieldScoreData
 local UIParentLoadAddOn = UIParentLoadAddOn
 local UnitHasVehicleUI = UnitHasVehicleUI
 local C_UIWidgetManager_GetStatusBarWidgetVisualizationInfo = C_UIWidgetManager.GetStatusBarWidgetVisualizationInfo
+local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
 -- GLOBALS: ElvDB
 
 function E:ClassColor(class, usePriestColor)
@@ -300,20 +301,21 @@ end
 function E:AddNonPetBattleFrames()
 	if InCombatLockdown() then return end
 	for object, data in pairs(E.FrameLocks) do
-		local obj = _G[object] or object
 		local parent, strata
 		if type(data) == 'table' then
 			parent, strata = data.parent, data.strata
 		elseif data == true then
 			parent = _G.UIParent
 		end
+
+		local obj = _G[object] or object
 		obj:SetParent(parent)
 		if strata then
 			obj:SetFrameStrata(strata)
 		end
 	end
 
-	self:UnregisterEvent('PLAYER_REGEN_DISABLED')
+	E:UnregisterEventForObject('PLAYER_REGEN_DISABLED', E.AddNonPetBattleFrames, E.AddNonPetBattleFrames)
 end
 
 function E:RemoveNonPetBattleFrames()
@@ -323,7 +325,7 @@ function E:RemoveNonPetBattleFrames()
 		obj:SetParent(E.HiddenFrame)
 	end
 
-	self:RegisterEvent('PLAYER_REGEN_DISABLED', 'AddNonPetBattleFrames')
+	E:RegisterEventForObject('PLAYER_REGEN_DISABLED', E.AddNonPetBattleFrames, E.AddNonPetBattleFrames)
 end
 
 function E:RegisterObjectForVehicleLock(object, originalParent)
@@ -419,6 +421,38 @@ function E:PLAYER_REGEN_ENABLED()
 
 		self.CVarUpdate = nil
 	end
+
+	if self.ShowOptionsUI then
+		self:ToggleOptionsUI()
+
+		self.ShowOptionsUI = nil
+	end
+end
+
+function E:PLAYER_REGEN_DISABLED()
+	local err
+
+	if IsAddOnLoaded('ElvUI_OptionsUI') then
+		local ACD = self.Libs.AceConfigDialog
+		if ACD and ACD.OpenFrames and ACD.OpenFrames.ElvUI then
+			ACD:Close('ElvUI')
+			err = true
+		end
+	end
+
+	if self.CreatedMovers then
+		for name in pairs(self.CreatedMovers) do
+			local mover = _G[name]
+			if mover and mover:IsShown() then
+				mover:Hide()
+				err = true
+			end
+		end
+	end
+
+	if err then
+		self:Print(ERR_NOT_IN_COMBAT)
+	end
 end
 
 function E:PLAYER_LEVEL_UP(_, level)
@@ -429,6 +463,7 @@ function E:LoadAPI()
 	E:RegisterEvent('PLAYER_LEVEL_UP')
 	E:RegisterEvent('PLAYER_ENTERING_WORLD')
 	E:RegisterEvent('PLAYER_REGEN_ENABLED')
+	E:RegisterEvent('PLAYER_REGEN_DISABLED')
 	E:RegisterEvent('UI_SCALE_CHANGED', 'PixelScaleChanged')
 
 	do -- setup cropIcon texCoords
