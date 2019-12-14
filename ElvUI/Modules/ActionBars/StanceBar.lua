@@ -60,7 +60,15 @@ function AB:StyleShapeShift()
 
 			if not texture then texture = WispSplode end
 
-			button.ICON:SetTexture(texture)
+			if button.ICON then
+				button.ICON:SetTexture(texture)
+
+				if isCastable then
+					button.ICON:SetVertexColor(1.0, 1.0, 1.0)
+				else
+					button.ICON:SetVertexColor(0.4, 0.4, 0.4)
+				end
+			end
 
 			if not button.useMasque then
 				cooldown:SetAlpha(1)
@@ -93,12 +101,6 @@ function AB:StyleShapeShift()
 				else
 					button:SetChecked(false)
 				end
-			end
-
-			if isCastable then
-				button.ICON:SetVertexColor(1.0, 1.0, 1.0)
-			else
-				button.ICON:SetVertexColor(0.4, 0.4, 0.4)
 			end
 		end
 	end

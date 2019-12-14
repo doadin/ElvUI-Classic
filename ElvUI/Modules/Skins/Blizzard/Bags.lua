@@ -73,7 +73,7 @@ local function LoadSkin()
 	end
 
 	local bagIconCache = {
-		[-2] = 'Interface\\ContainerFrame\\KeyRing-Bag-Icon',
+		[-2] = 'Interface\\ICONS\\INV_Misc_Key_03',
 		[0] = 'Interface\\Buttons\\Button-Backpack-Up'
 	}
 

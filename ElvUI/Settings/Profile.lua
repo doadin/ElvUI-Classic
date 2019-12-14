@@ -90,6 +90,12 @@ P.general = {
 				xOffset = 0,
 				yOffset = 0,
 			},
+			battlefield = {
+				scale = 1,
+				position = 'BOTTOMLEFT',
+				xOffset = -2,
+				yOffset = -2,
+			}
 		}
 	},
 	threat = {
@@ -248,11 +254,9 @@ local NP_Auras = {
 	countFontSize = 9,
 	countPosition = 'BOTTOMRIGHT',
 	durationPosition = 'CENTER',
-	filters = {
-		minDuration = 0,
-		maxDuration = 0,
-		priority = ''
-	},
+	minDuration = 0,
+	maxDuration = 0,
+	priority = ''
 }
 
 local NP_Health = {
@@ -672,51 +676,53 @@ P.nameplates = {
 	},
 };
 
-P.nameplates.units.PLAYER.buffs.filters.maxDuration = 300
-P.nameplates.units.PLAYER.buffs.filters.priority = 'Blacklist,blockNoDuration,Personal,TurtleBuffs,PlayerBuffs'
+P.nameplates.units.PLAYER.buffs.maxDuration = 300
+P.nameplates.units.PLAYER.buffs.priority = 'Blacklist,blockNoDuration,Personal,TurtleBuffs,PlayerBuffs'
 P.nameplates.units.PLAYER.debuffs.anchorPoint = 'TOPRIGHT'
 P.nameplates.units.PLAYER.debuffs.growthX = 'LEFT'
 P.nameplates.units.PLAYER.debuffs.growthY = 'UP'
 P.nameplates.units.PLAYER.debuffs.yOffset = 35
 P.nameplates.units.PLAYER.debuffs.priority = 'Blacklist,blockNoDuration,Personal,Boss,CCDebuffs,RaidDebuffs,Dispellable'
 P.nameplates.units.PLAYER.name.enable = false
+P.nameplates.units.PLAYER.name.format = '[name]'
 P.nameplates.units.PLAYER.level.enable = false
 P.nameplates.units.PLAYER.power.enable = true
 P.nameplates.units.PLAYER.castbar.yOffset = -20
 
-P.nameplates.units.FRIENDLY_PLAYER.buffs.filters.priority = 'Blacklist,blockNoDuration,Personal,TurtleBuffs'
+P.nameplates.units.FRIENDLY_PLAYER.buffs.priority = 'Blacklist,blockNoDuration,Personal,TurtleBuffs'
 P.nameplates.units.FRIENDLY_PLAYER.debuffs.anchorPoint = 'TOPRIGHT'
 P.nameplates.units.FRIENDLY_PLAYER.debuffs.growthX = 'LEFT'
 P.nameplates.units.FRIENDLY_PLAYER.debuffs.growthY = 'UP'
 P.nameplates.units.FRIENDLY_PLAYER.debuffs.yOffset = 35
-P.nameplates.units.FRIENDLY_PLAYER.debuffs.filters.priority = 'Blacklist,Dispellable,blockNoDuration,Personal,Boss,CCDebuffs'
+P.nameplates.units.FRIENDLY_PLAYER.debuffs.priority = 'Blacklist,Dispellable,blockNoDuration,Personal,Boss,CCDebuffs'
 
-P.nameplates.units.ENEMY_PLAYER.buffs.filters.priority = 'Blacklist,Dispellable,PlayerBuffs,TurtleBuffs'
-P.nameplates.units.ENEMY_PLAYER.buffs.filters.maxDuration = 300
+P.nameplates.units.ENEMY_PLAYER.buffs.priority = 'Blacklist,Dispellable,PlayerBuffs,TurtleBuffs'
+P.nameplates.units.ENEMY_PLAYER.buffs.maxDuration = 300
 P.nameplates.units.ENEMY_PLAYER.debuffs.anchorPoint = 'TOPRIGHT'
 P.nameplates.units.ENEMY_PLAYER.debuffs.growthX = 'LEFT'
 P.nameplates.units.ENEMY_PLAYER.debuffs.growthY = 'UP'
 P.nameplates.units.ENEMY_PLAYER.debuffs.yOffset = 35
-P.nameplates.units.ENEMY_PLAYER.debuffs.filters.priority = 'Blacklist,blockNoDuration,Personal,Boss,CCDebuffs,RaidDebuffs'
+P.nameplates.units.ENEMY_PLAYER.debuffs.priority = 'Blacklist,blockNoDuration,Personal,Boss,CCDebuffs,RaidDebuffs'
 P.nameplates.units.ENEMY_PLAYER.name.format = '[namecolor][name:abbrev:long]'
 
-P.nameplates.units.FRIENDLY_NPC.buffs.filters.priority = 'Blacklist,blockNoDuration,Personal,TurtleBuffs'
+P.nameplates.units.FRIENDLY_NPC.buffs.priority = 'Blacklist,blockNoDuration,Personal,TurtleBuffs'
 P.nameplates.units.FRIENDLY_NPC.debuffs.anchorPoint = 'TOPRIGHT'
 P.nameplates.units.FRIENDLY_NPC.debuffs.growthX = 'LEFT'
 P.nameplates.units.FRIENDLY_NPC.debuffs.growthY = 'UP'
 P.nameplates.units.FRIENDLY_NPC.debuffs.yOffset = 35
-P.nameplates.units.FRIENDLY_NPC.debuffs.filters.priority = 'Blacklist,Boss,CCDebuffs,RaidDebuffs,Dispellable'
+P.nameplates.units.FRIENDLY_NPC.debuffs.priority = 'Blacklist,Boss,CCDebuffs,RaidDebuffs,Dispellable'
 P.nameplates.units.FRIENDLY_NPC.level.format = '[difficultycolor][level][shortclassification]'
 P.nameplates.units.FRIENDLY_NPC.title.format = '[npctitle]'
 
-P.nameplates.units.ENEMY_NPC.buffs.filters.priority = 'Blacklist,RaidBuffsElvUI,Dispellable,blockNoDuration,PlayerBuffs,TurtleBuffs,CastByUnit'
+P.nameplates.units.ENEMY_NPC.buffs.priority = 'Blacklist,RaidBuffsElvUI,Dispellable,blockNoDuration,PlayerBuffs,TurtleBuffs,CastByUnit'
 P.nameplates.units.ENEMY_NPC.debuffs.anchorPoint = 'TOPRIGHT'
 P.nameplates.units.ENEMY_NPC.debuffs.growthX = 'LEFT'
 P.nameplates.units.ENEMY_NPC.debuffs.growthY = 'UP'
 P.nameplates.units.ENEMY_NPC.debuffs.yOffset = 35
-P.nameplates.units.ENEMY_NPC.debuffs.filters.priority = 'Blacklist,Personal,CCDebuffs'
+P.nameplates.units.ENEMY_NPC.debuffs.priority = 'Blacklist,Personal,CCDebuffs'
 P.nameplates.units.ENEMY_NPC.level.format = '[difficultycolor][level][shortclassification]'
 P.nameplates.units.ENEMY_NPC.title.format = '[npctitle]'
+P.nameplates.units.ENEMY_NPC.name.format = '[name]'
 
 --Auras
 P.auras = {
@@ -1953,10 +1959,15 @@ P.actionbar.bar5.buttons = 6
 P.actionbar.bar5.buttonsPerRow = 6
 
 P.actionbar.cooldown = CopyTable(P.cooldown)
-P.auras.cooldown = CopyTable(P.cooldown)
-P.bags.cooldown = CopyTable(P.cooldown)
-P.nameplates.cooldown = CopyTable(P.cooldown)
-P.unitframe.cooldown = CopyTable(P.cooldown)
+P.actionbar.expiringColor = { r = 1, g = 0, b = 0 }
+P.actionbar.secondsColor = { r = 1, g = 1, b = 1 }
+P.actionbar.hoursColor = { r = 1, g = 1, b = 1 }
+P.actionbar.daysColor = { r = 1, g = 1, b = 1 }
+
+P.auras.cooldown = CopyTable(P.actionbar.cooldown)
+P.bags.cooldown = CopyTable(P.actionbar.cooldown)
+P.nameplates.cooldown = CopyTable(P.actionbar.cooldown)
+P.unitframe.cooldown = CopyTable(P.actionbar.cooldown)
 
 P.actionbar.cooldown.enable = nil
 P.auras.cooldown.enable = nil
