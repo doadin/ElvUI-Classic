@@ -731,6 +731,9 @@ G.unitframe.buffwatch = {
 		[19506] = UF:AuraWatch_AddSpell(19506, "TOPLEFT", {0.89, 0.09, 0.05}), --Trueshot Aura (Rank 1)
 		[20905] = UF:AuraWatch_AddSpell(20905, "TOPLEFT", {0.89, 0.09, 0.05}), --Trueshot Aura (Rank 2)
 		[20906] = UF:AuraWatch_AddSpell(20906, "TOPLEFT", {0.89, 0.09, 0.05}), --Trueshot Aura (Rank 3)
+		[13159] = UF:AuraWatch_AddSpell(13159, "BOTTOMLEFT", {0.00, 0.00, 0.85}), --Aspect of the Pack
+		[20043] = UF:AuraWatch_AddSpell(20043, "BOTTOMLEFT", {0.33, 0.93, 0.79}), --Aspect of the Wild (Rank 1)
+		[20190] = UF:AuraWatch_AddSpell(20190, "BOTTOMLEFT", {0.33, 0.93, 0.79}), --Aspect of the Wild (Rank 2)
 	},
 	WARLOCK = {
 		[5597] = UF:AuraWatch_AddSpell(5597, "TOPLEFT", {0.89, 0.09, 0.05}, true), --Unending Breath
