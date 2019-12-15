@@ -1,8 +1,9 @@
 ### Version 1.20 [ETA: Soon]
 **Available Tags:** Category tweaks  
-**MiniMap:** Battleground Minimap button fixes  
 **Filters:** Added BuffIndicators for Hunter Group-Aspects  
-
+**Minimap:** Battleground Minimap button fixes  
+**NamePlates:** Fix RaidTargetIcon size bug  
+___
 ### Version 1.19 [12/14/2019]
 **ActionBars:** Stancebar fixes  
 **Bags:** Added Keyring to bags and Bag-Bar (WIP)  
