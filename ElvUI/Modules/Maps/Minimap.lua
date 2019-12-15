@@ -273,6 +273,14 @@ function M:UpdateSettings()
 		if (_G.BattlegroundShine) then
 			_G.BattlegroundShine:Hide()
 		end
+
+		if (_G.MiniMapBattlefieldBorder) then
+			_G.MiniMapBattlefieldBorder:Hide()
+		end
+
+		if (_G.MiniMapBattlefieldIcon) then
+			_G.MiniMapBattlefieldIcon:SetTexCoord(unpack(E.TexCoords))
+		end
 	end
 
 	local MiniMapTrackingFrame = _G.MiniMapTrackingFrame
