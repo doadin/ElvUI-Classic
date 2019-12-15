@@ -936,6 +936,7 @@ E.TagInfo = {
 	['shortclassification'] = { category = 'Classification', description = "Displays the unit's classification in short form (e.g. '+' for ELITE and 'R' for RARE)" },
 	['classification:icon'] = { category = 'Classification', description = "Displays the unit's classification in icon form (golden icon for 'ELITE' silver icon for 'RARE')" },
 	['rare'] = { category = 'Classification', description = "Displays 'Rare' when the unit is a rare or rareelite" },
+	['plus'] = { category = 'Classification', description = "Displays '+' when the unit is an elite or rareelite" },
 	--Guild
 	['guild'] = { category = 'Guild', description = "Displays the guild name" },
 	['guild:brackets'] = { category = 'Guild', description = "Displays the guild name with < > brackets (e.g. <GUILD>)" },
@@ -1055,9 +1056,7 @@ E.TagInfo = {
 	['pvp:title'] = { category = 'PvP', description = "Displays player pvp title" },
 	['pvp:rank'] = { category = 'PvP', description = "Displays player pvp rank number" },
 	['pvp:icon'] = { category = 'PvP', description = "Displays player pvp rank icon" },
-	--Quest
-	['quest:info'] = { category = 'Quest', description = "Displays the quest objectives" },
-	['quest:title'] = { category = 'Quest', description = "Displays the quest title" },
+	['pvp'] = { category = 'PvP', description = "Displays 'PvP' if the unit is pvp flagged" },
 	--Realm
 	['realm'] = { category = 'Realm', description = "Displays the server name" },
 	['realm:translit'] = { category = 'Realm', description = "Displays the server name with transliteration for cyrillic letters" },
@@ -1071,7 +1070,6 @@ E.TagInfo = {
 	['afk'] = { category = 'Status', description = "Displays <AFK> if the unit is afk" },
 	['dead'] = { category = 'Status', description = "Displays <DEAD> if the unit is dead" },
 	['resting'] = { category = 'Status', description = "Displays 'zzz' if the unit is resting" },
-	['pvp'] = { category = 'Status', description = "Displays 'PvP' if the unit is pvp flagged" },
 	['offline'] = { category = 'Status', description = "Displays 'OFFLINE' if the unit is disconnected" },
 	--Speed
 	['speed:percent'] = { category = 'Speed', description = "" },
@@ -1096,7 +1094,6 @@ E.TagInfo = {
 	--Miscellanous
 	['affix'] = { category = 'Miscellanous', description = "Displays low level critter mobs" },
 	['class'] = { category = 'Miscellanous', description = "Displays the class of the unit, if that unit is a player" },
-	['plus'] = { category = 'Miscellanous', description = "Displays the character '+' if the unit is an elite or rare-elite" },
 	['race'] = { category = 'Miscellanous', description = "Displays the race" },
 	--Range
 	['nearbyplayers:8'] = { category = 'Range', description = "Displays all players within 8 yards" },
