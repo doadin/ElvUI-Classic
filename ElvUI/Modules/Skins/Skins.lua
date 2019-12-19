@@ -1070,7 +1070,7 @@ function S:HandleIconSelectionFrame(frame, numIcons, buttonNameTemplate, frameNa
 	end
 end
 
-function S:HandleNextPrevButton(btn, arrowDir, color, noBackdrop, stipTexts)
+function S:HandleNextPrevButton(btn, arrowDir, color, noBackdrop, stripTexts)
 	if btn.isSkinned then return end
 
 	if not arrowDir then
@@ -1092,7 +1092,7 @@ function S:HandleNextPrevButton(btn, arrowDir, color, noBackdrop, stipTexts)
 		S:HandleButton(btn)
 	end
 
-	if stipTexts then
+	if stripTexts then
 		btn:StripTexts()
 	end
 
@@ -1128,6 +1128,14 @@ function S:HandleNextPrevButton(btn, arrowDir, color, noBackdrop, stipTexts)
 	Normal:SetVertexColor(unpack(color or {1, 1, 1}))
 
 	btn.isSkinned = true
+end
+
+function S:SetNextPrevButtonDirection(frame, arrowDir)
+	local direction = self.ArrowRotation[(arrowDir or "down")]
+
+	frame:GetNormalTexture():SetRotation(direction)
+	frame:GetDisabledTexture():SetRotation(direction)
+	frame:GetPushedTexture():SetRotation(direction)
 end
 
 -- World Map related Skinning functions used for WoW 8.0
