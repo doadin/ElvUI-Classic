@@ -10,6 +10,8 @@ local hooksecurefunc = hooksecurefunc
 local IsAddOnLoaded = IsAddOnLoaded
 local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
 
+local twipe = table.wipe
+
 S.allowBypass = {}
 S.addonsToLoad = {}
 S.nonAddonsToLoad = {}
@@ -1399,6 +1401,7 @@ end
 function S:Initialize()
 	self.Initialized = true
 	self.db = E.private.skins
+	self.uiPanelQueue = {}
 
 	S:SkinAce3()
 
