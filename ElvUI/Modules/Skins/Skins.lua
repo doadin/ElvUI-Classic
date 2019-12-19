@@ -1288,6 +1288,62 @@ function S:ADDON_LOADED(_, addonName)
 	end
 end
 
+local function SetPanelWindowInfo(frame, name, value, igroneUpdate)
+	frame:SetAttribute("UIPanelLayout-"..name, value)
+
+	if name == "width" then
+		frame.__uiPanelWidth = value
+	end
+
+	if not igroneUpdate and frame:IsShown() then
+		UpdateUIPanelPositions(frame)
+	end
+end
+
+local UI_PANEL_OFFSET = 7
+
+function S:SetUIPanelWindowInfo(frame, name, value, offset, igroneUpdate)
+	local frameName = frame and frame.GetName and frame:GetName()
+	if not (frameName and UIPanelWindows[frameName]) then return end
+
+	if name == "width" then
+		value = E:Scale(value or (frame.backdrop and frame.backdrop:GetWidth() or frame:GetWidth())) + (offset or 0) + UI_PANEL_OFFSET
+	end
+
+	if self.inCombat or InCombatLockdown() then
+		local frameInfo = format("%s-%s", frameName, name)
+
+		if self.uiPanelQueue[frameInfo] then
+			if name == "width" and frame.__uiPanelWidth and frame.__uiPanelWidth == value then
+				self.uiPanelQueue[frameInfo] = nil
+			else
+				self.uiPanelQueue[frameInfo][3] = value
+				self.uiPanelQueue[frameInfo][4] = igroneUpdate
+			end
+		else
+			self.uiPanelQueue[frameInfo] = {frame, name, value, igroneUpdate}
+		end
+
+		if not self.inCombat then
+			self.inCombat = true
+			S:RegisterEvent("PLAYER_REGEN_ENABLED")
+		end
+	else
+		SetPanelWindowInfo(frame, name, value, igroneUpdate)
+	end
+end
+
+function S:PLAYER_REGEN_ENABLED()
+	self.inCombat = nil
+	S:UnregisterEvent("PLAYER_REGEN_ENABLED")
+
+	for _, info in pairs(self.uiPanelQueue) do
+		SetPanelWindowInfo(info[1], info[2], info[3], info[4])
+	end
+
+	twipe(self.uiPanelQueue)
+end
+
 function S:PLAYER_ENTERING_WORLD()
 	for addonName, object in pairs(self.addonsToLoad) do
 		local isLoaded, isFinished = IsAddOnLoaded(addonName)
