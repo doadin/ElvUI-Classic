@@ -3,14 +3,15 @@ local S = E:GetModule('Skins')
 
 --Lua functions
 local _G = _G
-local tinsert, xpcall = tinsert, xpcall
+local tinsert, xpcall, wipe, format = tinsert, xpcall, wipe, format
 local unpack, assert, pairs, ipairs, select, type, strfind = unpack, assert, pairs, ipairs, select, type, strfind
 --WoW API / Variables
 local hooksecurefunc = hooksecurefunc
 local IsAddOnLoaded = IsAddOnLoaded
+local UIPanelWindows = UIPanelWindows
+local InCombatLockdown = InCombatLockdown
+local UpdateUIPanelPositions = UpdateUIPanelPositions
 local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
-
-local twipe = table.wipe
 
 S.allowBypass = {}
 S.addonsToLoad = {}
@@ -1304,46 +1305,49 @@ end
 
 local UI_PANEL_OFFSET = 7
 
-function S:SetUIPanelWindowInfo(frame, name, value, offset, igroneUpdate)
-	local frameName = frame and frame.GetName and frame:GetName()
-	if not (frameName and UIPanelWindows[frameName]) then return end
+do
+	local inCombat, panelQueue = nil, {}
+	function S:SetUIPanelWindowInfo(frame, name, value, offset, igroneUpdate)
+		local frameName = frame and frame.GetName and frame:GetName()
+		if not (frameName and UIPanelWindows[frameName]) then return end
 
-	if name == "width" then
-		value = E:Scale(value or (frame.backdrop and frame.backdrop:GetWidth() or frame:GetWidth())) + (offset or 0) + UI_PANEL_OFFSET
-	end
+		if name == "width" then
+			value = E:Scale(value or (frame.backdrop and frame.backdrop:GetWidth() or frame:GetWidth())) + (offset or 0) + UI_PANEL_OFFSET
+		end
 
-	if self.inCombat or InCombatLockdown() then
-		local frameInfo = format("%s-%s", frameName, name)
+		if inCombat or InCombatLockdown() then
+			local info = format("%s-%s", frameName, name)
 
-		if self.uiPanelQueue[frameInfo] then
-			if name == "width" and frame.__uiPanelWidth and frame.__uiPanelWidth == value then
-				self.uiPanelQueue[frameInfo] = nil
+			if panelQueue[info] then
+				if name == "width" and frame.__uiPanelWidth and frame.__uiPanelWidth == value then
+					panelQueue[info] = nil
+				else
+					panelQueue[info][3] = value
+					panelQueue[info][4] = igroneUpdate
+				end
 			else
-				self.uiPanelQueue[frameInfo][3] = value
-				self.uiPanelQueue[frameInfo][4] = igroneUpdate
+				panelQueue[info] = {frame, name, value, igroneUpdate}
+			end
+
+			if not inCombat then
+				inCombat = true
+				S:RegisterEvent("PLAYER_REGEN_ENABLED")
 			end
 		else
-			self.uiPanelQueue[frameInfo] = {frame, name, value, igroneUpdate}
+			SetPanelWindowInfo(frame, name, value, igroneUpdate)
 		end
-
-		if not self.inCombat then
-			self.inCombat = true
-			S:RegisterEvent("PLAYER_REGEN_ENABLED")
-		end
-	else
-		SetPanelWindowInfo(frame, name, value, igroneUpdate)
-	end
-end
-
-function S:PLAYER_REGEN_ENABLED()
-	self.inCombat = nil
-	S:UnregisterEvent("PLAYER_REGEN_ENABLED")
-
-	for _, info in pairs(self.uiPanelQueue) do
-		SetPanelWindowInfo(info[1], info[2], info[3], info[4])
 	end
 
-	twipe(self.uiPanelQueue)
+	function S:PLAYER_REGEN_ENABLED()
+		S:UnregisterEvent("PLAYER_REGEN_ENABLED")
+		inCombat = nil
+
+		for _, info in pairs(panelQueue) do
+			SetPanelWindowInfo(info[1], info[2], info[3], info[4])
+		end
+
+		wipe(panelQueue)
+	end
 end
 
 function S:PLAYER_ENTERING_WORLD()
@@ -1401,7 +1405,6 @@ end
 function S:Initialize()
 	self.Initialized = true
 	self.db = E.private.skins
-	self.uiPanelQueue = {}
 
 	S:SkinAce3()
 
