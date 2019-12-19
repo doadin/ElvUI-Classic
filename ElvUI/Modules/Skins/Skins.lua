@@ -1291,21 +1291,20 @@ function S:ADDON_LOADED(_, addonName)
 	end
 end
 
-local function SetPanelWindowInfo(frame, name, value, igroneUpdate)
-	frame:SetAttribute("UIPanelLayout-"..name, value)
-
-	if name == "width" then
-		frame.__uiPanelWidth = value
-	end
-
-	if not igroneUpdate and frame:IsShown() then
-		UpdateUIPanelPositions(frame)
-	end
-end
-
-local UI_PANEL_OFFSET = 7
-
 do
+	local function SetPanelWindowInfo(frame, name, value, igroneUpdate)
+		frame:SetAttribute("UIPanelLayout-"..name, value)
+
+		if name == "width" then
+			frame.__uiPanelWidth = value
+		end
+
+		if not igroneUpdate and frame:IsShown() then
+			UpdateUIPanelPositions(frame)
+		end
+	end
+
+	local UI_PANEL_OFFSET = 7
 	local inCombat, panelQueue = nil, {}
 	function S:SetUIPanelWindowInfo(frame, name, value, offset, igroneUpdate)
 		local frameName = frame and frame.GetName and frame:GetName()
