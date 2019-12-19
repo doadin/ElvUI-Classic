@@ -1342,7 +1342,7 @@ do
 		inCombat = nil
 
 		for _, info in pairs(panelQueue) do
-			SetPanelWindowInfo(info[1], info[2], info[3], info[4])
+			SetPanelWindowInfo(unpack(info))
 		end
 
 		wipe(panelQueue)
