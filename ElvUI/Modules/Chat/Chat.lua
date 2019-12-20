@@ -79,8 +79,9 @@ local ToggleQuickJoinPanel = ToggleQuickJoinPanel
 local UnitName = UnitName
 local UnitRealmRelationship = UnitRealmRelationship
 
-local SOUNDKIT_TELL_MESSAGE = SOUNDKIT.TELL_MESSAGE
 local C_Club_GetInfoFromLastCommunityChatLine = C_Club.GetInfoFromLastCommunityChatLine
+local SOUNDKIT_TELL_MESSAGE = SOUNDKIT.TELL_MESSAGE
+
 local LE_REALM_RELATION_SAME = LE_REALM_RELATION_SAME
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
 local BNET_CLIENT_WOW = BNET_CLIENT_WOW
