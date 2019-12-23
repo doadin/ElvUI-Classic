@@ -1406,7 +1406,7 @@ function UF:Initialize()
 
 	self:LoadUnits()
 	self:RegisterEvent('PLAYER_ENTERING_WORLD')
-	self:RegisterEvent('PLAYER_TARGET_CHANGED', self.PLAYER_TARGET_CHANGED)
+	self:RegisterEvent('PLAYER_TARGET_CHANGED')
 
 	--InterfaceOptionsFrameCategoriesButton9:SetScale(0.0001)
 	--[[if E.private.unitframe.disabledBlizzardFrames.arena and E.private.unitframe.disabledBlizzardFrames.focus and E.private.unitframe.disabledBlizzardFrames.party then
