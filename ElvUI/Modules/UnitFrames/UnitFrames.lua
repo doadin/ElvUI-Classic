@@ -1384,10 +1384,6 @@ local function TargetSound(unit)
 	end
 end
 
-function UF:PLAYER_FOCUS_CHANGED()
-	TargetSound("focus")
-end
-
 function UF:PLAYER_TARGET_CHANGED()
 	TargetSound("target")
 end
