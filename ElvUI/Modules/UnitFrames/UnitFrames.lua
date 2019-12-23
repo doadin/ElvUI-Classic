@@ -18,6 +18,7 @@ local IsInInstance = IsInInstance
 local GetInstanceInfo = GetInstanceInfo
 local hooksecurefunc = hooksecurefunc
 local InCombatLockdown = InCombatLockdown
+local IsReplacingUnit = IsReplacingUnit
 local RegisterStateDriver = RegisterStateDriver
 local SetCVar = SetCVar
 local UnitExists = UnitExists
@@ -1371,7 +1372,7 @@ end
 local function TargetSound(unit)
 	if not E.db.unitframe.targetSound then return end
 
-	if UnitExists(unit) then
+	if UnitExists(unit) and not IsReplacingUnit() then
 		if UnitIsEnemy(unit, "player") then
 			PlaySound(SOUNDKIT.IG_CREATURE_AGGRO_SELECT)
 		elseif UnitIsFriend("player", unit) then
