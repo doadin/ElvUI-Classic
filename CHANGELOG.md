@@ -3,6 +3,7 @@
 **Filters:** Added BuffIndicators for Hunter Group-Aspects  
 **Minimap:** Battleground Minimap button fixes  
 **NamePlates:** Fix RaidTargetIcon size bug  
+**UnitFrames:** Added an option to enable a sound if you select a unit. Disabled by default.  
 ___
 ### Version 1.19 [12/14/2019]
 **ActionBars:** Stancebar fixes  
