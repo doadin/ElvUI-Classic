@@ -178,16 +178,18 @@ function B:SetSearch(query)
 		for _, bagID in ipairs(bagFrame.BagIDs) do
 			for slotID = 1, GetContainerNumSlots(bagID) do
 				local _, _, _, _, _, _, link = GetContainerItemInfo(bagID, slotID)
-				local button = bagFrame.Bags[bagID][slotID]
-				local success, result = pcall(method, Search, link, query)
-				if empty or (success and result) then
-					SetItemButtonDesaturated(button, button.locked or button.junkDesaturate)
-					button.searchOverlay:Hide()
-					button:SetAlpha(1)
-				else
-					SetItemButtonDesaturated(button, 1)
-					button.searchOverlay:Show()
-					button:SetAlpha(0.5)
+				local button = bagFrame.Bags[bagID] and bagFrame.Bags[bagID][slotID]
+				if button then
+					local success, result = pcall(method, Search, link, query)
+					if empty or (success and result) then
+						SetItemButtonDesaturated(button, button.locked or button.junkDesaturate)
+						button.searchOverlay:Hide()
+						button:SetAlpha(1)
+					else
+						SetItemButtonDesaturated(button, 1)
+						button.searchOverlay:Show()
+						button:SetAlpha(0.5)
+					end
 				end
 			end
 		end
@@ -510,10 +512,12 @@ function B:UpdateCooldowns(frame)
 	if not (frame and frame.BagIDs) then return end
 
 	for _, bagID in ipairs(frame.BagIDs) do
-		for slotID = 1, GetContainerNumSlots(bagID) do
-			if GetContainerItemInfo(bagID, slotID) then
-				local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
-				CooldownFrame_Set(frame.Bags[bagID][slotID].cooldown, start, duration, enable)
+		if bagID ~= -2 then
+			for slotID = 1, GetContainerNumSlots(bagID) do
+				if GetContainerItemInfo(bagID, slotID) then
+					local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
+					CooldownFrame_Set(frame.Bags[bagID][slotID].cooldown, start, duration, enable)
+				end
 			end
 		end
 	end
