@@ -617,6 +617,8 @@ function B:Layout(isBank)
 								PutKeyInKeyRing();
 							end
 						end)
+						f.ContainerHolder[i]:HookScript('OnEnter', B.KeyRing_Open)
+						f.ContainerHolder[i]:HookScript('OnLeave', B.HandleKeyRing)
 					else
 						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBag" .. (bagID-1) .. "Slot", f.ContainerHolder, "BagSlotButtonTemplate")
 					end
@@ -832,7 +834,12 @@ function B:Layout(isBank)
 		end
 	end
 
-	f:Size(containerWidth, (((buttonSize + buttonSpacing) * numContainerRows) - buttonSpacing) + (isSplit and (numBags * bagSpacing) or 0 ) + f.topOffset + f.bottomOffset); -- 8 is the cussion of the f.holderFrame
+	if B.ShowKeyRing then
+		f:Size(containerWidth, (((buttonSize + buttonSpacing) * numContainerRows) - buttonSpacing) + (isSplit and (numBags * bagSpacing) or 0 ) + f.topOffset + f.bottomOffset); -- 8 is the cussion of the f.holderFrame
+	else
+		numContainerRows = numContainerRows - max(ceil((GetContainerNumSlots(-2) / numContainerColumns)), 1)
+		f:Size(containerWidth, (((buttonSize + buttonSpacing) * numContainerRows) - buttonSpacing) + (isSplit and (numBags * bagSpacing) or 0 ) + f.topOffset + f.bottomOffset); -- 8 is the cussion of the f.holderFrame
+	end
 end
 
 function B:UpdateAll()
@@ -973,13 +980,31 @@ end
 
 function B:HandleKeyRing()
 	if B.BagFrame then
+		if B.ShowKeyRing then
+			B:KeyRing_Open()
+		else
+			B:KeyRing_Close()
+		end
+	end
+end
+
+function B:KeyRing_Open()
+	if B.BagFrame then
+		B:Layout()
 		for y = 1, MAX_CONTAINER_ITEMS do
 			if B.BagFrame.Bags[-2] and B.BagFrame.Bags[-2][y] then
-				if B.BagFrame.Bags[-2][y]:IsShown() then
-					B.BagFrame.Bags[-2][y]:Hide()
-				else
-					B.BagFrame.Bags[-2][y]:Show()
-				end
+				B.BagFrame.Bags[-2][y]:Show()
+			end
+		end
+	end
+end
+
+function B:KeyRing_Close()
+	if B.BagFrame then
+		B:Layout()
+		for y = 1, MAX_CONTAINER_ITEMS do
+			if B.BagFrame.Bags[-2] and B.BagFrame.Bags[-2][y] then
+				B.BagFrame.Bags[-2][y]:Hide()
 			end
 		end
 	end
@@ -1214,7 +1239,10 @@ function B:ContructContainerFrame(name, isBank)
 		f.keyRingButton.ttText = L["Key Ring"]
 		f.keyRingButton:SetScript("OnEnter", B.Tooltip_Show)
 		f.keyRingButton:SetScript("OnLeave", GameTooltip_Hide)
-		f.keyRingButton:SetScript("OnClick", B.HandleKeyRing)
+		f.keyRingButton:SetScript("OnClick", function()
+			B.ShowKeyRing = not B.ShowKeyRing
+			B:HandleKeyRing()
+		end)
 
 		--Search
 		f.editBox:Point('BOTTOMLEFT', f.holderFrame, 'TOPLEFT', (E.Border * 2) + 18, E.Border * 2 + 2)
