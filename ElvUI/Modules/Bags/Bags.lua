@@ -324,7 +324,7 @@ function B:UpdateSlot(frame, bagID, slotID)
 
 	local slot = frame.Bags[bagID][slotID]
 	local bagType = frame.Bags[bagID].type
-
+	local keyring = (bagID == -2)
 	local texture, count, locked, rarity, readable, _, itemLink, _, noValue, itemID = GetContainerItemInfo(bagID, slotID)
 	slot.name, slot.rarity, slot.locked = nil, rarity, locked
 
@@ -353,10 +353,10 @@ function B:UpdateSlot(frame, bagID, slotID)
 		end
 	end
 
-	slot.itemLevel:SetText('')
-	slot.bindType:SetText('')
+	slot.itemLevel:SetText()
+	slot.bindType:SetText()
 
-	local professionColors = B.ProfessionColors[bagType]
+	local professionColors = keyring and B.KeyRingColor or B.ProfessionColors[bagType]
 	local showItemLevel = B.db.itemLevel and clink and not professionColors
 	local showBindType = B.db.showBindType and (slot.rarity and slot.rarity > LE_ITEM_QUALITY_COMMON)
 
@@ -523,6 +523,8 @@ function B:UpdateAllSlots(frame)
 	if not frame.registerUpdate and B:IsSearching() then
 		B:RefreshSearch()
 	end
+
+	B:HandleKeyRing()
 end
 
 function B:SetSlotAlphaForBag(f)
@@ -710,6 +712,15 @@ function B:Layout(isBank)
 						JunkIcon:Point("TOPLEFT", 1, 0)
 						JunkIcon:Hide()
 						f.Bags[bagID][slotID].JunkIcon = JunkIcon
+					end
+
+					if bagID == -2 then
+						f.Bags[bagID][slotID].keyringTexture = f.Bags[bagID][slotID]:CreateTexture(nil, "ARTWORK")
+						f.Bags[bagID][slotID].keyringTexture:SetAlpha(.5)
+						f.Bags[bagID][slotID].keyringTexture:SetInside(f.Bags[bagID][slotID])
+						f.Bags[bagID][slotID].keyringTexture:SetTexture("Interface/ContainerFrame/KeyRing-Bag-Icon")
+						f.Bags[bagID][slotID].keyringTexture:SetTexCoord(unpack(E.TexCoords))
+						f.Bags[bagID][slotID].keyringTexture:SetDesaturated(true)
 					end
 
 					f.Bags[bagID][slotID].iconTexture = _G[f.Bags[bagID][slotID]:GetName()..'IconTexture']
@@ -1634,6 +1645,8 @@ function B:Initialize()
 	BagFrameHolder:SetFrameLevel(BagFrameHolder:GetFrameLevel() + 400)
 
 	B.db = E.db.bags
+
+	B.KeyRingColor = { 1, 1, 0}
 
 	B.ProfessionColors = {
 		[0x0001]   = { B.db.colors.profession.quiver.r, B.db.colors.profession.quiver.g, B.db.colors.profession.quiver.b},
