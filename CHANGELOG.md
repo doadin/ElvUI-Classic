@@ -1,6 +1,9 @@
 ### Version 1.20 [ETA: Soon]
+**ActionBars:** Fixed broken bars with Masque enabled  
 **Available Tags:** Category tweaks  
+**Bags:** Keyring tweaks (still WIP)  
 **Filters:** Added BuffIndicators for Hunter Group-Aspects  
+**General:** Added an option to enable a sound when you get a combat ress. (BlizzUI Improvements)  
 **Minimap:** Battleground Minimap button fixes  
 **NamePlates:** Fix RaidTargetIcon size bug  
 **UnitFrames:** Added an option to enable a sound if you select a unit. Disabled by default.  
