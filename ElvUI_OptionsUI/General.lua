@@ -481,22 +481,6 @@ E.Options.args.general = {
 					get = function(info) return E.private.general.raidUtility end,
 					set = function(info, value) E.private.general.raidUtility = value; E:StaticPopup_Show("PRIVATE_RL") end
 				},
-				DurabilityGroup = {
-					order = 7,
-					type = "group",
-					name = L["Durability"],
-					guiInline = true,
-					get = function(info) return E.db.general.durabilityScale end,
-					set = function(info, value) E.db.general.durabilityScale = value; E:StaticPopup_Show("PRIVATE_RL") end,
-					args = {
-						scale = {
-							order = 1,
-							type = "range",
-							name = L["Scale"],
-							min = 0.5, max = 8, step = 0.5,
-						}
-					}
-				},
 				objectiveTracker = {
 					order = 8,
 					type = 'toggle',
@@ -509,6 +493,14 @@ E.Options.args.general = {
 					desc = L["Enable to hear sound if you receive a resurrect."],
 					get = function(info) return E.db.general.resurrectSound end,
 					set = function(info, value) E.db.general.resurrectSound = value end,
+				},
+				durabilityScale = {
+					order = 10,
+					type = "range",
+					name = L["Durability Scale"],
+					min = 0.5, max = 8, step = 0.5,
+					get = function(info) return E.db.general.durabilityScale end,
+					set = function(info, value) E.db.general.durabilityScale = value; E:StaticPopup_Show("PRIVATE_RL") end,
 				},
 --[=[
 				itemLevelInfo = {
