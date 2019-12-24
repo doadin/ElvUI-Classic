@@ -715,7 +715,7 @@ function B:Layout(isBank)
 					end
 
 					if bagID == -2 then
-						f.Bags[bagID][slotID].keyringTexture = f.Bags[bagID][slotID]:CreateTexture(nil, "ARTWORK")
+						f.Bags[bagID][slotID].keyringTexture = f.Bags[bagID][slotID]:CreateTexture(nil, "BORDER")
 						f.Bags[bagID][slotID].keyringTexture:SetAlpha(.5)
 						f.Bags[bagID][slotID].keyringTexture:SetInside(f.Bags[bagID][slotID])
 						f.Bags[bagID][slotID].keyringTexture:SetTexture("Interface/ContainerFrame/KeyRing-Bag-Icon")
