@@ -342,6 +342,14 @@ function B:UpdateSlot(frame, bagID, slotID)
 	SetItemButtonCount(slot, count)
 	SetItemButtonDesaturated(slot, slot.locked or slot.junkDesaturate)
 
+	if keyring then
+		if texture then
+			slot.keyringTexture:Hide()
+		else
+			slot.keyringTexture:Show()
+		end
+	end
+
 	local color = E.db.bags.countFontColor
 	slot.Count:SetTextColor(color.r, color.g, color.b)
 
