@@ -502,6 +502,14 @@ E.Options.args.general = {
 					type = 'toggle',
 					name = L["ObjectiveTracker Enhancements"],
 				},
+				resurrectSound = {
+					order = 9,
+					type = 'toggle',
+					name = L["Resurrect Sound"],
+					desc = L["Enable to hear sound if you receive a resurrect."],
+					get = function(info) return E.db.general.resurrectSound end,
+					set = function(info, value) E.db.general.resurrectSound = value end,
+				},
 --[=[
 				itemLevelInfo = {
 					order = 11,
