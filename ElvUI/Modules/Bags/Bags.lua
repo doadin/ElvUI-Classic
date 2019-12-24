@@ -8,7 +8,7 @@ local Search = E.Libs.ItemSearch
 local _G = _G
 local type, ipairs, pairs, unpack, select, pcall = type, ipairs, pairs, unpack, select, pcall
 local tinsert, tremove, twipe, tmaxn = tinsert, tremove, wipe, table.maxn
-local floor, abs = floor, abs
+local floor, ceil, abs = floor, ceil, abs
 local format, sub = format, strsub
 --WoW API / Variables
 local BankFrameItemButton_Update = BankFrameItemButton_Update
@@ -837,7 +837,7 @@ function B:Layout(isBank)
 	if B.ShowKeyRing then
 		f:Size(containerWidth, (((buttonSize + buttonSpacing) * numContainerRows) - buttonSpacing) + (isSplit and (numBags * bagSpacing) or 0 ) + f.topOffset + f.bottomOffset); -- 8 is the cussion of the f.holderFrame
 	else
-		numContainerRows = numContainerRows - max(ceil((GetContainerNumSlots(-2) / numContainerColumns)), 1)
+		numContainerRows = ceil((f.totalSlots - GetContainerNumSlots(-2)) / numContainerColumns)
 		f:Size(containerWidth, (((buttonSize + buttonSpacing) * numContainerRows) - buttonSpacing) + (isSplit and (numBags * bagSpacing) or 0 ) + f.topOffset + f.bottomOffset); -- 8 is the cussion of the f.holderFrame
 	end
 end
