@@ -834,7 +834,7 @@ function B:Layout(isBank)
 		end
 	end
 
-	if not isBank and B.ShowKeyRing then
+	if (not isBank) and (not B.ShowKeyRing) then
 		numContainerRows = ceil((f.totalSlots - GetContainerNumSlots(-2)) / numContainerColumns)
 	end
 
