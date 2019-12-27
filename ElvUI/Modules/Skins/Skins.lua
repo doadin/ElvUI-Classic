@@ -246,8 +246,8 @@ function S:SkinTalentListButtons(frame)
 end
 
 function S:HandleButton(button, strip, isDeclineButton, useCreateBackdrop, noSetTemplate)
-	if button.isSkinned then return end
 	assert(button, "doesn't exist!")
+	if button.isSkinned then return end
 
 	local buttonName = button.GetName and button:GetName()
 
@@ -325,6 +325,7 @@ local function GrabScrollBarElement(frame, element)
 end
 
 function S:HandleScrollBar(frame, thumbTrimY, thumbTrimX)
+	assert(frame, "doesnt exist!")
 	if frame.backdrop then return end
 	local parent = frame:GetParent()
 
@@ -452,6 +453,7 @@ function S:HandleMaxMinFrame(frame)
 end
 
 function S:HandleEditBox(frame)
+	assert(frame, "doesnt exist!")
 	if frame.backdrop then return end
 
 	local EditBoxName = frame.GetName and frame:GetName()
@@ -707,6 +709,7 @@ local handleCloseButtonOnEnter = function(btn) if btn.Texture then btn.Texture:S
 local handleCloseButtonOnLeave = function(btn) if btn.Texture then btn.Texture:SetVertexColor(1, 1, 1) end end
 
 function S:HandleCloseButton(f, point, x, y)
+	assert(f, "doenst exist!")
 	f:StripTextures()
 
 	if not f.Texture then
@@ -1146,14 +1149,16 @@ function S:WorldMapMixin_AddOverlayFrame(frame, templateName)
 	S[templateName](frame.overlayFrames[#frame.overlayFrames])
 end
 
+-- UIWidgets
 function S:SkinIconAndTextWidget(widgetFrame)
 end
 
+-- For now see the function below
 function S:SkinCaptureBarWidget(widgetFrame)
 end
 
 function S:SkinStatusBarWidget(widgetFrame)
-	local bar = widgetFrame.Bar;
+	local bar = widgetFrame.Bar
 	if bar and not bar.IsSkinned then
 		-- Hide StatusBar textures
 		if bar.BorderLeft then bar.BorderLeft:Hide() end
@@ -1174,6 +1179,7 @@ function S:SkinStatusBarWidget(widgetFrame)
 	end
 end
 
+-- For now see the function below
 function S:SkinDoubleStatusBarWidget(widgetFrame)
 end
 
@@ -1190,6 +1196,11 @@ function S:SkinIconTextAndCurrenciesWidget(widgetFrame)
 end
 
 function S:SkinTextWithStateWidget(widgetFrame)
+	local text = widgetFrame.Text
+
+	if text then
+		text:SetTextColor(1, 1, 1)
+	end
 end
 
 function S:SkinHorizontalCurrenciesWidget(widgetFrame)
@@ -1210,6 +1221,10 @@ function S:SkinSpellDisplay(widgetFrame)
 
 	if spell.Border then
 		spell.Border:Hide()
+	end
+
+	if spell.Text then
+		spell.Text:SetTextColor(1, 1, 1)
 	end
 
 	if spell.Icon then
@@ -1234,6 +1249,9 @@ end
 function S:SkinZoneControl(widgetFrame)
 end
 
+function S:SkinCaptureZone(widgetFrame)
+end
+
 local W = Enum.UIWidgetVisualizationType;
 S.WidgetSkinningFuncs = {
 	[W.IconAndText] = "SkinIconAndTextWidget",
@@ -1248,6 +1266,12 @@ S.WidgetSkinningFuncs = {
 	[W.HorizontalCurrencies] = "SkinHorizontalCurrenciesWidget",
 	[W.BulletTextList] = "SkinBulletTextListWidget",
 	[W.ScenarioHeaderCurrenciesAndBackground] = "SkinScenarioHeaderCurrenciesAndBackgroundWidget",
+	[W.TextureAndText] = "SkinTextureAndTextWidget",
+	[W.SpellDisplay] = "SkinSpellDisplay",
+	[W.DoubleStateIconRow] = "SkinDoubleStateIconRow",
+	[W.TextureAndTextRow] = "SkinTextureAndTextRowWidget",
+	[W.ZoneControl] = "SkinZoneControl",
+	[W.CaptureZone] = "SkinCaptureZone",
 }
 
 function S:SkinWidgetContainer(widgetContainer)
