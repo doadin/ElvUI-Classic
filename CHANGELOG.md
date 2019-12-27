@@ -4,9 +4,11 @@
 **Bags:** Keyring tweaks (still WIP)  
 **Filters:** Added BuffIndicators for Hunter Group-Aspects  
 **General:** Added an option to enable a sound when you get a combat ress. (BlizzUI Improvements)  
+**Libraries:** LibHealComm-4.0 update  
 **Minimap:** Battleground Minimap button fixes  
-**NamePlates:** Fix RaidTargetIcon size bug  
-**UnitFrames:** Added an option to enable a sound if you select a unit. Disabled by default.  
+**NamePlates:** Fix RaidTargetIcon size bug in name-only mode  
+**UnitFrames:** Added an option to enable a sound if you select a unit. Disabled by default  
+**UnitFrames:** Show only 1 leader icon in instances / battlegrounds  
 ___
 ### Version 1.19 [12/14/2019]
 **ActionBars:** Stancebar fixes  
