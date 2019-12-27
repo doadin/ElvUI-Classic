@@ -1266,12 +1266,12 @@ S.WidgetSkinningFuncs = {
 	[W.HorizontalCurrencies] = "SkinHorizontalCurrenciesWidget",
 	[W.BulletTextList] = "SkinBulletTextListWidget",
 	[W.ScenarioHeaderCurrenciesAndBackground] = "SkinScenarioHeaderCurrenciesAndBackgroundWidget",
-	[W.TextureAndText] = "SkinTextureAndTextWidget",
-	[W.SpellDisplay] = "SkinSpellDisplay",
-	[W.DoubleStateIconRow] = "SkinDoubleStateIconRow",
-	[W.TextureAndTextRow] = "SkinTextureAndTextRowWidget",
-	[W.ZoneControl] = "SkinZoneControl",
-	[W.CaptureZone] = "SkinCaptureZone",
+	-- [W.TextureAndText] = "SkinTextureAndTextWidget",
+	-- [W.SpellDisplay] = "SkinSpellDisplay",
+	-- [W.DoubleStateIconRow] = "SkinDoubleStateIconRow",
+	-- [W.TextureAndTextRow] = "SkinTextureAndTextRowWidget",
+	-- [W.ZoneControl] = "SkinZoneControl",
+	-- [W.CaptureZone] = "SkinCaptureZone",
 }
 
 function S:SkinWidgetContainer(widgetContainer)
