@@ -1406,6 +1406,8 @@ function S:Initialize()
 	self.db = E.private.skins
 
 	S:SkinAce3()
+	S:RegisterEvent('ADDON_LOADED')
+	S:RegisterEvent('PLAYER_ENTERING_WORLD')
 
 	hooksecurefunc("TriStateCheckbox_SetState", function(_, checkButton)
 		if checkButton.forceSaturation then
@@ -1420,6 +1422,4 @@ function S:Initialize()
 	end)
 end
 
-S:RegisterEvent('ADDON_LOADED')
-S:RegisterEvent('PLAYER_ENTERING_WORLD')
 E:RegisterModule(S:GetName())
