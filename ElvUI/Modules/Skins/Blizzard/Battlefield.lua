@@ -5,7 +5,7 @@ local S = E:GetModule('Skins')
 --Lua functions
 local _G = _G
 
-local function LoadSkin()
+function S:SkinBattlefield()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.battlefield then return end
 
 	local BattlefieldFrame = _G.BattlefieldFrame
@@ -23,4 +23,4 @@ local function LoadSkin()
 	S:HandleCloseButton(_G.BattlefieldFrameCloseButton)
 end
 
-S:AddCallback('Skin_Battlefield', LoadSkin)
+S:AddCallback('SkinBattlefield')

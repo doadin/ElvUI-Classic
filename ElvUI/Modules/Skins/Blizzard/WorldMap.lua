@@ -5,7 +5,7 @@ local S = E:GetModule('Skins')
 --Lua functions
 local _G = _G
 
-local function LoadSkin()
+function S:SkinWorldMap()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.worldmap then return end
 
 	local WorldMapFrame = _G.WorldMapFrame
@@ -27,4 +27,5 @@ local function LoadSkin()
 	_G.WorldMapFrameCloseButton:SetFrameLevel(_G.WorldMapFrameCloseButton:GetFrameLevel() + 2)
 end
 
-S:AddCallback('Skin_WorldMap', LoadSkin)
+S:AddCallback('SkinWorldMap')
+

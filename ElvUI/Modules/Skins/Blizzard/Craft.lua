@@ -15,7 +15,7 @@ local GetCraftReagentInfo = GetCraftReagentInfo
 local GetCraftReagentItemLink = GetCraftReagentItemLink
 local hooksecurefunc = hooksecurefunc
 
-local function LoadSkin()
+function S:SkinCraft()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.craft then return end
 
 	local CraftFrame = _G.CraftFrame
@@ -178,4 +178,4 @@ local function LoadSkin()
 	end)
 end
 
-S:AddCallbackForAddon('Blizzard_CraftUI', 'Skin_Blizzard_CraftUI', LoadSkin)
+S:AddCallbackForAddon('Blizzard_CraftUI', 'SkinCraft')
