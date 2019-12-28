@@ -3,7 +3,7 @@ local S = E:GetModule('Skins')
 
 --Lua functions
 local _G = _G
-local tinsert, xpcall, wipe, format = tinsert, xpcall, wipe, format
+local tinsert, xpcall, error, tContains = tinsert, xpcall, error, tContains
 local unpack, assert, pairs, ipairs, select, type, strfind = unpack, assert, pairs, ipairs, select, type, strfind
 --WoW API / Variables
 local hooksecurefunc = hooksecurefunc
@@ -1309,6 +1309,11 @@ function S:RegisterSkin(addonName, loadFunc, forceLoad, bypass, position)
 		xpcall(loadFunc, errorhandler)
 		self.addonsToLoad[addonName] = nil
 	elseif addonName == 'ElvUI' then
+		if tContains(self.nonAddonsToLoad, loadFunc) then
+			error(addonName, {addonName, loadFunc, forceLoad, bypass, position})
+			return
+		end
+
 		if position then
 			tinsert(self.nonAddonsToLoad, position, loadFunc)
 		else
@@ -1319,6 +1324,11 @@ function S:RegisterSkin(addonName, loadFunc, forceLoad, bypass, position)
 		if not addon then
 			self.addonsToLoad[addonName] = {}
 			addon = self.addonsToLoad[addonName]
+		end
+
+		if tContains(addon, loadFunc) then
+			error(addonName, {addonName, loadFunc, forceLoad, bypass, position})
+			return
 		end
 
 		if position then
