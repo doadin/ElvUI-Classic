@@ -31,7 +31,7 @@ function E:UpdateBlizzardFonts()
 		MONOCHROME = 'MONOCHROME'
 	end
 
-	if true then
+	if self.eyefinity then
 		SetCVar('floatingcombattextcombatlogperiodicspells',0)
 		SetCVar('floatingcombattextpetmeleedamage',0)
 		SetCVar('floatingcombattextcombatdamage',0)
