@@ -768,6 +768,7 @@ P.unitframe.filters = {
 G.unitframe.ChannelTicks = {
 	--First Aid
 	[23567] = 8, --Warsong Gulch Runecloth Bandage
+	[23696] = 8, --Alterac Heavy Runecloth Bandage
 	[24414] = 8, --Arathi Basin Runecloth Bandage
 	[18610] = 8, --Heavy Runecloth Bandage
 	[18608] = 8, --Runecloth Bandage
