@@ -36,7 +36,7 @@ local function SkinNavBarButtons(self)
 end
 
 function S:SkinMisc()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.misc then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.misc) then return end
 
 	-- Blizzard frame we want to reskin
 	local skins = {

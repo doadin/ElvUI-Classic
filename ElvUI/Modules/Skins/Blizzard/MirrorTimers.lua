@@ -6,7 +6,7 @@ local S = E:GetModule('Skins')
 local _G = _G
 
 function S:SkinMirrorTimers()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.mirrorTimers then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.mirrorTimers) then return end
 
 	local function MirrorTimer_OnUpdate(frame, elapsed)
 		if frame.paused then return end

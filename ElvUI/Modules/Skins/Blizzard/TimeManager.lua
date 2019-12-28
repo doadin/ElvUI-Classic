@@ -9,7 +9,7 @@ local select = select
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinTimeManager()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.timemanager then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.timemanager) then return end
 
 	local TimeManagerFrame = _G.TimeManagerFrame
 	S:HandleFrame(TimeManagerFrame, true)

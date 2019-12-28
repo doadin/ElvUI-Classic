@@ -6,7 +6,7 @@ local S = E:GetModule('Skins')
 local _G = _G
 
 function S:SkinGuildRegistrar()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.guildregistrar then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.guildregistrar) then return end
 
 	local GuildRegistrarFrame = _G.GuildRegistrarFrame
 	S:HandleFrame(GuildRegistrarFrame, true, nil, 12, -17, -28, 65)

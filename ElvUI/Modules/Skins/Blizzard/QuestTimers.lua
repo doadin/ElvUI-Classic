@@ -9,7 +9,7 @@ local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinQuestTimers()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.questtimers then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.questtimers) then return end
 
 	local QuestTimerFrame = _G.QuestTimerFrame
 	S:HandleFrame(QuestTimerFrame, true)

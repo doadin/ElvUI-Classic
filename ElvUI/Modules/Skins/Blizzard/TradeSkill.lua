@@ -17,7 +17,7 @@ local GetTradeSkillReagentItemLink = GetTradeSkillReagentItemLink
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinTradeSkill()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.tradeskill then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.tradeskill) then return end
 
 	local TradeSkillFrame = _G.TradeSkillFrame
 	S:HandleFrame(TradeSkillFrame, true, nil, 11, -12, -32, 76)

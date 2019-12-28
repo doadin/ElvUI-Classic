@@ -12,7 +12,7 @@ local GetAuctionSellItemInfo = GetAuctionSellItemInfo
 local GetItemQualityColor = GetItemQualityColor
 
 function S:SkinAuctionHouse()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.auctionhouse then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.auctionhouse) then return end
 
 	local AuctionFrame = _G.AuctionFrame
 	AuctionFrame:StripTextures(true)

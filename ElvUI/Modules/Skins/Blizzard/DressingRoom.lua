@@ -8,7 +8,7 @@ local _G = _G
 local SetDressUpBackground = SetDressUpBackground
 
 function S:SkinDressingRoom()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.dressingroom then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.dressingroom) then return end
 
 	local DressUpFrame = _G.DressUpFrame
 	S:HandleFrame(DressUpFrame, true, nil, 11, -12, -32, 76)

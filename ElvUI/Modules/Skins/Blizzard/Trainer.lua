@@ -10,7 +10,7 @@ local strfind = strfind
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinTrainer()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.trainer then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.trainer) then return end
 
 	local ClassTrainerFrame = _G.ClassTrainerFrame
 	S:HandleFrame(ClassTrainerFrame, true, nil, 11, -12, -32, 76)

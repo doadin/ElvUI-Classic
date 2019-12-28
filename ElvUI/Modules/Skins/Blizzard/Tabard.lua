@@ -8,7 +8,7 @@ local _G = _G
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinTabard()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.tabard then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.tabard) then return end
 
 	local TabardFrame = _G.TabardFrame
 	S:HandleFrame(TabardFrame, true, nil, 10, -12, -32, 74)

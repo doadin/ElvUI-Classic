@@ -6,7 +6,7 @@ local S = E:GetModule('Skins')
 local _G = _G
 
 function S:SkinAddonManager()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.addonManager then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.addonManager) then return end
 
 	local AddonList = _G.AddonList
 	S:HandleFrame(AddonList, true)

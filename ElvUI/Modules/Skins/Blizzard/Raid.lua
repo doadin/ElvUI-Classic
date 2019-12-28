@@ -10,7 +10,7 @@ local unpack = unpack
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinRaidUI()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.raid then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.raid) then return end
 
 	local StripAllTextures = {
 		_G.RaidGroup1,

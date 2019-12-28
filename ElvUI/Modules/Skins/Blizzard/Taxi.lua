@@ -6,7 +6,7 @@ local S = E:GetModule('Skins')
 local _G = _G
 
 function S:SkinTaxi()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.taxi then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.taxi) then return end
 
 	local TaxiFrame = _G.TaxiFrame
 	S:HandleFrame(TaxiFrame, true, nil, 11, -12, -32, 76)

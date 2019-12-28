@@ -9,7 +9,7 @@ local ipairs = ipairs
 --WoW API / Variables
 
 function S:SkinTooltip()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.tooltip then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.tooltip) then return end
 
 	S:HandleCloseButton(_G.ItemRefCloseButton)
 

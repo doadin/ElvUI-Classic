@@ -10,7 +10,7 @@ local HideUIPanel = HideUIPanel
 local ShowUIPanel = ShowUIPanel
 
 function S:SkinMacro()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.macro then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.macro) then return end
 
 	local MacroFrame = _G.MacroFrame
 	S:HandleFrame(MacroFrame, true, nil, -5, 0, -2, -1)

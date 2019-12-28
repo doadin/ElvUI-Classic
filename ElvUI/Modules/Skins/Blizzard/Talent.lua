@@ -7,7 +7,7 @@ local _G = _G
 local unpack = unpack
 
 function S:SkinTalent()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.talent then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.talent) then return end
 
 	local TalentFrame = _G.TalentFrame
 	S:HandleFrame(TalentFrame, true, nil, 11, -12, -32, 76)

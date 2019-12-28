@@ -39,7 +39,7 @@ local function UpdateLoots()
 end
 
 function S:SkinLoot()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.loot then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.loot) then return end
 
 	-- Loot history frame
 	local LootHistoryFrame = _G.LootHistoryFrame

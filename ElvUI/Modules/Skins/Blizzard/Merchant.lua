@@ -11,7 +11,7 @@ local GetItemQualityColor = GetItemQualityColor
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinMerchant()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.merchant then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.merchant) then return end
 
 	local MerchantFrame = _G.MerchantFrame
 	S:HandleFrame(MerchantFrame, true, nil, -5, 0, 1, -1)

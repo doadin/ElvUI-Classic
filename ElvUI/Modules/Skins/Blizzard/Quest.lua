@@ -30,7 +30,7 @@ local MAX_REQUIRED_ITEMS = MAX_REQUIRED_ITEMS
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinQuest()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.quest then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.quest) then return end
 
 	local QuestStrip = {
 		'EmptyQuestLogFrame',

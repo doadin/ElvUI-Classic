@@ -6,7 +6,7 @@ local S = E:GetModule('Skins')
 local _G = _G
 
 function S:SkinPetition()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.petition then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.petition) then return end
 
 	local PetitionFrame = _G.PetitionFrame
 	S:HandleFrame(PetitionFrame, true, nil, 12, -17, -28, 65)

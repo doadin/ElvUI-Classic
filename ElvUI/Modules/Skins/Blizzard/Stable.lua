@@ -11,7 +11,7 @@ local hooksecurefunc = hooksecurefunc
 local UnitExists = UnitExists
 
 function S:SkinStable()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.stable then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.stable) then return end
 
 	local PetStableFrame = _G.PetStableFrame
 	S:HandleFrame(PetStableFrame, true, nil, 10, -11, -32, 71)

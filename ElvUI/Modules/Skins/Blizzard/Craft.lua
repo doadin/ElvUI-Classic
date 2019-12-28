@@ -16,7 +16,7 @@ local GetCraftReagentItemLink = GetCraftReagentItemLink
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinCraft()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.craft then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.craft) then return end
 
 	local CraftFrame = _G.CraftFrame
 	S:HandleFrame(CraftFrame, true, nil, 11, -12, -32, 76)

@@ -12,7 +12,7 @@ local GetTradePlayerItemLink = GetTradePlayerItemLink
 local GetTradeTargetItemLink = GetTradeTargetItemLink
 
 function S:SkinTrade()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.trade then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.trade) then return end
 
 	local TradeFrame = _G.TradeFrame
 	S:HandleFrame(TradeFrame, true, nil, -5, 0, -7)

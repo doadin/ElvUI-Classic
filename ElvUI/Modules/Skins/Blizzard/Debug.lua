@@ -84,13 +84,13 @@ local function SkinTableAttributeDisplay(frame)
 end
 
 function S:SkinScriptErrors()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.debug then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.debug) then return end
 
 	S:SecureHookScript(_G.ScriptErrorsFrame, 'OnShow', SkinOnShow)
 end
 
 function S:SkinDebugTools()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.debug then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.debug) then return end
 
 	-- Tooltips
 	if E.private.skins.blizzard.tooltip then

@@ -6,7 +6,7 @@ local S = E:GetModule('Skins')
 local _G = _G
 
 function S:SkinBattlefield()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.battlefield then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.battlefield) then return end
 
 	local BattlefieldFrame = _G.BattlefieldFrame
 	S:HandleFrame(BattlefieldFrame, true, nil, 11, -12, -32, 76)

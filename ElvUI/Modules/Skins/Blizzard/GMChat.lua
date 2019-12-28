@@ -9,7 +9,7 @@ local select = select
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinGMChat()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.GMChat then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.GMChat) then return end
 
 	local GMChatFrame = _G.GMChatFrame
 	S:HandleFrame(GMChatFrame, true)
@@ -68,7 +68,7 @@ function S:SkinGMChat()
 end
 
 function S:SkinGMSurvey()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.GMChat then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.GMChat) then return end
 
 	S:HandleFrame(GMSurveyFrame, true, nil, 4, 4, -44, 10)
 

@@ -19,7 +19,7 @@ local CHARACTERFRAME_SUBFRAMES = CHARACTERFRAME_SUBFRAMES
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinCharacter()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.character then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.character) then return end
 
 	-- Character Frame
 	local CharacterFrame = _G.CharacterFrame
@@ -126,7 +126,7 @@ function S:SkinCharacter()
 	local function updHappiness(self)
 		local happiness = GetPetHappiness()
 		local _, isHunterPet = HasPetUI()
-		if not happiness or not isHunterPet then return end
+		if not (happiness and isHunterPet) then return end
 
 		local texture = self:GetRegions()
 		if happiness == 1 then

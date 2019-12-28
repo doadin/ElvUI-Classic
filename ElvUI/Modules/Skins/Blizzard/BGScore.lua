@@ -11,7 +11,7 @@ local GetBattlefieldScore = GetBattlefieldScore
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinWorldStateScore()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.bgscore then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.bgscore) then return end
 
 	local WorldStateScoreFrame = _G.WorldStateScoreFrame
 	S:HandleFrame(WorldStateScoreFrame, true, nil, 0, -5, -107, 25)

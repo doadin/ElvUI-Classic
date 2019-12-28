@@ -7,7 +7,7 @@ local _G = _G
 local hooksecurefunc = hooksecurefunc
 
 function S:SkinChannels()
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.Channels then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.Channels) then return end
 
 	local ChannelFrame = _G.ChannelFrame
 	S:HandleFrame(ChannelFrame, true, nil, -5)
