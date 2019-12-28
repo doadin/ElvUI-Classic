@@ -10,7 +10,7 @@ local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local hooksecurefunc = hooksecurefunc
 
-function S:SkinMerchant()
+function S:MerchantFrame()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.merchant) then return end
 
 	local MerchantFrame = _G.MerchantFrame
@@ -213,4 +213,4 @@ function S:SkinMerchant()
 	end)
 end
 
-S:AddCallback('SkinMerchant')
+S:AddCallback('MerchantFrame')

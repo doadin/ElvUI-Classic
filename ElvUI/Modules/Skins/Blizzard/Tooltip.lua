@@ -8,7 +8,7 @@ local _G = _G
 local ipairs = ipairs
 --WoW API / Variables
 
-function S:SkinTooltip()
+function S:TooltipFrames()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.tooltip) then return end
 
 	S:HandleCloseButton(_G.ItemRefCloseButton)
@@ -57,4 +57,4 @@ function S:SkinTooltip()
 	TT:SecureHookScript(GameTooltip, 'OnUpdate', 'CheckBackdropColor')
 end
 
-S:AddCallback('SkinTooltip')
+S:AddCallback('TooltipFrames')

@@ -9,7 +9,7 @@ local unpack = unpack
 --WoW API / Variables
 local hooksecurefunc = hooksecurefunc
 
-function S:SkinRaidUI()
+function S:Blizzard_RaidUI()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.raid) then return end
 
 	local StripAllTextures = {
@@ -137,4 +137,4 @@ function S:SkinRaidUI()
 	end)
 end
 
-S:AddCallbackForAddon('Blizzard_RaidUI', 'SkinRaidUI')
+S:AddCallbackForAddon('Blizzard_RaidUI')

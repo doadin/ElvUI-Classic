@@ -5,7 +5,7 @@ local S = E:GetModule('Skins')
 --Lua functions
 local _G = _G
 
-function S:SkinTaxi()
+function S:TaxiFrame()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.taxi) then return end
 
 	local TaxiFrame = _G.TaxiFrame
@@ -20,4 +20,4 @@ function S:SkinTaxi()
 	S:HandleCloseButton(_G.TaxiCloseButton, TaxiFrame.backdrop)
 end
 
-S:AddCallback('SkinTaxi')
+S:AddCallback('TaxiFrame')

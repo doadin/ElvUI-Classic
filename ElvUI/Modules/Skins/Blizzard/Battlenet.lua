@@ -6,7 +6,7 @@ local S = E:GetModule('Skins')
 local _G = _G
 local select = select
 
-function S:SkinBattlenet()
+function S:BattleNetFrames()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.misc) then return end
 
 	local skins = {
@@ -47,4 +47,4 @@ function S:SkinBattlenet()
 	end
 end
 
-S:AddCallback('SkinBattlenet')
+S:AddCallback('BattleNetFrames')

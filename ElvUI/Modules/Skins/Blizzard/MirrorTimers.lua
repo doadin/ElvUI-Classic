@@ -5,7 +5,7 @@ local S = E:GetModule('Skins')
 --Lua functions
 local _G = _G
 
-function S:SkinMirrorTimers()
+function S:MirrorTimers()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.mirrorTimers) then return end
 
 	local function MirrorTimer_OnUpdate(frame, elapsed)
@@ -52,4 +52,4 @@ function S:SkinMirrorTimers()
 	end
 end
 
-S:AddCallback('SkinMirrorTimers')
+S:AddCallback('MirrorTimers')

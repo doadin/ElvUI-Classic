@@ -11,7 +11,7 @@ local GetItemQualityColor = GetItemQualityColor
 local GetTradePlayerItemLink = GetTradePlayerItemLink
 local GetTradeTargetItemLink = GetTradeTargetItemLink
 
-function S:SkinTrade()
+function S:TradeFrame()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.trade) then return end
 
 	local TradeFrame = _G.TradeFrame
@@ -132,4 +132,4 @@ function S:SkinTrade()
 	end)
 end
 
-S:AddCallback('SkinTrade')
+S:AddCallback('TradeFrame')

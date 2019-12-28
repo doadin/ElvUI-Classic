@@ -12,7 +12,7 @@ local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local hooksecurefunc = hooksecurefunc
 
-function S:SkinInspect()
+function S:Blizzard_InspectUI()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.inspect) then return end
 
 	local InspectFrame = _G.InspectFrame
@@ -92,4 +92,4 @@ function S:SkinInspect()
 	E:RegisterStatusBar(InspectHonorFrameProgressBar)
 end
 
-S:AddCallbackForAddon('Blizzard_InspectUI', 'SkinInspect')
+S:AddCallbackForAddon('Blizzard_InspectUI')

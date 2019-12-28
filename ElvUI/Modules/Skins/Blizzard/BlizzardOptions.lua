@@ -35,7 +35,7 @@ function S.AudioOptionsVoicePanel_InitializeCommunicationModeUI(btn)
 	HandlePushToTalkButton(btn.PushToTalkKeybindButton)
 end
 
-function S:SkinBlizzardOptions()
+function S:BlizzardOptions()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.BlizzardOptions) then return end
 
 	-- here we reskin all 'normal' buttons
@@ -355,4 +355,4 @@ function S:SkinBlizzardOptions()
 	S:HandleSliderFrame(_G.UnitPopupVoiceUserVolume.Slider)
 end
 
-S:AddCallback('SkinBlizzardOptions')
+S:AddCallback('BlizzardOptions')

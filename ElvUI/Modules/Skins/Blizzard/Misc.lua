@@ -35,7 +35,7 @@ local function SkinNavBarButtons(self)
 	end
 end
 
-function S:SkinMisc()
+function S:BlizzardMiscFrames()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.misc) then return end
 
 	-- Blizzard frame we want to reskin
@@ -306,4 +306,4 @@ function S:SkinMisc()
 	hooksecurefunc('NavBar_AddButton', SkinNavBarButtons)
 end
 
-S:AddCallback('SkinMisc')
+S:AddCallback('BlizzardMiscFrames')

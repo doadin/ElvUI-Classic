@@ -9,7 +9,7 @@ local strfind = strfind
 --WoW API / Variables
 local hooksecurefunc = hooksecurefunc
 
-function S:SkinTrainer()
+function S:Blizzard_TrainerUI()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.trainer) then return end
 
 	local ClassTrainerFrame = _G.ClassTrainerFrame
@@ -99,4 +99,4 @@ function S:SkinTrainer()
 	end)
 end
 
-S:AddCallbackForAddon('Blizzard_TrainerUI', 'SkinTrainer')
+S:AddCallbackForAddon('Blizzard_TrainerUI')

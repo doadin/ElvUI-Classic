@@ -18,7 +18,7 @@ local NUM_FACTIONS_DISPLAYED = NUM_FACTIONS_DISPLAYED
 local CHARACTERFRAME_SUBFRAMES = CHARACTERFRAME_SUBFRAMES
 local hooksecurefunc = hooksecurefunc
 
-function S:SkinCharacter()
+function S:CharacterFrame()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.character) then return end
 
 	-- Character Frame
@@ -296,4 +296,4 @@ function S:SkinCharacter()
 	E:RegisterStatusBar(HonorFrameProgressBar)
 end
 
-S:AddCallback('SkinCharacter')
+S:AddCallback('CharacterFrame')

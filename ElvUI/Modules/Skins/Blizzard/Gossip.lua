@@ -5,7 +5,7 @@ local S = E:GetModule('Skins')
 --Lua functions
 local _G = _G
 
-function S:SkinGossip()
+function S:GossipFrame()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.gossip) then return end
 
 	-- GossipFrame
@@ -101,4 +101,4 @@ function S:SkinGossip()
 	E:RegisterStatusBar(NPCFriendshipStatusBar)
 end
 
-S:AddCallback('SkinGossip')
+S:AddCallback('GossipFrame')

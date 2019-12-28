@@ -16,7 +16,7 @@ local GetTradeSkillReagentInfo = GetTradeSkillReagentInfo
 local GetTradeSkillReagentItemLink = GetTradeSkillReagentItemLink
 local hooksecurefunc = hooksecurefunc
 
-function S:SkinTradeSkill()
+function S:Blizzard_TradeSkillUI()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.tradeskill) then return end
 
 	local TradeSkillFrame = _G.TradeSkillFrame
@@ -180,5 +180,5 @@ function S:SkinTradeSkill()
 	end)
 end
 
-S:AddCallbackForAddon('Blizzard_TradeSkillUI', 'SkinTradeSkill')
+S:AddCallbackForAddon('Blizzard_TradeSkillUI')
 

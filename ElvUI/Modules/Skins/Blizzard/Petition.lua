@@ -5,7 +5,7 @@ local S = E:GetModule('Skins')
 --Lua functions
 local _G = _G
 
-function S:SkinPetition()
+function S:PetitionFrame()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.petition) then return end
 
 	local PetitionFrame = _G.PetitionFrame
@@ -33,4 +33,4 @@ function S:SkinPetition()
 	_G.PetitionFrameRenameButton:Point('RIGHT', _G.PetitionFrameCancelButton, 'LEFT', -3, 0)
 end
 
-S:AddCallback('SkinPetition')
+S:AddCallback('PetitionFrame')

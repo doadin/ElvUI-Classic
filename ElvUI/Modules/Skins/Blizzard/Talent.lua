@@ -6,7 +6,7 @@ local S = E:GetModule('Skins')
 local _G = _G
 local unpack = unpack
 
-function S:SkinTalent()
+function S:Blizzard_TalentUI()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.talent) then return end
 
 	local TalentFrame = _G.TalentFrame
@@ -48,4 +48,4 @@ function S:SkinTalent()
 	end
 end
 
-S:AddCallbackForAddon('Blizzard_TalentUI', 'SkinTalent')
+S:AddCallbackForAddon('Blizzard_TalentUI')

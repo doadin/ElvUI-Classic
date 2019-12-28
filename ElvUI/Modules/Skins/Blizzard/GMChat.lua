@@ -8,7 +8,7 @@ local select = select
 --WoW API / Variables
 local hooksecurefunc = hooksecurefunc
 
-function S:SkinGMChat()
+function S:Blizzard_GMChatUI()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.GMChat) then return end
 
 	local GMChatFrame = _G.GMChatFrame
@@ -67,7 +67,7 @@ function S:SkinGMChat()
 
 end
 
-function S:SkinGMSurvey()
+function S:Blizzard_GMSurveyUI()
 	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.GMChat) then return end
 
 	S:HandleFrame(GMSurveyFrame, true, nil, 4, 4, -44, 10)
@@ -94,5 +94,5 @@ function S:SkinGMSurvey()
 	GMSurveyCommentFrame:SetTemplate('Transparent')
 end
 
-S:AddCallbackForAddon('Blizzard_GMChatUI', 'SkinGMChat')
-S:AddCallbackForAddon('Blizzard_GMSurveyUI', 'SkinGMSurvey')
+S:AddCallbackForAddon('Blizzard_GMChatUI')
+S:AddCallbackForAddon('Blizzard_GMSurveyUI')

@@ -17,7 +17,7 @@ local GetInventoryItemID = GetInventoryItemID
 local BANK_CONTAINER = BANK_CONTAINER
 local LE_ITEM_CLASS_QUESTITEM = LE_ITEM_CLASS_QUESTITEM
 
-function S:SkinBags()
+function S:ContainerFrame()
 	if E.private.bags.enable or not (E.private.skins.blizzard.enable and E.private.skins.blizzard.bags) then return end
 
 	-- ContainerFrame
@@ -241,4 +241,4 @@ function S:SkinBags()
 	end)
 end
 
-S:AddCallback('SkinBags')
+S:AddCallback('ContainerFrame')
