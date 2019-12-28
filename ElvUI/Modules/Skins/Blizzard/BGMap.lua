@@ -38,7 +38,7 @@ local function refreshAlpha()
 	oldAlpha = GetOpacity()
 end
 
-local function LoadSkin()
+function S:SkinBattlefieldMap()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.bgmap then return end
 
 	local BattlefieldMapFrame = _G.BattlefieldMapFrame
@@ -93,4 +93,4 @@ local function LoadSkin()
 	S:HandleSliderFrame(_G.OpacityFrameSlider)
 end
 
-S:AddCallbackForAddon('Blizzard_BattlefieldMap', 'Skin_Blizzard_BattlefieldMap', LoadSkin)
+S:AddCallbackForAddon('Blizzard_BattlefieldMap', 'SkinBattlefieldMap')

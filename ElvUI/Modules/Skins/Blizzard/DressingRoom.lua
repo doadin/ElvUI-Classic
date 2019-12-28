@@ -7,7 +7,7 @@ local _G = _G
 --WoW API / Variables
 local SetDressUpBackground = SetDressUpBackground
 
-local function LoadSkin()
+function S:SkinDressingRoom()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.dressingroom then return end
 
 	local DressUpFrame = _G.DressUpFrame
@@ -35,4 +35,4 @@ local function LoadSkin()
 	S:HandleFrame(_G.DressUpModelFrame, true, nil, -2, 1, 0, 19)
 end
 
-S:AddCallback('Skin_DressingRoom', LoadSkin)
+S:AddCallback('SkinDressingRoom')

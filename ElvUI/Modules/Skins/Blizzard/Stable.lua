@@ -10,7 +10,7 @@ local HasPetUI = HasPetUI
 local hooksecurefunc = hooksecurefunc
 local UnitExists = UnitExists
 
-local function LoadSkin()
+function S:SkinStable()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.stable then return end
 
 	local PetStableFrame = _G.PetStableFrame
@@ -51,4 +51,4 @@ local function LoadSkin()
 	end)
 end
 
-S:AddCallback('Skin_Stable', LoadSkin)
+S:AddCallback('SkinStable')

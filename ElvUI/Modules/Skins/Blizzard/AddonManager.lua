@@ -5,7 +5,7 @@ local S = E:GetModule('Skins')
 --Lua functions
 local _G = _G
 
-local function LoadSkin()
+function S:SkinAddonManager()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.addonManager then return end
 
 	local AddonList = _G.AddonList
@@ -31,4 +31,4 @@ local function LoadSkin()
 	end
 end
 
-S:AddCallback('Skin_AddonManager', LoadSkin)
+S:AddCallback('SkinAddonManager')

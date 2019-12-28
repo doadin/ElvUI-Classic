@@ -9,7 +9,7 @@ local unpack = unpack
 local HideUIPanel = HideUIPanel
 local ShowUIPanel = ShowUIPanel
 
-local function LoadSkin()
+function S:SkinMacro()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.macro then return end
 
 	local MacroFrame = _G.MacroFrame
@@ -141,4 +141,4 @@ local function LoadSkin()
 	end)
 end
 
-S:AddCallbackForAddon('Blizzard_MacroUI', 'Skin_Blizzard_MacroUI', LoadSkin)
+S:AddCallbackForAddon('Blizzard_MacroUI', 'SkinMacro')

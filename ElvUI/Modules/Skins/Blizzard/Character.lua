@@ -18,7 +18,7 @@ local NUM_FACTIONS_DISPLAYED = NUM_FACTIONS_DISPLAYED
 local CHARACTERFRAME_SUBFRAMES = CHARACTERFRAME_SUBFRAMES
 local hooksecurefunc = hooksecurefunc
 
-local function LoadSkin()
+function S:SkinCharacter()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.character then return end
 
 	-- Character Frame
@@ -296,4 +296,4 @@ local function LoadSkin()
 	E:RegisterStatusBar(HonorFrameProgressBar)
 end
 
-S:AddCallback('Character', LoadSkin)
+S:AddCallback('SkinCharacter')

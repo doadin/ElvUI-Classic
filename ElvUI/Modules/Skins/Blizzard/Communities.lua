@@ -61,7 +61,7 @@ local function HandleCommunitiesButtons(self, color)
 	highlight:SetInside(self.bg)
 end
 
-local function LoadSkin()
+function S:SkinCommunities()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.Communities then return end
 
 	local CommunitiesFrame = _G.CommunitiesFrame
@@ -305,4 +305,4 @@ local function LoadSkin()
 	S:HandleButton(TicketManager.MaximizeButton)
 end
 
-S:AddCallbackForAddon('Blizzard_Communities', 'Skin_Blizzard_Communities', LoadSkin)
+S:AddCallbackForAddon('Blizzard_Communities', 'SkinCommunities')

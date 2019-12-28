@@ -17,7 +17,7 @@ local GetInventoryItemID = GetInventoryItemID
 local BANK_CONTAINER = BANK_CONTAINER
 local LE_ITEM_CLASS_QUESTITEM = LE_ITEM_CLASS_QUESTITEM
 
-local function LoadSkin()
+function S:SkinBags()
 	if E.private.bags.enable then return end
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.bags then return end
 
@@ -242,4 +242,4 @@ local function LoadSkin()
 	end)
 end
 
-S:AddCallback('Skin_Bags', LoadSkin)
+S:AddCallback('SkinBags')
