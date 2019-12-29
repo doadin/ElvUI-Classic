@@ -6,7 +6,7 @@ local Search = E.Libs.ItemSearch
 
 --Lua functions
 local _G = _G
-local type, ipairs, pairs, unpack, select, pcall = type, ipairs, pairs, unpack, select, pcall
+local type, ipairs, next, unpack, select, pcall = type, ipairs, next, unpack, select, pcall
 local tinsert, tremove, twipe, tmaxn = tinsert, tremove, wipe, table.maxn
 local floor, ceil, abs = floor, ceil, abs
 local format, sub = format, strsub
@@ -174,7 +174,7 @@ function B:SetSearch(query)
 		query = Search.Filters.tipPhrases.keywords[query]
 	end
 
-	for _, bagFrame in pairs(B.BagFrames) do
+	for _, bagFrame in next, B.BagFrames do
 		for _, bagID in ipairs(bagFrame.BagIDs) do
 			for slotID = 1, GetContainerNumSlots(bagID) do
 				local _, _, _, _, _, _, link = GetContainerItemInfo(bagID, slotID)
@@ -198,7 +198,7 @@ end
 
 function B:UpdateItemLevelDisplay()
 	if E.private.bags.enable ~= true then return end
-	for _, bagFrame in pairs(B.BagFrames) do
+	for _, bagFrame in next, B.BagFrames do
 		for _, bagID in ipairs(bagFrame.BagIDs) do
 			for slotID = 1, GetContainerNumSlots(bagID) do
 				local slot = bagFrame.Bags[bagID][slotID]
@@ -215,7 +215,7 @@ end
 function B:UpdateCountDisplay()
 	if E.private.bags.enable ~= true then return end
 
-	for _, bagFrame in pairs(B.BagFrames) do
+	for _, bagFrame in next, B.BagFrames do
 		for _, bagID in ipairs(bagFrame.BagIDs) do
 			for slotID = 1, GetContainerNumSlots(bagID) do
 				local slot = bagFrame.Bags[bagID][slotID]
@@ -241,7 +241,7 @@ end
 function B:UpdateAllBagSlots()
 	if E.private.bags.enable ~= true then return end
 
-	for _, bagFrame in pairs(B.BagFrames) do
+	for _, bagFrame in next, B.BagFrames do
 		B:UpdateAllSlots(bagFrame)
 	end
 end
@@ -936,7 +936,7 @@ function B:ContructContainerFrame(name, isBank)
 	f.ContainerHolder:SetTemplate('Transparent')
 	f.ContainerHolder:Hide()
 
-	for i, bagID in pairs(f.BagIDs) do
+	for i, bagID in next, f.BagIDs do
 		if isBank then
 			f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIBankBag" .. (bagID-4), f.ContainerHolder, "BankItemButtonBagTemplate")
 		else
@@ -1037,7 +1037,7 @@ function B:ContructContainerFrame(name, isBank)
 	f.editBox.searchIcon:Size(15, 15)
 
 	if isBank then
-		for _, event in pairs(f.events) do
+		for _, event in next, f.events do
 			f:RegisterEvent(event)
 		end
 
@@ -1320,7 +1320,7 @@ function B:OpenBags()
 
 	B.BagFrame:RegisterEvent("BAG_UPDATE")
 	B.BagFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
-	for _, event in pairs(B.BagFrame.events) do
+	for _, event in next, B.BagFrame.events do
 		B.BagFrame:RegisterEvent(event)
 	end
 
@@ -1337,7 +1337,7 @@ function B:CloseBags()
 	B.BagFrame:UnregisterEvent("BAG_UPDATE")
 	B.BagFrame:UnregisterEvent("BAG_UPDATE_COOLDOWN")
 
-	for _, event in pairs(B.BagFrame.events) do
+	for _, event in next, B.BagFrame.events do
 		B.BagFrame:UnregisterEvent(event)
 	end
 
@@ -1376,7 +1376,7 @@ function B:HideItemGlow(bag)
 	if bag.NewItemGlow:IsPlaying() then
 		bag.NewItemGlow:Stop()
 
-		for _, itemGlow in pairs(bag.NewItemGlow.Fade.children) do
+		for _, itemGlow in next, bag.NewItemGlow.Fade.children do
 			itemGlow:SetAlpha(0)
 		end
 	end
