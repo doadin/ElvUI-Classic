@@ -584,11 +584,11 @@ function B:Layout(isBank)
 	local bagSpacing = B.db.split.bagSpacing
 	local isSplit = B.db.split[isBank and 'bank' or 'player']
 	local lastButton, lastRowButton, lastContainerButton, newBag
-	local numContainerSlots = GetNumBankSlots()
+	local numContainerSlots = isBank and GetNumBankSlots() or 6
 
 	f.totalSlots = 0
 	f.holderFrame:Width(holderWidth)
-	f.ContainerHolder:Size(((buttonSize + buttonSpacing) * (isBank and numContainerSlots - 1 or 6)) + buttonSpacing, buttonSize + (buttonSpacing * 2))
+	f.ContainerHolder:Size(((buttonSize + buttonSpacing) * numContainerSlots) + buttonSpacing, buttonSize + (buttonSpacing * 2))
 
 	for i, bagID in ipairs(f.BagIDs) do
 		if isSplit then
