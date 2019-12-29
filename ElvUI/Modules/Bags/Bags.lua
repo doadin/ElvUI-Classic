@@ -841,6 +841,7 @@ function B:ConstructContainerFrame(name, isBank)
 	local f = CreateFrame('Button', name, E.UIParent)
 	f:SetTemplate('Transparent')
 	f:SetFrameStrata(strata)
+	B:SetupItemGlow(f)
 
 	f.events = isBank and { "BANK_BAG_SLOT_FLAGS_UPDATED", "PLAYERBANKSLOTS_CHANGED" } or { "ITEM_LOCK_CHANGED", "BAG_SLOT_FLAGS_UPDATED", "QUEST_ACCEPTED", "QUEST_REMOVED" }
 
@@ -1367,7 +1368,6 @@ end
 function B:OpenBank()
 	if not B.BankFrame then
 		B.BankFrame = B:ConstructContainerFrame('ElvUI_BankContainerFrame', true)
-		B:SetupItemGlow(B.BankFrame)
 	end
 
 	B.BankFrame:RegisterEvent("BAG_UPDATE")
@@ -1711,7 +1711,6 @@ function B:Initialize()
 
 	--Create Bag Frame
 	B.BagFrame = B:ConstructContainerFrame('ElvUI_ContainerFrame')
-	B:SetupItemGlow(B.BagFrame)
 
 	--Hook onto Blizzard Functions
 	B:SecureHook('OpenAllBags', 'OpenBags')
