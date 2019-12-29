@@ -7,7 +7,6 @@ local strfind, strsub, gsub = strfind, strsub, gsub
 local floor, max = floor, max
 --WoW API / Variables
 local CreateFrame = CreateFrame
-local UnitHasVehicleUI = UnitHasVehicleUI
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 -- GLOBALS: ElvUF_Player
 
