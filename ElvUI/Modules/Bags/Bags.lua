@@ -81,7 +81,6 @@ function B:GetContainerFrame(arg)
 end
 
 function B:Tooltip_Show()
-	local GameTooltip = _G.GameTooltip
 	GameTooltip:SetOwner(self)
 	GameTooltip:ClearLines()
 	GameTooltip:AddLine(self.ttText)
@@ -544,15 +543,10 @@ end
 function B:SetSlotAlphaForBag(f)
 	for _, bagID in ipairs(f.BagIDs) do
 		if f.Bags[bagID] then
-			local numSlots = GetContainerNumSlots(bagID)
-			for slotID = 1, numSlots do
-				if f.Bags[bagID][slotID] then
-					if bagID == self.id then
-						f.Bags[bagID][slotID]:SetAlpha(1)
-					else
-						f.Bags[bagID][slotID]:SetAlpha(0.1)
-					end
-				end
+			if bagID == self.id then
+				f.Bags[bagID]:SetAlpha(1)
+			else
+				f.Bags[bagID]:SetAlpha(0.1)
 			end
 		end
 	end
@@ -561,12 +555,7 @@ end
 function B:ResetSlotAlphaForBags(f)
 	for _, bagID in ipairs(f.BagIDs) do
 		if f.Bags[bagID] then
-			local numSlots = GetContainerNumSlots(bagID)
-			for slotID = 1, numSlots do
-				if f.Bags[bagID][slotID] then
-					f.Bags[bagID][slotID]:SetAlpha(1)
-				end
-			end
+			f.Bags[bagID]:SetAlpha(1)
 		end
 	end
 end
