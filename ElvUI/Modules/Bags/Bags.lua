@@ -40,6 +40,9 @@ local SetItemButtonTexture = SetItemButtonTexture
 local SetItemButtonTextureVertexColor = SetItemButtonTextureVertexColor
 local ToggleFrame = ToggleFrame
 local UseContainerItem = UseContainerItem
+local PutItemInBackpack = PutItemInBackpack
+local CursorHasItem = CursorHasItem
+local PutKeyInKeyRing = PutKeyInKeyRing
 
 local C_NewItems_IsNewItem = C_NewItems.IsNewItem
 local C_NewItems_RemoveNewItem = C_NewItems.RemoveNewItem
@@ -621,9 +624,6 @@ function B:Layout(isBank)
 
 			for slotID = 1, numSlots do
 				f.totalSlots = f.totalSlots + 1
-				if not f.Bags[bagID][slotID] then
-					f.Bags[bagID][slotID] = B:ConstructContainerButton(isBank, slotID, bagID)
-				end
 
 				f.Bags[bagID][slotID]:SetID(slotID)
 				f.Bags[bagID][slotID]:Size(buttonSize)
@@ -891,11 +891,28 @@ function B:ConstructContainerFrame(name, isBank)
 	f.ContainerHolder:Hide()
 
 	for i, bagID in next, f.BagIDs do
+		local bagName = isBank and format("ElvUIBankBag%d", bagID-4) or bagID == 0 and "ElvUIMainBagBackpack" or bagID == -2 and "ElvUIKeyRing" or format("ElvUIMainBag%dSlot", bagID-1)
+		local inherit = isBank and "BankItemButtonBagTemplate" or (bagID == 0 or bagID == -2) and "ItemButtonTemplate, ItemAnimTemplate" or "BagSlotButtonTemplate"
+
+		f.ContainerHolder[i] = CreateFrame("CheckButton", bagName, f.ContainerHolder, inherit)
+		f.ContainerHolder[i]:SetTemplate(E.db.bags.transparent and 'Transparent', true)
+		f.ContainerHolder[i]:StyleButton()
+		f.ContainerHolder[i]:SetNormalTexture("")
+		f.ContainerHolder[i]:SetPushedTexture("")
+		f.ContainerHolder[i]:SetCheckedTexture(nil)
+		f.ContainerHolder[i].id = bagID
+		f.ContainerHolder[i]:HookScript("OnEnter", function(ch) B.SetSlotAlphaForBag(ch, f) end)
+		f.ContainerHolder[i]:HookScript("OnLeave", function(ch) B.ResetSlotAlphaForBags(ch, f) end)
+
+		f.ContainerHolder[i].iconTexture = _G[f.ContainerHolder[i]:GetName()..'IconTexture']
+		f.ContainerHolder[i].iconTexture:SetInside()
+		f.ContainerHolder[i].iconTexture:SetTexCoord(unpack(E.TexCoords))
+
 		if isBank then
-			f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIBankBag" .. (bagID-4), f.ContainerHolder, "BankItemButtonBagTemplate")
+			f.ContainerHolder[i]:SetID(bagID - 4)
+			if not f.ContainerHolder[i].tooltipText then f.ContainerHolder[i].tooltipText = "" end
 		else
 			if bagID == 0 then --Backpack needs different setup
-				f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBagBackpack", f.ContainerHolder, "ItemButtonTemplate, ItemAnimTemplate")
 				f.ContainerHolder[i]:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 				f.ContainerHolder[i]:HookScript('OnEnter', function(s)
 					GameTooltip:SetOwner(s, "ANCHOR_LEFT", 0, 4);
@@ -908,8 +925,10 @@ function B:ConstructContainerFrame(name, isBank)
 					GameTooltip:Show()
 				end)
 				f.ContainerHolder[i]:HookScript('OnLeave', GameTooltip_Hide)
+				f.ContainerHolder[i]:SetScript('OnClick', PutItemInBackpack)
+				f.ContainerHolder[i]:SetScript('OnReceiveDrag', PutItemInBackpack)
+				f.ContainerHolder[i].iconTexture:SetTexture("Interface/AddOns/ElvUI/Media/Textures/Button-Backpack-Up")
 			elseif bagID == -2 then
-				f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIKeyRing", f.ContainerHolder, "ItemButtonTemplate, ItemAnimTemplate")
 				f.ContainerHolder[i]:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 				f.ContainerHolder[i]:SetScript('OnReceiveDrag', function()
 					if (CursorHasItem()) then
@@ -928,38 +947,16 @@ function B:ConstructContainerFrame(name, isBank)
 					GameTooltip_Hide()
 					B:HandleKeyRing()
 				end)
-			else
-				f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBag" .. (bagID-1) .. "Slot", f.ContainerHolder, "BagSlotButtonTemplate")
+				f.ContainerHolder[i].iconTexture:SetTexture("Interface/ICONS/INV_Misc_Key_03")
 			end
-		end
-
-		f.ContainerHolder[i]:SetTemplate(E.db.bags.transparent and 'Transparent', true)
-		f.ContainerHolder[i]:StyleButton()
-		f.ContainerHolder[i]:SetNormalTexture("")
-		f.ContainerHolder[i]:SetPushedTexture("")
-		f.ContainerHolder[i]:SetCheckedTexture(nil)
-		f.ContainerHolder[i].id = bagID
-		f.ContainerHolder[i]:HookScript("OnEnter", function(ch) B.SetSlotAlphaForBag(ch, f) end)
-		f.ContainerHolder[i]:HookScript("OnLeave", function(ch) B.ResetSlotAlphaForBags(ch, f) end)
-
-		if isBank then
-			f.ContainerHolder[i]:SetID(bagID - 4)
-			if not f.ContainerHolder[i].tooltipText then
-				f.ContainerHolder[i].tooltipText = ""
-			end
-		end
-
-		f.ContainerHolder[i].iconTexture = _G[f.ContainerHolder[i]:GetName()..'IconTexture']
-		f.ContainerHolder[i].iconTexture:SetInside()
-		f.ContainerHolder[i].iconTexture:SetTexCoord(unpack(E.TexCoords))
-		if bagID == 0 then --backpack
-			f.ContainerHolder[i].iconTexture:SetTexture("Interface/AddOns/ElvUI/Media/Textures/Button-Backpack-Up")
-		elseif bagID == -2 then --keyring
-			f.ContainerHolder[i].iconTexture:SetTexture("Interface/ICONS/INV_Misc_Key_03")
 		end
 
 		f.Bags[bagID] = CreateFrame('Frame', f:GetName()..'Bag'..bagID, f.holderFrame)
 		f.Bags[bagID]:SetID(bagID)
+
+		for slotID = 1, MAX_CONTAINER_ITEMS do
+			f.Bags[bagID][slotID] = B:ConstructContainerButton(f, slotID, bagID)
+		end
 	end
 
 	--Sort Button
@@ -1164,10 +1161,8 @@ function B:ConstructContainerFrame(name, isBank)
 	return f
 end
 
-function B:ConstructContainerButton(isBank, slotID, bagID)
-	local f = B:GetContainerFrame(isBank)
-
-	local slot = CreateFrame("CheckButton", f.Bags[bagID]:GetName()..'Slot'..slotID, f.Bags[bagID], bagID == -1 and 'BankItemButtonGenericTemplate' or 'ContainerFrameItemButtonTemplate');
+function B:ConstructContainerButton(parent, slotID, bagID)
+	local slot = CreateFrame("CheckButton", parent.Bags[bagID]:GetName()..'Slot'..slotID, parent.Bags[bagID], bagID == -1 and 'BankItemButtonGenericTemplate' or 'ContainerFrameItemButtonTemplate');
 	slot:StyleButton()
 	slot:SetTemplate(E.db.bags.transparent and 'Transparent', true)
 	slot:SetNormalTexture(nil)
@@ -1240,7 +1235,7 @@ function B:ConstructContainerButton(isBank, slotID, bagID)
 		slot.newItemGlow:SetInside()
 		slot.newItemGlow:SetTexture(E.Media.Textures.BagNewItemGlow)
 		slot.newItemGlow:Hide()
-		f.NewItemGlow.Fade:AddChild(slot.newItemGlow)
+		parent.NewItemGlow.Fade:AddChild(slot.newItemGlow)
 		slot:HookScript('OnEnter', B.HideSlotItemGlow)
 	end
 
