@@ -60,6 +60,8 @@ local LE_ITEM_CLASS_QUESTITEM = LE_ITEM_CLASS_QUESTITEM
 local SEARCH = SEARCH
 -- GLOBALS: ElvUIBags, ElvUIBagMover, ElvUIBankMover
 
+local GameTooltip = _G.GameTooltip
+
 local SEARCH_STRING = ""
 
 function B:GetContainerFrame(arg)
@@ -877,7 +879,6 @@ function B:ContructContainerFrame(name, isBank)
 	f:SetScript("OnClick", function(frame) if IsControlKeyDown() then B.PostBagMove(frame.mover) end end)
 	f:SetScript("OnLeave", GameTooltip_Hide)
 	f:SetScript("OnEnter", function(frame)
-		local GameTooltip = _G.GameTooltip
 		GameTooltip:SetOwner(frame, "ANCHOR_TOPLEFT", 0, 4)
 		GameTooltip:ClearLines()
 		GameTooltip:AddDoubleLine(L["Hold Shift + Drag:"], L["Temporary Move"], 1, 1, 1)
@@ -933,7 +934,7 @@ function B:ContructContainerFrame(name, isBank)
 
 					B:KeyRing_Open()
 				end)
-				f.ContainerHolder[i]:HookScript('OnLeave', function(s)
+				f.ContainerHolder[i]:HookScript('OnLeave', function()
 					GameTooltip_Hide()
 					B:HandleKeyRing()
 				end)
@@ -990,6 +991,10 @@ function B:ContructContainerFrame(name, isBank)
 	f.sortButton:SetScript('OnEnter', B.Tooltip_Show)
 	f.sortButton:SetScript('OnLeave', GameTooltip_Hide)
 
+	if (isBank and E.db.bags.disableBankSort) or (not isBank and E.db.bags.disableBagSort) then
+		f.sortButton:Disable()
+	end
+
 	--Bags Button
 	f.bagsButton = CreateFrame("Button", name..'BagsButton', f)
 	f.bagsButton:Size(16 + E.Border, 16 + E.Border)
@@ -1037,9 +1042,6 @@ function B:ContructContainerFrame(name, isBank)
 				B:CommandDecorator(B.SortBags, 'bank')()
 			end
 		end)
-		if E.db.bags.disableBankSort then
-			f.sortButton:Disable()
-		end
 
 		--Toggle Bags Button
 		f.bagsButton:Point("RIGHT", f.sortButton, "LEFT", -5, 0)
@@ -1105,9 +1107,6 @@ function B:ContructContainerFrame(name, isBank)
 			if not f.registerUpdate then B:SortingFadeBags(f, true) end
 			B:CommandDecorator(B.SortBags, 'bags')()
 		end)
-		if E.db.bags.disableBagSort then
-			f.sortButton:Disable()
-		end
 
 		--Bags Button
 		f.bagsButton:Point("RIGHT", f.sortButton, "LEFT", -5, 0)
