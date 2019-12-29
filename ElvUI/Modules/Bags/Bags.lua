@@ -616,15 +616,16 @@ function B:Layout(isBank)
 
 		--Bag Slots
 		local numSlots = GetContainerNumSlots(bagID)
-
-		--Hide unused slots
-		for y = 1, MAX_CONTAINER_ITEMS do
-			if f.Bags[bagID][y] then f.Bags[bagID][y]:Hide() end
-		end
-
 		f.Bags[bagID].numSlots = numSlots
 
 		if numSlots > 0 then
+			f.Bags[bagID]:Show()
+
+			--Hide unused slots
+			for y = numSlots + 1, MAX_CONTAINER_ITEMS do
+				if f.Bags[bagID][y] then f.Bags[bagID][y]:Hide() end
+			end
+
 			f.Bags[bagID].type = select(2, GetContainerNumFreeSlots(bagID))
 
 			for slotID = 1, numSlots do
@@ -669,6 +670,8 @@ function B:Layout(isBank)
 				lastButton = f.Bags[bagID][slotID]
 				numBagSlots = numBagSlots + 1
 			end
+		else
+			f.Bags[bagID]:Hide()
 		end
 	end
 
