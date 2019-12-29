@@ -580,20 +580,16 @@ function B:Layout(isBank)
 	local containerWidth = ((isBank and B.db.bankWidth) or B.db.bagWidth)
 	local numContainerColumns = floor(containerWidth / (buttonSize + buttonSpacing))
 	local holderWidth = ((buttonSize + buttonSpacing) * numContainerColumns) - buttonSpacing
-	local numContainerRows = 0
-	local numBags = 0
-	local numBagSlots = 0
+	local numContainerRows, numBags, numBagSlots = 0, 0, 0
 	local bagSpacing = B.db.split.bagSpacing
 	local isSplit = B.db.split[isBank and 'bank' or 'player']
 
 	f.holderFrame:Width(holderWidth)
 
 	f.totalSlots = 0
-	local lastButton
-	local lastRowButton
-	local lastContainerButton
+	local lastButton, lastRowButton, lastContainerButton, newBag
 	local numContainerSlots = GetNumBankSlots()
-	local newBag
+
 	for i, bagID in ipairs(f.BagIDs) do
 		if isSplit then
 			newBag = (bagID ~= -1 or bagID ~= 0) and B.db.split['bag'..bagID] or false
@@ -610,6 +606,7 @@ function B:Layout(isBank)
 
 			f.ContainerHolder[i]:Size(buttonSize)
 			f.ContainerHolder[i]:ClearAllPoints()
+
 			if (isBank and i == 2) or (not isBank and i == 1) then
 				f.ContainerHolder[i]:Point('BOTTOMLEFT', f.ContainerHolder, 'BOTTOMLEFT', buttonSpacing, buttonSpacing)
 			else
@@ -621,21 +618,16 @@ function B:Layout(isBank)
 
 		--Bag Slots
 		local numSlots = GetContainerNumSlots(bagID)
+
+		--Hide unused slots
+		for y = 1, MAX_CONTAINER_ITEMS do
+			if f.Bags[bagID][y] then f.Bags[bagID][y]:Hide() end
+		end
+
+		f.Bags[bagID].numSlots = numSlots
+
 		if numSlots > 0 then
-			if not f.Bags[bagID] then
-				f.Bags[bagID] = CreateFrame('Frame', f:GetName()..'Bag'..bagID, f.holderFrame)
-				f.Bags[bagID]:SetID(bagID)
-			end
-
-			f.Bags[bagID].numSlots = numSlots
 			f.Bags[bagID].type = GetItemFamily(GetBagName(bagID))
-
-			--Hide unused slots
-			for y = 1, MAX_CONTAINER_ITEMS do
-				if f.Bags[bagID][y] then
-					f.Bags[bagID][y]:Hide()
-				end
-			end
 
 			for slotID = 1, numSlots do
 				f.totalSlots = f.totalSlots + 1
@@ -685,23 +677,6 @@ function B:Layout(isBank)
 
 				lastButton = f.Bags[bagID][slotID]
 				numBagSlots = numBagSlots + 1
-			end
-		else
-			--Hide unused slots
-			for y = 1, MAX_CONTAINER_ITEMS do
-				if f.Bags[bagID] and f.Bags[bagID][y] then
-					f.Bags[bagID][y]:Hide()
-				end
-			end
-
-			if f.Bags[bagID] then
-				f.Bags[bagID].numSlots = numSlots
-			end
-
-			local container = isBank and f.ContainerHolder[i]
-			if container then
-				BankFrameItemButton_Update(container)
-				BankFrameItemButton_UpdateLocked(container)
 			end
 		end
 	end
@@ -974,6 +949,9 @@ function B:ContructContainerFrame(name, isBank)
 		elseif bagID == -2 then --keyring
 			f.ContainerHolder[i].iconTexture:SetTexture("Interface/ICONS/INV_Misc_Key_03")
 		end
+
+		f.Bags[bagID] = CreateFrame('Frame', f:GetName()..'Bag'..bagID, f.holderFrame)
+		f.Bags[bagID]:SetID(bagID)
 	end
 
 	--Sort Button
