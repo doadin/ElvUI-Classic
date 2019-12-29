@@ -862,22 +862,14 @@ end
 function B:KeyRing_Open()
 	if B.BagFrame then
 		B:Layout()
-		for y = 1, MAX_CONTAINER_ITEMS do
-			if B.BagFrame.Bags[-2] and B.BagFrame.Bags[-2][y] then
-				B.BagFrame.Bags[-2][y]:Show()
-			end
-		end
+		B.BagFrame.Bags[-2]:Show()
 	end
 end
 
 function B:KeyRing_Close()
 	if B.BagFrame then
 		B:Layout()
-		for y = 1, MAX_CONTAINER_ITEMS do
-			if B.BagFrame.Bags[-2] and B.BagFrame.Bags[-2][y] then
-				B.BagFrame.Bags[-2][y]:Hide()
-			end
-		end
+		B.BagFrame.Bags[-2]:Hide()
 	end
 end
 
