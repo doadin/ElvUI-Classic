@@ -1,18 +1,20 @@
 ### Version 1.20 [ETA: Soon]
 **ActionBars:** Fixed broken bars with Masque enabled  
 **Available Tags:** Category tweaks  
-**Bags:** Keyring tweaks (still WIP)  
+**Bags:** Keyring, Bags and Bank tweaks  
 **Castbars:** Added Alterac Bandage ChannelTicks  
 **Filters:** Added BuffIndicators for Hunter Group-Aspects  
 **General:** Added an option to enable a sound when you get a combat ress. (BlizzUI Improvements)  
 **Libraries:** LibHealComm-4.0 update  
-**Libraries:** Added LibClassicSpellActionCount-1.0  
 **Libraries:** LibActionButton-1.0 update  
+**Libraries:** Added LibClassicSpellActionCount-1.0  
+**Libraries:** Added LibTotemInfo  
 **Minimap:** Battleground Minimap button fixes  
 **NamePlates:** Fix RaidTargetIcon size bug in name-only mode  
 **Skins:** Tweaks  
 **UnitFrames:** Added an option to enable a sound if you select a unit. Disabled by default  
 **UnitFrames:** Show only 1 leader icon in instances / battlegrounds  
+**UnitFrames:** Shaman TotemBar is back  
 ___
 ### Version 1.19 [12/14/2019]
 **ActionBars:** Stancebar fixes  
