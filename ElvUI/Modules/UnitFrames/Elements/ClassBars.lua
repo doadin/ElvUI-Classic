@@ -503,13 +503,6 @@ function UF:Construct_Totems(frame)
 		totems[i].bg.multiplier = 0.3
 
 		totems[i].bg:SetVertexColor(r * .3, g * .3, b * .3)
-
-		totems.Destroy[i] = CreateFrame("Button", totems[i]:GetName().."Destroy", UIParent, "SecureUnitButtonTemplate")
-		totems.Destroy[i]:RegisterForClicks("RightButtonUp")
-		totems.Destroy[i]:SetAllPoints(totems[i])
-		totems.Destroy[i]:SetID(i)
-		totems.Destroy[i]:SetAttribute("type2", "destroytotem")
-		totems.Destroy[i]:SetAttribute("*totem-slot*", i)
 	end
 
 	frame.MAX_CLASS_BAR = 4
