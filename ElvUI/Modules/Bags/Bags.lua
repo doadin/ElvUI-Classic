@@ -576,19 +576,19 @@ function B:Layout(isBank)
 	if not f then return end
 
 	local buttonSize = isBank and B.db.bankSize or B.db.bagSize
-	local buttonSpacing = E.Border*2
+	local buttonSpacing = E.Border * 2
 	local containerWidth = ((isBank and B.db.bankWidth) or B.db.bagWidth)
 	local numContainerColumns = floor(containerWidth / (buttonSize + buttonSpacing))
 	local holderWidth = ((buttonSize + buttonSpacing) * numContainerColumns) - buttonSpacing
 	local numContainerRows, numBags, numBagSlots = 0, 0, 0
 	local bagSpacing = B.db.split.bagSpacing
 	local isSplit = B.db.split[isBank and 'bank' or 'player']
-
-	f.holderFrame:Width(holderWidth)
-
-	f.totalSlots = 0
 	local lastButton, lastRowButton, lastContainerButton, newBag
 	local numContainerSlots = GetNumBankSlots()
+
+	f.totalSlots = 0
+	f.holderFrame:Width(holderWidth)
+	f.ContainerHolder:Size(((buttonSize + buttonSpacing) * (isBank and numContainerSlots - 1 or 6)) + buttonSpacing, buttonSize + (buttonSpacing * 2))
 
 	for i, bagID in ipairs(f.BagIDs) do
 		if isSplit then
@@ -597,8 +597,6 @@ function B:Layout(isBank)
 
 		--Bag Containers
 		if (not isBank) or (isBank and bagID ~= -1 and numContainerSlots >= 1 and not (i - 1 > numContainerSlots)) then
-			f.ContainerHolder:Size(((buttonSize + buttonSpacing) * (isBank and i - 1 or i)) + buttonSpacing,buttonSize + (buttonSpacing * 2))
-
 			if isBank then
 				BankFrameItemButton_Update(f.ContainerHolder[i])
 				BankFrameItemButton_UpdateLocked(f.ContainerHolder[i])
