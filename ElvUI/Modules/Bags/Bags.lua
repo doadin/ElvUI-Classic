@@ -627,7 +627,7 @@ function B:Layout(isBank)
 		f.Bags[bagID].numSlots = numSlots
 
 		if numSlots > 0 then
-			f.Bags[bagID].type = GetItemFamily(GetBagName(bagID))
+			f.Bags[bagID].type = select(2, GetContainerNumFreeSlots(bagID))
 
 			for slotID = 1, numSlots do
 				f.totalSlots = f.totalSlots + 1
@@ -638,9 +638,7 @@ function B:Layout(isBank)
 				f.Bags[bagID][slotID]:SetID(slotID)
 				f.Bags[bagID][slotID]:Size(buttonSize)
 
-				if f.Bags[bagID][slotID].JunkIcon then
-					f.Bags[bagID][slotID].JunkIcon:Size(buttonSize/2)
-				end
+				f.Bags[bagID][slotID].JunkIcon:Size(buttonSize / 2)
 
 				B:UpdateSlot(f, bagID, slotID)
 
@@ -652,18 +650,13 @@ function B:Layout(isBank)
 					local anchorPoint, relativePoint = (B.db.reverseSlots and 'BOTTOM' or 'TOP'), (B.db.reverseSlots and 'TOP' or 'BOTTOM')
 					if isSplit and newBag and slotID == 1 then
 						f.Bags[bagID][slotID]:Point(anchorPoint, lastRowButton, relativePoint, 0, B.db.reverseSlots and (buttonSpacing + bagSpacing) or -(buttonSpacing + bagSpacing))
-						lastRowButton = f.Bags[bagID][slotID]
-						numContainerRows = numContainerRows + 1
-						numBags = numBags + 1
-						numBagSlots = 0
+						lastRowButton, numContainerRows, numBags, numBagSlots = f.Bags[bagID][slotID], numContainerRows + 1, numBags + 1, 0
 					elseif isSplit and numBagSlots % numContainerColumns == 0 then
 						f.Bags[bagID][slotID]:Point(anchorPoint, lastRowButton, relativePoint, 0, B.db.reverseSlots and buttonSpacing or -buttonSpacing)
-						lastRowButton = f.Bags[bagID][slotID]
-						numContainerRows = numContainerRows + 1
+						lastRowButton, numContainerRows = f.Bags[bagID][slotID], numContainerRows + 1
 					elseif (not isSplit) and (f.totalSlots - 1) % numContainerColumns == 0 then
 						f.Bags[bagID][slotID]:Point(anchorPoint, lastRowButton, relativePoint, 0, B.db.reverseSlots and buttonSpacing or -buttonSpacing)
-						lastRowButton = f.Bags[bagID][slotID]
-						numContainerRows = numContainerRows + 1
+						lastRowButton, numContainerRows = f.Bags[bagID][slotID], numContainerRows + 1
 					else
 						anchorPoint, relativePoint = (B.db.reverseSlots and 'RIGHT' or 'LEFT'), (B.db.reverseSlots and 'LEFT' or 'RIGHT')
 						f.Bags[bagID][slotID]:Point(anchorPoint, lastButton, relativePoint, B.db.reverseSlots and -buttonSpacing or buttonSpacing, 0)
@@ -842,6 +835,8 @@ function B:KeyRing_Open()
 end
 
 function B:KeyRing_Close()
+	GameTooltip_Hide()
+
 	if B.BagFrame then
 		B:Layout()
 		B.BagFrame.Bags[-2]:Hide()
@@ -910,6 +905,17 @@ function B:ContructContainerFrame(name, isBank)
 			if bagID == 0 then --Backpack needs different setup
 				f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBagBackpack", f.ContainerHolder, "ItemButtonTemplate, ItemAnimTemplate")
 				f.ContainerHolder[i]:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+				f.ContainerHolder[i]:HookScript('OnEnter', function(s)
+					GameTooltip:SetOwner(s, "ANCHOR_LEFT", 0, 4);
+					GameTooltip:ClearLines()
+					GameTooltip:SetText(BACKPACK_TOOLTIP, 1.0, 1.0, 1.0);
+					local keyBinding = GetBindingKey("TOGGLEBACKPACK");
+					if ( keyBinding ) then
+						GameTooltip:AppendText(" "..NORMAL_FONT_COLOR_CODE.."("..keyBinding..")"..FONT_COLOR_CODE_CLOSE)
+					end
+					GameTooltip:Show()
+				end)
+				f.ContainerHolder[i]:HookScript('OnLeave', GameTooltip_Hide)
 			elseif bagID == -2 then
 				f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIKeyRing", f.ContainerHolder, "ItemButtonTemplate, ItemAnimTemplate")
 				f.ContainerHolder[i]:RegisterForClicks("LeftButtonUp", "RightButtonUp")
@@ -918,8 +924,18 @@ function B:ContructContainerFrame(name, isBank)
 						PutKeyInKeyRing();
 					end
 				end)
-				f.ContainerHolder[i]:HookScript('OnEnter', B.KeyRing_Open)
-				f.ContainerHolder[i]:HookScript('OnLeave', B.HandleKeyRing)
+				f.ContainerHolder[i]:HookScript('OnEnter', function(s)
+					GameTooltip:SetOwner(s, "ANCHOR_LEFT", 0, 4);
+					GameTooltip:ClearLines()
+					GameTooltip:SetText(KEYRING, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+					GameTooltip:Show()
+
+					B:KeyRing_Open()
+				end)
+				f.ContainerHolder[i]:HookScript('OnLeave', function(s)
+					GameTooltip_Hide()
+					B:HandleKeyRing()
+				end)
 			else
 				f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBag" .. (bagID-1) .. "Slot", f.ContainerHolder, "BagSlotButtonTemplate")
 			end
