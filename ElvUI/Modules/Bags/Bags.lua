@@ -622,7 +622,7 @@ function B:Layout(isBank)
 			for slotID = 1, numSlots do
 				f.totalSlots = f.totalSlots + 1
 				if not f.Bags[bagID][slotID] then
-					f.Bags[bagID][slotID] = B:ContructContainerButton(isBank, slotID, bagID)
+					f.Bags[bagID][slotID] = B:ConstructContainerButton(isBank, slotID, bagID)
 				end
 
 				f.Bags[bagID][slotID]:SetID(slotID)
@@ -835,7 +835,7 @@ function B:KeyRing_Close()
 	end
 end
 
-function B:ContructContainerFrame(name, isBank)
+function B:ConstructContainerFrame(name, isBank)
 	local strata = E.db.bags.strata or 'HIGH'
 
 	local f = CreateFrame('Button', name, E.UIParent)
@@ -1163,7 +1163,7 @@ function B:ContructContainerFrame(name, isBank)
 	return f
 end
 
-function B:ContructContainerButton(isBank, slotID, bagID)
+function B:ConstructContainerButton(isBank, slotID, bagID)
 	local f = B:GetContainerFrame(isBank)
 
 	local slot = CreateFrame("CheckButton", f.Bags[bagID]:GetName()..'Slot'..slotID, f.Bags[bagID], bagID == -1 and 'BankItemButtonGenericTemplate' or 'ContainerFrameItemButtonTemplate');
@@ -1366,7 +1366,7 @@ end
 
 function B:OpenBank()
 	if not B.BankFrame then
-		B.BankFrame = B:ContructContainerFrame('ElvUI_BankContainerFrame', true)
+		B.BankFrame = B:ConstructContainerFrame('ElvUI_BankContainerFrame', true)
 		B:SetupItemGlow(B.BankFrame)
 	end
 
@@ -1710,7 +1710,7 @@ function B:Initialize()
 	ElvUIBankMover.POINT = "BOTTOM"
 
 	--Create Bag Frame
-	B.BagFrame = B:ContructContainerFrame('ElvUI_ContainerFrame')
+	B.BagFrame = B:ConstructContainerFrame('ElvUI_ContainerFrame')
 	B:SetupItemGlow(B.BagFrame)
 
 	--Hook onto Blizzard Functions
