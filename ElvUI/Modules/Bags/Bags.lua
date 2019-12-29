@@ -1195,13 +1195,11 @@ function B:ContructContainerButton(isBank, slotID, bagID)
 		slot.UpgradeIcon:Hide()
 	end
 
-	--.JunkIcon only exists for items created through ContainerFrameItemButtonTemplate
 	if not slot.JunkIcon then
-		local JunkIcon = slot:CreateTexture(nil, "OVERLAY")
-		JunkIcon:SetAtlas("bags-junkcoin", true)
-		JunkIcon:Point("TOPLEFT", 1, 0)
-		JunkIcon:Hide()
-		slot.JunkIcon = JunkIcon
+		slot.JunkIcon = slot:CreateTexture(nil, "OVERLAY")
+		slot.JunkIcon:SetAtlas("bags-junkcoin", true)
+		slot.JunkIcon:Point("TOPLEFT", 1, 0)
+		slot.JunkIcon:Hide()
 	end
 
 	if bagID == -2 then
@@ -1237,12 +1235,11 @@ function B:ContructContainerButton(isBank, slotID, bagID)
 	end
 
 	if not slot.newItemGlow then
-		local newItemGlow = slot:CreateTexture(nil, "OVERLAY")
-		newItemGlow:SetInside()
-		newItemGlow:SetTexture(E.Media.Textures.BagNewItemGlow)
-		newItemGlow:Hide()
-		B.BagFrame.NewItemGlow.Fade:AddChild(newItemGlow)
-		slot.newItemGlow = newItemGlow
+		slot.newItemGlow = slot:CreateTexture(nil, "OVERLAY")
+		slot.newItemGlow:SetInside()
+		slot.newItemGlow:SetTexture(E.Media.Textures.BagNewItemGlow)
+		slot.newItemGlow:Hide()
+		f.NewItemGlow.Fade:AddChild(slot.newItemGlow)
 		slot:HookScript('OnEnter', B.HideSlotItemGlow)
 	end
 
