@@ -163,6 +163,7 @@ L["Item level: %.2f"] = "物品等级：%.2f"
 L["Item Level:"] = "物品等级："
 L["joined a group"] = "加入队伍"
 L["Key"] = "键"
+L["Keyring"] = true
 L["KEY_ALT"] = "A"
 L["KEY_CTRL"] = "C"
 L["KEY_DELETE"] = "Del"
@@ -309,6 +310,7 @@ L["To setup which channels appear in which chat frame, right click the chat tab 
 L["Toggle Bags"] = "背包开关"
 L["Toggle Chat Frame"] = "开关聊天框架"
 L["Toggle Configuration"] = "设置开关"
+L["Toggle Keyring"] = true
 L["Tooltip"] = "鼠标提示"
 L["Total CPU:"] = "CPU占用"
 L["Total Memory:"] = "总内存:"

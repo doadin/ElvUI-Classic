@@ -163,6 +163,7 @@ L["Item level: %.2f"] = "Уровень предмета: %.2f"
 L["Item Level:"] = "Уровень предмета:"
 L["joined a group"] = "присоединяется к группе"
 L["Key"] = "Клавиша"
+L["Keyring"] = true
 L["KEY_ALT"] = "A"
 L["KEY_CTRL"] = "C"
 L["KEY_DELETE"] = "Del"
@@ -309,6 +310,7 @@ L["To setup which channels appear in which chat frame, right click the chat tab 
 L["Toggle Bags"] = "Показать сумки"
 L["Toggle Chat Frame"] = "Показать/скрыть чат"
 L["Toggle Configuration"] = "Конфигурация"
+L["Toggle Keyring"] = true
 L["Tooltip"] = "Подсказка"
 L["Total CPU:"] = "Использование процессора:"
 L["Total Memory:"] = "Всего памяти:"

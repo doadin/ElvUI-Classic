@@ -1116,7 +1116,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.vendorGraysButton:SetScript("OnLeave", GameTooltip_Hide)
 		f.vendorGraysButton:SetScript("OnClick", B.VendorGrayCheck)
 
-		-- Key Ring
+		-- Keyring
 		f.keyRingButton = CreateFrame('Button', nil, f.holderFrame)
 		f.keyRingButton:Size(16 + E.Border, 16 + E.Border)
 		f.keyRingButton:SetTemplate()
@@ -1128,7 +1128,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.keyRingButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
 		f.keyRingButton:GetPushedTexture():SetInside()
 		f.keyRingButton:StyleButton(nil, true)
-		f.keyRingButton.ttText = L["Key Ring"]
+		f.keyRingButton.ttText = L["Toggle Keyring"]
 		f.keyRingButton:SetScript("OnEnter", B.Tooltip_Show)
 		f.keyRingButton:SetScript("OnLeave", GameTooltip_Hide)
 		f.keyRingButton:SetScript("OnClick", function()

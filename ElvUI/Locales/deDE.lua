@@ -163,6 +163,7 @@ L["Item level: %.2f"] = "Gegenstandsstufe: %.2f"
 L["Item Level:"] = "Gegenstandsstufe:"
 L["joined a group"] = "ist einer Gruppe beigetreten"
 L["Key"] = "Taste"
+L["Keyring"] = true
 L["KEY_ALT"] = "A"
 L["KEY_CTRL"] = "C"
 L["KEY_DELETE"] = "Del"
@@ -311,6 +312,7 @@ L["To setup which channels appear in which chat frame, right click the chat tab 
 L["Toggle Bags"] = "Taschen umschalten"
 L["Toggle Chat Frame"] = "Chatfenster an-/ausschalten"
 L["Toggle Configuration"] = "Konfiguration an-/ausschalten"
+L["Toggle Keyring"] = true
 L["Tooltip"] = "Tooltip"
 L["Total CPU:"] = "Gesamt CPU:"
 L["Total Memory:"] = "Gesamte Speichernutzung:"

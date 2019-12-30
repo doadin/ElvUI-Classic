@@ -166,6 +166,7 @@ L["Item level: %.2f"] = true
 L["Item Level:"] = true
 L["joined a group"] = true
 L["Key"] = true
+L["Keyring"] = true
 L["KEY_ALT"] = "A"
 L["KEY_CTRL"] = "C"
 L["KEY_DELETE"] = "Del"
@@ -314,6 +315,7 @@ L["To setup which channels appear in which chat frame, right click the chat tab 
 L["Toggle Bags"] = true
 L["Toggle Chat Frame"] = true
 L["Toggle Configuration"] = true
+L["Toggle Keyring"] = true
 L["Tooltip"] = true
 L["Total CPU:"] = true
 L["Total Memory:"] = true

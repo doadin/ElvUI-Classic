@@ -163,6 +163,7 @@ L["Item level: %.2f"] = true
 L["Item Level:"] = true
 L["joined a group"] = "그룹에 참여"
 L["Key"] = "단축키"
+L["Keyring"] = true
 L["KEY_ALT"] = "A"
 L["KEY_CTRL"] = "C"
 L["KEY_DELETE"] = "Del"
@@ -309,6 +310,7 @@ L["To setup which channels appear in which chat frame, right click the chat tab 
 L["Toggle Bags"] = "가방슬롯 보기"
 L["Toggle Chat Frame"] = "패널 표시 전환"
 L["Toggle Configuration"] = "ElvUI 설정창 열기"
+L["Toggle Keyring"] = true
 L["Tooltip"] = "툴팁"
 L["Total CPU:"] = "전체 CPU 사용량:"
 L["Total Memory:"] = "전체 메모리:"
