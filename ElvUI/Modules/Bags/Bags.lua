@@ -539,8 +539,6 @@ function B:UpdateAllSlots(frame)
 	if not frame.registerUpdate and B:IsSearching() then
 		B:RefreshSearch()
 	end
-
-	B:HandleKeyRing()
 end
 
 function B:SetSlotAlphaForBag(f)
@@ -612,7 +610,7 @@ function B:Layout(isBank)
 		local numSlots = GetContainerNumSlots(bagID)
 		f.Bags[bagID].numSlots = numSlots
 
-		if numSlots > 0 then
+		if (bagID == -2 and B.ShowKeyRing) or (bagID ~= -2 and numSlots > 0) then
 			f.Bags[bagID]:Show()
 
 			--Hide unused slots
@@ -664,10 +662,6 @@ function B:Layout(isBank)
 		else
 			f.Bags[bagID]:Hide()
 		end
-	end
-
-	if (not isBank) and (not B.ShowKeyRing) then
-		numContainerRows = ceil((f.totalSlots - GetContainerNumSlots(-2)) / numContainerColumns)
 	end
 
 	f:Size(containerWidth, (((buttonSize + buttonSpacing) * numContainerRows) - buttonSpacing) + (isSplit and (numBags * bagSpacing) or 0 ) + f.topOffset + f.bottomOffset); -- 8 is the cussion of the f.holderFrame
@@ -809,32 +803,6 @@ function B:VendorGrayCheck()
 	end
 end
 
-function B:HandleKeyRing()
-	if B.BagFrame then
-		if B.ShowKeyRing then
-			B:KeyRing_Open()
-		else
-			B:KeyRing_Close()
-		end
-	end
-end
-
-function B:KeyRing_Open()
-	if B.BagFrame then
-		B:Layout()
-		B.BagFrame.Bags[-2]:Show()
-	end
-end
-
-function B:KeyRing_Close()
-	GameTooltip_Hide()
-
-	if B.BagFrame then
-		B:Layout()
-		B.BagFrame.Bags[-2]:Hide()
-	end
-end
-
 function B:ConstructContainerFrame(name, isBank)
 	local strata = E.db.bags.strata or 'HIGH'
 
@@ -930,6 +898,14 @@ function B:ConstructContainerFrame(name, isBank)
 				f.ContainerHolder[i].iconTexture:SetTexture("Interface/AddOns/ElvUI/Media/Textures/Button-Backpack-Up")
 			elseif bagID == -2 then
 				f.ContainerHolder[i]:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+				f.ContainerHolder[i]:SetScript('OnClick', function()
+					if (CursorHasItem()) then
+						PutKeyInKeyRing();
+					else
+						B.ShowKeyRing = not B.ShowKeyRing
+						B:Layout()
+					end
+				end)
 				f.ContainerHolder[i]:SetScript('OnReceiveDrag', function()
 					if (CursorHasItem()) then
 						PutKeyInKeyRing();
@@ -940,13 +916,8 @@ function B:ConstructContainerFrame(name, isBank)
 					GameTooltip:ClearLines()
 					GameTooltip:SetText(KEYRING, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 					GameTooltip:Show()
-
-					B:KeyRing_Open()
 				end)
-				f.ContainerHolder[i]:HookScript('OnLeave', function()
-					GameTooltip_Hide()
-					B:HandleKeyRing()
-				end)
+				f.ContainerHolder[i]:HookScript('OnLeave', GameTooltip_Hide)
 				f.ContainerHolder[i].iconTexture:SetTexture("Interface/ICONS/INV_Misc_Key_03")
 			end
 		end
@@ -1133,7 +1104,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.keyRingButton:SetScript("OnLeave", GameTooltip_Hide)
 		f.keyRingButton:SetScript("OnClick", function()
 			B.ShowKeyRing = not B.ShowKeyRing
-			B:HandleKeyRing()
+			B:Layout()
 		end)
 
 		--Search
@@ -1293,8 +1264,6 @@ function B:OpenBags()
 	end
 
 	B:UpdateAllBagSlots()
-
-	B:HandleKeyRing()
 
 	TT:GameTooltip_SetDefaultAnchor(_G.GameTooltip)
 end

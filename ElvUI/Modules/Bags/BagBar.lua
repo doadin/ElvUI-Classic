@@ -160,7 +160,7 @@ function B:LoadBagBar()
 	if E.private.bags.enable then
 		_G.KeyRingButton:HookScript('PostClick', function()
 			B.ShowKeyRing = not B.ShowKeyRing
-			B:HandleKeyRing()
+			B:Layout()
 		end)
 	end
 
