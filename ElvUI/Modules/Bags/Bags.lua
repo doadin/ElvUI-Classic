@@ -1132,6 +1132,9 @@ function B:ConstructContainerFrame(name, isBank)
 	return f
 end
 
+--Backwards compatibility for all the plugins that are used to the typo
+B.ContructContainerFrame = B.ConstructContainerFrame
+
 function B:ConstructContainerButton(parent, slotID, bagID)
 	local slot = CreateFrame("CheckButton", parent.Bags[bagID]:GetName()..'Slot'..slotID, parent.Bags[bagID], bagID == -1 and 'BankItemButtonGenericTemplate' or 'ContainerFrameItemButtonTemplate');
 	slot:StyleButton()
