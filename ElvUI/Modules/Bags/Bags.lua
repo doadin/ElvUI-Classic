@@ -879,6 +879,10 @@ function B:ConstructContainerFrame(name, isBank)
 		if isBank then
 			f.ContainerHolder[i]:SetID(bagID - 4)
 			if not f.ContainerHolder[i].tooltipText then f.ContainerHolder[i].tooltipText = '' end
+			f.ContainerHolder[i]:SetScript('OnClick', function(holder)
+				local inventoryID = holder:GetInventorySlot()
+				PutItemInBag(inventoryID)
+			end)
 		else
 			if bagID == 0 then --Backpack needs different setup
 				f.ContainerHolder[i]:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
@@ -1133,8 +1137,8 @@ end
 --Backwards compatibility for all the plugins that are used to the typo
 B.ContructContainerFrame = B.ConstructContainerFrame
 
-function B:ConstructContainerButton(parent, slotID, bagID)
-	local slot = CreateFrame('CheckButton', parent.Bags[bagID]:GetName()..'Slot'..slotID, parent.Bags[bagID], bagID == -1 and 'BankItemButtonGenericTemplate' or 'ContainerFrameItemButtonTemplate');
+function B:ConstructContainerButton(f, slotID, bagID)
+	local slot = CreateFrame('CheckButton', f.Bags[bagID]:GetName()..'Slot'..slotID, f.Bags[bagID], bagID == -1 and 'BankItemButtonGenericTemplate' or 'ContainerFrameItemButtonTemplate');
 	slot:StyleButton()
 	slot:SetTemplate(E.db.bags.transparent and 'Transparent', true)
 	slot:SetNormalTexture(nil)
@@ -1207,7 +1211,7 @@ function B:ConstructContainerButton(parent, slotID, bagID)
 		slot.newItemGlow:SetInside()
 		slot.newItemGlow:SetTexture(E.Media.Textures.BagNewItemGlow)
 		slot.newItemGlow:Hide()
-		parent.NewItemGlow.Fade:AddChild(slot.newItemGlow)
+		f.NewItemGlow.Fade:AddChild(slot.newItemGlow)
 		slot:HookScript('OnEnter', B.HideSlotItemGlow)
 	end
 
@@ -1663,10 +1667,10 @@ function B:Initialize()
 	--Set some variables on movers
 	ElvUIBagMover.textGrowUp = L["Bag Mover (Grow Up)"]
 	ElvUIBagMover.textGrowDown = L["Bag Mover (Grow Down)"]
-	ElvUIBagMover.POINT = "BOTTOM"
+	ElvUIBagMover.POINT = 'BOTTOM'
 	ElvUIBankMover.textGrowUp = L["Bank Mover (Grow Up)"]
 	ElvUIBankMover.textGrowDown = L["Bank Mover (Grow Down)"]
-	ElvUIBankMover.POINT = "BOTTOM"
+	ElvUIBankMover.POINT = 'BOTTOM'
 
 	--Create Containers
 	B.BagFrame = B:ConstructContainerFrame('ElvUI_ContainerFrame')
