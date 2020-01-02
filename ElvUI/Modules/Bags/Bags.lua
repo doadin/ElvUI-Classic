@@ -576,7 +576,7 @@ function B:Layout(isBank)
 	local bagSpacing = B.db.split.bagSpacing
 	local isSplit = B.db.split[isBank and 'bank' or 'player']
 	local lastButton, lastRowButton, lastContainerButton, newBag
-	local numContainerSlots = isBank and GetNumBankSlots() or 6
+	local numContainerSlots = isBank and GetNumBankSlots() + 1 or 6
 
 	f.totalSlots = 0
 	f.holderFrame:Width(holderWidth)
@@ -587,9 +587,8 @@ function B:Layout(isBank)
 			newBag = (bagID ~= -1 or bagID ~= 0) and B.db.split['bag'..bagID] or false
 		end
 
-		--Bag Containers
-		if (not isBank) or (isBank and bagID ~= -1 and numContainerSlots >= 1 and not (i - 1 > numContainerSlots)) then
-			if isBank then
+		do --Bag Containers
+			if (isBank and bagID ~= -1) then
 				BankFrameItemButton_Update(f.ContainerHolder[i])
 				BankFrameItemButton_UpdateLocked(f.ContainerHolder[i])
 			end
@@ -597,7 +596,7 @@ function B:Layout(isBank)
 			f.ContainerHolder[i]:Size(buttonSize)
 			f.ContainerHolder[i]:ClearAllPoints()
 
-			if (isBank and i == 2) or (not isBank and i == 1) then
+			if i == 1 then
 				f.ContainerHolder[i]:Point('BOTTOMLEFT', f.ContainerHolder, 'BOTTOMLEFT', buttonSpacing, buttonSpacing)
 			else
 				f.ContainerHolder[i]:Point('LEFT', lastContainerButton, 'RIGHT', buttonSpacing, 0)
@@ -872,13 +871,13 @@ function B:ConstructContainerFrame(name, isBank)
 		f.ContainerHolder[i]:HookScript('OnEnter', function(ch) B.SetSlotAlphaForBag(ch, f) end)
 		f.ContainerHolder[i]:HookScript('OnLeave', function(ch) B.ResetSlotAlphaForBags(ch, f) end)
 
-		f.ContainerHolder[i].iconTexture = _G[f.ContainerHolder[i]:GetName()..'IconTexture']
-		f.ContainerHolder[i].iconTexture:SetInside()
-		f.ContainerHolder[i].iconTexture:SetTexCoord(unpack(E.TexCoords))
+		f.ContainerHolder[i].icon:SetInside()
+		f.ContainerHolder[i].icon:SetTexCoord(unpack(E.TexCoords))
 
 		if isBank then
 			f.ContainerHolder[i]:SetID(bagID - 4)
 			if not f.ContainerHolder[i].tooltipText then f.ContainerHolder[i].tooltipText = '' end
+			f.ContainerHolder[i].icon:SetTexture('Interface/Buttons/Button-Backpack-Up')
 			f.ContainerHolder[i]:SetScript('OnClick', function(holder)
 				local inventoryID = holder:GetInventorySlot()
 				PutItemInBag(inventoryID)
@@ -899,7 +898,7 @@ function B:ConstructContainerFrame(name, isBank)
 				f.ContainerHolder[i]:HookScript('OnLeave', GameTooltip_Hide)
 				f.ContainerHolder[i]:SetScript('OnClick', PutItemInBackpack)
 				f.ContainerHolder[i]:SetScript('OnReceiveDrag', PutItemInBackpack)
-				f.ContainerHolder[i].iconTexture:SetTexture('Interface/AddOns/ElvUI/Media/Textures/Button-Backpack-Up')
+				f.ContainerHolder[i].icon:SetTexture('Interface/AddOns/ElvUI/Media/Textures/Button-Backpack-Up')
 			elseif bagID == -2 then
 				f.ContainerHolder[i]:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
 				f.ContainerHolder[i]:SetScript('OnClick', function()
@@ -1182,10 +1181,6 @@ function B:ConstructContainerButton(f, slotID, bagID)
 		slot.keyringTexture:SetTexCoord(unpack(E.TexCoords))
 		slot.keyringTexture:SetDesaturated(true)
 	end
-
-	slot.iconTexture = _G[slot:GetName()..'IconTexture']
-	slot.iconTexture:SetInside(slot)
-	slot.iconTexture:SetTexCoord(unpack(E.TexCoords))
 
 	slot.searchOverlay:SetAllPoints()
 	slot.cooldown = _G[slot:GetName()..'Cooldown']
