@@ -575,8 +575,8 @@ function B:Layout(isBank)
 	local numContainerRows, numBags, numBagSlots = 0, 0, 0
 	local bagSpacing = B.db.split.bagSpacing
 	local isSplit = B.db.split[isBank and 'bank' or 'player']
-	local lastButton, lastRowButton, lastContainerButton, newBag
-	local numContainerSlots = isBank and GetNumBankSlots() + 1 or 6
+	local lastButton, lastRowButton, newBag
+	local numContainerSlots = isBank and 8 or 6
 
 	f.totalSlots = 0
 	f.holderFrame:Width(holderWidth)
@@ -588,21 +588,21 @@ function B:Layout(isBank)
 		end
 
 		do --Bag Containers
-			if (isBank and bagID ~= -1) then
-				BankFrameItemButton_Update(f.ContainerHolder[i])
-				BankFrameItemButton_UpdateLocked(f.ContainerHolder[i])
+			if isBank then
+				if (bagID ~= -1) then
+					BankFrameItemButton_Update(f.ContainerHolder[i])
+					BankFrameItemButton_UpdateLocked(f.ContainerHolder[i])
+				end
+
+				if (i - 1) > GetNumBankSlots() then
+					SetItemButtonTextureVertexColor(f.ContainerHolder[i], 1.0,0.1,0.1);
+					f.ContainerHolder[i].tooltipText = _G.BANK_BAG_PURCHASE;
+				else
+					f.ContainerHolder[i].tooltipText = ''
+				end
 			end
 
 			f.ContainerHolder[i]:Size(buttonSize)
-			f.ContainerHolder[i]:ClearAllPoints()
-
-			if i == 1 then
-				f.ContainerHolder[i]:Point('BOTTOMLEFT', f.ContainerHolder, 'BOTTOMLEFT', buttonSpacing, buttonSpacing)
-			elseif (not isBank) or (isBank and numContainerSlots >= 1 and not (i > numContainerSlots)) then
-				f.ContainerHolder[i]:Point('LEFT', lastContainerButton, 'RIGHT', buttonSpacing, 0)
-			end
-
-			lastContainerButton = f.ContainerHolder[i]
 		end
 
 		--Bag Slots
@@ -877,7 +877,6 @@ function B:ConstructContainerFrame(name, isBank)
 
 		if isBank then
 			f.ContainerHolder[i]:SetID(bagID - 4)
-			if not f.ContainerHolder[i].tooltipText then f.ContainerHolder[i].tooltipText = '' end
 			f.ContainerHolder[i].icon:SetTexture('Interface/AddOns/ElvUI/Media/Textures/Button-Backpack-Up')
 			f.ContainerHolder[i]:SetScript('OnClick', function(holder)
 				local inventoryID = holder:GetInventorySlot()
@@ -924,6 +923,12 @@ function B:ConstructContainerFrame(name, isBank)
 				f.ContainerHolder[i]:HookScript('OnLeave', GameTooltip_Hide)
 				f.ContainerHolder[i].icon:SetTexture('Interface/ICONS/INV_Misc_Key_03')
 			end
+		end
+
+		if i == 1 then
+			f.ContainerHolder[i]:Point('BOTTOMLEFT', f.ContainerHolder, 'BOTTOMLEFT', E.Border * 2, E.Border * 2)
+		else
+			f.ContainerHolder[i]:Point('LEFT', f.ContainerHolder[i - 1], 'RIGHT', E.Border * 2, 0)
 		end
 
 		f.Bags[bagID] = CreateFrame('Frame', f:GetName()..'Bag'..bagID, f.holderFrame)
@@ -1008,13 +1013,8 @@ function B:ConstructContainerFrame(name, isBank)
 		--Toggle Bags Button
 		f.bagsButton:Point('RIGHT', f.sortButton, 'LEFT', -5, 0)
 		f.bagsButton:SetScript('OnClick', function()
-			local numSlots = GetNumBankSlots()
-			if numSlots >= 1 then
-				ToggleFrame(f.ContainerHolder)
-				PlaySound(852) --IG_MAINMENU_OPTION
-			else
-				E:StaticPopup_Show('NO_BANK_BAGS')
-			end
+			ToggleFrame(f.ContainerHolder)
+			PlaySound(852) --IG_MAINMENU_OPTION
 		end)
 
 		f.purchaseBagButton = CreateFrame('Button', nil, f.holderFrame)
@@ -1367,7 +1367,6 @@ end
 function B:PLAYER_ENTERING_WORLD()
 	B:UpdateGoldText()
 
-	-- Update bag types for bagslot coloring
 	E:Delay(2, B.PlayerEnteringWorld)
 end
 
