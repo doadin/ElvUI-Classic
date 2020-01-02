@@ -1336,7 +1336,6 @@ function B:OpenBank()
 	B.BankFrame:RegisterEvent("BAG_UPDATE")
 	B.BankFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
 
-	--Call :Layout first so all elements are created before we update
 	B:Layout(true)
 
 	B:OpenBags()
@@ -1350,13 +1349,12 @@ function B:PLAYERBANKBAGSLOTS_CHANGED()
 end
 
 function B:CloseBank()
-	if not B.BankFrame then return end -- WHY??? WHO KNOWS!
+	B.BankFrame:UnregisterEvent("BAG_UPDATE")
+	B.BankFrame:UnregisterEvent("BAG_UPDATE_COOLDOWN")
+
 	B.BankFrame:Hide()
 	_G.BankFrame:Hide()
 	B.BagFrame:Hide()
-
-	B.BankFrame:UnregisterEvent("BAG_UPDATE")
-	B.BankFrame:UnregisterEvent("BAG_UPDATE_COOLDOWN")
 end
 
 function B:PlayerEnteringWorld()
