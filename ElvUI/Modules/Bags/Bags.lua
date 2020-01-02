@@ -1333,10 +1333,6 @@ function B:SetupItemGlow(frame)
 end
 
 function B:OpenBank()
-	if not B.BankFrame then
-		B.BankFrame = B:ConstructContainerFrame('ElvUI_BankContainerFrame', true)
-	end
-
 	B.BankFrame:RegisterEvent("BAG_UPDATE")
 	B.BankFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
 
@@ -1676,8 +1672,9 @@ function B:Initialize()
 	ElvUIBankMover.textGrowDown = L["Bank Mover (Grow Down)"]
 	ElvUIBankMover.POINT = "BOTTOM"
 
-	--Create Bag Frame
+	--Create Containers
 	B.BagFrame = B:ConstructContainerFrame('ElvUI_ContainerFrame')
+	B.BankFrame = B:ConstructContainerFrame('ElvUI_BankContainerFrame', true)
 
 	--Hook onto Blizzard Functions
 	B:SecureHook('OpenAllBags', 'OpenBags')
