@@ -598,7 +598,7 @@ function B:Layout(isBank)
 
 			if i == 1 then
 				f.ContainerHolder[i]:Point('BOTTOMLEFT', f.ContainerHolder, 'BOTTOMLEFT', buttonSpacing, buttonSpacing)
-			else
+			elseif (not isBank) or (isBank and numContainerSlots >= 1 and not (i > numContainerSlots)) then
 				f.ContainerHolder[i]:Point('LEFT', lastContainerButton, 'RIGHT', buttonSpacing, 0)
 			end
 
@@ -1009,9 +1009,9 @@ function B:ConstructContainerFrame(name, isBank)
 		f.bagsButton:Point('RIGHT', f.sortButton, 'LEFT', -5, 0)
 		f.bagsButton:SetScript('OnClick', function()
 			local numSlots = GetNumBankSlots()
-			PlaySound(852) --IG_MAINMENU_OPTION
 			if numSlots >= 1 then
 				ToggleFrame(f.ContainerHolder)
+				PlaySound(852) --IG_MAINMENU_OPTION
 			else
 				E:StaticPopup_Show('NO_BANK_BAGS')
 			end
