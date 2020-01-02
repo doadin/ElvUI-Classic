@@ -871,6 +871,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.ContainerHolder[i]:HookScript('OnEnter', function(ch) B.SetSlotAlphaForBag(ch, f) end)
 		f.ContainerHolder[i]:HookScript('OnLeave', function(ch) B.ResetSlotAlphaForBags(ch, f) end)
 
+		f.ContainerHolder[i].icon = _G[f.ContainerHolder[i]:GetName()..'IconTexture']
 		f.ContainerHolder[i].icon:SetInside()
 		f.ContainerHolder[i].icon:SetTexCoord(unpack(E.TexCoords))
 
@@ -921,7 +922,7 @@ function B:ConstructContainerFrame(name, isBank)
 					GameTooltip:Show()
 				end)
 				f.ContainerHolder[i]:HookScript('OnLeave', GameTooltip_Hide)
-				f.ContainerHolder[i].iconTexture:SetTexture('Interface/ICONS/INV_Misc_Key_03')
+				f.ContainerHolder[i].icon:SetTexture('Interface/ICONS/INV_Misc_Key_03')
 			end
 		end
 
@@ -1188,6 +1189,10 @@ function B:ConstructContainerButton(f, slotID, bagID)
 	E:RegisterCooldown(slot.cooldown)
 	slot.bagID = bagID
 	slot.slotID = slotID
+
+	slot.icon = _G[slot:GetName()..'IconTexture']
+	slot.icon:SetInside()
+	slot.icon:SetTexCoord(unpack(E.TexCoords))
 
 	slot.itemLevel = slot:CreateFontString(nil, 'OVERLAY')
 	slot.itemLevel:Point('BOTTOMRIGHT', 0, 2)
