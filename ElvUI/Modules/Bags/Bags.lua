@@ -878,7 +878,7 @@ function B:ConstructContainerFrame(name, isBank)
 		if isBank then
 			f.ContainerHolder[i]:SetID(bagID - 4)
 			if not f.ContainerHolder[i].tooltipText then f.ContainerHolder[i].tooltipText = '' end
-			f.ContainerHolder[i].icon:SetTexture('Interface/Buttons/Button-Backpack-Up')
+			f.ContainerHolder[i].icon:SetTexture('Interface/AddOns/ElvUI/Media/Textures/Button-Backpack-Up')
 			f.ContainerHolder[i]:SetScript('OnClick', function(holder)
 				local inventoryID = holder:GetInventorySlot()
 				PutItemInBag(inventoryID)
