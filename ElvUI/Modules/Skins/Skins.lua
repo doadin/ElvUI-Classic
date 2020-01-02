@@ -1251,7 +1251,7 @@ function S:SkinWidgetContainer(widgetContainer)
 end
 
 function S:SkinLibDropDown()
-	if E.private and (E.private.skins.blizzard.enable and E.private.skins.blizzard.misc) then
+	if E.private.skins.blizzard.enable and E.private.skins.blizzard.misc then
 		if not S.L_UIDropDownMenuSkinned then S:SkinLibDropDownMenu('L') end -- LibUIDropDownMenu
 		if not S.Lib_UIDropDownMenuSkinned then S:SkinLibDropDownMenu('Lib') end -- NoTaint_UIDropDownMenu
 	end
@@ -1263,10 +1263,14 @@ function S:SkinAce3()
 	S:Ace3_SkinTooltip(E.Libs.AceConfigDialog, E.LibsMinor.AceConfigDialog)
 end
 
+function S:CustomSkins() -- arg1: addonName
+	S:SkinAce3()
+	S:SkinLibDropDown()
+end
+
 function S:ADDON_LOADED(_, addonName)
 	if E.initialized then
-		S:SkinAce3()
-		S:SkinLibDropDown()
+		S:CustomSkins(addonName)
 	elseif not self.allowBypass[addonName] then
 		return
 	end
@@ -1342,11 +1346,18 @@ function S:Initialize()
 	self.Initialized = true
 	self.db = E.private.skins
 
+	-- E.initialized isn't ready when ADDON_LOADED for ElvUI because
+	-- ElvUI inits on PLAYER_LOGIN, we must call the skin in here so
+	-- that it'll happen when ElvUI can actually check the settings
+	S:CustomSkins('ElvUI')
+
+	-- Handle Skin Callbacks
 	for index, func in next, self.nonAddonsToLoad do
 		xpcall(func, errorhandler)
 		self.nonAddonsToLoad[index] = nil
 	end
 
+	-- Handle Addon Skin Callbacks, that were ready before ElvUI
 	for addonName, object in pairs(self.addonsToLoad) do
 		local isLoaded, isFinished = IsAddOnLoaded(addonName)
 		if isLoaded and isFinished then
