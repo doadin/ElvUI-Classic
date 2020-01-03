@@ -95,13 +95,6 @@ function S:Ace3_SkinTab(tab)
 	end
 end
 
-function S:Ace3_SkinPopup(popup)
-	popup:SetTemplate('Transparent')
-	popup:GetChildren():StripTextures()
-	S:HandleButton(popup.accept, true)
-	S:HandleButton(popup.cancel, true)
-end
-
 function S:Ace3_RegisterAsWidget(widget)
 	local TYPE = widget.type
 	if TYPE == 'MultiLineEditBox' then
@@ -410,9 +403,17 @@ function S:Ace3_RegisterAsContainer(widget)
 end
 
 function S:Ace3_StyleTooltip()
-	if not self or self:IsForbidden() then return end
-	if E.private.skins.ace3.enable then
+	if self and (not self.template and not self:IsForbidden()) and E.private.skins.ace3.enable then
 		self:SetTemplate('Transparent', nil, true)
+	end
+end
+
+function S:Ace3_StylePopup()
+	if self and (not self.template and not self:IsForbidden()) and E.private.skins.ace3.enable then
+		self:SetTemplate('Transparent', nil, true)
+		self:GetChildren():StripTextures()
+		S:HandleButton(self.accept, true)
+		S:HandleButton(self.cancel, true)
 	end
 end
 
@@ -437,8 +438,8 @@ function S:Ace3_SkinTooltip(lib, minor) -- lib: AceConfigDialog or AceGUI
 		if not S:IsHooked(lib.tooltip, 'OnShow') then
 			S:SecureHookScript(lib.tooltip, 'OnShow', S.Ace3_StyleTooltip)
 		end
-		if lib.popup and not lib.popup.template then -- StaticPopup
-			S:Ace3_SkinPopup(lib.popup)
+		if lib.popup and not S:IsHooked(lib.popup, 'OnShow') then -- StaticPopup
+			S:SecureHookScript(lib.popup, 'OnShow', S.Ace3_StylePopup)
 		end
 	end
 end
@@ -449,15 +450,7 @@ function S:Ace3_MetaIndex(k, v)
 		S:SecureHookScript(v, 'OnShow', S.Ace3_StyleTooltip)
 	elseif k == 'popup' then
 		rawset(self, k, v)
-		local t = getmetatable(v)
-		if t then
-			t.__newindex = function(q, w, e)
-				rawset(q, w, e)
-				if w == 'cancel' then
-					S:Ace3_SkinPopup(q)
-				end
-			end
-		end
+		S:SecureHookScript(v, 'OnShow', S.Ace3_StylePopup)
 	elseif k == 'RegisterAsContainer' then
 		rawset(self, k, function(...)
 			if E.private.skins.ace3.enable then
