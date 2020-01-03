@@ -437,7 +437,7 @@ function S:Ace3_SkinTooltip(lib, minor) -- lib: AceConfigDialog or AceGUI
 		if not S:IsHooked(lib.tooltip, 'OnShow') then
 			S:SecureHookScript(lib.tooltip, 'OnShow', S.Ace3_StyleTooltip)
 		end
-		if not lib.popup.template then -- StaticPopup
+		if lib.popup and not lib.popup.template then -- StaticPopup
 			S:Ace3_SkinPopup(lib.popup)
 		end
 	end
