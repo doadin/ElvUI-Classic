@@ -15,6 +15,7 @@
 **UnitFrames:** Added an option to enable a sound if you select a unit. Disabled by default  
 **UnitFrames:** Show only 1 leader icon in instances / battlegrounds  
 **UnitFrames:** Shaman TotemBar is back  
+**UnitFrames:** Added x/y Offset option for RL Icon  
 ___
 ### Version 1.19 [12/14/2019]
 **ActionBars:** Stancebar fixes  
