@@ -55,7 +55,7 @@ local function Disable(self)
 	local element = self.ClassificationIndicator
 	if (element) then
 		element:Hide()
-		self:UnregisterEvent("UNIT_CLASSIFICATION_CHANGED")
+		self:UnregisterEvent("UNIT_CLASSIFICATION_CHANGED", Path)
 	end
 end
 
