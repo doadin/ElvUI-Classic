@@ -1056,29 +1056,15 @@ function UF:UpdateAllHeaders(event)
 	end
 end
 
-local function HideRaid()
-	if InCombatLockdown() then return end
-	_G.CompactRaidFrameManager:Kill()
-	local compact_raid = CompactRaidFrameManager_GetSetting("IsShown")
-	if compact_raid and compact_raid ~= "0" then
-		CompactRaidFrameManager_SetSetting("IsShown", "0")
-	end
-end
-
 function UF:DisableBlizzard()
 	if (not E.private.unitframe.disabledBlizzardFrames.raid) and (not E.private.unitframe.disabledBlizzardFrames.party) then return; end
 	if not CompactRaidFrameManager_UpdateShown then
 		E:StaticPopup_Show("WARNING_BLIZZARD_ADDONS")
 	else
-		if not _G.CompactRaidFrameManager.hookedHide then
-			hooksecurefunc("CompactRaidFrameManager_UpdateShown", HideRaid)
-			_G.CompactRaidFrameManager:HookScript('OnShow', HideRaid)
-			_G.CompactRaidFrameManager.hookedHide = true
-		end
-
+		CompactRaidFrameManager_SetSetting("IsShown", "0")
+		_G.UIParent:UnregisterEvent('GROUP_ROSTER_UPDATE')
 		_G.CompactRaidFrameContainer:UnregisterAllEvents()
-
-		HideRaid()
+		_G.CompactRaidFrameContainer:Hide()
 	end
 end
 
@@ -1425,9 +1411,6 @@ function UF:Initialize()
 	if E.private.unitframe.disabledBlizzardFrames.party and E.private.unitframe.disabledBlizzardFrames.raid then
 		self:DisableBlizzard()
 		--InterfaceOptionsFrameCategoriesButton11:SetScale(0.0001)
-
-		self:RegisterEvent('GROUP_ROSTER_UPDATE', 'DisableBlizzard')
-		_G.UIParent:UnregisterEvent('GROUP_ROSTER_UPDATE') --This may fuck shit up.. we'll see...
 	else
 		_G.CompactUnitFrameProfiles:RegisterEvent('VARIABLES_LOADED')
 	end
