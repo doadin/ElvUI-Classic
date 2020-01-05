@@ -1063,6 +1063,8 @@ function UF:DisableBlizzard()
 	else
 		CompactRaidFrameManager_SetSetting("IsShown", "0")
 		_G.UIParent:UnregisterEvent('GROUP_ROSTER_UPDATE')
+		_G.CompactRaidFrameManager:UnregisterAllEvents()
+		_G.CompactRaidFrameManager:Hide()
 		_G.CompactRaidFrameContainer:UnregisterAllEvents()
 		_G.CompactRaidFrameContainer:Hide()
 	end
