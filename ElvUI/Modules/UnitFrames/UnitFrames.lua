@@ -36,6 +36,10 @@ local SOUNDKIT_IG_CREATURE_NEUTRAL_SELECT = SOUNDKIT.IG_CREATURE_NEUTRAL_SELECT
 local SOUNDKIT_INTERFACE_SOUND_LOST_TARGET_UNIT = SOUNDKIT.INTERFACE_SOUND_LOST_TARGET_UNIT
 local PlaySound = PlaySound
 
+local hiddenParent = CreateFrame("Frame", nil, _G.UIParent)
+hiddenParent:SetAllPoints()
+hiddenParent:Hide()
+
 -- GLOBALS: ElvUF_Parent
 
 local _, ns = ...
@@ -1065,14 +1069,13 @@ function UF:DisableBlizzard()
 		_G.UIParent:UnregisterEvent('GROUP_ROSTER_UPDATE')
 		_G.CompactRaidFrameManager:UnregisterAllEvents()
 		_G.CompactRaidFrameManager:Hide()
+		_G.CompactRaidFrameManager:SetParent(hiddenParent)
 		_G.CompactRaidFrameContainer:UnregisterAllEvents()
 		_G.CompactRaidFrameContainer:Hide()
+		_G.CompactRaidFrameContainer:SetParent(hiddenParent)
 	end
 end
 
-local hiddenParent = CreateFrame("Frame", nil, _G.UIParent)
-hiddenParent:SetAllPoints()
-hiddenParent:Hide()
 local HandleFrame = function(baseName)
 	local frame
 	if (type(baseName) == 'string') then
