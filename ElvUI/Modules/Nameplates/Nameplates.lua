@@ -276,6 +276,7 @@ function NP:DisablePlate(nameplate, nameOnly)
 	if nameplate:IsElementEnabled('Castbar') then nameplate:DisableElement('Castbar') end
 	if nameplate:IsElementEnabled('Portrait') then nameplate:DisableElement('Portrait') end
 	if nameplate:IsElementEnabled('ClassPower') then nameplate:DisableElement('ClassPower') end
+	if nameplate:IsElementEnabled('TargetIndicator') then nameplate:DisableElement('TargetIndicator') end
 	if nameplate:IsElementEnabled('PvPIndicator') then nameplate:DisableElement('PvPIndicator') end
 	if nameplate:IsElementEnabled('Auras') then nameplate:DisableElement('Auras') end
 
