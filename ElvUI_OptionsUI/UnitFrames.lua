@@ -2602,8 +2602,16 @@ E.Options.args.unitframe = {
 			name = L["General Options"],
 			childGroups = "tab",
 			args = {
-				generalGroup = {
+				resetFilters = {
 					order = 1,
+					name = L["Reset Aura Filters"],
+					type = "execute",
+					func = function(info)
+						E:StaticPopup_Show("RESET_UF_AF") --reset unitframe aurafilters
+					end,
+				},
+				generalGroup = {
+					order = 2,
 					type = 'group',
 					name = L["General"],
 					disabled = function() return not E.UnitFrames.Initialized end,
@@ -2651,14 +2659,6 @@ E.Options.args.unitframe = {
 								['ALT'] = L["ALT_KEY_TEXT"],
 								['CTRL'] = L["CTRL_KEY_TEXT"],
 							},
-						},
-						resetFilters = {
-							order = 8,
-							name = L["Reset Aura Filters"],
-							type = "execute",
-							func = function(info)
-								E:StaticPopup_Show("RESET_UF_AF") --reset unitframe aurafilters
-							end,
 						},
 						effectiveGroup = {
 							order = 15,
@@ -2793,7 +2793,7 @@ E.Options.args.unitframe = {
 					},
 				},
 				frameGlowGroup = {
-					order = 2,
+					order = 3,
 					type = 'group',
 					childGroups = "tree",
 					name = L["Frame Glow"],
@@ -2962,7 +2962,7 @@ E.Options.args.unitframe = {
 					}
 				},
 				allColorsGroup = {
-					order = 3,
+					order = 4,
 					type = 'group',
 					childGroups = "tree",
 					name = L["COLORS"],
@@ -3627,7 +3627,7 @@ E.Options.args.unitframe = {
 					},
 				},
 				disabledBlizzardFrames = {
-					order = 4,
+					order = 5,
 					type = "group",
 					name = L["Disabled Blizzard Frames"],
 					get = function(info) return E.private.unitframe.disabledBlizzardFrames[info[#info]] end,
@@ -3663,7 +3663,7 @@ E.Options.args.unitframe = {
 					},
 				},
 				raidDebuffIndicator = {
-					order = 5,
+					order = 6,
 					type = "group",
 					name = L["RaidDebuff Indicator"],
 					disabled = function() return not E.UnitFrames.Initialized end,

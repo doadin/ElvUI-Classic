@@ -3453,8 +3453,16 @@ E.Options.args.nameplate = {
 			childGroups = "tab",
 			disabled = function() return not E.NamePlates.Initialized end,
 			args = {
-				resetcvars = {
+				resetFilters = {
 					order = 1,
+					name = L["Reset Aura Filters"],
+					type = "execute",
+					func = function()
+						E:StaticPopup_Show("RESET_NP_AF") --reset nameplate aurafilters
+					end,
+				},
+				resetcvars = {
+					order = 2,
 					type = "execute",
 					name = L["Reset CVars"],
 					desc = L["Reset Nameplate CVars to the ElvUI recommended defaults."],
@@ -3462,14 +3470,6 @@ E.Options.args.nameplate = {
 						NP:CVarReset()
 					end,
 					confirm = true,
-				},
-				resetFilters = {
-					order = 2,
-					name = L["Reset Aura Filters"],
-					type = "execute",
-					func = function()
-						E:StaticPopup_Show("RESET_NP_AF") --reset nameplate aurafilters
-					end,
 				},
 				general = {
 					order = 10,
@@ -3540,21 +3540,21 @@ E.Options.args.nameplate = {
 							get = function() return tonumber(GetCVar('nameplateOverlapH')) end,
 							set = function(_, value) SetCVar('nameplateOverlapH', value) end,
 						},
-						otherAtBase = {
-							order = 9,
-							type = "toggle",
-							name = L["Nameplate At Base"],
-							desc = L["Position other Nameplates at the base, rather than overhead."],
-							get = function() return GetCVarBool('nameplateOtherAtBase') end,
-							set = function(_, value) SetCVar('nameplateOtherAtBase', value and 2 or 0) end,
-						},
 						lowHealthThreshold = {
-							order = 10,
+							order = 9,
 							name = L["Low Health Threshold"],
 							desc = L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."],
 							type = "range",
 							isPercent = true,
 							min = 0, softMax = 0.5, max = 0.8, step = 0.01,
+						},
+						otherAtBase = {
+							order = 10,
+							type = "toggle",
+							name = L["Nameplate At Base"],
+							desc = L["Position other Nameplates at the base, rather than overhead."],
+							get = function() return GetCVarBool('nameplateOtherAtBase') end,
+							set = function(_, value) SetCVar('nameplateOtherAtBase', value and 2 or 0) end,
 						},
 						spacer1 = {
 							order = 11,
