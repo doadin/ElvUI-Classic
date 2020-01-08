@@ -224,23 +224,6 @@ local function SetColorTapping(element, state)
 	end
 end
 
---[[ Health:SetColorThreat(state)
-Used to toggle coloring by the unit's threat status.
-
-* self  - the Health element
-* state - the desired state (boolean)
---]]
-local function SetColorThreat(element, state)
-	if(element.colorThreat ~= state) then
-		element.colorThreat = state
-		if(element.colorThreat) then
-			element.__owner:RegisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
-		else
-			element.__owner:UnregisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
-		end
-	end
-end
-
 local onUpdateElapsed, onUpdateWait = 0, 0.25
 local function onUpdateHealth(self, elapsed)
 	if onUpdateElapsed > onUpdateWait then
