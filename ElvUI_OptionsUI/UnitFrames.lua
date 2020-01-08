@@ -2660,51 +2660,78 @@ E.Options.args.unitframe = {
 								E:StaticPopup_Show("RESET_UF_AF") --reset unitframe aurafilters
 							end,
 						},
-						rapidGroup = {
-							order = 9,
+						effectiveGroup = {
+							order = 15,
 							type = 'group',
 							guiInline = true,
-							name = L["Rapid Updates"],
+							name = L["Effective Updates"],
 							args = {
-								rapidHealth = {
+								warning = {
+									order = 0,
+									type = "description",
+									fontSize = 'medium',
+									name = L["|cffFF0000Warning:|r This causes updates to happen at a fraction of a second."].."\n"..
+									L["Enabling this has the potential to make updates faster, though setting a speed value that is too high may cause it to actually run slower than the default scheme, which use Blizzard events only with no update loops provided."]
+								},
+								effectiveHealth = {
 									order = 1,
 									type = "toggle",
 									name = L["Health"],
 									get = function(info) return E.global.unitframe[info[#info]] end,
-									set = function(info, value) E.global.unitframe[info[#info]] = value; E:StaticPopup_Show("GLOBAL_RL") end
+									set = function(info, value) E.global.unitframe[info[#info]] = value; UF:Update_AllFrames() end
 								},
-								rapidAura = {
+								effectivePower = {
 									order = 2,
 									type = "toggle",
-									name = L["Auras"],
+									name = L["Power"],
 									get = function(info) return E.global.unitframe[info[#info]] end,
-									set = function(info, value) E.global.unitframe[info[#info]] = value; E:StaticPopup_Show("GLOBAL_RL") end
+									set = function(info, value) E.global.unitframe[info[#info]] = value; UF:Update_AllFrames() end
 								},
-								rapidHealthSpeed = {
+								effectiveAura = {
 									order = 3,
+									type = "toggle",
+									name = L["Aura"],
+									get = function(info) return E.global.unitframe[info[#info]] end,
+									set = function(info, value) E.global.unitframe[info[#info]] = value; UF:Update_AllFrames() end
+								},
+								spacer1 = {
+									order = 4,
+									type = "description",
+									name = " ",
+									width = "full"
+								},
+								effectiveHealthSpeed = {
+									order = 5,
 									name = L["Health Speed"],
 									type = "range",
 									min = 0.1,
 									max = 0.5,
 									step = 0.05,
+									disabled = function() return not E.global.unitframe.effectiveHealth end,
 									get = function(info) return E.global.unitframe[info[#info]] end,
 									set = function(info, value) E.global.unitframe[info[#info]] = value; UF:Update_AllFrames() end
 								},
-								rapidAuraSpeed = {
-									order = 4,
+								effectivePowerSpeed = {
+									order = 6,
+									name = L["Power Speed"],
+									type = "range",
+									min = 0.1,
+									max = 0.5,
+									step = 0.05,
+									disabled = function() return not E.global.unitframe.effectivePower end,
+									get = function(info) return E.global.unitframe[info[#info]] end,
+									set = function(info, value) E.global.unitframe[info[#info]] = value; UF:Update_AllFrames() end
+								},
+								effectiveAuraSpeed = {
+									order = 7,
 									name = L["Aura Speed"],
 									type = "range",
 									min = 0.1,
 									max = 0.5,
 									step = 0.05,
+									disabled = function() return not E.global.unitframe.effectiveAura end,
 									get = function(info) return E.global.unitframe[info[#info]] end,
 									set = function(info, value) E.global.unitframe[info[#info]] = value; UF:Update_AllFrames() end
-								},
-								warning = {
-									order = 5,
-									type = "description",
-									fontSize = 'medium',
-									name = L["|cffFF0000Warning:|r This causes updates to happen at a fraction of a second."]
 								},
 							},
 						},
