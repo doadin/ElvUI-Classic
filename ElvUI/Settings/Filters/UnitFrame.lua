@@ -527,7 +527,7 @@ G.unitframe.aurafilters.RaidBuffsElvUI = {
 E.ReverseTimer = {}
 
 -- BuffWatch: List of personal spells to show on unitframes as icon
-function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displayText, textThreshold, xOffset, yOffset, sizeOverride)
+function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displayText, textThreshold, xOffset, yOffset)
 
 	local r, g, b = 1, 1, 1
 	if color then r, g, b = unpack(color) end
@@ -541,15 +541,15 @@ function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displ
 		name = GetSpellInfo(id),
 		rank = spellRank,
 		point = point or 'TOPLEFT',
-		color = {r = r, g = g, b = b},
+		color = { r = r, g = g, b = b },
 		anyUnit = anyUnit or false,
 		onlyShowMissing = onlyShowMissing or false,
-		styleOverride = 'Default',
-		displayText = displayText or true,
+		style = 'coloredIcon',
+		displayText = displayText or false,
 		textThreshold = textThreshold or -1,
 		xOffset = xOffset or 0,
 		yOffset = yOffset or 0,
-		sizeOverride = sizeOverride or 0,
+		size = 8,
 	}
 end
 
