@@ -16,6 +16,7 @@
 **UnitFrames:** Show only 1 leader icon in instances / battlegrounds  
 **UnitFrames:** Shaman TotemBar is back  
 **UnitFrames:** Added x/y Offset option for RL Icon  
+**UnitFrames:** Fixed "Reverse Fill" option  
 ___
 ### Version 1.19 [12/14/2019]
 **ActionBars:** Stancebar fixes  
