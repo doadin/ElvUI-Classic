@@ -1,5 +1,6 @@
 ### Version 1.20 [ETA: Soon]
 **ActionBars:** Fixed broken bars with Masque enabled  
+**Auras:** Added "Timer only" style option for BuffIndicators  
 **Available Tags:** Category tweaks  
 **Bags:** Keyring, Bags and Bank tweaks  
 **Castbars:** Added Alterac Bandage ChannelTicks  
