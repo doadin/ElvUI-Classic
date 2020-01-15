@@ -1295,8 +1295,7 @@ function E:DBConversions()
 			E.db.unitframe.OORAlpha = nil
 		end
 
-		local rangeCheckUnits = { 'target', 'targettarget', 'targettargettarget', 'pet', 'pettarget', 'party', 'raid', 'raid40', 'raidpet', 'tank', 'assist' }
-		for _, unit in pairs(rangeCheckUnits) do
+		for _, unit in pairs({ 'target', 'targettarget', 'targettargettarget', 'pet', 'pettarget', 'party', 'raid', 'raid40', 'raidpet', 'tank', 'assist' }) do
 			if E.db.unitframe.units[unit].rangeCheck ~= nil then
 				local enabled = E.db.unitframe.units[unit].rangeCheck
 				E.db.unitframe.units[unit].fader.enable = enabled
@@ -1319,6 +1318,11 @@ function E:DBConversions()
 		E.db.auras.debuffs.countFontSize = fontSize
 		E.db.auras.debuffs.durationFontSize = fontSize
 		E.db.auras.fontSize = nil
+	end
+
+	--Remove stale font settings from Cooldown system for top auras
+	if E.db.auras.cooldown.fonts then
+		E.db.auras.cooldown.fonts = nil
 	end
 
 	--Convert Nameplate Aura Duration to new Cooldown system
@@ -1383,8 +1387,7 @@ function E:DBConversions()
 	end
 
 	--Heal Prediction is now a table instead of a bool
-	local healPredictionUnits = {'player','target','pet','party','raid','raid40','raidpet'}
-	for _, unit in pairs(healPredictionUnits) do
+	for _, unit in pairs({'player','target','pet','party','raid','raid40','raidpet'}) do
 		if type(E.db.unitframe.units[unit].healPrediction) ~= 'table' then
 			local enabled = E.db.unitframe.units[unit].healPrediction
 			E.db.unitframe.units[unit].healPrediction = {}
@@ -1404,7 +1407,7 @@ function E:DBConversions()
 	end
 
 	--Tooltip FactionColors Setting
-	for i=1, 8 do
+	for i = 1, 8 do
 		local oldTable = E.db.tooltip.factionColors[''..i]
 		if oldTable then
 			local newTable = E:CopyTable({}, P.tooltip.factionColors[i]) -- import full table
@@ -1448,6 +1451,21 @@ function E:DBConversions()
 		E.db.nameplates.visibility.enemy.minions = E.db.nameplates.units.ENEMY_PLAYER.minions or E.db.nameplates.units.ENEMY_NPC.minions
 		E.db.nameplates.units.ENEMY_PLAYER.minions = nil
 		E.db.nameplates.units.ENEMY_NPC.minions = nil
+	end
+
+	if E.global.unitframe.buffwatch then
+		for class, spellTable in pairs(E.global.unitframe.buffwatch) do
+			for spellID in pairs(spellTable) do
+				if E.global.unitframe.buffwatch[class][spellID].sizeOverride then
+					E.global.unitframe.buffwatch[class][spellID].size = E.global.unitframe.buffwatch[class][spellID].sizeOverride
+					E.global.unitframe.buffwatch[class][spellID].sizeOverride = nil
+				end
+				if E.global.unitframe.buffwatch[class][spellID].styleOverride then
+					E.global.unitframe.buffwatch[class][spellID].style = E.global.unitframe.buffwatch[class][spellID].styleOverride
+					E.global.unitframe.buffwatch[class][spellID].styleOverride = nil
+				end
+			end
+		end
 	end
 end
 
