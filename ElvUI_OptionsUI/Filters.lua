@@ -579,7 +579,7 @@ local function UpdateFilterGroup()
 						order = 2,
 						type = "range",
 						name = L["Size"],
-						min = 0, max = 50, step = 1,
+						min = 6, max = 50, step = 1,
 					},
 					xOffset = {
 						order = 3,
