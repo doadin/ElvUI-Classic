@@ -173,7 +173,9 @@ local function Update(self, event, unit)
 	end
 end
 
-local function Path(self, ...)
+local function Path(self, event, ...)
+	if (self.isForced and event ~= 'ElvUI_UpdateAllElements') then return end -- ElvUI changed
+
 	--[[ Override: Health.Override(self, event, unit)
 	Used to completely override the internal update function.
 
@@ -181,9 +183,9 @@ local function Path(self, ...)
 	* event - the event triggering the update (string)
 	* unit  - the unit accompanying the event (string)
 	--]]
-	(self.Health.Override or Update) (self, ...);
+	(self.Health.Override or Update) (self, event, ...);
 
-	ColorPath(self, ...)
+	ColorPath(self, event, ...)
 end
 
 local function ForceUpdate(element)

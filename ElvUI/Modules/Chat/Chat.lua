@@ -183,6 +183,7 @@ do --this can save some main file locals
 
 	specialChatIcons = {
 		-- Simpy
+		["Simpy-Atiesh"]		= itsSimpy, -- Warlock
 		["Simpy-Myzrael"]		= itsSimpy, -- Warlock
 		["Cutepally-Myzrael"]	= itsSimpy, -- Paladin
 		["Imsocheesy-Myzrael"]	= itsSimpy, -- [Horde] Priest

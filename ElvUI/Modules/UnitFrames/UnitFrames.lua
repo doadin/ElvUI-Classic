@@ -526,6 +526,10 @@ function UF:Update_AllFrames()
 				E:DisableMover(UF[unit].mover:GetName())
 			end
 		end
+
+		if self[unit].isForced then
+			self:ForceShow(self[unit])
+		end
 	end
 
 	UF:UpdateAllHeaders()
@@ -558,14 +562,15 @@ function UF:CreateAndUpdateUFGroup(group, numGroup)
 
 			frame.Update()
 
-			if frame.isForced then
-				self:ForceShow(frame)
-			end
 			E:EnableMover(frame.mover:GetName())
 		else
 			frame:Disable()
 
 			E:DisableMover(frame.mover:GetName())
+		end
+
+		if frame.isForced then
+			self:ForceShow(frame)
 		end
 	end
 end

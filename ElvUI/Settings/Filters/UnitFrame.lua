@@ -725,7 +725,7 @@ G.unitframe.buffwatch = {
 		[8455] = UF:AuraWatch_AddSpell(8455, "TOPRIGHT", {0.2, 0.8, 0.2}, true), --Amplify Magic(Rank 2)
 		[10169] = UF:AuraWatch_AddSpell(10169, "TOPRIGHT", {0.2, 0.8, 0.2}, true), --Amplify Magic(Rank 3)
 		[10170] = UF:AuraWatch_AddSpell(10170, "TOPRIGHT", {0.2, 0.8, 0.2}, true), --Amplify Magic(Rank 4)
-		[12438] = UF:AuraWatch_AddSpell(12438, "CENTER", {0.00, 0.00, 0.50}, true), --Slow Fall
+		[130] = UF:AuraWatch_AddSpell(130, "CENTER", {0.00, 0.00, 0.50}, true), --Slow Fall
 	},
 	HUNTER = {
 		[19506] = UF:AuraWatch_AddSpell(19506, "TOPLEFT", {0.89, 0.09, 0.05}), --Trueshot Aura (Rank 1)
