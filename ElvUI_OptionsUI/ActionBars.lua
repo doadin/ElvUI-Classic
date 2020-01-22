@@ -399,34 +399,39 @@ E.Options.args.actionbar = {
 			set = function(info, value) E.db.actionbar.barPet[info[#info]] = value; AB:PositionAndSizeBarPet() end,
 			args = {
 				enabled = {
-					order = 1,
+					order = 0,
 					type = 'toggle',
 					name = L["Enable"],
 				},
 				restorePosition = {
-					order = 2,
+					order = 1,
 					type = 'execute',
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
 					func = function() E:CopyTable(E.db.actionbar.barPet, P.actionbar.barPet); E:ResetMovers('Pet Bar'); AB:PositionAndSizeBarPet() end,
 				},
 				point = {
-					order = 3,
+					order = 2,
 					type = 'select',
 					name = L["Anchor Point"],
 					desc = L["The first button anchors itself to this point on the bar."],
 					values = points,
 				},
 				backdrop = {
-					order = 4,
+					order = 3,
 					type = "toggle",
 					name = L["Backdrop"],
 					desc = L["Toggles the display of the actionbars backdrop."],
 				},
 				mouseover = {
-					order = 5,
+					order = 4,
 					name = L["Mouse Over"],
 					desc = L["The frame is not shown unless you mouse over the frame."],
+					type = "toggle",
+				},
+				clickThrough = {
+					order = 5,
+					name = L["Click Through"],
 					type = "toggle",
 				},
 				inheritGlobalFade = {
@@ -520,19 +525,19 @@ E.Options.args.actionbar = {
 			set = function(info, value) E.db.actionbar.stanceBar[info[#info]] = value; AB:PositionAndSizeBarShapeShift() end,
 			args = {
 				enabled = {
-					order = 1,
+					order = 0,
 					type = 'toggle',
 					name = L["Enable"],
 				},
 				restorePosition = {
-					order = 2,
+					order = 1,
 					type = 'execute',
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
 					func = function() E:CopyTable(E.db.actionbar.stanceBar, P.actionbar.stanceBar); E:ResetMovers('Stance Bar'); AB:PositionAndSizeBarShapeShift() end,
 				},
 				point = {
-					order = 3,
+					order = 2,
 					type = 'select',
 					name = L["Anchor Point"],
 					desc = L["The first button anchors itself to this point on the bar."],
@@ -546,15 +551,20 @@ E.Options.args.actionbar = {
 					},
 				},
 				backdrop = {
-					order = 4,
+					order = 3,
 					type = "toggle",
 					name = L["Backdrop"],
 					desc = L["Toggles the display of the actionbars backdrop."],
 				},
 				mouseover = {
-					order = 5,
+					order = 4,
 					name = L["Mouse Over"],
 					desc = L["The frame is not shown unless you mouse over the frame."],
+					type = "toggle",
+				},
+				clickThrough = {
+					order = 5,
+					name = L["Click Through"],
 					type = "toggle",
 				},
 				usePositionOverride = {
@@ -744,7 +754,7 @@ for i = 1, 10 do
 		set = function(info, value) E.db.actionbar['bar'..i][info[#info]] = value; AB:PositionAndSizeBar('bar'..i) end,
 		args = {
 			enabled = {
-				order = 1,
+				order = 0,
 				type = 'toggle',
 				name = L["Enable"],
 				set = function(info, value)
@@ -753,19 +763,19 @@ for i = 1, 10 do
 				end,
 			},
 			restorePosition = {
-				order = 2,
+				order = 1,
 				type = 'execute',
 				name = L["Restore Bar"],
 				desc = L["Restore the actionbars default settings"],
 				func = function() E:CopyTable(E.db.actionbar['bar'..i], P.actionbar['bar'..i]); E:ResetMovers('Bar '..i); AB:PositionAndSizeBar('bar'..i) end,
 			},
 			spacer = {
-				order = 3,
+				order = 2,
 				type = "description",
 				name = " ",
 			},
 			backdrop = {
-				order = 4,
+				order = 3,
 				type = "toggle",
 				name = L["Backdrop"],
 				desc = L["Toggles the display of the actionbars backdrop."],
@@ -773,13 +783,18 @@ for i = 1, 10 do
 			showGrid = {
 				type = 'toggle',
 				name = L["Show Empty Buttons"],
-				order = 5,
+				order = 4,
 				set = function(info, value) E.db.actionbar['bar'..i][info[#info]] = value; AB:UpdateButtonSettingsForBar('bar'..i) end,
 			},
 			mouseover = {
-				order = 6,
+				order = 5,
 				name = L["Mouse Over"],
 				desc = L["The frame is not shown unless you mouse over the frame."],
+				type = "toggle",
+			},
+			clickThrough = {
+				order = 6,
+				name = L["Click Through"],
 				type = "toggle",
 			},
 			inheritGlobalFade = {
