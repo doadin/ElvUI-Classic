@@ -293,6 +293,7 @@ local function ExportImport_Open(mode)
 	Box.editBox.OnCursorChangedOrig = Box.editBox:GetScript("OnCursorChanged")
 	--Remove OnCursorChanged script as it causes weird behaviour with long text
 	Box.editBox:SetScript("OnCursorChanged", nil)
+	Box.scrollFrame:UpdateScrollChildRect()
 
 	local Label1 = E.Libs.AceGUI:Create("Label")
 	local font = GameFontHighlightSmall:GetFont()
@@ -348,6 +349,7 @@ local function ExportImport_Open(mode)
 			Box:SetText(profileExport)
 			Box.editBox:HighlightText()
 			Box:SetFocus()
+
 			exportString = profileExport
 		end)
 		Frame:AddChild(exportButton)
@@ -362,6 +364,9 @@ local function ExportImport_Open(mode)
 				--Prevent user from changing export string
 				Box:SetText(exportString)
 				Box.editBox:HighlightText()
+			else
+				--Scroll frame doesn't scroll to the bottom by itself, so let's do that now
+				Box.scrollFrame:SetVerticalScroll(Box.scrollFrame:GetVerticalScrollRange())
 			end
 		end)
 	elseif mode == "import" then
@@ -421,6 +426,11 @@ local function ExportImport_Open(mode)
 					if profileType == "profile" then
 						Label2:SetText(format("%s: %s%s|r", L["Profile Name"], E.media.hexvaluecolor, profileKey))
 					end
+
+					--Scroll frame doesn't scroll to the bottom by itself, so let's do that now
+					Box.scrollFrame:UpdateScrollChildRect()
+					Box.scrollFrame:SetVerticalScroll(Box.scrollFrame:GetVerticalScrollRange())
+
 					importButton:SetDisabled(false)
 				end
 
@@ -432,10 +442,6 @@ local function ExportImport_Open(mode)
 		Box.editBox:SetScript("OnChar", nil)
 		Box.editBox:SetScript("OnTextChanged", OnTextChanged)
 	end
-
-	--Scroll frame doesn't scroll to the bottom by itself, so let's do that now
-	Box.scrollFrame:UpdateScrollChildRect()
-	Box.scrollFrame:SetVerticalScroll(Box.scrollFrame:GetVerticalScrollRange())
 
 	Frame:SetCallback("OnClose", function(widget)
 		--Restore changed scripts
