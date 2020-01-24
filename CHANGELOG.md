@@ -1,4 +1,14 @@
-### Version 1.20 [ETA: Soon]
+### Version 1.22 [ETA: Soon]
+**ActionBars:** Added an option to make bars click-through  
+**Auras:** Added an option to enable/disable Buffs/Debuffs  
+**Minimap:** You can now make the minimap even smaller  
+___
+### Version 1.21 [01/19/2020]
+**DataTexts:** Gold: Shows faction totals in tooltip  
+**UnitFrames:** Reverted 3D portrait changes  
+**UnitFrames:** BuffIndicator fixes  
+___
+### Version 1.20 [01/15/2020]
 **ActionBars:** Fixed broken bars with Masque enabled  
 **Auras:** Added "Timer only" style option for BuffIndicators  
 **Available Tags:** Category tweaks  
