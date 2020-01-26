@@ -495,7 +495,6 @@ function UF:Configure_FontString(obj)
 end
 
 function UF:Update_AllFrames()
-	if InCombatLockdown() then UF:RegisterEvent('PLAYER_REGEN_ENABLED'); return end
 	if E.private.unitframe.enable ~= true then return; end
 	UF:UpdateColors()
 	UF:Update_FontStrings()
@@ -536,8 +535,6 @@ function UF:Update_AllFrames()
 end
 
 function UF:CreateAndUpdateUFGroup(group, numGroup)
-	if InCombatLockdown() then self:RegisterEvent('PLAYER_REGEN_ENABLED'); return end
-
 	for i=1, numGroup do
 		local unit = group..i
 		local frameName = gsub(E:StringTitle(unit), 't(arget)', 'T%1')
@@ -831,25 +828,8 @@ function UF:CreateHeader(parent, groupFilter, overrideName, template, groupName,
 end
 
 function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdate, headerTemplate)
-	if InCombatLockdown() then self:RegisterEvent('PLAYER_REGEN_ENABLED'); return end
 	local db = self.db.units[group]
-	local raidFilter = UF.db.smartRaidFilter
 	local numGroups = db.numGroups
-	if(raidFilter and numGroups and (self[group] and not self[group].blockVisibilityChanges)) then
-		local inInstance, instanceType = IsInInstance()
-		if(inInstance and (instanceType == 'raid' or instanceType == 'pvp')) then
-			local _, _, _, _, maxPlayers, _, _, instanceMapID = GetInstanceInfo()
-
-			if UF.instanceMapIDs[instanceMapID] then
-				maxPlayers = UF.instanceMapIDs[instanceMapID]
-			end
-
-			if maxPlayers > 0 then
-				numGroups = E:Round(maxPlayers/5)
-				--E:Print(group, "Forcing maxGroups to: "..numGroups.." because maxPlayers is: "..maxPlayers)
-			end
-		end
-	end
 
 	if not self[group] then
 		local groupName = E:StringTitle(group)
@@ -930,7 +910,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 			end
 			UF["Update_"..groupName.."Header"](UF, UF[group], db)
 
-			for i=1, UF[group]:GetNumChildren() do
+			for i = 1, UF[group]:GetNumChildren() do
 				local child = select(i, UF[group]:GetChildren())
 				UF["Update_"..groupName.."Frames"](UF, child, UF.db.units[group])
 
@@ -954,14 +934,8 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 	end
 end
 
-function UF:PLAYER_REGEN_ENABLED()
-	UF:Update_AllFrames()
-	UF:UnregisterEvent('PLAYER_REGEN_ENABLED')
-end
-
 function UF:CreateAndUpdateUF(unit)
 	assert(unit, 'No unit provided to create or update.')
-	if InCombatLockdown() then UF:RegisterEvent('PLAYER_REGEN_ENABLED'); return end
 
 	local frameName = gsub(E:StringTitle(unit), 't(arget)', 'T%1')
 	if not UF[unit] then
@@ -1033,32 +1007,16 @@ function UF:RegisterRaidDebuffIndicator()
 end
 
 function UF:UpdateAllHeaders(event)
-	if InCombatLockdown() then
-		self:RegisterEvent('PLAYER_REGEN_ENABLED', 'UpdateAllHeaders')
-		return
-	end
-
-	if event == 'PLAYER_REGEN_ENABLED' then
-		self:UnregisterEvent('PLAYER_REGEN_ENABLED')
-	end
-
 	if E.private.unitframe.disabledBlizzardFrames.party then
 		ElvUF:DisableBlizzard('party')
 	end
 
 	self:RegisterRaidDebuffIndicator()
 
-	local smartRaidFilterEnabled = self.db.smartRaidFilter
 	for group, header in pairs(self.headers) do
 		UF.headerFunctions[group]:Update(header)
 
-		local shouldUpdateHeader
-		if header.numGroups == nil or smartRaidFilterEnabled then
-			shouldUpdateHeader = false
-		elseif header.numGroups ~= nil and not smartRaidFilterEnabled then
-			shouldUpdateHeader = true
-		end
-		self:CreateAndUpdateHeaderGroup(group, nil, nil, shouldUpdateHeader)
+		self:CreateAndUpdateHeaderGroup(group, nil, nil, true)
 	end
 end
 
