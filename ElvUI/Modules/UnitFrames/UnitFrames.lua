@@ -12,7 +12,6 @@ local strfind, gsub, format = strfind, gsub, format
 --WoW API / Variables
 local CompactRaidFrameManager_SetSetting = CompactRaidFrameManager_SetSetting
 local CreateFrame = CreateFrame
-local IsInInstance = IsInInstance
 local GetInstanceInfo = GetInstanceInfo
 local hooksecurefunc = hooksecurefunc
 local InCombatLockdown = InCombatLockdown
@@ -70,28 +69,6 @@ UF.classMaxResourceBar = {
 	['SHAMAN'] = 4,
 	['ROGUE'] = 6,
 	["DRUID"] = 5
-}
-
-UF.instanceMapIDs = {
-	[30]   = 40, -- Alterac Valley
-	[489]  = 10, -- Classic Warsong Gulch
-	[529]  = 15, -- Classic Arathi Basin
-	[566]  = 15, -- Eye of the Storm
-	[607]  = 15, -- Strand of the Ancients
-	[628]  = 40, -- Isle of Conquest
-	[726]  = 10, -- Twin Peaks
-	[727]  = 10, -- Silvershard Mines
-	[761]  = 10, -- The Battle for Gilneas
-	[968]  = 10, -- Rated Eye of the Storm
-	[998]  = 10, -- Temple of Kotmogu
-	[1105] = 15, -- Deepwind Gorge
-	[1280] = 40, -- Southshore vs Tarren Mill
-	[1681] = 15, -- Arathi Basin Winter
-	[1803] = 10, -- Seething Shore
-	[2106] = 10, -- Warsong Gulch
-	[2107] = 15, -- Arathi Basin
-	[2118] = 40, -- Battle for Wintergrasp
-	[3358] = 15, -- Arathi Basin (NEW - Only Brawl?)
 }
 
 UF.headerGroupBy = {
