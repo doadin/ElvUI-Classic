@@ -127,10 +127,6 @@ E.Options.args = {
 	},
 }
 
-local DONATOR_STRING = ""
-local DEVELOPER_STRING = ""
-local TESTER_STRING = ""
-local LINE_BREAK = "\n"
 local DONATORS = {
 	"Dandruff",
 	"Tobur/Tarilya",
@@ -182,21 +178,20 @@ local DEVELOPERS = {
 	"Blazeflack",
 	"NihilisticPandemonium",
 	"|cffff7d0aMerathilis|r",
-	"|cff4fd8d1S|cff50dabfi|cff51ddaem|cff52df9dp|cff53e18cy|cff5ae27b, |cff91de5bb|cffaddb4bu|cffc8d93bt |cffd8c73dm|cffdabc44y |cffdda652n|cffe09e59a|cffe39861m|cffe69268e |cffed8777n|cffef828ae|cfff17d9ce|cfff378aed|cfff573c0s |cffe668d2t|cffd962d5o |cffbe57dcb|cffac62dce |cff8099d7l|cff6ab5d4o|cff54d1d1n|cff4fd8d1g|cff4fd8d1e|cff4fd8d1r|cff4fd8d1.",
 	"|cff0070DEAzilroka|r",
 	"|cff9482c9Darth Predator|r",
 	"Luckyone",
 	"thurin",
 	"catskull",
-	"Crum"
+	"Crum",
+	E:TextGradient("Simpy but my name needs to be longer", 0.45,0.45,0.45, 0.98,0.4,0.53, 0.98,0.4,0.53, 0.45,0.98,0.45).."|r"
 }
 
 local TESTERS = {
 	"Tukui Community",
-	"|cffF76ADBSarah|r - For Sarahing",
 	"Affinity",
 	"Modarch",
-	"Bladesdruid",
+	"|TInterface\\Icons\\INV_Misc_MonsterClaw_04:15:15:0:0:64:64:5:59:5:59|t |cffFF7D0ABladesdruid|r - AKA SUPERBEAR",
 	"Tirain",
 	"Phima",
 	"Veiled",
@@ -204,13 +199,16 @@ local TESTERS = {
 	"Alex",
 	"Nidra",
 	"Kurhyus",
+	"Shrom",
 	"BuG",
 	"Yachanay",
+	"AcidWeb",
+	"|TInterface\\Icons\\INV_Staff_30:15:15:0:0:64:64:5:59:5:59|t Loon - For being right",
 	"Catok"
 }
 
 local function SortList(a, b)
-	return a < b
+	return E:StripString(a) < E:StripString(b)
 end
 
 sort(DONATORS, SortList)
@@ -219,16 +217,16 @@ sort(TESTERS, SortList)
 
 for _, name in pairs(DONATORS) do
 	tinsert(E.CreditsList, name)
-	DONATOR_STRING = DONATOR_STRING .. LINE_BREAK .. name
 end
+local DONATOR_STRING = table.concat(DONATORS, "\n")
 for _, name in pairs(DEVELOPERS) do
 	tinsert(E.CreditsList, name)
-	DEVELOPER_STRING = DEVELOPER_STRING .. LINE_BREAK .. name
 end
+local DEVELOPER_STRING = table.concat(DEVELOPERS, "\n")
 for _, name in pairs(TESTERS) do
 	tinsert(E.CreditsList, name)
-	TESTER_STRING = TESTER_STRING .. LINE_BREAK .. name
 end
+local TESTER_STRING = table.concat(TESTERS, "\n")
 
 E.Options.args.credits = {
 	type = "group",
@@ -240,9 +238,9 @@ E.Options.args.credits = {
 			type = "description",
 			name =
 				L["ELVUI_CREDITS"] .. "\n\n" ..
-				L["Coding:"] .. DEVELOPER_STRING .. "\n\n" ..
-				L["Testing:"] .. TESTER_STRING .. "\n\n" ..
-				L["Donations:"] .. DONATOR_STRING
+				L["Coding:"] .. "\n" .. DEVELOPER_STRING .. "\n\n" ..
+				L["Testing:"] .. "\n" .. TESTER_STRING .. "\n\n" ..
+				L["Donations:"] .. "\n" .. DONATOR_STRING
 		}
 	}
 }
