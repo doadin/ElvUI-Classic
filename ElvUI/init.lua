@@ -127,9 +127,12 @@ AddOn.UnitFrames = AddOn:NewModule('UnitFrames','AceTimer-3.0','AceEvent-3.0','A
 AddOn.WorldMap = AddOn:NewModule('WorldMap','AceHook-3.0','AceEvent-3.0','AceTimer-3.0')
 
 do
-	local arg2,arg3 = '([%(%)%.%%%+%-%*%?%[%^%$])','%%%1'
-	function AddOn:EscapeString(str)
-		return gsub(str,arg2,arg3)
+	local a1,a2,a3 = '','([%(%)%.%%%+%-%*%?%[%^%$])','%%%1'
+	function E:EscapeString(s) return gsub(s,a2,a3) end
+
+	local a4,a5,a6,a7 = '|c[fF][fF]%x%x%x%x%x%x','|r','|[TA].-|[ta]','^%s*'
+	function E:StripString(s)
+		return gsub(gsub(gsub(gsub(s,a4,a1),a5,a1),a6,a1),a7,a1)
 	end
 end
 
