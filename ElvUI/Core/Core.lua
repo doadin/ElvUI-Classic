@@ -1496,6 +1496,9 @@ function E:Initialize()
 	twipe(self.global)
 	twipe(self.private)
 
+	E.Libs.LSM:SetDefault('font', 'PT Sans Narrow')
+	E.Libs.LSM:SetDefault('statusbar', 'ElvUI Norm')
+
 	self.myguid = UnitGUID('player')
 	self.data = E.Libs.AceDB:New('ElvDB', self.DF)
 	self.data.RegisterCallback(self, 'OnProfileChanged', 'StaggeredUpdateAll')
@@ -1505,9 +1508,6 @@ function E:Initialize()
 	self.private = self.charSettings.profile
 	self.db = self.data.profile
 	self.global = self.data.global
-
-	LSM.DefaultMedia.font = 'PT Sans Narrow'
-	LSM.DefaultMedia.statusbar = 'ElvUI Norm'
 
 	self:CheckIncompatible()
 	self:DBConversions()
