@@ -22,7 +22,7 @@ G.unitframe.aurafilters.CCDebuffs = {
 	type = 'Whitelist',
 	spells = {
 	--Druid
-		[339] = Defaults(1), --Entangling Roots(Rank 1) test
+		[339] = Defaults(1), --Entangling Roots(Rank 1)
 		[1062] = Defaults(1), --Entangling Roots(Rank 2)
 		[5195] = Defaults(1), --Entangling Roots(Rank 3)
 		[5196] = Defaults(1), --Entangling Roots(Rank 4)
