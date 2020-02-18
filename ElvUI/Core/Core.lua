@@ -535,7 +535,7 @@ end
 --param cleanTable : table you want cleaned
 --param checkTable : table you want to check against.
 --return : a copy of cleanTable with duplicate key/value pairs removed
-function E:RemoveTableDuplicates(cleanTable, checkTable)
+function E:RemoveTableDuplicates(cleanTable, checkTable, defaultVars)
 	if type(cleanTable) ~= 'table' then
 		E:Print('Bad argument #1 to \'RemoveTableDuplicates\' (table expected)')
 		return
@@ -547,11 +547,13 @@ function E:RemoveTableDuplicates(cleanTable, checkTable)
 
 	local rtdCleaned = {}
 	for option, value in pairs(cleanTable) do
-		if type(value) == 'table' and checkTable[option] and type(checkTable[option]) == 'table' then
-			rtdCleaned[option] = self:RemoveTableDuplicates(value, checkTable[option])
-		else
-			-- Add unique data to our clean table
-			if (cleanTable[option] ~= checkTable[option]) then
+		if checkTable[option] ~= nil or (defaultVars and defaultVars[option]) then
+			-- we only want to add settings which are existing in the default table, unless:
+			-- they are a non-table variable on 'profile', 'private', or 'global' for example: "E.db.someSetting = true" will be allowed
+			if type(value) == 'table' and type(checkTable[option]) == 'table' then
+				rtdCleaned[option] = self:RemoveTableDuplicates(value, checkTable[option], defaultVars)
+			elseif cleanTable[option] ~= checkTable[option] then
+				-- add unique data to our clean table
 				rtdCleaned[option] = value
 			end
 		end

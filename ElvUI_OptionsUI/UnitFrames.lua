@@ -1637,12 +1637,6 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				type = 'execute',
 				func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup", "healthGroup") end,
 			},
-			bgUseBarTexture = {
-				type = "toggle",
-				order = 5,
-				name = L["Use Health Texture on Background"],
-				customWidth = 250,
-			},
 			textGroup = {
 				type = 'group',
 				name = L["Text Options"],
