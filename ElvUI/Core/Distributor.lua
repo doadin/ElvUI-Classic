@@ -245,7 +245,6 @@ local blacklistedKeys = {
 		},
 		chat = {
 			hideVoiceButtons = true,
-			panelColorConverted = true,
 		},
 	},
 	private = {},
@@ -282,6 +281,16 @@ local blacklistedKeys = {
 	},
 }
 
+--Keys that auto or user generated tables.
+D.GeneratedKeys = {
+	profile = {
+		customTexts = true,
+		movers = true
+	},
+	private = {},
+	global = {}
+}
+
 local function GetProfileData(profileType)
 	if not profileType or type(profileType) ~= 'string' then
 		E:Print('Bad argument #1 to "GetProfileData" (string expected)')
@@ -297,11 +306,7 @@ local function GetProfileData(profileType)
 		end
 
 		local defaultData = ElvDB.profiles[profileKey]
-		local defaultVars = {
-			movers = true,
-			customTexts = true,
-		}
-
+		local defaultVars = E:CopyTable({}, D.GeneratedKeys.profile)
 		for key in pairs(defaultData) do
 			if type(key) ~= 'table' then
 				defaultVars[key] = true
@@ -309,7 +314,7 @@ local function GetProfileData(profileType)
 		end
 
 		--Copy current profile data
-		profileData = E:CopyTable(profileData , defaultData)
+		profileData = E:CopyTable(profileData, defaultData)
 		--This table will also hold all default values, not just the changed settings.
 		--This makes the table huge, and will cause the WoW client to lock up for several seconds.
 		--We compare against the default table and remove all duplicates from our table. The table is now much smaller.
@@ -321,7 +326,7 @@ local function GetProfileData(profileType)
 		profileKey = 'private'
 
 		local defaultData = ElvPrivateDB.profiles[privateProfileKey]
-		local defaultVars = {}
+		local defaultVars = E:CopyTable({}, D.GeneratedKeys.private)
 		for key in pairs(defaultData) do
 			if type(key) ~= 'table' then
 				defaultVars[key] = true
@@ -336,7 +341,7 @@ local function GetProfileData(profileType)
 		profileKey = 'global'
 
 		local defaultData = ElvDB.global
-		local defaultVars = {}
+		local defaultVars = E:CopyTable({}, D.GeneratedKeys.global)
 		for key in pairs(defaultData) do
 			if type(key) ~= 'table' then
 				defaultVars[key] = true

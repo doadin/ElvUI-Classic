@@ -548,8 +548,7 @@ function E:RemoveTableDuplicates(cleanTable, checkTable, defaultVars)
 	local rtdCleaned = {}
 	for option, value in pairs(cleanTable) do
 		if checkTable[option] ~= nil or (defaultVars and defaultVars[option]) then
-			-- we only want to add settings which are existing in the default table, unless:
-			-- they are a non-table variable on 'profile', 'private', or 'global' for example: "E.db.someSetting = true" will be allowed
+			-- we only want to add settings which are existing in the default table, unless it's allowed by defaultVars
 			if type(value) == 'table' and type(checkTable[option]) == 'table' then
 				rtdCleaned[option] = self:RemoveTableDuplicates(value, checkTable[option], defaultVars)
 			elseif cleanTable[option] ~= checkTable[option] then
@@ -1387,12 +1386,6 @@ function E:DBConversions()
 	if E.db.nameplates.units.TARGET.scale ~= nil then
 		E.global.nameplate.filters.ElvUI_Target.actions.scale = E.db.nameplates.units.TARGET.scale
 		E.db.nameplates.units.TARGET.scale = nil
-	end
-
-	if not E.db.chat.panelColorConverted then
-		local color = E.db.general.backdropfadecolor
-		E.db.chat.panelColor = {r = color.r, g = color.g, b = color.b, a = color.a}
-		E.db.chat.panelColorConverted = true
 	end
 
 	--Convert cropIcon to tristate
