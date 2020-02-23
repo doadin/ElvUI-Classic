@@ -202,6 +202,11 @@ do --this can save some main file locals
 		-- Blazeflack
 		["Freezly-MirageRaceway"]	= ElvBlue, -- Mage
 		["Blazii-MirageRaceway"]	= ElvBlue, -- Priest
+		-- Luckyone
+		["Luckyone-Shazzrah"]		= Clover, -- Hunter
+		["Luckyfear-Shazzrah"]		= Clover, -- Warlock
+		["Luckydruid-Shazzrah"]		= Clover, -- Druid
+		["Elvuidevtest-Shazzrah"]	= Clover, -- Warrior
 	}
 end
 
