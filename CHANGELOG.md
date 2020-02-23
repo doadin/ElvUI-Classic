@@ -1,6 +1,7 @@
 ### Version 1.22 [ETA: Soon]
 **ActionBars:** Added an option to make bars click-through  
 **Auras:** Added an option to enable/disable Buffs/Debuffs  
+**Config:** The OptionsUI has been upgraded and sections have been reorganized a bit  
 **Libraries:** Libraries: LibSharedMedia-3.0 update  
 **Minimap:** You can now make the minimap even smaller  
 ___
