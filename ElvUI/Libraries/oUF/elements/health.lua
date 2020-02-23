@@ -82,7 +82,7 @@ local function UpdateColor(self, event, unit)
 	local element = self.Health
 
 	local r, g, b, t
-	if(element.colorDisconnected and element.disconnected) then
+	if(element.colorDisconnected and not UnitIsConnected(unit)) then
 		t = self.colors.disconnected
 	elseif(element.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
 		t = self.colors.tapped
@@ -158,7 +158,6 @@ local function Update(self, event, unit)
 
 	element.cur = cur
 	element.max = max
-	element.disconnected = disconnected
 
 	--[[ Callback: Health:PostUpdate(unit, cur, max)
 	Called after the element has been updated.

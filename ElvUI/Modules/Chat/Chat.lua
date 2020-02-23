@@ -719,7 +719,9 @@ function CH:PositionChat(override)
 
 	if E.private.chat.enable ~= true or not self.db.lockPositions then return end
 
-	CombatLogButton:Size(LeftChatTab:GetWidth(), LeftChatTab:GetHeight())
+	if CombatLogButton then
+		CombatLogButton:Size(LeftChatTab:GetWidth(), LeftChatTab:GetHeight())
+	end
 
 	self.RightChatWindowID = FindRightChatID()
 

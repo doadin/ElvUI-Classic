@@ -10,7 +10,7 @@ P.general = {
 	stickyFrames = true,
 	loginmessage = true,
 	interruptAnnounce = 'NONE',
-	autoRepair = 'NONE',
+	autoRepair = false,
 	autoRoll = false,
 	autoAcceptInvite = false,
 	topPanel = false,
@@ -903,6 +903,7 @@ P.datatexts = {
 
 --Tooltip
 P.tooltip = {
+	showElvUIUsers = false,
 	cursorAnchor = false,
 	cursorAnchorType = "ANCHOR_CURSOR",
 	cursorAnchorX = 0,
@@ -1920,6 +1921,12 @@ P.actionbar = {
 		usePositionOverride = true,
 		visibility = 'show',
 	},
+	vehicleExitButton = {
+		enable = true,
+		size = 32,
+		level = 1,
+		strata = 'MEDIUM'
+	}
 };
 
 for i = 1, 10 do
@@ -1998,3 +2005,58 @@ do -- cooldown stuff
 	-- we gonna need this on by default :3
 	P.cooldown.enable = true
 end
+
+--Mover positions that are set inside the installation process. ALL is used still to prevent people from getting pissed off
+--This allows movers positions to be reset to whatever profile is being used
+E.LayoutMoverPositions = {
+	ALL = {
+		AlertFrameMover = 'TOP,ElvUIParent,TOP,-1,-18',
+		AltPowerBarMover = 'TOP,ElvUIParent,TOP,-1,-36',
+		AzeriteBarMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-3,-245',
+		BelowMinimapContainerMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-4,-274',
+		BNETMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-4,-274',
+		BossButton = 'BOTTOM,ElvUIParent,BOTTOM,-1,293',
+		ElvAB_1 = 'BOTTOM,ElvUIParent,BOTTOM,-1,191',
+		ElvAB_2 = 'BOTTOM,ElvUIParent,BOTTOM,0,4',
+		ElvAB_3 = 'BOTTOM,ElvUIParent,BOTTOM,-1,139',
+		ElvAB_5 = 'BOTTOM,ElvUIParent,BOTTOM,-92,57',
+		ElvUF_FocusMover = 'BOTTOM,ElvUIParent,BOTTOM,342,59',
+		ElvUF_PartyMover = 'BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,4,248',
+		ElvUF_PetMover = 'BOTTOM,ElvUIParent,BOTTOM,-342,100',
+		ElvUF_PlayerCastbarMover = 'BOTTOM,ElvUIParent,BOTTOM,-1,95',
+		ElvUF_PlayerMover = 'BOTTOM,ElvUIParent,BOTTOM,-342,139',
+		ElvUF_Raid40Mover = 'TOPLEFT,ElvUIParent,BOTTOMLEFT,4,482',
+		ElvUF_RaidMover = 'BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,4,248',
+		ElvUF_RaidpetMover = 'TOPLEFT,ElvUIParent,BOTTOMLEFT,4,737',
+		ElvUF_TargetCastbarMover = 'BOTTOM,ElvUIParent,BOTTOM,-1,243',
+		ElvUF_TargetMover = 'BOTTOM,ElvUIParent,BOTTOM,342,139',
+		ElvUF_TargetTargetMover = 'BOTTOM,ElvUIParent,BOTTOM,342,100',
+		ExperienceBarMover = 'BOTTOM,ElvUIParent,BOTTOM,0,43',
+		HonorBarMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-3,-255',
+		LevelUpBossBannerMover = 'TOP,ElvUIParent,TOP,-1,-120',
+		LootFrameMover = 'TOPLEFT,ElvUIParent,TOPLEFT,418,-186',
+		LossControlMover = 'BOTTOM,ElvUIParent,BOTTOM,-1,507',
+		MirrorTimer1Mover = 'TOP,ElvUIParent,TOP,-1,-96',
+		ObjectiveFrameMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-163,-325',
+		ReputationBarMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-3,-264',
+		ShiftAB = 'TOPLEFT,ElvUIParent,BOTTOMLEFT,4,769',
+		SocialMenuMover = 'TOPLEFT,ElvUIParent,TOPLEFT,4,-187',
+		TalkingHeadFrameMover = 'BOTTOM,ElvUIParent,BOTTOM,-1,373',
+		TotemBarMover = 'BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,490,4',
+		VehicleSeatMover = 'TOPLEFT,ElvUIParent,TOPLEFT,4,-4',
+		VOICECHAT = 'TOPLEFT,ElvUIParent,TOPLEFT,368,-210',
+		ZoneAbility = 'BOTTOM,ElvUIParent,BOTTOM,-1,293'
+	},
+	dpsCaster = {
+		ElvUF_PlayerCastbarMover = 'BOTTOM,ElvUIParent,BOTTOM,0,243',
+		ElvUF_TargetCastbarMover = 'BOTTOM,ElvUIParent,BOTTOM,0,97'
+	},
+	healer = {
+		ElvUF_PlayerCastbarMover = 'BOTTOM,ElvUIParent,BOTTOM,0,243',
+		ElvUF_TargetCastbarMover = 'BOTTOM,ElvUIParent,BOTTOM,0,97',
+		ElvUF_RaidMover = 'BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,202,373',
+		LootFrameMover = 'TOPLEFT,ElvUIParent,TOPLEFT,250,-104',
+		ShiftAB = 'TOPLEFT,ElvUIParent,BOTTOMLEFT,4,273',
+		VOICECHAT = 'TOPLEFT,ElvUIParent,TOPLEFT,250,-82'
+	}
+}

@@ -66,6 +66,7 @@ E.isMacClient = IsMacClient()
 E.NewSign = '|TInterface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon:14:14|t' -- not used by ElvUI yet, but plugins like BenikUI and MerathilisUI use it.
 E.TexturePath = 'Interface\\AddOns\\ElvUI\\Media\\Textures\\' -- for plugins?
 E.InfoColor = '|cfffe7b2c'
+E.UserList = {}
 
 -- oUF Defines
 E.oUF.Tags.Vars.E = E
@@ -767,6 +768,7 @@ do
 				local msg, ver = tonumber(message), tonumber(E.version)
 				local inCombat = InCombatLockdown()
 
+				E.UserList[gsub(sender, '%-'..myRealm,'')] = msg
 				if ver ~= G.general.version then
 					if not E.shownUpdatedWhileRunningPopup and not inCombat then
 						E:StaticPopup_Show('ELVUI_UPDATED_WHILE_RUNNING', nil, nil, {mismatch = ver > G.general.version})
@@ -1476,6 +1478,39 @@ function E:DBConversions()
 	end
 	for _, spell in pairs(E.db.unitframe.filters.buffwatch) do
 		buffwatchConvert(spell)
+	end
+
+	-- fix aurabars colors
+	local auraBarColors = E.global.unitframe.AuraBarColors
+	for spell, info in pairs(auraBarColors) do
+		if type(spell) == 'string' then
+			local spellID = select(7, GetSpellInfo(spell))
+			if spellID and not auraBarColors[spellID] then
+				auraBarColors[spellID] = info
+				auraBarColors[spell] = nil
+				spell = spellID
+			end
+		end
+
+		if type(info) == 'boolean' then
+			auraBarColors[spell] = { color = { r = 1, g = 1, b = 1 }, enable = info }
+		elseif type(info) == 'table' then
+			if info.r or info.g or info.b then
+				auraBarColors[spell] = { color = { r = info.r or 1, g = info.g or 1, b = info.b or 1 }, enable = true }
+			elseif info.color then -- azil created a void hole, delete it -x-
+				if info.color.color then info.color.color = nil end
+				if info.color.enable then info.color.enable = nil end
+				if info.color.a then info.color.a = nil end -- alpha isnt supported by this
+			end
+		end
+	end
+
+	if E.db.unitframe.colors.debuffHighlight.blendMode == 'MOD' then
+		E.db.unitframe.colors.debuffHighlight.blendMode = P.unitframe.colors.debuffHighlight.blendMode
+	end
+
+	if type(E.db.general.autoRepair) ~= 'boolean' then
+		E.db.general.autoRepair = false
 	end
 end
 
