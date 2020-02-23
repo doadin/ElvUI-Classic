@@ -73,12 +73,13 @@ E.Options.args.tooltip = {
 			order = 10,
 			type = 'toggle',
 			name = L["Always Show Realm"],
+			desc = L["Always show the realm name. Disabled: Only show the realm name while holding shift."],
 		},
 		showElvUIUsers = {
 			order = 11,
 			type = 'toggle',
 			name = L["Show ElvUI Users"],
-			desc = L["Show ElvUI users and their version of ElvUI."]
+			desc = L["Show ElvUI users and their version of ElvUI."],
 		},
 		cursorAnchor = {
 			order = 12,
