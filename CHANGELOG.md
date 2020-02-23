@@ -5,6 +5,7 @@
 **Libraries:** LibSharedMedia-3.0 update  
 **Minimap:** You can now make the minimap even smaller  
 **Tooltip:** Added option to display ElvUI version of other ElvUI users into tooltip  
+**UnitFrames:** Buff Indicator now has its options reworked (e.g mass text toggle / mass style toggle)  
 ___
 ### Version 1.21 [01/19/2020]
 **DataTexts:** Gold: Shows faction totals in tooltip  
