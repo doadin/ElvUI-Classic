@@ -150,31 +150,32 @@ end
 
 local specialChatIcons
 do --this can save some main file locals
-	local _, y = ':16:16',':13:25'
+	local x, y = ':16:16',':13:25'
 
-	--local ElvRainbow	= E:TextureString(E.Media.ChatLogos.ElvRainbow,y)
-	local ElvMelon		= E:TextureString(E.Media.ChatLogos.ElvMelon,y)
-	--local ElvRed		= E:TextureString(E.Media.ChatLogos.ElvRed,y)
-	--local ElvOrange		= E:TextureString(E.Media.ChatLogos.ElvOrange,y)
-	--local ElvYellow		= E:TextureString(E.Media.ChatLogos.ElvYellow,y)
-	--local ElvGreen		= E:TextureString(E.Media.ChatLogos.ElvGreen,y)
 	local ElvBlue		= E:TextureString(E.Media.ChatLogos.ElvBlue,y)
-	--local ElvPurple		= E:TextureString(E.Media.ChatLogos.ElvPurple,y)
-	--local ElvPink		= E:TextureString(E.Media.ChatLogos.ElvPink,y)
-	--local Bathrobe		= E:TextureString(E.Media.ChatLogos.Bathrobe,x)
-	--local MrHankey		= E:TextureString(E.Media.ChatLogos.MrHankey,x)
-	--local Rainbow		= E:TextureString(E.Media.ChatLogos.Rainbow,x)
+	local ElvGreen		= E:TextureString(E.Media.ChatLogos.ElvGreen,y)
+	local ElvMelon		= E:TextureString(E.Media.ChatLogos.ElvMelon,y)
+	local ElvOrange		= E:TextureString(E.Media.ChatLogos.ElvOrange,y)
+	local ElvPink		= E:TextureString(E.Media.ChatLogos.ElvPink,y)
+	local ElvPurple		= E:TextureString(E.Media.ChatLogos.ElvPurple,y)
+	local ElvRed		= E:TextureString(E.Media.ChatLogos.ElvRed,y)
+	local ElvYellow		= E:TextureString(E.Media.ChatLogos.ElvYellow,y)
+	local Bathrobe		= E:TextureString(E.Media.ChatLogos.Bathrobe,x)
+	local MrHankey		= E:TextureString(E.Media.ChatLogos.MrHankey,x)
+	local Rainbow		= E:TextureString(E.Media.ChatLogos.Rainbow,x)
+	local Hibiscus		= E:TextureString(E.Media.ChatLogos.Hibiscus,x)
+	local Clover		= E:TextureString(E.Media.ChatLogos.Clover,x)
+	local Burger		= E:TextureString(E.Media.ChatLogos.Burger,x)
+	local Lion			= E:TextureString(E.Media.ChatLogos.Lion,x)
 
-	--[[ Simpys Things
-		-- new icon color every message, in order then reversed back, repeating of course
+	--[[ Simpys Thing: new icon color every message, in order then reversed back, repeating of course
 		local a, b, c = 0, false, {ElvRed, ElvOrange, ElvYellow, ElvGreen, ElvBlue, ElvPurple, ElvPink}
 		(a = a - (b and 1 or -1) if (b and a == 1 or a == 0) or a == #c then b = not b end return c[a])
 	]]
 
-	local itsSimpy
-	do	--Simpy Chaos
-		--super cute text coloring function that ignores hyperlinks and keywords
-		local e, f, g = {'|%x+%[?|H.-|h.-|h]?|r', '|H.-|h.-|h', '|[TA].-|[ta]', '|c.-|r'}, {}, {}
+	local itsElv, itsSimpyA, itsSimpyH
+	do	--Simpy Chaos: super cute text coloring function that ignores hyperlinks and keywords
+		local e, f, g = {'|[TA].-|[ta]', '|?c?%x-%[?|H.-|h.-|h]?|?r?', '|c.-|r'}, {}, {}
 		local prettify = function(t,...) return gsub(gsub(E:TextGradient(gsub(gsub(t,'%%%%','\27'),'\124\124','\26'),...),'\27','%%%%'),'\26','||') end
 		local protectText = function(t, u, v) local w = E:EscapeString(v) local r, s = strfind(u, w) while f[r] do r, s = strfind(u, w, s) end tinsert(g, r) f[r] = w return gsub(t, w, '\24') end
 		local specialText = function(t,...) local u = t for _, w in ipairs(e) do for k in gmatch(t, w) do t = protectText(t, u, k) end end t = prettify(t,...)
@@ -183,17 +184,21 @@ do --this can save some main file locals
 
 		--Watermelon: 909090 (Light Slate Grey), FA6687 (Light Coral) x2, 73FA9B (Pale Green)
 		local SimpyColors = function(t) return specialText(t, 0.45,0.45,0.45, 0.98,0.4,0.53, 0.98,0.4,0.53, 0.45,0.98,0.45) end
+		--Detroit Lions Colors: Honolulu Blue to Silver [Elv: I stoles it @Simpy]
+		local ElvColors = function(t) return specialText(t, 0,0.42,0.69, 0.61,0.61,0.61) end
 
-		itsSimpy = function() return ElvMelon, SimpyColors end
+		itsSimpyH = function() return Burger..ElvMelon, SimpyColors end
+		itsSimpyA = function() return Lion..ElvMelon, SimpyColors end
+		itsElv = function() return ElvBlue, ElvColors end
 	end
 
 	specialChatIcons = {
 		-- Simpy
-		["Simpy-Atiesh"]		= itsSimpy, -- Warlock
-		["Simpy-Myzrael"]		= itsSimpy, -- Warlock
-		["Cutepally-Myzrael"]	= itsSimpy, -- Paladin
-		["Imsocheesy-Myzrael"]	= itsSimpy, -- [Horde] Priest
-		["Imsospicy-Myzrael"]	= itsSimpy, -- [Horde] Mage
+		["Simpy-Atiesh"]		= itsSimpyA, -- Warlock
+		["Simpy-Myzrael"]		= itsSimpyA, -- Warlock
+		["Cutepally-Myzrael"]	= itsSimpyA, -- Paladin
+		["Imsocheesy-Myzrael"]	= itsSimpyH, -- [Horde] Priest
+		["Imsospicy-Myzrael"]	= itsSimpyH, -- [Horde] Mage
 		-- Blazeflack
 		["Freezly-MirageRaceway"]	= ElvBlue, -- Mage
 		["Blazii-MirageRaceway"]	= ElvBlue, -- Priest
