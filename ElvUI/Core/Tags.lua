@@ -1104,6 +1104,7 @@ E.TagInfo = {
 	['affix'] = { category = 'Miscellanous', description = "Displays low level critter mobs" },
 	['class'] = { category = 'Miscellanous', description = "Displays the class of the unit, if that unit is a player" },
 	['race'] = { category = 'Miscellanous', description = "Displays the race" },
+	['ElvUI-Users'] = { category = 'Miscellanous', description = "Displays ElvUI users and their version" },
 	--Range
 	['nearbyplayers:8'] = { category = 'Range', description = "Displays all players within 8 yards" },
 	['nearbyplayers:10'] = { category = 'Range', description = "Displays all players within 10 yards" },
