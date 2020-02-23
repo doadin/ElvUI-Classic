@@ -948,49 +948,50 @@ function AB:LAB_CooldownUpdate(button, _, duration)
 end
 
 function AB:Initialize()
-	self.db = E.db.actionbar
+	AB.db = E.db.actionbar
 
 	if not E.private.actionbar.enable then return end
-	self.Initialized = true
+	AB.Initialized = true
 
 	LAB.RegisterCallback(AB, "OnButtonUpdate", AB.LAB_ButtonUpdate)
 	LAB.RegisterCallback(AB, "OnButtonCreated", AB.LAB_ButtonCreated)
 	LAB.RegisterCallback(AB, "OnCooldownUpdate", AB.LAB_CooldownUpdate)
 	LAB.RegisterCallback(AB, "OnCooldownDone", AB.LAB_CooldownDone)
 
-	self.fadeParent = CreateFrame("Frame", "Elv_ABFade", _G.UIParent)
-	self.fadeParent:SetAlpha(1 - self.db.globalFadeAlpha)
-	self.fadeParent:RegisterEvent("PLAYER_REGEN_DISABLED")
-	self.fadeParent:RegisterEvent("PLAYER_REGEN_ENABLED")
-	self.fadeParent:RegisterEvent("PLAYER_TARGET_CHANGED")
-	self.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_START", "player")
-	self.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_STOP", "player")
-	self.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_START", "player")
-	self.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_STOP", "player")
-	self.fadeParent:RegisterUnitEvent("UNIT_HEALTH", "player")
-	self.fadeParent:SetScript("OnEvent", self.FadeParent_OnEvent)
+	AB.fadeParent = CreateFrame("Frame", "Elv_ABFade", _G.UIParent)
+	AB.fadeParent:SetAlpha(1 - AB.db.globalFadeAlpha)
+	AB.fadeParent:RegisterEvent("PLAYER_REGEN_DISABLED")
+	AB.fadeParent:RegisterEvent("PLAYER_REGEN_ENABLED")
+	AB.fadeParent:RegisterEvent("PLAYER_TARGET_CHANGED")
+	AB.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_START", "player")
+	AB.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_STOP", "player")
+	AB.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_START", "player")
+	AB.fadeParent:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_STOP", "player")
+	AB.fadeParent:RegisterUnitEvent("UNIT_HEALTH", "player")
+	AB.fadeParent:SetScript("OnEvent", AB.FadeParent_OnEvent)
 
-	self:DisableBlizzard()
-	self:SetupMicroBar()
-	self:UpdateBar1Paging()
+	AB:DisableBlizzard()
+	AB:SetupMicroBar()
+	AB:UpdateBar1Paging()
 
 	for i = 1, 10 do
-		self:CreateBar(i)
+		AB:CreateBar(i)
 	end
 
-	self:CreateBarPet()
-	self:CreateBarShapeShift()
-	self:CreateVehicleLeave()
-	self:UpdateButtonSettings()
-	self:UpdatePetCooldownSettings()
-	self:ToggleCooldownOptions()
-	self:LoadKeyBinder()
+	AB:CreateBarPet()
+	AB:CreateBarShapeShift()
+	AB:CreateVehicleLeave()
+	AB:UpdateButtonSettings()
+	AB:UpdatePetCooldownSettings()
+	AB:ToggleCooldownOptions()
+	AB:LoadKeyBinder()
+	AB:ReassignBindings()
 
-	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
+	AB:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 
 	-- We handle actionbar lock for regular bars, but the lock on PetBar needs to be handled by WoW so make some necessary updates
-	SetCVar('lockActionBars', (self.db.lockActionBars == true and 1 or 0))
-	_G.LOCK_ACTIONBAR = (self.db.lockActionBars == true and "1" or "0") -- Keep an eye on this, in case it taints
+	SetCVar('lockActionBars', (AB.db.lockActionBars == true and 1 or 0))
+	_G.LOCK_ACTIONBAR = (AB.db.lockActionBars == true and "1" or "0") -- Keep an eye on this, in case it taints
 end
 
 E:RegisterModule(AB:GetName())
