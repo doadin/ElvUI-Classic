@@ -3314,7 +3314,6 @@ local function GetUnitSettings(unit, name)
 			order = 100,
 			type = "execute",
 			name = L["Visibility"],
-			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "general", "plateVisibility") end,
 		}
 		group.args.general.args.nameOnly = {
@@ -4240,7 +4239,6 @@ E.Options.args.nameplate = {
 					name = L["Delete Filter"],
 					desc = L["Delete a created filter, you cannot delete pre-existing filters, only custom ones."],
 					type = 'execute',
-					buttonElvUI = true,
 					confirm = true,
 					confirmText = L["Delete Filter"],
 					func = function()
