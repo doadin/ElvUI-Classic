@@ -63,6 +63,7 @@ function UF:Construct_AuraIcon(button)
 	button:SetTemplate(nil, nil, nil, UF.thinBorders, true)
 
 	button.cd:SetReverse(true)
+	button.cd:SetDrawEdge(false)
 	button.cd:SetInside(button, offset, offset)
 
 	button.icon:SetInside(button, offset, offset)
@@ -463,10 +464,10 @@ function UF:AuraFilter(unit, button, name, _, count, debuffType, duration, expir
 	button.priority = 0
 
 	local noDuration = (not duration or duration == 0)
-	local allowDuration = noDuration or (duration and (duration > 0) and (db.maxDuration == 0 or duration <= db.maxDuration) and (db.minDuration == 0 or duration >= db.minDuration))
+	local allowDuration = noDuration or (duration and duration > 0 and (not db.maxDuration or db.maxDuration == 0 or duration <= db.maxDuration) and (not db.minDuration or db.minDuration == 0 or duration >= db.minDuration))
 	local filterCheck, spellPriority
 
-	if db.priority ~= '' then
+	if db.priority and db.priority ~= '' then
 		local isUnit = unit and caster and UnitIsUnit(unit, caster)
 		local canDispell = (self.type == 'buffs' and isStealable) or (self.type == 'debuffs' and debuffType and E:IsDispellableByMe(debuffType))
 		filterCheck, spellPriority = UF:CheckFilter(name, caster, spellID, isFriend, isPlayer, isUnit, isBossDebuff, allowDuration, noDuration, canDispell, casterIsPlayer, strsplit(',', db.priority))

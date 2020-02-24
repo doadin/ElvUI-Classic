@@ -56,7 +56,9 @@ function UF:Update_TankHeader(header, db)
 
 	UF:ClearChildPoints(header:GetChildren())
 
-	RegisterAttributeDriver(header, 'state-visibility', '[@raid1,exists] show;hide')
+	if not header.forceShow and db.enable then
+		RegisterAttributeDriver(header, 'state-visibility', '[@raid1,exists] show;hide')
+	end
 
 	header:SetAttribute('point', 'BOTTOM')
 	header:SetAttribute('columnAnchorPoint', 'LEFT')
@@ -130,10 +132,11 @@ function UF:Update_TankFrames(frame, db)
 		else
 			frame:SetParent(E.HiddenFrame)
 		end
-	else
-		frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 	end
 
+	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
+
+	--Health
 	UF:Configure_HealthBar(frame)
 	UF:UpdateNameSettings(frame)
 

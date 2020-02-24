@@ -12,7 +12,6 @@ local strfind, gsub, format = strfind, gsub, format
 --WoW API / Variables
 local CompactRaidFrameManager_SetSetting = CompactRaidFrameManager_SetSetting
 local CreateFrame = CreateFrame
-local IsInInstance = IsInInstance
 local GetInstanceInfo = GetInstanceInfo
 local hooksecurefunc = hooksecurefunc
 local InCombatLockdown = InCombatLockdown
@@ -70,28 +69,6 @@ UF.classMaxResourceBar = {
 	['SHAMAN'] = 4,
 	['ROGUE'] = 6,
 	["DRUID"] = 5
-}
-
-UF.instanceMapIDs = {
-	[30]   = 40, -- Alterac Valley
-	[489]  = 10, -- Classic Warsong Gulch
-	[529]  = 15, -- Classic Arathi Basin
-	[566]  = 15, -- Eye of the Storm
-	[607]  = 15, -- Strand of the Ancients
-	[628]  = 40, -- Isle of Conquest
-	[726]  = 10, -- Twin Peaks
-	[727]  = 10, -- Silvershard Mines
-	[761]  = 10, -- The Battle for Gilneas
-	[968]  = 10, -- Rated Eye of the Storm
-	[998]  = 10, -- Temple of Kotmogu
-	[1105] = 15, -- Deepwind Gorge
-	[1280] = 40, -- Southshore vs Tarren Mill
-	[1681] = 15, -- Arathi Basin Winter
-	[1803] = 10, -- Seething Shore
-	[2106] = 10, -- Warsong Gulch
-	[2107] = 15, -- Arathi Basin
-	[2118] = 40, -- Battle for Wintergrasp
-	[3358] = 15, -- Arathi Basin (NEW - Only Brawl?)
 }
 
 UF.headerGroupBy = {
@@ -495,7 +472,6 @@ function UF:Configure_FontString(obj)
 end
 
 function UF:Update_AllFrames()
-	if InCombatLockdown() then UF:RegisterEvent('PLAYER_REGEN_ENABLED'); return end
 	if E.private.unitframe.enable ~= true then return; end
 	UF:UpdateColors()
 	UF:Update_FontStrings()
@@ -536,8 +512,6 @@ function UF:Update_AllFrames()
 end
 
 function UF:CreateAndUpdateUFGroup(group, numGroup)
-	if InCombatLockdown() then self:RegisterEvent('PLAYER_REGEN_ENABLED'); return end
-
 	for i=1, numGroup do
 		local unit = group..i
 		local frameName = gsub(E:StringTitle(unit), 't(arget)', 'T%1')
@@ -831,25 +805,8 @@ function UF:CreateHeader(parent, groupFilter, overrideName, template, groupName,
 end
 
 function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdate, headerTemplate)
-	if InCombatLockdown() then self:RegisterEvent('PLAYER_REGEN_ENABLED'); return end
 	local db = self.db.units[group]
-	local raidFilter = UF.db.smartRaidFilter
 	local numGroups = db.numGroups
-	if(raidFilter and numGroups and (self[group] and not self[group].blockVisibilityChanges)) then
-		local inInstance, instanceType = IsInInstance()
-		if(inInstance and (instanceType == 'raid' or instanceType == 'pvp')) then
-			local _, _, _, _, maxPlayers, _, _, instanceMapID = GetInstanceInfo()
-
-			if UF.instanceMapIDs[instanceMapID] then
-				maxPlayers = UF.instanceMapIDs[instanceMapID]
-			end
-
-			if maxPlayers > 0 then
-				numGroups = E:Round(maxPlayers/5)
-				--E:Print(group, "Forcing maxGroups to: "..numGroups.." because maxPlayers is: "..maxPlayers)
-			end
-		end
-	end
 
 	if not self[group] then
 		local groupName = E:StringTitle(group)
@@ -917,36 +874,39 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 		self[group].db = db
 
 		local groupName = E:StringTitle(group)
+
 		if not UF.headerFunctions[group] then UF.headerFunctions[group] = {} end
-		UF.headerFunctions[group].Update = function()
-			local db = UF.db.units[group]
-			if db.enable ~= true then
-				UnregisterAttributeDriver(UF[group], "state-visibility")
-				UF[group]:Hide()
-				if(UF[group].mover) then
-					E:DisableMover(UF[group].mover:GetName())
+		if not UF.headerFunctions[group].Update then
+			UF.headerFunctions[group].Update = function()
+				local db = UF.db.units[group]
+				if db.enable ~= true then
+					UnregisterAttributeDriver(UF[group], "state-visibility")
+					UF[group]:Hide()
+					if(UF[group].mover) then
+						E:DisableMover(UF[group].mover:GetName())
+					end
+					return
 				end
-				return
+				UF["Update_"..groupName.."Header"](UF, UF[group], db)
+
+				for i = 1, UF[group]:GetNumChildren() do
+					local child = select(i, UF[group]:GetChildren())
+					UF["Update_"..groupName.."Frames"](UF, child, UF.db.units[group])
+
+					if _G[child:GetName()..'Target'] then
+						UF["Update_"..groupName.."Frames"](UF, _G[child:GetName()..'Target'], UF.db.units[group])
+					end
+
+					if _G[child:GetName()..'Pet'] then
+						UF["Update_"..groupName.."Frames"](UF, _G[child:GetName()..'Pet'], UF.db.units[group])
+					end
+				end
+
+				E:EnableMover(UF[group].mover:GetName())
 			end
-			UF["Update_"..groupName.."Header"](UF, UF[group], db)
-
-			for i=1, UF[group]:GetNumChildren() do
-				local child = select(i, UF[group]:GetChildren())
-				UF["Update_"..groupName.."Frames"](UF, child, UF.db.units[group])
-
-				if _G[child:GetName()..'Target'] then
-					UF["Update_"..groupName.."Frames"](UF, _G[child:GetName()..'Target'], UF.db.units[group])
-				end
-
-				if _G[child:GetName()..'Pet'] then
-					UF["Update_"..groupName.."Frames"](UF, _G[child:GetName()..'Pet'], UF.db.units[group])
-				end
-			end
-
-			E:EnableMover(UF[group].mover:GetName())
 		end
 
-		if headerUpdate then
+		if not UF.headerFunctions[group].Update then
 			UF["Update_"..groupName.."Header"](self, self[group], db)
 		else
 			UF.headerFunctions[group]:Update(self[group])
@@ -954,14 +914,8 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 	end
 end
 
-function UF:PLAYER_REGEN_ENABLED()
-	UF:Update_AllFrames()
-	UF:UnregisterEvent('PLAYER_REGEN_ENABLED')
-end
-
 function UF:CreateAndUpdateUF(unit)
 	assert(unit, 'No unit provided to create or update.')
-	if InCombatLockdown() then UF:RegisterEvent('PLAYER_REGEN_ENABLED'); return end
 
 	local frameName = gsub(E:StringTitle(unit), 't(arget)', 'T%1')
 	if not UF[unit] then
@@ -1033,32 +987,18 @@ function UF:RegisterRaidDebuffIndicator()
 end
 
 function UF:UpdateAllHeaders(event)
-	if InCombatLockdown() then
-		self:RegisterEvent('PLAYER_REGEN_ENABLED', 'UpdateAllHeaders')
-		return
-	end
-
-	if event == 'PLAYER_REGEN_ENABLED' then
-		self:UnregisterEvent('PLAYER_REGEN_ENABLED')
-	end
-
 	if E.private.unitframe.disabledBlizzardFrames.party then
 		ElvUF:DisableBlizzard('party')
 	end
 
 	self:RegisterRaidDebuffIndicator()
 
-	local smartRaidFilterEnabled = self.db.smartRaidFilter
 	for group, header in pairs(self.headers) do
-		UF.headerFunctions[group]:Update(header)
-
-		local shouldUpdateHeader
-		if header.numGroups == nil or smartRaidFilterEnabled then
-			shouldUpdateHeader = false
-		elseif header.numGroups ~= nil and not smartRaidFilterEnabled then
-			shouldUpdateHeader = true
+		if UF.headerFunctions[group].Update then
+			UF.headerFunctions[group]:Update(header)
+		else
+			self:CreateAndUpdateHeaderGroup(group, nil, nil, true)
 		end
-		self:CreateAndUpdateHeaderGroup(group, nil, nil, shouldUpdateHeader)
 	end
 end
 
@@ -1388,9 +1328,9 @@ function UF:Initialize()
 	if E.private.unitframe.enable ~= true then return end
 	self.Initialized = true
 
-	local ElvUF_Parent = CreateFrame('Frame', 'ElvUF_Parent', E.UIParent, 'SecureHandlerStateTemplate');
-	ElvUF_Parent:SetFrameStrata("LOW")
-	RegisterStateDriver(ElvUF_Parent, "visibility", "show")
+	E.ElvUF_Parent = CreateFrame('Frame', 'ElvUF_Parent', E.UIParent, 'SecureHandlerStateTemplate');
+	E.ElvUF_Parent:SetFrameStrata("LOW")
+	RegisterStateDriver(E.ElvUF_Parent, "visibility", "[petbattle] hide; show")
 
 	self:UpdateColors()
 	ElvUF:RegisterStyle('ElvUF', function(frame, unit)
