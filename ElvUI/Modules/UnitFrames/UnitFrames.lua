@@ -243,12 +243,15 @@ function UF:Construct_UF(frame, unit)
 end
 
 function UF:GetObjectAnchorPoint(frame, point)
-	if not frame[point] or point == "Frame" then
+	if point == 'Frame' then
 		return frame
-	elseif frame[point] and not frame[point]:IsShown() then
-		return frame.Health
+	end
+
+	local place = frame[point]
+	if place and place:IsShown() then
+		return place
 	else
-		return frame[point]
+		return frame
 	end
 end
 
@@ -287,23 +290,19 @@ function UF:GetAuraOffset(p1, p2)
 	return E:Scale(x), E:Scale(y)
 end
 
-function UF:GetAuraAnchorFrame(frame, attachTo, isConflict)
-	if isConflict then
-		E:Print(format(L["%s frame(s) has a conflicting anchor point, please change either the buff or debuff anchor point so they are not attached to each other. Forcing the debuffs to be attached to the main unitframe until fixed."], E:StringTitle(frame:GetName())))
-	end
-
-	if isConflict or attachTo == 'FRAME' then
+function UF:GetAuraAnchorFrame(frame, attachTo)
+	if attachTo == 'FRAME' then
 		return frame
-	elseif attachTo == 'TRINKET' then
-		return frame.PVPSpecIcon
-	elseif attachTo == 'BUFFS' then
+	elseif attachTo == 'BUFFS' and frame.Buffs then
 		return frame.Buffs
-	elseif attachTo == 'DEBUFFS' then
+	elseif attachTo == 'DEBUFFS' and frame.Debuffs then
 		return frame.Debuffs
-	elseif attachTo == 'HEALTH' then
+	elseif attachTo == 'HEALTH' and frame.Health then
 		return frame.Health
 	elseif attachTo == 'POWER' and frame.Power then
 		return frame.Power
+	elseif attachTo == 'TRINKET' and frame.PVPSpecIcon then
+		return frame.PVPSpecIcon
 	else
 		return frame
 	end
@@ -968,19 +967,18 @@ function UF:LoadUnits()
 end
 
 function UF:RegisterRaidDebuffIndicator()
-	local _, instanceType = IsInInstance();
 	local ORD = ns.oUF_RaidDebuffs or _G.oUF_RaidDebuffs
 	if ORD then
 		ORD:ResetDebuffData()
 
-		local instance = E.global.unitframe.raidDebuffIndicator.instanceFilter
-		local other = E.global.unitframe.raidDebuffIndicator.otherFilter
-		local instanceSpells = ((E.global.unitframe.aurafilters[instance] and E.global.unitframe.aurafilters[instance].spells) or E.global.unitframe.aurafilters.RaidDebuffs.spells)
-		local otherSpells = ((E.global.unitframe.aurafilters[other] and E.global.unitframe.aurafilters[other].spells) or E.global.unitframe.aurafilters.CCDebuffs.spells)
-
+		local _, instanceType = GetInstanceInfo()
 		if instanceType == "party" or instanceType == "raid" then
+			local instance = E.global.unitframe.raidDebuffIndicator.instanceFilter
+			local instanceSpells = ((E.global.unitframe.aurafilters[instance] and E.global.unitframe.aurafilters[instance].spells) or E.global.unitframe.aurafilters.RaidDebuffs.spells)
 			ORD:RegisterDebuffs(instanceSpells)
 		else
+			local other = E.global.unitframe.raidDebuffIndicator.otherFilter
+			local otherSpells = ((E.global.unitframe.aurafilters[other] and E.global.unitframe.aurafilters[other].spells) or E.global.unitframe.aurafilters.CCDebuffs.spells)
 			ORD:RegisterDebuffs(otherSpells)
 		end
 	end
