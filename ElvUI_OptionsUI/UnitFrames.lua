@@ -2078,6 +2078,14 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 		},
 	}
 
+		if groupName == 'player' then
+		config.args.EnergyManaRegen = {
+			type = 'toggle',
+			order = 3,
+			name = L["Energy/Mana Regen Tick"],
+		}
+	end
+
 	if hasDetatchOption then
 			config.args.detachFromFrame = {
 				type = 'toggle',
