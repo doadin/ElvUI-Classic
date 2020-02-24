@@ -1746,7 +1746,6 @@ local function GetUnitSettings(unit, name)
 						order = 3,
 						name = L["Height"],
 						type = "range",
-						sliderElvUI = true,
 						min = 4,
 						max = function()
 							if unit == 'PLAYER' then
@@ -1765,8 +1764,9 @@ local function GetUnitSettings(unit, name)
 						order = 4,
 						type = "execute",
 						name = L["Width"],
-						buttonElvUI = true,
-						func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "general", "clickableRange") end,
+						func = function()
+							ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "general", "clickableRange")
+						end
 					},
 					healPrediction = {
 						order = 5,
@@ -1884,7 +1884,6 @@ local function GetUnitSettings(unit, name)
 						order = 3,
 						name = L["Width"],
 						type = "range",
-						sliderElvUI = true,
 						min = 50,
 						max = function()
 							if unit == 'PLAYER' then
@@ -1903,7 +1902,6 @@ local function GetUnitSettings(unit, name)
 						order = 4,
 						name = L["Height"],
 						type = "range",
-						sliderElvUI = true,
 						min = 4,
 						max = function()
 							if unit == 'PLAYER' then
@@ -2060,7 +2058,6 @@ local function GetUnitSettings(unit, name)
 						order = 7,
 						name = L["Width"],
 						type = "range",
-						sliderElvUI = true,
 						min = 50,
 						max = function()
 							if unit == 'PLAYER' then
@@ -2079,7 +2076,6 @@ local function GetUnitSettings(unit, name)
 						order = 8,
 						name = L["Height"],
 						type = "range",
-						sliderElvUI = true,
 						min = 4,
 						max = function()
 							if unit == 'PLAYER' then
@@ -2361,8 +2357,9 @@ local function GetUnitSettings(unit, name)
 								order = 1,
 								type = "execute",
 								name = L["Cooldowns"],
-								buttonElvUI = true,
-								func = function() ACD:SelectGroup("ElvUI", "cooldown", "nameplates") end,
+								func = function()
+									ACD:SelectGroup("ElvUI", "cooldown", "nameplates")
+								end
 							},
 							durationPosition = {
 								order = 2,
@@ -2654,8 +2651,9 @@ local function GetUnitSettings(unit, name)
 								order = 1,
 								type = "execute",
 								name = L["Cooldowns"],
-								buttonElvUI = true,
-								func = function() ACD:SelectGroup("ElvUI", "cooldown", "nameplates") end,
+								func = function()
+									ACD:SelectGroup("ElvUI", "cooldown", "nameplates")
+								end
 							},
 							durationPosition = {
 								order = 2,
@@ -3159,7 +3157,6 @@ local function GetUnitSettings(unit, name)
 					order = 2,
 					name = L["Width"],
 					type = "range",
-					sliderElvUI = true,
 					min = 50,
 					max = function()
 							if unit == 'PLAYER' then
@@ -3179,7 +3176,6 @@ local function GetUnitSettings(unit, name)
 					order = 3,
 					name = L["Height"],
 					type = "range",
-					sliderElvUI = true,
 					min = 4,
 					max = function()
 							if unit == 'PLAYER' then
@@ -3217,8 +3213,9 @@ local function GetUnitSettings(unit, name)
 			order = 100,
 			type = "execute",
 			name = L["Visibility"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "general", "plateVisibility") end,
+			func = function()
+				ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "general", "plateVisibility")
+			end
 		}
 		group.args.general.args.useStaticPosition = {
 			order = 101,
@@ -3243,8 +3240,9 @@ local function GetUnitSettings(unit, name)
 			order = 100,
 			type = "execute",
 			name = L["Visibility"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "general", "plateVisibility") end,
+			func = function()
+				ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "general", "plateVisibility")
+			end
 		}
 		group.args.general.args.nameOnly = {
 			type = 'toggle',
@@ -4295,15 +4293,21 @@ E.Options.args.nameplate = {
 					order = 2,
 					type = "execute",
 					name = L["Non-Target Alpha"],
-					buttonElvUI = true,
-					func = function() ACD:SelectGroup("ElvUI", "nameplate", "filters", "actions"); selectedNameplateFilter = 'ElvUI_NonTarget'; UpdateFilterGroup() end,
+					func = function()
+						ACD:SelectGroup("ElvUI", "nameplate", "filters", "actions")
+						selectedNameplateFilter = "ElvUI_NonTarget"
+						UpdateFilterGroup()
+					end
 				},
 				targetScaleShortcut = {
 					order = 3,
 					type = "execute",
 					name = L["Scale"],
-					buttonElvUI = true,
-					func = function() ACD:SelectGroup("ElvUI", "nameplate", "filters", "actions"); selectedNameplateFilter = 'ElvUI_Target'; UpdateFilterGroup() end,
+					func = function()
+						ACD:SelectGroup("ElvUI", "nameplate", "filters", "actions")
+						selectedNameplateFilter = "ElvUI_Target"
+						UpdateFilterGroup()
+					end
 				},
 				spacer1 = {
 					order = 4,
