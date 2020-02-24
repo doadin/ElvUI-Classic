@@ -2078,7 +2078,7 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 		},
 	}
 
-		if groupName == 'player' then
+	if groupName == 'player' then
 		config.args.EnergyManaRegen = {
 			type = 'toggle',
 			order = 3,
