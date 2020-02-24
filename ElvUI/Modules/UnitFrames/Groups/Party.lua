@@ -92,10 +92,6 @@ function UF:Update_PartyHeader(header, db)
 
 		headerHolder.positioned = true;
 	end
-
-	if not header.forceShow and db.enable then
-		RegisterStateDriver(headerHolder, "visibility", headerHolder.db.visibility)
-	end
 end
 
 function UF:Update_PartyFrames(frame, db)
@@ -158,23 +154,23 @@ function UF:Update_PartyFrames(frame, db)
 			childDB = db.targetsGroup
 		end
 
-		if not frame.originalParent.childList then
-			frame.originalParent.childList = {}
-		end
-		frame.originalParent.childList[frame] = true;
+		frame:Size(childDB.width, childDB.height)
 
-		if childDB.enable then
-			frame:SetParent(frame.originalParent)
-			frame:Size(childDB.width, childDB.height)
-			frame:ClearAllPoints()
-			frame:Point(E.InversePoints[childDB.anchorPoint], frame.originalParent, childDB.anchorPoint, childDB.xOffset, childDB.yOffset)
-		else
-			frame:SetParent(E.HiddenFrame)
+		if not InCombatLockdown() then
+			if childDB.enable then
+				frame:Enable()
+				frame:ClearAllPoints()
+				frame:Point(E.InversePoints[childDB.anchorPoint], frame.originalParent, childDB.anchorPoint, childDB.xOffset, childDB.yOffset)
+			else
+				frame:Disable()
+			end
 		end
 
 		UF:Configure_HealthBar(frame)
 		UF:UpdateNameSettings(frame, frame.childType)
 	else
+		frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
+
 		UF:Configure_HealthBar(frame)
 		UF:Configure_Power(frame)
 		UF:Configure_InfoPanel(frame)
@@ -196,8 +192,6 @@ function UF:Update_PartyFrames(frame, db)
 		UF:Configure_ResurrectionIcon(frame)
 		UF:Configure_Threat(frame)
 	end
-
-	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 
 	UF:Configure_RaidIcon(frame)
 	UF:Configure_Fader(frame)
