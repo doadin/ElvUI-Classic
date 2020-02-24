@@ -991,8 +991,6 @@ function UF:UpdateAllHeaders(event)
 		ElvUF:DisableBlizzard('party')
 	end
 
-	self:RegisterRaidDebuffIndicator()
-
 	for group, header in pairs(self.headers) do
 		if UF.headerFunctions[group].Update then
 			UF.headerFunctions[group]:Update(header)
@@ -1111,6 +1109,8 @@ function UF:PLAYER_ENTERING_WORLD()
 			UF:UpdateAllHeaders()
 		end
 	end
+
+	UF:RegisterRaidDebuffIndicator()
 end
 
 function UF:ResetUnitSettings(unit)
