@@ -1,5 +1,6 @@
 ### Version 1.23 [ETA: 🍨]
 **DataTexts:** Increased load/update speed  
+**UnitFrames:** Added back Energy/Mana-Regen option  
 ___
 ### Version 1.22 [02/24/2020]
 **ActionBars:** Added an option to make bars click-through  
