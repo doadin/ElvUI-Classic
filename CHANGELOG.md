@@ -1,4 +1,6 @@
 ### Version 1.23 [XX/XX/2020]
+**DataTexts:** Increased load/update speed  
+**Editboxes:** Added syntax highlighting  
 ___
 ### Version 1.22 [02/24/2020]
 **ActionBars:** Added an option to make bars click-through  
