@@ -118,8 +118,6 @@ function UF:Update_Raid40Frames(frame, db)
 		frame.INFO_PANEL_HEIGHT = frame.USE_INFO_PANEL and db.infoPanel.height or 0
 
 		frame.BOTTOM_OFFSET = UF:GetHealthBottomOffset(frame)
-
-		frame.VARIABLES_SET = true
 	end
 
 	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
