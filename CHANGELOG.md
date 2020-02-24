@@ -1,4 +1,4 @@
-### Version 1.23 [XX/XX/2020]
+### Version 1.23 [ETA: 🍨]
 **DataTexts:** Increased load/update speed  
 ___
 ### Version 1.22 [02/24/2020]
