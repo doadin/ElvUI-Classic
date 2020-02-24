@@ -1,8 +1,11 @@
-### Version 1.22 [ETA: Soon]
+### Version 1.23 [XX/XX/2020]
+___
+### Version 1.22 [02/24/2020]
 **ActionBars:** Added an option to make bars click-through  
 **Auras:** Added an option to enable/disable Buffs/Debuffs  
 **Config:** The OptionsUI has been upgraded and sections have been reorganized a bit  
 **Libraries:** LibSharedMedia-3.0 update  
+**Libraries:** LibHealComm-4.0 update  
 **Minimap:** You can now make the minimap even smaller  
 **Tooltip:** Added option to display ElvUI version of other ElvUI users into tooltip  
 **UnitFrames:** Buff Indicator now has its options reworked (e.g mass text toggle / mass style toggle)  
