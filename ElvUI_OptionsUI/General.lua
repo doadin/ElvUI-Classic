@@ -216,13 +216,6 @@ E.Options.args.general = {
 					desc = L["Automatically repair using the following method when visiting a merchant."],
 					type = 'toggle',
 				},
-				autoRoll = {
-					order = 20,
-					name = L["Auto Greed/DE"],
-					desc = L["Automatically select greed or disenchant (when available) on green quality items. This will only work if you are the max level."],
-					type = 'toggle',
-					disabled = function() return not E.private.general.lootRoll end
-				}
 			},
 		},
 		media = {

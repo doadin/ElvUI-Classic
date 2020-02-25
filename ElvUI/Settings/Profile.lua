@@ -11,7 +11,6 @@ P.general = {
 	loginmessage = true,
 	interruptAnnounce = 'NONE',
 	autoRepair = false,
-	autoRoll = false,
 	autoAcceptInvite = false,
 	topPanel = false,
 	bottomPanel = true,
