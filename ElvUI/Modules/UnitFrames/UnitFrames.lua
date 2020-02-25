@@ -1088,21 +1088,69 @@ function ElvUF:DisableBlizzard(unit)
 	end
 end
 
-local hasEnteredWorld = false
-function UF:PLAYER_ENTERING_WORLD()
-	if not hasEnteredWorld then
-		--We only want to run Update_AllFrames once when we first log in or /reload
-		UF:Update_AllFrames()
-		hasEnteredWorld = true
-	else
-		local _, instanceType = IsInInstance()
-		if instanceType ~= "none" then
-			--We need to update headers when we zone into an instance
-			UF:UpdateAllHeaders()
+function UF:HandleSmartVisibility()
+	local smartRaidOn = UF.db.smartRaidFilter
+	UF.raid.blockVisibilityChanges = smartRaidOn
+	UF.raid40.blockVisibilityChanges = smartRaidOn
+
+	if smartRaidOn then
+		local _, instanceType, _, _, maxPlayers, _, _, instanceID = GetInstanceInfo()
+		if instanceType == 'raid' or instanceType == 'pvp' then
+			if UF.instanceMapIDs[instanceID] then
+				maxPlayers = UF.instanceMapIDs[instanceID]
+			end
+
+			local less40 = maxPlayers < 40
+			local raid40 = maxPlayers == 40
+			E.db.unitframe.units.raid.enable = less40
+			E.db.unitframe.units.raid40.enable = raid40
+			E.db.unitframe.units.raidpet.enable = false
+
+			UnregisterStateDriver(UF.raid, 'visibility')
+			UnregisterStateDriver(UF.raid40, 'visibility')
+			UnregisterStateDriver(UF.raidpet, 'visibility')
+
+			UF.raid:SetShown(less40)
+			UF.raid40:SetShown(raid40)
+			UF.raidpet:SetShown(false)
+
+			if less40 then
+				local maxGroups = E:Round(maxPlayers/5)
+				if E.db.unitframe.units.raid.numGroups ~= maxGroups and maxGroups > 0 then
+					E.db.unitframe.units.raid.numGroups = maxGroups
+					UF:CreateAndUpdateHeaderGroup('raid')
+				end
+			elseif raid40 then
+				UF:CreateAndUpdateHeaderGroup('raid40')
+			end
 		end
+	end
+end
+
+function UF:PLAYER_ENTERING_WORLD(_, initLogin, isReload)
+	if initLogin or isReload then
+		UF:Update_AllFrames()
 	end
 
 	UF:RegisterRaidDebuffIndicator()
+
+	if UF.db.smartRaidFilter then
+		E.db.unitframe.units.raid40.numGroups = 8
+		UF:HandleSmartVisibility()
+
+		local _, instanceType = GetInstanceInfo()
+		if instanceType ~= 'raid' and instanceType ~= 'pvp' then
+			E.db.unitframe.units.raid.enable = true
+			E.db.unitframe.units.raid40.enable = true
+			E.db.unitframe.units.raid.numGroups = 6
+
+			RegisterStateDriver(UF.raid, 'visibility', '[@raid6,noexists][@raid31,exists] hide;show')
+			RegisterStateDriver(UF.raid40, 'visibility', '[@raid31,noexists] hide;show')
+
+			if E.db.unitframe.units.raid.enable then UF:CreateAndUpdateHeaderGroup('raid') end
+			if E.db.unitframe.units.raid40.enable then UF:CreateAndUpdateHeaderGroup('raid40') end
+		end
+	end
 end
 
 function UF:ResetUnitSettings(unit)
@@ -1315,23 +1363,25 @@ function UF:PLAYER_TARGET_CHANGED()
 end
 
 function UF:Initialize()
-	self.db = E.db.unitframe
-	self.thinBorders = self.db.thinBorders or E.PixelMode
+	UF.db = E.db.unitframe
+	UF.thinBorders = UF.db.thinBorders or E.PixelMode
 	if E.private.unitframe.enable ~= true then return end
-	self.Initialized = true
+	UF.Initialized = true
 
 	E.ElvUF_Parent = CreateFrame('Frame', 'ElvUF_Parent', E.UIParent, 'SecureHandlerStateTemplate');
 	E.ElvUF_Parent:SetFrameStrata("LOW")
 	RegisterStateDriver(E.ElvUF_Parent, "visibility", "[petbattle] hide; show")
 
-	self:UpdateColors()
+	UF:UpdateColors()
 	ElvUF:RegisterStyle('ElvUF', function(frame, unit)
-		self:Construct_UF(frame, unit)
+		UF:Construct_UF(frame, unit)
 	end)
+	ElvUF:SetActiveStyle("ElvUF")
+	UF:LoadUnits()
 
-	self:LoadUnits()
-	self:RegisterEvent('PLAYER_ENTERING_WORLD')
-	self:RegisterEvent('PLAYER_TARGET_CHANGED')
+	UF:RegisterEvent('PLAYER_ENTERING_WORLD')
+	UF:RegisterEvent('ZONE_CHANGED_NEW_AREA', 'HandleSmartVisibility')
+	UF:RegisterEvent('PLAYER_TARGET_CHANGED')
 
 	--InterfaceOptionsFrameCategoriesButton9:SetScale(0.0001)
 	--[[if E.private.unitframe.disabledBlizzardFrames.arena and E.private.unitframe.disabledBlizzardFrames.focus and E.private.unitframe.disabledBlizzardFrames.party then
@@ -1344,7 +1394,7 @@ function UF:Initialize()
 	end]]
 
 	if E.private.unitframe.disabledBlizzardFrames.party and E.private.unitframe.disabledBlizzardFrames.raid then
-		self:DisableBlizzard()
+		UF:DisableBlizzard()
 		--InterfaceOptionsFrameCategoriesButton11:SetScale(0.0001)
 	else
 		_G.CompactUnitFrameProfiles:RegisterEvent('VARIABLES_LOADED')
