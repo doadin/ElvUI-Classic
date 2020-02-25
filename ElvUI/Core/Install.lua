@@ -139,7 +139,7 @@ local function SetupCVars(noDisplayMsg)
 	SetCVar('lockActionBars', 1)
 	SetCVar('SpamFilter', 0)
 	SetCVar('cameraDistanceMaxZoomFactor', 2.6)
-	SetCVar('fstack_preferParentKeys', 0) --Add back the frame names via fstack!
+	-- SetCVar('fstack_preferParentKeys', 0) -- Leave this here so we know it doesn't exist in Classic.
 
 	NP:CVarReset()
 
