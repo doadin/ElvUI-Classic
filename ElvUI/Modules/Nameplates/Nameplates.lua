@@ -232,8 +232,6 @@ function NP:StylePlate(nameplate)
 	NP:Construct_Auras(nameplate)
 
 	NP.Plates[nameplate] = nameplate:GetName()
-
-	NP:StyleFilterPlateStyled(nameplate)
 end
 
 function NP:UpdatePlate(nameplate)
@@ -385,7 +383,7 @@ function NP:ConfigureAll()
 
 	for nameplate in pairs(NP.Plates) do
 		if _G.ElvNP_Player ~= nameplate or (NP.db.units.PLAYER.enable and NP.db.units.PLAYER.useStaticPosition) then
-			--NP:StyleFilterClear(nameplate) -- keep this at the top of the loop
+			NP:StyleFilterClear(nameplate) -- keep this at the top of the loop
 
 			if nameplate.frameType == 'PLAYER' then
 				nameplate:Size(NP.db.plateSize.personalWidth, NP.db.plateSize.personalHeight)
@@ -522,11 +520,14 @@ function NP:NamePlateCallBack(nameplate, event, unit)
 			NP:UpdatePlateGUID(nameplate)
 		end
 
-		-- cutaway needs this
+		-- Vars that we need to keep in a nonstale state
+		--- Cutaway
 		nameplate.Health.cur = nil
 		nameplate.Power.cur = nil
+		--- WidgetXPBar
+		nameplate.npcID = nil
 
-		NP:StyleFilterClearVariables(nameplate)
+		NP:StyleFilterClearVariables(nameplate) -- keep this at the end
 	elseif event == 'PLAYER_TARGET_CHANGED' then -- we need to check if nameplate exists in here
 		NP:SetupTarget(nameplate) -- pass it, even as nil here
 	end
