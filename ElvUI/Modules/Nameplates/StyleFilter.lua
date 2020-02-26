@@ -366,10 +366,6 @@ function mod:StyleFilterUpdatePlate(frame, nameOnly)
 		if db.power.enable then frame.Power:ForceUpdate() end
 	end
 
-	if mod.db.threat.enable and mod.db.threat.useThreatColor and not UnitIsTapDenied(frame.unit) then
-		frame.ThreatIndicator:ForceUpdate() -- this will account for the threat health color
-	end
-
 	if not nameOnly then
 		mod:PlateFade(frame, mod.db.fadeIn and 1 or 0, 0, 1) -- fade those back in so it looks clean
 	end
