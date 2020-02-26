@@ -828,9 +828,6 @@ mod.StyleFilterEventFunctions = { -- a prefunction to the injected ouf watch
 	PLAYER_TARGET_CHANGED = function(self)
 		self.isTarget = self.unit and UnitIsUnit(self.unit, 'target') or nil
 	end,
-	PLAYER_FOCUS_CHANGED = function(self)
-		self.isFocused = self.unit and UnitIsUnit(self.unit, 'focus') or nil
-	end,
 	RAID_TARGET_UPDATE = function(self)
 		self.RaidTargetIndex = self.unit and GetRaidTargetIndex(self.unit) or nil
 	end,
@@ -856,7 +853,6 @@ function mod:StyleFilterClearVariables(nameplate)
 	end
 
 	nameplate.isTarget = nil
-	nameplate.isFocused = nil
 	nameplate.isTargetingMe = nil
 	nameplate.RaidTargetIndex = nil
 end
@@ -880,7 +876,6 @@ mod.StyleFilterDefaultEvents = { -- list of events style filter uses to populate
 	'UNIT_POWER_UPDATE',
 	-- list of events added during StyleFilterEvents
 	'MODIFIER_STATE_CHANGED',
-	'PLAYER_FOCUS_CHANGED',
 	'PLAYER_TARGET_CHANGED',
 	'PLAYER_UPDATE_RESTING',
 	'RAID_TARGET_UPDATE',
@@ -930,18 +925,11 @@ function mod:StyleFilterConfigure()
 				if t.reactionType and t.reactionType.enable then	events.UNIT_FACTION = 1 end
 				if t.keyMod and t.keyMod.enable then				events.MODIFIER_STATE_CHANGED = 1 end
 				if t.targetMe or t.notTargetMe then					events.UNIT_TARGET = 1 end
-				if t.isFocus or t.notFocus then						events.PLAYER_FOCUS_CHANGED = 1 end
 				if t.isResting then									events.PLAYER_UPDATE_RESTING = 1 end
 				if t.isPet then										events.UNIT_PET = 1 end
 
 				if t.raidTarget and (t.raidTarget.star or t.raidTarget.circle or t.raidTarget.diamond or t.raidTarget.triangle or t.raidTarget.moon or t.raidTarget.square or t.raidTarget.cross or t.raidTarget.skull) then
 					events.RAID_TARGET_UPDATE = 1
-				end
-
-				if t.unitInVehicle then
-					events.UNIT_ENTERED_VEHICLE = 1
-					events.UNIT_EXITED_VEHICLE = 1
-					events.VEHICLE_UPDATE = 1
 				end
 
 				if t.healthThreshold then
