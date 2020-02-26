@@ -59,8 +59,6 @@ local GetPetLoyalty = GetPetLoyalty
 local GetPetFoodTypes = GetPetFoodTypes
 
 local SPELL_POWER_MANA = Enum.PowerType.Mana or 0
-local UNITNAME_SUMMON_TITLE17 = UNITNAME_SUMMON_TITLE17
-local UNKNOWN = UNKNOWN
 local LEVEL = LEVEL
 local PVP = PVP
 
@@ -76,18 +74,15 @@ E.TagFunctions = {}
 local function UnitName(unit)
 	local name, realm = _G.UnitName(unit)
 
-	if (name == UNKNOWN and E.myclass == 'MONK') and UnitIsUnit(unit, 'pet') then
-		name = format(UNITNAME_SUMMON_TITLE17, _G.UnitName('player'))
-	end
-
-	if realm and realm ~= '' then
+	if realm and realm ~= "" then
 		return name, realm
 	else
 		return name
 	end
 end
+E.TagFunctions.UnitName = UnitName
 
-local function abbrev(name)
+local function Abbrev(name)
 	local letters, lastWord = '', strmatch(name, '.+%s(.+)$')
 	if lastWord then
 		for word in gmatch(name, '.-%s') do
@@ -100,6 +95,7 @@ local function abbrev(name)
 	end
 	return name
 end
+E.TagFunctions.Abbrev = Abbrev
 
 ElvUF.Tags.Events['status:text'] = 'PLAYER_FLAGS_CHANGED'
 ElvUF.Tags.Methods['status:text'] = function(unit)
@@ -248,7 +244,7 @@ for textFormat, length in pairs({veryshort = 5, short = 10, medium = 15, long = 
 		local name = UnitName(unit)
 
 		if name and strfind(name, '%s') then
-			name = abbrev(name)
+			name = Abbrev(name)
 		end
 
 		return name ~= nil and E:ShortenString(name, length) or ''
@@ -295,7 +291,7 @@ ElvUF.Tags.Methods['name:abbrev'] = function(unit)
 	local name = UnitName(unit)
 
 	if name and strfind(name, '%s') then
-		name = abbrev(name)
+		name = Abbrev(name)
 	end
 
 	return name ~= nil and name or ''
