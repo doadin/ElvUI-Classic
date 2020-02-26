@@ -1392,115 +1392,131 @@ local function UpdateFilterGroup()
 			args = {
 				hide = {
 					order = 1,
-					type = 'toggle',
-					name = L["Hide Frame"],
+					type = "toggle",
+					name = L["Hide Frame"]
 				},
 				usePortrait = {
 					order = 2,
-					type = 'toggle',
+					type = "toggle",
 					name = L["Use Portrait"],
-					disabled = function() return E.global.nameplate.filters[selectedNameplateFilter].actions.hide end,
+					disabled = function()
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.hide
+					end
 				},
 				nameOnly = {
 					name = L["Name Only"],
 					order = 3,
-					type = 'toggle',
-					disabled = function() return E.global.nameplate.filters[selectedNameplateFilter].actions.hide end,
-				},
-				spacer1 = {
-					order = 4,
-					type = "description",
-					name = " ",
+					type = "toggle",
+					disabled = function()
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.hide
+					end
 				},
 				scale = {
 					order = 5,
 					type = "range",
 					name = L["Scale"],
-					disabled = function() return E.global.nameplate.filters[selectedNameplateFilter].actions.hide end,
-					get = function(info) return E.global.nameplate.filters[selectedNameplateFilter].actions.scale or 1 end,
-					min = 0.5, max = 1.5, softMin = .75, softMax = 1.25, step = 0.01,
+					disabled = function()
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.hide
+					end,
+					get = function(info)
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.scale or 1
+					end,
+					min = 0.5,
+					max = 1.5,
+					softMin = .75,
+					softMax = 1.25,
+					step = 0.01
 				},
 				alpha = {
 					order = 6,
 					type = "range",
 					name = L["Alpha"],
 					desc = L["Change the alpha level of the frame."],
-					disabled = function() return E.global.nameplate.filters[selectedNameplateFilter].actions.hide end,
-					get = function(info) return E.global.nameplate.filters[selectedNameplateFilter].actions.alpha or -1 end,
-					min=-1, max = 100, step = 1,
+					disabled = function()
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.hide
+					end,
+					get = function(info)
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.alpha or -1
+					end,
+					min = -1,
+					max = 100,
+					step = 1
 				},
 				color = {
 					order = 10,
 					type = "group",
 					name = L["COLOR"],
-					get = function(info) return E.global.nameplate.filters[selectedNameplateFilter].actions.color[info[#info]] end,
-					set = function(info, value) E.global.nameplate.filters[selectedNameplateFilter].actions.color[info[#info]] = value; NP:ConfigureAll() end,
+					get = function(info)
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.color[info[#info]]
+					end,
+					set = function(info, value)
+						E.global.nameplate.filters[selectedNameplateFilter].actions.color[info[#info]] = value
+						NP:ConfigureAll()
+					end,
 					guiInline = true,
-					disabled = function() return E.global.nameplate.filters[selectedNameplateFilter].actions.hide end,
+					disabled = function()
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.hide
+					end,
 					args = {
 						health = {
 							name = L["Health"],
 							order = 1,
-							type = 'toggle',
+							type = "toggle"
 						},
 						healthColor = {
 							name = L["Health Color"],
-							type = 'color',
+							type = "color",
 							order = 2,
 							hasAlpha = true,
-							disabled = function() return not E.global.nameplate.filters[selectedNameplateFilter].actions.color.health end,
+							disabled = function()
+								return not E.global.nameplate.filters[selectedNameplateFilter].actions.color.health
+							end,
 							get = function(info)
 								local t = E.global.nameplate.filters[selectedNameplateFilter].actions.color.healthColor
-								return t.r, t.g, t.b, t.a, 136/255, 255/255, 102/255, 1
+								return t.r, t.g, t.b, t.a, 136 / 255, 255 / 255, 102 / 255, 1
 							end,
 							set = function(info, r, g, b, a)
 								local t = E.global.nameplate.filters[selectedNameplateFilter].actions.color.healthColor
 								t.r, t.g, t.b, t.a = r, g, b, a
 								NP:ConfigureAll()
-							end,
-						},
-						spacer1 = {
-							order = 3,
-							type = "description",
-							name = " ",
+							end
 						},
 						power = {
 							name = L["Power"],
 							order = 4,
-							type = 'toggle',
+							type = "toggle"
 						},
 						powerColor = {
 							name = L["Power Color"],
-							type = 'color',
+							type = "color",
 							order = 5,
 							hasAlpha = true,
-							disabled = function() return not E.global.nameplate.filters[selectedNameplateFilter].actions.color.power end,
+							disabled = function()
+								return not E.global.nameplate.filters[selectedNameplateFilter].actions.color.power
+							end,
 							get = function(info)
 								local t = E.global.nameplate.filters[selectedNameplateFilter].actions.color.powerColor
-								return t.r, t.g, t.b, t.a, 102/255, 136/255, 255/255, 1
+								return t.r, t.g, t.b, t.a, 102 / 255, 136 / 255, 255 / 255, 1
 							end,
 							set = function(info, r, g, b, a)
 								local t = E.global.nameplate.filters[selectedNameplateFilter].actions.color.powerColor
 								t.r, t.g, t.b, t.a = r, g, b, a
 								NP:ConfigureAll()
-							end,
-						},
-						spacer2 = {
-							order = 6,
-							type = "description",
-							name = " ",
+							end
 						},
 						border = {
 							name = L["Border"],
 							order = 7,
-							type = 'toggle',
+							type = "toggle"
 						},
 						borderColor = {
 							name = L["Border Color"],
-							type = 'color',
+							type = "color",
 							order = 8,
 							hasAlpha = true,
-							disabled = function() return not E.global.nameplate.filters[selectedNameplateFilter].actions.color.border end,
+							disabled = function()
+								return not E.global.nameplate.filters[selectedNameplateFilter].actions.color.border
+							end,
 							get = function(info)
 								local t = E.global.nameplate.filters[selectedNameplateFilter].actions.color.borderColor
 								return t.r, t.g, t.b, t.a, 0, 0, 0, 1
@@ -1509,84 +1525,71 @@ local function UpdateFilterGroup()
 								local t = E.global.nameplate.filters[selectedNameplateFilter].actions.color.borderColor
 								t.r, t.g, t.b, t.a = r, g, b, a
 								NP:ConfigureAll()
-							end,
-						},
-						spacer3 = {
-							order = 9,
-							type = "description",
-							name = " ",
-						},
-						name = {
-							name = L["Name"],
-							order = 10,
-							type = 'toggle',
-						},
-						nameColor = {
-							name = L["Name Color"],
-							type = 'color',
-							order = 11,
-							hasAlpha = true,
-							disabled = function() return not E.global.nameplate.filters[selectedNameplateFilter].actions.color.name end,
-							get = function(info)
-								local t = E.global.nameplate.filters[selectedNameplateFilter].actions.color.nameColor
-								return t.r, t.g, t.b, t.a, 200/255, 200/255, 200/255, 1
-							end,
-							set = function(info, r, g, b, a)
-								local t = E.global.nameplate.filters[selectedNameplateFilter].actions.color.nameColor
-								t.r, t.g, t.b, t.a = r, g, b, a
-								NP:ConfigureAll()
-							end,
-						},
-					},
+							end
+						}
+					}
 				},
 				texture = {
 					order = 20,
 					type = "group",
 					name = L["Texture"],
-					get = function(info) return E.global.nameplate.filters[selectedNameplateFilter].actions.texture[info[#info]] end,
-					set = function(info, value) E.global.nameplate.filters[selectedNameplateFilter].actions.texture[info[#info]] = value; NP:ConfigureAll() end,
+					get = function(info)
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.texture[info[#info]]
+					end,
+					set = function(info, value)
+						E.global.nameplate.filters[selectedNameplateFilter].actions.texture[info[#info]] = value
+						NP:ConfigureAll()
+					end,
 					guiInline = true,
-					disabled = function() return E.global.nameplate.filters[selectedNameplateFilter].actions.hide end,
+					disabled = function()
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.hide
+					end,
 					args = {
 						enable = {
 							name = L["Enable"],
 							order = 1,
-							type = 'toggle',
+							type = "toggle"
 						},
 						texture = {
 							order = 2,
 							type = "select",
-							dialogControl = 'LSM30_Statusbar',
+							dialogControl = "LSM30_Statusbar",
 							name = L["Texture"],
 							values = _G.AceGUIWidgetLSMlists.statusbar,
-							disabled = function() return not E.global.nameplate.filters[selectedNameplateFilter].actions.texture.enable end,
-						},
-					},
+							disabled = function()
+								return not E.global.nameplate.filters[selectedNameplateFilter].actions.texture.enable
+							end
+						}
+					}
 				},
 				flashing = {
 					order = 30,
 					type = "group",
 					name = L["Flash"],
 					guiInline = true,
-					disabled = function() return E.global.nameplate.filters[selectedNameplateFilter].actions.hide end,
+					disabled = function()
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.hide
+					end,
 					args = {
 						enable = {
 							name = L["Enable"],
 							order = 1,
-							type = 'toggle',
+							type = "toggle",
 							get = function(info)
 								return E.global.nameplate.filters[selectedNameplateFilter].actions.flash.enable
 							end,
 							set = function(info, value)
 								E.global.nameplate.filters[selectedNameplateFilter].actions.flash.enable = value
 								NP:ConfigureAll()
-							end,
+							end
 						},
 						speed = {
 							order = 2,
 							type = "range",
 							name = L["SPEED"],
-							disabled = function() return E.global.nameplate.filters[selectedNameplateFilter].actions.hide end,
+							disabled = function()
+								return E.global.nameplate.filters[selectedNameplateFilter].actions.hide
+							end,
 							get = function(info)
 								return E.global.nameplate.filters[selectedNameplateFilter].actions.flash.speed or 4
 							end,
@@ -1594,27 +1597,81 @@ local function UpdateFilterGroup()
 								E.global.nameplate.filters[selectedNameplateFilter].actions.flash.speed = value
 								NP:ConfigureAll()
 							end,
-							min=1, max = 10, step = 1,
+							min = 1,
+							max = 10,
+							step = 1
 						},
 						color = {
 							name = L["COLOR"],
-							type = 'color',
+							type = "color",
 							order = 3,
 							hasAlpha = true,
-							disabled = function() return E.global.nameplate.filters[selectedNameplateFilter].actions.hide end,
+							disabled = function()
+								return E.global.nameplate.filters[selectedNameplateFilter].actions.hide
+							end,
 							get = function(info)
 								local t = E.global.nameplate.filters[selectedNameplateFilter].actions.flash.color
-								return t.r, t.g, t.b, t.a, 104/255, 138/255, 217/255, 1
+								return t.r, t.g, t.b, t.a, 104 / 255, 138 / 255, 217 / 255, 1
 							end,
 							set = function(info, r, g, b, a)
 								local t = E.global.nameplate.filters[selectedNameplateFilter].actions.flash.color
 								t.r, t.g, t.b, t.a = r, g, b, a
 								NP:ConfigureAll()
-							end,
-						},
-					},
+							end
+						}
+					}
 				},
-			},
+				text_format = {
+					order = 40,
+					type = "group",
+					guiInline = true,
+					name = L["Text Format"],
+					get = function(info)
+						return E.global.nameplate.filters[selectedNameplateFilter].actions.tags[info[#info]]
+					end,
+					set = function(info, value)
+						E.global.nameplate.filters[selectedNameplateFilter].actions.tags[info[#info]] = value
+						NP:ConfigureAll()
+					end,
+					args = {
+						name = {
+							order = 1,
+							name = L["Name"],
+							desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+							type = 'input',
+							width = 'full',
+						},
+						level = {
+							order = 2,
+							name = L["Level"],
+							desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+							type = 'input',
+							width = 'full',
+						},
+						title = {
+							order = 3,
+							name = L["Title"],
+							desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+							type = 'input',
+							width = 'full',
+						},
+						health = {
+							order = 4,
+							name = L["Health"],
+							desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+							type = 'input',
+							width = 'full',
+						},
+						power = {
+							order = 5,
+							name = L["Power"],
+							desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+							type = 'input',
+							width = 'full',
+						},
+					}
+				}
+			}
 		}
 
 		do -- build creatureType options
