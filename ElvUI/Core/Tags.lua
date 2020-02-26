@@ -7,14 +7,14 @@ local translitMark = '!'
 
 --Lua functions
 local _G = _G
-local select = select
-local wipe = wipe
-local floor = floor
-local pairs = pairs
-local gmatch, gsub, format = gmatch, gsub, format
-local strfind, strmatch, utf8lower, utf8sub = strfind, strmatch, string.utf8lower, string.utf8sub
-local strlower = strlower
+local tonumber, next = tonumber, next
+local pairs, wipe, floor = pairs, wipe, floor
+local gmatch, gsub, format, select = gmatch, gsub, format, select
+local strfind, strmatch, strlower, utf8lower, utf8sub, utf8len = strfind, strmatch, strlower, string.utf8lower, string.utf8sub, string.utf8len
 --WoW API / Variables
+local CreateTextureMarkup = CreateTextureMarkup
+local UnitFactionGroup = UnitFactionGroup
+local GetCVarBool = GetCVarBool
 local GetGuildInfo = GetGuildInfo
 local GetNumGroupMembers = GetNumGroupMembers
 local GetPVPTimer = GetPVPTimer
@@ -42,29 +42,29 @@ local UnitLevel = UnitLevel
 local UnitPower = UnitPower
 local UnitPowerMax = UnitPowerMax
 local UnitPowerType = UnitPowerType
-local UnitReaction = UnitReaction
-local UnitPlayerControlled = UnitPlayerControlled
-
-local CHAT_FLAG_AFK = CHAT_FLAG_AFK:gsub('<(.-)>', '|r<|cffFF0000%1|r>')
-local CHAT_FLAG_DND = CHAT_FLAG_DND:gsub('<(.-)>', '|r<|cffFFFF00%1|r>')
-local PVP = PVP
-local UNITNAME_SUMMON_TITLE17 = UNITNAME_SUMMON_TITLE17
-local UNKNOWN = UNKNOWN
-
-local GetCVarBool = GetCVarBool
-local GetNumQuestLogEntries = GetNumQuestLogEntries
-local GetQuestDifficultyColor = GetQuestDifficultyColor
-local GetQuestLogTitle = GetQuestLogTitle
 local UnitPVPName = UnitPVPName
-local LEVEL = LEVEL
-
-local HasPetUI = HasPetUI
-local GetPetHappiness = GetPetHappiness
-local CreateTextureMarkup = CreateTextureMarkup
+local UnitReaction = UnitReaction
 local CreateAtlasMarkup = CreateAtlasMarkup
 
+local HasPetUI = HasPetUI
+local UnitPVPRank = UnitPVPRank
+local GetPVPRankInfo = GetPVPRankInfo
+local GetPetHappiness = GetPetHappiness
+local GetPetLoyalty = GetPetLoyalty
+local GetPetFoodTypes = GetPetFoodTypes
+
 local SPELL_POWER_MANA = Enum.PowerType.Mana or 0
--- GLOBALS: Hex, PowerBarColor, _TAGS, _COLORS
+local UNITNAME_SUMMON_TITLE17 = UNITNAME_SUMMON_TITLE17
+local CHAT_FLAG_AFK = CHAT_FLAG_AFK:gsub('<(.-)>', '|r<|cffFF0000%1|r>')
+local CHAT_FLAG_DND = CHAT_FLAG_DND:gsub('<(.-)>', '|r<|cffFFFF00%1|r>')
+local UNKNOWN = UNKNOWN
+local LEVEL = LEVEL
+local PVP = PVP
+
+-- GLOBALS: ElvUF, Hex, _TAGS, _COLORS
+
+--Expose local functions for plugins onto this table
+E.TagFunctions = {}
 
 ------------------------------------------------------------------------
 --	Tags
@@ -359,7 +359,8 @@ ElvUF.Tags.Methods['manacolor'] = function()
 	if color then
 		return Hex(color[1], color[2], color[3])
 	else
-		return Hex(PowerBarColor.MANA.r, PowerBarColor.MANA.g, PowerBarColor.MANA.b)
+		local mana = _G.PowerBarColor.MANA
+		return Hex(mana.r, mana.g, mana.b)
 	end
 end
 
