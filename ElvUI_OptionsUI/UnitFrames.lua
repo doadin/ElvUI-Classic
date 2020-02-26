@@ -6004,6 +6004,12 @@ E.Options.args.unitframe.args.groupUnits.args.tank = {
 			type = 'group',
 			name = L["General"],
 			args = {
+				threatStyle = {
+					type = 'select',
+					order = 1,
+					name = L["Threat Display Mode"],
+					values = threatValues,
+				},
 				orientation = {
 					order = 2,
 					type = "select",
@@ -6139,6 +6145,12 @@ E.Options.args.unitframe.args.groupUnits.args.assist = {
 			type = 'group',
 			name = L["General"],
 			args = {
+				threatStyle = {
+					type = 'select',
+					order = 1,
+					name = L["Threat Display Mode"],
+					values = threatValues,
+				},
 				orientation = {
 					order = 2,
 					type = "select",
