@@ -48,6 +48,9 @@ local UnitPVPName = UnitPVPName
 local UnitReaction = UnitReaction
 local CreateAtlasMarkup = CreateAtlasMarkup
 
+local CHAT_FLAG_AFK = CHAT_FLAG_AFK:gsub('<(.-)>', '|r<|cffFF3333%1|r>')
+local CHAT_FLAG_DND = CHAT_FLAG_DND:gsub('<(.-)>', '|r<|cffFFFF33%1|r>')
+
 local HasPetUI = HasPetUI
 local UnitPVPRank = UnitPVPRank
 local GetPVPRankInfo = GetPVPRankInfo
@@ -57,8 +60,6 @@ local GetPetFoodTypes = GetPetFoodTypes
 
 local SPELL_POWER_MANA = Enum.PowerType.Mana or 0
 local UNITNAME_SUMMON_TITLE17 = UNITNAME_SUMMON_TITLE17
-local CHAT_FLAG_AFK = CHAT_FLAG_AFK:gsub('<(.-)>', '|r<|cffFF0000%1|r>')
-local CHAT_FLAG_DND = CHAT_FLAG_DND:gsub('<(.-)>', '|r<|cffFFFF00%1|r>')
 local UNKNOWN = UNKNOWN
 local LEVEL = LEVEL
 local PVP = PVP
