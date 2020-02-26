@@ -8,9 +8,11 @@ local translitMark = '!'
 --Lua functions
 local _G = _G
 local tonumber, next = tonumber, next
-local pairs, wipe, floor = pairs, wipe, floor
+local pairs, wipe, floor, ceil = pairs, wipe, floor, ceil
 local gmatch, gsub, format, select = gmatch, gsub, format, select
-local strfind, strmatch, strlower, utf8lower, utf8sub, utf8len = strfind, strmatch, strlower, string.utf8lower, string.utf8sub, string.utf8len
+local strfind, strmatch, strlower, strsplit = strfind, strmatch, strlower, strsplit
+local utf8lower, utf8sub, utf8len = string.utf8lower, string.utf8sub, string.utf8len
+
 --WoW API / Variables
 local CreateTextureMarkup = CreateTextureMarkup
 local UnitFactionGroup = UnitFactionGroup
@@ -296,6 +298,34 @@ ElvUF.Tags.Methods['name:abbrev'] = function(unit)
 	end
 
 	return name ~= nil and name or ''
+end
+
+do
+	local function NameHealthColor(tags,hex,unit,default)
+		if hex == 'class' or hex == 'reaction' then
+			return tags.namecolor(unit)
+		elseif hex and strmatch(hex, '^%x%x%x%x%x%x$') then
+			return '|cFF'..hex
+		end
+
+		return default
+	end
+	E.TagFunctions.NameHealthColor = NameHealthColor
+
+	-- the third arg here is added from the user as like [name:health{ff00ff:00ff00}] or [name:health{class:00ff00}]
+	ElvUF.Tags.Events['name:health'] = 'UNIT_NAME_UPDATE UNIT_FACTION UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+	ElvUF.Tags.Methods['name:health'] = function(unit, _, args)
+		local name = UnitName(unit)
+		if not name then return '' end
+
+		local min, max, bco, fco = UnitHealth(unit), UnitHealthMax(unit), strsplit(':', args or '')
+		local to = ceil(utf8len(name) * (min / max))
+
+		local fill = NameHealthColor(_TAGS, fco, unit, '|cFFff3333')
+		local base = NameHealthColor(_TAGS, bco, unit, '|cFFffffff')
+
+		return to > 0 and (base..utf8sub(name, 0, to)..fill..utf8sub(name, to+1, -1)) or fill..name
+	end
 end
 
 ElvUF.Tags.Events['health:max'] = 'UNIT_MAXHEALTH'
