@@ -35,7 +35,7 @@ local Private = oUF.Private
 local unitExists = Private.unitExists
 local ThreatLib = LibStub:GetLibrary("LibThreatClassic2")
 
-local UnitThreatSituation = function (unit, mob)
+local UnitThreatSituation = function(unit, mob)
     return ThreatLib:UnitThreatSituation(unit, mob)
 end
 
@@ -51,17 +51,12 @@ local function Update(self, event, unit)
 	--]]
 	if(element.PreUpdate) then element:PreUpdate(unit) end
 
-	local feedbackUnit = element.feedbackUnit
 	unit = unit or self.unit
 
 	local status
 	-- BUG: Non-existent '*target' or '*pet' units cause UnitThreatSituation() errors
 	if(unitExists(unit)) then
-		if(feedbackUnit and feedbackUnit ~= unit and unitExists(feedbackUnit)) then
-			status = UnitThreatSituation(feedbackUnit, unit)
-		else
-			status = UnitThreatSituation(unit)
-		end
+		status = UnitThreatSituation(unit, unit..'target')
 	end
 
 	local r, g, b
