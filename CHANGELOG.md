@@ -1,7 +1,11 @@
 ### Version 1.23 [ETA: 🍨]
 **DataTexts:** Increased load/update speed  
+**Errors:** Fixed "fstack-preferParentKeys" cvar error  
+**HealComm:** Added back Tank/Assist heal prediction  
+**Misc:** Removed Auto Greed/DE completely, use a loot manager addon instead  
 **UnitFrames:** Added back Energy/Mana-Regen option  
-**UnitFrames:** Fixed Party Pets / Party Target size options  
+**UnitFrames:** Fixed Party Pets/Party Target size options  
+**UnitFrames:** ThreatIndicator tweaks  
 ___
 ### Version 1.22 [02/24/2020]
 **ActionBars:** Added an option to make bars click-through  
