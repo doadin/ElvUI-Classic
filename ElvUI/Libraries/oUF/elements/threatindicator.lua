@@ -118,6 +118,7 @@ local function Enable(self)
 			element.elapsed = element.elapsed + elapsed
 			if (element.elapsed > .01) then
 				ForceUpdate(element)
+				element.elapsed = 0
 			end
 		end)
 
