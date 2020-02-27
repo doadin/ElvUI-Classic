@@ -3,6 +3,7 @@
 **Errors:** Fixed "fstack-preferParentKeys" cvar error  
 **HealComm:** Added back Tank/Assist heal prediction  
 **Misc:** Removed Auto Greed/DE completely, use a loot manager addon instead  
+**NamePlates:** Style Filters have been improved  
 **UnitFrames:** Added back Energy/Mana-Regen option  
 **UnitFrames:** Fixed Party Pets/Party Target size options  
 **UnitFrames:** ThreatIndicator tweaks  
