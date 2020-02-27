@@ -107,15 +107,12 @@ local function Enable(self)
 	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
-		element.elapsed = 0
 
-		element:SetScript('OnUpdate', function(_, elapsed)
-			element.elapsed = element.elapsed + elapsed
-			if (element.elapsed > .01) then
-				ForceUpdate(element)
-				element.elapsed = 0
-			end
-		end)
+		ThreatLib.RegisterCallback(element, "Activate", Path, self)
+		ThreatLib.RegisterCallback(element, "Deactivate", Path, self)
+		ThreatLib.RegisterCallback(element, "PartyChanged", Path, self)
+		ThreatLib.RegisterCallback(element, "ThreatUpdated", Path, self)
+		ThreatLib.RegisterCallback(element, "ThreatCleared", Path, self)
 
 		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\RAIDFRAME\UI-RaidFrame-Threat]])
@@ -130,6 +127,12 @@ local function Disable(self)
 	if(element) then
 		element:Hide()
 		element:SetScript('OnUpdate', nil)
+
+		ThreatLib.UnregisterCallback(element, "Activate")
+		ThreatLib.UnregisterCallback(element, "Deactivate")
+		ThreatLib.UnregisterCallback(element, "PartyChanged")
+		ThreatLib.UnregisterCallback(element, "ThreatUpdated")
+		ThreatLib.UnregisterCallback(element, "ThreatCleared")
 	end
 end
 
