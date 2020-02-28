@@ -108,11 +108,11 @@ local function Enable(self)
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-		ThreatLib.RegisterCallback(element, "Activate", Path, self)
-		ThreatLib.RegisterCallback(element, "Deactivate", Path, self)
-		ThreatLib.RegisterCallback(element, "PartyChanged", Path, self)
-		ThreatLib.RegisterCallback(element, "ThreatUpdated", Path, self)
-		ThreatLib.RegisterCallback(element, "ThreatCleared", Path, self)
+		ThreatLib.RegisterCallback(element, "Activate", ForceUpdate, element)
+		ThreatLib.RegisterCallback(element, "Deactivate", ForceUpdate, element)
+		ThreatLib.RegisterCallback(element, "PartyChanged", ForceUpdate, element)
+		ThreatLib.RegisterCallback(element, "ThreatUpdated", ForceUpdate, element)
+		ThreatLib.RegisterCallback(element, "ThreatCleared", ForceUpdate, element)
 
 		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\RAIDFRAME\UI-RaidFrame-Threat]])
