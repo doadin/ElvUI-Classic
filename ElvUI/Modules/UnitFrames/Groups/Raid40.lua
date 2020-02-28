@@ -124,8 +124,7 @@ function UF:Update_Raid40Frames(frame, db)
 	UF:UpdateNameSettings(frame)
 
 	UF:EnableDisable_Auras(frame)
-	UF:Configure_Auras(frame, 'Buffs')
-	UF:Configure_Auras(frame, 'Debuffs')
+	UF:Configure_AllAuras(frame)
 
 	UF:Configure_AuraWatch(frame)
 	UF:Configure_CustomTexts(frame)

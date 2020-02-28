@@ -125,8 +125,7 @@ function UF:Update_PlayerFrame(frame, db)
 	end
 
 	UF:EnableDisable_Auras(frame)
-	UF:Configure_Auras(frame, 'Buffs')
-	UF:Configure_Auras(frame, 'Debuffs')
+	UF:Configure_AllAuras(frame)
 
 	UF:Configure_ClassBar(frame)
 	UF:Configure_CombatIndicator(frame)

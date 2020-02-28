@@ -142,8 +142,7 @@ function UF:Update_AssistFrames(frame, db)
 
 	if not frame.isChild then
 		UF:EnableDisable_Auras(frame)
-		UF:Configure_Auras(frame, "Buffs")
-		UF:Configure_Auras(frame, "Debuffs")
+		UF:Configure_AllAuras(frame)
 
 		UF:Configure_AuraWatch(frame)
 		UF:Configure_DebuffHighlight(frame)

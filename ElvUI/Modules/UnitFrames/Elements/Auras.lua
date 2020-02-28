@@ -131,6 +131,14 @@ function UF:UpdateAuraCooldownPosition(button)
 	button.needsUpdateCooldownPosition = nil
 end
 
+function UF:Configure_AllAuras(frame)
+	if frame.Buffs then frame.Buffs:ClearAllPoints() end
+	if frame.Debuffs then frame.Debuffs:ClearAllPoints() end
+
+	UF:Configure_Auras(frame, 'Buffs')
+	UF:Configure_Auras(frame, 'Debuffs')
+end
+
 function UF:Configure_Auras(frame, auraType)
 	local db = frame.db
 	local auras = frame[auraType]

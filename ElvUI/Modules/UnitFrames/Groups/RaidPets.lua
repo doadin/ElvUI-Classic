@@ -105,8 +105,7 @@ function UF:Update_RaidpetFrames(frame, db)
 	UF:UpdateNameSettings(frame)
 
 	UF:EnableDisable_Auras(frame)
-	UF:Configure_Auras(frame, 'Buffs')
-	UF:Configure_Auras(frame, 'Debuffs')
+	UF:Configure_AllAuras(frame)
 
 	UF:Configure_AuraWatch(frame, true)
 	UF:Configure_CustomTexts(frame)

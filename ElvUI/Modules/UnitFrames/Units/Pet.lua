@@ -75,8 +75,7 @@ function UF:Update_PetFrame(frame, db)
 	UF:Configure_Castbar(frame)
 
 	UF:EnableDisable_Auras(frame)
-	UF:Configure_Auras(frame, 'Buffs')
-	UF:Configure_Auras(frame, 'Debuffs')
+	UF:Configure_AllAuras(frame)
 
 	UF:Configure_AuraBars(frame)
 	UF:Configure_AuraWatch(frame)
