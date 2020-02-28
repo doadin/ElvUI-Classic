@@ -451,7 +451,7 @@ function UF:AuraFilter(unit, button, name, _, count, debuffType, duration, expir
 	button.canDesaturate = db.desaturate
 	button.myPet = caster == 'pet'
 	button.isPlayer = caster == 'player' or caster == 'vehicle'
-	button.otherPet = caster and strmatch(caster, 'pet%d+') and not UnitIsUnit('pet', caster)
+	button.otherPet = caster and not UnitIsUnit('pet', caster) and strmatch(caster, 'pet%d+')
 	button.isFriend = unit and UnitIsFriend('player', unit) and not UnitCanAttack('player', unit)
 	button.unitIsCaster = unit and caster and UnitIsUnit(unit, caster)
 	button.canDispell = (self.type == 'buffs' and isStealable) or (self.type == 'debuffs' and debuffType and E:IsDispellableByMe(debuffType))
