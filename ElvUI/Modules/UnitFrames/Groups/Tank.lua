@@ -54,8 +54,6 @@ function UF:Update_TankHeader(header, db)
 	header:Hide()
 	header.db = db
 
-	UF:ClearChildPoints(header:GetChildren())
-
 	if not header.forceShow and db.enable then
 		RegisterAttributeDriver(header, 'state-visibility', '[@raid1,exists] show;hide')
 	end

@@ -721,7 +721,7 @@ end
 function CH:PositionChat(override)
 	if ((InCombatLockdown() and not override and self.initialMove) or (IsMouseButtonDown("LeftButton") and not override)) then return end
 
-	local RightChatPanel, LeftChatPanel, RightChatDataPanel, LeftChatToggleButton, LeftChatTab, CombatLogButton = _G.RightChatPanel, _G.LeftChatPanel, _G.RightChatDataPanel, _G.LeftChatToggleButton, _G.LeftChatTab, _G.CombatLogQuickButtonFrame_Custom
+	local RightChatPanel, LeftChatPanel, RightChatDataPanel, LeftChatToggleButton, LeftChatTab = _G.RightChatPanel, _G.LeftChatPanel, _G.RightChatDataPanel, _G.LeftChatToggleButton, _G.LeftChatTab
 	if not RightChatPanel or not LeftChatPanel then return end
 
 	RightChatPanel:Size(E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth, E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight)
@@ -729,9 +729,8 @@ function CH:PositionChat(override)
 
 	if E.private.chat.enable ~= true or not self.db.lockPositions then return end
 
-	if CombatLogButton then
-		CombatLogButton:Size(LeftChatTab:GetWidth(), LeftChatTab:GetHeight())
-	end
+	local CombatLogButton = _G.CombatLogQuickButtonFrame_Custom
+	if CombatLogButton then CombatLogButton:Size(LeftChatTab:GetWidth(), LeftChatTab:GetHeight()) end
 
 	self.RightChatWindowID = FindRightChatID()
 
