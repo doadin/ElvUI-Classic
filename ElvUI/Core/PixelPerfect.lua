@@ -68,19 +68,19 @@ function E:UIScale(init)
 end
 
 function E:PixelBestSize()
-	local scale = E:Round(768 / E.screenheight, 5)
-	return max(0.4, min(1.15, scale))
+	return max(0.4, min(1.15, 768 / E.screenheight))
 end
 
 function E:PixelScaleChanged(event)
 	if event == 'UI_SCALE_CHANGED' then
 		E.screenwidth, E.screenheight = GetPhysicalScreenSize()
+		E.resolution = format('%dx%d', E.screenwidth, E.screenheight)
 	end
 
 	E:UIScale(true) --Repopulate variables
 	E:UIScale() --Setup the scale
 
-	E:UpdateConfigSize(true) --Reposition config
+	E:Config_UpdateSize(true) --Reposition config
 end
 
 function E:Scale(x)
