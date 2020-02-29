@@ -49,14 +49,14 @@ local LSM = E.Libs.LSM
 
 --Constants
 E.noop = function() end
-E.title = format('|cfffe7b2c%s |r', 'ElvUI')
+E.title = format('|cff1784d1%s |r', 'ElvUI')
+E.version = tonumber(GetAddOnMetadata('ElvUI', 'Version'))
 E.myfaction, E.myLocalizedFaction = UnitFactionGroup('player')
 E.mylevel = UnitLevel('player')
 E.myLocalizedClass, E.myclass, E.myClassID = UnitClass('player')
 E.myLocalizedRace, E.myrace = UnitRace('player')
 E.myname = UnitName('player')
 E.myrealm = GetRealmName()
-E.version = GetAddOnMetadata('ElvUI', 'Version')
 E.wowpatch, E.wowbuild = GetBuildInfo()
 E.wowbuild = tonumber(E.wowbuild)
 E.IsRetail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
@@ -65,7 +65,7 @@ E.screenwidth, E.screenheight = GetPhysicalScreenSize()
 E.isMacClient = IsMacClient()
 E.NewSign = '|TInterface\\OptionsFrame\\UI-OptionsFrame-NewFeatureIcon:14:14|t' -- not used by ElvUI yet, but plugins like BenikUI and MerathilisUI use it.
 E.TexturePath = 'Interface\\AddOns\\ElvUI\\Media\\Textures\\' -- for plugins?
-E.InfoColor = '|cfffe7b2c'
+E.InfoColor = '|cff1784d1'
 E.UserList = {}
 
 -- oUF Defines
@@ -765,7 +765,7 @@ do
 		if event == 'CHAT_MSG_ADDON' then
 			if sender == myName then return end
 			if prefix == 'ELVUI_VERSIONCHK' then
-				local msg, ver = tonumber(message), tonumber(E.version)
+				local msg, ver = tonumber(message), E.version
 				local inCombat = InCombatLockdown()
 
 				E.UserList[gsub(sender, '%-'..myRealm,'')] = msg
@@ -993,7 +993,8 @@ function E:UpdateEnd()
 
 	E:SetMoversClampedToScreen(true) -- Go back to using clamp after resizing has taken place.
 
-	if (E.installSetup ~= true) and (E.private.install_complete == nil or (E.private.install_complete and type(E.private.install_complete) == 'boolean') or (E.private.install_complete and type(tonumber(E.private.install_complete)) == 'number' and tonumber(E.private.install_complete) <= 3.83)) then
+	local iver = E.private.install_complete
+	if (E.installSetup ~= true) and (not iver or ((type(iver) == 'boolean') or (type(tonumber(iver)) == 'number' and tonumber(iver) <= 0.1))) then
 		E.installSetup = nil
 		E:Install()
 	end

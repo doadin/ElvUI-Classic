@@ -71,10 +71,6 @@ function UF:Update_RaidHeader(header, db)
 
 		headerHolder.positioned = true;
 	end
-
-	if not header.forceShow and db.enable then
-		RegisterStateDriver(headerHolder, "visibility", headerHolder.db.visibility)
-	end
 end
 
 function UF:Update_RaidFrames(frame, db)
@@ -117,8 +113,6 @@ function UF:Update_RaidFrames(frame, db)
 		frame.INFO_PANEL_HEIGHT = frame.USE_INFO_PANEL and db.infoPanel.height or 0
 
 		frame.BOTTOM_OFFSET = UF:GetHealthBottomOffset(frame)
-
-		frame.VARIABLES_SET = true
 	end
 
 	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
@@ -129,8 +123,7 @@ function UF:Update_RaidFrames(frame, db)
 	UF:UpdateNameSettings(frame)
 
 	UF:EnableDisable_Auras(frame)
-	UF:Configure_Auras(frame, 'Buffs')
-	UF:Configure_Auras(frame, 'Debuffs')
+	UF:Configure_AllAuras(frame)
 
 	UF:Configure_AuraWatch(frame)
 	UF:Configure_CustomTexts(frame)

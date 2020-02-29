@@ -301,7 +301,7 @@ L["Copy Chat Lines"] = "複製聊天記錄"
 L["Copy From"] = "複製自"
 L["Copy settings from another unit."] = "從其他框架中複製設置"
 L["Copy Settings From"] = "複製設置"
-L["Core |cfffe7b2cElvUI|r options."] = "核心 |cfffe7b2cElvUI|r 選項"
+L["Core |cff1784d1ElvUI|r options."] = "核心 |cff1784d1ElvUI|r 選項"
 L["Count Font Size"] = "計數字體尺寸"
 L["Count xOffset"] = "層數X軸偏移"
 L["Count yOffset"] = "層數Y軸偏移"
@@ -1444,6 +1444,8 @@ L["nonPersonal"] = "他人的"
 L["notCastByUnit"] = "非該單位的"
 L["notDispellable"] = "不可驅散的"
 L["Personal"] = "自己的"
+L["MyPet"] = true
+L["OtherPet"] = true
 ----------------------------------
 
 L["ACTIONBARS_DESC"] = "修改動作條設定."

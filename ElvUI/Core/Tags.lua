@@ -7,14 +7,16 @@ local translitMark = '!'
 
 --Lua functions
 local _G = _G
-local select = select
-local wipe = wipe
-local floor = floor
-local pairs = pairs
-local gmatch, gsub, format = gmatch, gsub, format
-local strfind, strmatch, utf8lower, utf8sub = strfind, strmatch, string.utf8lower, string.utf8sub
-local strlower = strlower
+local tonumber, next = tonumber, next
+local pairs, wipe, floor, ceil = pairs, wipe, floor, ceil
+local gmatch, gsub, format, select = gmatch, gsub, format, select
+local strfind, strmatch, strlower, strsplit = strfind, strmatch, strlower, strsplit
+local utf8lower, utf8sub, utf8len = string.utf8lower, string.utf8sub, string.utf8len
+
 --WoW API / Variables
+local CreateTextureMarkup = CreateTextureMarkup
+local UnitFactionGroup = UnitFactionGroup
+local GetCVarBool = GetCVarBool
 local GetGuildInfo = GetGuildInfo
 local GetNumGroupMembers = GetNumGroupMembers
 local GetPVPTimer = GetPVPTimer
@@ -42,29 +44,28 @@ local UnitLevel = UnitLevel
 local UnitPower = UnitPower
 local UnitPowerMax = UnitPowerMax
 local UnitPowerType = UnitPowerType
-local UnitReaction = UnitReaction
-local UnitPlayerControlled = UnitPlayerControlled
-
-local CHAT_FLAG_AFK = CHAT_FLAG_AFK:gsub('<(.-)>', '|r<|cffFF0000%1|r>')
-local CHAT_FLAG_DND = CHAT_FLAG_DND:gsub('<(.-)>', '|r<|cffFFFF00%1|r>')
-local PVP = PVP
-local UNITNAME_SUMMON_TITLE17 = UNITNAME_SUMMON_TITLE17
-local UNKNOWN = UNKNOWN
-
-local GetCVarBool = GetCVarBool
-local GetNumQuestLogEntries = GetNumQuestLogEntries
-local GetQuestDifficultyColor = GetQuestDifficultyColor
-local GetQuestLogTitle = GetQuestLogTitle
 local UnitPVPName = UnitPVPName
-local LEVEL = LEVEL
-
-local HasPetUI = HasPetUI
-local GetPetHappiness = GetPetHappiness
-local CreateTextureMarkup = CreateTextureMarkup
+local UnitReaction = UnitReaction
 local CreateAtlasMarkup = CreateAtlasMarkup
 
+local CHAT_FLAG_AFK = CHAT_FLAG_AFK:gsub('<(.-)>', '|r<|cffFF3333%1|r>')
+local CHAT_FLAG_DND = CHAT_FLAG_DND:gsub('<(.-)>', '|r<|cffFFFF33%1|r>')
+
+local HasPetUI = HasPetUI
+local UnitPVPRank = UnitPVPRank
+local GetPVPRankInfo = GetPVPRankInfo
+local GetPetHappiness = GetPetHappiness
+local GetPetLoyalty = GetPetLoyalty
+local GetPetFoodTypes = GetPetFoodTypes
+
 local SPELL_POWER_MANA = Enum.PowerType.Mana or 0
--- GLOBALS: Hex, PowerBarColor, _TAGS, _COLORS
+local LEVEL = LEVEL
+local PVP = PVP
+
+-- GLOBALS: ElvUF, Hex, _TAGS, _COLORS
+
+--Expose local functions for plugins onto this table
+E.TagFunctions = {}
 
 ------------------------------------------------------------------------
 --	Tags
@@ -73,18 +74,15 @@ local SPELL_POWER_MANA = Enum.PowerType.Mana or 0
 local function UnitName(unit)
 	local name, realm = _G.UnitName(unit)
 
-	if (name == UNKNOWN and E.myclass == 'MONK') and UnitIsUnit(unit, 'pet') then
-		name = format(UNITNAME_SUMMON_TITLE17, _G.UnitName('player'))
-	end
-
-	if realm and realm ~= '' then
+	if realm and realm ~= "" then
 		return name, realm
 	else
 		return name
 	end
 end
+E.TagFunctions.UnitName = UnitName
 
-local function abbrev(name)
+local function Abbrev(name)
 	local letters, lastWord = '', strmatch(name, '.+%s(.+)$')
 	if lastWord then
 		for word in gmatch(name, '.-%s') do
@@ -97,6 +95,7 @@ local function abbrev(name)
 	end
 	return name
 end
+E.TagFunctions.Abbrev = Abbrev
 
 ElvUF.Tags.Events['status:text'] = 'PLAYER_FLAGS_CHANGED'
 ElvUF.Tags.Methods['status:text'] = function(unit)
@@ -245,7 +244,7 @@ for textFormat, length in pairs({veryshort = 5, short = 10, medium = 15, long = 
 		local name = UnitName(unit)
 
 		if name and strfind(name, '%s') then
-			name = abbrev(name)
+			name = Abbrev(name)
 		end
 
 		return name ~= nil and E:ShortenString(name, length) or ''
@@ -292,10 +291,38 @@ ElvUF.Tags.Methods['name:abbrev'] = function(unit)
 	local name = UnitName(unit)
 
 	if name and strfind(name, '%s') then
-		name = abbrev(name)
+		name = Abbrev(name)
 	end
 
 	return name ~= nil and name or ''
+end
+
+do
+	local function NameHealthColor(tags,hex,unit,default)
+		if hex == 'class' or hex == 'reaction' then
+			return tags.namecolor(unit)
+		elseif hex and strmatch(hex, '^%x%x%x%x%x%x$') then
+			return '|cFF'..hex
+		end
+
+		return default
+	end
+	E.TagFunctions.NameHealthColor = NameHealthColor
+
+	-- the third arg here is added from the user as like [name:health{ff00ff:00ff00}] or [name:health{class:00ff00}]
+	ElvUF.Tags.Events['name:health'] = 'UNIT_NAME_UPDATE UNIT_FACTION UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+	ElvUF.Tags.Methods['name:health'] = function(unit, _, args)
+		local name = UnitName(unit)
+		if not name then return '' end
+
+		local min, max, bco, fco = UnitHealth(unit), UnitHealthMax(unit), strsplit(':', args or '')
+		local to = ceil(utf8len(name) * (min / max))
+
+		local fill = NameHealthColor(_TAGS, fco, unit, '|cFFff3333')
+		local base = NameHealthColor(_TAGS, bco, unit, '|cFFffffff')
+
+		return to > 0 and (base..utf8sub(name, 0, to)..fill..utf8sub(name, to+1, -1)) or fill..name
+	end
 end
 
 ElvUF.Tags.Events['health:max'] = 'UNIT_MAXHEALTH'
@@ -359,7 +386,8 @@ ElvUF.Tags.Methods['manacolor'] = function()
 	if color then
 		return Hex(color[1], color[2], color[3])
 	else
-		return Hex(PowerBarColor.MANA.r, PowerBarColor.MANA.g, PowerBarColor.MANA.b)
+		local mana = _G.PowerBarColor.MANA
+		return Hex(mana.r, mana.g, mana.b)
 	end
 end
 

@@ -2078,6 +2078,14 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 		},
 	}
 
+	if groupName == 'player' then
+		config.args.EnergyManaRegen = {
+			type = 'toggle',
+			order = 3,
+			name = L["Energy/Mana Regen Tick"],
+		}
+	end
+
 	if hasDetatchOption then
 			config.args.detachFromFrame = {
 				type = 'toggle',
@@ -5996,6 +6004,12 @@ E.Options.args.unitframe.args.groupUnits.args.tank = {
 			type = 'group',
 			name = L["General"],
 			args = {
+				threatStyle = {
+					type = 'select',
+					order = 1,
+					name = L["Threat Display Mode"],
+					values = threatValues,
+				},
 				orientation = {
 					order = 2,
 					type = "select",
@@ -6094,6 +6108,7 @@ E.Options.args.unitframe.args.groupUnits.args.tank = {
 		buffs = GetOptionsTable_Auras('buffs', true, UF.CreateAndUpdateHeaderGroup, 'tank'),
 		cutaway = GetOptionsTable_Cutaway(UF.CreateAndUpdateHeaderGroup, 'tank'),
 		debuffs = GetOptionsTable_Auras('debuffs', true, UF.CreateAndUpdateHeaderGroup, 'tank'),
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, 'tank'),
 		fader = GetOptionsTable_Fader(UF.CreateAndUpdateHeaderGroup, 'tank'),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'tank'),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, 'tank'),
@@ -6130,6 +6145,12 @@ E.Options.args.unitframe.args.groupUnits.args.assist = {
 			type = 'group',
 			name = L["General"],
 			args = {
+				threatStyle = {
+					type = 'select',
+					order = 1,
+					name = L["Threat Display Mode"],
+					values = threatValues,
+				},
 				orientation = {
 					order = 2,
 					type = "select",
@@ -6229,6 +6250,7 @@ E.Options.args.unitframe.args.groupUnits.args.assist = {
 		cutaway = GetOptionsTable_Cutaway(UF.CreateAndUpdateHeaderGroup, 'assist'),
 		debuffs = GetOptionsTable_Auras('debuffs', true, UF.CreateAndUpdateHeaderGroup, 'assist'),
 		fader = GetOptionsTable_Fader(UF.CreateAndUpdateHeaderGroup, 'assist'),
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, 'assist'),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'assist'),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, 'assist'),
 	},
