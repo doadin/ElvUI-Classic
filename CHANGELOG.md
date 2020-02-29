@@ -1,4 +1,6 @@
-### Version 1.23 [ETA: 🍨]
+### Version 1.24 [ETA: 🍨]
+___
+### Version 1.23 [02/29/2020]
 **DataTexts:** Increased load/update speed  
 **Errors:** Fixed "fstack-preferParentKeys" cvar error  
 **HealComm:** Added back Tank/Assist heal prediction  
