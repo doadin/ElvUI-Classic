@@ -1,4 +1,5 @@
 ### Version 1.24 [ETA: 🍨]
+**UnitFrames:** ThreatIndicator changes to fix lags/freezes  
 ___
 ### Version 1.231 [02/29/2020]
 **HealComm:** Fixed Tank/Assist heal prediction  
