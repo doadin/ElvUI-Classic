@@ -105,12 +105,12 @@ end
 
 function UF:EnableDisable_Auras(frame)
 	if frame.db.debuffs.enable or frame.db.buffs.enable then
-		frame:SetAuraUpdateMethod(E.global.unitframe.effectiveAura)
-		frame:SetAuraUpdateSpeed(E.global.unitframe.effectiveAuraSpeed)
-
 		if not frame:IsElementEnabled('Auras') then
 			frame:EnableElement('Auras')
 		end
+
+		frame:SetAuraUpdateMethod(E.global.unitframe.effectiveAura)
+		frame:SetAuraUpdateSpeed(E.global.unitframe.effectiveAuraSpeed)
 	else
 		if frame:IsElementEnabled('Auras') then
 			frame:DisableElement('Auras')
@@ -336,23 +336,6 @@ local function SortAurasByCaster(a, b)
 	end
 end
 
-local function SortAurasByIndex(a, b)
-	if (a and b and a:GetParent().db) then
-		if a:IsShown() and b:IsShown() then
-			local sortDirection = a:GetParent().db.sortDirection
-			local aIndex = a:GetID() or 0
-			local bIndex = b:GetID() or 0
-			if(sortDirection == "DESCENDING") then
-				return aIndex < bIndex
-			else
-				return aIndex > bIndex
-			end
-		elseif a:IsShown() then
-			return true
-		end
-	end
-end
-
 function UF:SortAuras()
 	if not self.db then return end
 
@@ -365,8 +348,6 @@ function UF:SortAuras()
 		sort(self, SortAurasByDuration)
 	elseif self.db.sortMethod == "PLAYER" then
 		sort(self, SortAurasByCaster)
-	elseif self.db.sortMethod == "INDEX" then
-		sort(self, SortAurasByIndex)
 	end
 
 	--Look into possibly applying filter priorities for auras here.
