@@ -96,7 +96,7 @@ function UF:UpdateThreat(unit, status, r, g, b)
 	local db = parent.db
 	if not db or (not db.threatStyle or db.threatStyle == 'NONE') then return end
 
-	if status and status > 1 then
+	if status then
 		if db.threatStyle == 'GLOW' then
 			self.glow:Show()
 			self.glow:SetBackdropBorderColor(r, g, b)
