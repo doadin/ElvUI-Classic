@@ -33,11 +33,6 @@ local oUF = ns.oUF
 local Private = oUF.Private
 
 local unitExists = Private.unitExists
-local ThreatLib = LibStub:GetLibrary("LibThreatClassic2")
-
-local UnitThreatSituation = function(unit, mob)
-    return ThreatLib:UnitThreatSituation(unit, mob)
-end
 
 local function Update(self, event, unit)
 	if(unit ~= self.unit) then return end
@@ -54,17 +49,25 @@ local function Update(self, event, unit)
 	unit = unit or self.unit
 
 	local status
-	-- BUG: Non-existent '*target' or '*pet' units cause UnitThreatSituation() errors
-	if(unitExists(unit)) then
-		status = UnitThreatSituation(unit, unit..'target')
+
+	if(unitExists(unit) and UnitIsFriend("player", unit)) then
+		if(UnitIsUnit(unit, "targettarget") and UnitCanAttack("player", "target")) then
+			status = true
+		end
+		if(IsInGroup() and not status) then
+			for i=1,GetNumGroupMembers() do
+				local target = IsInRaid() and "raid"..i.."target" or "party"..i.."target"
+				if(UnitIsUnit(unit, target.."target") and UnitCanAttack("player", target)) then
+					status = true
+					break
+				end
+			end
+		end
 	end
 
-	local r, g, b
-	if(status and status > 0) then
-		r, g, b = unpack(self.colors.threat[status])
-
+	if(status) then
 		if(element.SetVertexColor) then
-			element:SetVertexColor(r, g, b)
+			element:SetVertexColor(1, 0, 0)
 		end
 
 		element:Show()
@@ -83,7 +86,7 @@ local function Update(self, event, unit)
 	* b      - the blue color component based on the unit's threat status (number?)[0-1]
 	--]]
 	if(element.PostUpdate) then
-		return element:PostUpdate(unit, status, r, g, b)
+		return element:PostUpdate(unit, status, 1, 0, 0)
 	end
 end
 
@@ -108,12 +111,18 @@ local function Enable(self)
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-		ThreatLib.RegisterCallback(element, "Activate", ForceUpdate, element)
-		ThreatLib.RegisterCallback(element, "Deactivate", ForceUpdate, element)
-		ThreatLib.RegisterCallback(element, "PartyChanged", ForceUpdate, element)
-		ThreatLib.RegisterCallback(element, "ThreatUpdated", ForceUpdate, element)
-		ThreatLib.RegisterCallback(element, "ThreatCleared", ForceUpdate, element)
-
+		--self:RegisterEvent("UNIT_TARGET", Path)
+		if(self.unit == "targettarget" or self.unit == "targettargettarget") then
+			self:RegisterEvent("UNIT_TARGET", Path)
+		else
+			self.elapsed = 0.2
+			self:SetScript("OnUpdate", function(self, elapsed) 
+				self.elapsed = self.elapsed - elapsed
+				if(self.elapsed > 0) then return end
+				self.elapsed = 0.2
+				ForceUpdate(self.ThreatIndicator) 
+				end)
+		end
 		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\RAIDFRAME\UI-RaidFrame-Threat]])
 		end
@@ -126,13 +135,11 @@ local function Disable(self)
 	local element = self.ThreatIndicator
 	if(element) then
 		element:Hide()
-		element:SetScript('OnUpdate', nil)
-
-		ThreatLib.UnregisterCallback(element, "Activate")
-		ThreatLib.UnregisterCallback(element, "Deactivate")
-		ThreatLib.UnregisterCallback(element, "PartyChanged")
-		ThreatLib.UnregisterCallback(element, "ThreatUpdated")
-		ThreatLib.UnregisterCallback(element, "ThreatCleared")
+		if(self.unit == "targettarget" or "targettargettarget") then
+			self:UnregisterEvent("UNIT_TARGET", Path)
+		else
+			self:SetScript("OnUpdate", nil)
+		end
 	end
 end
 
