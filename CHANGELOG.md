@@ -1,4 +1,6 @@
-### Version 1.24 [ETA: 🍨]
+### Version 1.25 [ETA: Soon™]
+___
+### Version 1.24 [03/03/2020]
 **UnitFrames:** ThreatIndicator changes to fix lags/freezes  
 ___
 ### Version 1.231 [02/29/2020]
