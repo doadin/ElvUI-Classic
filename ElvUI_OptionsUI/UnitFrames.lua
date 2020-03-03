@@ -227,7 +227,6 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 					['TIME_REMAINING'] = L["Time Remaining"],
 					['DURATION'] = L["Duration"],
 					['NAME'] = L["NAME"],
-					['INDEX'] = L["Index"],
 					["PLAYER"] = L["PLAYER"],
 				},
 			},

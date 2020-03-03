@@ -105,12 +105,12 @@ end
 
 function UF:EnableDisable_Auras(frame)
 	if frame.db.debuffs.enable or frame.db.buffs.enable then
-		frame:SetAuraUpdateMethod(E.global.unitframe.effectiveAura)
-		frame:SetAuraUpdateSpeed(E.global.unitframe.effectiveAuraSpeed)
-
 		if not frame:IsElementEnabled('Auras') then
 			frame:EnableElement('Auras')
 		end
+
+		frame:SetAuraUpdateMethod(E.global.unitframe.effectiveAura)
+		frame:SetAuraUpdateSpeed(E.global.unitframe.effectiveAuraSpeed)
 	else
 		if frame:IsElementEnabled('Auras') then
 			frame:DisableElement('Auras')
@@ -139,10 +139,10 @@ function UF:Configure_AllAuras(frame)
 	UF:Configure_Auras(frame, 'Debuffs')
 end
 
-function UF:Configure_Auras(frame, auraType)
+function UF:Configure_Auras(frame, which)
 	local db = frame.db
-	local auras = frame[auraType]
-	auraType = auraType:lower()
+	local auras = frame[which]
+	local auraType = which:lower()
 	auras.db = db[auraType]
 
 	local position = db.smartAuraPosition
@@ -199,22 +199,39 @@ function UF:Configure_Auras(frame, auraType)
 		frame.Debuffs.PostUpdate = nil
 	end
 
+	if db.debuffs.attachTo == 'BUFFS' and db.buffs.attachTo == 'DEBUFFS' then
+		E:Print(format(L["%s frame has a conflicting anchor point. Forcing the Buffs to be attached to the main unitframe."], E:StringTitle(frame:GetName())))
+		db.buffs.attachTo = 'FRAME'
+	end
+
 	local rows = auras.db.numrows
 	auras.spacing = auras.db.spacing
+	auras.attachTo = self:GetAuraAnchorFrame(frame, auras.db.attachTo)
+
+	if auras.db.sizeOverride and auras.db.sizeOverride > 0 then
+		auras:Width(auras.db.perrow * auras.db.sizeOverride + ((auras.db.perrow - 1) * auras.spacing))
+	else
+		local totalWidth = frame.UNIT_WIDTH - frame.SPACING*2
+		if frame.USE_POWERBAR_OFFSET and not (auras.attachTo == "POWER" and frame.ORIENTATION == "MIDDLE") then
+			local powerOffset = ((frame.ORIENTATION == "MIDDLE" and 2 or 1) * frame.POWERBAR_OFFSET)
+			totalWidth = totalWidth - powerOffset
+		end
+		auras:Width(totalWidth)
+	end
+
 	auras.num = auras.db.perrow * rows
 	auras.size = auras.db.sizeOverride ~= 0 and auras.db.sizeOverride or ((((auras:GetWidth() - (auras.spacing*(auras.num/rows - 1))) / auras.num)) * rows)
 	auras.forceShow = frame.forceShowAuras
 	auras.disableMouse = auras.db.clickThrough
 	auras.anchorPoint = auras.db.anchorPoint
 	auras.initialAnchor = E.InversePoints[auras.anchorPoint]
-	auras.attachTo = self:GetAuraAnchorFrame(frame, auras.db.attachTo, db.debuffs.attachTo == 'BUFFS' and db.buffs.attachTo == 'DEBUFFS')
 	auras["growth-y"] = strfind(auras.anchorPoint, 'TOP') and 'UP' or 'DOWN'
 	auras["growth-x"] = auras.anchorPoint == 'LEFT' and 'LEFT' or  auras.anchorPoint == 'RIGHT' and 'RIGHT' or (strfind(auras.anchorPoint, 'LEFT') and 'RIGHT' or 'LEFT')
 
 	local x, y = E:GetXYOffset(auras.anchorPoint, frame.SPACING) --Use frame.SPACING override since it may be different from E.Spacing due to forced thin borders
-	if auras.db.attachTo == "FRAME" then
+	if auras.attachTo == "FRAME" then
 		y = 0
-	elseif auras.db.attachTo == "HEALTH" or auras.db.attachTo == "POWER" then
+	elseif auras.attachTo == "HEALTH" or auras.attachTo == "POWER" then
 		x = E:GetXYOffset(auras.anchorPoint, -frame.BORDER)
 		y = select(2, E:GetXYOffset(auras.anchorPoint, (frame.BORDER + frame.SPACING)))
 	else
@@ -222,17 +239,6 @@ function UF:Configure_Auras(frame, auraType)
 	end
 	auras.xOffset = x + auras.db.xOffset
 	auras.yOffset = y + auras.db.yOffset
-
-	if auras.db.sizeOverride and auras.db.sizeOverride > 0 then
-		auras:Width(auras.db.perrow * auras.db.sizeOverride)
-	else
-		local totalWidth = frame.UNIT_WIDTH - frame.SPACING*2
-		if frame.USE_POWERBAR_OFFSET and not (auras.db.attachTo == "POWER" and frame.ORIENTATION == "MIDDLE") then
-			local powerOffset = ((frame.ORIENTATION == "MIDDLE" and 2 or 1) * frame.POWERBAR_OFFSET)
-			totalWidth = totalWidth - powerOffset
-		end
-		auras:Width(totalWidth)
-	end
 
 	local index = 1
 	while auras[index] do
@@ -330,23 +336,6 @@ local function SortAurasByCaster(a, b)
 	end
 end
 
-local function SortAurasByIndex(a, b)
-	if (a and b and a:GetParent().db) then
-		if a:IsShown() and b:IsShown() then
-			local sortDirection = a:GetParent().db.sortDirection
-			local aIndex = a:GetID() or 0
-			local bIndex = b:GetID() or 0
-			if(sortDirection == "DESCENDING") then
-				return aIndex < bIndex
-			else
-				return aIndex > bIndex
-			end
-		elseif a:IsShown() then
-			return true
-		end
-	end
-end
-
 function UF:SortAuras()
 	if not self.db then return end
 
@@ -359,8 +348,6 @@ function UF:SortAuras()
 		sort(self, SortAurasByDuration)
 	elseif self.db.sortMethod == "PLAYER" then
 		sort(self, SortAurasByCaster)
-	elseif self.db.sortMethod == "INDEX" then
-		sort(self, SortAurasByIndex)
 	end
 
 	--Look into possibly applying filter priorities for auras here.
