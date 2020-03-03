@@ -116,12 +116,12 @@ local function Enable(self)
 			self:RegisterEvent("UNIT_TARGET", Path)
 		else
 			self.elapsed = 0.2
-			self:SetScript("OnUpdate", function(self, elapsed) 
+			self:SetScript("OnUpdate", function(self, elapsed)
 				self.elapsed = self.elapsed - elapsed
 				if(self.elapsed > 0) then return end
 				self.elapsed = 0.2
-				ForceUpdate(self.ThreatIndicator) 
-				end)
+				ForceUpdate(element)
+			end)
 		end
 		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\RAIDFRAME\UI-RaidFrame-Threat]])
