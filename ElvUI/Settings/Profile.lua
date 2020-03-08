@@ -958,6 +958,7 @@ local UF_Auras = {
 	countFont = 'PT Sans Narrow',
 	countFontOutline = 'OUTLINE',
 	countFontSize = 12,
+	desaturate = true,
 	durationPosition = 'CENTER',
 	enable = false,
 	numrows = 1,
