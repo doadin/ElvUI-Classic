@@ -87,8 +87,8 @@ function B:SizeAndPositionBagBar()
 		end
 	end
 
-	local btnSize = bagBarSize * (NUM_BAG_FRAMES + 1)
-	local btnSpace = btnSpacing * NUM_BAG_FRAMES
+	local btnSize = bagBarSize * (NUM_BAG_FRAMES + 2)
+	local btnSpace = btnSpacing * (NUM_BAG_FRAMES + 1)
 	local bdpDoubled = bdpSpacing * 2
 
 	if growthDirection == 'HORIZONTAL' then
