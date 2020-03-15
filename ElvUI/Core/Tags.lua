@@ -958,7 +958,7 @@ ElvUF.Tags.Events['creature'] = ''
 
 E.TagInfo = {
 	--Colors
-	['namecolor'] = { category = 'Colors', description = "Colors names by player class or NPC reaction" },
+	['namecolor'] = { category = 'Colors', description = "Colors names by player class or NPC reaction (Ex: ['namecolor']['name'])" },
 	['reactioncolor'] = { category = 'Colors', description = "Colors names by NPC reaction (Bad/Neutral/Good)" },
 	['powercolor'] = { category = 'Colors', description = "Colors the power text based upon its type" },
 	['happiness:color'] = { category = 'Colors', description = "Colors the following tags based upon pet happiness (e.g. happy = green)" },
