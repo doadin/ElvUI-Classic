@@ -2765,6 +2765,12 @@ local function GetOptionsTable_GeneralGroup(updateFunc, groupName, numUnits)
 				type = 'range',
 				min = 10, max = 500, step = 1,
 			},
+			threatStyle = {
+				type = 'select',
+				order = 7,
+				name = L["Threat Display Mode"],
+				values = threatValues,
+			},
 			orientation = {
 				order = 9,
 				type = "select",
@@ -2803,44 +2809,6 @@ local function GetOptionsTable_GeneralGroup(updateFunc, groupName, numUnits)
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = smartAuraPositionValues,
 		}
-	end
-
-	if groupName ~= 'arena' then
-		config.args.threatStyle = {
-			type = 'select',
-			order = 7,
-			name = L["Threat Display Mode"],
-			values = threatValues,
-		}
-	end
-
-	if groupName == 'boss' or groupName == 'arena' then
-		config.args.spacing = {
-			order = 11,
-			type = "range",
-			name = L["Spacing"],
-			min = ((E.db.unitframe.thinBorders or E.PixelMode) and -1 or -4), max = 400, step = 1,
-		}
-		config.args.growthDirection = {
-			order = 4,
-			type = "select",
-			name = L["Growth Direction"],
-			values = {
-				["UP"] = L["Bottom to Top"],
-				["DOWN"] = L["Top to Bottom"],
-				["LEFT"] = L["Right to Left"],
-				["RIGHT"] = L["Left to Right"],
-			},
-		}
-
-		if groupName == 'arena' then
-			config.args.pvpSpecIcon = {
-				order = 21,
-				name = L["Spec Icon"],
-				desc = L["Display icon on arena frame indicating the units talent specialization or the units faction if inside a battleground."],
-				type = 'toggle',
-			}
-		end
 	end
 
 	if groupName == 'party' or groupName == 'raid' or groupName == 'raid40' or groupName == 'raidpet'  then
