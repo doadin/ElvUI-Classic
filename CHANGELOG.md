@@ -1,4 +1,8 @@
 ### Version 1.25 [ETA: Soon™]
+**ActionBars:** Fixed an issue with the Stance Bar  
+**General:** Removed the custom shaman color  
+**Skins:** Fixed the "Loot" skin  
+**UnitFrames:** Fixed reverseFill in healthprediction  
 ___
 ### Version 1.24 [03/03/2020]
 **UnitFrames:** ThreatIndicator changes to fix lags/freezes  
