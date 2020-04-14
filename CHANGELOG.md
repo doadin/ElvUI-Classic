@@ -3,7 +3,7 @@
 **CastBars:** Added ChannelTicks for Blizzard (Mage)  
 **General:** Removed the custom shaman color  
 **Skins:** Fixed the "Loot" skin  
-**Skins:** Fixed the "Trade" skin  
+**Skins:** Fixed the "TradeSkill" skin  
 **UnitFrames:** Fixed reverseFill in healthprediction  
 ___
 ### Version 1.24 [03/03/2020]
