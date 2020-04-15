@@ -399,6 +399,7 @@ G.unitframe.aurafilters.RaidDebuffs = {
 		[24664] = Defaults(2), --Sleep
 		[17172] = Defaults(2), --Hex
 		[24306] = Defaults(2), --Delusions of Jin'do
+		[24099] = Defaults(2), --Poison Bolt Volley
 	-- Ahn'Qiraj Ruins
 		[25646] = Defaults(2), --Mortal Wound
 		[25471] = Defaults(2), --Attack Order
@@ -520,6 +521,9 @@ G.unitframe.aurafilters.RaidBuffsElvUI = {
 		[20620] = Defaults(), --Aegis of Ragnaros
 		[21075] = Defaults(), --Damage Shield
 		[20619] = Defaults(), --Magic Reflection
+	--Zul'Gurub
+		--High Priest Venoxis
+		[23895] = Defaults(), --Renew
 	},
 }
 
