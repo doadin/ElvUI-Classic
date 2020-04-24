@@ -429,6 +429,10 @@ G.unitframe.aurafilters.RaidDebuffs = {
 G.unitframe.aurafilters.DungeonDebuffs = {
 	type = 'Whitelist',
 	spells = {
+	--Multiple Dungeons
+		[744] = Defaults(2), --Poison
+		[18267] = Defaults(2), --Curse of Weakness
+		[20800] = Defaults(2), --Immolate
 		[246] = Defaults(2), --Slow
 		[6533] = Defaults(2), --Net
 		[8399] = Defaults(2), --Sleep
@@ -444,10 +448,6 @@ G.unitframe.aurafilters.DungeonDebuffs = {
 	-- Maraudon
 		[7964] = Defaults(2), --Smoke Bomb
 		[21869] = Defaults(2), --Repulsive Gaze
-	--
-		[744] = Defaults(2), --Poison
-		[18267] = Defaults(2), --Curse of Weakness
-		[20800] = Defaults(2), --Immolate
 	-- Razorfen Downs
 		[12255] = Defaults(2), --Curse of Tuten'kash
 		[12252] = Defaults(2), --Web Spray
