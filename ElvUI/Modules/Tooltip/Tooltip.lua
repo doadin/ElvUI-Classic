@@ -177,25 +177,25 @@ function TT:GetLevelLine(tt, offset)
 end
 
 function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
-	local color
+	local name, realm = UnitName(unit)
+
 	if UnitIsPlayer(unit) then
 		local localeClass, class = UnitClass(unit)
 		if not localeClass or not class then return end
 
-		local name, realm = UnitName(unit)
 		local nameRealm = (realm and realm ~= "" and format("%s-%s", name, realm)) or name
 		local guildName, guildRankName = GetGuildInfo(unit)
 		local pvpName = UnitPVPName(unit)
 		local relationship = UnitRealmRelationship(unit)
 
-		color = E:ClassColor(class) or PRIEST_COLOR
+		local nameColor = E:ClassColor(class) or PRIEST_COLOR
 
 		if self.db.playerTitles and pvpName then
 			name = pvpName
 		end
 
 		if realm and realm ~= "" then
-			if(isShiftKeyDown) or self.db.alwaysShowRealm then
+			if isShiftKeyDown or self.db.alwaysShowRealm then
 				name = name.."-"..realm
 			elseif(relationship == _G.LE_REALM_RELATION_COALESCED) then
 				name = name.._G.FOREIGN_SERVER_LABEL
@@ -204,15 +204,9 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 			end
 		end
 
-		if not color then color = PRIEST_COLOR end
+		name = name .. ((UnitIsAFK(unit) and AFK_LABEL) or (UnitIsDND(unit) and DND_LABEL) or '')
 
-		if UnitIsAFK(unit) then
-			name = name..AFK_LABEL
-		elseif UnitIsDND(unit) then
-			name = name..DND_LABEL
-		end
-
-		_G.GameTooltipTextLeft1:SetFormattedText("|c%s%s|r", color.colorStr, name or UNKNOWN)
+		_G.GameTooltipTextLeft1:SetFormattedText("|c%s%s|r", nameColor.colorStr, name or UNKNOWN)
 
 		local lineOffset = 2
 		if guildName then
@@ -244,45 +238,50 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 				GameTooltip:AddDoubleLine(L["ElvUI Version:"], addonUser, r,g,b, v and 0 or 1, v and 1 or 0, 0)
 			end
 		end
+
+		return nameColor
 	else
-		if UnitIsTapDenied(unit) then
-			color = TAPPED_COLOR
-		else
-			local unitReaction = UnitReaction(unit, "player")
-			if E.db.tooltip.useCustomFactionColors then
-				if unitReaction then
-					color = E.db.tooltip.factionColors[unitReaction]
-				end
-			else
-				color = _G.FACTION_BAR_COLORS[unitReaction]
-			end
-		end
-
-		if not color then
-			color = _G.RAID_CLASS_COLORS.PRIEST
-		end
-
 		local levelLine = self:GetLevelLine(tt, 2)
 		if levelLine then
 			local creatureClassification = UnitClassification(unit)
 			local creatureType = UnitCreatureType(unit)
-			local pvpFlag = ""
-			local diffColor = GetCreatureDifficultyColor(level)
+			local pvpFlag, diffColor
 
-			if(UnitIsPVP(unit)) then
+			if isPetWild or isPetCompanion then
+				level = UnitBattlePetLevel(unit)
+
+				local petType = _G["BATTLE_PET_NAME_"..UnitBattlePetType(unit)]
+				if creatureType then
+					creatureType = format("%s %s", creatureType, petType)
+				else
+					creatureType = petType
+				end
+
+				local teamLevel = C_PetJournalGetPetTeamAverageLevel()
+				if teamLevel then
+					diffColor = GetRelativeDifficultyColor(teamLevel, level)
+				else
+					diffColor = GetCreatureDifficultyColor(level)
+				end
+			else
+				diffColor = GetCreatureDifficultyColor(level)
+			end
+
+			if UnitIsPVP(unit) then
 				pvpFlag = format(" (%s)", _G.PVP)
 			end
 
-			local classificationString = ''
-			if (creatureClassification == 'rare' or creatureClassification == 'elite' or creatureClassification == 'rareelite' or creatureClassification == 'worldboss') then
-				classificationString = format('%s %s|r', ElvUF.Tags.Methods['classificationcolor'](unit), ElvUF.Tags.Methods["classification"](unit))
-			end
-
-			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", classificationString, creatureType or "", pvpFlag)
+			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", classification[creatureClassification] or "", creatureType or "", pvpFlag or "")
 		end
-	end
 
-	return color
+		local unitReaction = UnitReaction(unit, "player")
+		local nameColor = unitReaction and ((E.db.tooltip.useCustomFactionColors and E.db.tooltip.factionColors[unitReaction]) or _G.FACTION_BAR_COLORS[unitReaction]) or PRIEST_COLOR
+		local nameColorStr = nameColor.colorStr or E:RGBToHex(nameColor.r, nameColor.g, nameColor.b, 'ff')
+
+		_G.GameTooltipTextLeft1:SetFormattedText("|c%s%s|r", nameColorStr, name or UNKNOWN)
+
+		return (UnitIsTapDenied(unit) and TAPPED_COLOR) or nameColor
+	end
 end
 
 local inspectGUIDCache = {}
@@ -419,7 +418,8 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 				local _, class = UnitClass(unitTarget)
 				targetColor = E:ClassColor(class) or PRIEST_COLOR
 			else
-				targetColor = E.db.tooltip.useCustomFactionColors and E.db.tooltip.factionColors[UnitReaction(unitTarget, "player")] or _G.FACTION_BAR_COLORS[UnitReaction(unitTarget, "player")]
+				local reaction = UnitReaction(unitTarget, "player")
+				targetColor = (E.db.tooltip.useCustomFactionColors and E.db.tooltip.factionColors[reaction]) or _G.FACTION_BAR_COLORS[reaction] or PRIEST_COLOR
 			end
 
 			tt:AddDoubleLine(format("%s:", _G.TARGET), format("|cff%02x%02x%02x%s|r", targetColor.r * 255, targetColor.g * 255, targetColor.b * 255, UnitName(unitTarget)))
