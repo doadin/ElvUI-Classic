@@ -132,11 +132,17 @@ function E:CreateStatusFrame()
 	titleLogoFrame:Size(240, 80)
 	StatusFrame.TitleLogoFrame = titleLogoFrame
 
-	local titleTexture = StatusFrame.TitleLogoFrame:CreateTexture(nil, 'ARTWORK')
-	titleTexture:Point('CENTER', titleLogoFrame, 'TOP', 0, -36)
-	titleTexture:SetTexture(E.Media.Textures.LogoSmall)
-	titleTexture:Size(128, 64)
-	titleLogoFrame.Texture = titleTexture
+	local LogoTop = StatusFrame.TitleLogoFrame:CreateTexture(nil, 'ARTWORK')
+	LogoTop:Point('CENTER', titleLogoFrame, 'TOP', 0, -36)
+	LogoTop:SetTexture(E.Media.Textures.LogoTopSmall)
+	LogoTop:Size(128, 64)
+	titleLogoFrame.LogoTop = LogoTop
+
+	local LogoBottom = StatusFrame.TitleLogoFrame:CreateTexture(nil, 'ARTWORK')
+	LogoBottom:Point('CENTER', titleLogoFrame, 'TOP', 0, -36)
+	LogoBottom:SetTexture(E.Media.Textures.LogoBottomSmall)
+	LogoBottom:Size(128, 64)
+	titleLogoFrame.LogoBottom = LogoBottom
 
 	--Sections
 	StatusFrame.Section1 = CreateSection(300, 125, StatusFrame, 'TOP', StatusFrame, 'TOP', -30)
@@ -201,6 +207,8 @@ local function UpdateDynamicValues()
 	local Section3 = StatusFrame.Section3
 	Section3.Content.Line4.Text:SetFormattedText('Level: |cff4beb2c%s|r', E.mylevel)
 	Section3.Content.Line5.Text:SetFormattedText('Zone: |cff4beb2c%s|r', GetRealZoneText())
+
+	StatusFrame.TitleLogoFrame.LogoTop:SetVertexColor(unpack(E.media.rgbvaluecolor))
 end
 
 function E:ShowStatusReport()
