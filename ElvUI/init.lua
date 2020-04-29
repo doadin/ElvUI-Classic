@@ -220,8 +220,14 @@ function E:OnInitialize()
 end
 
 function E:PositionGameMenuButton()
-	local GameMenuTitle = select(2, GameMenuFrame:GetRegions())
-    GameMenuTitle:SetTextColor(unpack(E.media.rgbvaluecolor))
+	for i=1, GameMenuFrame:GetNumRegions() do
+		local region = select(i, GameMenuFrame:GetRegions())
+		if region:IsObjectType('FontString') and region:GetText() == MAINMENU_BUTTON then
+			region:SetTextColor(unpack(E.media.rgbvaluecolor))
+			break
+		end
+	end
+
 	GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() + GameMenuButtonLogout:GetHeight() - 4)
 
 	local button = GameMenuFrame[E.name]
