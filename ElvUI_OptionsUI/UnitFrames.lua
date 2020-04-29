@@ -4939,6 +4939,12 @@ E.Options.args.unitframe.args.groupUnits.args.raid = {
 	set = function(info, value) E.db.unitframe.units.raid[info[#info]] = value; UF:CreateAndUpdateHeaderGroup('raid') end,
 	disabled = function() return not E.UnitFrames.Initialized end,
 	args = {
+		header = {
+			order = 0,
+			type = "description",
+			name = L['|cffFF0000Warning:|r Enable is managed by Smart Raid Filter. Disable Smart Raid Filter in (UnitFrames - General) to toggle these frames.'],
+			hidden = function() return not E.db.unitframe.smartRaidFilter end,
+		},
 		enable = {
 			type = 'toggle',
 			order = 1,
@@ -5001,6 +5007,12 @@ E.Options.args.unitframe.args.groupUnits.args.raid40 = {
 	set = function(info, value) E.db.unitframe.units.raid40[info[#info]] = value; UF:CreateAndUpdateHeaderGroup('raid40') end,
 	disabled = function() return not E.UnitFrames.Initialized end,
 	args = {
+		header = {
+			order = 0,
+			type = "description",
+			name = L['|cffFF0000Warning:|r Enable is managed by Smart Raid Filter. Disable Smart Raid Filter in (UnitFrames - General) to toggle these frames.'],
+			hidden = function() return not E.db.unitframe.smartRaidFilter end,
+		},
 		enable = {
 			type = 'toggle',
 			order = 1,
@@ -5063,6 +5075,12 @@ E.Options.args.unitframe.args.groupUnits.args.raidpet = {
 	set = function(info, value) E.db.unitframe.units.raidpet[info[#info]] = value; UF:CreateAndUpdateHeaderGroup('raidpet') end,
 	disabled = function() return not E.UnitFrames.Initialized end,
 	args = {
+		header = {
+			order = 0,
+			type = "description",
+			name = L['|cffFF0000Warning:|r Enable is managed by Smart Raid Filter. Disable Smart Raid Filter in (UnitFrames - General) to toggle these frames.'],
+			hidden = function() return not E.db.unitframe.smartRaidFilter end,
+		},
 		enable = {
 			type = 'toggle',
 			order = 1,
