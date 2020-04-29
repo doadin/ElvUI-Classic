@@ -1,9 +1,16 @@
 ### Version 1.25 [ETA: Soon™]
 **ActionBars:** Fixed an issue with the Stance Bar  
+**AuraBars:** Fixed an issue with Class Color  
 **CastBars:** Added ChannelTicks for Blizzard (Mage)  
+**CutawayBars:** Cutaway colors react instantly now  
+**Filters:** Added 2 new special filters: MyPet, OtherPet  
+**Filters:** Add or Remove spell from a filter should now work how it was always meant to  
 **General:** Removed the custom shaman color  
+**NamePlates:** Style Filters now support changing the Nameplate Tags for Health, Power, Name, Title, and Level  
 **Skins:** Fixed the "Loot" skin  
 **Skins:** Fixed the "TradeSkill" skin  
+**Tags:** Added [name:health] which displays health lost using colors on the name text  
+**Tags:** Added [ElvUI-Users] which displays other cool people than yourself  
 **UnitFrames:** Fixed reverseFill in healthprediction  
 ___
 ### Version 1.24 [03/03/2020]
