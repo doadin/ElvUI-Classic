@@ -30,7 +30,6 @@ function DT:Initialize()
 
 	LDB.RegisterCallback(E, "LibDataBroker_DataObjectCreated", DT.SetupObjectLDB)
 	self:RegisterLDB() -- LibDataBroker
-	self:RegisterCustomCurrencyDT() -- Register all the user created currency datatexts from the "CustomCurrency" DT.
 	self:RegisterEvent('PLAYER_ENTERING_WORLD', 'LoadDataTexts')
 end
 
