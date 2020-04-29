@@ -16,7 +16,7 @@ local function OnUpdate(self)
 end
 
 local function OnEvent(self, event, _, timeSeconds)
-	if(event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_REGEN_ENABLED") then
+	if(event == "PLAYER_REGEN_ENABLED") then
 		self:SetScript("OnUpdate", nil)
 	elseif(event == "PLAYER_REGEN_DISABLED") then
 		startTime = GetTime()
@@ -39,4 +39,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('Combat Time', {"START_TIMER", "PLAYER_ENTERING_WORLD", "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED"}, OnEvent, nil, nil, nil, nil, L["Combat Time"])
+DT:RegisterDatatext('Combat Time', {"PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED"}, OnEvent, nil, nil, nil, nil, L["Combat Time"])
