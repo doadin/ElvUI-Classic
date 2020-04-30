@@ -121,7 +121,7 @@ end
 
 function DT:UpdateAllDimensions()
 	for _, panel in pairs(DT.RegisteredPanels) do
-		DT.UpdateDimensions(panel)
+		DT.UpdatePanelDimensions(panel)
 	end
 end
 
