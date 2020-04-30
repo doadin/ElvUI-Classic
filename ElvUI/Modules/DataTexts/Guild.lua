@@ -102,13 +102,14 @@ end
 
 local resendRequest = false
 local eventHandlers = {
-	['CHAT_MSG_SYSTEM'] = function(self, arg1)
-		if(FRIEND_ONLINE ~= nil and arg1 and strfind(arg1, FRIEND_ONLINE)) then
+	["PLAYER_GUILD_UPDATE"] = C_GuildInfo_GuildRoster,
+	["CHAT_MSG_SYSTEM"] = function(_, arg1)
+		if FRIEND_ONLINE ~= nil and arg1 and strfind(arg1, FRIEND_ONLINE) then
 			resendRequest = true
 		end
 	end,-- when we enter the world and guildframe is not available then
 	-- load guild frame, update guild message and guild xp
-	["ELVUI_FORCE_RUN"] = function()
+	["PLAYER_ENTERING_WORLD"] = function()
 		if not _G.GuildFrame and IsInGuild() then
 			LoadAddOn("Blizzard_GuildUI")
 		end
@@ -132,15 +133,15 @@ local eventHandlers = {
 	-- our guild message of the day changed
 	["GUILD_MOTD"] = function (self, arg1)
 		guildMotD = arg1
-	end,
-	["ELVUI_COLOR_UPDATE"] = E.noop,
+	end
 }
 
 local function OnEvent(self, event, ...)
 	lastPanel = self
 
 	if IsInGuild() then
-		eventHandlers[event](self, ...)
+		local func = eventHandlers[event]
+		if func then func(self, ...) end
 
 		self.text:SetFormattedText(displayString, #guildTable)
 	else
