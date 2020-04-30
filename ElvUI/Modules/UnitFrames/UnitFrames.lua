@@ -487,8 +487,11 @@ function UF:Update_AllFrames()
 		end
 	end
 
-	local UpdatedHeaders = UF:HandleSmartVisibility()
-	if not UpdatedHeaders then UF:UpdateAllHeaders() end
+	if UF.db.smartRaidFilter then
+		UF:HandleSmartVisibility()
+	else
+		UF:UpdateAllHeaders()
+	end
 end
 
 function UF:CreateAndUpdateUFGroup(group, numGroup)
@@ -766,32 +769,35 @@ UF.SmartSettings = {
 }
 
 function UF:HandleSmartVisibility()
-	if UF.db.smartRaidFilter then
-		local sv = UF.SmartSettings
-		sv.raid.numGroups = 6
+	local sv = UF.SmartSettings
+	sv.raid.numGroups = 6
 
-		local _, instanceType, _, _, maxPlayers, _, _, instanceID = GetInstanceInfo()
-		if instanceType == 'raid' or instanceType == 'pvp' then
-			if UF.instanceMapIDs[instanceID] then
-				maxPlayers = UF.instanceMapIDs[instanceID]
-			end
-
-			sv.raid.enable = maxPlayers < 40
-			sv.raid40.enable = maxPlayers == 40
-
-			if sv.raid.enable then
-				local maxGroups = E:Round(maxPlayers/5)
-				if sv.raid.numGroups ~= maxGroups and maxGroups > 0 then
-					sv.raid.numGroups = maxGroups
-				end
-			end
-		else
-			sv.raid.enable = true
-			sv.raid40.enable = true
+	local _, instanceType, _, _, maxPlayers, _, _, instanceID = GetInstanceInfo()
+	if instanceType == 'raid' or instanceType == 'pvp' then
+		if UF.instanceMapIDs[instanceID] then
+			maxPlayers = UF.instanceMapIDs[instanceID]
 		end
 
-		UF:UpdateAllHeaders(sv)
-		return true
+		sv.raid.enable = maxPlayers < 40
+		sv.raid40.enable = maxPlayers == 40
+
+		if sv.raid.enable then
+			local maxGroups = E:Round(maxPlayers/5)
+			if sv.raid.numGroups ~= maxGroups and maxGroups > 0 then
+				sv.raid.numGroups = maxGroups
+			end
+		end
+	else
+		sv.raid.enable = true
+		sv.raid40.enable = true
+	end
+
+	UF:UpdateAllHeaders(sv)
+end
+
+function UF:ZONE_CHANGED_NEW_AREA()
+	if UF.db.smartRaidFilter then
+		UF:HandleSmartVisibility()
 	end
 end
 
@@ -1342,18 +1348,8 @@ function UF:Initialize()
 	UF:LoadUnits()
 
 	UF:RegisterEvent('PLAYER_ENTERING_WORLD')
-	UF:RegisterEvent('ZONE_CHANGED_NEW_AREA', 'HandleSmartVisibility')
+	UF:RegisterEvent('ZONE_CHANGED_NEW_AREA')
 	UF:RegisterEvent('PLAYER_TARGET_CHANGED')
-
-	--InterfaceOptionsFrameCategoriesButton9:SetScale(0.0001)
-	--[[if E.private.unitframe.disabledBlizzardFrames.arena and E.private.unitframe.disabledBlizzardFrames.focus and E.private.unitframe.disabledBlizzardFrames.party then
-		InterfaceOptionsFrameCategoriesButton10:SetScale(0.0001)
-	end
-
-	if E.private.unitframe.disabledBlizzardFrames.target then
-		InterfaceOptionsCombatPanelTargetOfTarget:SetScale(0.0001)
-		InterfaceOptionsCombatPanelTargetOfTarget:SetAlpha(0)
-	end]]
 
 	if E.private.unitframe.disabledBlizzardFrames.party and E.private.unitframe.disabledBlizzardFrames.raid then
 		UF:DisableBlizzard()
