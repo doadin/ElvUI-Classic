@@ -2928,7 +2928,6 @@ local function GetOptionsTable_GeneralGroup(updateFunc, groupName, numUnits)
 					name = L["Visibility"],
 					desc = L["VISIBILITY_DESC"],
 					width = 'full',
-					disabled = function() return E.db.unitframe.smartRaidFilter end,
 				},
 			},
 		}
@@ -2997,6 +2996,9 @@ local function GetOptionsTable_GeneralGroup(updateFunc, groupName, numUnits)
 
 	if groupName == 'raid' or groupName == 'raid40' or groupName == 'raidpet' then
 		config.args.positionsGroup.args.numGroups.disabled = function()
+			return E.db.unitframe.smartRaidFilter
+		end
+		config.args.visibilityGroup.args.visibility.disabled = function()
 			return E.db.unitframe.smartRaidFilter
 		end
 	end
