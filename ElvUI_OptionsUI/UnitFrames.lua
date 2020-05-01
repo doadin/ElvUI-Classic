@@ -959,7 +959,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 					["Health"] = L["Health"],
 					["Power"] = L["Power"],
 					["InfoPanel"] = L["Information Panel"],
-					["None"] = L["None"],
+					["None"] = L["NONE"],
 				},
 			},
 			textGroup = {
@@ -2437,13 +2437,13 @@ local function GetOptionsTable_RaidRoleIcons(updateFunc, groupName, numGroup)
 			xOffset = {
 				order = 4,
 				type = 'range',
-				name = L["xOffset"],
+				name = L["X-Offset"],
 				min = -300, max = 300, step = 1,
 			},
 			yOffset = {
 				order = 5,
 				type = 'range',
-				name = L["yOffset"],
+				name = L["Y-Offset"],
 				min = -300, max = 300, step = 1,
 			},
 		},
