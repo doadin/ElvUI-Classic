@@ -163,7 +163,7 @@ AddMedia('emoji','Wink')
 AddMedia('emoji','ZZZ')
 
 AddMedia('logo','ElvRainbow')
-AddMedia('logo','ElvMelon')
+AddMedia('logo','ElvSherbet')
 AddMedia('logo','ElvBlue')
 AddMedia('logo','ElvGreen')
 AddMedia('logo','ElvOrange')
