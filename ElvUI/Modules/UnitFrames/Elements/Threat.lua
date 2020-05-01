@@ -138,7 +138,7 @@ function UF:UpdateThreat(unit, status, r, g, b)
 	local db = parent.db and parent.db.threatStyle
 	local badunit = not unit or parent.unit ~= unit
 
-	if not badunit and status and status > 1 then
+	if not badunit and status then
 		UF:ThreatHandler(self, parent, db, status, r, g, b)
 	else
 		UF:ThreatHandler(self, parent, db, nil, unpack(E.media.unitframeBorderColor))
