@@ -10,8 +10,6 @@ local _G = _G
 local CreateFrame = CreateFrame
 local GetInstanceInfo = GetInstanceInfo
 local InCombatLockdown = InCombatLockdown
-local RegisterStateDriver = RegisterStateDriver
-local UnregisterStateDriver = UnregisterStateDriver
 
 function UF:Construct_PartyFrames()
 	self:SetScript('OnEnter', _G.UnitFrame_OnEnter)
