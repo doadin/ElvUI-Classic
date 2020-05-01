@@ -67,7 +67,7 @@ local function Update(self, event, unit)
 
 	if(status) then
 		if(element.SetVertexColor) then
-			element:SetVertexColor(1, 0.2, 0.2)
+			element:SetVertexColor(1, 0.15, 0.15)
 		end
 
 		element:Show()
@@ -86,7 +86,7 @@ local function Update(self, event, unit)
 	* b      - the blue color component based on the unit's threat status (number?)[0-1]
 	--]]
 	if(element.PostUpdate) then
-		return element:PostUpdate(unit, status, 1, 0.2, 0.2)
+		return element:PostUpdate(unit, status, 1, 0.15, 0.15)
 	end
 end
 
