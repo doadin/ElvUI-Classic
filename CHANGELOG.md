@@ -14,6 +14,7 @@
 **Skins:** Fixed a bug in the new Addon Manager skin  
 **Tags:** Added [name:health] which displays health lost using colors on the name text  
 **Tags:** Added [ElvUI-Users] which displays other cool people than yourself  
+**Tags:** Added a color picker in the Available Tags menu  
 **UnitFrames:** Fixed reverseFill in healthprediction  
 **UnitFrames:** ThreatIndicator tweaks and fixes  
 **UnitFrames:** Lowered the min value on some Unitframes elements, mainly health  
