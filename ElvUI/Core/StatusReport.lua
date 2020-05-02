@@ -41,8 +41,8 @@ local EnglishClassName = {
 	['WARRIOR'] = 'Warrior',
 }
 
-function E:CreateStatusContent(num, parent, anchorTo)
-	local content = CreateFrame('Frame', nil, parent)
+function E:CreateStatusContent(num, width, parent, anchorTo, content)
+	if not content then content = CreateFrame('Frame', nil, parent) end
 	content:Size(width, (num * 20) + ((num-1)*5)) --20 height and 5 spacing
 	content:Point('TOP', anchorTo, 'BOTTOM')
 
