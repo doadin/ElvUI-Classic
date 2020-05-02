@@ -93,7 +93,7 @@ local DEVELOPERS = {
 	"|cff0070DEAzilroka|r",
 	"|cff9482c9Darth Predator|r",
 	"|TInterface\\Icons\\INV_Misc_MonsterClaw_04::15:15:0:0:64:64:5:59:5:59|t |cffff7d0aMerathilis|r",
-	"|TInterface\\AddOns\\ElvUI\\Media\\ChatLogos\\FoxWarlock:15:15:0:0:64:64:5:59:5:59|t |cffff2020NihilisticPandemonium|r",
+	"|cffff2020NihilisticPandemonium|r",
 	E:TextGradient("Simpy but my name needs to be longer.", 1.0,0.6,0.4, 1.0,0.4,0.6, 0.6,0.4,1.0, 0.4,0.6,1.0, 0.4,1.0,0.6).."|r",
 	"Crum",
 }
