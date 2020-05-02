@@ -994,13 +994,6 @@ E.TagInfo = {
 	['classificationcolor'] = { category = 'Colors', description = "Changes the text color, depending on the unit's classification" },
 	['healthcolor'] = { category = 'Colors', description = "Changes color of health text, depending on the unit's current health" },
 	['manacolor'] = { category = 'Colors', description = "Changes the text color to a light-blue mana color" },
-	--Classification
-	['classification'] = { category = 'Classification', description = "Displays the unit's classification (e.g. 'ELITE' and 'RARE')" },
-	['creature'] = { category = 'Classification', description = "Displays the creature type of the unit" },
-	['shortclassification'] = { category = 'Classification', description = "Displays the unit's classification in short form (e.g. '+' for ELITE and 'R' for RARE)" },
-	['classification:icon'] = { category = 'Classification', description = "Displays the unit's classification in icon form (golden icon for 'ELITE' silver icon for 'RARE')" },
-	['rare'] = { category = 'Classification', description = "Displays 'Rare' when the unit is a rare or rareelite" },
-	['plus'] = { category = 'Classification', description = "Displays '+' when the unit is an elite or rareelite" },
 	--Guild
 	['guild'] = { category = 'Guild', description = "Displays the guild name" },
 	['guild:brackets'] = { category = 'Guild', description = "Displays the guild name with < > brackets (e.g. <GUILD>)" },
