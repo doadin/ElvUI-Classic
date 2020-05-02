@@ -1,4 +1,4 @@
-### Version 1.25 [ETA: Soon™]
+### Version 1.25 [ETA: 🍨]
 **ActionBars:** Fixed an issue with the Stance Bar  
 **AuraBars:** Fixed an issue with Class Color  
 **CastBars:** Added ChannelTicks for Blizzard (Mage)  
