@@ -11,10 +11,15 @@
 **NamePlates:** Style Filters now support changing the Nameplate Tags for Health, Power, Name, Title, and Level  
 **Skins:** Fixed the "Loot" skin  
 **Skins:** Fixed the "TradeSkill" skin  
+**Skins:** Fixed a bug in the new Addon Manager skin  
 **Tags:** Added [name:health] which displays health lost using colors on the name text  
 **Tags:** Added [ElvUI-Users] which displays other cool people than yourself  
 **UnitFrames:** Fixed reverseFill in healthprediction  
 **UnitFrames:** ThreatIndicator tweaks and fixes  
+**UnitFrames:** Lowered the min value on some Unitframes elements, mainly health  
+**UnitFrames:** Fixed issue which caused Transparency setting to mess up the health on Unitframes with Vertical and/or Reverse Fill enabled  
+**UnitFrames:** Cutaway works correctly on Vertical Orientation Health Unitframes  
+**UnitFrames:** Worked out a couple more weird things with Smart Raid Filter  
 ___
 ### Version 1.24 [03/03/2020]
 **UnitFrames:** ThreatIndicator changes to fix lags/freezes  
