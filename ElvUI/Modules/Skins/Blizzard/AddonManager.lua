@@ -61,7 +61,6 @@ function S:AddonList()
 			entry.Reload:SetTextColor(1.0, 0.3, 0.3)
 			entry.LoadAddonButton.Text:FontTemplate(font, 11, 'NONE')
 
-			local missingDep = reason == "DEP_DISABLED"
 			local enabledForSome = not character and checkstate == 1
 			local disabled = not enabled or enabledForSome
 
@@ -71,7 +70,7 @@ function S:AddonList()
 				entry.Status:SetTextColor(0.7, 0.7, 0.7)
 			end
 
-			if disabled or missingDep then
+			if disabled or reason == "DEP_DISABLED" then
 				string:SetText(gsub(title or name, '|c%x%x%x%x%x%x%x%x(.-)|?r?','%1'))
 			end
 
