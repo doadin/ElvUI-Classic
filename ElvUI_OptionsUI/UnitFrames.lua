@@ -203,7 +203,7 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 				type = 'range',
 				order = 6,
 				name = L["Height"],
-				min = 6, max = 40, step = 1,
+				min = 5, max = 40, step = 1,
 			},
 			detachedWidth = {
 				type = 'range',
@@ -852,7 +852,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				order = 4,
 				name = L["Height"],
 				type = 'range',
-				min = 10, max = 85, step = 1,
+				min = 5, max = 85, step = 1,
 			},
 			matchsize = {
 				order = 5,
@@ -1722,7 +1722,7 @@ local function GetOptionsTable_InformationPanel(updateFunc, groupName, numUnits)
 				type = 'range',
 				order = 4,
 				name = L["Height"],
-				min = 4, max = 30, step = 1,
+				min = 2, max = 30, step = 1,
 			},
 		}
 	}
@@ -2007,7 +2007,7 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 				type = 'range',
 				name = L["Height"],
 				order = 4,
-				min = ((E.db.unitframe.thinBorders or E.PixelMode) and 3 or 7), max = 50, step = 1,
+				min = 2, max = 50, step = 1,
 				hidden = function() return E.db.unitframe.units[groupName].power.width == 'offset' end,
 			},
 			powerPrediction = {
@@ -2566,7 +2566,7 @@ local function GetOptionsTable_ClassBar(updateFunc, groupName, numUnits)
 				type = 'range',
 				order = 3,
 				name = L["Height"],
-				min = ((E.db.unitframe.thinBorders or E.PixelMode) and 3 or 7),
+				min = 2,
 				max = 30,
 				step = 1,
 			},
@@ -2637,11 +2637,7 @@ local function GetOptionsTable_ClassBar(updateFunc, groupName, numUnits)
 					name = L["Enable"],
 					width = 'full',
 					set = function(info, value)
-						if value == true then
-							E.Options.args.unitframe.args.individualUnits.args.player.args.classbar.args.height.max = 300
-						else
-							E.Options.args.unitframe.args.individualUnits.args.player.args.classbar.args.height.max = 30
-						end
+						E.Options.args.unitframe.args.individualUnits.args.player.args.classbar.args.height.max = (value and 300) or 30
 						E.db.unitframe.units.player.classbar[info[#info]] = value;
 						UF:CreateAndUpdateUF('player')
 					end,
@@ -2764,7 +2760,7 @@ local function GetOptionsTable_GeneralGroup(updateFunc, groupName, numUnits)
 				order = 4,
 				name = L["Height"],
 				type = 'range',
-				min = 10, max = 500, step = 1,
+				min = 5, max = 500, step = 1,
 			},
 			threatStyle = {
 				type = 'select',
@@ -2834,7 +2830,7 @@ local function GetOptionsTable_GeneralGroup(updateFunc, groupName, numUnits)
 					order = 2,
 					name = L["Height"],
 					type = 'range',
-					min = 10, max = 500, step = 1,
+					min = 5, max = 500, step = 1,
 					set = function(info, value) E.db.unitframe.units[groupName][info[#info]] = value; updateFunc(UF, groupName, numUnits) end,
 				},
 				spacer = {
@@ -4771,7 +4767,7 @@ E.Options.args.unitframe.args.groupUnits.args.party = {
 					order = 4,
 					name = L["Height"],
 					type = 'range',
-					min = 10, max = 500, step = 1,
+					min = 5, max = 500, step = 1,
 				},
 				anchorPoint = {
 					type = 'select',
@@ -4854,7 +4850,7 @@ E.Options.args.unitframe.args.groupUnits.args.party = {
 					order = 4,
 					name = L["Height"],
 					type = 'range',
-					min = 10, max = 500, step = 1,
+					min = 5, max = 500, step = 1,
 				},
 				anchorPoint = {
 					type = 'select',
@@ -5178,7 +5174,7 @@ E.Options.args.unitframe.args.groupUnits.args.tank = {
 					order = 4,
 					name = L["Height"],
 					type = 'range',
-					min = 10, max = 500, step = 1,
+					min = 5, max = 500, step = 1,
 				},
 				anchorPoint = {
 					type = 'select',
@@ -5263,7 +5259,7 @@ E.Options.args.unitframe.args.groupUnits.args.assist = {
 					order = 4,
 					name = L["Height"],
 					type = 'range',
-					min = 10, max = 500, step = 1,
+					min = 5, max = 500, step = 1,
 				},
 				anchorPoint = {
 					type = 'select',
