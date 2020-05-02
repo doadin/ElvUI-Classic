@@ -991,7 +991,7 @@ E.TagInfo = {
 	['happiness:color'] = { category = 'Colors', description = "Colors the following tags based upon pet happiness (e.g. happy = green)" },
 	['difficultycolor'] = { category = 'Colors', description = "Colors the following tags by difficulty, red for impossible, orange for hard, green for easy" },
 	['difficulty'] = { category = 'Colors', description = "Colors the next tag by difficulty, red for impossible, orange for hard, green for easy" },
-	['classificationcolor'] = { category = 'Colors', description = "Changes color of health, depending on the unit's classification" },
+	['classificationcolor'] = { category = 'Colors', description = "Changes the text color, depending on the unit's classification" },
 	['healthcolor'] = { category = 'Colors', description = "Changes color of health text, depending on the unit's current health" },
 	['manacolor'] = { category = 'Colors', description = "Changes the text color to a light-blue mana color" },
 	--Classification
