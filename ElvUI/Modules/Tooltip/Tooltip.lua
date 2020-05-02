@@ -204,8 +204,6 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 			end
 		end
 
-		if not color then color = PRIEST_COLOR end
-
 		local awayText = UnitIsAFK(unit) and AFK_LABEL or UnitIsDND(unit) and DND_LABEL or ''
 		_G.GameTooltipTextLeft1:SetFormattedText("|c%s%s%s|r", color.colorStr, name or UNKNOWN, awayText)
 
