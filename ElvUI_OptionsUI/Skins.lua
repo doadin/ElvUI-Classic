@@ -64,6 +64,11 @@ E.Options.args.skins = {
 					name = L["Auctions"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
+				addonManager = {
+					type = "toggle",
+					name = L["AddOn Manager"],
+					desc = L["TOGGLESKIN_DESC"],
+				},
 				bags = {
 					type = 'toggle',
 					name = L["Bags"],
