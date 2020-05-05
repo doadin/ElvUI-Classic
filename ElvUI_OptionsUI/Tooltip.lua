@@ -16,61 +16,61 @@ E.Options.args.tooltip = {
 	set = function(info, value) E.db.tooltip[info[#info]] = value; end,
 	args = {
 		intro = {
-			order = 1,
+			order = 0,
 			type = "description",
 			name = L["TOOLTIP_DESC"],
 		},
 		enable = {
-			order = 2,
+			order = 1,
 			type = "toggle",
 			name = L["Enable"],
 			get = function(info) return E.private.tooltip[info[#info]] end,
 			set = function(info, value) E.private.tooltip[info[#info]] = value; E:StaticPopup_Show("PRIVATE_RL") end
 		},
 		targetInfo = {
-			order = 3,
+			order = 2,
 			type = 'toggle',
 			name = L["Target Info"],
 			desc = L["When in a raid group display if anyone in your raid is targeting the current tooltip unit."],
 		},
 		playerTitles = {
-			order = 4,
+			order = 3,
 			type = 'toggle',
 			name = L["Player Titles"],
 			desc = L["Display player titles."],
 		},
 		guildRanks = {
-			order = 5,
+			order = 4,
 			type = 'toggle',
 			name = L["Guild Ranks"],
 			desc = L["Display guild ranks if a unit is guilded."],
 		},
 		npcID = {
-			order = 6,
+			order = 5,
 			type = 'toggle',
 			name = L["NPC IDs"],
 			desc = L["Display the npc ID when mousing over a npc tooltip."],
 		},
 		spellID = {
-			order = 7,
+			order = 6,
 			type = 'toggle',
 			name = L["Spell/Item IDs"],
 			desc = L["Display the spell or item ID when mousing over a spell or item tooltip."],
 		},
 		alwaysShowRealm = {
-			order = 8,
+			order = 7,
 			type = 'toggle',
 			name = L["Always Show Realm"],
 			desc = L["Always show the realm name. Disabled: Only show the realm name while holding shift."],
 		},
 		showElvUIUsers = {
-			order = 9,
+			order = 8,
 			type = 'toggle',
 			name = L["Show ElvUI Users"],
 			desc = L["Show ElvUI users and their version of ElvUI."],
 		},
 		itemCount = {
-			order = 10,
+			order = 9,
 			type = 'select',
 			name = L["Item Count"],
 			desc = L["Display how many of a certain item you have in your possession."],
@@ -80,6 +80,16 @@ E.Options.args.tooltip = {
 				["BOTH"] = L["Both"],
 				["NONE"] = L["NONE"],
 			},
+		},
+		itemQualityBorderColor = {
+			order = 10,
+			type = 'toggle',
+			name = L["Item Border Color"],
+			desc = L["Colorize the tooltip border based on item quality."],
+			set = function(info, value)
+				E.db.tooltip.itemQualityBorderColor = value
+				TT:ToggleItemQualityBorderColor()
+			end
 		},
 		colorAlpha = {
 			order = 11,
