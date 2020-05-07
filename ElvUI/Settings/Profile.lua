@@ -843,8 +843,10 @@ P.datatexts = {
 			'Time',
 			'Gold'
 		},
-		LeftMiniPanel = 'Guild',
-		RightMiniPanel = 'Friends',
+		MinimapPanel = {
+			'Guild',
+			'Friends'
+		}
 	},
 	battleground = true,
 	panelTransparency = false,
