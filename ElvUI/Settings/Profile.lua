@@ -834,14 +834,14 @@ P.datatexts = {
 	wordWrap = false,
 	panels = {
 		LeftChatDataPanel = {
-			[1] = 'ElvUI Config',
-			[2] = 'Durability',
-			[3] = 'Combat Time',
+			'ElvUI Config',
+			'Durability',
+			'Combat Time',
 		},
 		RightChatDataPanel = {
-			[1] = 'System',
-			[2] = 'Time',
-			[3] = 'Gold',
+			'System',
+			'Time',
+			'Gold'
 		},
 		LeftMiniPanel = 'Guild',
 		RightMiniPanel = 'Friends',
