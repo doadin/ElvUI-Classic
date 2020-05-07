@@ -5,7 +5,7 @@ local LSM = E.Libs.LSM
 
 --Lua functions
 local _G = _G
-local gsub, strfind, gmatch, format = gsub, strfind, gmatch, format
+local gsub, strfind, gmatch, format, max = gsub, strfind, gmatch, format, max
 local ipairs, sort, wipe, time, difftime = ipairs, sort, wipe, time, difftime
 local pairs, unpack, select, tostring, pcall, next, tonumber, type = pairs, unpack, select, tostring, pcall, next, tonumber, type
 local strlower, strsub, strlen, strupper, strtrim, strmatch = strlower, strsub, strlen, strupper, strtrim, strmatch
@@ -92,8 +92,8 @@ local CreatedFrames = 0
 local lfgRoles = {}
 local throttle = {}
 
-local PLAYER_REALM = gsub(E.myrealm,'[%s%-]','')
-local PLAYER_NAME = E.myname.."-"..PLAYER_REALM
+local PLAYER_REALM = E:ShortenRealm(E.myrealm)
+local PLAYER_NAME = format('%s-%s', E.myname, PLAYER_REALM)
 
 local DEFAULT_STRINGS = {
 	GUILD = L["G"],
@@ -186,9 +186,15 @@ do --this can save some main file locals
 		local SimpyColors = function(t) return specialText(t, 1.0,0.6,0.4, 1.0,0.4,0.6, 0.6,0.4,1.0, 0.4,0.6,1.0, 0.4,1.0,0.6) end
 		--Detroit Lions Colors: Honolulu Blue to Silver [Elv: I stoles it @Simpy]
 		local ElvColors = function(t) return specialText(t, 0,0.42,0.69, 0.61,0.61,0.61) end
+		--Rainbow (8 Colors: 253,62,68, 254,152,73, 255,222,75, 109,253,101, 84,196,252, 163,93,250, 198,121,251, 254,129,193)
+		local MisColors = function(t) return specialText(t, 0.99,0.24,0.26, 0.99,0.59,0.28, 1.00,0.87,0.29, 0.42,0.99,0.39, 0.32,0.76,0.98, 0.63,0.36,0.98, 0.77,0.47,0.98, 0.99,0.50,0.75) end
+		--Light Spring: '50dad3','56e580','d8da33','dfa455','ee8879','f972d1','b855df','50dad3'
+		local MelColors = function(t) return specialText(t, 0.31,0.85,0.82, 0.33,0.89,0.50, 0.84,0.85,0.20, 0.87,0.64,0.33, 0.93,0.53,0.47, 0.97,0.44,0.81, 0.72,0.33,0.87, 0.31,0.85,0.82) end
+		--Class Colors: Normal to Negative (Orange->Blue, Red->Cyan, etc)
+		local nm = function(c) return max(1-c,0.15) end
+		local NihiColors = function(class) local c = _G.RAID_CLASS_COLORS[class] local c1,c2,c3, n1,n2,n3 = c.r,c.g,c.b, nm(c.r), nm(c.g), nm(c.b) return function(t) return specialText(t, c1,c2,c3, n1,n2,n3, c1,c2,c3, n1,n2,n3) end end
 
-		itsSimpyH = function() return Burger..ElvMelon, SimpyColors end
-		itsSimpyA = function() return Lion..ElvMelon, SimpyColors end
+		itsSimpy = function() return ElvSorbet, SimpyColors end
 		itsElv = function() return ElvBlue, ElvColors end
 	end
 
@@ -388,7 +394,7 @@ function CH:StyleChat(frame)
 					Name = gsub(Name,'%s','')
 
 					if Realm and Realm ~= '' then
-						Name = format('%s-%s', Name, gsub(Realm,'[%s%-]',''))
+						Name = format('%s-%s', Name, E:ShortenRealm(Realm))
 					end
 				end
 
@@ -1222,10 +1228,10 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 		local nameWithRealm -- we also use this lower in function to correct mobile to link with the realm as well
 
 		--Cache name->class
-		realm = (realm and realm ~= '') and gsub(realm,'[%s%-]','')
+		realm = (realm and realm ~= '') and E:ShortenRealm(realm)
 		if name and name ~= '' then
 			CH.ClassNames[strlower(name)] = englishClass
-			nameWithRealm = (realm and name.."-"..realm) or name.."-"..PLAYER_REALM
+			nameWithRealm = (realm and name..'-'..realm) or name..'-'..PLAYER_REALM
 			CH.ClassNames[strlower(nameWithRealm)] = englishClass
 		end
 
@@ -2017,7 +2023,7 @@ function CH:SocialQueueIsLeader(playerName, leaderName)
 				if (gameClient == BNET_CLIENT_WOW) and (accountName == playerName) then
 					playerName = gameCharacterName
 					if realmName ~= E.myrealm then
-						playerName = format('%s-%s', playerName, gsub(realmName,'[%s%-]',''))
+						playerName = format('%s-%s', playerName, E:ShortenRealm(realmName))
 					end
 					if leaderName == playerName then
 						return true

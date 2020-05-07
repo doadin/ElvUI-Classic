@@ -5,7 +5,7 @@ local E, L, V, P, G = unpack(ElvUI); --Import: Engine, Locales, PrivateDB, Profi
 --Lua functions
 local _G = _G
 local tonumber, pairs, ipairs, error, unpack, select, tostring = tonumber, pairs, ipairs, error, unpack, select, tostring
-local gsub, strjoin, twipe, tinsert, tremove, tContains = gsub, strjoin, wipe, tinsert, tremove, tContains
+local strjoin, twipe, tinsert, tremove, tContains = strjoin, wipe, tinsert, tremove, tContains
 local format, find, strrep, strlen, sub = format, strfind, strrep, strlen, strsub
 local assert, type, pcall, xpcall, next, print = assert, type, pcall, xpcall, next, print
 --WoW API / Variables
@@ -57,6 +57,7 @@ E.myLocalizedClass, E.myclass, E.myClassID = UnitClass('player')
 E.myLocalizedRace, E.myrace = UnitRace('player')
 E.myname = UnitName('player')
 E.myrealm = GetRealmName()
+E.mynameRealm = format('%s - %s', E.myname, E.myrealm) -- contains spaces/dashes in realm (for profile keys)
 E.wowpatch, E.wowbuild = GetBuildInfo()
 E.wowbuild = tonumber(E.wowbuild)
 E.IsRetail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
@@ -101,46 +102,18 @@ E.InversePoints = {
 }
 
 E.ClassRole = {
-	PALADIN = {
-		[1] = 'Caster',
-		[2] = 'Tank',
-		[3] = 'Melee',
-	},
-	PRIEST = 'Caster',
-	WARLOCK = 'Caster',
-	WARRIOR = {
-		[1] = 'Melee',
-		[2] = 'Melee',
-		[3] = 'Tank',
-	},
-	HUNTER = 'Melee',
-	SHAMAN = {
-		[1] = 'Caster',
-		[2] = 'Melee',
-		[3] = 'Caster',
-	},
-	ROGUE = 'Melee',
-	MAGE = 'Caster',
-	DEATHKNIGHT = {
-		[1] = 'Tank',
-		[2] = 'Melee',
-		[3] = 'Melee',
-	},
-	DRUID = {
-		[1] = 'Caster',
-		[2] = 'Melee',
-		[3] = 'Tank',
-		[4] = 'Caster'
-	},
-	MONK = {
-		[1] = 'Tank',
-		[2] = 'Caster',
-		[3] = 'Melee',
-	},
-	DEMONHUNTER = {
-		[1] = 'Melee',
-		[2] = 'Tank'
-	},
+	HUNTER		= 'Melee',
+	ROGUE		= 'Melee',
+	MAGE		= 'Caster',
+	PRIEST		= 'Caster',
+	WARLOCK		= 'Caster',
+	DEMONHUNTER	= {'Melee',  'Tank'},
+	WARRIOR		= {'Melee',  'Melee',  'Tank'},
+	DEATHKNIGHT	= {'Tank',   'Melee',  'Melee'},
+	MONK		= {'Tank',   'Caster', 'Melee'},
+	PALADIN		= {'Caster', 'Tank',   'Melee'},
+	SHAMAN		= {'Caster', 'Melee',  'Caster'},
+	DRUID		= {'Caster', 'Melee',  'Tank',  'Caster'},
 }
 
 E.DispelClasses = {
@@ -153,8 +126,8 @@ E.DispelClasses = {
 }
 
 E.BadDispels = {
-	[34914] = 'Vampiric Touch', --horrifies
-	[233490] = 'Unstable Affliction' --silences
+	[34914]		= 'Vampiric Touch',		-- horrifies
+	[233490]	= 'Unstable Affliction'	-- silences
 }
 
 --Workaround for people wanting to use white and it reverting to their class color.
@@ -206,18 +179,16 @@ end
 --Basically check if another class border is being used on a class that doesn't match. And then return true if a match is found.
 function E:CheckClassColor(r, g, b)
 	r, g, b = E:GrabColorPickerValues(r, g, b)
-	local matchFound = false
+
 	for class in pairs(_G.RAID_CLASS_COLORS) do
 		if class ~= E.myclass then
 			local colorTable = E:ClassColor(class, true)
 			local red, green, blue = E:GrabColorPickerValues(colorTable.r, colorTable.g, colorTable.b)
 			if red == r and green == g and blue == b then
-				matchFound = true
+				return true
 			end
 		end
 	end
-
-	return matchFound
 end
 
 function E:SetColorTable(t, data)
@@ -759,16 +730,15 @@ do
 	end
 
 	local SendRecieveGroupSize = 0
-	local myRealm = gsub(E.myrealm,'[%s%-]','')
-	local myName = E.myname..'-'..myRealm
+	local PLAYER_NAME = format('%s-%s', E.myname, E:ShortenRealm(E.myrealm))
 	local function SendRecieve(_, event, prefix, message, _, sender)
 		if event == 'CHAT_MSG_ADDON' then
-			if sender == myName then return end
+			if sender == PLAYER_NAME then return end
 			if prefix == 'ELVUI_VERSIONCHK' then
 				local msg, ver = tonumber(message), E.version
 				local inCombat = InCombatLockdown()
 
-				E.UserList[gsub(sender, '%-'..myRealm,'')] = msg
+				E.UserList[E:StripMyRealm(sender)] = msg
 				if ver ~= G.general.version then
 					if not E.shownUpdatedWhileRunningPopup and not inCombat then
 						E:StaticPopup_Show('ELVUI_UPDATED_WHILE_RUNNING', nil, nil, {mismatch = ver > G.general.version})

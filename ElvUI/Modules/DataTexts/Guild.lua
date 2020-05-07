@@ -3,8 +3,8 @@ local DT = E:GetModule('DataTexts')
 
 --Lua functions
 local _G = _G
-local ipairs, sort, unpack, wipe, ceil = ipairs, sort, unpack, wipe, ceil
-local format, strjoin, strsplit = format, strjoin, strsplit
+local ipairs, select, sort, unpack, wipe, ceil = ipairs, select, sort, unpack, wipe, ceil
+local format, strfind, strjoin, strsplit, strmatch = format, strfind, strjoin, strsplit, strmatch
 --WoW API / Variables
 local GetDisplayedInviteType = GetDisplayedInviteType
 local GetGuildInfo = GetGuildInfo
@@ -77,6 +77,10 @@ local mobilestatus = {
 	[1] = "|TInterface\\ChatFrame\\UI-ChatIcon-ArmoryChat-AwayMobile:14:14:0:0:16:16:0:16:0:16|t",
 	[2] = "|TInterface\\ChatFrame\\UI-ChatIcon-ArmoryChat-BusyMobile:14:14:0:0:16:16:0:16:0:16|t",
 }
+
+local function inGroup(name)
+	return (UnitInParty(name) or UnitInRaid(name)) and "|cffaaaaaa*|r" or ""
+end
 
 local function BuildGuildTable()
 	GuildRoster()

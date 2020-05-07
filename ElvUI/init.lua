@@ -130,6 +130,18 @@ do
 end
 
 do
+	local a1,a2 = '','[%s%-]'
+	function E:ShortenRealm(realm)
+		return gsub(realm, a2, a1)
+	end
+
+	local a3 = format('%%-%s', E:ShortenRealm(E.myrealm))
+	function E:StripMyRealm(name)
+		return gsub(name, a3, a1)
+	end
+end
+
+do
 	DisableAddOn("ElvUI_VisualAuraTimers")
 	DisableAddOn("ElvUI_ExtraActionBars")
 	DisableAddOn("ElvUI_CastBarOverlay")
@@ -163,7 +175,7 @@ function E:OnInitialize()
 
 		local profileKey
 		if ElvDB.profileKeys then
-			profileKey = ElvDB.profileKeys[E.myname..' - '..E.myrealm]
+			profileKey = ElvDB.profileKeys[E.mynameRealm]
 		end
 
 		if profileKey and ElvDB.profiles and ElvDB.profiles[profileKey] then
@@ -175,7 +187,7 @@ function E:OnInitialize()
 	if ElvPrivateDB then
 		local profileKey
 		if ElvPrivateDB.profileKeys then
-			profileKey = ElvPrivateDB.profileKeys[E.myname..' - '..E.myrealm]
+			profileKey = ElvPrivateDB.profileKeys[E.mynameRealm]
 		end
 
 		if profileKey and ElvPrivateDB.profiles and ElvPrivateDB.profiles[profileKey] then
@@ -243,7 +255,7 @@ function E:ResetProfile()
 
 	local ElvPrivateDB = ElvPrivateDB
 	if ElvPrivateDB.profileKeys then
-		profileKey = ElvPrivateDB.profileKeys[E.myname..' - '..E.myrealm]
+		profileKey = ElvPrivateDB.profileKeys[E.mynameRealm]
 	end
 
 	if profileKey and ElvPrivateDB.profiles and ElvPrivateDB.profiles[profileKey] then
