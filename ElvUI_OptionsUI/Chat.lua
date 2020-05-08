@@ -438,8 +438,28 @@ E.Options.args.chat = {
 					},
 					set = function(info, value) E.db.chat[info[#info]] = value; CH:UpdateAnchors() end,
 				},
-				panelBackdrop = {
+				LeftChatDataPanelAnchor = {
 					order = 5,
+					type = 'select',
+					name = L["Data Panel Position"],
+					values = {
+						['BELOW_CHAT'] = L["Below Chat"],
+						['ABOVE_CHAT'] = L["Above Chat"],
+					},
+					set = function(info, value) E.db.chat[info[#info]] = value; Layout:RepositionChatDataPanels() end,
+				},
+				RightChatDataPanelAnchor = {
+					order = 6,
+					type = 'select',
+					name = L["Data Panel Position"],
+					values = {
+						['BELOW_CHAT'] = L["Below Chat"],
+						['ABOVE_CHAT'] = L["Above Chat"],
+					},
+					set = function(info, value) E.db.chat[info[#info]] = value; Layout:RepositionChatDataPanels() end,
+				},
+				panelBackdrop = {
+					order = 7,
 					type = 'select',
 					name = L["Panel Backdrop"],
 					desc = L["Toggle showing of the left and right chat panels."],
@@ -452,7 +472,7 @@ E.Options.args.chat = {
 					},
 				},
 				separateSizes = {
-					order = 6,
+					order = 8,
 					type = 'toggle',
 					name = L["Separate Panel Sizes"],
 					desc = L["Enable the use of separate size options for the right chat panel."],
@@ -462,13 +482,8 @@ E.Options.args.chat = {
 						Bags:Layout();
 					end,
 				},
-				spacer1 = {
-					order = 7,
-					type = 'description',
-					name = '',
-				},
 				panelHeight = {
-					order = 8,
+					order = 9,
 					type = 'range',
 					name = L["Panel Height"],
 					desc = L["PANEL_DESC"],
@@ -476,7 +491,7 @@ E.Options.args.chat = {
 					min = 60, max = 600, step = 1,
 				},
 				panelWidth = {
-					order = 9,
+					order = 10,
 					type = 'range',
 					name = L["Panel Width"],
 					desc = L["PANEL_DESC"],
@@ -492,7 +507,7 @@ E.Options.args.chat = {
 					min = 50, max = 1000, step = 1,
 				},
 				panelColor = {
-					order = 10,
+					order = 11,
 					type = "color",
 					name = L["Backdrop Color"],
 					hasAlpha = true,
@@ -506,11 +521,6 @@ E.Options.args.chat = {
 						t.r, t.g, t.b, t.a = r, g, b, a
 						CH:Panels_ColorUpdate()
 					end,
-				},
-				spacer2 = {
-					order = 15,
-					type = 'description',
-					name = '',
 				},
 				panelHeightRight = {
 					order = 16,
