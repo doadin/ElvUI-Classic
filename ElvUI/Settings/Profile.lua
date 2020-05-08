@@ -864,8 +864,6 @@ P.datatexts = {
 		}
 	},
 	battleground = true,
-	panelTransparency = false,
-	panelBackdrop = true,
 	noCombatClick = false,
 	noCombatHover = false,
 
@@ -899,11 +897,6 @@ P.datatexts = {
 		hideBSAp = false, --Mobile
 		hideApp = false, --Launcher
 	},
-
-	--Enabled/Disabled Panels
-	minimapPanels = true,
-	leftChatPanel = true,
-	rightChatPanel = true,
 }
 
 --Tooltip
