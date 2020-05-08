@@ -836,16 +836,28 @@ P.datatexts = {
 	wordWrap = false,
 	panels = {
 		LeftChatDataPanel = {
-			'ElvUI Config',
+			enable = true,
+			backdrop = true,
+			border = true,
+			panelTransparency = false,
 			'Durability',
 			'Combat Time',
 		},
 		RightChatDataPanel = {
+			enable = true,
+			backdrop = true,
+			border = true,
+			panelTransparency = false,
 			'System',
 			'Time',
 			'Gold'
 		},
 		MinimapPanel = {
+			enable = true,
+			backdrop = true,
+			border = true,
+			panelTransparency = false,
+			numPoints = 2,
 			'Guild',
 			'Friends'
 		}
