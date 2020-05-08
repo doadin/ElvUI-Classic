@@ -2221,7 +2221,7 @@ local channelButtons = {
 
 function CH:RepositionChatVoiceIcons()
 	_G.GeneralDockManagerOverflowButton:ClearAllPoints()
-	_G.GeneralDockManagerOverflowButton:Point('RIGHT', channelButtons[1], 'LEFT', -4, 2)
+	_G.GeneralDockManagerOverflowButton:Point('RIGHT', channelButtons[1], 'LEFT', -4, 0)
 end
 
 function CH:UpdateVoiceChatIcons()
