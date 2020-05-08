@@ -344,8 +344,10 @@ function CH:StyleChat(frame)
 		end
 	end)
 
+	tab:Size(22)
 	tab.text = _G[name.."TabText"]
 	tab.text:SetTextColor(unpack(E.media.rgbvaluecolor))
+	tab.text:Point('LEFT', _G[name.."TabLeft"], 'RIGHT', 0, 4)
 	hooksecurefunc(tab.text, "SetTextColor", function(tt, r, g, b)
 		local rR, gG, bB = unpack(E.media.rgbvaluecolor)
 		if r ~= rR or g ~= gG or b ~= bB then
@@ -663,6 +665,8 @@ end
 
 function CH:UpdateAnchors()
 	local ChatPanel = _G.LeftChatPanel
+	local PANEL_HEIGHT = 22
+
 	for _, frameName in pairs(_G.CHAT_FRAMES) do
 		local frame = _G[frameName..'EditBox']
 		if not frame then break end
@@ -670,10 +674,10 @@ function CH:UpdateAnchors()
 		frame:ClearAllPoints()
 		if E.db.chat.editBoxPosition == 'BELOW_CHAT' then
 			frame:Point("TOPLEFT", ChatPanel, "BOTTOMLEFT", 0, 0)
-			frame:Point("BOTTOMRIGHT", ChatPanel, "BOTTOMRIGHT", 0, -22)
+			frame:Point("BOTTOMRIGHT", ChatPanel, "BOTTOMRIGHT", 0, -PANEL_HEIGHT)
 		else
 			frame:Point("BOTTOMLEFT", ChatPanel, "TOPLEFT", 0, 0)
-			frame:Point("TOPRIGHT", ChatPanel, "TOPRIGHT", 0, 22)
+			frame:Point("TOPRIGHT", ChatPanel, "TOPRIGHT", 0, PANEL_HEIGHT)
 		end
 	end
 
@@ -706,6 +710,7 @@ function CH:UpdateChatTabs()
 		local id = chat:GetID()
 		local isDocked = chat.isDocked
 		local chatbg = format("ChatFrame%dBackground", i)
+
 		if id > NUM_CHAT_WINDOWS then
 			if select(2, tab:GetPoint()):GetName() ~= chatbg then
 				isDocked = true
@@ -742,7 +747,7 @@ end
 function CH:PositionChat(override)
 	if ((InCombatLockdown() and not override and self.initialMove) or (IsMouseButtonDown("LeftButton") and not override)) then return end
 
-	local RightChatPanel, LeftChatPanel, RightChatDataPanel, LeftChatToggleButton, LeftChatTab = _G.RightChatPanel, _G.LeftChatPanel, _G.RightChatDataPanel, _G.LeftChatToggleButton, _G.LeftChatTab
+	local RightChatPanel, LeftChatPanel, LeftChatTab = _G.RightChatPanel, _G.LeftChatPanel, _G.LeftChatTab
 	if not RightChatPanel or not LeftChatPanel then return end
 
 	RightChatPanel:Size(E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth, E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight)
@@ -751,20 +756,18 @@ function CH:PositionChat(override)
 	if E.private.chat.enable ~= true or not self.db.lockPositions then return end
 
 	local CombatLogButton = _G.CombatLogQuickButtonFrame_Custom
-	if CombatLogButton then CombatLogButton:Size(LeftChatTab:GetWidth(), LeftChatTab:GetHeight()) end
+	if CombatLogButton then CombatLogButton:Size(LeftChatTab:GetSize()) end
 
 	self.RightChatWindowID = FindRightChatID()
 
 	local fadeUndockedTabs = E.db.chat.fadeUndockedTabs
 	local fadeTabsNoBackdrop = E.db.chat.fadeTabsNoBackdrop
 
+	local BASE_OFFSET = E.PixelMode and 24 or 27
 	for i=1, CreatedFrames do
-		local BASE_OFFSET = 57 + E.Spacing*3
-
 		local chat = _G[format("ChatFrame%d", i)]
-		local chatbg = format("ChatFrame%dBackground", i)
-		local id = chat:GetID()
 		local tab = _G[format("ChatFrame%sTab", i)]
+		local chatbg = format("ChatFrame%dBackground", i)
 		local isDocked = chat.isDocked
 		tab.isDocked = isDocked
 		tab.owner = chat
@@ -778,14 +781,13 @@ function CH:PositionChat(override)
 		end
 
 		if chat:IsShown() and not (id > NUM_CHAT_WINDOWS) and id == self.RightChatWindowID then
-			BASE_OFFSET = BASE_OFFSET - 24
 			chat:ClearAllPoints()
-			chat:Point("BOTTOMLEFT", RightChatPanel, "BOTTOMLEFT", 1, 1)
+			chat:Point("BOTTOMLEFT", RightChatPanel, "BOTTOMLEFT", 5, E.PixelMode and 0 or 1)
 
 			if id ~= 2 then
-				chat:Size((E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth) - 11, (E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight) - BASE_OFFSET)
+				chat:Size((E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth) - 10, (E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight) - BASE_OFFSET)
 			else
-				chat:Size(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET) - LeftChatTab:GetHeight())
+				chat:Size(E.db.chat.panelWidth - 10, (E.db.chat.panelHeight - BASE_OFFSET) - LeftChatTab:GetHeight())
 			end
 
 			--Pass a 2nd argument which prevents an infinite loop in our ON_FCF_SavePositionAndDimensions function
@@ -810,22 +812,24 @@ function CH:PositionChat(override)
 			CH:SetupChatTabs(tab, fadeUndockedTabs and true or false)
 		else
 			if id ~= 2 and not (id > NUM_CHAT_WINDOWS) then
-				BASE_OFFSET = BASE_OFFSET - 24
 				chat:ClearAllPoints()
-				chat:Point("BOTTOMLEFT", LeftChatPanel, "BOTTOMLEFT", 1, 1)
-				chat:Size(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET))
+				chat:Point("BOTTOMLEFT", LeftChatPanel, "BOTTOMLEFT", 5, E.PixelMode and 0 or 1)
+				chat:Size(E.db.chat.panelWidth - 10, (E.db.chat.panelHeight - BASE_OFFSET))
 
 				--Pass a 2nd argument which prevents an infinite loop in our ON_FCF_SavePositionAndDimensions function
 				if chat:GetLeft() then
 					FCF_SavePositionAndDimensions(chat, true)
 				end
 			end
+
 			chat:SetParent(LeftChatPanel)
+
 			if i > 2 then
 				tab:SetParent(_G.GeneralDockManagerScrollFrameChild)
 			else
 				tab:SetParent(_G.GeneralDockManager)
 			end
+
 			if chat:IsMovable() then
 				chat:SetUserPlaced(true)
 			end
@@ -1648,6 +1652,11 @@ function CH:SetupChat()
 	end
 
 	_G.GeneralDockManager:SetParent(_G.LeftChatPanel)
+	_G.GeneralDockManager:ClearAllPoints()
+	_G.GeneralDockManager:Point("BOTTOMLEFT", _G.ChatFrame1, "TOPLEFT")
+	_G.GeneralDockManager:Point("BOTTOMRIGHT", _G.ChatFrame1, "TOPRIGHT")
+	_G.GeneralDockManager:Height(22)
+	_G.GeneralDockManager.scrollFrame:Height(20)
 	self:PositionChat(true)
 
 	if not self.HookSecured then
@@ -2211,7 +2220,7 @@ function CH:HandleChatVoiceIcons()
 			Skins:HandleButton(button, nil, nil, nil, true)
 
 			if index == 1 then
-				button:SetPoint('BOTTOMRIGHT', _G.LeftChatTab, 'BOTTOMRIGHT', 3, -3) -- This also change the position for new chat tabs 0.o
+				button:Point('BOTTOMRIGHT', _G.LeftChatTab, 'BOTTOMRIGHT', 2, -2) -- This also change the position for new chat tabs 0.o
 			else
 				button:SetPoint("RIGHT", channelButtons[index-1], "LEFT")
 			end
@@ -2220,8 +2229,8 @@ function CH:HandleChatVoiceIcons()
 		hooksecurefunc(_G.GeneralDockManagerScrollFrame, 'SetPoint', function(frame, point, anchor, attachTo, x, y, stopLoop)
 			if anchor == _G.GeneralDockManagerOverflowButton and (x == 0 and y == 0) then
 				frame:Point(point, anchor, attachTo, -3, -6)
-			elseif (not stopLoop and not _G.GeneralDockManagerOverflowButton:IsShown()) and (point == "BOTTOMRIGHT" and anchor ~= channelButtons[1] and anchor ~= channelButtons[1]) then
-				frame:Point(point, anchor, attachTo, (channelButtons[1]:IsShown() and -30) or -10, -5, true)
+			elseif (not stopLoop and not _G.GeneralDockManagerOverflowButton:IsShown()) and (point == "BOTTOMRIGHT" and anchor ~= channelButtons[3] and anchor ~= channelButtons[1]) then
+				frame:Point(point, anchor, attachTo, (channelButtons[3]:IsShown() and -30) or -15, 0, true)
 			end
 		end)
 
