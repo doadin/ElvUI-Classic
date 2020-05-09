@@ -683,7 +683,9 @@ function CH:ChatEdit_DeactivateChat(editbox)
 end
 
 function CH:UpdateEditboxAnchors()
-	local classic = self == "classic"
+	local cvar = (type(self) == 'string' and self) or GetCVar('chatStyle')
+
+	local classic = cvar == 'classic'
 	local leftChat = classic and _G.LeftChatPanel
 	local width = classic and 0 or 5
 	local bottomheight = classic and 1 or (E.PixelMode and 3 or 5)
@@ -694,7 +696,7 @@ function CH:UpdateEditboxAnchors()
 		local frame = _G[name]
 		local editbox = frame and frame.editBox
 		if not editbox then return end
-		editbox.chatStyle = self
+		editbox.chatStyle = cvar
 
 		local anchorTo = leftChat or frame
 		editbox:ClearAllPoints()
@@ -2397,7 +2399,7 @@ function CH:Initialize()
 	self:UpdateFading()
 	self:Panels_ColorUpdate()
 	self:HandleChatVoiceIcons()
-	self.UpdateEditboxAnchors(GetCVar('chatStyle'))
+	self:UpdateEditboxAnchors()
 	E:UpdatedCVar('chatStyle', self.UpdateEditboxAnchors)
 
 	self:SecureHook('ChatEdit_SetLastActiveWindow')
