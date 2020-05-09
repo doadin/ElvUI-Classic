@@ -568,7 +568,7 @@ E.Options.args.datatexts = {
 									E.db.LeftChatPanelFaded = true;
 									_G.HideLeftChat()
 								end
-								Chat:UpdateAnchors()
+								Chat:UpdateEditboxAnchors()
 								Layout:ToggleChatPanels()
 								Layout:SetDataPanelStyle()
 								DT:UpdatePanelInfo('LeftChatDataPanel')
@@ -604,7 +604,7 @@ E.Options.args.datatexts = {
 									E.db.RightChatPanelFaded = true;
 									_G.HideRightChat()
 								end
-								Chat:UpdateAnchors()
+								Chat:UpdateEditboxAnchors()
 								Layout:ToggleChatPanels()
 								Layout:SetDataPanelStyle()
 								DT:UpdatePanelInfo('RightChatDataPanel')
