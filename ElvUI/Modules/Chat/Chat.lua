@@ -797,6 +797,7 @@ function CH:PositionChat(override)
 		local tab = _G[format("ChatFrame%sTab", i)]
 		local chatbg = format("ChatFrame%dBackground", i)
 		local isDocked = chat.isDocked
+		local id = chat:GetID()
 		tab.isDocked = isDocked
 		tab.owner = chat
 
