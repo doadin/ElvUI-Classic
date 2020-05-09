@@ -841,6 +841,7 @@ P.datatexts = {
 			backdrop = true,
 			border = true,
 			panelTransparency = false,
+			'ElvUI Config',
 			'Durability',
 			'Combat Time',
 		},
