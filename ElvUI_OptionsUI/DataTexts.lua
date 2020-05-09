@@ -297,7 +297,7 @@ PanelLayoutOptions = function()
 							DT:UpdatePanelInfo(name)
 						end,
 					}
-				elseif type(value) ~= 'boolean' and P.datatexts.panels[name][option] then
+				elseif type(value) ~= 'boolean' and P.datatexts.panels[name] and P.datatexts.panels[name][option] then
 					-- TODO: need to convert the old [name][option] to the number style..
 					options[name].args[option] = options[name].args[option] or {
 						type = 'select',
