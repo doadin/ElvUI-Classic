@@ -4,6 +4,8 @@
 **CastBars:** Added ChannelTicks for Blizzard (Mage)  
 **CutawayBars:** Cutaway colors react instantly now  
 **DataTexts:** Code rework, fixed some issues  
+**DataTexts:** You can now add custom panels with many new options  
+**DataTexts:** Added multiple options to display gold/silver/copper  
 **Filters:** Added 2 new special filters: MyPet, OtherPet  
 **Filters:** Add or Remove spell from a filter should now work how it was always meant to  
 **General:** Removed the custom shaman color, because it breaks stuff  
@@ -15,6 +17,7 @@
 **Tags:** Added [name:health] which displays health lost using colors on the name text  
 **Tags:** Added [ElvUI-Users] which displays other cool people than yourself  
 **Tags:** Added a color picker in the Available Tags menu  
+**Tags:** Status tags will now ignore hunter feign death  
 **UnitFrames:** Fixed reverseFill in healthprediction  
 **UnitFrames:** ThreatIndicator tweaks and fixes  
 **UnitFrames:** Lowered the min value on some Unitframes elements, mainly health  
