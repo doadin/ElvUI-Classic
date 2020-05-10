@@ -628,7 +628,6 @@ function DT:Initialize()
 
 	LDB.RegisterCallback(E, 'LibDataBroker_DataObjectCreated', DT.SetupObjectLDB)
 	DT:RegisterLDB() -- LibDataBroker
-	DT:RegisterCustomCurrencyDT() -- Register all the user created currency datatexts from the 'CustomCurrency' DT.
 
 	for name, db in pairs(E.global.datatexts.customPanels) do
 		DT:BuildPanelFrame(name, db, true)
