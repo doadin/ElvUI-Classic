@@ -32,6 +32,7 @@ function S:TooltipFrames()
 		_G.ShoppingTooltip1,
 		_G.ShoppingTooltip2,
 		_G.EmbeddedItemTooltip,
+		_G.WorldMapTooltip,
 		-- already have locals
 		GameTooltip,
 	}
