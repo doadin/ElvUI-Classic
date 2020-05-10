@@ -22,6 +22,7 @@
 **Tags:** Added [ElvUI-Users] which displays other cool people than yourself  
 **Tags:** Added a color picker in the Available Tags menu  
 **Tags:** Status tags will now ignore hunter feign death  
+**Tooltip:** Added back the option to color the tooltip border based on item quality  
 **UnitFrames:** Fixed reverseFill in healthprediction  
 **UnitFrames:** ThreatIndicator tweaks and fixes  
 **UnitFrames:** Lowered the min value on some Unitframes elements, mainly health  
