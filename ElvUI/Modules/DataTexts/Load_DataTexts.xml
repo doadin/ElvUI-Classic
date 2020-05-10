@@ -18,12 +18,15 @@
 	<Script file='Guild.lua'/>
 	<Script file='Haste.lua'/>
 	<Script file='Hit.lua'/>
+	<Script file='Intellect.lua'/>
 	<Script file='HPS.lua'/>
 	<Script file='MovementSpeed.lua'/>
 	<Script file='Regen.lua'/>
 	<Script file='SpellCrit.lua'/>
 	<Script file='SpellHit.lua'/>
 	<Script file='SpellPower.lua'/>
+	<Script file='Stamina.lua'/>
+	<Script file='Strength.lua'/>
 	<Script file='System.lua'/>
 	<Script file='Time.lua'/>
 </Ui>
