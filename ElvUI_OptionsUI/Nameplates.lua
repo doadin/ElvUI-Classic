@@ -1718,7 +1718,7 @@ local function GetUnitSettings(unit, name)
 		type = "group",
 		order = ORDER,
 		name = name,
-		childGroups = "tab",
+		childGroups = "tree",
 		get = function(info) return E.db.nameplates.units[unit][info[#info]] end,
 		set = function(info, value) E.db.nameplates.units[unit][info[#info]] = value; NP:ConfigureAll() end,
 		disabled = function() return not E.NamePlates.Initialized end,
