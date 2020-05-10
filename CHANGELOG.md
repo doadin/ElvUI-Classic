@@ -15,6 +15,7 @@
 **General:** Removed the custom shaman color, because it breaks stuff  
 **General:** Upgraded our /estatus  
 **NamePlates:** Style Filters now support changing the Nameplate Tags for Health, Power, Name, Title, and Level  
+**NamePlates:** Options have been rearranged  
 **Skins:** Fixed the "Loot" skin  
 **Skins:** Fixed the "TradeSkill" skin  
 **Skins:** Fixed a bug in the new Addon Manager skin  
