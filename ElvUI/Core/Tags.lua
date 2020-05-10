@@ -156,7 +156,7 @@ for textFormat in pairs(E.GetFormattedTextStyles) do
 	local tagTextFormat = strlower(gsub(textFormat, '_', '-'))
 	ElvUF.Tags.Events[format('health:%s', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
 	ElvUF.Tags.Methods[format('health:%s', tagTextFormat)] = function(unit)
-		local status = UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
+		local status = not UnitIsFeignDeath(unit) and UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
 		if (status) then
 			return status
 		else
@@ -197,7 +197,7 @@ for textFormat in pairs(E.GetFormattedTextStyles) do
 	if tagTextFormat ~= 'percent' then
 		ElvUF.Tags.Events[format('health:%s:shortvalue', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
 		ElvUF.Tags.Methods[format('health:%s:shortvalue', tagTextFormat)] = function(unit)
-			local status = UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
+			local status = not UnitIsFeignDeath(unit) and UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
 			if (status) then
 				return status
 			else
@@ -258,7 +258,7 @@ for textFormat, length in pairs({veryshort = 5, short = 10, medium = 15, long = 
 
 	ElvUF.Tags.Events[format('name:%s:status', textFormat)] = 'UNIT_NAME_UPDATE UNIT_CONNECTION PLAYER_FLAGS_CHANGED UNIT_HEALTH_FREQUENT'
 	ElvUF.Tags.Methods[format('name:%s:status', textFormat)] = function(unit)
-		local status = UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
+		local status = not UnitIsFeignDeath(unit) and UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
 		local name = UnitName(unit)
 		if (status) then
 			return status
