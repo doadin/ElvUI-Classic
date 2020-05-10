@@ -127,4 +127,4 @@ function Update(self, t)
 	int = 5
 end
 
-DT:RegisterDatatext('Time', {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, nil, OnEnter, OnLeave)
+DT:RegisterDatatext('Time', nil, {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, nil, OnEnter, OnLeave)

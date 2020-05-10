@@ -30,4 +30,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('Mana Regen', {"UNIT_STATS", "UNIT_AURA"}, OnEvent, nil, nil, nil, nil, MANA_REGEN)
+DT:RegisterDatatext('Mana Regen', nil, {"UNIT_STATS", "UNIT_AURA"}, OnEvent, nil, nil, nil, nil, MANA_REGEN)

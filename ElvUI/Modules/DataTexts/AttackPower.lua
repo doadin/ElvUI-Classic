@@ -61,4 +61,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('Attack Power', {'UNIT_ATTACK_POWER', 'UNIT_RANGED_ATTACK_POWER'}, OnEvent, nil, nil, OnEnter, nil, ATTACK_POWER_TOOLTIP)
+DT:RegisterDatatext('Attack Power', 'Stats', {'UNIT_ATTACK_POWER', 'UNIT_RANGED_ATTACK_POWER'}, OnEvent, nil, nil, OnEnter, nil, ATTACK_POWER_TOOLTIP)
