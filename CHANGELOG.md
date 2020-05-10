@@ -19,6 +19,8 @@
 **Skins:** Fixed the "Loot" skin  
 **Skins:** Fixed the "TradeSkill" skin  
 **Skins:** Fixed a bug in the new Addon Manager skin  
+**Skins:** Updated the WorldMap skin  
+**Skins:** Added Corpse skin  
 **Tags:** Added [name:health] which displays health lost using colors on the name text  
 **Tags:** Added [ElvUI-Users] which displays other cool people than yourself  
 **Tags:** Added a color picker in the Available Tags menu  
