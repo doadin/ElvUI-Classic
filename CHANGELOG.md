@@ -2,6 +2,7 @@
 **ActionBars:** Fixed an issue with the Stance Bar  
 **AuraBars:** Fixed an issue with Class Color  
 **CastBars:** Added ChannelTicks for Blizzard (Mage)  
+**Commands:** Added a new command /ehelp to list ElvUI commands in chat  
 **CutawayBars:** Cutaway colors react instantly now  
 **DataTexts:** Code rework, fixed some issues  
 **DataTexts:** You can now add custom panels with many new options  
