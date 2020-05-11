@@ -17,11 +17,13 @@ function S:WorldMapFrame()
 
 	_G.WorldMapContinentDropDown:Point('TOPLEFT', WorldMapFrame, 'TOPLEFT', 330, -35)
 	_G.WorldMapContinentDropDown:Width(205)
+	_G.WorldMapContinentDropDown:Height(34)
 	_G.WorldMapZoneDropDown:Point('LEFT', _G.WorldMapContinentDropDown, 'RIGHT', -20, 0)
 	_G.WorldMapZoneDropDown:Width(205)
+	_G.WorldMapZoneDropDown:Height(34)
 
-	_G.WorldMapZoomOutButton:Point('LEFT', _G.WorldMapZoneDropDown, 'RIGHT', 3, 2)
-	_G.WorldMapZoomOutButton:Height(20)
+	_G.WorldMapZoomOutButton:Point('LEFT', _G.WorldMapZoneDropDown, 'RIGHT', 3, 3)
+	_G.WorldMapZoomOutButton:Height(22)
 
 	S:HandleButton(_G.WorldMapZoomOutButton)
 
