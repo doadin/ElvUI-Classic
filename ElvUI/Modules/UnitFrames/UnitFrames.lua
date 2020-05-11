@@ -881,8 +881,9 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerTempl
 		self.headers[group] = Header
 	end
 
-	Header.db = db
+	local numGroupsChanged = (Header.numGroups ~= numGroups)
 	Header.numGroups = numGroups
+	Header.db = db
 
 	if numGroups then
 		if db.raidWideSorting then
@@ -896,9 +897,8 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerTempl
 			end
 		end
 
-		UF.headerFunctions[group]:AdjustVisibility(Header)
-
-		if not skipUpdate then
+		if numGroupsChanged then
+			UF.headerFunctions[group]:AdjustVisibility(Header)
 			UF.headerFunctions[group]:Configure_Groups(Header)
 		end
 	else
