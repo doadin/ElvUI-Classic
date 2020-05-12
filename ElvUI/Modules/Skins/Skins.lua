@@ -294,6 +294,8 @@ function S:HandleButton(button, strip, isDeclineButton, useCreateBackdrop, noSet
 end
 
 function S:HandleCategoriesButtons(button, strip)
+    if button.isSkinned then return end
+    
 	local ButtonName = button.GetName and button:GetName()
 
 	if button.SetNormalTexture then button:SetNormalTexture("") end
@@ -320,9 +322,19 @@ function S:HandleCategoriesButtons(button, strip)
 	button.HighlightTexture:Point("CENTER", button, 0, 2)
 	button.HighlightTexture:SetTexture(E.Media.Textures.Highlight)
 	button.HighlightTexture:SetVertexColor(0, 0, 0, 0)
+	button.HighlightTexture:Hide()
 	
-	button:HookScript("OnEnter", function() button.HighlightTexture:SetVertexColor(r, g, b) end)
-	button:HookScript("OnLeave", function() button.HighlightTexture:SetVertexColor(0, 0, 0, 0) end)
+	button:HookScript("OnEnter", function() 
+		button.HighlightTexture:SetVertexColor(r, g, b, 0.50)
+		button.HighlightTexture:Show()
+	end)
+	
+	button:HookScript("OnLeave", function() 
+		button.HighlightTexture:SetVertexColor(0, 0, 0, 0)
+		button.HighlightTexture:Hide()
+	end)
+	
+	button.isSkinned = true
 end
 
 do
