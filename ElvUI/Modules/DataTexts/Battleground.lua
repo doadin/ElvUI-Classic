@@ -3,7 +3,6 @@ local DT = E:GetModule('DataTexts')
 
 --Lua functions
 local _G = _G
-local select = select
 local strjoin = strjoin
 --WoW API / Variables
 local GetBattlefieldScore = GetBattlefieldScore
@@ -11,32 +10,19 @@ local GetNumBattlefieldScores = GetNumBattlefieldScores
 local GetBattlefieldStatData = GetBattlefieldStatData
 local BATTLEGROUND = BATTLEGROUND
 
-local displayString, lastPanel = ''
-local dataLayout = {
-	LeftChatDataPanel = { 3, 2, 4 },
-	RightChatDataPanel = { 10, 11, 5 },
-}
-
-local dataStrings = {
-	[5] = _G.HONOR,
-	[2] = _G.KILLING_BLOWS,
-	[4] = _G.DEATHS,
-	[3] = _G.KILLS,
-}
+local displayString = ''
 
 function DT:UPDATE_BATTLEFIELD_SCORE()
-	lastPanel = self
-	local pointIndex = dataLayout[self.parentName][self.pointIndex]
-	for i=1, GetNumBattlefieldScores() do
-		local name = GetBattlefieldScore(i)
+	for i = 1, GetNumBattlefieldScores() do
+		local name, killingBlows, honorableKills, deaths, honorGained, _, _, _, _, damageDone, healingDone = GetBattlefieldScore(i)
 		if name == E.myname then
-			if pointIndex then
-				local val = select(pointIndex, GetBattlefieldScore(i))
+			_G.LeftChatDataPanel.dataPanels[1].text:SetFormattedText(displayString, _G.KILLS, E:ShortValue(honorableKills))
+			_G.LeftChatDataPanel.dataPanels[2].text:SetFormattedText(displayString, _G.KILLING_BLOWS, E:ShortValue(killingBlows))
+			_G.LeftChatDataPanel.dataPanels[3].text:SetFormattedText(displayString, _G.DEATHS, E:ShortValue(deaths))
 
-				if val then
-					self.text:SetFormattedText(displayString, dataStrings[pointIndex], E:ShortValue(val))
-				end
-			end
+			_G.RightChatDataPanel.dataPanels[1].text:SetFormattedText(displayString, _G.DAMAGE, E:ShortValue(damageDone))
+			_G.RightChatDataPanel.dataPanels[2].text:SetFormattedText(displayString, _G.SHOW_COMBAT_HEALING, E:ShortValue(healingDone))
+			_G.RightChatDataPanel.dataPanels[3].text:SetFormattedText(displayString, _G.HONOR, E:ShortValue(honorGained))
 
 			break
 		end
@@ -78,8 +64,6 @@ end
 local function ValueColorUpdate(hex)
 	displayString = strjoin("", "%s: ", hex, "%s|r")
 
-	if lastPanel ~= nil then
-		DT.UPDATE_BATTLEFIELD_SCORE(lastPanel)
-	end
+	DT.UPDATE_BATTLEFIELD_SCORE()
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
