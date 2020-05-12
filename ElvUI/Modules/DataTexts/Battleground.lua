@@ -13,13 +13,15 @@ local BATTLEGROUND = BATTLEGROUND
 
 local displayString, lastPanel = ''
 local dataLayout = {
-	['LeftChatDataPanel'] = {
-		['middle'] = 5,
-		['right'] = 2,
+	LeftChatDataPanel = {
+		left	= 3,
+		middle	= 2,
+		right	= 4,
 	},
-	['RightChatDataPanel'] = {
-		['left'] = 4,
-		['middle'] = 3,
+	RightChatDataPanel = {
+		left	= 10,
+		middle	= 11,
+		right	= 5,
 	},
 }
 
@@ -32,9 +34,8 @@ local dataStrings = {
 
 function DT:UPDATE_BATTLEFIELD_SCORE()
 	lastPanel = self
-
-	local pointIndex = dataLayout[self:GetParent():GetName()][self.pointIndex]
-	for i = 1, GetNumBattlefieldScores() do
+	local pointIndex = dataLayout[self.parentName][self.pointIndex]
+	for i=1, GetNumBattlefieldScores() do
 		local name = GetBattlefieldScore(i)
 		if name == E.myname then
 			if pointIndex then
