@@ -21,6 +21,7 @@
 	<Script file='Hit.lua'/>
 	<Script file='HPS.lua'/>
 	<Script file='Intellect.lua'/>
+	<Script file='Mail.lua'/>
 	<Script file='MovementSpeed.lua'/>
 	<Script file='Regen.lua'/>
 	<Script file='SpellCrit.lua'/>
