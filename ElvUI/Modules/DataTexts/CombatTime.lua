@@ -33,8 +33,11 @@ local function OnEvent(self, event, _, timeSeconds)
 	elseif event == "PLAYER_REGEN_DISABLED" then
 		timerText, timer, startTime = L["Combat"], 0, GetTime()
 		self:SetScript("OnUpdate", OnUpdate)
-	elseif event == "PLAYER_ENTERING_WORLD" then
-		self.text:SetFormattedText(displayString, timerText, UpdateText())
+	else
+		local txt = self.text:GetText()
+		if not txt or txt == ' ' then
+			self.text:SetFormattedText(displayString, timerText, UpdateText())
+		end
 	end
 
 	lastPanel = self
