@@ -3,7 +3,9 @@ local DT = E:GetModule('DataTexts')
 
 --Lua functions
 local _G = _G
+local sort = sort
 local ipairs = ipairs
+local strlen = strlen
 local strjoin = strjoin
 local GetNumBattlefieldScores = GetNumBattlefieldScores
 local GetBattlefieldStatData = GetBattlefieldStatData
@@ -54,17 +56,38 @@ function DT:UPDATE_BATTLEFIELD_SCORE()
 	DT:UpdateBattlePanel('RIGHT')
 end
 
+local function columnSort(lhs,rhs)
+	return lhs.orderIndex < rhs.orderIndex
+end
+
 function DT:HoverBattleStats()
 	DT:SetupTooltip(self)
 
-	local pvpStats = myIndex and C_PvP_GetMatchPVPStatIDs()
-	if pvpStats then
-		local firstLine
-		local classColor = E:ClassColor(E.myclass)
-		DT.tooltip:AddDoubleLine(BATTLEGROUND, E.MapInfo.name, 1,1,1, classColor.r, classColor.g, classColor.b)
-	end
+	if DT.ShowingBattleStats == 'pvp' then
+		local columns = myIndex and C_PvP_GetMatchPVPStatColumns()
+		if columns then
+			sort(columns, columnSort)
 
-	DT.tooltip:Show()
+			local firstLine
+			local classColor = E:ClassColor(E.myclass)
+			DT.tooltip:AddDoubleLine(BATTLEGROUND, E.MapInfo.name, 1,1,1, classColor.r, classColor.g, classColor.b)
+
+			-- Add extra statistics to watch based on what BG you are in.
+			for _, stat in ipairs(columns) do
+				local name = stat.name
+				if name and strlen(name) > 0 then
+					if not firstLine then
+						DT.tooltip:AddLine(' ')
+						firstLine = true
+					end
+
+					DT.tooltip:AddDoubleLine(name, GetBattlefieldStatData(myIndex, stat.pvpStatID), 1,1,1)
+				end
+			end
+
+			DT.tooltip:Show()
+		end
+	end
 end
 
 function DT:ToggleBattleStats()
