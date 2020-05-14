@@ -1002,7 +1002,7 @@ E.TagInfo = {
 	['guild:translit'] = { category = 'Guild', description = "Displays the guild name with transliteration for cyrillic letters" },
 	--Health
 	['curhp'] = { category = 'Health', description = "Displays the current HP without decimals" },
-	['perhp'] = { category = 'Health', description = "Displays percentage HP without decimals" },
+	['perhp'] = { category = 'Health', description = "Displays percentage HP without decimals or the % sign.  You can display the percent sign by adjusting the tag to [perhp<%]." },
 	['maxhp'] = { category = 'Health', description = "Displays max HP without decimals" },
 	['deficit:name'] = { category = 'Health', description = "Displays the health as a deficit and the name at full health" },
 	['health:current'] = { category = 'Health', description = "Displays the current health of the unit" },
