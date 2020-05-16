@@ -495,7 +495,6 @@ function DT:UpdatePanelInfo(panelName, panel, ...)
 
 		if battlePanel then
 			dt:SetScript('OnClick', DT.ToggleBattleStats)
-			tinsert(dt.MouseEnters, DT.HoverBattleStats)
 		else
 			--Register Panel to Datatext
 			for name, data in pairs(DT.RegisteredDataTexts) do
