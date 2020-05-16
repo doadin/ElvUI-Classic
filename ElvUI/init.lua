@@ -114,6 +114,10 @@ do
 	E:AddLib('RC', 'LibRangeCheck-2.0')
 	-- added on ElvUI_OptionsUI load: AceGUI, AceConfig, AceConfigDialog, AceConfigRegistry, AceDBOptions
 
+	if E.Libs.LCD then
+		E.Libs.LCD:Register("ElvUI")
+	end
+
 	-- backwards compatible for plugins
 	E.LSM = E.Libs.LSM
 	E.Masque = E.Libs.Masque
