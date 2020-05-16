@@ -1,8 +1,8 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file='DataTexts.lua'/>
 
-	<Script file='Ammo.lua'/>
 	<Script file='Agility.lua'/>
+	<Script file='Ammo.lua'/>
 	<Script file='Armor.lua'/>
 	<Script file='AttackPower.lua'/>
 	<Script file='Avoidance.lua'/>
@@ -27,6 +27,7 @@
 	<Script file='SpellCrit.lua'/>
 	<Script file='SpellHit.lua'/>
 	<Script file='SpellPower.lua'/>
+	<Script file='Spirit.lua'/>
 	<Script file='Stamina.lua'/>
 	<Script file='Strength.lua'/>
 	<Script file='System.lua'/>

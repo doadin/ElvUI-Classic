@@ -5,18 +5,18 @@ local DT = E:GetModule("DataTexts")
 local join = string.join
 --WoW API / Variables
 local STAT_HIT_CHANCE = STAT_HIT_CHANCE
-
+local STAT_CATEGORY_ENHANCEMENTS = STAT_CATEGORY_ENHANCEMENTS
 local displayString = ""
 local lastPanel
 
 local function OnEvent(self)
 	lastPanel = self
 
-	self.text:SetFormattedText(displayString, GetHitModifier())
+	self.text:SetFormattedText(displayString, STAT_HIT_CHANCE, GetHitModifier())
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", L["Hit"], ": ", hex, "%.2f%%|r")
+	displayString = join("", "%s", ": ", hex, "%.2f%%|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)
@@ -24,4 +24,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext("Hit", nil, {"COMBAT_RATING_UPDATE"}, OnEvent, nil, nil, nil, nil, STAT_HIT_CHANCE)
+DT:RegisterDatatext("Hit", STAT_CATEGORY_ENHANCEMENTS, {"COMBAT_RATING_UPDATE"}, OnEvent, nil, nil, nil, nil, STAT_HIT_CHANCE)

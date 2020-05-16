@@ -5,6 +5,8 @@ local DT = E:GetModule("DataTexts")
 local join = string.join
 --WoW API / Variables
 
+local STAT_CATEGORY_ENHANCEMENTS = STAT_CATEGORY_ENHANCEMENTS
+
 local displayString = ""
 local lastPanel
 
@@ -23,4 +25,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext("Spell Hit", nil, {"COMBAT_RATING_UPDATE"}, OnEvent, nil, nil, nil, nil, "Spell Hit")
+DT:RegisterDatatext("Spell Hit", STAT_CATEGORY_ENHANCEMENTS, {"COMBAT_RATING_UPDATE"}, OnEvent, nil, nil, nil, nil, "Spell Hit")
