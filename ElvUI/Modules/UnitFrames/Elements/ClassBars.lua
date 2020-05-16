@@ -373,7 +373,7 @@ end
 function UF:PostUpdateAdditionalPower(_, MIN, MAX, event)
 	local frame = self.origParent or self:GetParent()
 	local db = frame.db
-
+	print(_, MIN, MAX. event)
 	if frame.USE_CLASSBAR and ((MIN ~= MAX or (not db.classbar.autoHide)) and (event ~= "ElementDisable")) then
 		if db.classbar.additionalPowerText then
 			local powerValue = frame.Power.value
