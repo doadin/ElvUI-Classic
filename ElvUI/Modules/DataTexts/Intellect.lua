@@ -23,5 +23,5 @@ local function ValueColorUpdate(hex, r, g, b)
 end
 E['valueColorUpdateFuncs'][ValueColorUpdate] = true
 
-DT:RegisterDatatext('Intellect', STAT_CATEGORY_ATTRIBUTES, { "UNIT_STATS", "UNIT_AURA" }, OnEvent, nil, nil, nil, nil, ITEM_MOD_INTELLECT_SHORT)
+DT:RegisterDatatext('Intellect', STAT_CATEGORY_ATTRIBUTES, {"UNIT_STATS", "UNIT_AURA"}, OnEvent, nil, nil, nil, nil, ITEM_MOD_INTELLECT_SHORT)
 
