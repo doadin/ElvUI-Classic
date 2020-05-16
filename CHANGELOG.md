@@ -1,5 +1,6 @@
 ### Version 1.25 [ETA: 🍨]
 **ActionBars:** Fixed an issue with the Stance Bar  
+**Available Tags:** Updated descriptions  
 **AuraBars:** Fixed an issue with Class Color  
 **CastBars:** Added ChannelTicks for Blizzard (Mage)  
 **Chat:** The chat editbox now supports blizzard chat style: IM Style  
