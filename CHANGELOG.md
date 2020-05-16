@@ -7,6 +7,7 @@
 **Chat:** Fixed a bug with the chat editbox blocking DataTexts  
 **Commands:** Added a new command /ehelp to list ElvUI commands in chat  
 **CutawayBars:** Cutaway colors react instantly now  
+**DataTexts:** Your currently assigned DataTexts have been reset due to code changes  
 **DataTexts:** Code rework, fixed some issues  
 **DataTexts:** You can now add custom panels with many new options  
 **DataTexts:** You can now type /hdt or mouse over with holding alt to change their assigned DataText  
