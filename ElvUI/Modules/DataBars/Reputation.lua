@@ -16,59 +16,21 @@ function mod:UpdateReputation(event, eventType)
 	if not mod.db.reputation.enable then return end
 
 	local bar = self.repBar
-	local ID, standingLabel
+	local standingLabel
 	local isCapped
 	local name, reaction, min, max, value = GetWatchedFactionInfo()
-
-	if reaction == _G.MAX_REPUTATION_REACTION then
-		-- max rank, make it look like a full bar
-		min, max, value = 0, 1, 1
-		isCapped = true
-	end
-
-	local numFactions = GetNumFactions()
 
 	if not name or (event == 'PLAYER_REGEN_DISABLED' and self.db.reputation.hideInCombat) then
 		bar:Hide()
 	elseif name and (not self.db.reputation.hideInCombat or not InCombatLockdown()) then
 		bar:Show()
 
-		if self.db.reputation.hideInVehicle then
-			E:RegisterObjectForVehicleLock(bar, E.UIParent)
-		else
-			E:UnregisterObjectForVehicleLock(bar)
-		end
-
-		local friendshipID = GetFriendshipReputation(factionID);
 		local text = ''
 		local textFormat = self.db.reputation.textFormat
 
-		local isFriend, friendText, standingLabel
-		local isCapped
-
-		if friendshipID then
-			local _, friendRep, _, _, _, _, friendTextLevel, friendThreshold, nextFriendThreshold = GetFriendshipReputation(factionID);
-			isFriend, reaction, friendText = true, 5, friendTextLevel
-			if ( nextFriendThreshold ) then
-				min, max, value = friendThreshold, nextFriendThreshold, friendRep;
-			else
-				min, max, value = 0, 1, 1
-				isCapped = true;
-			end
-		elseif C_Reputation_IsFactionParagon(factionID) then
-			local currentValue, threshold, _, hasRewardPending = C_Reputation_GetFactionParagonInfo(factionID)
-			if currentValue and threshold then
-				min, max = 0, threshold
-				value = currentValue % threshold
-				if hasRewardPending then
-					value = value + threshold
-				end
-			end
-		else
-			if reaction == _G.MAX_REPUTATION_REACTION then
-				min, max, value = 0, 1, 1
-				isCapped = true
-			end
+		if reaction == _G.MAX_REPUTATION_REACTION then
+			min, max, value = 0, 1, 1
+			isCapped = true
 		end
 
 		bar.statusBar:SetMinMaxValues(min, max)

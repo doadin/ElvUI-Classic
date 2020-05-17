@@ -51,7 +51,7 @@ end
 
 local function OnEnter(self)
 	DT:SetupTooltip(self)
-
+	print('asdasd')
 	for i = 0, NUM_BAG_SLOTS do
 		local bagFreeSlots, bagType = GetContainerNumFreeSlots(i)
 		local bagTypeName = BAG_TYPES[bagType]
