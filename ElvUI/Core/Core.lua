@@ -991,9 +991,7 @@ function E:UpdateEnd()
 
 	E:SetMoversClampedToScreen(true) -- Go back to using clamp after resizing has taken place.
 
-	local iver = E.private.install_complete
-	if (E.installSetup ~= true) and (not iver or ((type(iver) == 'boolean') or (type(tonumber(iver)) == 'number' and tonumber(iver) <= 0.1))) then
-		E.installSetup = nil
+	if not E.installSetup and not E.private.install_complete then
 		E:Install()
 	end
 
@@ -1030,7 +1028,7 @@ do
 			return
 		end
 
-		self.installSetup = installSetup
+		E.installSetup = installSetup
 		if (installSetup or event and event == 'OnProfileChanged' or event == 'OnProfileCopied') and not self.staggerUpdateRunning then
 			tinsert(staggerTable, 'UpdateLayout')
 			if E.private.actionbar.enable then
@@ -1569,7 +1567,7 @@ function E:Initialize()
 		E:SetSmoothingAmount(E.db.general.smoothingAmount)
 	end
 
-	if self.private.install_complete == nil then
+	if not self.private.install_complete then
 		self:Install()
 	end
 
