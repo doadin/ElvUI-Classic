@@ -16,6 +16,7 @@
 **Filters:** Add or Remove spell from a filter should now work how it was always meant to  
 **General:** Removed the custom shaman color, because it breaks stuff  
 **General:** Upgraded our /estatus  
+**Libraries:** LibClassicDuration update  
 **NamePlates:** Style Filters now support changing the Nameplate Tags for Health, Power, Name, Title, and Level  
 **NamePlates:** Options have been rearranged  
 **Skins:** Fixed the "Loot" skin  
