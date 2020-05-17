@@ -6,7 +6,6 @@ local _G = _G
 local format, strjoin, pairs = format, strjoin, pairs
 --WoW API / Variables
 local GetInventoryItemDurability = GetInventoryItemDurability
-local GetInventorySlotInfo = GetInventorySlotInfo
 local ToggleCharacter = ToggleCharacter
 local DURABILITY = DURABILITY
 local InCombatLockdown = InCombatLockdown
@@ -15,30 +14,29 @@ local displayString, lastPanel = ""
 local tooltipString = "%d%%"
 local totalDurability = 0
 local invDurability = {}
+
 local slots = {
-	["SecondaryHandSlot"] = L["Offhand"],
-	["MainHandSlot"] = L["Main Hand"],
-	["RangedSlot"] = L["Ranged"],
-	["FeetSlot"] = L["Feet"],
-	["LegsSlot"] = L["Legs"],
-	["HandsSlot"] = L["Hands"],
-	["WristSlot"] = L["Wrist"],
-	["WaistSlot"] = L["Waist"],
-	["ChestSlot"] = L["Chest"],
-	["ShoulderSlot"] = L["Shoulder"],
-	["HeadSlot"] = L["Head"],
+	[1] = _G.INVTYPE_HEAD,
+	[3] = _G.INVTYPE_SHOULDER,
+	[5] = _G.INVTYPE_CHEST,
+	[6] = _G.INVTYPE_WAIST,
+	[7] = _G.INVTYPE_LEGS,
+	[8] = _G.INVTYPE_FEET,
+	[9] = _G.INVTYPE_WRIST,
+	[10] = _G.INVTYPE_HAND,
+	[16] = _G.INVTYPE_WEAPONMAINHAND,
+	[17] = _G.INVTYPE_WEAPONOFFHAND,
 }
 
 local function OnEvent(self)
 	lastPanel = self
 	totalDurability = 100
 
-	for index, value in pairs(slots) do
-		local slot = GetInventorySlotInfo(index)
-		local current, max = GetInventoryItemDurability(slot)
+	for index in pairs(slots) do
+		local current, max = GetInventoryItemDurability(index)
 
 		if current then
-			invDurability[value] = (current/max)*100
+			invDurability[index] = (current/max)*100
 
 			if ((current/max) * 100) < totalDurability then
 				totalDurability = (current/max) * 100
@@ -57,7 +55,7 @@ end
 local function OnEnter(self)
 	DT:SetupTooltip(self)
 
-	for slot, durability in pairs(invDurability) do
+	for slot, durability in ipairs(invDurability) do
 		DT.tooltip:AddDoubleLine(slot, format(tooltipString, durability), 1, 1, 1, E:ColorGradient(durability * 0.01, 1, 0, 0, 1, 1, 0, 0, 1, 0))
 	end
 
