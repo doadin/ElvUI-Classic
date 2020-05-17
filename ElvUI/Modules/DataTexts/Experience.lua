@@ -12,9 +12,7 @@ local displayString = ""
 local hexColor
 
 local function OnEvent(self, event)
-	if IsXPUserDisabled() then
-		displayString = 'Disabled'
-	elseif E.mylevel == MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()] then
+	if E.mylevel == MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()] then
 		displayString = 'Max'
 	else
 		local cur, max = UnitXP('player'), UnitXPMax('player')
