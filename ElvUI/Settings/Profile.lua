@@ -10,6 +10,7 @@ P.general = {
 	stickyFrames = true,
 	loginmessage = true,
 	interruptAnnounce = 'NONE',
+	autoTrackReputation = false,
 	autoRepair = false,
 	autoAcceptInvite = false,
 	topPanel = false,

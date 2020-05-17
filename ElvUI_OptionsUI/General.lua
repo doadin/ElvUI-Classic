@@ -217,6 +217,11 @@ E.Options.args.general = {
 					desc = L["Automatically repair using the following method when visiting a merchant."],
 					type = 'toggle',
 				},
+				autoTrackReputation = {
+					order = 20,
+					name = L["Auto Track Reputation"],
+					type = 'toggle',
+				},
 			},
 		},
 		media = {
