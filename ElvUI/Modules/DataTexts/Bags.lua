@@ -42,25 +42,27 @@ local function OnEnter(self)
 	DT:SetupTooltip(self)
 
 	for i = 0, NUM_BAG_SLOTS do
-		local bagFreeSlots, bagType = GetContainerNumFreeSlots(i)
 		local bagName = GetBagName(i)
-		local bagSlots = GetContainerNumSlots(i)
-		local r, g, b, icon = 1, 1, 1, 'Interface/Buttons/Button-Backpack-Up'
-		local r2, g2, b2
+		if bagName then
+			local bagFreeSlots, bagType = GetContainerNumFreeSlots(i)
+			local bagSlots = GetContainerNumSlots(i)
+			local r, g, b, icon = 1, 1, 1, 'Interface/Buttons/Button-Backpack-Up'
+			local r2, g2, b2
 
-		if BAG_TYPES[bagType] then
-			r2, g2, b2 = E:ColorGradient(bagFreeSlots/bagSlots, 1, .1, .1, 1, 1, .1, .1, 1, .1) -- red, yellow, green
-		else
-			r2, g2, b2 = E:ColorGradient(bagFreeSlots/bagSlots, .1, 1, .1, 1, 1, .1, 1, .1, .1) -- green, yellow, red
+			if BAG_TYPES[bagType] then
+				r2, g2, b2 = E:ColorGradient(bagFreeSlots/bagSlots, 1, .1, .1, 1, 1, .1, .1, 1, .1) -- red, yellow, green
+			else
+				r2, g2, b2 = E:ColorGradient(bagFreeSlots/bagSlots, .1, 1, .1, 1, 1, .1, 1, .1, .1) -- green, yellow, red
+			end
+
+				if i > 0 then
+					local quality = GetInventoryItemQuality("player", 19 + i)
+					r, g, b = GetItemQualityColor(quality or 1)
+					icon = GetInventoryItemTexture("player", 19 + i)
+				end
+
+			DT.tooltip:AddDoubleLine(format('|T%s:14:14:0:0:64:64:4:60:4:60|t  %s', icon, bagName), format('%d / %d', bagFreeSlots, bagSlots), r, g, b, r2, g2, b2)
 		end
-
-		if i > 0 then
-			local quality = GetInventoryItemQuality("player", 19 + i)
-			r, g, b = GetItemQualityColor(quality or 1)
-			icon = GetInventoryItemTexture("player", 19 + i)
-		end
-
-		DT.tooltip:AddDoubleLine(format('|T%s:14:14:0:0:64:64:4:60:4:60|t  %s', icon, bagName), format('%d / %d', bagFreeSlots, bagSlots), r, g, b, r2, g2, b2)
 	end
 
 	DT.tooltip:Show()
