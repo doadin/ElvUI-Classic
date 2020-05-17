@@ -10,6 +10,9 @@ local GetContainerNumFreeSlots = GetContainerNumFreeSlots
 local GetContainerNumSlots = GetContainerNumSlots
 local ToggleAllBags = ToggleAllBags
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS
+local GetInventoryItemQuality = GetInventoryItemQuality
+local GetItemQualityColor = GetItemQualityColor
+local GetInventoryItemTexture = GetInventoryItemTexture
 
 local displayString, lastPanel = ''
 
@@ -46,9 +49,9 @@ local function OnEnter(self)
 		local r2, g2, b2
 
 		if BAG_TYPES[bagType] then
-			r2, g2, b2 = E:ColorGradient(bagFreeSlots/bagSlots, 1, .1, .1, 1, 1, .1, .1, 1, .1)
+			r2, g2, b2 = E:ColorGradient(bagFreeSlots/bagSlots, 1, .1, .1, 1, 1, .1, .1, 1, .1) -- red, yellow, green
 		else
-			r2, g2, b2 = E:ColorGradient(1 - bagFreeSlots/bagSlots, 1, .1, .1, 1, 1, .1, .1, 1, .1)
+			r2, g2, b2 = E:ColorGradient(bagFreeSlots/bagSlots, .1, 1, .1, 1, 1, .1, 1, .1, .1) -- green, yellow, red
 		end
 
 		if i > 0 then
