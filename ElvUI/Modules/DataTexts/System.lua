@@ -3,7 +3,7 @@ local DT = E:GetModule('DataTexts')
 
 --Lua functions
 local select, collectgarbage = select, collectgarbage
-local sort, wipe, floor, format = sort, wipe, floor, format
+local ipairs, sort, wipe, floor, format = ipairs, sort, wipe, floor, format
 --WoW API / Variables
 local GetAddOnCPUUsage = GetAddOnCPUUsage
 local GetAddOnInfo = GetAddOnInfo
