@@ -85,13 +85,13 @@ function M:COMBAT_LOG_EVENT_UNFILTERED()
 	end
 end
 
-function M:COMBAT_TEXT_UPDATE(event, ...)
+function M:COMBAT_TEXT_UPDATE(_, messagetype, faction)
 	if not E.db.general.autoTrackReputation then return end
 
-	local messagetype, faction = ...
-	if (messagetype == 'FACTION') then
-		if faction ~= GetWatchedFactionInfo() then
+	if messagetype == 'FACTION' then
+		if faction ~= 'Guild' and faction ~= GetWatchedFactionInfo() then
 			ExpandAllFactionHeaders()
+
 			for i = 1, GetNumFactions() do
 				if faction == GetFactionInfo(i) then
 					SetWatchedFactionIndex(i)

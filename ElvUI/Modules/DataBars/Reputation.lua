@@ -10,15 +10,15 @@ local CreateFrame = CreateFrame
 local GetWatchedFactionInfo, GetNumFactions, GetFactionInfo = GetWatchedFactionInfo, GetNumFactions, GetFactionInfo
 local InCombatLockdown = InCombatLockdown
 local ToggleCharacter = ToggleCharacter
-local REPUTATION, STANDING = REPUTATION, STANDING
+local CreateFrame = CreateFrame
+local REPUTATION = REPUTATION
+local STANDING = STANDING
 
-function mod:UpdateReputation(event, eventType)
+function mod:UpdateReputation(event)
 	if not mod.db.reputation.enable then return end
 
 	local bar = self.repBar
-	local standingLabel
-	local isCapped
-	local name, reaction, min, max, value = GetWatchedFactionInfo()
+	local name, reaction, Min, Max, value, factionID = GetWatchedFactionInfo()
 
 	if not name or (event == 'PLAYER_REGEN_DISABLED' and self.db.reputation.hideInCombat) then
 		bar:Hide()
@@ -33,7 +33,7 @@ function mod:UpdateReputation(event, eventType)
 			isCapped = true
 		end
 
-		bar.statusBar:SetMinMaxValues(min, max)
+		bar.statusBar:SetMinMaxValues(Min, Max)
 		bar.statusBar:SetValue(value)
 		local color = _G.FACTION_BAR_COLORS[reaction]
 		bar.statusBar:SetStatusBarColor(color.r, color.g, color.b)
@@ -41,7 +41,7 @@ function mod:UpdateReputation(event, eventType)
 		standingLabel = _G['FACTION_STANDING_LABEL'..reaction]
 
 		--Prevent a division by zero
-		local maxMinDiff = max - min
+		local maxMinDiff = Max - Min
 		if maxMinDiff == 0 then
 			maxMinDiff = 1
 		end
@@ -51,19 +51,19 @@ function mod:UpdateReputation(event, eventType)
 			text = format('%s: [%s]', name, standingLabel)
 		else
 			if textFormat == 'PERCENT' then
-				text = format('%s: %d%% [%s]', name, ((value - min) / (maxMinDiff) * 100), standingLabel)
+				text = format('%s: %d%% [%s]', name, ((value - Min) / (maxMinDiff) * 100), standingLabel)
 			elseif textFormat == 'CURMAX' then
-				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - min), E:ShortValue(max - min), standingLabel)
+				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - Min), E:ShortValue(Max - Min), standingLabel)
 			elseif textFormat == 'CURPERC' then
-				text = format('%s: %s - %d%% [%s]', name, E:ShortValue(value - min), ((value - min) / (maxMinDiff) * 100), standingLabel)
+				text = format('%s: %s - %d%% [%s]', name, E:ShortValue(value - Min), ((value - Min) / (maxMinDiff) * 100), standingLabel)
 			elseif textFormat == 'CUR' then
-				text = format('%s: %s [%s]', name, E:ShortValue(value - min), standingLabel)
+				text = format('%s: %s [%s]', name, E:ShortValue(value - Min), standingLabel)
 			elseif textFormat == 'REM' then
-				text = format('%s: %s [%s]', name, E:ShortValue((max - min) - (value-min)), standingLabel)
+				text = format('%s: %s [%s]', name, E:ShortValue((max - Min) - (value-Min)), standingLabel)
 			elseif textFormat == 'CURREM' then
-				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - min), E:ShortValue((max - min) - (value-min)), standingLabel)
+				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - Min), E:ShortValue((max - Min) - (value-Min)), standingLabel)
 			elseif textFormat == 'CURPERCREM' then
-				text = format('%s: %s - %d%% (%s) [%s]', name, E:ShortValue(value - min), ((value - min) / (maxMinDiff) * 100), E:ShortValue((max - min) - (value-min)), standingLabel)
+				text = format('%s: %s - %d%% (%s) [%s]', name, E:ShortValue(value - Min), ((value - Min) / (maxMinDiff) * 100), E:ShortValue((Max - Min) - (value-Min)), standingLabel)
 			end
 		end
 
@@ -139,7 +139,9 @@ function mod:LoadReputationBar()
 	self.repBar.eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
 	self.repBar.eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
 	self.repBar.eventFrame:RegisterEvent("COMBAT_TEXT_UPDATE")
-	self.repBar.eventFrame:SetScript("OnEvent", function(_, event, ...) mod:UpdateReputation(event, ...) end)
+	self.repBar.eventFrame:SetScript("OnEvent", function(_, event, ...)
+		mod:UpdateReputation(event, ...)
+	end)
 
 	self:UpdateReputationDimensions()
 

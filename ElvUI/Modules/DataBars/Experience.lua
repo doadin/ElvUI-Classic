@@ -4,10 +4,10 @@ local LSM = E.Libs.LSM
 
 --Lua functions
 local _G = _G
-local format = format
 local min = min
---WoW API / Variables
-local CreateFrame = CreateFrame
+local format = format
+local GetPetExperience, UnitXP, UnitXPMax = GetPetExperience, UnitXP, UnitXPMax
+local IsXPUserDisabled, GetXPExhaustion = IsXPUserDisabled, GetXPExhaustion
 local GetExpansionLevel = GetExpansionLevel
 local GetPetExperience, UnitXP, UnitXPMax = GetPetExperience, UnitXP, UnitXPMax
 local GetXPExhaustion = GetXPExhaustion
@@ -24,7 +24,6 @@ end
 
 function mod:UpdateExperience(event)
 	if not mod.db.experience.enable then return end
-
 	local bar = self.expBar
 	local hideXP = ((E.mylevel == MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()] and self.db.experience.hideAtMaxLevel))
 
@@ -38,7 +37,6 @@ function mod:UpdateExperience(event)
 		local cur, max = self:GetXP('player')
 		if max <= 0 then max = 1 end
 		bar.statusBar:SetMinMaxValues(0, max)
-		bar.statusBar:SetValue(cur - 1 >= 0 and cur - 1 or 0)
 		bar.statusBar:SetValue(cur)
 
 		local rested = GetXPExhaustion()
@@ -144,8 +142,7 @@ end
 
 function mod:EnableDisable_ExperienceBar()
 	local maxLevel = MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()]
-
-	if (E.mylevel ~= maxLevel or not self.db.experience.hideAtMaxLevel) and self.db.experience.enable then
+	if self.db.experience.enable and (E.mylevel ~= maxLevel or not self.db.experience.hideAtMaxLevel) then
 		self:RegisterEvent('PLAYER_XP_UPDATE', 'UpdateExperience')
 		self:RegisterEvent('DISABLE_XP_GAIN', 'UpdateExperience')
 		self:RegisterEvent('ENABLE_XP_GAIN', 'UpdateExperience')
@@ -175,9 +172,11 @@ function mod:LoadExperienceBar()
 
 	self.expBar.eventFrame = CreateFrame('Frame')
 	self.expBar.eventFrame:Hide()
-	self.expBar.eventFrame:RegisterEvent('PLAYER_REGEN_DISABLED')
-	self.expBar.eventFrame:RegisterEvent('PLAYER_REGEN_ENABLED')
-	self.expBar.eventFrame:SetScript('OnEvent', function(self, event) mod:UpdateExperience(event) end)
+	self.expBar.eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
+	self.expBar.eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+	self.expBar.eventFrame:SetScript("OnEvent", function(_, event)
+		mod:UpdateExperience(event)
+	end)
 
 	self:UpdateExperienceDimensions()
 
