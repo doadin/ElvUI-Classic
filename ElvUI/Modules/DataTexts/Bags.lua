@@ -11,27 +11,13 @@ local GetContainerNumSlots = GetContainerNumSlots
 local ToggleAllBags = ToggleAllBags
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS
 
+local displayString, lastPanel = ''
+
 local BAG_TYPES = {
 	[0x0001]  = 'Quiver',
 	[0x0002]  = 'Ammo Pouch',
 	[0x0004]  = 'Soul Bag',
-	[0x0008]  = 'Leatherworking Bag',
-	[0x0010]  = 'Inscription Bag',
-	[0x0020]  = 'Herb Bag',
-	[0x0040]  = 'Enchanting Bag',
-	[0x0080]  = 'Engineering Bag',
-	[0x0100]  = 'Keyring',
-	[0x0200]  = 'Gem Bag',
-	[0x0400]  = 'Mining Bag',
-	[0x0800]  = 'Unused (800)',
-	[0x1000]  = 'Vanity Pets',
-	[0x2000]  = 'Unused (2000)',
-	[0x4000]  = 'Unused (4000)',
-	[0x8000]  = 'Tackle Box',
-	[0x10000] = 'Cooking Bag'
- }
-
-local displayString, lastPanel = ''
+}
 
 local function OnEvent(self)
 	lastPanel = self
@@ -51,16 +37,27 @@ end
 
 local function OnEnter(self)
 	DT:SetupTooltip(self)
-	print('asdasd')
+
 	for i = 0, NUM_BAG_SLOTS do
 		local bagFreeSlots, bagType = GetContainerNumFreeSlots(i)
-		local bagTypeName = BAG_TYPES[bagType]
+		local bagName = GetBagName(i)
+		local bagSlots = GetContainerNumSlots(i)
+		local r, g, b, icon = 1, 1, 1, 'Interface/Buttons/Button-Backpack-Up'
+		local r2, g2, b2
 
-		if bagTypeName then
-			local bagName = GetBagName(i)
-			local bagSlots = GetContainerNumSlots(i)
-			DT.tooltip:AddDoubleLine(bagName, format('%d/%d', bagFreeSlots, bagSlots))
+		if BAG_TYPES[bagType] then
+			r2, g2, b2 = E:ColorGradient(bagFreeSlots/bagSlots, 1, .1, .1, 1, 1, .1, .1, 1, .1)
+		else
+			r2, g2, b2 = E:ColorGradient(1 - bagFreeSlots/bagSlots, 1, .1, .1, 1, 1, .1, .1, 1, .1)
 		end
+
+		if i > 0 then
+			local quality = GetInventoryItemQuality("player", 19 + i)
+			r, g, b = GetItemQualityColor(quality or 1)
+			icon = GetInventoryItemTexture("player", 19 + i)
+		end
+
+		DT.tooltip:AddDoubleLine(format('|T%s:14:14:0:0:64:64:4:60:4:60|t  %s', icon, bagName), format('%d / %d', bagFreeSlots, bagSlots), r, g, b, r2, g2, b2)
 	end
 
 	DT.tooltip:Show()
