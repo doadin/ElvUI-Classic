@@ -366,6 +366,7 @@ function NP:PLAYER_ENTERING_WORLD()
 end
 
 function NP:ConfigureAll()
+	if E.private.nameplates.enable ~= true then return end
 	NP:StyleFilterConfigure() -- keep this at the top
 
 	NP:PLAYER_REGEN_ENABLED()
