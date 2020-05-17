@@ -5,7 +5,7 @@ local _G = _G
 local format = format
 
 local UnitXP, UnitXPMax = UnitXP, UnitXPMax
-local IsXPUserDisabled, GetXPExhaustion = IsXPUserDisabled, GetXPExhaustion
+local GetXPExhaustion = GetXPExhaustion
 local GetExpansionLevel = GetExpansionLevel
 local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE
 local displayString = ""
