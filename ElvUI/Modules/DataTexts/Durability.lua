@@ -55,7 +55,7 @@ end
 local function OnEnter(self)
 	DT:SetupTooltip(self)
 
-	for slot, durability in ipairs(invDurability) do
+	for slot, durability in pairs(invDurability) do
 		DT.tooltip:AddDoubleLine(slot, format(tooltipString, durability), 1, 1, 1, E:ColorGradient(durability * 0.01, 1, 0, 0, 1, 1, 0, 0, 1, 0))
 	end
 
