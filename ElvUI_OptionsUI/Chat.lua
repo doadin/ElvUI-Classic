@@ -482,7 +482,7 @@ E.Options.args.chat = {
 					set = function(info, value)
 						E.db.chat.panelBackdrop = value
 						Layout:ToggleChatPanels()
-						CH:PositionChat()
+						CH:PositionChats()
 						CH:UpdateEditboxAnchors()
 					end,
 				},
@@ -493,7 +493,7 @@ E.Options.args.chat = {
 					desc = L["Enable the use of separate size options for the right chat panel."],
 					set = function(info, value)
 						E.db.chat.separateSizes = value
-						CH:PositionChat()
+						CH:PositionChats()
 						Bags:Layout()
 					end,
 				},
@@ -505,7 +505,7 @@ E.Options.args.chat = {
 					min = 60, max = 600, step = 1,
 					set = function(info, value)
 						E.db.chat.panelHeight = value
-						CH:PositionChat()
+						CH:PositionChats()
 					end,
 				},
 				panelWidth = {
@@ -515,7 +515,7 @@ E.Options.args.chat = {
 					desc = L["PANEL_DESC"],
 					set = function(info, value)
 						E.db.chat.panelWidth = value
-						CH:PositionChat()
+						CH:PositionChats()
 
 						local bags = Bags
 						if not E.db.chat.separateSizes then
@@ -552,7 +552,7 @@ E.Options.args.chat = {
 					hidden = function() return not E.db.chat.separateSizes end,
 					set = function(info, value)
 						E.db.chat.panelHeightRight = value
-						CH:PositionChat()
+						CH:PositionChats()
 					end,
 				},
 				panelWidthRight = {
@@ -564,7 +564,7 @@ E.Options.args.chat = {
 					hidden = function() return not E.db.chat.separateSizes end,
 					set = function(info, value)
 						E.db.chat.panelWidthRight = value
-						CH:PositionChat()
+						CH:PositionChats()
 						Bags:Layout()
 					end,
 					min = 50, max = 1000, step = 1,
