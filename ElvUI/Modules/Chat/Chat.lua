@@ -2042,10 +2042,7 @@ function CH:FCF_SetWindowAlpha(frame, alpha)
 end
 
 function CH:SavePositionAndDimensions(chat)
-	if not E.db.chat.lockPositions then
-		CH:UpdateChatTab(chat)
-	end
-
+	CH:UpdateChatTab(chat)
 	CH:ShowBackground(chat.Background, not chat.isDocked)
 end
 
