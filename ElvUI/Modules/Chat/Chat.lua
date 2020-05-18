@@ -1692,11 +1692,13 @@ function CH:SetupChat()
 	end
 
 	_G.GeneralDockManager:SetParent(_G.LeftChatPanel)
-	_G.GeneralDockManager:SetInside(_G.LeftChatTab)
-	_G.GeneralDockManager.scrollFrame:ClearAllPoints()
-	_G.GeneralDockManager.scrollFrame:Point("TOPLEFT", _G.ChatFrame2Tab, "TOPRIGHT")
-	_G.GeneralDockManager.scrollFrame:Point("RIGHT", _G.GeneralDockManagerOverflowButton, "LEFT")
-	_G.GeneralDockManager.scrollFrame.child:Height(22)
+	_G.GeneralDockManager:ClearAllPoints()
+	_G.GeneralDockManager:Point('BOTTOMLEFT', _G.ChatFrame1, 'TOPLEFT', 0, 2)
+	_G.GeneralDockManager:Point('BOTTOMRIGHT', _G.ChatFrame1, 'TOPRIGHT', 0, 2)
+	_G.GeneralDockManager:Height(22)
+	_G.GeneralDockManagerScrollFrame:Height(22)
+	_G.GeneralDockManagerScrollFrameChild:Height(22)
+
 	self:PositionChat(true)
 
 	if not self.HookSecured then
@@ -2035,6 +2037,14 @@ function CH:SaveChatHistory(event, ...)
 	end
 end
 
+function CH:FCFDock_UpdateTabs(dock)
+	if dock == _G.GeneralDockManager then
+		dock.scrollFrame:ClearAllPoints()
+		dock.scrollFrame:Point("TOPLEFT", _G.ChatFrame2Tab, "TOPRIGHT")
+		dock.scrollFrame:Point("RIGHT", dock.overflowButton, "LEFT")
+	end
+end
+
 function CH:FCF_SetWindowAlpha(frame, alpha)
 	frame.oldAlpha = alpha or 1
 end
@@ -2045,7 +2055,7 @@ function CH:ON_FCF_SavePositionAndDimensions(_, noLoop)
 	end
 
 	if not E.db.chat.lockPositions then
-		CH:UpdateChatTabs() --It was not done in PositionChat, so do it now
+		CH:UpdateChatTabs()
 	end
 end
 
@@ -2236,7 +2246,7 @@ local channelButtons = {
 	_G.ChatFrameChannelButton, -- Classic only have 1 Button
 }
 
-function CH:RepositionChatVoiceIcons()
+function CH:RepositionOverflowButton()
 	_G.GeneralDockManagerOverflowButton:ClearAllPoints()
 	_G.GeneralDockManagerOverflowButton:Point('RIGHT', channelButtons[1], 'LEFT', -4, 0)
 end
@@ -2248,6 +2258,8 @@ function CH:UpdateVoiceChatIcons()
 end
 
 function CH:HandleChatVoiceIcons()
+	local anchor = E.db.lockPositions and _G.LeftChatTab or _G.GeneralDockManager
+
 	if CH.db.hideVoiceButtons then
 		for _, button in ipairs(channelButtons) do
 			button:Hide()
@@ -2259,22 +2271,22 @@ function CH:HandleChatVoiceIcons()
 			button:ClearAllPoints()
 
 			if index == 1 then
-				button:Point('RIGHT', _G.LeftChatTab, 'RIGHT', 2, 0)
+				button:Point('RIGHT', anchor, 'RIGHT', 2, 0)
 			else
 				button:Point('RIGHT', channelButtons[index-1], 'LEFT')
 			end
 		end
 
-		CH:RepositionChatVoiceIcons()
-		channelButtons[1]:HookScript("OnShow", CH.RepositionChatVoiceIcons)
-		channelButtons[1]:HookScript("OnHide", CH.RepositionChatVoiceIcons)
+		CH:RepositionOverflowButton()
+		channelButtons[1]:HookScript("OnShow", CH.RepositionOverflowButton)
+		channelButtons[1]:HookScript("OnHide", CH.RepositionOverflowButton)
 	else
 		CH:CreateChatVoicePanel()
 	end
 
 	if not CH.db.pinVoiceButtons then
 		_G.GeneralDockManagerOverflowButton:ClearAllPoints()
-		_G.GeneralDockManagerOverflowButton:Point('RIGHT', _G.LeftChatTab, 'RIGHT', -4, 0)
+		_G.GeneralDockManagerOverflowButton:Point('RIGHT', anchor, 'RIGHT', -4, 0)
 	end
 end
 
@@ -2363,8 +2375,8 @@ function CH:BuildCopyChatFrame()
 	scrollArea:SetScrollChild(editBox)
 	_G.CopyChatFrameEditBox:SetScript("OnTextChanged", function(_, userInput)
 		if userInput then return end
-		local _, max = _G.CopyChatScrollFrameScrollBar:GetMinMaxValues()
-		for _ = 1, max do
+		local _, Max = _G.CopyChatScrollFrameScrollBar:GetMinMaxValues()
+		for _ = 1, Max do
 			ScrollFrameTemplate_OnMouseWheel(_G.CopyChatScrollFrame, -1)
 		end
 	end)
@@ -2403,6 +2415,7 @@ function CH:Initialize()
 	self:SecureHook('ChatEdit_SetLastActiveWindow')
 	self:SecureHook('ChatEdit_DeactivateChat')
 	self:SecureHook('ChatEdit_OnEnterPressed')
+	self:SecureHook('FCFDock_UpdateTabs')
 	self:SecureHook('FCF_SetWindowAlpha')
 	self:SecureHook('FCF_SetChatWindowFontSize', 'SetChatFont')
 	self:SecureHook('FCF_SavePositionAndDimensions', 'ON_FCF_SavePositionAndDimensions')
@@ -2416,7 +2429,9 @@ function CH:Initialize()
 		_G.WIM.RegisterItemRefHandler('cpl', HyperLinkedCPL)
 	end
 
-	if not E.db.chat.lockPositions then CH:UpdateChatTabs() end --It was not done in PositionChat, so do it now
+	if not E.db.chat.lockPositions then
+		CH:UpdateChatTabs()
+	end
 
 	for _, event in pairs(FindURL_Events) do
 		_G.ChatFrame_AddMessageEventFilter(event, CH[event] or CH.FindURL)
