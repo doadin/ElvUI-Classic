@@ -40,7 +40,9 @@ local CURRENT_PAGE = 0
 local MAX_PAGE = 8
 
 local function SetupChat(noDisplayMsg)
-	FCF_ResetChatWindows() -- Monitor this
+	E.db.chat.lockPositions = true
+
+	FCF_ResetChatWindows()
 	FCF_SetLocked(_G.ChatFrame1, 1)
 	FCF_DockFrame(_G.ChatFrame2)
 	FCF_SetLocked(_G.ChatFrame2, 1)
