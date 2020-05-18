@@ -275,7 +275,7 @@ function CH:InsertEmotions(msg)
 end
 
 function CH:GetSmileyReplacementText(msg)
-	if not msg or not self.db.emotionIcons or strfind(msg, '/run') or strfind(msg, '/dump') or strfind(msg, '/script') then return msg end
+	if not msg or not CH.db.emotionIcons or strfind(msg, '/run') or strfind(msg, '/dump') or strfind(msg, '/script') then return msg end
 	local outstr = ""
 	local origlen = strlen(msg)
 	local startpos = 1
@@ -307,7 +307,7 @@ function CH:StyleChat(frame)
 	if tab.owner ~= frame then tab.owner = frame end
 	if not tab.text then tab.text = _G[name.."TabText"] end
 
-	tab.text:FontTemplate(LSM:Fetch("font", self.db.tabFont), self.db.tabFontSize, self.db.tabFontOutline)
+	tab.text:FontTemplate(LSM:Fetch("font", CH.db.tabFont), CH.db.tabFontSize, CH.db.tabFontOutline)
 
 	if frame.styled then return end
 
@@ -805,7 +805,7 @@ function CH:PositionChat()
 	RightChatPanel:Size(CH.db.separateSizes and CH.db.panelWidthRight or CH.db.panelWidth, CH.db.separateSizes and CH.db.panelHeightRight or CH.db.panelHeight)
 	LeftChatPanel:Size(CH.db.panelWidth, CH.db.panelHeight)
 
-	if not E.private.chat.enable or not self.db.lockPositions then return end
+	if not E.private.chat.enable or not CH.db.lockPositions then return end
 
 	local CombatLogButton = _G.CombatLogQuickButtonFrame_Custom
 	if CombatLogButton then CombatLogButton:Size(LeftChatTab:GetSize()) end
@@ -1651,9 +1651,9 @@ function CH:SetupChat()
 		self:StyleChat(frame)
 		FCFTab_UpdateAlpha(frame)
 
-		frame:FontTemplate(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
+		frame:FontTemplate(LSM:Fetch("font", CH.db.font), fontSize, CH.db.fontOutline)
 		frame:SetTimeVisible(100)
-		frame:SetFading(self.db.fade)
+		frame:SetFading(CH.db.fade)
 		CH:ShowBackground(frame.Background, not frame.isDocked and not CH.db.lockPositions)
 
 		if id ~= 2 and not frame.OldAddMessage then
@@ -1678,7 +1678,7 @@ function CH:SetupChat()
 		end
 	end
 
-	if self.db.hyperlinkHover then
+	if CH.db.hyperlinkHover then
 		self:EnableHyperlink()
 	end
 
@@ -1763,9 +1763,9 @@ function CH:CheckKeyword(message, author)
 			protectLinks[hyperLink]=gsub(hyperLink,'%s','|s')
 			for keyword in pairs(CH.Keywords) do
 				if hyperLink == keyword then
-					if (self.db.keywordSound ~= 'None') and not self.SoundTimer then
-						if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
-							PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
+					if (CH.db.keywordSound ~= 'None') and not self.SoundTimer then
+						if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
+							PlaySoundFile(LSM:Fetch("sound", CH.db.keywordSound), "Master")
 						end
 
 						self.SoundTimer = E:Delay(1, CH.ThrottleSound)
@@ -1789,9 +1789,9 @@ function CH:CheckKeyword(message, author)
 			for keyword in pairs(CH.Keywords) do
 				if lowerCaseWord == strlower(keyword) then
 					word = gsub(word, tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
-					if (author ~= PLAYER_NAME) and (self.db.keywordSound ~= 'None') and not self.SoundTimer then
-						if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
-							PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
+					if (author ~= PLAYER_NAME) and (CH.db.keywordSound ~= 'None') and not self.SoundTimer then
+						if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
+							PlaySoundFile(LSM:Fetch("sound", CH.db.keywordSound), "Master")
 						end
 
 						self.SoundTimer = E:Delay(1, CH.ThrottleSound)
@@ -1799,7 +1799,7 @@ function CH:CheckKeyword(message, author)
 				end
 			end
 
-			if self.db.classColorMentionsChat then
+			if CH.db.classColorMentionsChat then
 				tempWord = gsub(word,"^[%s%p]-([^%s%p]+)([%-]?[^%s%p]-)[%s%p]*$","%1%2")
 				lowerCaseWord = strlower(tempWord)
 
@@ -1846,7 +1846,7 @@ function CH:ChatEdit_OnEnterPressed(editBox)
 	local chatType = editBox:GetAttribute("chatType")
 	local chatFrame = chatType and editBox:GetParent()
 	if chatFrame and (not chatFrame.isTemporary) and (_G.ChatTypeInfo[chatType].sticky == 1) then
-		if not self.db.sticky then chatType = 'SAY' end
+		if not CH.db.sticky then chatType = 'SAY' end
 		editBox:SetAttribute("chatType", chatType)
 	end
 end
@@ -1855,7 +1855,7 @@ function CH:SetChatFont(dropDown, chatFrame, fontSize)
 	if not chatFrame then chatFrame = FCF_GetCurrentChatFrame() end
 	if not fontSize then fontSize = dropDown.value end
 
-	chatFrame:FontTemplate(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
+	chatFrame:FontTemplate(LSM:Fetch("font", CH.db.font), fontSize, CH.db.fontOutline)
 end
 
 local SecureSlashCMD = {
@@ -1904,7 +1904,7 @@ end
 function CH:UpdateChatKeywords()
 	wipe(CH.Keywords)
 
-	local keywords = self.db.keywords
+	local keywords = CH.db.keywords
 	keywords = gsub(keywords,',%s',',')
 
 	for stringValue in gmatch(keywords, "[^,]+") do
@@ -1915,7 +1915,7 @@ function CH:UpdateChatKeywords()
 end
 
 function CH:PET_BATTLE_CLOSE()
-	if not self.db.autoClosePetBattleLog then
+	if not CH.db.autoClosePetBattleLog then
 		return
 	end
 
@@ -1934,7 +1934,7 @@ function CH:UpdateFading()
 	for _, frameName in pairs(_G.CHAT_FRAMES) do
 		local frame = _G[frameName]
 		if frame then
-			frame:SetFading(self.db.fade)
+			frame:SetFading(CH.db.fade)
 		end
 	end
 end
@@ -2245,7 +2245,7 @@ function CH:UpdateVoiceChatIcons()
 end
 
 function CH:HandleChatVoiceIcons()
-	local anchor = E.db.lockPositions and _G.LeftChatTab or _G.GeneralDockManager
+	local anchor = CH.db.lockPositions and _G.LeftChatTab or _G.GeneralDockManager
 
 	if CH.db.hideVoiceButtons then
 		for _, button in ipairs(channelButtons) do
@@ -2388,10 +2388,10 @@ function CH:Initialize()
 
 	if E.private.chat.enable ~= true then return end
 	self.Initialized = true
-	self.db = E.db.chat
+	CH.db = E.db.chat
 
 	if not ElvCharacterDB.ChatEditHistory then ElvCharacterDB.ChatEditHistory = {} end
-	if not ElvCharacterDB.ChatHistoryLog or not self.db.chatHistory then ElvCharacterDB.ChatHistoryLog = {} end
+	if not ElvCharacterDB.ChatHistoryLog or not CH.db.chatHistory then ElvCharacterDB.ChatHistoryLog = {} end
 
 	_G.ChatFrameMenuButton:Kill()
 
@@ -2434,7 +2434,7 @@ function CH:Initialize()
 		end
 	end
 
-	if self.db.chatHistory then self:DisplayChatHistory() end
+	if CH.db.chatHistory then self:DisplayChatHistory() end
 	self:BuildCopyChatFrame()
 
 	-- Editbox Backdrop Color
