@@ -39,7 +39,7 @@ local CURRENT_PAGE = 0
 local MAX_PAGE = 8
 
 local function SetupChat(noDisplayMsg)
-	E.db.chat.lockPositions = true
+	E.db.chat.snapChats = true
 
 	FCF_ResetChatWindows()
 	FCF_OpenNewWindow(LOOT)

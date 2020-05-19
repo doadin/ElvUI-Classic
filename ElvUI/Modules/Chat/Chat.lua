@@ -775,16 +775,16 @@ function CH:GetDockerParent(docker, chat)
 end
 
 function CH:UpdateChatTab(chat)
+	local snapChats = CH.db.snapChats
 	if chat == CH.LeftChatWindow then
-		chat.tab:SetParent(_G.LeftChatPanel)
+		chat.tab:SetParent((snapChats and _G.LeftChatPanel) or _G.UIParent)
 		CH:HandleFadeTabs(chat, (CH.db.panelBackdrop == 'HIDEBOTH' or CH.db.panelBackdrop == 'LEFT') and CH.db.fadeTabsNoBackdrop)
 	elseif chat == CH.RightChatWindow then
-		chat.tab:SetParent(_G.RightChatPanel)
+		chat.tab:SetParent((snapChats and _G.RightChatPanel) or _G.UIParent)
 		CH:HandleFadeTabs(chat, (CH.db.panelBackdrop == 'HIDEBOTH' or CH.db.panelBackdrop == 'RIGHT') and CH.db.fadeTabsNoBackdrop)
 	else
 		-- we need to update the tab parent to mimic the docker
-		local parent = CH:GetDockerParent(_G.GeneralDockManager.primary, chat)
-		chat.tab:SetParent(parent or _G.UIParent)
+		chat.tab:SetParent((snapChats and CH:GetDockerParent(_G.GeneralDockManager.primary, chat)) or _G.UIParent)
 		CH:HandleFadeTabs(chat, CH.db.fadeUndockedTabs)
 	end
 end
@@ -800,6 +800,56 @@ function CH:RefreshToggleButtons()
 	_G.RightChatToggleButton:SetAlpha(E.db.RightChatPanelFaded and CH.db.fadeChatToggles and 0 or 1)
 	_G.LeftChatToggleButton:SetShown(not CH.db.hideChatToggles and E.db.datatexts.panels.LeftChatDataPanel.enable)
 	_G.RightChatToggleButton:SetShown(not CH.db.hideChatToggles and E.db.datatexts.panels.RightChatDataPanel.enable)
+end
+
+function CH:IsUndocked(chat, docker)
+	if not docker then docker = _G.GeneralDockManager.primary end
+
+	local primaryUndocked = docker ~= CH.LeftChatWindow and docker ~= CH.RightChatWindow
+	return not chat.isDocked or (primaryUndocked and ((chat == docker) or CH:GetDockerParent(docker, chat)))
+end
+
+function CH:Unsnapped(chat)
+	if chat == CH.LeftChatWindow then
+		CH.LeftChatWindow = nil
+	elseif chat == CH.RightChatWindow then
+		CH.RightChatWindow = nil
+	end
+end
+
+function CH:SnappingChanged(chat)
+	CH:Unsnapped(chat)
+
+	local primaryChat = chat == _G.GeneralDockManager.primary
+	if CH.db.snapChats then
+		if primaryChat then
+			for _, frame in ipairs(_G.GeneralDockManager.DOCKED_CHAT_FRAMES) do
+				CH:PositionChat(frame)
+			end
+		else
+			CH:PositionChat(chat)
+		end
+	elseif primaryChat then
+		CH.LeftChatWindow, CH.RightChatWindow = CH:FindChatWindows() -- needed for UpdateUnlockedBackgrounds
+
+		for _, frame in ipairs(_G.GeneralDockManager.DOCKED_CHAT_FRAMES) do
+			CH:UpdateChatTab(frame)
+			CH:UpdateUnlockedBackgrounds(frame)
+		end
+	else
+		CH.LeftChatWindow, CH.RightChatWindow = CH:FindChatWindows() -- needed for UpdateUnlockedBackgrounds
+
+		CH:UpdateChatTab(chat)
+		CH:UpdateUnlockedBackgrounds(chat)
+	end
+end
+
+function CH:UpdateUnlockedBackgrounds(chat)
+	if chat == CH.LeftChatWindow or chat == CH.RightChatWindow then
+		CH:ShowBackground(chat.Background, false)
+	else
+		CH:ShowBackground(chat.Background, CH:IsUndocked(chat))
+	end
 end
 
 function CH:ShowBackground(background, show)
@@ -866,8 +916,8 @@ function CH:PositionChat(chat)
 
 		CH:SavePositionAndDimensions(chat, true)
 	else
-		-- not docked, or ChatFrame1, or attached to ChatFrame1
-		CH:ShowBackground(chat.Background, not chat.isDocked or (chat == docker or ((docker ~= CH.LeftChatWindow and docker ~= CH.RightChatWindow) and CH:GetDockerParent(docker, chat))))
+		-- show if: not docked, or ChatFrame1, or attached to ChatFrame1
+		CH:ShowBackground(chat.Background, CH:IsUndocked(chat, docker))
 		chatParent = _G.UIParent
 	end
 
@@ -883,13 +933,24 @@ function CH:PositionChat(chat)
 end
 
 function CH:PositionChats()
-	if not E.private.chat.enable or not CH.db.lockPositions then return end
+	if not E.private.chat.enable then return end
 
 	_G.RightChatPanel:Size(CH.db.separateSizes and CH.db.panelWidthRight or CH.db.panelWidth, CH.db.separateSizes and CH.db.panelHeightRight or CH.db.panelHeight)
 	_G.LeftChatPanel:Size(CH.db.panelWidth, CH.db.panelHeight)
 
-	for _, name in ipairs(_G.CHAT_FRAMES) do
-		CH:PositionChat(_G[name])
+	if CH.db.snapChats then
+		for _, name in ipairs(_G.CHAT_FRAMES) do
+			CH:PositionChat(_G[name])
+		end
+	else
+		CH.LeftChatWindow, CH.RightChatWindow = CH:FindChatWindows() -- needed for UpdateUnlockedBackgrounds
+		for _, name in ipairs(_G.CHAT_FRAMES) do
+			local chat = _G[name]
+			chat:SetParent(_G.UIParent)
+			CH:UpdateChatTab(chat)
+			CH:UpdateUnlockedBackgrounds(chat)
+			CH:ReparentVoiceChatIcons(_G.UIParent)
+		end
 	end
 end
 
@@ -1671,7 +1732,6 @@ function CH:SetupChat()
 		frame:FontTemplate(LSM:Fetch("font", CH.db.font), fontSize, CH.db.fontOutline)
 		frame:SetTimeVisible(100)
 		frame:SetFading(CH.db.fade)
-		CH:ShowBackground(frame.Background, not frame.isDocked and not CH.db.lockPositions)
 
 		if id ~= 2 and not frame.OldAddMessage then
 			--Don't add timestamps to combat log, they don't work.
@@ -2093,64 +2153,6 @@ function CH:SnappingChanged(chat)
 	end
 end
 
-function CH:SocialQueueIsLeader(playerName, leaderName)
-	if leaderName == playerName then
-		return true
-	end
-
-	for i = 1, BNGetNumFriends() do
-		local _, accountName, _, _, _, _, _, isOnline = BNGetFriendInfo(i)
-		if isOnline then
-			local numGameAccounts = BNGetNumFriendGameAccounts(i)
-			for y = 1, numGameAccounts do
-				local _, gameCharacterName, gameClient, realmName = BNGetFriendGameAccountInfo(i, y)
-				if (gameClient == BNET_CLIENT_WOW) and (accountName == playerName) then
-					playerName = gameCharacterName
-					if realmName ~= E.myrealm then
-						playerName = format('%s-%s', playerName, E:ShortenRealm(realmName))
-					end
-					if leaderName == playerName then
-						return true
-					end
-				end
-			end
-		end
-	end
-end
-
-local socialQueueCache = {}
-local function RecentSocialQueue(TIME, MSG)
-	local previousMessage = false
-	if next(socialQueueCache) then
-		for guid, tbl in pairs(socialQueueCache) do
-			-- !dont break this loop! its used to keep the cache updated
-			if TIME and (difftime(TIME, tbl[1]) >= 300) then
-				socialQueueCache[guid] = nil --remove any older than 5m
-			elseif MSG and (MSG == tbl[2]) then
-				previousMessage = true --dont show any of the same message within 5m
-				-- see note for `message` in `SocialQueueMessage` about `MSG` content
-			end
-		end
-	end
-	return previousMessage
-end
-
-function CH:SocialQueueMessage(guid, message)
-	if not (guid and message) then return end
-	-- `guid` is something like `Party-1147-000011202574` and appears to update each time for solo requeue, otherwise on new group creation.
-	-- `message` is something like `|cff82c5ff|Kf58|k000000000000|k|r queued for: |cff00CCFFRandom Legion Heroic|r `
-
-	-- prevent duplicate messages within 5 minutes
-	local TIME = time()
-	if RecentSocialQueue(TIME, message) then return end
-	socialQueueCache[guid] = {TIME, message}
-
-	--UI_71_SOCIAL_QUEUEING_TOAST = 79739; appears to have no sound?
-	PlaySound(7355) --TUTORIAL_POPUP
-
-	E:Print(format('|Hsqu:%s|h%s|h', guid, strtrim(message)))
-end
-
 local FindURL_Events = {
 	"CHAT_MSG_WHISPER",
 	"CHAT_MSG_WHISPER_INFORM",
@@ -2472,10 +2474,6 @@ function CH:Initialize()
 		_G.WIM.RegisterItemRefHandler('url', HyperLinkedURL)
 		_G.WIM.RegisterItemRefHandler('squ', HyperLinkedSQU)
 		_G.WIM.RegisterItemRefHandler('cpl', HyperLinkedCPL)
-	end
-
-	if not CH.db.lockPositions then
-		CH:UpdateChatTabs()
 	end
 
 	for _, event in pairs(FindURL_Events) do
