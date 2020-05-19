@@ -847,6 +847,10 @@ end
 
 function CH:PositionChats()
 	if not E.private.chat.enable or not CH.db.lockPositions then return end
+
+	_G.RightChatPanel:Size(CH.db.separateSizes and CH.db.panelWidthRight or CH.db.panelWidth, CH.db.separateSizes and CH.db.panelHeightRight or CH.db.panelHeight)
+	_G.LeftChatPanel:Size(CH.db.panelWidth, CH.db.panelHeight)
+
 	for _, name in ipairs(_G.CHAT_FRAMES) do
 		CH:PositionChat(_G[name])
 	end
@@ -1665,9 +1669,6 @@ function CH:SetupChat()
 	_G.GeneralDockManager:Height(22)
 	_G.GeneralDockManagerScrollFrame:Height(22)
 	_G.GeneralDockManagerScrollFrameChild:Height(22)
-
-	_G.RightChatPanel:Size(CH.db.separateSizes and CH.db.panelWidthRight or CH.db.panelWidth, CH.db.separateSizes and CH.db.panelHeightRight or CH.db.panelHeight)
-	_G.LeftChatPanel:Size(CH.db.panelWidth, CH.db.panelHeight)
 
 	E.Layout:RepositionChatDataPanels()
 	self:PositionChats()
