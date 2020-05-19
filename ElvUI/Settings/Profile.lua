@@ -776,7 +776,6 @@ P.auras = {
 --Chat
 P.chat = {
 	url = true,
-	snapChats = true,
 	shortChannels = true,
 	hyperlinkHover = true,
 	throttleInterval = 45,
