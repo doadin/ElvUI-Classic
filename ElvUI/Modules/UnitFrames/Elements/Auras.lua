@@ -457,6 +457,7 @@ function UF:AuraFilter(unit, button, name, _, count, debuffType, duration, expir
 	button.dtype = debuffType
 	button.duration = duration
 	button.expiration = expiration
+	button.noTime = duration == 0 and expiration == 0
 	button.stackCount = count
 	button.name = name
 	button.spellID = spellID
