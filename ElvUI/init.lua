@@ -9,7 +9,7 @@
 
 --Lua functions
 local _G = _G
-local unpack, tcopy = unpack, table.copy
+local unpack = unpack
 local format, gsub, type = format, gsub, type
 --WoW API / Variables
 local CreateFrame = CreateFrame
@@ -155,9 +155,9 @@ function E:OnInitialize()
 	ElvPrivateData = nil --Depreciated
 	ElvData = nil --Depreciated
 
-	E.db = tcopy(E.DF.profile, true)
-	E.global = tcopy(E.DF.global, true)
-	E.private = tcopy(E.privateVars.profile, true)
+	E.db = E:CopyTable({}, E.DF.profile)
+	E.global = E:CopyTable({}, E.DF.global)
+	E.private = E:CopyTable({}, E.privateVars.profile)
 
 	if ElvDB then
 		if ElvDB.global then
