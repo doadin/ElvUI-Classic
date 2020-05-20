@@ -40,10 +40,18 @@ function E:UpdateBlizzardFonts()
 		COMBAT = E.Media.Fonts.Invisible
 	end
 
+	if E.private.general.replaceNameFont then
+		_G.UNIT_NAME_FONT		= NAMEFONT
+	end
+
+	if E.private.general.replaceCombatFont then
+		_G.DAMAGE_TEXT_FONT		= COMBAT
+		-- No matter what we do here with the Combat Font, the player Combat Font will always looks like shit, so just dont touch it.
+		--SetFont(_G.CombatTextFont,						COMBAT, 200, 'OUTLINE')						-- number here just increase the font quality.
+	end
+
 	if E.private.general.replaceBlizzFonts then
 		--_G.NAMEPLATE_FONT		= NAMEFONT
-		_G.UNIT_NAME_FONT		= NAMEFONT
-		_G.DAMAGE_TEXT_FONT		= COMBAT
 		_G.STANDARD_TEXT_FONT	= NORMAL
 
 		--SetFont(_G.NumberFontNormal,					LSM:Fetch('font', 'Homespun'), 10, 'MONOCHROMEOUTLINE', 1, 1, 1, 0, 0, 0)
