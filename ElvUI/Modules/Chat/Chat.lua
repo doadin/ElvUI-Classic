@@ -1712,7 +1712,7 @@ function CH:SetupChat()
 		FCFTab_UpdateAlpha(frame)
 
 		frame:FontTemplate(LSM:Fetch("font", CH.db.font), fontSize, CH.db.fontOutline)
-		frame:SetTimeVisible(100)
+		frame:SetTimeVisible(CH.db.inactivityTimer)
 		frame:SetFading(CH.db.fade)
 
 		if id ~= 2 and not frame.OldAddMessage then
@@ -1997,6 +1997,7 @@ function CH:UpdateFading()
 	for _, frameName in ipairs(_G.CHAT_FRAMES) do
 		local frame = _G[frameName]
 		if frame then
+			frame:SetTimeVisible(CH.db.inactivityTimer)
 			frame:SetFading(CH.db.fade)
 		end
 	end
