@@ -23,6 +23,7 @@ local IsModifierKeyDown = IsModifierKeyDown
 local ResetCPUUsage = ResetCPUUsage
 local UpdateAddOnCPUUsage = UpdateAddOnCPUUsage
 local UpdateAddOnMemoryUsage = UpdateAddOnMemoryUsage
+local InCombatLockdown = InCombatLockdown
 local UNKNOWN = UNKNOWN
 
 local statusColors = {
@@ -126,6 +127,8 @@ end
 
 local ipTypes = {"IPv4", "IPv6"}
 local function OnEnter(self)
+	if InCombatLockdown() then return end
+
 	DT:SetupTooltip(self)
 	enteredFrame = true
 	UpdateMemory()
