@@ -9,7 +9,6 @@ local GetXPExhaustion = GetXPExhaustion
 local GetExpansionLevel = GetExpansionLevel
 local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE
 local displayString = ""
-local hexColor
 
 local function OnEvent(self, event)
 	if E.mylevel == MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()] then

@@ -4,14 +4,13 @@ local _, ns = ...
 local ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")
 
---Lua functions
 local _G = _G
-local max = math.max
---WoW API / Variables
+local max = max
+
 local CreateFrame = CreateFrame
-local RegisterAttributeDriver = RegisterAttributeDriver
-local InCombatLockdown = InCombatLockdown
 local IsAddOnLoaded = IsAddOnLoaded
+local InCombatLockdown = InCombatLockdown
+local RegisterAttributeDriver = RegisterAttributeDriver
 
 function UF:Construct_TankFrames()
 	self:SetScript('OnEnter', _G.UnitFrame_OnEnter)

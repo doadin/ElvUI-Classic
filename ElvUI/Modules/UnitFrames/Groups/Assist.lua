@@ -9,9 +9,9 @@ local _G = _G
 local max = math.max
 --WoW API / Variables
 local CreateFrame = CreateFrame
-local RegisterAttributeDriver = RegisterAttributeDriver
-local InCombatLockdown = InCombatLockdown
 local IsAddOnLoaded = IsAddOnLoaded
+local InCombatLockdown = InCombatLockdown
+local RegisterAttributeDriver = RegisterAttributeDriver
 
 function UF:Construct_AssistFrames()
 	self:SetScript('OnEnter', _G.UnitFrame_OnEnter)

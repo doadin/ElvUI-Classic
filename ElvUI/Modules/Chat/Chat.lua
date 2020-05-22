@@ -66,7 +66,6 @@ local hooksecurefunc = hooksecurefunc
 local InCombatLockdown = InCombatLockdown
 local IsAltKeyDown = IsAltKeyDown
 local IsInRaid, IsInGroup = IsInRaid, IsInGroup
-local IsMouseButtonDown = IsMouseButtonDown
 local IsShiftKeyDown = IsShiftKeyDown
 local PlaySound = PlaySound
 local PlaySoundFile = PlaySoundFile
