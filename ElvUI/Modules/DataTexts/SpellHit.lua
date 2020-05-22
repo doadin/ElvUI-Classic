@@ -2,8 +2,8 @@ local E, L, V, P, G = unpack(select(2, ...)) --Import: Engine, Locales, PrivateD
 local DT = E:GetModule("DataTexts")
 
 --Lua functions
-local join = string.join
---WoW API / Variables
+local strjoin = strjoin
+local GetSpellHitModifier = GetSpellHitModifier
 
 local STAT_CATEGORY_ENHANCEMENTS = STAT_CATEGORY_ENHANCEMENTS
 
@@ -17,7 +17,7 @@ local function OnEvent(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", L["Spell Hit"], ": ", hex, "%.2f%%|r")
+	displayString = strjoin("", L["Spell Hit"], ": ", hex, "%.2f%%|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)

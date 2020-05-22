@@ -3,6 +3,7 @@ local M = E:GetModule('Minimap')
 
 --Lua functions
 local _G = _G
+local unpack = unpack
 local utf8sub = string.utf8sub
 --WoW API / Variables
 local CloseAllWindows = CloseAllWindows
@@ -22,6 +23,7 @@ local ToggleFriendsFrame = ToggleFriendsFrame
 local ToggleGuildFrame = ToggleGuildFrame
 local ToggleHelpFrame = ToggleHelpFrame
 local ToggleTalentFrame = ToggleTalentFrame
+local TimeManager_Toggle = TimeManager_Toggle
 -- GLOBALS: GetMinimapShape
 
 --Create the minimap micro menu

@@ -10,7 +10,6 @@ local CreateFrame = CreateFrame
 local GetWatchedFactionInfo, GetNumFactions, GetFactionInfo = GetWatchedFactionInfo, GetNumFactions, GetFactionInfo
 local InCombatLockdown = InCombatLockdown
 local ToggleCharacter = ToggleCharacter
-local CreateFrame = CreateFrame
 local REPUTATION = REPUTATION
 local STANDING = STANDING
 
@@ -29,7 +28,8 @@ function mod:UpdateReputation(event)
 	if not mod.db.reputation.enable then return end
 
 	local bar = self.repBar
-	local name, reaction, Min, Max, value, factionID = GetWatchedFactionInfo()
+	local name, reaction, Min, Max, value = GetWatchedFactionInfo()
+	local max, isCapped, standingLabel
 
 	if not name or (event == 'PLAYER_REGEN_DISABLED' and self.db.reputation.hideInCombat) then
 		bar:Hide()
@@ -40,7 +40,7 @@ function mod:UpdateReputation(event)
 		local textFormat = self.db.reputation.textFormat
 
 		if reaction == _G.MAX_REPUTATION_REACTION then
-			min, max, value = 0, 1, 1
+			max, value = 1, 1
 			isCapped = true
 		end
 

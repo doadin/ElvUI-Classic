@@ -4,8 +4,11 @@ local UF = E:GetModule('UnitFrames');
 --Lua functions
 local unpack = unpack
 local strlower = strlower
+local strfind = strfind
 --WoW API / Variables
 local IsPlayerSpell = IsPlayerSpell
+local GetSpellSubtext = GetSpellSubtext
+local GetSpellInfo = GetSpellInfo
 
 local function Defaults(priorityOverride)
 	return {

@@ -9,7 +9,7 @@
 
 --Lua functions
 local _G = _G
-local unpack = unpack
+local unpack, select = unpack, select
 local format, gsub, type = format, gsub, type
 --WoW API / Variables
 local CreateFrame = CreateFrame
@@ -23,6 +23,7 @@ local IsAddOnLoaded = IsAddOnLoaded
 local DisableAddOn = DisableAddOn
 local ReloadUI = ReloadUI
 
+local MAINMENU_BUTTON = MAINMENU_BUTTON
 local GameMenuButtonAddons = GameMenuButtonAddons
 local GameMenuButtonLogout = GameMenuButtonLogout
 local GameMenuFrame = GameMenuFrame

@@ -3,6 +3,7 @@ local B = E:GetModule('Bags')
 
 --Lua functions
 local _G = _G
+local ipairs = ipairs
 local unpack = unpack
 local tinsert = tinsert
 --WoW API / Variables

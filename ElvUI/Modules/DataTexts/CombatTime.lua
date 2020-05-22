@@ -26,8 +26,6 @@ local function DelayOnUpdate(self, elapsed)
 end
 
 local function OnEvent(self, event, _, timeSeconds)
-	local _, instanceType = GetInstanceInfo()
-	local isInArena = instanceType == "arena"
 	if event == "PLAYER_REGEN_ENABLED" then
 		self:SetScript("OnUpdate", nil)
 	elseif event == "PLAYER_REGEN_DISABLED" then

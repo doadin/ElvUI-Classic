@@ -10,6 +10,8 @@ local max = math.max
 --WoW API / Variables
 local CreateFrame = CreateFrame
 local RegisterAttributeDriver = RegisterAttributeDriver
+local InCombatLockdown = InCombatLockdown
+local IsAddOnLoaded = IsAddOnLoaded
 
 function UF:Construct_TankFrames()
 	self:SetScript('OnEnter', _G.UnitFrame_OnEnter)

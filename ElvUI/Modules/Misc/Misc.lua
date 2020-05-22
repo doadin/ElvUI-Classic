@@ -43,9 +43,11 @@ local ExpandAllFactionHeaders = ExpandAllFactionHeaders
 local GetNumFactions = GetNumFactions
 local GetFactionInfo = GetFactionInfo
 local SetWatchedFactionIndex = SetWatchedFactionIndex
+local StaticPopupDialogs = StaticPopupDialogs
+local StaticPopup_Hide = StaticPopup_Hide
 
+local GetCurrentCombatTextEventInfo = GetCurrentCombatTextEventInfo
 local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo
-local LE_GAME_ERR_GUILD_NOT_ENOUGH_MONEY = LE_GAME_ERR_GUILD_NOT_ENOUGH_MONEY
 local LE_GAME_ERR_NOT_ENOUGH_MONEY = LE_GAME_ERR_NOT_ENOUGH_MONEY
 local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS
 local UNKNOWN = UNKNOWN

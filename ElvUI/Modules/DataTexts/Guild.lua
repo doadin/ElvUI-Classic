@@ -23,11 +23,13 @@ local ToggleFriendsFrame = ToggleFriendsFrame
 local ToggleGuildFrame = ToggleGuildFrame
 local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
+local GuildRoster = GuildRoster
 local InCombatLockdown = InCombatLockdown
 
 local GUILD = GUILD
 local GUILD_MOTD = GUILD_MOTD
 local REMOTE_CHAT = REMOTE_CHAT
+local FRIEND_ONLINE = FRIEND_ONLINE
 local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 
 local tthead, ttsubh, ttoff = {r=0.4, g=0.78, b=1}, {r=0.75, g=0.9, b=1}, {r=.3,g=1,b=.3}

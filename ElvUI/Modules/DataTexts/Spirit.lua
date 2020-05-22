@@ -1,12 +1,11 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule('DataTexts')
 
-local displayNumberString = ''
-local lastPanel;
-local strjoin = string.join
+local strjoin = strjoin
 local UnitStat = UnitStat
 local ITEM_MOD_SPIRIT_SHORT = ITEM_MOD_SPIRIT_SHORT
 local STAT_CATEGORY_ATTRIBUTES = STAT_CATEGORY_ATTRIBUTES
+local displayNumberString, lastPanel = ''
 
 local function OnEvent(self)
 	self.text:SetFormattedText(displayNumberString, ITEM_MOD_SPIRIT_SHORT, UnitStat("player", 5))

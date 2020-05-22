@@ -21,6 +21,7 @@ local IsInGroup = IsInGroup
 local IsInGuild = IsInGuild
 local IsInRaid = IsInRaid
 local SetCVar = SetCVar
+local GetSpellInfo = GetSpellInfo
 local UnitFactionGroup = UnitFactionGroup
 local UnitGUID = UnitGUID
 

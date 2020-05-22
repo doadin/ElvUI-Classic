@@ -14,6 +14,7 @@ local strfind, strmatch, strlower, strsplit = strfind, strmatch, strlower, strsp
 local utf8lower, utf8sub, utf8len = string.utf8lower, string.utf8sub, string.utf8len
 
 --WoW API / Variables
+local UnitIsFeignDeath = UnitIsFeignDeath
 local CreateTextureMarkup = CreateTextureMarkup
 local UnitFactionGroup = UnitFactionGroup
 local GetCVarBool = GetCVarBool

@@ -7,12 +7,11 @@ local _G = _G
 local min = min
 local format = format
 local GetPetExperience, UnitXP, UnitXPMax = GetPetExperience, UnitXP, UnitXPMax
-local IsXPUserDisabled, GetXPExhaustion = IsXPUserDisabled, GetXPExhaustion
-local GetExpansionLevel = GetExpansionLevel
-local GetPetExperience, UnitXP, UnitXPMax = GetPetExperience, UnitXP, UnitXPMax
 local GetXPExhaustion = GetXPExhaustion
+local GetExpansionLevel = GetExpansionLevel
 local InCombatLockdown = InCombatLockdown
 local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE
+local CreateFrame = CreateFrame
 
 function mod:GetXP(unit)
 	if unit == 'pet' then
