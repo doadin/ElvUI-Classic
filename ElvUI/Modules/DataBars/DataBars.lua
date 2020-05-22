@@ -10,7 +10,7 @@ local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE
 -- GLOBALS: ElvUI_ExperienceBar, ElvUI_ReputationBar, ElvUI_HonorBar
 
 function DB:OnLeave()
-	if (self == ElvUI_ExperienceBar and DB.db.experience.mouseover) or (self == ElvUI_ReputationBar and DB.db.reputation.mouseover) or (self == ElvUI_ArtifactBar and DB.db.artifact.mouseover) or (self == ElvUI_HonorBar and DB.db.honor.mouseover) or (self == ElvUI_AzeriteBar and DB.db.azerite.mouseover) then
+	if (self == ElvUI_ExperienceBar and DB.db.experience.mouseover) or (self == ElvUI_ReputationBar and DB.db.reputation.mouseover) or (self == ElvUI_PetExperienceBar and DB.db.petExperience.mouseover) then
 		E:UIFrameFadeOut(self, 1, self:GetAlpha(), 0)
 	end
 
@@ -48,10 +48,10 @@ end
 
 function DB:PLAYER_LEVEL_UP(level)
 	local maxLevel = MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()]
-	if (level ~= maxLevel or not self.db.experience.hideAtMaxLevel) and DB.db.experience.enable then
+	if (level ~= maxLevel or not DB.db.experience.hideAtMaxLevel) and DB.db.experience.enable then
 		DB:UpdateExperience("PLAYER_LEVEL_UP", level)
 	else
-		self.expBar:Hide()
+		DB.expBar:Hide()
 	end
 end
 
