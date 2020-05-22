@@ -5,6 +5,7 @@
 **CastBars:** Added ChannelTicks for Blizzard (Mage)  
 **Chat:** The chat editbox now supports blizzard chat style: IM Style  
 **Chat:** Fixed a bug with the chat editbox blocking DataTexts  
+**Chat:** Added an option to disable the chat toggles (< and >)  
 **Commands:** Added a new command /ehelp to list ElvUI commands in chat  
 **CutawayBars:** Cutaway colors react instantly now  
 **DataTexts:** Your currently assigned DataTexts have been reset due to code changes  
@@ -16,11 +17,13 @@
 **Filters:** Add or Remove spell from a filter should now work how it was always meant to  
 **General:** Removed the custom shaman color, because it breaks stuff  
 **General:** Upgraded our /estatus  
+**General:** Chat bubble names no longer overlap with the border  
 **Libraries:** LibClassicDuration update  
 **Libraries:** LibHealComm update  
 **Libraries:** LibClassicCasterino update  
 **NamePlates:** Style Filters now support changing the Nameplate Tags for Health, Power, Name, Title, and Level  
 **NamePlates:** Options have been rearranged  
+**NamePlates:** Fixed an error when importing profile while NamePlates are disabled  
 **Skins:** Fixed the "Loot" skin  
 **Skins:** Fixed the "TradeSkill" skin  
 **Skins:** Fixed a bug in the new Addon Manager skin  
