@@ -1597,7 +1597,6 @@ function E:Initialize()
 	E.private = E.charSettings.profile
 	E.global = E.data.global
 	E.db = E.data.profile
-	E.Libs.DualSpec:EnhanceDatabase(E.data, 'ElvUI')
 
 	E:CheckIncompatible()
 	E:DBConversions()
