@@ -52,10 +52,6 @@ function UF:Update_RaidpetHeader(header, db)
 		E:CreateMover(parent, parent:GetName()..'Mover', L["Raid Pet Frames"], nil, nil, nil, 'ALL,RAID', nil, 'unitframe,groupUnits,raidpet,generalGroup')
 		parent.positioned = true
 	end
-
-	if not header.forceShow and db.enable then
-		RegisterStateDriver(headerHolder, "visibility", headerHolder.db.visibility)
-	end
 end
 
 function UF:Update_RaidpetFrames(frame, db)
