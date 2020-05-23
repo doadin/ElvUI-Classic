@@ -15,47 +15,25 @@ E.Options.args.skins = {
 		},
 		general = {
 			order = 1,
-			type = 'group',
+			type = 'multiselect',
 			name = L["General"],
-			guiInline = true,
-			args = {
-				blizzardEnable = {
-					order = 1,
-					type = 'toggle',
-					name = L["Blizzard"],
-					get = function(info) return E.private.skins.blizzard.enable end,
-					set = function(info, value) E.private.skins.blizzard.enable = value; E:StaticPopup_Show('PRIVATE_RL') end,
-				},
-				ace3 = {
-					order = 2,
-					type = 'toggle',
-					name = 'Ace3',
-					get = function(info) return E.private.skins.ace3.enable end,
-					set = function(info, value) E.private.skins.ace3.enable = value; E:StaticPopup_Show('PRIVATE_RL') end,
-				},
-				checkBoxSkin = {
-					order = 3,
-					type = 'toggle',
-					name = L["CheckBox Skin"],
-					get = function(info) return E.private.skins.checkBoxSkin end,
-					set = function(info, value) E.private.skins.checkBoxSkin = value; E:StaticPopup_Show('PRIVATE_RL') end
-				},
-				--[[
-				parchmentRemover = {
-					order = 4,
-					type = 'toggle',
-					name = L["Parchment Remover"],
-					get = function(info) return E.private.skins.parchmentRemover.enable end,
-					set = function(info, value) E.private.skins.parchmentRemover.enable = value; E:StaticPopup_Show('PRIVATE_RL') end,
-				},]]
+			get = function(info, key) return E.private.skins.blizzard[key] end,
+			set = function(info, key, value) E.private.skins.blizzard[key] = value; E:StaticPopup_Show("PRIVATE_RL") end,
+			sortByValue = true,
+			values = {
+				blizzardEnable = L["Blizzard"],
+				ace3 = "Ace3",
+				checkBoxSkin = L["CheckBox Skin"],
+				parchmentRemover = L["Parchment Remover"],
+				cleanBossButton = L["Clean Boss Button"],
 			},
 		},
 		blizzard = {
-			order = 300,
-			type = 'group',
+			order = 3,
+			type = 'multiselect',
 			name = L["Blizzard"],
-			get = function(info) return E.private.skins.blizzard[info[#info]] end,
-			set = function(info, value) E.private.skins.blizzard[info[#info]] = value; E:StaticPopup_Show('PRIVATE_RL') end,
+			get = function(info, key) return E.private.skins.blizzard[key] end,
+			set = function(info, key, value) E.private.skins.blizzard[key] = value; E:StaticPopup_Show("PRIVATE_RL") end,
 			disabled = function() return not E.private.skins.blizzard.enable end,
 			guiInline = true,
 			args = {
