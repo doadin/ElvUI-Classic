@@ -25,7 +25,9 @@ local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
 local GuildRoster = GuildRoster
 local InCombatLockdown = InCombatLockdown
+local CreateFrame = CreateFrame
 
+local COMBAT_FACTION_CHANGE = COMBAT_FACTION_CHANGE
 local GUILD = GUILD
 local GUILD_MOTD = GUILD_MOTD
 local REMOTE_CHAT = REMOTE_CHAT
