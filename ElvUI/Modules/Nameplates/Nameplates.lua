@@ -328,7 +328,6 @@ end
 
 function NP:Update_StatusBars()
 	for bar in pairs(NP.StatusBars) do
-		print(bar:GetDebugName(), bar.SetStatusBarTexture)
 		local SF_HealthTexture = NP:StyleFilterCheckChanges(bar:GetParent(), 'HealthTexture')
 		if not SF_HealthTexture then bar:SetStatusBarTexture(E.LSM:Fetch("statusbar", NP.db.statusbar) or E.media.normTex) end
 	end
