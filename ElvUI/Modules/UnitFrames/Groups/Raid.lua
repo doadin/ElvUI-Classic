@@ -46,9 +46,6 @@ function UF:Construct_RaidFrames()
 
 	self.unitframeType = "raid"
 
-	UF:Update_StatusBars()
-	UF:Update_FontStrings()
-
 	return self
 end
 

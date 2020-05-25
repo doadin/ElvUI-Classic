@@ -449,39 +449,35 @@ function UF:Configure_FontString(obj)
 end
 
 function UF:Update_AllFrames()
-	if E.private.unitframe.enable ~= true then return; end
+	if not E.private.unitframe.enable then return end
 	UF:UpdateColors()
 	UF:Update_FontStrings()
 	UF:Update_StatusBars()
 
 	for unit in pairs(UF.units) do
-		if UF.db.units[unit] then
-			if UF.db.units[unit].enable then
-				UF[unit]:Update()
-				UF[unit]:Enable()
-				E:EnableMover(UF[unit].mover:GetName())
-			else
-				UF[unit]:Update()
-				UF[unit]:Disable()
-				E:DisableMover(UF[unit].mover:GetName())
-			end
+		if UF.db.units[unit].enable then
+			UF[unit]:Update()
+			UF[unit]:Enable()
+			E:EnableMover(UF[unit].mover:GetName())
+		else
+			UF[unit]:Update()
+			UF[unit]:Disable()
+			E:DisableMover(UF[unit].mover:GetName())
 		end
 	end
 
 	for unit, group in pairs(UF.groupunits) do
-		if UF.db.units[group] then
-			if UF.db.units[group].enable then
-				UF[unit]:Enable()
-				UF[unit]:Update()
-				E:EnableMover(UF[unit].mover:GetName())
-			else
-				UF[unit]:Disable()
-				E:DisableMover(UF[unit].mover:GetName())
-			end
+		if UF.db.units[group].enable then
+			UF[unit]:Enable()
+			UF[unit]:Update()
+			E:EnableMover(UF[unit].mover:GetName())
+		else
+			UF[unit]:Disable()
+			E:DisableMover(UF[unit].mover:GetName())
 		end
 
-		if self[unit].isForced then
-			self:ForceShow(self[unit])
+		if UF[unit].isForced then
+			UF:ForceShow(UF[unit])
 		end
 	end
 
