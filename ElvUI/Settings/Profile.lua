@@ -1401,11 +1401,6 @@ P.unitframe = {
 			colorOverride = 'USE_DEFAULT',
 			disableMouseoverGlow = false,
 			disableTargetGlow = true,
-			infoPanel = {
-				enable = false,
-				height = 20,
-				transparent = false,
-			},
 			pvp = {
 				position = 'BOTTOM',
 				text_format = '||cFFB04F4F[pvptimer][mouseover]||r',
