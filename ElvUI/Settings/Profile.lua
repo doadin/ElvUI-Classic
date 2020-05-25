@@ -1274,6 +1274,7 @@ P.unitframe = {
 		classbackdrop = false,
 		healthMultiplier = 0,
 		auraBarByType = true,
+		auraByType = true,
 		auraBarTurtle = true,
 		auraBarTurtleColor = {r = 143/255, g = 101/255, b = 158/255},
 		transparentHealth = false,
