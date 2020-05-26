@@ -46,7 +46,10 @@ local function SetupChat(noDisplayMsg)
 	for _, name in ipairs(_G.CHAT_FRAMES) do
 		local frame = _G[name]
 		local id = frame:GetID()
-		CH:FCFTab_UpdateColors(CH:GetTab(_G[name]))
+
+		if E.private.chat.enable then
+			CH:FCFTab_UpdateColors(CH:GetTab(_G[name]))
+		end
 
 		-- move general bottom left
 		if id == 1 then
@@ -103,7 +106,9 @@ local function SetupChat(noDisplayMsg)
 	ChangeChatColor('CHANNEL2', 232/255, 158/255, 121/255) -- Trade
 	ChangeChatColor('CHANNEL3', 232/255, 228/255, 121/255) -- Local Defense
 
-	CH:PositionChats()
+	if E.private.chat.enable then
+		CH:PositionChats()
+	end
 
 	if E.db.RightChatPanelFaded then
 		_G.RightChatToggleButton:Click()
