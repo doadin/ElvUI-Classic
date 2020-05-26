@@ -891,7 +891,15 @@ end
 
 ElvUF.Tags.Events['class'] = 'UNIT_NAME_UPDATE'
 ElvUF.Tags.Methods['class'] = function(unit)
-	return UnitClass(unit)
+	if not UnitIsPlayer(unit) then return end
+
+	local _, classToken = UnitClass(unit)
+
+	if UnitSex(unit) == 3 then
+		return _G.LOCALIZED_CLASS_NAMES_FEMALE[classToken]
+	else
+		return _G.LOCALIZED_CLASS_NAMES_MALE[classToken]
+	end
 end
 
 ElvUF.Tags.Events['name:title'] = 'UNIT_NAME_UPDATE'
@@ -899,6 +907,14 @@ ElvUF.Tags.Methods['name:title'] = function(unit)
 	if (UnitIsPlayer(unit)) then
 		return UnitPVPName(unit)
 	end
+end
+
+ElvUF.Tags.Events['title'] = 'UNIT_NAME_UPDATE INSTANCE_ENCOUNTER_ENGAGE_UNIT'
+ElvUF.Tags.Methods['title'] = function(unit)
+    if (UnitIsPlayer(unit)) then
+        local titleid = GetCurrentTitle()
+		return GetTitleName(titleid)
+    end
 end
 
 ElvUF.Tags.Events['pvp:title'] = 'UNIT_NAME_UPDATE'
