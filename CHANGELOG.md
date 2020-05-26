@@ -40,6 +40,7 @@
 **UnitFrames:** Fixed issue which caused Transparency setting to mess up the health on Unitframes with Vertical and/or Reverse Fill enabled  
 **UnitFrames:** Cutaway works correctly on Vertical Orientation Health Unitframes  
 **UnitFrames:** Worked out a couple more weird things with Smart Raid Filter  
+**UnitFrames:** Added an option to custom color aura borders  
 ___
 ### Version 1.24 [03/03/2020]
 **UnitFrames:** ThreatIndicator changes to fix lags/freezes  
