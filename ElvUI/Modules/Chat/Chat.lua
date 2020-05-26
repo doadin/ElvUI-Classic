@@ -2640,6 +2640,10 @@ function CH:GetPlayerInfoByGUID(guid)
 	return data
 end
 
+function CH:ResetEditboxHistory()
+	ElvCharacterDB.ChatEditHistory = {}
+end
+
 function CH:ResetHistory()
 	ElvCharacterDB.ChatHistoryLog = {}
 end
