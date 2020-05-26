@@ -67,7 +67,7 @@ E.Options.args.tooltip = {
 			order = 8,
 			type = 'toggle',
 			name = L["Show ElvUI Users"],
-			desc = L["Show ElvUI users and their version of ElvUI."],
+			desc = L["Show ElvUI users and their version of ElvUI."]
 		},
 		itemCount = {
 			order = 9,
@@ -99,13 +99,13 @@ E.Options.args.tooltip = {
 			min = 0, max = 1, step = 0.01,
 		},
 		cursorAnchor = {
-			order = 12,
+			order = 14,
 			type = 'toggle',
 			name = L["Cursor Anchor"],
 			desc = L["Should tooltip be anchored to mouse cursor"],
 		},
 		cursorAnchorType = {
-			order = 13,
+			order = 15,
 			type = 'select',
 			name = L["Cursor Anchor Type"],
 			values = {
