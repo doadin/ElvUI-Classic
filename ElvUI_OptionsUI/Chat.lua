@@ -226,6 +226,7 @@ E.Options.args.chat = {
 							set = function(_, r, g, b)
 								local t = E.db.chat.tabSelectedTextColor
 								t.r, t.g, t.b = r, g, b
+								CH:UpdateChatTabColors();
 							end,
 						},
 						tabSelector = {
@@ -258,6 +259,7 @@ E.Options.args.chat = {
 							set = function(_, r, g, b)
 								local t = E.db.chat.tabSelectorColor
 								t.r, t.g, t.b = r, g, b
+								CH:UpdateChatTabColors();
 							end,
 						},
 					}
