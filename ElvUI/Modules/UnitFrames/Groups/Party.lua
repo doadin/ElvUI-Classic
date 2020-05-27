@@ -48,7 +48,7 @@ function UF:Construct_PartyFrames()
 
 		self.AuraWatch = UF:Construct_AuraWatch(self)
 		self.customTexts = {}
-		self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
+		self.AuraHighlight = UF:Construct_AuraHighlight(self)
 		self.HealthPrediction = UF:Construct_HealComm(self)
 		self.MouseGlow = UF:Construct_MouseGlow(self)
 		self.PhaseIndicator = UF:Construct_PhaseIcon(self)
@@ -173,7 +173,7 @@ function UF:Update_PartyFrames(frame, db)
 
 		UF:Configure_AuraWatch(frame)
 		UF:Configure_CustomTexts(frame)
-		UF:Configure_DebuffHighlight(frame)
+		UF:Configure_AuraHighlight(frame)
 		UF:Configure_HealComm(frame)
 		UF:Configure_PhaseIcon(frame)
 		UF:Configure_Portrait(frame)
