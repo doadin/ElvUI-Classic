@@ -507,106 +507,14 @@ E.Options.args.general = {
 					get = function(info) return E.db.general.durabilityScale end,
 					set = function(info, value) E.db.general.durabilityScale = value; E:StaticPopup_Show("PRIVATE_RL") end,
 				},
-				--itemLevelInfo = {
-				--	order = 13,
-				--	name = L["Item Level"],
-				--	type = 'group',
-				--	guiInline = true,
-				--	get = function(info) return E.db.general.itemLevel[info[#info]] end,
-				--	args = {
-				--		displayCharacterInfo = {
-				--			order = 1,
-				--			type = "toggle",
-				--			name = L["Display Character Info"],
-				--			desc = L["Shows item level of each item, enchants, and gems on the character page."],
-				--			set = function(info, value)
-				--				E.db.general.itemLevel.displayCharacterInfo = value;
-				--				Misc:ToggleItemLevelInfo()
-				--			end
-				--		},
-				--		displayInspectInfo = {
-				--			order = 2,
-				--			type = "toggle",
-				--			name = L["Display Inspect Info"],
-				--			desc = L["Shows item level of each item, enchants, and gems when inspecting another player."],
-				--			set = function(info, value)
-				--				E.db.general.itemLevel.displayInspectInfo = value;
-				--				Misc:ToggleItemLevelInfo()
-				--			end
-				--		},
-				--		fontGroup = {
-				--			order = 3,
-				--			type = 'group',
-				--			name = L["Fonts"],
-				--			disabled = function() return not E.db.general.itemLevel.displayCharacterInfo and not E.db.general.itemLevel.displayInspectInfo end,
-				--			get = function(info) return E.db.general.itemLevel[info[#info]] end,
-				--			set = function(info, value)
-				--				E.db.general.itemLevel[info[#info]] = value
-				--				Misc:UpdateInspectPageFonts("Character")
-				--				Misc:UpdateInspectPageFonts("Inspect")
-				--			end,
-				--			args = {
-				--				itemLevelFont = {
-				--					order = 1,
-				--					type = "select",
-				--					name = L["Font"],
-				--					dialogControl = 'LSM30_Font',
-				--					values = AceGUIWidgetLSMlists.font,
-				--				},
-				--				itemLevelFontSize = {
-				--					order = 2,
-				--					type = "range",
-				--					name = L["FONT_SIZE"],
-				--					min = 4, max = 40, step = 1,
-				--				},
-				--				itemLevelFontOutline = {
-				--					order = 3,
-				--					type = "select",
-				--					name = L["Font Outline"],
-				--					values = C.Values.FontFlags,
-				--				},
-				--			},
-				--		},
-				--	},
-				--},
-				--objectiveFrameGroup = {
-				--	order = 14,
-				--	type = "group",
-				--	guiInline = true,
-				--	name = L["Objective Frame"],
-				--	get = function(info) return E.db.general[info[#info]] end,
-				--	args = {
-				--		objectiveFrameAutoHide = {
-				--			order = 31,
-				--			type = "toggle",
-				--			name = L["Auto Hide"],
-				--			desc = L["Automatically hide the objetive frame during boss or arena fights."],
-				--			disabled = function() return IsAddOnLoaded("!KalielsTracker") end,
-				--			set = function(info, value) E.db.general.objectiveFrameAutoHide = value; Blizzard:SetObjectiveFrameAutoHide(); end,
-				--		},
-				--		objectiveFrameHeight = {
-				--			order = 32,
-				--			type = 'range',
-				--			name = L["Objective Frame Height"],
-				--			desc = L["Height of the objective tracker. Increase size to be able to see more objectives."],
-				--			min = 400, max = E.screenheight, step = 1,
-				--			set = function(info, value) E.db.general.objectiveFrameHeight = value; Blizzard:SetObjectiveFrameHeight(); end,
-				--		},
-				--		bonusObjectivePosition = {
-				--			order = 33,
-				--			type = 'select',
-				--			name = L["Bonus Reward Position"],
-				--			desc = L["Position of bonus quest reward frame relative to the objective tracker."],
-				--			values = {
-				--				['RIGHT'] = L["Right"],
-				--				['LEFT'] = L["Left"],
-				--				['AUTO'] = L["Automatic"],
-				--			},
-				--		},
-				--	},
-				--},
-				chatBubblesGroup = {
+								questRewardMostValueIcon = {
 					order = 13,
+					type = "toggle",
+					name = L["Mark Quest Reward"],
+					desc = L["Marks the most valuable quest reward with a gold coin."],
+				},
+				chatBubblesGroup = {
+					order = 16,
 					type = "group",
 					guiInline = true,
 					name = L["Chat Bubbles"],
