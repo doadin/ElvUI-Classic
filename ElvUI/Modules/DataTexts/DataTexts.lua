@@ -442,7 +442,8 @@ function DT:UpdatePanelInfo(panelName, panel, ...)
 			dt.text = text
 
 			local overlay = dt:CreateTexture(nil, 'OVERLAY')
-			overlay:SetColorTexture(0.3, 0.9, 0.3, .3)
+			overlay:SetTexture(E.media.blankTex)
+			overlay:SetVertexColor(0.3, 0.9, 0.3, .3)
 			overlay:SetAllPoints()
 			dt.overlay = overlay
 
