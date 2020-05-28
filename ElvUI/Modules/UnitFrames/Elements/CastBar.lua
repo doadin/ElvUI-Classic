@@ -1,10 +1,9 @@
 local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local UF = E:GetModule('UnitFrames');
 
---Lua functions
 local unpack, tonumber = unpack, tonumber
-local abs, min = abs, math.min
---WoW API / Variables
+local abs, min = abs, min
+
 local CreateFrame = CreateFrame
 local UnitSpellHaste = UnitSpellHaste
 local UnitIsPlayer = UnitIsPlayer
@@ -101,6 +100,7 @@ end
 function UF:Configure_Castbar(frame)
 	local castbar = frame.Castbar
 	local db = frame.db.castbar
+
 	castbar:Width(db.width - ((frame.BORDER+frame.SPACING)*2))
 	castbar:Height(db.height - ((frame.BORDER+frame.SPACING)*2))
 	castbar.Holder:Width(db.width)
@@ -241,10 +241,10 @@ function UF:Configure_Castbar(frame)
 	UF:ToggleTransparentStatusBar(UF.db.colors.transparentCastbar, castbar, castbar.bg, nil, UF.db.colors.invertCastbar)
 
 	if castbar.Holder.mover then
-		if db.enable and db.overlayOnFrame ~= 'None' then
-			E:EnableMover(castbar.Holder.mover:GetName())
-		else
+		if db.overlayOnFrame ~= 'None' or not db.enable then
 			E:DisableMover(castbar.Holder.mover:GetName())
+		else
+			E:EnableMover(castbar.Holder.mover:GetName())
 		end
 	end
 
