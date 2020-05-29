@@ -1052,6 +1052,17 @@ local UF_Castbar = {
 	},
 }
 
+local UF_CombatIcon = {
+	enable = true,
+	defaultColor = true,
+	color = {r = 1, g = 0.2, b = 0.2, a = 1},
+	anchorPoint = 'CENTER',
+	xOffset = 0,
+	yOffset = 0,
+	size = 20,
+	texture = 'DEFAULT',
+}
+
 local UF_Cutaway = {
 	health = {
 		enabled = false,
@@ -1436,36 +1447,8 @@ P.unitframe = {
 				size = 22,
 				texture = 'DEFAULT',
 			},
-			CombatIcon = {
-				enable = true,
-				defaultColor = true,
-				color = {r = 1, g = 0.2, b = 0.2, a = 1},
-				anchorPoint = 'CENTER',
-				xOffset = 0,
-				yOffset = 0,
-				size = 20,
-				texture = 'DEFAULT',
-			},
-			classbar = {
-				enable = true,
-				fill = 'fill',
-				height = 10,
-				autoHide = false,
-				sortDirection = 'asc',
-				additionalPowerText = true,
-				detachFromFrame = false,
-				detachedWidth = 250,
-				parent = 'FRAME',
-				verticalOrientation = false,
-				orientation = 'HORIZONTAL',
-				spacing = 5,
-				strataAndLevel = {
-					useCustomStrata = false,
-					frameStrata = 'LOW',
-					useCustomLevel = false,
-					frameLevel = 1,
-				},
-			},
+			CombatIcon = CopyTable(UF_CombatIcon),
+			classbar = CopyTable(UF_ClassBar),
 			stagger = {
 				enable = true,
 				width = 10,
@@ -1498,6 +1481,7 @@ P.unitframe = {
 			middleClickFocus = true,
 			disableMouseoverGlow = false,
 			disableTargetGlow = true,
+			CombatIcon = CopyTable(UF_CombatIcon),
 			aurabar = CopyTable(UF_AuraBars),
 			buffs = CopyTable(UF_Auras),
 			castbar = CopyTable(UF_Castbar),
