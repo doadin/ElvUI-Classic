@@ -2471,6 +2471,7 @@ CH.TabStyles = {
 function CH:FCFTab_UpdateColors(tab, selected)
 	local chat = CH:GetOwner(tab)
 	if not chat then return end
+	tab.selected = selected
 
 	local whisper = tab.conversationIcon and chat.chatTarget
 	local name = chat.name
@@ -2491,10 +2492,11 @@ function CH:FCFTab_UpdateColors(tab, selected)
 		if CH.db.tabSelectedTextEnabled then
 			local color = CH.db.tabSelectedTextColor
 			tab.Text:SetTextColor(color.r, color.g, color.b)
-		elseif not whisper then
-			tab.Text:SetTextColor(unpack(E.media.rgbvaluecolor))
+			return -- using selected text color
 		end
-	elseif whisper then
+	end
+
+	if whisper then
 		tab:SetText(tab.whisperName or name)
 
 		if not tab.classColor then
@@ -2509,8 +2511,6 @@ function CH:FCFTab_UpdateColors(tab, selected)
 		tab:SetText(name)
 		tab.Text:SetTextColor(unpack(E.media.rgbvaluecolor))
 	end
-
-	tab.selected = selected
 end
 
 function CH:GetAvailableHead()
