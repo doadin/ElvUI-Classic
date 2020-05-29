@@ -29,11 +29,11 @@ local RemoveExtraSpaces = RemoveExtraSpaces
 local Screenshot = Screenshot
 local SetCVar = SetCVar
 local UnitIsAFK = UnitIsAFK
-local CinematicFrame = _G.CinematicFrame
-local MovieFrame = _G.MovieFrame
+local CinematicFrame = CinematicFrame
+local MovieFrame = MovieFrame
+local C_PetBattles_IsInBattle = C_PetBattles.IsInBattle
 local DNDstr = _G.DND
 local AFKstr = _G.AFK
-local CastingInfo = CastingInfo
 
 local CAMERA_SPEED = 0.035
 local ignoreKeys = {
