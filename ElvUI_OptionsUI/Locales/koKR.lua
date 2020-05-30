@@ -439,6 +439,7 @@ L["Enable/Disable the loot frame."] = "주사위 굴림 및 전리품 획득 확
 L["Enable/Disable the loot roll frame."] = "ElvUI 디자인의 입찰 / 차비 / 마력추출을 선택하는 주사위 굴림창 사용 여부를 결정합니다."
 L["Enable/Disable the minimap. |cffFF0000Warning: This will prevent you from seeing the minimap datatexts.|r"] = "미니맵을 켜고 끕니다. |cffFF0000주의: 정보 문자를 보지못하게 될 수 있습니다.|r"
 L["Enables the ElvUI Raid Control panel."] = true
+L["Enables the five-second-rule ticks for Mana classes and Energy ticks for Rogues and Druids."] = true
 L["Enabling this allows raid-wide sorting however you will not be able to distinguish between groups."] = "파티가 가득 차 있지 않아도 다음 파티의 유저를 끌어와 빈칸 없이 나열합니다. 파티구별하기가 힘들다는 단점이 있습니다."
 L["Enabling this has the potential to make updates faster, though setting a speed value that is too high may cause it to actually run slower than the default scheme, which use Blizzard events only with no update loops provided."] = true
 L["Enabling this inverts the grouping order when the raid is not full, this will reverse the direction it starts from."] = "유닛프레임의 배치를 역순으로 정렬합니다."

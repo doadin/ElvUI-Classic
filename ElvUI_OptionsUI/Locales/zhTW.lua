@@ -440,6 +440,7 @@ L["Enable/Disable the loot frame."] = "啟用/停用拾取框架."
 L["Enable/Disable the loot roll frame."] = "啟用/停用擲骰框架."
 L["Enable/Disable the minimap. |cffFF0000Warning: This will prevent you from seeing the minimap datatexts.|r"] = "是否啟用小地圖. |cffFF0000警告: 關掉後你將看不到小地圖周圍的資訊文字.|r"
 L["Enables the ElvUI Raid Control panel."] = "啟用ElvUI團隊控制台"
+L["Enables the five-second-rule ticks for Mana classes and Energy ticks for Rogues and Druids."] = true
 L["Enabling this allows raid-wide sorting however you will not be able to distinguish between groups."] = "啟用後將可以在整個團隊內排序, 但你不再可以區分不同小隊"
 L["Enabling this has the potential to make updates faster, though setting a speed value that is too high may cause it to actually run slower than the default scheme, which use Blizzard events only with no update loops provided."] = "如果選中此功能會使更新速度加快，將速度值設置得太大可能會導致其實際更新速度比默認方案慢，默認方案只會在Blizzard事件觸發時更新。"
 L["Enabling this inverts the grouping order when the raid is not full, this will reverse the direction it starts from."] = "啟用後翻轉未滿團隊的隊伍順序(起始方向)"
