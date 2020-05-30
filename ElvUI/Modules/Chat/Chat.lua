@@ -1637,6 +1637,10 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 				body = CH:HandleShortChannels(body)
 			end
 
+			for _, filter in ipairs(CH.PluginMessageFilters) do
+				body = filter(body)
+			end
+
 			local accessID = ChatHistory_GetAccessID(chatGroup, chatTarget)
 			local typeID = ChatHistory_GetAccessID(infoType, chatTarget, arg12 or arg13)
 			frame:AddMessage(body, info.r, info.g, info.b, info.id, accessID, typeID, isHistory, historyTime)
@@ -1911,7 +1915,7 @@ function CH:SetChatFont(dropDown, chatFrame, fontSize)
 	chatFrame:FontTemplate(LSM:Fetch("font", CH.db.font), fontSize, CH.db.fontOutline)
 end
 
-local SecureSlashCMD = {
+CH.SecureSlashCMD = {
 	'^/rl',
 	'^/tar',
 	'^/target',
@@ -1933,7 +1937,7 @@ function CH:ChatEdit_AddHistory(_, line) -- editBox, line
 	line = line and strtrim(line)
 
 	if line and strlen(line) > 0 then
-		for _, command in next, SecureSlashCMD do
+		for _, command in next, CH.SecureSlashCMD do
 			if strmatch(line, command) then
 				return
 			end
