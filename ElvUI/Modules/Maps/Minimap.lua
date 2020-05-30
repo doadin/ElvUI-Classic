@@ -23,7 +23,6 @@ local ToggleFriendsFrame = ToggleFriendsFrame
 local ToggleGuildFrame = ToggleGuildFrame
 local ToggleHelpFrame = ToggleHelpFrame
 local ToggleTalentFrame = ToggleTalentFrame
-local TimeManager_Toggle = TimeManager_Toggle
 -- GLOBALS: GetMinimapShape
 
 --Create the minimap micro menu
