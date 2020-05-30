@@ -31,7 +31,6 @@ local SetCVar = SetCVar
 local UnitIsAFK = UnitIsAFK
 local CinematicFrame = CinematicFrame
 local MovieFrame = MovieFrame
-local C_PetBattles_IsInBattle = C_PetBattles.IsInBattle
 local DNDstr = _G.DND
 local AFKstr = _G.AFK
 

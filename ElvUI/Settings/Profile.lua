@@ -1448,7 +1448,6 @@ P.unitframe = {
 				texture = 'DEFAULT',
 			},
 			CombatIcon = CopyTable(UF_CombatIcon),
-			classbar = CopyTable(UF_ClassBar),
 			stagger = {
 				enable = true,
 				width = 10,
