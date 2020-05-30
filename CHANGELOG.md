@@ -1,9 +1,9 @@
 ### Version 1.25 [ETA: 🍨]
 **ActionBars:** Fixed an issue with the Stance Bar  
-**Available Tags:** Updated descriptions  
-**AuraBars:** Fixed an issue with Class Color  
+**Available Tags:** Updated some descriptions  
+**AuraBars:** Fixed an issue with class color  
 **CastBars:** Added ChannelTicks for Blizzard (Mage)  
-**Chat:** The chat editbox now supports blizzard chat style: IM Style  
+**Chat:** The chat editbox now supports Blizzards chat style: IM Style  
 **Chat:** Fixed a bug with the chat editbox blocking DataTexts  
 **Chat:** Fixed a bug with class color names enable/disable  
 **Chat:** Added an option to disable the chat toggles (< and >)  
@@ -17,33 +17,33 @@
 **DataTexts:** Added multiple options to display gold/silver/copper  
 **DataTexts:** The durability DataText will now flash at 30% or below  
 **Filters:** Added 2 new special filters: MyPet, OtherPet  
-**Filters:** Add or Remove spell from a filter should now work how it was always meant to  
+**Filters:** Add or remove spell from a filter should now work how it was always meant to  
 **General:** Removed the custom shaman color, because it breaks stuff  
-**General:** Upgraded our /estatus  
+**General:** Upgraded our /estatus frame  
 **General:** Chat bubble names no longer overlap with the border  
 **General:** The Mark Quest Rewards option moved to BlizzUI Improvements  
 **Libraries:** LibClassicDuration update  
 **Libraries:** LibHealComm update  
 **Libraries:** LibClassicCasterino update  
-**NamePlates:** Style Filters now support changing the Nameplate Tags for Health, Power, Name, Title, and Level  
+**NamePlates:** Style Filters now support changing the nameplate tags for health, power, name, title, and level  
 **NamePlates:** Options have been rearranged  
 **NamePlates:** Fixed an error when importing profile while NamePlates are disabled  
 **Skins:** Fixed the "Loot" skin  
 **Skins:** Fixed the "TradeSkill" skin  
 **Skins:** Fixed a bug in the new Addon Manager skin  
-**Skins:** Updated the WorldMap skin  
-**Skins:** Added Corpse skin  
+**Skins:** Updated the WorldMap dropdown menu skin  
+**Skins:** Added corpse tooltip skin  
 **Tags:** Added [name:health] which displays health lost using colors on the name text  
 **Tags:** Added [ElvUI-Users] which displays other cool people than yourself  
 **Tags:** Added a color picker in the Available Tags menu  
-**Tags:** Status tags will now ignore hunter feign death  
+**Tags:** Status tags will now ignore hunters feign death  
 **Tooltip:** Added back the option to color the tooltip border based on item quality  
-**UnitFrames:** Fixed reverseFill in healthprediction  
+**UnitFrames:** Fixed ReverseFill in healthprediction  
 **UnitFrames:** ThreatIndicator tweaks and fixes  
 **UnitFrames:** Lowered the min value on some Unitframes elements, mainly health  
-**UnitFrames:** Fixed issue which caused Transparency setting to mess up the health on Unitframes with Vertical and/or Reverse Fill enabled  
-**UnitFrames:** Cutaway works correctly on Vertical Orientation Health Unitframes  
-**UnitFrames:** Worked out a couple more weird things with Smart Raid Filter  
+**UnitFrames:** Fixed issue which caused transparency setting to mess up the health on UnitFrames with vertical orientation and/or ReverseFill enabled  
+**UnitFrames:** Cutaway now works correctly on vertical orientation health UnitFrames  
+**UnitFrames:** Worked out a couple more weird things with the Smart Raid Filter  
 **UnitFrames:** Added an option to custom color aura borders  
 ___
 ### Version 1.24 [03/03/2020]
