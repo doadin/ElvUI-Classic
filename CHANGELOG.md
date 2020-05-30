@@ -5,7 +5,9 @@
 **CastBars:** Added ChannelTicks for Blizzard (Mage)  
 **Chat:** The chat editbox now supports blizzard chat style: IM Style  
 **Chat:** Fixed a bug with the chat editbox blocking DataTexts  
+**Chat:** Fixed a bug with class color names enable/disable  
 **Chat:** Added an option to disable the chat toggles (< and >)  
+**Chat:** Added options to custom color and/or highlight selected chat tabs  
 **Commands:** Added a new command /ehelp to list ElvUI commands in chat  
 **CutawayBars:** Cutaway colors react instantly now  
 **DataTexts:** Your currently assigned DataTexts have been reset due to code changes  
@@ -13,11 +15,13 @@
 **DataTexts:** You can now add custom panels with many new options  
 **DataTexts:** You can now type /hdt or mouse over with holding alt to change their assigned DataText  
 **DataTexts:** Added multiple options to display gold/silver/copper  
+**DataTexts:** The durability DataText will now flash at 30% or below  
 **Filters:** Added 2 new special filters: MyPet, OtherPet  
 **Filters:** Add or Remove spell from a filter should now work how it was always meant to  
 **General:** Removed the custom shaman color, because it breaks stuff  
 **General:** Upgraded our /estatus  
 **General:** Chat bubble names no longer overlap with the border  
+**General:** The Mark Quest Rewards option moved to BlizzUI Improvements  
 **Libraries:** LibClassicDuration update  
 **Libraries:** LibHealComm update  
 **Libraries:** LibClassicCasterino update  
