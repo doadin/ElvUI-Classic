@@ -740,67 +740,41 @@ function AB:FadeParent_OnEvent()
 end
 
 function AB:DisableBlizzard()
-	-- Hidden parent frame
-	UIHider = CreateFrame("Frame")
-	UIHider:Hide()
+	-- dont blindly add to this table, the first 5 get their events registered
+	for i, name in ipairs({"OverrideActionBar", "StanceBarFrame", "PossessBarFrame", "PetActionBarFrame", "MultiCastActionBarFrame", "MainMenuBar", "MicroButtonAndBagsBar", "MultiBarBottomLeft", "MultiBarBottomRight", "MultiBarLeft", "MultiBarRight"}) do
+		local frame = _G[name]
+		if i < 6 then frame:UnregisterAllEvents() end
 
-	_G.MultiBarBottomLeft:SetParent(UIHider)
-	_G.MultiBarBottomRight:SetParent(UIHider)
-	_G.MultiBarLeft:SetParent(UIHider)
-	_G.MultiBarRight:SetParent(UIHider)
+		RegisterStateDriver(frame, 'visibility', 'hide')
+		_G.UIPARENT_MANAGED_FRAME_POSITIONS[name] = nil
+	end
 
-	-- Hide MultiBar Buttons, but keep the bars alive
-	for i=1,12 do
-		_G["ActionButton" .. i]:Hide()
-		_G["ActionButton" .. i]:UnregisterAllEvents()
-		_G["ActionButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarBottomLeftButton" .. i]:Hide()
-		_G["MultiBarBottomLeftButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarBottomLeftButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarBottomRightButton" .. i]:Hide()
-		_G["MultiBarBottomRightButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarBottomRightButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarRightButton" .. i]:Hide()
-		_G["MultiBarRightButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarRightButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarLeftButton" .. i]:Hide()
-		_G["MultiBarLeftButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarLeftButton" .. i]:SetAttribute("statehidden", true)
-
-		if _G["VehicleMenuBarActionButton" .. i] then
-			_G["VehicleMenuBarActionButton" .. i]:Hide()
-			_G["VehicleMenuBarActionButton" .. i]:UnregisterAllEvents()
-			_G["VehicleMenuBarActionButton" .. i]:SetAttribute("statehidden", true)
-		end
-
-		if _G['OverrideActionBarButton'..i] then
-			_G['OverrideActionBarButton'..i]:Hide()
-			_G['OverrideActionBarButton'..i]:UnregisterAllEvents()
-			_G['OverrideActionBarButton'..i]:SetAttribute("statehidden", true)
+	for _, name in ipairs({"ActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton", "MultiBarRightButton", "MultiBarLeftButton", "OverrideActionBarButton", "MultiCastActionButton"}) do
+		for i = 1, 12 do
+			local frame = _G[name..i]
+			if frame then frame:UnregisterAllEvents() end
 		end
 	end
 
+	-- shut down some events for things we dont use
+	_G.StatusTrackingBarManager:UnregisterAllEvents()
+	_G.MainMenuBarArtFrame:UnregisterAllEvents()
 	_G.ActionBarController:UnregisterAllEvents()
 
-	_G.MainMenuBar:EnableMouse(false)
-	_G.MainMenuBar:SetAlpha(0)
-	_G.MainMenuBar:SetScale(0.00001)
-	_G.MainMenuBar:SetFrameStrata('BACKGROUND')
-	_G.MainMenuBar:SetFrameLevel(0)
+	-- this will cause a taint at MultiBarRight:SetShown
+	_G.ActionBarController:RegisterEvent('UPDATE_EXTRA_ACTIONBAR')
 
-	_G.MainMenuBarArtFrame:UnregisterAllEvents()
-	_G.MainMenuBarArtFrame:Hide()
-	_G.MainMenuBarArtFrame:SetParent(UIHider)
+	-- causes a taint
+	_G.MainMenuBar.SetPositionForStatusBars = E.noop
 
-	_G.StanceBarFrame:UnregisterAllEvents()
-	_G.StanceBarFrame:Hide()
-	_G.StanceBarFrame:SetParent(UIHider)
-
-	_G.InterfaceOptionsActionBarsPanelAlwaysShowActionBars:EnableMouse(false)
+	-- hide some interface options we dont use
+	_G.InterfaceOptionsActionBarsPanelStackRightBars:SetScale(0.5)
+	_G.InterfaceOptionsActionBarsPanelStackRightBars:SetAlpha(0)
+	_G.InterfaceOptionsActionBarsPanelStackRightBarsText:Hide() -- hides the !
+	_G.InterfaceOptionsActionBarsPanelRightTwoText:SetTextColor(1,1,1) -- no yellow
+	_G.InterfaceOptionsActionBarsPanelRightTwoText.SetTextColor = E.noop -- i said no yellow
+	_G.InterfaceOptionsActionBarsPanelAlwaysShowActionBars:SetScale(0.0001)
+	_G.InterfaceOptionsActionBarsPanelAlwaysShowActionBars:SetAlpha(0)
 	_G.InterfaceOptionsActionBarsPanelPickupActionKeyDropDownButton:SetScale(0.0001)
 	_G.InterfaceOptionsActionBarsPanelLockActionBars:SetScale(0.0001)
 	_G.InterfaceOptionsActionBarsPanelAlwaysShowActionBars:SetAlpha(0)
@@ -809,14 +783,6 @@ function AB:DisableBlizzard()
 	_G.InterfaceOptionsActionBarsPanelPickupActionKeyDropDown:SetAlpha(0)
 	_G.InterfaceOptionsActionBarsPanelPickupActionKeyDropDown:SetScale(0.0001)
 	AB:SecureHook('BlizzardOptionsPanel_OnEvent')
-
-	--for _, frame in pairs({"MainMenuBar", "StanceBarFrame", "PossessBarFrame", "MultiBarBottomLeft", "MultiBarBottomRight", "MultiCastActionBarFrame"}) do
-	--	if _G[frame] then
-	--		_G[frame]:ClearAllPoints();
-	--		_G[frame].SetPoint = E.noop;
-	--		_G[frame].ClearAllPoints = E.noop;
-	--	end
-	--end
 end
 
 function AB:ToggleCountDownNumbers(bar, button, cd)
