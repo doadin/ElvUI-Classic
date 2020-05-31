@@ -51,15 +51,17 @@ function NP:ClassPower_PostUpdate(Cur, _, needUpdate)
 end
 
 function NP:Construct_ClassPower(nameplate)
+
 	local ClassPower = CreateFrame('Frame', nameplate:GetDebugName()..'ClassPower', nameplate)
-	ClassPower:CreateBackdrop('Transparent')
+	
+	--ClassPower:CreateBackdrop('Transparent')
 	ClassPower:Hide()
 	ClassPower:SetFrameStrata(nameplate:GetFrameStrata())
 	ClassPower:SetFrameLevel(5)
 
 	local Max = max(MAX_POINTS[E.myclass] or 0, _G.MAX_COMBO_POINTS)
 	local texture = E.LSM:Fetch('statusbar', NP.db.statusbar)
-
+	
 	for i = 1, Max do
 		ClassPower[i] = CreateFrame('StatusBar', nameplate:GetDebugName()..'ClassPower'..i, ClassPower)
 		ClassPower[i]:SetStatusBarTexture(texture)
@@ -68,6 +70,7 @@ function NP:Construct_ClassPower(nameplate)
 		NP.StatusBars[ClassPower[i]] = true
 
 		ClassPower[i].bg = ClassPower:CreateTexture(nameplate:GetDebugName()..'ClassPower'..i..'bg', 'BORDER')
+		ClassPower[i].bg:CreateBackdrop('Transparent')
 		ClassPower[i].bg:SetAllPoints(ClassPower[i])
 		ClassPower[i].bg:SetTexture(texture)
 	end
@@ -100,18 +103,22 @@ function NP:Update_ClassPower(nameplate)
 		nameplate.ClassPower:Point('CENTER', nameplate, 'CENTER', db.classpower.xOffset, db.classpower.yOffset)
 
 		local maxClassBarButtons = nameplate.ClassPower.__max
-
-		local Width = db.classpower.width / maxClassBarButtons
+	
+		local Spacing = db.classpower.spacing or 0
+		local Width = ((db.classpower.width-(db.classpower.spacing * (maxClassBarButtons - 1))) / maxClassBarButtons)-1
+		
 		nameplate.ClassPower:Size(db.classpower.width, db.classpower.height)
 
 		for i = 1, #nameplate.ClassPower do
 			nameplate.ClassPower[i]:Hide()
 			nameplate.ClassPower[i].bg:Hide()
+			nameplate.ClassPower[i].bg.backdrop:Hide()
 		end
 
 		for i = 1, maxClassBarButtons do
 			nameplate.ClassPower[i]:Show()
 			nameplate.ClassPower[i].bg:Show()
+			nameplate.ClassPower[i].bg.backdrop:Show()
 			nameplate.ClassPower[i]:ClearAllPoints()
 
 			if i == 1 then
@@ -119,17 +126,17 @@ function NP:Update_ClassPower(nameplate)
 				nameplate.ClassPower[i].bg:Size(Width - (maxClassBarButtons == 6 and 2 or 0), db.classpower.height)
 
 				nameplate.ClassPower[i]:ClearAllPoints()
-				nameplate.ClassPower[i]:Point('LEFT', nameplate.ClassPower, 'LEFT', 0, 0)
+				nameplate.ClassPower[i]:Point('LEFT', nameplate.ClassPower, 'LEFT', (db.classpower.width - ((Width + Spacing) * maxClassBarButtons))/2, 0)
 			else
-				nameplate.ClassPower[i]:Size(Width - 1, db.classpower.height)
-				nameplate.ClassPower[i].bg:Size(Width - 1, db.classpower.height)
+				nameplate.ClassPower[i]:Size(Width, db.classpower.height)
+				nameplate.ClassPower[i].bg:Size(Width, db.classpower.height)
 
 				nameplate.ClassPower[i]:ClearAllPoints()
-				nameplate.ClassPower[i]:Point('LEFT', nameplate.ClassPower[i - 1], 'RIGHT', 1, 0)
+				nameplate.ClassPower[i]:Point('LEFT', nameplate.ClassPower[i - 1], 'RIGHT', Spacing + 1, 0)
 
-				if i == maxClassBarButtons then
-					nameplate.ClassPower[i]:Point('RIGHT', nameplate.ClassPower)
-				end
+				--if i == maxClassBarButtons then
+				--	nameplate.ClassPower[i]:Point('RIGHT', nameplate.ClassPower)
+				--end
 			end
 		end
 	else
