@@ -37,7 +37,6 @@ E.Options.args.skins = {
 				ace3Enable = "Ace3",
 				blizzardEnable = L["Blizzard"],
 				checkBoxSkin = L["CheckBox Skin"],
-				cleanBossButton = L["Clean Boss Button"],
 				parchmentRemoverEnable = L["Parchment Remover"],
 			},
 		},

@@ -36,15 +36,8 @@ local function CreateActionbarsConfig()
 		get = function(info) return E.global.profileCopy.actionbar[info[#info]] end,
 		set = function(info, value) E.global.profileCopy.actionbar[info[#info]] = value; end
 	}
-	config.args.extraActionButton = {
-		order = 11,
-		type = "toggle",
-		name = L["Boss Button"],
-		get = function(info) return E.global.profileCopy.actionbar[info[#info]] end,
-		set = function(info, value) E.global.profileCopy.actionbar[info[#info]] = value; end
-	}
 	config.args.cooldown = {
-		order = 12,
+		order = 11,
 		type = "toggle",
 		name = L["Cooldown Text"],
 		get = function(info) return E.global.profileCopy.actionbar[info[#info]] end,
