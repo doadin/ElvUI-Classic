@@ -3,14 +3,9 @@ local DT = E:GetModule('DataTexts')
 
 --Lua functions
 local _G = _G
-local type = type
-local format = format
-local wipe = wipe
-local pairs = pairs
-local ipairs = ipairs
-local strjoin = strjoin
-local tinsert = tinsert
---WoW API / Variables
+local type, wipe, pairs, ipairs, sort = type, wipe, pairs, ipairs, sort
+local format, strjoin, tinsert = format, strjoin, tinsert
+
 local GetMoney = GetMoney
 local IsControlKeyDown = IsControlKeyDown
 local IsLoggedIn = IsLoggedIn

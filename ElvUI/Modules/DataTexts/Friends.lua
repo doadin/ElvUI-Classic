@@ -8,8 +8,7 @@ local sort, next, wipe, tremove, tinsert = sort, next, wipe, tremove, tinsert
 local format, gsub, strfind, strjoin = format, gsub, strfind, strjoin
 --WoW API / Variables
 local BNet_GetValidatedCharacterName = BNet_GetValidatedCharacterName
-local BNGetFriendGameAccountInfo = BNGetFriendGameAccountInfo
-local BNGetFriendInfo = BNGetFriendInfo
+local GetMouseFocus = GetMouseFocus
 local BNGetInfo = BNGetInfo
 local BNGetNumFriendGameAccounts = BNGetNumFriendGameAccounts
 local BNGetNumFriends = BNGetNumFriends
