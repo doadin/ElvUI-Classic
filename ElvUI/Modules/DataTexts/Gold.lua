@@ -16,11 +16,18 @@ local IsControlKeyDown = IsControlKeyDown
 local IsLoggedIn = IsLoggedIn
 local IsShiftKeyDown = IsShiftKeyDown
 local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
+local BreakUpLargeNumbers = BreakUpLargeNumbers
 -- GLOBALS: ElvDB
 
 local Profit, Spent = 0, 0
-local resetCountersFormatter = strjoin('', '|cffaaaaaa', L["Reset Counters: Hold Shift + Right Click"], '|r')
+local resetCountersFormatter = strjoin('', '|cffaaaaaa', L["Reset Counters: Hold Ctrl + Right Click"], '|r')
 local resetInfoFormatter = strjoin('', '|cffaaaaaa', L["Reset Data: Hold Shift + Right Click"], '|r')
+
+local iconString = "|T%s:16:16:0:0:64:64:4:60:4:60|t"
+
+local function sortFunction(a, b)
+	return a.amount > b.amount
+end
 
 local function OnEvent(self)
 	if not IsLoggedIn() then return end
@@ -98,7 +105,7 @@ local function OnEnter(self)
 	for k,_ in pairs(ElvDB.gold[E.myrealm]) do
 		if ElvDB.gold[E.myrealm][k] then
 			local class = ElvDB.class[E.myrealm][k] or 'PRIEST'
-			local color = E:ClassColor(class) or PRIEST_COLOR
+			local color = E:ClassColor(class or 'PRIEST')
 			tinsert(myGold,
 				{
 					name = k,
@@ -119,6 +126,8 @@ local function OnEnter(self)
 		totalGold = totalGold+ElvDB.gold[E.myrealm][k]
 	end
 
+	sort(myGold, sortFunction)
+
 	for _, g in ipairs(myGold) do
 		local nameLine = ''
 		if g.faction ~= '' and g.faction ~= 'Neutral' then
@@ -132,9 +141,11 @@ local function OnEnter(self)
 
 	DT.tooltip:AddLine(' ')
 	DT.tooltip:AddLine(L["Server: "])
-	DT.tooltip:AddDoubleLine(L["Alliance: "], E:FormatMoney(totalAlliance, style, textOnly), 1, 1, 1, 1, 1, 1)
-	DT.tooltip:AddDoubleLine(L["Horde: "], E:FormatMoney(totalHorde, style, textOnly), 1, 1, 1, 1, 1, 1)
-	DT.tooltip:AddLine(' ')
+	if totalAlliance > 0 and totalHorde > 0 then
+		if totalAlliance ~= 0 then DT.tooltip:AddDoubleLine(L["Alliance: "], E:FormatMoney(totalAlliance, style, textOnly), 0, .376, 1, 1, 1, 1) end
+		if totalHorde ~= 0 then DT.tooltip:AddDoubleLine(L["Horde: "], E:FormatMoney(totalHorde, style, textOnly), 1, .2, .2, 1, 1, 1) end
+		DT.tooltip:AddLine(' ')
+	end
 	DT.tooltip:AddDoubleLine(L["Total: "], E:FormatMoney(totalGold, style, textOnly), 1, 1, 1, 1, 1, 1)
 
 	DT.tooltip:AddLine(' ')
