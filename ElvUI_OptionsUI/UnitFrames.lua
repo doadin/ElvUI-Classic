@@ -4996,7 +4996,7 @@ E.Options.args.unitframe.args.groupUnits.args.raid = {
 			order = 0,
 			type = "description",
 			name = L["|cffFF0000Warning:|r Enable and Number of Groups are managed by Smart Raid Filter. Disable Smart Raid Filter in (UnitFrames - General) to change these settings."],
-			fontSize = "medium",
+			fontSize = "large",
 			hidden = function() return not E.db.unitframe.smartRaidFilter end,
 		},
 		enable = {
@@ -5065,7 +5065,7 @@ E.Options.args.unitframe.args.groupUnits.args.raid40 = {
 			order = 0,
 			type = "description",
 			name = L["|cffFF0000Warning:|r Enable and Number of Groups are managed by Smart Raid Filter. Disable Smart Raid Filter in (UnitFrames - General) to change these settings."],
-			fontSize = "medium",
+			fontSize = "large",
 			hidden = function() return not E.db.unitframe.smartRaidFilter end,
 		},
 		enable = {
@@ -5134,7 +5134,7 @@ E.Options.args.unitframe.args.groupUnits.args.raidpet = {
 			order = 0,
 			type = "description",
 			name = L["|cffFF0000Warning:|r Enable and Number of Groups are managed by Smart Raid Filter. Disable Smart Raid Filter in (UnitFrames - General) to change these settings."],
-			fontSize = "medium",
+			fontSize = "large",
 			hidden = function() return not E.db.unitframe.smartRaidFilter end,
 		},
 		enable = {
