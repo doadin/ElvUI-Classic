@@ -57,7 +57,7 @@ function UF:Update_AssistHeader(header, db)
 
 	UF:ClearChildPoints(header:GetChildren())
 
-	if not header.forceShow and db.enable then
+	if not header.isForced and db.enable then
 		RegisterAttributeDriver(header, 'state-visibility', '[@raid1,exists] show;hide')
 	end
 
@@ -70,7 +70,7 @@ function UF:Update_AssistHeader(header, db)
 		header:Point('TOPLEFT', E.UIParent, 'TOPLEFT', 4, -248)
 
 		local width, height = header:GetSize()
-		local minHeight = max(height, 2*db.height + db.verticalSpacing)
+		local minHeight = max(height, 2 * db.height + db.verticalSpacing)
 		header:SetAttribute('minHeight', minHeight)
 		header:SetAttribute('minWidth', width)
 
@@ -84,12 +84,11 @@ end
 function UF:Update_AssistFrames(frame, db)
 	frame.db = db
 	frame.colors = ElvUF.colors
-	frame:RegisterForClicks(self.db.targetOnMouseDown and 'AnyDown' or 'AnyUp')
+	frame:RegisterForClicks(UF.db.targetOnMouseDown and 'AnyDown' or 'AnyUp')
 
 	do
 		frame.ORIENTATION = db.orientation --allow this value to change when unitframes position changes on screen?
-
-		if(self.thinBorders) then
+		if(UF.thinBorders) then
 			frame.SPACING = 0
 			frame.BORDER = E.mult
 		else
