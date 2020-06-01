@@ -1280,7 +1280,11 @@ P.unitframe = {
 	fontOutline = 'MONOCHROMEOUTLINE',
 	debuffHighlighting = 'FILL',
 	targetOnMouseDown = false,
-	auraBlacklistModifier = 'NONE',
+	modifiers = {
+		SHIFT = 'NONE',
+		CTRL = 'NONE',
+		ALT = 'NONE',
+	},
 	thinBorders = false,
 	targetSound = false,
 	colors = {
