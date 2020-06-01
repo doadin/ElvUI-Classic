@@ -28,6 +28,19 @@ local C_NamePlate_SetNamePlateEnemyClickThrough = C_NamePlate.SetNamePlateEnemyC
 local C_NamePlate_SetNamePlateFriendlyClickThrough = C_NamePlate.SetNamePlateFriendlyClickThrough
 local C_NamePlate_SetNamePlateSelfClickThrough = C_NamePlate.SetNamePlateSelfClickThrough
 
+local Blacklist = {
+	PLAYER = {
+		enable = true,
+		health = {
+			enable = true,
+		},
+	},
+	ENEMY_PLAYER = {},
+	FRIENDLY_PLAYER = {},
+	ENEMY_NPC = {},
+	FRIENDLY_NPC = {},
+}
+
 function NP:ResetSettings(unit)
 	E:CopyTable(NP.db.units[unit], P.nameplates.units[unit])
 end
