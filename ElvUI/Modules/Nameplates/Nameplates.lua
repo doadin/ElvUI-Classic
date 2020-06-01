@@ -289,7 +289,7 @@ function NP:DisablePlate(nameplate, nameOnly)
 			nameplate.Title:Point('TOP', nameplate.Name, 'BOTTOM', 0, -2)
 		end
 	elseif nameplate:IsElementEnabled('Highlight') then
-		nameplate:DisableElement('Hightlight')
+		nameplate:DisableElement('Highlight')
 	end
 end
 
