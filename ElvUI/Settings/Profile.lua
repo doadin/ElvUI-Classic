@@ -943,8 +943,7 @@ P.tooltip = {
 		bags = 'SHOW',
 		unitFrames = 'SHOW',
 		actionbars = 'SHOW',
-		combatOverride = 'HIDE',
-		combat = false,
+		combatOverride = 'SHOW',
 	},
 	healthBar = {
 		text = true,
