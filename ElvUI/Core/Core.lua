@@ -1318,6 +1318,12 @@ local function buffwatchConvert(spell)
 	end
 end
 
+local ttModSwap
+do -- tooltip convert
+	local swap = {ALL = 'HIDE',NONE = 'SHOW'}
+	ttModSwap = function(val) return swap[val] end
+end
+
 function E:DBConversions()
 	--Fix issue where UIScale was incorrectly stored as string
 	E.global.general.UIScale = tonumber(E.global.general.UIScale)
@@ -1548,8 +1554,21 @@ function E:DBConversions()
 		E.db.unitframe.colors.debuffHighlight.blendMode = P.unitframe.colors.debuffHighlight.blendMode
 	end
 
-	if type(E.db.general.autoRepair) ~= 'boolean' then
-		E.db.general.autoRepair = false
+	do -- tooltip modifier code was dumb, change it but keep the past setting
+		local swap = ttModSwap(E.db.tooltip.modifierID)
+		if swap then E.db.tooltip.modifierID = swap end
+
+		swap = ttModSwap(E.db.tooltip.visibility.bags)
+		if swap then E.db.tooltip.visibility.bags = swap end
+
+		swap = ttModSwap(E.db.tooltip.visibility.unitFrames)
+		if swap then E.db.tooltip.visibility.unitFrames = swap end
+
+		swap = ttModSwap(E.db.tooltip.visibility.actionbars)
+		if swap then E.db.tooltip.visibility.actionbars = swap end
+
+		swap = ttModSwap(E.db.tooltip.visibility.combatOverride)
+		if swap then E.db.tooltip.visibility.combatOverride = swap end
 	end
 end
 
