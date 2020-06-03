@@ -966,6 +966,13 @@ P.tooltip = {
 	}
 }
 
+local UF_StrataAndLevel = {
+	useCustomStrata = false,
+	frameStrata = 'LOW',
+	useCustomLevel = false,
+	frameLevel = 1,
+}
+
 local UF_Auras = {
 	anchorPoint = 'TOPLEFT',
 	attachTo = 'FRAME',
@@ -1040,12 +1047,7 @@ local UF_Castbar = {
 	xOffsetTime = -4,
 	yOffsetText = 0,
 	yOffsetTime = 0,
-	strataAndLevel = {
-		useCustomStrata = false,
-		frameStrata = 'LOW',
-		useCustomLevel = false,
-		frameLevel = 1,
-	},
+	strataAndLevel = CopyTable(UF_StrataAndLevel),
 }
 
 local UF_CombatIcon = {
@@ -1161,12 +1163,7 @@ local UF_Power = {
 	width = 'fill',
 	xOffset = 2,
 	yOffset = 0,
-	strataAndLevel = {
-		frameLevel = 1,
-		frameStrata = 'LOW',
-		useCustomLevel = false,
-		useCustomStrata = false,
-	},
+	strataAndLevel = CopyTable(UF_StrataAndLevel),
 }
 
 local UF_PVPIcon = {
@@ -1488,6 +1485,7 @@ P.unitframe = {
 			raidicon = CopyTable(UF_RaidIcon),
 			raidRoleIcons = CopyTable(UF_RaidRoles),
 			resurrectIcon = CopyTable(UF_Ressurect),
+			strataAndLevel = CopyTable(UF_StrataAndLevel),
 		},
 		target = {
 			enable = true,
@@ -1518,6 +1516,7 @@ P.unitframe = {
 			raidicon = CopyTable(UF_RaidIcon),
 			raidRoleIcons = CopyTable(UF_RaidRoles),
 			resurrectIcon = CopyTable(UF_Ressurect),
+			strataAndLevel = CopyTable(UF_StrataAndLevel),
 		},
 		targettarget = {
 			enable = true,
@@ -1539,6 +1538,7 @@ P.unitframe = {
 			portrait = CopyTable(UF_Portrait),
 			power = CopyTable(UF_Power),
 			raidicon = CopyTable(UF_RaidIcon),
+			strataAndLevel = CopyTable(UF_StrataAndLevel),
 		},
 		pet = {
 			enable = true,
@@ -1563,6 +1563,7 @@ P.unitframe = {
 			name = CopyTable(UF_Name),
 			portrait = CopyTable(UF_Portrait),
 			power = CopyTable(UF_Power),
+			strataAndLevel = CopyTable(UF_StrataAndLevel),
 		},
 		party = {
 			enable = true,
