@@ -2,10 +2,10 @@ local E, L, V, P, G = unpack(select(2, ...)) --Import: Engine, Locales, PrivateD
 local NP = E:GetModule('NamePlates')
 local oUF = E.oUF
 
---Lua functions
 local _G = _G
-local format, pairs, select, strsplit, type = format, pairs, select, strsplit, type
---WoW API / Variables
+local pairs, ipairs, wipe, tinsert = pairs, ipairs, wipe, tinsert
+local format, select, strsplit = format, select, strsplit
+
 local CreateFrame = CreateFrame
 local GetCVar = GetCVar
 local GetCVarDefault = GetCVarDefault
@@ -143,9 +143,7 @@ function NP:PLAYER_REGEN_ENABLED()
 end
 
 function NP:Style(frame, unit)
-	if (not unit) then
-		return
-	end
+	if not unit then return end
 
 	frame.isNamePlate = true
 
@@ -270,17 +268,35 @@ function NP:UpdatePlate(nameplate)
 	NP:StyleFilterEvents(nameplate)
 end
 
+NP.DisableInNotNameOnly = {
+	"Highlight",
+}
+
+NP.DisableElements = {
+	"Health",
+	"HealthPrediction",
+	"Power",
+	"ClassificationIndicator",
+	"Castbar",
+	"Portrait",
+	"TargetIndicator",
+	"ClassPower",
+	"PvPIndicator",
+	"Auras"
+}
+
+if E.myclass == "DEATHKNIGHT" then
+	tinsert(NP.DisableElements, "Runes")
+elseif E.myclass == "MONK" then
+	tinsert(NP.DisableElements, "Stagger")
+end
+
 function NP:DisablePlate(nameplate, nameOnly)
-	if nameplate:IsElementEnabled('Health') then nameplate:DisableElement('Health') end
-	if nameplate:IsElementEnabled('HealthPrediction') then nameplate:DisableElement('HealthPrediction') end
-	if nameplate:IsElementEnabled('Power') then nameplate:DisableElement('Power') end
-	if nameplate:IsElementEnabled('ClassificationIndicator') then nameplate:DisableElement('ClassificationIndicator') end
-	if nameplate:IsElementEnabled('Castbar') then nameplate:DisableElement('Castbar') end
-	if nameplate:IsElementEnabled('Portrait') then nameplate:DisableElement('Portrait') end
-	if nameplate:IsElementEnabled('ClassPower') then nameplate:DisableElement('ClassPower') end
-	if nameplate:IsElementEnabled('TargetIndicator') then nameplate:DisableElement('TargetIndicator') end
-	if nameplate:IsElementEnabled('PvPIndicator') then nameplate:DisableElement('PvPIndicator') end
-	if nameplate:IsElementEnabled('Auras') then nameplate:DisableElement('Auras') end
+	for _, element in ipairs(NP.DisableElements) do
+		if nameplate:IsElementEnabled(element) then
+			nameplate:DisableElement(element)
+		end
+	end
 
 	NP:Update_Tags(nameplate)
 
@@ -304,8 +320,12 @@ function NP:DisablePlate(nameplate, nameOnly)
 			nameplate.Title:ClearAllPoints()
 			nameplate.Title:Point('TOP', nameplate.Name, 'BOTTOM', 0, -2)
 		end
-	elseif nameplate:IsElementEnabled('Highlight') then
-		nameplate:DisableElement('Highlight')
+	else
+		for _, element in ipairs(NP.DisableInNotNameOnly) do
+			if nameplate:IsElementEnabled(element) then
+				nameplate:DisableElement(element)
+			end
+		end
 	end
 end
 
