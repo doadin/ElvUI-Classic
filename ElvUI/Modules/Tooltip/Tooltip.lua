@@ -8,8 +8,8 @@ local strmatch = strmatch
 local unpack, select, ipairs = unpack, select, ipairs
 local wipe, tinsert, tconcat = wipe, tinsert, table.concat
 local floor, tonumber, strlower = floor, tonumber, strlower
-local strfind, format, strsub = strfind, format, strsub
---WoW API / Variables
+local strfind, format, strmatch, gmatch, gsub = strfind, format, strmatch, gmatch, gsub
+
 local CanInspect = CanInspect
 local CreateFrame = CreateFrame
 local GameTooltip_ClearMoney = GameTooltip_ClearMoney
@@ -654,12 +654,10 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 end
 
 function TT:SetItemRef(link)
-	if not link then return end
+	if IsModifierKeyDown() or not (link and strfind(link, '^spell:')) then return end
 
-	if TT:IsModKeyDown() then
-		_G.ItemRefTooltip:AddLine(format("|cFFCA3C3C%s|r %d", _G.ID, strsub(link,7)))
-		_G.ItemRefTooltip:Show()
-	end
+	_G.ItemRefTooltip:AddLine(format("|cFFCA3C3C%s|r %d", _G.ID, strmatch(link, ':(%d+)')))
+	_G.ItemRefTooltip:Show()
 end
 
 function TT:RepositionBNET(frame, _, anchor)
