@@ -322,7 +322,7 @@ function TT:INSPECT_READY(event, unitGUID)
 	end
 
 	if event then
-		self:UnregisterEvent(event)
+		TT:UnregisterEvent(event)
 	end
 end
 
@@ -367,9 +367,9 @@ function TT:AddInspectInfo(tooltip, unit, numTries, r, g, b)
 		if lastGUID ~= unitGUID then
 			lastGUID = unitGUID
 			NotifyInspect(unit)
-			self:RegisterEvent("INSPECT_READY")
+			TT:RegisterEvent("INSPECT_READY")
 		else
-			self:INSPECT_READY(nil, unitGUID)
+			TT:INSPECT_READY(nil, unitGUID)
 		end
 	end
 end
@@ -378,8 +378,6 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 	if tt:IsForbidden() then return end
 
 	local unit = select(2, tt:GetUnit())
-	local isShiftKeyDown = IsShiftKeyDown()
-	local isControlKeyDown = IsControlKeyDown()
 	local isPlayerUnit = UnitIsPlayer(unit)
 	if((tt:GetOwner() ~= _G.UIParent) and (self.db.visibility and self.db.visibility.unitFrames ~= 'NONE')) then
 		local modifier = self.db.visibility.unitFrames
@@ -406,20 +404,20 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 
 	if not isShiftKeyDown and not isControlKeyDown then
 		local unitTarget = unit.."target"
-		if self.db.targetInfo and unit ~= "player" and UnitExists(unitTarget) then
+		if TT.db.targetInfo and unit ~= "player" and UnitExists(unitTarget) then
 			local targetColor
 			if(UnitIsPlayer(unitTarget)) then
 				local _, class = UnitClass(unitTarget)
 				targetColor = E:ClassColor(class) or PRIEST_COLOR
 			else
 				local reaction = UnitReaction(unitTarget, "player")
-				targetColor = (E.db.tooltip.useCustomFactionColors and E.db.tooltip.factionColors[reaction]) or _G.FACTION_BAR_COLORS[reaction] or PRIEST_COLOR
+				targetColor = (TT.db.useCustomFactionColors and TT.db.factionColors[reaction]) or _G.FACTION_BAR_COLORS[reaction] or PRIEST_COLOR
 			end
 
 			tt:AddDoubleLine(format("%s:", _G.TARGET), format("|cff%02x%02x%02x%s|r", targetColor.r * 255, targetColor.g * 255, targetColor.b * 255, UnitName(unitTarget)))
 		end
 
-		if self.db.targetInfo and IsInGroup() then
+		if TT.db.targetInfo and IsInGroup() then
 			for i = 1, GetNumGroupMembers() do
 				local groupUnit = (IsInRaid() and "raid"..i or "party"..i);
 				if (UnitIsUnit(groupUnit.."target", unit)) and (not UnitIsUnit(groupUnit,"player")) then
@@ -493,31 +491,27 @@ end
 function TT:GameTooltip_OnTooltipSetItem(tt)
 	if tt:IsForbidden() then return end
 	local ownerName = tt:GetOwner() and tt:GetOwner().GetName and tt:GetOwner():GetName()
-	if (self.db.visibility and self.db.visibility.bags ~= 'NONE' and ownerName and (strfind(ownerName, "ElvUI_Container") or strfind(ownerName, "ElvUI_BankContainer"))) then
-		local modifier = self.db.visibility.bags
-
-		if(modifier == 'ALL' or not ((modifier == 'SHIFT' and IsShiftKeyDown()) or (modifier == 'CTRL' and IsControlKeyDown()) or (modifier == 'ALT' and IsAltKeyDown()))) then
-			tt.itemCleared = true
-			tt:Hide()
-			return
-		end
+	if TT.db.visibility and ownerName and (strfind(ownerName, "ElvUI_Container") or strfind(ownerName, "ElvUI_BankContainer")) and not TT:IsModKeyDown(TT.db.visibility.bags) then
+		tt.itemCleared = true
+		tt:Hide()
+		return
 	end
 
-	if not tt.itemCleared then
+	if not tt.itemCleared and TT:IsModKeyDown() then
 		local _, link = tt:GetItem()
 		local num = GetItemCount(link)
 		local numall = GetItemCount(link,true)
 		local left, right, bankCount = " ", " ", " "
 
-		if link ~= nil and self.db.spellID then
+		if link then
 			left = format("|cFFCA3C3C%s|r %s", _G.ID, strmatch(link, ":(%w+)"))
 		end
 
-		if self.db.itemCount == "BAGS_ONLY" then
+		if TT.db.itemCount == "BAGS_ONLY" then
 			right = format("|cFFCA3C3C%s|r %d", L["Count"], num)
-		elseif self.db.itemCount == "BANK_ONLY" then
+		elseif TT.db.itemCount == "BANK_ONLY" then
 			bankCount = format("|cFFCA3C3C%s|r %d", L["Bank"],(numall - num))
-		elseif self.db.itemCount == "BOTH" then
+		elseif TT.db.itemCount == "BOTH" then
 			right = format("|cFFCA3C3C%s|r %d", L["Count"], num)
 			bankCount = format("|cFFCA3C3C%s|r %d", L["Bank"],(numall - num))
 		end
@@ -668,11 +662,10 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 end
 
 function TT:SetItemRef(link)
-	if strfind(link,"^spell:") and self.db.spellID then
-		local id = strsub(link,7)
-		_G.ItemRefTooltip:AddLine(format("|cFFCA3C3C%s|r %d", _G.ID, id))
-		_G.ItemRefTooltip:Show()
-	end
+	if not link then return end
+
+	_G.ItemRefTooltip:AddLine(format("|cFFCA3C3C%s|r %d", _G.ID, strsub(link,7)))
+	_G.ItemRefTooltip:Show()
 end
 
 function TT:RepositionBNET(frame, _, anchor)
