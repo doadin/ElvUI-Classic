@@ -136,7 +136,7 @@ ElvUF.Tags.Methods['name:last'] = function(unit)
 	local name = UnitName(unit)
 
 	if name and strfind(name, '%s') then
-		name = LastName(name)
+		name = strmatch(name, '([%S]+)$')
 	end
 
 	return name ~= nil and name or ''
