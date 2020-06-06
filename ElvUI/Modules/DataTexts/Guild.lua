@@ -25,7 +25,7 @@ local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
 local GuildRoster = GuildRoster
 local InCombatLockdown = InCombatLockdown
-local CreateFrame = CreateFrame
+local IsAltKeyDown = IsAltKeyDown
 
 local COMBAT_FACTION_CHANGE = COMBAT_FACTION_CHANGE
 local GUILD = GUILD
