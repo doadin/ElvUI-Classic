@@ -131,14 +131,42 @@ ElvUF.Tags.Methods['faction:icon'] = function(unit)
 	end
 end
 
-ElvUF.Tags.Events['healthcolor'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
-ElvUF.Tags.Methods['healthcolor'] = function(unit)
-	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
-		return Hex(0.84, 0.75, 0.65)
-	else
-		local cur, max = UnitHealth(unit), UnitHealthMax(unit)
-		local r, g, b = ElvUF:ColorGradient(cur, max, 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
-		return Hex(r, g, b)
+ElvUF.Tags.Events['name:last'] = 'UNIT_NAME_UPDATE INSTANCE_ENCOUNTER_ENGAGE_UNIT'
+ElvUF.Tags.Methods['name:last'] = function(unit)
+	local name = UnitName(unit)
+
+	if name and strfind(name, '%s') then
+		name = LastName(name)
+	end
+
+	return name ~= nil and name or ''
+end
+
+do
+	local function NameHealthColor(tags,hex,unit,default)
+		if hex == 'class' or hex == 'reaction' then
+			return tags.namecolor(unit)
+		elseif hex and strmatch(hex, '^%x%x%x%x%x%x$') then
+			return '|cFF'..hex
+		end
+
+		return default
+	end
+	E.TagFunctions.NameHealthColor = NameHealthColor
+
+	-- the third arg here is added from the user as like [name:health{ff00ff:00ff00}] or [name:health{class:00ff00}]
+	ElvUF.Tags.Events['name:health'] = 'UNIT_NAME_UPDATE UNIT_FACTION UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+	ElvUF.Tags.Methods['name:health'] = function(unit, _, args)
+		local name = UnitName(unit)
+		if not name then return '' end
+
+		local min, max, bco, fco = UnitHealth(unit), UnitHealthMax(unit), strsplit(':', args or '')
+		local to = ceil(utf8len(name) * (min / max))
+
+		local fill = NameHealthColor(_TAGS, fco, unit, '|cFFff3333')
+		local base = NameHealthColor(_TAGS, bco, unit, '|cFFffffff')
+
+		return to > 0 and (base..utf8sub(name, 0, to)..fill..utf8sub(name, to+1, -1)) or fill..name
 	end
 end
 
@@ -1099,6 +1127,7 @@ E.TagInfo = {
 	['name:abbrev:short'] = { category = 'Names', description = "Displays the name of the unit with abbreviation (limited to 10 letters)" },
 	['name:abbrev:medium'] = { category = 'Names', description = "Displays the name of the unit with abbreviation (limited to 15 letters)" },
 	['name:abbrev:long'] = { category = 'Names', description = "Displays the name of the unit with abbreviation (limited to 20 letters)" },
+	['name:last'] = { category = 'Names', description = "Displays the last word of the unit's name" },
 	['name:veryshort:status'] = { category = 'Names', description = "Replace the name of the unit with 'DEAD' or 'OFFLINE' if applicable (limited to 5 letters)" },
 	['name:short:status'] = { category = 'Names', description = "Replace the name of the unit with 'DEAD' or 'OFFLINE' if applicable (limited to 10 letters)" },
 	['name:medium:status'] = { category = 'Names', description = "Replace the name of the unit with 'DEAD' or 'OFFLINE' if applicable (limited to 15 letters)" },
