@@ -1970,6 +1970,8 @@ end
 function CH:PET_BATTLE_CLOSE()
 	if not CH.db.autoClosePetBattleLog then
 		return
+	else -- we can take this off once it goes through once
+		CH:UnregisterEvent('PLAYER_REGEN_ENABLED')
 	end
 
 	for _, frameName in ipairs(_G.CHAT_FRAMES) do
