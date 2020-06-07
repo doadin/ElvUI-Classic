@@ -516,7 +516,11 @@ function NP:NamePlateCallBack(nameplate, event, unit)
 
 		nameplate:Size(nameplate.width, nameplate.height)
 
-		NP:UpdatePlate(nameplate)
+		if nameplate.frameType ~= nameplate.previousType then
+			NP:UpdatePlate(nameplate)
+		end
+
+		nameplate.previousType = nameplate.frameType
 
 		if nameplate.isTarget then
 			NP:SetupTarget(nameplate)
