@@ -223,16 +223,26 @@ for textFormat in pairs(E.GetFormattedTextStyles) do
 		end
 	end
 
-	if tagTextFormat ~= 'percent' then
-		ElvUF.Tags.Events[format('health:%s:shortvalue', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
-		ElvUF.Tags.Methods[format('health:%s:shortvalue', tagTextFormat)] = function(unit)
-			local status = not UnitIsFeignDeath(unit) and UnitIsDead(unit) and L["Dead"] or UnitIsGhost(unit) and L["Ghost"] or not UnitIsConnected(unit) and L["Offline"]
-			if (status) then
-				return status
+	ElvUF.Tags.Events[format('additionalpower:%s', tagTextFormat)] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER'
+	ElvUF.Tags.Methods[format('additionalpower:%s', tagTextFormat)] = function(unit)
+		if UnitPowerType(unit) ~= 0 and ADDITIONAL_POWER_BAR_INDEX == 0 then
+			local min = UnitPower(unit, SPELL_POWER_MANA)
+
+			if min == 0 and tagTextFormat ~= 'deficit' then
+				return ''
 			else
-				local min, max = UnitHealth(unit), UnitHealthMax(unit)
-				return E:GetFormattedText(textFormat, min, max, nil, true)
+				return E:GetFormattedText(textFormat, UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA))
 			end
+		end
+	end
+
+	ElvUF.Tags.Events[format('classpower:%s', tagTextFormat)] = E.myclass == 'MONK' and 'UNIT_POWER_FREQUENT UNIT_DISPLAYPOWER UNIT_AURA' or 'UNIT_POWER_FREQUENT UNIT_DISPLAYPOWER'
+	ElvUF.Tags.Methods[format('classpower:%s', tagTextFormat)] = function()
+		local min, max = GetClassPower(E.myclass)
+		if min == 0 then
+			return nil
+		else
+			return E:GetFormattedText(textFormat, min, max)
 		end
 
 		ElvUF.Tags.Events[format('health:%s-nostatus:shortvalue', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
