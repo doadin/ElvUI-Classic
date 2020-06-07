@@ -3620,42 +3620,47 @@ E.Options.args.nameplate = {
 							isPercent = true,
 							min = 0, softMax = 0.5, max = 0.8, step = 0.01,
 						},
-						otherAtBase = {
-							order = 10,
-							type = "toggle",
-							name = L["Nameplate At Base"],
-							desc = L["Position other Nameplates at the base, rather than overhead."],
-							get = function() return GetCVarBool('nameplateOtherAtBase') end,
-							set = function(_, value) SetCVar('nameplateOtherAtBase', value and 2 or 0) end,
-						},
-						spacer1 = {
-							order = 11,
-							type = 'description',
-							name = ' ',
-							width = 'full'
-						},
 						highlight = {
-							order = 12,
+							order = 10,
 							type = "toggle",
 							name = L["Hover Highlight"],
 						},
 						fadeIn = {
-							order = 13,
+							order = 11,
 							type = "toggle",
 							name = L["Alpha Fading"],
 						},
 						smoothbars = {
-							type = 'toggle',
-							order = 14,
+							type = "toggle",
+							order = 12,
 							name = L["Smooth Bars"],
 							desc = L["Bars will transition smoothly."],
 							set = function(info, value) E.db.nameplates[info[#info]] = value; NP:ConfigureAll(); end,
 						},
 						clampToScreen = {
-							order = 15,
+							order = 13,
 							type = "toggle",
 							name = L["Clamp Nameplates"],
 							desc = L["Clamp nameplates to the top of the screen when outside of view."],
+						},
+						cvars = {
+							order = 14,
+							type = "multiselect",
+							name = L["Blizzard CVars"],
+							get = function(info, key)
+								return GetCVarBool(key)
+							end,
+							set = function(_, key, value)
+								if key == 'nameplateOtherAtBase' then
+									SetCVar(key, value and "2" or "0")
+								else
+									SetCVar(key, value and "1" or "0")
+								end
+							end,
+							values = {
+								nameplateOtherAtBase = L["Nameplate At Base"],
+								nameplateShowOnlyNames = 'Show Only Names',
+							},
 						},
 						plateVisibility = {
 							order = 50,
