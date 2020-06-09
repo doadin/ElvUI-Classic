@@ -106,7 +106,7 @@ ElvUF.Tags.Methods['status:text'] = function(unit)
 		return CHAT_FLAG_DND
 	end
 
-	return nil
+	return
 end
 
 ElvUF.Tags.Events['status:icon'] = 'PLAYER_FLAGS_CHANGED'
@@ -117,7 +117,7 @@ ElvUF.Tags.Methods['status:icon'] = function(unit)
 		return CreateTextureMarkup('Interface\\FriendsFrame\\StatusIcon-DnD', 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
 	end
 
-	return nil
+	return
 end
 
 ElvUF.Tags.Events['faction:icon'] = 'UNIT_FACTION'
@@ -175,7 +175,7 @@ ElvUF.Tags.Methods['health:deficit-percent:nostatus'] = function(unit)
 	local min, max = UnitHealth(unit), UnitHealthMax(unit)
 	local deficit = (min / max) - 1
 	if deficit == 0 then
-		return nil
+		return
 	else
 		return E:GetFormattedText('PERCENT', deficit, -1)
 	end
@@ -207,7 +207,7 @@ for textFormat in pairs(E.GetFormattedTextStyles) do
 		local min = UnitPower(unit, pType)
 
 		if min == 0 and tagTextFormat ~= 'deficit' then
-			return nil
+			return
 		else
 			return E:GetFormattedText(textFormat, UnitPower(unit, pType), UnitPowerMax(unit, pType))
 		end
@@ -218,7 +218,7 @@ for textFormat in pairs(E.GetFormattedTextStyles) do
 		local min = UnitPower(unit, SPELL_POWER_MANA)
 
 		if min == 0 and tagTextFormat ~= 'deficit' then
-			return nil
+			return
 		else
 			return E:GetFormattedText(textFormat, UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA))
 		end
@@ -230,7 +230,7 @@ for textFormat in pairs(E.GetFormattedTextStyles) do
 			local min = UnitPower(unit, SPELL_POWER_MANA)
 
 			if min == 0 and tagTextFormat ~= 'deficit' then
-				return nil
+				return
 			else
 				return E:GetFormattedText(textFormat, UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA))
 			end
@@ -241,7 +241,7 @@ for textFormat in pairs(E.GetFormattedTextStyles) do
 	ElvUF.Tags.Methods[format('classpower:%s', tagTextFormat)] = function()
 		local min, max = GetClassPower(E.myclass)
 		if min == 0 then
-			return nil
+			return
 		else
 			return E:GetFormattedText(textFormat, min, max)
 		end
@@ -521,7 +521,7 @@ ElvUF.Tags.Methods['realm:translit'] = function(unit)
 	if realm and realm ~= '' then
 		return realm
 	else
-		return nil
+		return
 	end
 end
 
@@ -680,7 +680,7 @@ ElvUF.Tags.Methods['statustimer'] = function(unit)
 		local secs = floor(timer - (mins * 60))
 		return format('%s (%01.f:%02.f)', status, mins, secs)
 	else
-		return nil
+		return
 	end
 end
 
@@ -697,7 +697,7 @@ ElvUF.Tags.Methods['pvptimer'] = function(unit)
 			return PVP
 		end
 	else
-		return nil
+		return
 	end
 end
 
