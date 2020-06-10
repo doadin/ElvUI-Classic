@@ -1,9 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local NP = E:GetModule('NamePlates')
 
--- Cache global variables
--- Lua functions
-local pairs = pairs
+
 local unpack = unpack
 -- WoW API / Variables
 local UnitPlayerControlled = UnitPlayerControlled
@@ -13,14 +11,12 @@ local UnitClass = UnitClass
 local UnitReaction = UnitReaction
 local CreateFrame = CreateFrame
 
-function NP:Health_UpdateColor(event, unit)
+function NP:Health_UpdateColor(_, unit)
 	if(not unit or self.unit ~= unit) then return end
 	local element = self.Health
 
 	local r, g, b, t
-	if(element.colorDead and element.dead) then
-		t = self.colors.dead
-	elseif(element.colorDisconnected and element.disconnected) then
+	if(element.colorDisconnected and not UnitIsConnected(unit)) then
 		t = self.colors.disconnected
 	elseif(element.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit)) then
 		t = NP.db.colors.tapped
@@ -98,12 +94,13 @@ function NP:Construct_Health(nameplate)
 	return Health
 end
 
-function NP:Update_Health(nameplate)
+function NP:Update_Health(nameplate, skipUpdate)
 	local db = NP.db.units[nameplate.frameType]
 
 	nameplate.Health.colorTapping = true
 	nameplate.Health.colorClass = db.health.useClassColor
 	nameplate.Health.colorReaction = true
+	if skipUpdate then return end
 
 	if db.health.enable then
 		if not nameplate:IsElementEnabled('Health') then
@@ -141,32 +138,32 @@ function NP:Update_Health(nameplate)
 	nameplate.Health:Height(db.health.height)
 end
 
+local bars = { 'myBar', 'otherBar' }
 function NP:Construct_HealthPrediction(nameplate)
 	local HealthPrediction = CreateFrame('Frame', nameplate:GetDebugName()..'HealthPrediction', nameplate)
+
+	for _, name in ipairs(bars) do
+		local bar = CreateFrame('StatusBar', nil, nameplate.Health.ClipFrame)
+		bar:SetFrameStrata(nameplate:GetFrameStrata())
+		bar:SetStatusBarTexture(E.LSM:Fetch('statusbar', NP.db.statusbar))
+		bar:Point('TOP')
+		bar:Point('BOTTOM')
+		bar:Width(150)
+		HealthPrediction[name] = bar
+		NP.StatusBars[bar] = true
+	end
+
 	local healthTexture = nameplate.Health:GetStatusBarTexture()
 	local healthFrameLevel = nameplate.Health:GetFrameLevel()
 
-	HealthPrediction.myBar = CreateFrame('StatusBar', nil, nameplate.Health.ClipFrame)
-	HealthPrediction.myBar:SetFrameStrata(nameplate:GetFrameStrata())
-	HealthPrediction.myBar:SetStatusBarTexture(E.LSM:Fetch('statusbar', NP.db.statusbar))
 	HealthPrediction.myBar:SetFrameLevel(healthFrameLevel + 2)
+	HealthPrediction.myBar:SetStatusBarColor(NP.db.colors.healPrediction.personal.r, NP.db.colors.healPrediction.personal.g, NP.db.colors.healPrediction.personal.b)
 	HealthPrediction.myBar:SetMinMaxValues(0, 1)
-	HealthPrediction.myBar:SetWidth(150)
-	HealthPrediction.myBar:SetPoint('TOP')
-	HealthPrediction.myBar:SetPoint('BOTTOM')
 	HealthPrediction.myBar:SetPoint('LEFT', healthTexture, 'RIGHT')
 
-	HealthPrediction.otherBar = CreateFrame('StatusBar', nil, nameplate.Health.ClipFrame)
-	HealthPrediction.otherBar:SetFrameStrata(nameplate:GetFrameStrata())
 	HealthPrediction.otherBar:SetFrameLevel(healthFrameLevel + 3)
-	HealthPrediction.otherBar:SetStatusBarTexture(E.LSM:Fetch('statusbar', NP.db.statusbar))
-	HealthPrediction.otherBar:SetPoint('TOP')
-	HealthPrediction.otherBar:SetPoint('BOTTOM')
 	HealthPrediction.otherBar:SetPoint('LEFT', healthTexture, 'RIGHT')
-	HealthPrediction.otherBar:SetWidth(150)
-
-	NP.StatusBars[HealthPrediction.myBar] = true
-	NP.StatusBars[HealthPrediction.otherBar] = true
+	HealthPrediction.otherBar:SetStatusBarColor(NP.db.colors.healPrediction.others.r, NP.db.colors.healPrediction.others.g, NP.db.colors.healPrediction.others.b)
 
 	HealthPrediction.maxOverflow = 1
 	HealthPrediction.frequentUpdates = true
