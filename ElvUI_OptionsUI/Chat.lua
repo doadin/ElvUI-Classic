@@ -339,7 +339,7 @@ E.Options.args.chat = {
 				fadingGroup = {
 					order = 75,
 					type = "group",
-					name = L["Fade Chat"],
+					name = L["Text Fade"],
 					disabled = function() return not E.Chat.Initialized; end,
 					set = function(info, value) E.db.chat[info[#info]] = value; CH:UpdateFading() end,
 					args = {
