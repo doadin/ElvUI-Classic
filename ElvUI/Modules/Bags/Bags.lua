@@ -1688,6 +1688,9 @@ function B:Initialize()
 	B:RegisterEvent('BANKFRAME_CLOSED', 'CloseBank')
 	B:RegisterEvent('PLAYERBANKBAGSLOTS_CHANGED')
 
+	B:RegisterEvent('AUCTION_HOUSE_SHOW', 'OpenBags')
+	B:RegisterEvent('AUCTION_HOUSE_CLOSED', 'CloseBags')
+
 	_G.BankFrame:SetScale(0.0001)
 	_G.BankFrame:SetAlpha(0)
 	_G.BankFrame:SetScript('OnShow', nil)
