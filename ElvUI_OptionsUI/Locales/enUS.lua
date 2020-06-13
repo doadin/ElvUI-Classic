@@ -1385,7 +1385,6 @@ L["Will attempt to sell another item in set interval after previous one was sold
 L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."] = true
 L["Word Wrap"] = true
 L["World Map Coordinates"] = true
-L["WoW Token:"] = true
 L["Wrap After"] = true
 L["X-Offset"] = true
 L["Y-Offset"] = true
@@ -1406,7 +1405,7 @@ L["blockDispellable"] = "[Block] Dispellable"
 L["blockNoDuration"] = "[Block] No Duration"
 L["blockNonPersonal"] = "[Block] Non Personal"
 L["blockNotDispellable"] = "[Block] Not Dispellable"
-L["Boss"] = true
+L["Boss"] = true --No need to translate
 L["CastByNPC"] = "Cast By NPC"
 L["CastByPlayers"] = "Cast By Players"
 L["CastByUnit"] = "Cast By Unit"
