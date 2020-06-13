@@ -492,6 +492,10 @@ E.Libs.AceConfig:RegisterOptionsTable("ElvProfiles", E.Options.args.profiles)
 E.Options.args.profiles.name = L["Profiles"]
 E.Options.args.profiles.order = 5
 
+E.Options.args.profiles.args.copyfrom.confirm = function(info, value)
+	return format(L["Copy Settings From %s. Are you sure?"], value)
+end
+
 if not E.Options.args.profiles.plugins then
 	E.Options.args.profiles.plugins = {}
 end
