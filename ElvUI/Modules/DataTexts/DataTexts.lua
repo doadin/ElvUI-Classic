@@ -477,6 +477,8 @@ function DT:UpdatePanelInfo(panelName, panel, ...)
 		dt.battleStats = battlePanel
 		dt.db = db
 
+		E:StopFlash(dt)
+
 		if dt.objectEvent and dt.objectEventFunc then
 			E:UnregisterAllEventsForObject(dt.objectEvent, dt.objectEventFunc)
 			dt.objectEvent, dt.objectEventFunc = nil, nil

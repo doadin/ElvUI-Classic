@@ -60,6 +60,7 @@ local GetPetLoyalty = GetPetLoyalty
 local GetPetFoodTypes = GetPetFoodTypes
 
 local SPELL_POWER_MANA = Enum.PowerType.Mana or 0
+local DEFAULT_AFK_MESSAGE = DEFAULT_AFK_MESSAGE
 local LEVEL = LEVEL
 local PVP = PVP
 
@@ -98,6 +99,38 @@ local function Abbrev(name)
 end
 E.TagFunctions.Abbrev = Abbrev
 
+ElvUF.Tags.Events['afk'] = 'PLAYER_FLAGS_CHANGED'
+ElvUF.Tags.Methods['afk'] = function(unit)
+	local isAFK = UnitIsAFK(unit)
+	if isAFK then
+		return format('|cffFFFFFF[|r|cffFF0000%s|r|cFFFFFFFF]|r', DEFAULT_AFK_MESSAGE)
+	else
+		return
+	end
+end
+
+ElvUF.Tags.Events['faction:icon'] = 'UNIT_FACTION'
+ElvUF.Tags.Methods['faction:icon'] = function(unit)
+	local factionGroup = UnitFactionGroup(unit)
+
+	if factionGroup and (factionGroup == 'Horde' or factionGroup == 'Alliance') then
+		return CreateTextureMarkup('Interface\\FriendsFrame\\PlusManz-'..factionGroup, 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
+	else
+		return nil
+	end
+end
+
+ElvUF.Tags.Events['healthcolor'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
+ElvUF.Tags.Methods['healthcolor'] = function(unit)
+	if UnitIsDeadOrGhost(unit) or not UnitIsConnected(unit) then
+		return Hex(0.84, 0.75, 0.65)
+	else
+		local r, g, b = ElvUF:ColorGradient(UnitHealth(unit), UnitHealthMax(unit), 0.69, 0.31, 0.31, 0.65, 0.63, 0.35, 0.33, 0.59, 0.33)
+		return Hex(r, g, b)
+	end
+end
+
+
 ElvUF.Tags.Events['status:text'] = 'PLAYER_FLAGS_CHANGED'
 ElvUF.Tags.Methods['status:text'] = function(unit)
 	if UnitIsAFK(unit) then
@@ -120,15 +153,15 @@ ElvUF.Tags.Methods['status:icon'] = function(unit)
 	return
 end
 
-ElvUF.Tags.Events['faction:icon'] = 'UNIT_FACTION'
-ElvUF.Tags.Methods['faction:icon'] = function(unit)
-	local factionGroup = UnitFactionGroup(unit)
+ElvUF.Tags.Events['name:abbrev'] = 'UNIT_NAME_UPDATE INSTANCE_ENCOUNTER_ENGAGE_UNIT'
+ElvUF.Tags.Methods['name:abbrev'] = function(unit)
+	local name = UnitName(unit)
 
-	if factionGroup and (factionGroup == 'Horde' or factionGroup == 'Alliance') then
-		return CreateTextureMarkup('Interface\\FriendsFrame\\PlusManz-'..factionGroup, 16, 16, 16, 16, 0, 1, 0, 1, 0, 0)
-	else
-		return nil
+	if name and strfind(name, '%s') then
+		name = Abbrev(name)
 	end
+
+	return name ~= nil and name or ''
 end
 
 ElvUF.Tags.Events['name:last'] = 'UNIT_NAME_UPDATE INSTANCE_ENCOUNTER_ENGAGE_UNIT'
@@ -181,7 +214,6 @@ ElvUF.Tags.Methods['health:deficit-percent:nostatus'] = function(unit)
 	end
 end
 
-local additionalPowerIndex = _G.ADDITIONAL_POWER_BAR_INDEX
 for textFormat in pairs(E.GetFormattedTextStyles) do
 	local tagTextFormat = strlower(gsub(textFormat, '_', '-'))
 	ElvUF.Tags.Events[format('health:%s', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH UNIT_CONNECTION PLAYER_FLAGS_CHANGED'
@@ -224,45 +256,21 @@ for textFormat in pairs(E.GetFormattedTextStyles) do
 		end
 	end
 
-	ElvUF.Tags.Events[format('additionalpower:%s', tagTextFormat)] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER UNIT_DISPLAYPOWER'
-	ElvUF.Tags.Methods[format('additionalpower:%s', tagTextFormat)] = function(unit)
-		if UnitPowerType(unit) ~= 0 and additionalPowerIndex == 0 then
-			local min = UnitPower(unit, SPELL_POWER_MANA)
-
-			if min == 0 and tagTextFormat ~= 'deficit' then
-				return
-			else
-				return E:GetFormattedText(textFormat, UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA))
-			end
-		end
+	ElvUF.Tags.Events[format('health:%s-nostatus:shortvalue', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+	ElvUF.Tags.Methods[format('health:%s-nostatus:shortvalue', tagTextFormat)] = function(unit)
+		local min, max = UnitHealth(unit), UnitHealthMax(unit)
+		return E:GetFormattedText(textFormat, min, max, nil, true)
 	end
 
-	ElvUF.Tags.Events[format('classpower:%s', tagTextFormat)] = E.myclass == 'MONK' and 'UNIT_POWER_FREQUENT UNIT_DISPLAYPOWER UNIT_AURA' or 'UNIT_POWER_FREQUENT UNIT_DISPLAYPOWER'
-	ElvUF.Tags.Methods[format('classpower:%s', tagTextFormat)] = function()
-		local min, max = GetClassPower(E.myclass)
-		if min == 0 then
-			return
-		else
-			return E:GetFormattedText(textFormat, min, max)
-		end
+	ElvUF.Tags.Events[format('power:%s:shortvalue', tagTextFormat)] = 'UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER'
+	ElvUF.Tags.Methods[format('power:%s:shortvalue', tagTextFormat)] = function(unit)
+		local pType = UnitPowerType(unit)
+		return E:GetFormattedText(textFormat, UnitPower(unit, pType), UnitPowerMax(unit, pType), nil, true)
+	end
 
-		ElvUF.Tags.Events[format('health:%s-nostatus:shortvalue', tagTextFormat)] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
-		ElvUF.Tags.Methods[format('health:%s-nostatus:shortvalue', tagTextFormat)] = function(unit)
-			local min, max = UnitHealth(unit), UnitHealthMax(unit)
-			return E:GetFormattedText(textFormat, min, max, nil, true)
-		end
-
-
-		ElvUF.Tags.Events[format('power:%s:shortvalue', tagTextFormat)] = 'UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER'
-		ElvUF.Tags.Methods[format('power:%s:shortvalue', tagTextFormat)] = function(unit)
-			local pType = UnitPowerType(unit)
-			return E:GetFormattedText(textFormat, UnitPower(unit, pType), UnitPowerMax(unit, pType), nil, true)
-		end
-
-		ElvUF.Tags.Events[format('mana:%s:shortvalue', tagTextFormat)] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER'
-		ElvUF.Tags.Methods[format('mana:%s:shortvalue', tagTextFormat)] = function(unit)
-			return E:GetFormattedText(textFormat, UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA), nil, true)
-		end
+	ElvUF.Tags.Events[format('mana:%s:shortvalue', tagTextFormat)] = 'UNIT_POWER_FREQUENT UNIT_MAXPOWER'
+	ElvUF.Tags.Methods[format('mana:%s:shortvalue', tagTextFormat)] = function(unit)
+		return E:GetFormattedText(textFormat, UnitPower(unit, SPELL_POWER_MANA), UnitPowerMax(unit, SPELL_POWER_MANA), nil, true)
 	end
 end
 

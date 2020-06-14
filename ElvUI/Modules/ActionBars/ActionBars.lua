@@ -741,7 +741,7 @@ end
 
 function AB:DisableBlizzard()
 	-- dont blindly add to this table, the first 5 get their events registered
-	for i, name in ipairs({"OverrideActionBar", "StanceBarFrame", "PossessBarFrame", "PetActionBarFrame", "MultiCastActionBarFrame", "MainMenuBar", "MicroButtonAndBagsBar", "MultiBarBottomLeft", "MultiBarBottomRight", "MultiBarLeft", "MultiBarRight"}) do
+	for i, name in ipairs({"StanceBarFrame", "PetActionBarFrame", "MainMenuBar", "MultiBarBottomLeft", "MultiBarBottomRight", "MultiBarLeft", "MultiBarRight"}) do
 		local frame = _G[name]
 		if i < 6 then frame:UnregisterAllEvents() end
 
@@ -757,10 +757,8 @@ function AB:DisableBlizzard()
 	end
 
 	-- shut down some events for things we dont use
-	_G.StatusTrackingBarManager:UnregisterAllEvents()
 	_G.MainMenuBarArtFrame:UnregisterAllEvents()
 	_G.ActionBarController:UnregisterAllEvents()
-	_G.ActionBarController:RegisterEvent('UPDATE_EXTRA_ACTIONBAR')
 
 	-- * these seem to work but keep an eye on them for possible new taints spawned
 	-- MultiBarRight:SetShown taint during combat from: SpellBookFrame, ZoneAbility, and ActionBarController

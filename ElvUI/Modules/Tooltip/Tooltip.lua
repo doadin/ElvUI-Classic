@@ -10,28 +10,21 @@ local wipe, tinsert, tconcat = wipe, tinsert, table.concat
 local floor, tonumber, strlower = floor, tonumber, strlower
 local strfind, format, strmatch, gmatch, gsub = strfind, format, strmatch, gmatch, gsub
 
-local CanInspect = CanInspect
 local CreateFrame = CreateFrame
 local GameTooltip_ClearMoney = GameTooltip_ClearMoney
 local GetCreatureDifficultyColor = GetCreatureDifficultyColor
 local GetGuildInfo = GetGuildInfo
-local GetInspectSpecialization = GetInspectSpecialization
 local GetItemCount = GetItemCount
 local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local GetMouseFocus = GetMouseFocus
 local GetNumGroupMembers = GetNumGroupMembers
-local GetSpecialization = GetSpecialization
-local GetSpecializationInfo = GetSpecializationInfo
-local GetSpecializationInfoByID = GetSpecializationInfoByID
-local GetTime = GetTime
 local InCombatLockdown = InCombatLockdown
 local IsAltKeyDown = IsAltKeyDown
 local IsControlKeyDown = IsControlKeyDown
 local IsInGroup = IsInGroup
 local IsInRaid = IsInRaid
 local IsShiftKeyDown = IsShiftKeyDown
-local NotifyInspect = NotifyInspect
 local SetTooltipMoney = SetTooltipMoney
 local UnitAura = UnitAura
 local UnitClass = UnitClass
@@ -48,14 +41,13 @@ local UnitIsTapDenied = UnitIsTapDenied
 local UnitIsUnit = UnitIsUnit
 local UnitLevel = UnitLevel
 local UnitName = UnitName
-local UnitPlayerControlled = UnitPlayerControlled
 local UnitPVPName = UnitPVPName
 local UnitRace = UnitRace
 local UnitReaction = UnitReaction
 local UnitRealmRelationship = UnitRealmRelationship
 local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 local UNKNOWN = UNKNOWN
-
+local IsModifierKeyDown = IsModifierKeyDown
 -- GLOBALS: ElvUF, ElvUI_KeyBinder, ElvUI_ContainerFrame
 
 -- Custom to find LEVEL string on tooltip
@@ -188,15 +180,14 @@ function TT:SetUnitText(tt, unit)
 		local localeClass, class = UnitClass(unit)
 		if not localeClass or not class then return end
 
-		local name, realm = UnitName(unit)
 		local nameRealm = (realm and realm ~= "" and format("%s-%s", name, realm)) or name
-		local guildName, guildRankName = GetGuildInfo(unit)
+		local guildName, guildRankName, _, guildRealm = GetGuildInfo(unit)
 		local pvpName = UnitPVPName(unit)
 		local level = UnitLevel(unit)
 		local relationship = UnitRealmRelationship(unit)
 		local isShiftKeyDown = IsShiftKeyDown()
 
-		color = E:ClassColor(class) or PRIEST_COLOR
+		local nameColor = E:ClassColor(class) or PRIEST_COLOR
 
 		if TT.db.playerTitles and pvpName then
 			name = pvpName
@@ -213,7 +204,7 @@ function TT:SetUnitText(tt, unit)
 		end
 
 		local awayText = UnitIsAFK(unit) and AFK_LABEL or UnitIsDND(unit) and DND_LABEL or ''
-		_G.GameTooltipTextLeft1:SetFormattedText("|c%s%s%s|r", color.colorStr, name or UNKNOWN, awayText)
+		_G.GameTooltipTextLeft1:SetFormattedText("|c%s%s%s|r", nameColor.colorStr, name or UNKNOWN, awayText)
 
 		local lineOffset = 2
 		if guildName then
@@ -234,7 +225,7 @@ function TT:SetUnitText(tt, unit)
 
 		local diffColor = GetCreatureDifficultyColor(level)
 		local race = UnitRace(unit)
-		local levelString = format("|cff%02x%02x%02x%s|r %s |c%s%s|r", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", race or '', color.colorStr, localeClass)
+		local levelString = format("|cff%02x%02x%02x%s|r %s |c%s%s|r", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", race or '', nameColor.colorStr, localeClass)
 
 		if levelLine then
 			levelLine:SetText(levelString)
@@ -249,12 +240,15 @@ function TT:SetUnitText(tt, unit)
 				GameTooltip:AddDoubleLine(L["ElvUI Version:"], addonUser, r,g,b, v and 0 or 1, v and 1 or 0, 0)
 			end
 		end
+
+		return nameColor
 	else
 		local levelLine = TT:GetLevelLine(tt, 2)
 		if levelLine then
 			local creatureClassification = UnitClassification(unit)
 			local creatureType = UnitCreatureType(unit)
 			local pvpFlag = ""
+			local level = UnitLevel(unit)
 			local diffColor = GetCreatureDifficultyColor(level)
 
 			if(UnitIsPVP(unit)) then
@@ -276,104 +270,6 @@ function TT:SetUnitText(tt, unit)
 		_G.GameTooltipTextLeft1:SetFormattedText("|c%s%s|r", nameColorStr, name or UNKNOWN)
 
 		return (UnitIsTapDenied(unit) and TAPPED_COLOR) or nameColor
-	end
-
-	return color
-end
-
-local inspectGUIDCache = {}
-local inspectColorFallback = {1,1,1}
-function TT:PopulateInspectGUIDCache(unitGUID, itemLevel)
-	local specName = TT:GetSpecializationInfo('mouseover')
-	if specName and itemLevel then
-		local inspectCache = inspectGUIDCache[unitGUID]
-		if inspectCache then
-			inspectCache.time = GetTime()
-			inspectCache.itemLevel = itemLevel
-			inspectCache.specName = specName
-		end
-
-		GameTooltip:AddDoubleLine(_G.SPECIALIZATION..":", specName, nil, nil, nil, unpack((inspectCache and inspectCache.unitColor) or inspectColorFallback))
-		GameTooltip:AddDoubleLine(L["Item Level:"], itemLevel, nil, nil, nil, 1, 1, 1)
-		GameTooltip:Show()
-	end
-end
-
-function TT:INSPECT_READY(event, unitGUID)
-	if UnitExists("mouseover") and UnitGUID("mouseover") == unitGUID then
-		local itemLevel, retryUnit, retryTable, iLevelDB = E:GetUnitItemLevel("mouseover")
-		if itemLevel == 'tooSoon' then
-			E:Delay(0.05, function()
-				local canUpdate = true
-				for _, x in ipairs(retryTable) do
-					local slotInfo = E:GetGearSlotInfo(retryUnit, x)
-					if slotInfo == 'tooSoon' then
-						canUpdate = false
-					else
-						iLevelDB[x] = slotInfo.iLvl
-					end
-				end
-
-				if canUpdate then
-					local calculateItemLevel = E:CalculateAverageItemLevel(iLevelDB, retryUnit)
-					TT:PopulateInspectGUIDCache(unitGUID, calculateItemLevel)
-				end
-			end)
-		else
-			TT:PopulateInspectGUIDCache(unitGUID, itemLevel)
-		end
-	end
-
-	if event then
-		TT:UnregisterEvent(event)
-	end
-end
-
-function TT:GetSpecializationInfo(unit, isPlayer)
-	local spec = (isPlayer and GetSpecialization()) or (unit and GetInspectSpecialization(unit))
-	if spec and spec > 0 then
-		if isPlayer then
-			return select(2, GetSpecializationInfo(spec))
-		else
-			return select(2, GetSpecializationInfoByID(spec))
-		end
-	end
-end
-
-local lastGUID
-function TT:AddInspectInfo(tooltip, unit, numTries, r, g, b)
-	if (not unit) or (numTries > 3) or not CanInspect(unit) then return end
-
-	local unitGUID = UnitGUID(unit)
-	if not unitGUID then return end
-
-	if unitGUID == E.myguid then
-		tooltip:AddDoubleLine(_G.SPECIALIZATION..":", TT:GetSpecializationInfo(unit, true), nil, nil, nil, r, g, b)
-		tooltip:AddDoubleLine(L["Item Level:"], E:GetUnitItemLevel(unit), nil, nil, nil, 1, 1, 1)
-	elseif inspectGUIDCache[unitGUID] and inspectGUIDCache[unitGUID].time then
-		local specName = inspectGUIDCache[unitGUID].specName
-		local itemLevel = inspectGUIDCache[unitGUID].itemLevel
-		if not (specName and itemLevel) or (GetTime() - inspectGUIDCache[unitGUID].time > 120) then
-			inspectGUIDCache[unitGUID].time = nil
-			inspectGUIDCache[unitGUID].specName = nil
-			inspectGUIDCache[unitGUID].itemLevel = nil
-			return E:Delay(0.33, TT.AddInspectInfo, TT, tooltip, unit, numTries + 1, r, g, b)
-		end
-
-		tooltip:AddDoubleLine(_G.SPECIALIZATION..":", specName, nil, nil, nil, r, g, b)
-		tooltip:AddDoubleLine(L["Item Level:"], itemLevel, nil, nil, nil, 1, 1, 1)
-	elseif unitGUID then
-		if not inspectGUIDCache[unitGUID] then
-			inspectGUIDCache[unitGUID] = {unitColor = {r, g, b}}
-		end
-
-		if lastGUID ~= unitGUID then
-			lastGUID = unitGUID
-			NotifyInspect(unit)
-			TT:RegisterEvent("INSPECT_READY")
-		else
-			TT:INSPECT_READY(nil, unitGUID)
-		end
 	end
 end
 
@@ -406,7 +302,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 		local unitTarget = unit.."target"
 		if TT.db.targetInfo and unit ~= "player" and UnitExists(unitTarget) then
 			local targetColor
-			if(UnitIsPlayer(unitTarget)) then
+			if UnitIsPlayer(unitTarget) then
 				local _, class = UnitClass(unitTarget)
 				targetColor = E:ClassColor(class) or PRIEST_COLOR
 			else
@@ -436,7 +332,6 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 
 	-- NPC ID's
 	if unit and not isPlayerUnit and TT:IsModKeyDown() then
-		if C_PetBattles_IsInBattle() then return end
 		local guid = UnitGUID(unit) or ""
 		local id = tonumber(strmatch(guid, "%-(%d-)%-%x-$"), 10)
 		if id then
