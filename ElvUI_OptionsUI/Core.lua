@@ -578,7 +578,6 @@ E.Options.args.profiles.args.private.name = L["Private"]
 E.Options.args.profiles.args.private.order = 2
 
 E.Libs.AceConfig:RegisterOptionsTable("ElvProfiles", E.Options.args.profiles.args.profile)
-E.Libs.DualSpec:EnhanceOptions(E.Options.args.profiles.args.profile, E.data)
 E.Options.args.profiles.args.profile.args.copyfrom.confirm = function(info, value)
 	return format(L["Copy Settings from %s. This will overwrite %s profile.\n\n Are you sure?"], value, E.data:GetCurrentProfile())
 end
