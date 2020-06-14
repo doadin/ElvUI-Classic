@@ -216,7 +216,6 @@ local function CreateUnitframesConfig()
 	config.args.colors.args.debuffHighlight.name = L["Debuff Highlighting"]
 	config.args.colors.args.powerPrediction.name = L["Power Prediction"]
 	config.args.colors.args.selection.name = L["Selection"]
-	config.args.colors.args.threat.name = L["Threat"]
 
 	config.args.units = {
 		order = 4,
@@ -234,12 +233,8 @@ local function CreateUnitframesConfig()
 	config.args.units.args.target.name = L["Target"]
 	config.args.units.args.targettarget.name = L["TargetTarget"]
 	config.args.units.args.targettargettarget.name = L["TargetTargetTarget"]
-	config.args.units.args.focus.name = L["Focus"]
-	config.args.units.args.focustarget.name = L["FocusTarget"]
 	config.args.units.args.pet.name = L["PET"]
 	config.args.units.args.pettarget.name = L["PetTarget"]
-	config.args.units.args.boss.name = L["Boss"]
-	config.args.units.args.arena.name = L["Arena"]
 	config.args.units.args.party.name = L["PARTY"]
 	config.args.units.args.raid.name = L["Raid"]
 	config.args.units.args.raid40.name = L["Raid-40"]
