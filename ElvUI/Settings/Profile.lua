@@ -894,6 +894,10 @@ P.datatexts = {
 		displayedCurrency = 'GOLD',
 		displayStyle = 'ICON',
 	},
+	---Durability
+	durability = {
+		percThreshold = 30,
+	},
 	---Time
 	localtime = true,
 	time24 = GetCurrentRegion() ~= 1, -- Non US region will default to the 24-hour clock
