@@ -58,7 +58,6 @@ E.PopupDialogs.SET_BN_BROADCAST = {
 	preferredIndex = 3
 }
 
-local menuFrame = CreateFrame("Frame", "FriendDatatextRightClickMenu", E.UIParent, "UIDropDownMenuTemplate")
 local menuList = {
 	{ text = _G.OPTIONS_MENU, isTitle = true, notCheckable=true},
 	{ text = _G.INVITE, hasArrow = true, notCheckable=true, },
@@ -74,7 +73,7 @@ local menuList = {
 }
 
 local function inviteClick(_, name, guid)
-	menuFrame:Hide()
+	DT.EasyMenu:Hide()
 
 	if not (name and name ~= "") then return end
 	local isBNet = type(name) == 'number'
@@ -106,7 +105,7 @@ local function inviteClick(_, name, guid)
 end
 
 local function whisperClick(_, name, battleNet)
-	menuFrame:Hide()
+	DT.EasyMenu:Hide()
 
 	if battleNet then
 		ChatFrame_SendBNetTell(name)
@@ -377,8 +376,8 @@ local function Click(self, btn)
 			end
 		end
 
-		E.DataTexts:SetEasyMenuAnchor(menuFrame, self)
-		_G.EasyMenu(menuList, menuFrame, nil, nil, nil, "MENU")
+		DT:SetEasyMenuAnchor(DT.EasyMenu, self)
+		_G.EasyMenu(menuList, DT.EasyMenu, nil, nil, nil, "MENU")
 	elseif InCombatLockdown() then
 		_G.UIErrorsFrame:AddMessage(E.InfoColor.._G.ERR_NOT_IN_COMBAT)
 	else
