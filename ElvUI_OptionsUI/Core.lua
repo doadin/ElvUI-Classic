@@ -202,7 +202,7 @@ E.Options.args.info = {
 					name = L["Development Version"],
 					desc = L["Link to the latest development version."],
 					customWidth = 140,
-					func = function() E:StaticPopup_Show("ELVUI_EDITBOX", nil, nil, "https://git.tukui.org/elvui/elvui/-/archive/development/elvui-development.zip") end,
+					func = function() E:StaticPopup_Show("ELVUI_EDITBOX", nil, nil, "https://git.tukui.org/elvui/elvui-classic/-/archive/development/elvui-classic-development.zip") end,
 				},
 			},
 		},
