@@ -1,5 +1,6 @@
 local E = unpack(ElvUI) --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local D = E:GetModule("Distributor")
+local ACH = E.Libs.ACH
 
 local Engine = select(2, ...)
 Engine[1] = {}
@@ -152,17 +153,8 @@ E.Options.args.info = {
 	type = "group",
 	name = L["Information"],
 	args = {
-		header = {
-			order = 1,
-			type = "description",
-			name = L["ELVUI_DESC"],
-			fontSize = "medium",
-		},
-		spacer = {
-			order = 2,
-			type = "description",
-			name = "",
-		},
+		header = ACH:Description(L["ELVUI_DESC"], 1, "medium"),
+		spacer = ACH:Description("", 2),
 		support = {
 			order = 3,
 			type = "group",
@@ -213,12 +205,7 @@ E.Options.args.info = {
 			name = L["Credits"],
 			guiInline = true,
 			args = {
-				string = {
-					order = 1,
-					type = "description",
-					fontSize = "medium",
-					name = L["ELVUI_CREDITS"]
-				},
+				string = ACH:Description(L["ELVUI_CREDITS"], 1, "medium"),
 			},
 		},
 		coding = {
@@ -227,12 +214,7 @@ E.Options.args.info = {
 			name = L["Coding:"],
 			guiInline = true,
 			args = {
-				string = {
-					order = 1,
-					type = "description",
-					fontSize = "medium",
-					name = DEVELOPER_STRING
-				},
+				string = ACH:Description(DEVELOPER_STRING, 1, "medium"),
 			},
 		},
 		testers = {
@@ -241,12 +223,7 @@ E.Options.args.info = {
 			name = L["Testing:"],
 			guiInline = true,
 			args = {
-				string = {
-					order = 1,
-					type = "description",
-					fontSize = "medium",
-					name = TESTER_STRING
-				},
+				string = ACH:Description(TESTER_STRING, 1, "medium"),
 			},
 		},
 		donators = {
@@ -255,12 +232,7 @@ E.Options.args.info = {
 			name = L["Donations:"],
 			guiInline = true,
 			args = {
-				string = {
-					order = 1,
-					type = "description",
-					fontSize = "medium",
-					name = DONATOR_STRING
-				},
+				string = ACH:Description(DONATOR_STRING, 1, "medium"),
 			},
 		},
 	}
@@ -502,11 +474,7 @@ E.Options.args.profiles = {
 			childGroups = "tab",
 			name = L["Import / Export"],
 			args = {
-				desc = {
-					name = L["This feature will allow you to transfer settings to other characters."],
-					type = "description",
-					order = 0
-				},
+				desc = ACH:Description(L["This feature will allow you to transfer settings to other characters."], 0),
 				distributeProfile = {
 					name = L["Share Current Profile"],
 					desc = L["Sends your current profile to your target."],
@@ -547,11 +515,7 @@ E.Options.args.profiles = {
 						end
 					end
 				},
-				spacer2 = {
-					order = 3,
-					type = "description",
-					name = ""
-				},
+				spacer2 = ACH:Description("", 3),
 				exportProfile = {
 					name = L["Export Profile"],
 					type = "execute",

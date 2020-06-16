@@ -2,6 +2,7 @@ local E, _, V, P, G = unpack(ElvUI); --Import: Engine, Locales, PrivateDB, Profi
 local C, L = unpack(select(2, ...))
 local NP = E:GetModule('NamePlates')
 local ACD = E.Libs.AceConfigDialog
+local ACH = E.Libs.ACH
 
 local _G = _G
 local tconcat = table.concat
@@ -505,12 +506,7 @@ local function UpdateFilterGroup()
 									name = L["Non-Interruptible"],
 									desc = L["If enabled then the filter will only activate if the unit is casting not interruptible spells."]
 								},
-								spacer1 = {
-									order = 3,
-									type = "description",
-									name = " ",
-									width = "full"
-								},
+								spacer1 = ACH:Description("", 3, nil, "full"),
 								isCasting = {
 									type = "toggle",
 									order = 4,
@@ -585,22 +581,8 @@ local function UpdateFilterGroup()
 								NP:ConfigureAll()
 							end,
 						},
-						description1 = {
-							order = 12,
-							type = "description",
-							name = L["You do not need to use 'Is Casting Anything' or 'Is Channeling Anything' for these spells to trigger."],
-						},
-						description2 = {
-							order = 13,
-							type = "description",
-							name = L["If this list is empty, and if 'Interruptible' is checked, then the filter will activate on any type of cast that can be interrupted."],
-						},
-						notSpell = {
-							type = 'toggle',
-							order = -2,
-							name = L["Not Spell"],
-							desc = L["If enabled then the filter will only activate if the unit is not casting or channeling one of the selected spells."]
-						},
+						description1 = ACH:Description(L["You do not need to use Is Casting Anything or Is Channeling Anything for these spells to trigger."], 10),
+						description2 = ACH:Description(L["If this list is empty, and if Interruptible is checked, then the filter will activate on any type of cast that can be interrupted."], 11),
 					}
 				},
 				combat = {
@@ -956,11 +938,7 @@ local function UpdateFilterGroup()
 							desc = L["If enabled then the filter will only activate if the level of the unit matches your own."],
 							disabled = function() return not E.global.nameplate.filters[selectedNameplateFilter].triggers.level end,
 						},
-						spacer1 = {
-							order = 3,
-							type = 'description',
-							name = L["LEVEL_BOSS"],
-						},
+						spacer1 = ACH:Description(L["LEVEL_BOSS"], 3),
 						minlevel = {
 							order = 4,
 							type = 'range',
@@ -2582,14 +2560,10 @@ local function GetUnitSettings(unit, name)
 									NP:ConfigureAll()
 								end
 							},
-							spacer3 = {
-								order = 9,
-								type = "description",
-								name = L["Use drag and drop to rearrange filter priority or right click to remove a filter."].."\n"..L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."],
-							},
-						},
-					},
-				},
+							spacer3 = ACH:Description(L["Use drag and drop to rearrange filter priority or right click to remove a filter."] .."\n"..L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."], 9),
+						}
+					}
+				}
 			},
 			debuffsGroup = {
 				order = 6,
@@ -2876,14 +2850,10 @@ local function GetUnitSettings(unit, name)
 									NP:ConfigureAll()
 								end
 							},
-							spacer3 = {
-								order = 9,
-								type = "description",
-								name = L["Use drag and drop to rearrange filter priority or right click to remove a filter."].."\n"..L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."],
-							},
-						},
-					},
-				},
+							spacer3 = ACH:Description(L["Use drag and drop to rearrange filter priority or right click to remove a filter."].."\n"..L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."], 9),
+						}
+					}
+				}
 			},
 			portraitGroup = {
 				order = 7,
@@ -3506,11 +3476,7 @@ E.Options.args.nameplate = {
 	get = function(info) return E.db.nameplates[info[#info]] end,
 	set = function(info, value) E.db.nameplates[info[#info]] = value; NP:ConfigureAll() end,
 	args = {
-		intro = {
-			order = 0,
-			type = "description",
-			name = L["NAMEPLATE_DESC"],
-		},
+		intro = ACH:Description(L["NAMEPLATE_DESC"], 0),
 		enable = {
 			order = 1,
 			type = "toggle",
@@ -3800,13 +3766,7 @@ E.Options.args.nameplate = {
 							childGroups = "tab",
 							name = L["Effective Updates"],
 							args = {
-								warning = {
-									order = 0,
-									type = "description",
-									fontSize = 'medium',
-									name = L["|cffFF0000Warning:|r This causes updates to happen at a fraction of a second."].."\n"..
-									L["Enabling this has the potential to make updates faster, though setting a speed value that is too high may cause it to actually run slower than the default scheme, which use Blizzard events only with no update loops provided."]
-								},
+								warning = ACH:Description(L["|cffFF0000Warning:|r This causes updates to happen at a fraction of a second."].."\n"..L["Enabling this has the potential to make updates faster, though setting a speed value that is too high may cause it to actually run slower than the default scheme, which use Blizzard events only with no update loops provided."], 0, "medium"),
 								effectiveHealth = {
 									order = 1,
 									type = "toggle",
@@ -3828,12 +3788,7 @@ E.Options.args.nameplate = {
 									get = function(info) return E.global.nameplate[info[#info]] end,
 									set = function(info, value) E.global.nameplate[info[#info]] = value; NP:ConfigureAll() end
 								},
-								spacer1 = {
-									order = 4,
-									type = "description",
-									name = " ",
-									width = "full"
-								},
+								spacer1 = ACH:Description("", 4, nil, "full"),
 								effectiveHealthSpeed = {
 									order = 5,
 									name = L["Health Speed"],
@@ -4387,12 +4342,7 @@ E.Options.args.nameplate = {
 						UpdateFilterGroup()
 					end
 				},
-				spacer1 = {
-					order = 4,
-					type = 'description',
-					name = ' ',
-					width = 'full'
-				},
+				spacer1 = ACH:Description("", 4, nil, "full"),
 				classBarGroup = {
 					order = 10,
 					type = "group",

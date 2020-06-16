@@ -4,6 +4,7 @@ local DT = E:GetModule('DataTexts')
 local Layout = E:GetModule('Layout')
 local Chat = E:GetModule('Chat')
 local Minimap = E:GetModule('Minimap')
+local ACH = E.Libs.ACH
 
 local _G = _G
 local tonumber = tonumber
@@ -318,16 +319,8 @@ E.Options.args.datatexts = {
 	get = function(info) return E.db.datatexts[info[#info]] end,
 	set = function(info, value) E.db.datatexts[info[#info]] = value; DT:LoadDataTexts() end,
 	args = {
-		intro = {
-			order = 1,
-			type = "description",
-			name = L["DATATEXT_DESC"],
-		},
-		spacer = {
-			order = 2,
-			type = "description",
-			name = "",
-		},
+		intro = ACH:Description(L["DATATEXT_DESC"], 1),
+		spacer = ACH:Description("", 2),
 		general = {
 			order = 3,
 			type = "group",
@@ -658,11 +651,7 @@ E.Options.args.datatexts = {
 			type = "group",
 			name = L["FRIENDS"],
 			args = {
-				description = {
-					order = 1,
-					type = "description",
-					name = L["Hide specific sections in the datatext tooltip."],
-				},
+				description = ACH:Description(L["Hide specific sections in the datatext tooltip."], 1),
 				hideGroup1 = {
 					order = 2,
 					type = "multiselect",
