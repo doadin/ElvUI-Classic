@@ -44,7 +44,7 @@ E.Options.args.tooltip.args.itemQualityBorderColor = {
 			end
 		}
 
-E.Options.args.tooltip.args.fontGroup = ACH:Group(L["Font"], nil, nil, nil, function(info) return E.db.tooltip[info[#info]] end, function(info, value) E.db.tooltip[info[#info]] = value; end)
+E.Options.args.tooltip.args.fontGroup = ACH:Group(L["Font"], nil, nil, nil, function(info) return E.db.tooltip[info[#info]] end, function(info, value) E.db.tooltip[info[#info]] = value; TT:SetTooltipFonts() end)
 E.Options.args.tooltip.args.fontGroup.args.font = ACH:SharedMediaFont(L["Font"], nil, 1)
 E.Options.args.tooltip.args.fontGroup.args.fontOutline = ACH:Select(L["Font Outline"], nil, 2, C.Values.FontFlags)
 E.Options.args.tooltip.args.fontGroup.args.spacer = ACH:Spacer(3)
