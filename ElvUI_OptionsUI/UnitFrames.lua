@@ -3076,7 +3076,7 @@ E.Options.args.unitframe = {
 						targetOnMouseDown = {
 							order = 3,
 							name = L["Target On Mouse-Down"],
-							desc = L["Target units on mouse down rather than mouse up. \n\n|cffFF0000Warning: If you are using the addon Clique you may have to adjust your Clique settings when changing this."],
+							desc = L["Target units on mouse down rather than mouse up. |n|n|cffFF0000Warning: If you are using the addon Clique you may have to adjust your Clique settings when changing this."],
 							type = "toggle",
 						},
 						targetSound = {
@@ -3118,9 +3118,7 @@ E.Options.args.unitframe = {
 									order = 5,
 									name = L["Health Speed"],
 									type = "range",
-									min = 0.1,
-									max = 0.5,
-									step = 0.05,
+									min = .1, max = .5, step = .05,
 									disabled = function() return not E.global.unitframe.effectiveHealth end,
 									get = function(info) return E.global.unitframe[info[#info]] end,
 									set = function(info, value) E.global.unitframe[info[#info]] = value; UF:Update_AllFrames() end
@@ -3129,9 +3127,7 @@ E.Options.args.unitframe = {
 									order = 6,
 									name = L["Power Speed"],
 									type = "range",
-									min = 0.1,
-									max = 0.5,
-									step = 0.05,
+									min = .1, max = .5, step = .05,
 									disabled = function() return not E.global.unitframe.effectivePower end,
 									get = function(info) return E.global.unitframe[info[#info]] end,
 									set = function(info, value) E.global.unitframe[info[#info]] = value; UF:Update_AllFrames() end
@@ -3140,9 +3136,7 @@ E.Options.args.unitframe = {
 									order = 7,
 									name = L["Aura Speed"],
 									type = "range",
-									min = 0.1,
-									max = 0.5,
-									step = 0.05,
+									min = .1, max = .5, step = .05,
 									disabled = function() return not E.global.unitframe.effectiveAura end,
 									get = function(info) return E.global.unitframe[info[#info]] end,
 									set = function(info, value) E.global.unitframe[info[#info]] = value; UF:Update_AllFrames() end
