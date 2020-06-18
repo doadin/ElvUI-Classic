@@ -1536,7 +1536,7 @@ local function GetOptionsTable_Fader(updateFunc, groupName, numUnits)
 				name = L["Casting"],
 				disabled = function() return not E.db.unitframe.units[groupName].fader.enable or E.db.unitframe.units[groupName].fader.range end,
 			},
-			spacer = ACH:Description("", 13, nil, "full"),
+			spacer = ACH:Spacer(13, "full"),
 			delay = {
 				order = 14,
 				name = L["Fade Out Delay"],
@@ -2739,7 +2739,7 @@ local function GetOptionsTable_GeneralGroup(updateFunc, groupName, numUnits)
 					min = 5, max = 500, step = 1,
 					set = function(info, value) E.db.unitframe.units[groupName][info[#info]] = value; updateFunc(UF, groupName, numUnits) end,
 				},
-				spacer = ACH:Description("", 3, nil, "full"),
+				spacer = ACH:Spacer(3, "full"),
 				growthDirection = {
 					order = 4,
 					name = L["Growth Direction"],
@@ -2861,7 +2861,7 @@ local function GetOptionsTable_GeneralGroup(updateFunc, groupName, numUnits)
 						DESC = L["Descending"]
 					},
 				},
-				spacer = ACH:Description("", 3, nil, "full"),
+				spacer = ACH:Spacer(3, "full"),
 				raidWideSorting = {
 					order = 4,
 					name = L["Raid-Wide Sorting"],
@@ -3116,7 +3116,7 @@ E.Options.args.unitframe = {
 									get = function(info) return E.global.unitframe[info[#info]] end,
 									set = function(info, value) E.global.unitframe[info[#info]] = value; UF:Update_AllFrames() end
 								},
-								spacer1 = ACH:Description("", 4, nil, "full"),
+								spacer1 = ACH:Spacer(4, "full"),
 								effectiveHealthSpeed = {
 									order = 5,
 									name = L["Health Speed"],
@@ -3558,7 +3558,7 @@ E.Options.args.unitframe = {
 									get = function(info) return E.db.unitframe.colors[info[#info]] end,
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
 								},
-								spacer2 = ACH:Description("", 5, nil, "full"),
+								spacer2 = ACH:Spacer(5, "full"),
 								custompowerbackdrop = {
 									order = 6,
 									type = 'toggle',
@@ -3584,7 +3584,7 @@ E.Options.args.unitframe = {
 										UF:Update_AllFrames()
 									end,
 								},
-								spacer3 = ACH:Description("", 8, nil, "full"),
+								spacer3 = ACH:Spacer(8, "full"),
 								MANA = {
 									order = 20,
 									name = L["MANA"],
@@ -3655,7 +3655,7 @@ E.Options.args.unitframe = {
 									get = function(info) return E.db.unitframe.colors[info[#info]] end,
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value; UF:Update_AllFrames() end,
 								},
-								spacer1 = ACH:Description("", 5, nil, "full"),
+								spacer1 = ACH:Spacer(5, "full"),
 								customcastbarbackdrop = {
 									order = 6,
 									type = 'toggle',
@@ -3671,7 +3671,7 @@ E.Options.args.unitframe = {
 									desc = L["Use the custom backdrop color instead of a multiple of the main color."],
 									disabled = function() return not E.db.unitframe.colors.customcastbarbackdrop end
 								},
-								spacer2 = ACH:Description("", 8, nil, "full"),
+								spacer2 = ACH:Spacer(8, "full"),
 								castColor = {
 									order = 9,
 									name = L["Interruptible"],
@@ -3730,7 +3730,7 @@ E.Options.args.unitframe = {
 									desc = L["Color all buffs that reduce the unit's incoming damage."],
 									type = 'toggle',
 								},
-								spacer1 = ACH:Description("", 5, nil, "full"),
+								spacer1 = ACH:Spacer(5, "full"),
 								customaurabarbackdrop = {
 									order = 6,
 									type = 'toggle',
@@ -3756,7 +3756,7 @@ E.Options.args.unitframe = {
 										UF:Update_AllFrames()
 									end,
 								},
-								spacer2 = ACH:Description("", 8, nil, "full"),
+								spacer2 = ACH:Spacer(8, "full"),
 								BUFFS = {
 									order = 10,
 									name = L["Buffs"],
@@ -3867,7 +3867,7 @@ E.Options.args.unitframe = {
 									get = function(info) return E.db.unitframe.colors.healPrediction.maxOverflow end,
 									set = function(info, value) E.db.unitframe.colors.healPrediction.maxOverflow = value; UF:Update_AllFrames() end,
 								},
-								spacer1 = ACH:Description("", 2, nil, "full"),
+								spacer1 = ACH:Spacer(2, "full"),
 								personal = {
 									order = 3,
 									name = L["Personal"],
@@ -3980,7 +3980,7 @@ E.Options.args.unitframe = {
 									get = function(info) return E.db.unitframe.colors.debuffHighlight[info[#info]] end,
 									set = function(info, value) E.db.unitframe.colors.debuffHighlight[info[#info]] = value; UF:Update_AllFrames(); end
 								},
-								spacer1 = ACH:Description("", 3, nil, "full"),
+								spacer1 = ACH:Spacer(3, "full"),
 								Magic = {
 									order = 4,
 									name = L["ENCOUNTER_JOURNAL_SECTION_FLAG7"],--Magic Effect
@@ -5199,7 +5199,7 @@ E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.class
 				UF:Update_AllFrames()
 			end,
 		},
-		spacer2 = ACH:Description("", 6, nil, "full"),
+		spacer2 = ACH:Spacer(6, "full"),
 	}
 }
 
@@ -5223,7 +5223,7 @@ end
 
 
 if P.unitframe.colors.classResources[E.myclass] then
-	E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.classResourceGroup.args.spacer5 = ACH:Description("", 20, nil, "full")
+	E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.classResourceGroup.args.spacer5 = ACH:Spacer(20, "full")
 
 	local ORDER = 30
 	if E.myclass == 'PALADIN' then
