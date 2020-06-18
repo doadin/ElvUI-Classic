@@ -1,10 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local UF = E:GetModule('UnitFrames');
 
---Lua functions
+local select = select
 local random = random
---WoW API / Variables
 local CreateFrame = CreateFrame
+local UnitPowerType = UnitPowerType
 local hooksecurefunc = hooksecurefunc
 
 local _, ns = ...
@@ -227,11 +227,7 @@ function UF:Configure_Power(frame)
 
 	frame.Power.custom_backdrop = UF.db.colors.custompowerbackdrop and UF.db.colors.power_backdrop
 
-	--Transparency Settings
 	UF:ToggleTransparentStatusBar(UF.db.colors.transparentPower, frame.Power, frame.Power.BG, nil, UF.db.colors.invertPower, db.power.reverseFill)
-
-	--Prediction Texture; keep under ToggleTransparentStatusBar
-	UF:UpdatePredictionStatusBar(frame.PowerPrediction, frame.Power, "Power")
 end
 
 local tokens = {[0]="MANA","RAGE","FOCUS","ENERGY","RUNIC_POWER"}

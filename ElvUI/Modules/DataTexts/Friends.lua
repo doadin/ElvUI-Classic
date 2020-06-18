@@ -26,6 +26,7 @@ local InviteToGroup = InviteToGroup
 local IsAltKeyDown = IsAltKeyDown
 local IsChatAFK = IsChatAFK
 local IsChatDND = IsChatDND
+local IsAltKeyDown = IsAltKeyDown
 local IsShiftKeyDown = IsShiftKeyDown
 local RequestInviteFromUnit = RequestInviteFromUnit
 local SendChatMessage = SendChatMessage
