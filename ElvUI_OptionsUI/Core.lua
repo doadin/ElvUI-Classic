@@ -155,7 +155,7 @@ E.Options.args.info = {
 	name = L["Information"],
 	args = {
 		header = ACH:Description(L["ELVUI_DESC"], 1, "medium"),
-		spacer = ACH:Description("", 2),
+		spacer = ACH:Spacer(2),
 		support = {
 			order = 3,
 			type = "group",
@@ -516,7 +516,7 @@ E.Options.args.profiles = {
 						end
 					end
 				},
-				spacer2 = ACH:Description("", 3),
+				spacer2 = ACH:Spacer(3),
 				exportProfile = {
 					name = L["Export Profile"],
 					type = "execute",

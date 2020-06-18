@@ -506,7 +506,7 @@ local function UpdateFilterGroup()
 									name = L["Non-Interruptible"],
 									desc = L["If enabled then the filter will only activate if the unit is casting not interruptible spells."]
 								},
-								spacer1 = ACH:Description("", 3, nil, "full"),
+								spacer1 = ACH:Spacer(3, "full"),
 								isCasting = {
 									type = "toggle",
 									order = 4,
@@ -3788,7 +3788,7 @@ E.Options.args.nameplate = {
 									get = function(info) return E.global.nameplate[info[#info]] end,
 									set = function(info, value) E.global.nameplate[info[#info]] = value; NP:ConfigureAll() end
 								},
-								spacer1 = ACH:Description("", 4, nil, "full"),
+								spacer1 = ACH:Spacer(4, "full"),
 								effectiveHealthSpeed = {
 									order = 5,
 									name = L["Health Speed"],
@@ -4342,7 +4342,7 @@ E.Options.args.nameplate = {
 						UpdateFilterGroup()
 					end
 				},
-				spacer1 = ACH:Description("", 4, nil, "full"),
+				spacer1 = ACH:Spacer(4, "full"),
 				classBarGroup = {
 					order = 10,
 					type = "group",
