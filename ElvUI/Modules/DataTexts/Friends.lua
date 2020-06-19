@@ -207,38 +207,10 @@ local function clientSort(a, b)
 	end
 end
 
-local function AddToBNTable(bnIndex, bnetIDAccount, accountName, battleTag, characterName, bnetIDGameAccount, client, isOnline, isBnetAFK, isBnetDND, noteText, wowProjectID, realmName, faction, race, className, zoneName, level, guid, gameText)
+local function AddToBNTable(bnIndex, bnetIDAccount, accountName, battleTag, characterName, bnetIDGameAccount, client, isOnline, isBnetAFK, isBnetDND, noteText, realmName, faction, race, className, zoneName, level, guid, gameText)
 	className = E:UnlocalizedClassName(className) or ""
 	characterName = BNet_GetValidatedCharacterName(characterName, battleTag, client) or ""
 	BNTable[bnIndex] = { bnetIDAccount, accountName, battleTag, characterName, bnetIDGameAccount, client, isOnline, isBnetAFK, isBnetDND, noteText, realmName, faction, race, className, zoneName, level, guid, gameText }
-
-	local obj = {
-		accountID = bnetIDAccount,		--1
-		accountName = accountName,		--2
-		battleTag = battleTag,			--3
-		characterName = characterName,	--4
-		gameID = bnetIDGameAccount,		--5
-		client = client,				--6
-		isOnline = isOnline,			--7
-		isBnetAFK = isBnetAFK,			--8
-		isBnetDND = isBnetDND,			--9
-		noteText = noteText,			--10
-		wowProjectID = wowProjectID,	--11
-		realmName = realmName,			--12
-		faction = faction,				--13
-		race = race,					--14
-		className = className,			--15
-		zoneName = zoneName,			--16
-		level = level,					--17
-		guid = guid,					--18
-		gameText = gameText				--19
-	}
-
-	--if strmatch(gameText, WOW_CLASSIC) then
-		--obj.classicText, obj.realmName = strmatch(gameText, '(.-)%s%-%s(.+)')
-	--end
-
-	BNTable[bnIndex] = obj
 
 	if tableList[client] then
 		tableList[client][#tableList[client]+1] = BNTable[bnIndex]
