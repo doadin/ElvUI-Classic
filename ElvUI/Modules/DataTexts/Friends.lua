@@ -8,17 +8,22 @@ local sort, next, wipe, tremove, tinsert = sort, next, wipe, tremove, tinsert
 local format, gsub, strfind, strjoin = format, gsub, strfind, strjoin
 --WoW API / Variables
 local BNet_GetValidatedCharacterName = BNet_GetValidatedCharacterName
-local GetMouseFocus = GetMouseFocus
+local BNGetFriendGameAccountInfo = BNGetFriendGameAccountInfo
+local BNGetFriendInfo = BNGetFriendInfo
 local BNGetInfo = BNGetInfo
 local BNGetNumFriendGameAccounts = BNGetNumFriendGameAccounts
 local BNGetNumFriends = BNGetNumFriends
 local BNInviteFriend = BNInviteFriend
 local BNRequestInviteFriend = BNRequestInviteFriend
 local BNSetCustomMessage = BNSetCustomMessage
+local ChatFrame_SendBNetTell = ChatFrame_SendBNetTell
 local GetDisplayedInviteType = GetDisplayedInviteType
+local GetMouseFocus = GetMouseFocus
 local GetQuestDifficultyColor = GetQuestDifficultyColor
 local GetRealmName = GetRealmName
+local InCombatLockdown = InCombatLockdown
 local InviteToGroup = InviteToGroup
+local IsAltKeyDown = IsAltKeyDown
 local IsChatAFK = IsChatAFK
 local IsChatDND = IsChatDND
 local IsShiftKeyDown = IsShiftKeyDown
@@ -31,8 +36,6 @@ local UnitInRaid = UnitInRaid
 local C_FriendList_GetNumFriends = C_FriendList.GetNumFriends
 local C_FriendList_GetNumOnlineFriends = C_FriendList.GetNumOnlineFriends
 local C_FriendList_GetFriendInfoByIndex = C_FriendList.GetFriendInfoByIndex
-local ChatFrame_SendBNetTell = ChatFrame_SendBNetTell
-local InCombatLockdown = InCombatLockdown
 local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 
 -- create a popup
@@ -70,7 +73,7 @@ local menuList = {
 	{ text = _G.BN_BROADCAST_TOOLTIP, notCheckable=true, func = function() E:StaticPopup_Show("SET_BN_BROADCAST") end },
 }
 
-local function inviteClick(self, name, guid)
+local function inviteClick(_, name, guid)
 	menuFrame:Hide()
 
 	if not (name and name ~= "") then return end
@@ -102,7 +105,7 @@ local function inviteClick(self, name, guid)
 	end
 end
 
-local function whisperClick(self, name, battleNet)
+local function whisperClick(_, name, battleNet)
 	menuFrame:Hide()
 
 	if battleNet then
@@ -125,36 +128,34 @@ local groupedTable = { "|cffaaaaaa*|r", "" }
 local friendTable, BNTable, tableList = {}, {}, {}
 local friendOnline, friendOffline = gsub(_G.ERR_FRIEND_ONLINE_SS,"\124Hplayer:%%s\124h%[%%s%]\124h",""), gsub(_G.ERR_FRIEND_OFFLINE_S,"%%s","")
 local wowString = _G.BNET_CLIENT_WOW
-local retailID = _G.WOW_PROJECT_ID
-local WOW_CLASSIC = _G.BNET_FRIEND_TOOLTIP_WOW_CLASSIC
 local dataValid, lastPanel = false
 
 local clientSorted = {}
 local clientTags = {
-	[BNET_CLIENT_WOW] = "WoW",
-	[BNET_CLIENT_D3] = "D3",
-	[BNET_CLIENT_WTCG] = "HS",
-	[BNET_CLIENT_HEROES] = "HotS",
-	[BNET_CLIENT_OVERWATCH] = "OW",
-	[BNET_CLIENT_SC] = "SC",
-	[BNET_CLIENT_SC2] = "SC2",
-	[BNET_CLIENT_COD] = "BO4",
-	[BNET_CLIENT_COD_MW] = "MW",
-	[BNET_CLIENT_COD_MW2] = "MW2",
+	[_G.BNET_CLIENT_WOW] = "WoW",
+	[_G.BNET_CLIENT_D3] = "D3",
+	[_G.BNET_CLIENT_WTCG] = "HS",
+	[_G.BNET_CLIENT_HEROES] = "HotS",
+	[_G.BNET_CLIENT_OVERWATCH] = "OW",
+	[_G.BNET_CLIENT_SC] = "SC",
+	[_G.BNET_CLIENT_SC2] = "SC2",
+	[_G.BNET_CLIENT_COD] = "BO4",
+	[_G.BNET_CLIENT_COD_MW] = "MW",
+	[_G.BNET_CLIENT_COD_MW2] = "MW2",
 	["BSAp"] = L["Mobile"],
 }
 
 local clientIndex = {
-	[BNET_CLIENT_WOW] = 1,
-	[BNET_CLIENT_D3] = 2,
-	[BNET_CLIENT_WTCG] = 3,
-	[BNET_CLIENT_HEROES] = 4,
-	[BNET_CLIENT_OVERWATCH] = 5,
-	[BNET_CLIENT_SC] = 6,
-	[BNET_CLIENT_SC2] = 7,
-	[BNET_CLIENT_COD] = 8,
-	[BNET_CLIENT_COD_MW] = 9,
-	[BNET_CLIENT_COD_MW2] = 10,
+	[_G.BNET_CLIENT_WOW] = 1,
+	[_G.BNET_CLIENT_D3] = 2,
+	[_G.BNET_CLIENT_WTCG] = 3,
+	[_G.BNET_CLIENT_HEROES] = 4,
+	[_G.BNET_CLIENT_OVERWATCH] = 5,
+	[_G.BNET_CLIENT_SC] = 6,
+	[_G.BNET_CLIENT_SC2] = 7,
+	[_G.BNET_CLIENT_COD] = 8,
+	[_G.BNET_CLIENT_COD_MW] = 9,
+	[_G.BNET_CLIENT_COD_MW2] = 10,
 	["App"] = 11,
 	["BSAp"] = 12,
 }
