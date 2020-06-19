@@ -631,7 +631,7 @@ end
 do	--The code in this function is from WeakAuras, credit goes to Mirrored and the WeakAuras Team
 	--Code slightly modified by Simpy
 	local function recurse(table, level, ret)
-		for i,v in pairs(table) do
+		for i, v in pairs(table) do
 			ret = ret..strrep('    ', level)..'['
 			if type(i) == 'string' then ret = ret..'"'..i..'"' else ret = ret..i end
 			ret = ret..'] = '
@@ -1606,7 +1606,7 @@ do
 	function E:RemoveDefaults(db, defaults)
 		setmetatable(db, nil)
 
-		for k,v in pairs(defaults) do
+		for k, v in pairs(defaults) do
 			if type(v) == 'table' and type(db[k]) == 'table' then
 				E:RemoveDefaults(db[k], v)
 				if next(db[k]) == nil then db[k] = nil end
