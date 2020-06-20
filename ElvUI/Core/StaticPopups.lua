@@ -480,7 +480,6 @@ E.PopupDialogs.ELVUI_CONFIG_FOUND = {
 	button1 = ACCEPT,
 	whileDead = 1,
 	hideOnEscape = false,
-
 }
 
 local MAX_STATIC_POPUPS = 4
