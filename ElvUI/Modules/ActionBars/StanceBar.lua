@@ -288,7 +288,7 @@ function AB:AdjustMaxStanceButtons(event)
 		return
 	end
 
-	for i=1, #bar.buttons do
+	for i = 1, #bar.buttons do
 		bar.buttons[i]:Hide()
 	end
 
