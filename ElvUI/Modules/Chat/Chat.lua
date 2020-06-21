@@ -951,15 +951,6 @@ function CH:PrintURL(url)
 end
 
 function CH:FindURL(event, msg, author, ...)
-	if (event == "CHAT_MSG_WHISPER" or event == "CHAT_MSG_BN_WHISPER") and (CH.db.whisperSound ~= 'None') and not CH.SoundTimer then
-		if (strsub(msg,1,3) == "OQ,") then return false, msg, author, ... end
-		if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
-			PlaySoundFile(LSM:Fetch("sound", CH.db.whisperSound), "Master")
-		end
-
-		CH.SoundTimer = E:Delay(1, CH.ThrottleSound)
-	end
-
 	if not CH.db.url then
 		msg = CH:CheckKeyword(msg, author)
 		msg = CH:GetSmileyReplacementText(msg)
@@ -1639,6 +1630,13 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 
 			local accessID = ChatHistory_GetAccessID(chatGroup, chatTarget)
 			local typeID = ChatHistory_GetAccessID(infoType, chatTarget, arg12 or arg13)
+
+			local alertType = strfind(chatType, "WHISPER") and "WHISPER" or strfind(chatType, "INSTANCE_CHAT") and "INSTANCE_CHAT" or strfind(chatType, "PARTY") and "PARTY" or strfind(chatType, "RAID") and "RAID" or chatType
+			if CH.db.channelAlerts[alertType] ~= 'None' and (not CH.db.noAlertInCombat or CH.db.noAlertInCombat and not InCombatLockdown()) and not CH.SoundTimer then
+				CH.SoundTimer = E:Delay(alertType == 'WHISPER' and 1 or 5, CH.ThrottleSound)
+				PlaySoundFile(LSM:Fetch("sound", CH.db.channelAlerts[alertType]), "Master")
+			end
+
 			frame:AddMessage(body, info.r, info.g, info.b, info.id, accessID, typeID, isHistory, historyTime)
 		end
 
@@ -1816,12 +1814,12 @@ function CH:CheckKeyword(message, author)
 			protectLinks[hyperLink]=gsub(hyperLink,'%s','|s')
 			for keyword in pairs(CH.Keywords) do
 				if hyperLink == keyword then
-					if (CH.db.keywordSound ~= 'None') and not self.SoundTimer then
+					if (CH.db.keywordSound ~= 'None') and not CH.SoundTimer then
 						if (CH.db.noAlertInCombat and not InCombatLockdown()) or not CH.db.noAlertInCombat then
 							PlaySoundFile(LSM:Fetch("sound", CH.db.keywordSound), "Master")
 						end
 
-						self.SoundTimer = E:Delay(1, CH.ThrottleSound)
+						CH.SoundTimer = E:Delay(1, CH.ThrottleSound)
 					end
 				end
 			end
@@ -1847,7 +1845,7 @@ function CH:CheckKeyword(message, author)
 							PlaySoundFile(LSM:Fetch("sound", CH.db.keywordSound), "Master")
 						end
 
-						self.SoundTimer = E:Delay(1, CH.ThrottleSound)
+						CH.SoundTimer = E:Delay(1, CH.ThrottleSound)
 					end
 				end
 			end
@@ -1885,7 +1883,7 @@ function CH:CheckKeyword(message, author)
 end
 
 function CH:AddLines(lines, ...)
-	for i=select("#", ...),1,-1 do
+	for i = select("#", ...), 1, -1 do
 	local x = select(i, ...)
 		if x:IsObjectType('FontString') and not x:GetName() then
 			tinsert(lines, x:GetText())
@@ -2032,6 +2030,7 @@ function CH:DisplayChatHistory()
 	end
 
 	CH.SoundTimer = true
+
 	for _, chat in ipairs(_G.CHAT_FRAMES) do
 		for i=1, #data do
 			local d = data[i]
@@ -2050,6 +2049,7 @@ function CH:DisplayChatHistory()
 			end
 		end
 	end
+
 	CH.SoundTimer = nil
 end
 
@@ -2667,10 +2667,10 @@ function CH:Initialize()
 	if ElvCharacterDB.ChatHistory then ElvCharacterDB.ChatHistory = nil end --Depreciated
 	if ElvCharacterDB.ChatLog then ElvCharacterDB.ChatLog = nil end --Depreciated
 
-	self:DelayGuildMOTD() -- Keep this before `is Chat Enabled` check
+	CH:DelayGuildMOTD() -- Keep this before `is Chat Enabled` check
 
 	if not E.private.chat.enable then return end
-	self.Initialized = true
+	CH.Initialized = true
 	CH.db = E.db.chat
 
 	if not ElvCharacterDB.ChatEditHistory then ElvCharacterDB.ChatEditHistory = {} end
@@ -2678,31 +2678,31 @@ function CH:Initialize()
 
 	_G.ChatFrameMenuButton:Kill()
 
-	self:SetupChat()
-	self:DefaultSmileys()
-	self:UpdateChatKeywords()
-	self:UpdateFading()
-	self:Panels_ColorUpdate()
-	self:HandleChatVoiceIcons()
-	self:UpdateEditboxAnchors()
-	E:UpdatedCVar('chatStyle', self.UpdateEditboxAnchors)
+	CH:SetupChat()
+	CH:DefaultSmileys()
+	CH:UpdateChatKeywords()
+	CH:UpdateFading()
+	CH:Panels_ColorUpdate()
+	CH:HandleChatVoiceIcons()
+	CH:UpdateEditboxAnchors()
+	E:UpdatedCVar('chatStyle', CH.UpdateEditboxAnchors)
 
-	self:SecureHook('GetPlayerInfoByGUID')
-	self:SecureHook('ChatEdit_SetLastActiveWindow')
-	self:SecureHook('ChatEdit_DeactivateChat')
-	self:SecureHook('ChatEdit_OnEnterPressed')
-	self:SecureHook('FCFDock_UpdateTabs')
-	self:SecureHook('FCF_Close')
-	self:SecureHook('FCF_SetWindowAlpha')
-	self:SecureHook('FCFTab_UpdateColors')
-	self:SecureHook('FCF_SetChatWindowFontSize', 'SetChatFont')
-	self:SecureHook('FCF_SavePositionAndDimensions', 'SnappingChanged')
-	self:SecureHook('FCF_UnDockFrame', 'SnappingChanged')
-	self:SecureHook('FCF_DockFrame', 'SnappingChanged')
-	self:SecureHook('FCF_ResetChatWindows', 'ClearSnapping')
-	self:SecureHook('RedockChatWindows', 'ClearSnapping')
-	self:RegisterEvent('UPDATE_CHAT_WINDOWS', 'SetupChat')
-	self:RegisterEvent('UPDATE_FLOATING_CHAT_WINDOWS', 'SetupChat')
+	CH:SecureHook('GetPlayerInfoByGUID')
+	CH:SecureHook('ChatEdit_SetLastActiveWindow')
+	CH:SecureHook('ChatEdit_DeactivateChat')
+	CH:SecureHook('ChatEdit_OnEnterPressed')
+	CH:SecureHook('FCFDock_UpdateTabs')
+	CH:SecureHook('FCF_Close')
+	CH:SecureHook('FCF_SetWindowAlpha')
+	CH:SecureHook('FCFTab_UpdateColors')
+	CH:SecureHook('FCF_SetChatWindowFontSize', 'SetChatFont')
+	CH:SecureHook('FCF_SavePositionAndDimensions', 'SnappingChanged')
+	CH:SecureHook('FCF_UnDockFrame', 'SnappingChanged')
+	CH:SecureHook('FCF_DockFrame', 'SnappingChanged')
+	CH:SecureHook('FCF_ResetChatWindows', 'ClearSnapping')
+	CH:SecureHook('RedockChatWindows', 'ClearSnapping')
+	CH:RegisterEvent('UPDATE_CHAT_WINDOWS', 'SetupChat')
+	CH:RegisterEvent('UPDATE_FLOATING_CHAT_WINDOWS', 'SetupChat')
 
 	if _G.WIM then
 		_G.WIM.RegisterWidgetTrigger("chat_display", "whisper,chat,w2w,demo", "OnHyperlinkClick", function(frame) CH.clickedframe = frame end)
@@ -2715,12 +2715,12 @@ function CH:Initialize()
 		_G.ChatFrame_AddMessageEventFilter(event, CH[event] or CH.FindURL)
 		local nType = strsub(event, 10)
 		if nType ~= 'AFK' and nType ~= 'DND' and nType ~= 'COMMUNITIES_CHANNEL' then
-			self:RegisterEvent(event, 'SaveChatHistory')
+			CH:RegisterEvent(event, 'SaveChatHistory')
 		end
 	end
 
-	if CH.db.chatHistory then self:DisplayChatHistory() end
-	self:BuildCopyChatFrame()
+	if CH.db.chatHistory then CH:DisplayChatHistory() end
+	CH:BuildCopyChatFrame()
 
 	-- Editbox Backdrop Color
 	hooksecurefunc("ChatEdit_UpdateHeader", function(editbox)
