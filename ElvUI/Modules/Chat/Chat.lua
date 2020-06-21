@@ -1740,9 +1740,7 @@ function CH:SetupChat()
 		end
 	end
 
-	if CH.db.hyperlinkHover then
-		CH:ToggleHyperlink(true)
-	end
+	CH:ToggleHyperlink(CH.db.hyperlinkHover)
 
 	local chat = _G.GeneralDockManager.primary
 	_G.GeneralDockManager:ClearAllPoints()
