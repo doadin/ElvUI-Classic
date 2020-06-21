@@ -333,7 +333,7 @@ end
 function AB:CreateBarShapeShift()
 	bar:CreateBackdrop()
 	bar.backdrop:SetAllPoints()
-	bar:Point('TOPLEFT', E.UIParent, 'TOPLEFT', 4, -4)
+	bar:Point('TOPLEFT', E.UIParent, 'BOTTOMLEFT', 4, -769)
 	bar.buttons = {}
 
 	self:HookScript(bar, 'OnEnter', 'Bar_OnEnter')

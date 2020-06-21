@@ -31,16 +31,8 @@ function UF:Construct_TargetFrame(frame)
 
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
 	frame.customTexts = {}
-	frame.Cutaway = self:Construct_Cutaway(frame)
-	frame.Fader = self:Construct_Fader()
-	frame.HealthPrediction = self:Construct_HealComm(frame)
-	frame.MouseGlow = self:Construct_MouseGlow(frame)
-	frame.PowerPrediction = self:Construct_PowerPrediction(frame)
-	frame.ResurrectIndicator = UF:Construct_ResurrectionIcon(frame)
-	frame.TargetGlow = self:Construct_TargetGlow(frame)
-
-	frame:Point('BOTTOMRIGHT', E.UIParent, 'BOTTOM', 413, 68)
-	E:CreateMover(frame, frame:GetName()..'Mover', L["Target Frame"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,target,generalGroup')
+	frame:Point('BOTTOM', E.UIParent, 'BOTTOM', 342, 139)
+	E:CreateMover(frame, frame:GetName()..'Mover', L["Target Frame"], nil, nil, nil, 'ALL,SOLO', nil, 'unitframe,individualUnits,target,generalGroup')
 
 	frame.unitframeType = "target"
 end
