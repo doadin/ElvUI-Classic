@@ -1178,7 +1178,7 @@ E.TagInfo = {
 	['missingpp'] = { category = 'Power', description = "Displays the missing power of the unit in whole numbers when not at full power" },
 	['cpoints'] = { category = 'Power', description = "Displays amount of combo points the player has (only for player, shows nothing on 0)" },
 	['additionalpower:current'] = { category = 'Power', description = "Displays the unit's current additional power" },
-	['additionalpower:current-max'] = { category = 'Power', description = "Displays the unit's current and maxium additional power, separated by a dash" },
+	['additionalpower:current-max'] = { category = 'Power', description = "Displays the unit's current and maximum additional power, separated by a dash" },
 	['additionalpower:current-max-percent'] = { category = 'Power', description = "Displays the current and max additional power of the unit, separated by a dash (% when not full)" },
 	['additionalpower:current-percent'] = { category = 'Power', description = "Displays the current additional power of the unit and % when not full" },
 	['additionalpower:deficit'] = { category = 'Power', description = "Displays the player's additional power as a deficit" },
