@@ -29,6 +29,14 @@ function UF:Construct_TargetFrame(frame)
 	frame.Portrait3D = self:Construct_Portrait(frame, 'model')
 	frame.Portrait2D = self:Construct_Portrait(frame, 'texture')
 
+	frame.Cutaway = self:Construct_Cutaway(frame)
+	frame.Fader = self:Construct_Fader()
+	frame.HealthPrediction = self:Construct_HealComm(frame)
+	frame.MouseGlow = self:Construct_MouseGlow(frame)
+	frame.PowerPrediction = self:Construct_PowerPrediction(frame)
+	frame.ResurrectIndicator = UF:Construct_ResurrectionIcon(frame)
+	frame.TargetGlow = self:Construct_TargetGlow(frame)
+
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
 	frame.customTexts = {}
 	frame:Point('BOTTOM', E.UIParent, 'BOTTOM', 342, 139)

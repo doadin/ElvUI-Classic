@@ -104,7 +104,7 @@ function AFK:SetAFK(status)
 end
 
 function AFK:OnEvent(event, ...)
-	if event == 'PLAYER_REGEN_DISABLED' or event == 'LFG_PROPOSAL_SHOW' or event == 'UPDATE_BATTLEFIELD_STATUS' then
+	if event == 'PLAYER_REGEN_DISABLED' or event == 'UPDATE_BATTLEFIELD_STATUS' then
 		if event ~= 'UPDATE_BATTLEFIELD_STATUS' or (GetBattlefieldStatus(...) == 'confirm') then
 			AFK:SetAFK(false)
 		end
@@ -134,13 +134,11 @@ function AFK:Toggle()
 	if E.db.general.afk then
 		AFK:RegisterEvent('PLAYER_FLAGS_CHANGED', 'OnEvent')
 		AFK:RegisterEvent('PLAYER_REGEN_DISABLED', 'OnEvent')
-		AFK:RegisterEvent('LFG_PROPOSAL_SHOW', 'OnEvent')
 		AFK:RegisterEvent('UPDATE_BATTLEFIELD_STATUS', 'OnEvent')
 		SetCVar('autoClearAFK', '1')
 	else
 		AFK:UnregisterEvent('PLAYER_FLAGS_CHANGED')
 		AFK:UnregisterEvent('PLAYER_REGEN_DISABLED')
-		AFK:UnregisterEvent('LFG_PROPOSAL_SHOW')
 		AFK:UnregisterEvent('UPDATE_BATTLEFIELD_STATUS')
 	end
 end
