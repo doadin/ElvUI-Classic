@@ -127,7 +127,7 @@ function AFK:OnEvent(event, ...)
 		return
 	end
 
-	AFK:SetAFK(UnitIsAFK('player') and not C_PetBattles_IsInBattle())
+	AFK:SetAFK(UnitIsAFK('player'))
 end
 
 function AFK:Toggle()
