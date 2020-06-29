@@ -539,6 +539,10 @@ E.Options.args.profiles.args.profile.order = 1
 E.Options.args.profiles.args.private.name = L["Private"]
 E.Options.args.profiles.args.private.order = 2
 
+E.Options.args.profiles.args.private.args.choose.confirm = function(info, value)
+	return format(L["Choosing Settings %s. This will reload the UI.\n\n Are you sure?"], value)
+end
+
 E.Libs.AceConfig:RegisterOptionsTable("ElvProfiles", E.Options.args.profiles.args.profile)
 E.Options.args.profiles.args.profile.args.copyfrom.confirm = function(info, value)
 	return format(L["Copy Settings from %s. This will overwrite %s profile.\n\n Are you sure?"], value, E.data:GetCurrentProfile())
