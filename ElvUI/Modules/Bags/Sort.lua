@@ -55,7 +55,6 @@ local coreGroups = {
 local bagCache = {}
 local bagIDs = {}
 local bagQualities = {}
-local bagPetIDs = {}
 local bagStacks = {}
 local bagMaxStacks = {}
 local bagGroups = {}
@@ -188,14 +187,6 @@ local function DefaultSort(a, b)
 
 	local aRarity, bRarity = bagQualities[a], bagQualities[b]
 
-	if bagPetIDs[a] then
-		aRarity = 1
-	end
-
-	if bagPetIDs[b] then
-		bRarity = 1
-	end
-
 	if conjured_items[aID] then
 		aRarity = -99
 	end
@@ -326,12 +317,6 @@ function B:ConvertLinkToID(link)
 
 	local item = strmatch(link, "item:(%d+)")
 	if item then return tonumber(item) end
-
-	local ks = strmatch(link, "keystone:(%d+)")
-	if ks then return tonumber(ks), nil, true end
-
-	local bp = strmatch(link, "battlepet:(%d+)")
-	if bp then return tonumber(bp), true end
 end
 
 local function DefaultCanMove()
@@ -372,24 +357,13 @@ function B:ScanBags()
 	for _, bag, slot in B:IterateBags(allBags) do
 		local bagSlot = B:Encode_BagSlot(bag, slot)
 		local itemLink = B:GetItemLink(bag, slot)
-		local itemID, isBattlePet, isKeystone = B:ConvertLinkToID(itemLink)
+		local itemID = B:ConvertLinkToID(itemLink)
 		if itemID then
-			if isBattlePet then
-				bagPetIDs[bagSlot] = itemID
-				bagMaxStacks[bagSlot] = 1
-			elseif isKeystone then
-				bagMaxStacks[bagSlot] = 1
-				bagQualities[bagSlot] = 4
-				bagStacks[bagSlot] = 1
-			else
-				bagMaxStacks[bagSlot] = select(8, GetItemInfo(itemID))
-			end
-
+			local _, _, quality, _, _, _, _, maxStacks = GetItemInfo(itemID)
+			bagMaxStacks[bagSlot] = maxStacks
+			bagQualities[bagSlot] = quality
 			bagIDs[bagSlot] = itemID
-			if not isKeystone then
-				bagQualities[bagSlot] = select(3, GetItemInfo(itemLink))
-				bagStacks[bagSlot] = select(2, B:GetItemInfo(bag, slot))
-			end
+			bagStacks[bagSlot] = select(2, B:GetItemInfo(bag, slot))
 		end
 	end
 end
@@ -652,7 +626,6 @@ function B:StartStacking()
 	wipe(bagStacks)
 	wipe(bagIDs)
 	wipe(bagQualities)
-	wipe(bagPetIDs)
 	wipe(moveTracker)
 
 	if #moves > 0 then
