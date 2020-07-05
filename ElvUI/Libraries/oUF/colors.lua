@@ -18,7 +18,12 @@ local colors = {
 		[2] = {.65, .63, .35},
 		[3] = {.33, .59, .33},
 	},
-	threat = {},
+	threat = {
+		[0] = { .69, .69, .69},
+		[1] = { 1, 1, .47 },
+		[2] = { 1, .6, 0 },
+		[3] = { 1, 0, 0 },
+	},
 }
 
 -- We do this because people edit the vars directly, and changing the default
@@ -85,10 +90,6 @@ colors.power[1] = colors.power.RAGE
 colors.power[2] = colors.power.FOCUS
 colors.power[3] = colors.power.ENERGY
 colors.power[4] = colors.power.COMBO_POINTS
-
-for i = 0, 3 do
-	colors.threat[i] = {GetThreatStatusColor(i)}
-end
 
 local function colorsAndPercent(a, b, ...)
 	if(a <= 0 or b == 0) then
