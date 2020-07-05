@@ -1294,6 +1294,25 @@ local individual = {
 	pettarget = true
 }
 
+local function UpdateCustomTextGroup(unit)
+	if unit == 'party' or unit:find('raid') then
+		for i = 1, UF[unit]:GetNumChildren() do
+			local child = select(i, UF[unit]:GetChildren())
+			UF:Configure_CustomTexts(child)
+			child:UpdateTags()
+
+			for x = 1, child:GetNumChildren() do
+				local subchild = select(x, child:GetChildren())
+				UF:Configure_CustomTexts(subchild)
+				subchild:UpdateTags()
+			end
+		end
+	else
+		UF:Configure_CustomTexts(UF[unit])
+		UF[unit]:UpdateTags()
+	end
+end
+
 local function CreateCustomTextGroup(unit, objectName)
 	local group = individual[unit] and 'individualUnits' or 'groupUnits'
 	if not E.Options.args.unitframe.args[group].args[unit] then
@@ -1311,12 +1330,7 @@ local function CreateCustomTextGroup(unit, objectName)
 		get = function(info) return E.db.unitframe.units[unit].customTexts[objectName][info[#info]] end,
 		set = function(info, value)
 			E.db.unitframe.units[unit].customTexts[objectName][info[#info]] = value;
-
-			if unit == 'party' or unit:find('raid') then
-				UF:CreateAndUpdateHeaderGroup(unit)
-			else
-				UF:CreateAndUpdateUF(unit)
-			end
+			UpdateCustomTextGroup(unit)
 		end,
 		args = {
 			delete = {
@@ -1327,29 +1341,7 @@ local function CreateCustomTextGroup(unit, objectName)
 					E.Options.args.unitframe.args[group].args[unit].args.customText.args[objectName] = nil;
 					E.db.unitframe.units[unit].customTexts[objectName] = nil;
 
-					if unit == 'party' or unit:find('raid') then
-						for i=1, UF[unit]:GetNumChildren() do
-							local child = select(i, UF[unit]:GetChildren())
-							if child.Untag then
-								child:Untag(child.customTexts[objectName]);
-								child.customTexts[objectName]:Hide();
-								child.customTexts[objectName] = nil
-							else
-								for x=1, child:GetNumChildren() do
-									local c2 = select(x, child:GetChildren())
-									if(c2.Untag) then
-										c2:Untag(c2.customTexts[objectName]);
-										c2.customTexts[objectName]:Hide();
-										c2.customTexts[objectName] = nil
-									end
-								end
-							end
-						end
-					elseif UF[unit] then
-						UF[unit]:Untag(UF[unit].customTexts[objectName]);
-						UF[unit].customTexts[objectName]:Hide();
-						UF[unit].customTexts[objectName] = nil
-					end
+					UpdateCustomTextGroup(unit)
 				end,
 			},
 			enable = {
