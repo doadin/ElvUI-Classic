@@ -119,20 +119,22 @@ P.databars = {}
 for _, databar in pairs({ 'experience', 'reputation', 'petExperience'}) do
 	P.databars[databar] = {
 		enable = true,
-		width = 10,
-		height = 180,
+		width = 222,
+		height = 10,
 		textFormat = 'NONE',
 		textSize = 11,
 		font = "PT Sans Narrow",
 		fontOutline = "NONE",
 		mouseover = false,
-		orientation = 'VERTICAL',
+		orientation = 'HORIZONTAL',
 		reverseFill = false,
 	}
 end
 
 P.databars.experience.hideAtMaxLevel = true
 P.databars.experience.hideInCombat = false
+P.databars.experience.width = 348
+P.databars.experience.textSize = 12
 
 P.databars.petExperience.enable = false
 P.databars.petExperience.hideInCombat = false

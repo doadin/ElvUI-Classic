@@ -252,15 +252,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.chat.panelHeight = 236
 		E.db.chat.panelWidth = 472
 		E.db.chat.tabFontSize = 10
-		--DataBars
-		E.db.databars.experience.height = 10
-		E.db.databars.experience.orientation = 'HORIZONTAL'
-		E.db.databars.experience.textSize = 12
-		E.db.databars.experience.width = 348
-		E.db.databars.reputation.enable = true
-		E.db.databars.reputation.height = 10
-		E.db.databars.reputation.orientation = 'HORIZONTAL'
-		E.db.databars.reputation.width = 222
 		--General
 		E.db.general.minimap.size = 220
 
