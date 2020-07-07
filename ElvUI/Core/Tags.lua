@@ -48,6 +48,8 @@ local UnitPowerType = UnitPowerType
 local UnitPVPName = UnitPVPName
 local UnitReaction = UnitReaction
 local CreateAtlasMarkup = CreateAtlasMarkup
+local GetThreatStatusColor = GetThreatStatusColor
+local UnitDetailedThreatSituation = UnitDetailedThreatSituation
 
 local CHAT_FLAG_AFK = CHAT_FLAG_AFK:gsub('<(.-)>', '|r<|cffFF3333%1|r>')
 local CHAT_FLAG_DND = CHAT_FLAG_DND:gsub('<(.-)>', '|r<|cffFFFF33%1|r>')
@@ -656,6 +658,30 @@ ElvUF.Tags.Methods['diet'] = function(unit)
 	end
 end
 
+ElvUF.Tags.Events['threat:percent'] = 'UNIT_THREAT_LIST_UPDATE UNIT_THREAT_SITUATION_UPDATE GROUP_ROSTER_UPDATE'
+ElvUF.Tags.Methods['threat:percent'] = function(unit)
+	local _, _, percent = UnitDetailedThreatSituation('player', unit)
+	if percent and percent > 0 and (IsInGroup() or UnitExists('pet')) then
+		return format('%.0f%%', percent)
+	end
+end
+
+ElvUF.Tags.Events['threat:current'] = 'UNIT_THREAT_LIST_UPDATE UNIT_THREAT_SITUATION_UPDATE GROUP_ROSTER_UPDATE'
+ElvUF.Tags.Methods['threat:current'] = function(unit)
+	local _, _, percent, _, threatvalue = UnitDetailedThreatSituation('player', unit)
+	if percent and percent > 0 and (IsInGroup() or UnitExists('pet')) then
+		return E:ShortValue(threatvalue)
+	end
+end
+
+ElvUF.Tags.Events['threatcolor'] = 'UNIT_THREAT_LIST_UPDATE UNIT_THREAT_SITUATION_UPDATE GROUP_ROSTER_UPDATE'
+ElvUF.Tags.Methods['threatcolor'] = function(unit)
+	local _, status = UnitDetailedThreatSituation('player', unit)
+	if status and (IsInGroup() or UnitExists('pet')) then
+		return Hex(GetThreatStatusColor(status))
+	end
+end
+
 local unitStatus = {}
 ElvUF.Tags.OnUpdateThrottle['statustimer'] = 1
 ElvUF.Tags.Methods['statustimer'] = function(unit)
@@ -1057,6 +1083,7 @@ E.TagInfo = {
 	['difficulty'] = { category = 'Colors', description = "Colors the next tag by difficulty, red for impossible, orange for hard, green for easy" },
 	['classificationcolor'] = { category = 'Colors', description = "Changes the text color, depending on the unit's classification" },
 	['healthcolor'] = { category = 'Colors', description = "Changes color of health text, depending on the unit's current health" },
+	['threatcolor'] = { category = 'Colors', description = "Changes the text color, depending on the unit's threat situation" },
 	['manacolor'] = { category = 'Colors', description = "Changes the text color to a light-blue mana color" },
 	--Guild
 	['guild'] = { category = 'Guild', description = "Displays the guild name" },
@@ -1235,6 +1262,10 @@ E.TagInfo = {
 	['nearbyplayers:10'] = { category = 'Range', description = "Displays all players within 10 yards" },
 	['nearbyplayers:30'] = { category = 'Range', description = "Displays all players within 30 yards" },
 	['distance'] = { category = 'Range', description = "Displays the distance" },
+	--Threat
+	['threat'] = { category = 'Threat', description = "Displays the current threat situation (Aggro is secure tanking, -- is losing threat and ++ is gaining threat)" },
+	['threat:percent'] = { category = 'Threat', description = "Displays the current threat as a percent" },
+	['threat:current'] = { category = 'Threat', description = "Displays the current threat as a value" },
 }
 
 function E:AddTagInfo(tagName, category, description, order)
