@@ -84,11 +84,7 @@ end
 
 do
 	local classPowers = {
-		['MONK'] = 'Stagger',
-		['DRUID'] = 'AdditionalPower',
-		['PRIEST'] = 'AdditionalPower',
-		['SHAMAN'] = 'AdditionalPower',
-		['DEATHKNIGHT'] = 'Runes'
+		DRUID = 'AdditionalPower',
 	}
 
 	local myClassPower = classPowers[E.myclass]
@@ -138,7 +134,7 @@ function UF:UpdateThreat(unit, status, r, g, b)
 	local db = parent.db and parent.db.threatStyle
 	local badunit = not unit or parent.unit ~= unit
 
-	if not badunit and status then
+	if not badunit and status and status > 1 then
 		UF:ThreatHandler(self, parent, db, status, r, g, b)
 	else
 		UF:ThreatHandler(self, parent, db, nil, unpack(E.media.unitframeBorderColor))
