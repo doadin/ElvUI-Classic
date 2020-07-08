@@ -268,7 +268,11 @@ function E:CalculateMoverPoints(mover, nudgeX, nudgeY)
 	local screenCenterX, screenCenterY = E.UIParent:GetCenter()
 	local x, y = mover:GetCenter()
 
-	local point, nudgePoint, nudgeInversePoint
+	local point, nudgePoint, nudgeInversePoint = 'BOTTOM', 'BOTTOM', 'TOP'
+	if not x or not y then -- if GetCenter on the mover fails, default to UIParent center? (lazy fix, dont know why GetCenter can fail)
+		x, y = screenCenterX, screenCenterY
+	end
+
 	if y >= screenCenterY then -- TOP: 1080p = 540
 		point, nudgePoint, nudgeInversePoint = 'TOP', 'TOP', 'BOTTOM'
 		local top = mover:GetTop()
