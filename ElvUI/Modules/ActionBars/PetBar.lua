@@ -190,6 +190,7 @@ function AB:PositionAndSizeBarPet()
 		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:Size(size)
+		button:Show()
 		button:EnableMouse(not self.db.barPet.clickThrough)
 		autoCast:SetOutside(button, autoCastSize, autoCastSize)
 
