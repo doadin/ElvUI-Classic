@@ -248,11 +248,6 @@ function E:OnProfileReset()
 end
 
 function E:ResetPrivateProfile()
-	local key = ElvPrivateDB.profileKeys and ElvPrivateDB.profileKeys[E.mynameRealm]
-	if key and ElvPrivateDB.profiles and ElvPrivateDB.profiles[key] then
-		ElvPrivateDB.profiles[key] = nil
-	end
-
 	ReloadUI()
 end
 
