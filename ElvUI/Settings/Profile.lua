@@ -116,7 +116,7 @@ P.general = {
 
 P.databars = {}
 
-for _, databar in pairs({ 'experience', 'reputation', 'petExperience'}) do
+for _, databar in pairs({'experience', 'reputation', 'petExperience'}) do
 	P.databars[databar] = {
 		enable = true,
 		width = 222,
