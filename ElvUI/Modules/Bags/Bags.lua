@@ -39,6 +39,7 @@ local SetItemButtonDesaturated = SetItemButtonDesaturated
 local SetItemButtonTexture = SetItemButtonTexture
 local SetItemButtonTextureVertexColor = SetItemButtonTextureVertexColor
 local ToggleFrame = ToggleFrame
+local ToggleAllBags = ToggleAllBags
 local UseContainerItem = UseContainerItem
 local PutItemInBackpack = PutItemInBackpack
 local CursorHasItem = CursorHasItem

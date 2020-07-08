@@ -13,6 +13,7 @@ local unpack, select = unpack, select
 local format, gsub, type = format, gsub, type
 --WoW API / Variables
 local CreateFrame = CreateFrame
+local InCombatLockdown = InCombatLockdown
 local GetAddOnEnableState = GetAddOnEnableState
 local GetAddOnMetadata = GetAddOnMetadata
 local GetLocale = GetLocale
