@@ -1646,7 +1646,7 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 			local accessID = ChatHistory_GetAccessID(chatGroup, chatTarget)
 			local typeID = ChatHistory_GetAccessID(infoType, chatTarget, arg12 or arg13)
 
-			local alertType = CH.db.channelAlerts[historyTypes[chatType]]
+			local alertType = CH.db.channelAlerts[historyTypes[event]]
 			if notChatHistory and not CH.SoundTimer and (arg2 ~= PLAYER_NAME and alertType and alertType ~= 'None') and (not CH.db.noAlertInCombat or not InCombatLockdown()) then
 				CH.SoundTimer = E:Delay(5, CH.ThrottleSound)
 				PlaySoundFile(LSM:Fetch("sound", alertType), "Master")
@@ -2021,8 +2021,6 @@ function CH:DisplayChatHistory()
 		return
 	end
 
-	CH.SoundTimer = true
-
 	for _, chat in ipairs(_G.CHAT_FRAMES) do
 		for _, d in ipairs(data) do
 			if type(d) == 'table' then
@@ -2040,8 +2038,6 @@ function CH:DisplayChatHistory()
 			end
 		end
 	end
-
-	CH.SoundTimer = nil
 end
 
 tremove(_G.ChatTypeGroup.GUILD, 2)
