@@ -21,7 +21,7 @@ local GetCVarBool = GetCVarBool
 local GetGuildInfo = GetGuildInfo
 local GetNumGroupMembers = GetNumGroupMembers
 local GetPVPTimer = GetPVPTimer
-local GetQuestGreenRange = GetQuestGreenRange
+local GetCreatureDifficultyColor = GetCreatureDifficultyColor
 local GetTime = GetTime
 local GetUnitSpeed = GetUnitSpeed
 local IsInGroup = IsInGroup
@@ -438,7 +438,7 @@ ElvUF.Tags.Events['difficultycolor'] = 'UNIT_LEVEL PLAYER_LEVEL_UP'
 ElvUF.Tags.Methods['difficultycolor'] = function(unit)
 	local c = GetCreatureDifficultyColor(UnitLevel(unit))
 
-	return Hex(r, g, b)
+	return Hex(c.r, c.g, c.b)
 end
 
 ElvUF.Tags.Events['namecolor'] = 'UNIT_NAME_UPDATE UNIT_FACTION'
