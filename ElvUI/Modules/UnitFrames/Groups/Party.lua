@@ -4,14 +4,10 @@ local _, ns = ...
 local ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")
 
---Lua functions
 local _G = _G
---WoW API / Variables
 local CreateFrame = CreateFrame
 local GetInstanceInfo = GetInstanceInfo
 local InCombatLockdown = InCombatLockdown
-local RegisterStateDriver = RegisterStateDriver
-local UnregisterStateDriver = UnregisterStateDriver
 
 function UF:Construct_PartyFrames()
 	self:SetScript('OnEnter', _G.UnitFrame_OnEnter)
@@ -52,7 +48,7 @@ function UF:Construct_PartyFrames()
 
 		self.AuraWatch = UF:Construct_AuraWatch(self)
 		self.customTexts = {}
-		self.DebuffHighlight = UF:Construct_DebuffHighlight(self)
+		self.AuraHighlight = UF:Construct_AuraHighlight(self)
 		self.HealthPrediction = UF:Construct_HealComm(self)
 		self.MouseGlow = UF:Construct_MouseGlow(self)
 		self.PhaseIndicator = UF:Construct_PhaseIcon(self)
@@ -80,17 +76,14 @@ function UF:Construct_PartyFrames()
 end
 
 function UF:Update_PartyHeader(header, db)
-	header.db = db
+	local parent = header:GetParent()
+	parent.db = db
 
-	local headerHolder = header:GetParent()
-	headerHolder.db = db
-
-	if not headerHolder.positioned then
-		headerHolder:ClearAllPoints()
-		headerHolder:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 195)
-		E:CreateMover(headerHolder, headerHolder:GetName()..'Mover', L["Party Frames"], nil, nil, nil, 'ALL,PARTY,ARENA', nil, 'unitframe,party,generalGroup')
-
-		headerHolder.positioned = true;
+	if not parent.positioned then
+		parent:ClearAllPoints()
+		parent:Point('BOTTOMLEFT', E.UIParent, 'BOTTOMLEFT', 4, 248)
+		E:CreateMover(parent, parent:GetName()..'Mover', L["Party Frames"], nil, nil, nil, 'ALL,PARTY,ARENA', nil, 'unitframe,groupUnits,party,generalGroup')
+		parent.positioned = true
 	end
 end
 
@@ -152,6 +145,8 @@ function UF:Update_PartyFrames(frame, db)
 		local childDB = db.petsGroup
 		if frame.childType == "target" then
 			childDB = db.targetsGroup
+		else
+			frame.Health.colorPetByUnitClass = childDB.colorPetByUnitClass
 		end
 
 		frame:Size(childDB.width, childDB.height)
@@ -180,7 +175,7 @@ function UF:Update_PartyFrames(frame, db)
 
 		UF:Configure_AuraWatch(frame)
 		UF:Configure_CustomTexts(frame)
-		UF:Configure_DebuffHighlight(frame)
+		UF:Configure_AuraHighlight(frame)
 		UF:Configure_HealComm(frame)
 		UF:Configure_PhaseIcon(frame)
 		UF:Configure_Portrait(frame)

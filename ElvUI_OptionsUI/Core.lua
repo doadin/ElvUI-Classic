@@ -9,12 +9,9 @@ local C, L = Engine[1], Engine[2]
 local _G, format, sort, tinsert = _G, format, sort, tinsert
 
 C.Values = {
-	FontFlags = {
-		["NONE"] = L["NONE"],
-		["OUTLINE"] = "OUTLINE",
-		["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
-		["THICKOUTLINE"] = "THICKOUTLINE"
-	}
+	FontFlags = { NONE = L["NONE"], OUTLINE = "OUTLINE", MONOCHROMEOUTLINE = "MONOCROMEOUTLINE", THICKOUTLINE = "THICKOUTLINE" },
+	FontSize = { min = 8, max = 64, step = 1 },
+	Strata = { BACKGROUND = "BACKGROUND", LOW = "LOW", MEDIUM = "MEDIUM", HIGH = "HIGH", DIALOG = "DIALOG", TOOLTIP = "TOOLTIP" }
 }
 
 E:AddLib('AceGUI', 'AceGUI-3.0')
@@ -22,6 +19,7 @@ E:AddLib('AceConfig', 'AceConfig-3.0-ElvUI')
 E:AddLib('AceConfigDialog', 'AceConfigDialog-3.0-ElvUI')
 E:AddLib('AceConfigRegistry', 'AceConfigRegistry-3.0-ElvUI')
 E:AddLib('AceDBOptions', 'AceDBOptions-3.0')
+E:AddLib('ACH', 'LibAceConfigHelper')
 
 local UnitName = UnitName
 local UnitExists = UnitExists
@@ -30,6 +28,7 @@ local UnitIsFriend = UnitIsFriend
 local UnitIsPlayer = UnitIsPlayer
 local GameTooltip_Hide = GameTooltip_Hide
 local GameFontHighlightSmall = _G.GameFontHighlightSmall
+local ACH = E.Libs.ACH
 
 --Function we can call on profile change to update GUI
 function E:RefreshGUI()
@@ -94,7 +93,7 @@ local DEVELOPERS = {
 	"|cff9482c9Darth Predator|r",
 	"|TInterface\\Icons\\INV_Misc_MonsterClaw_04:15:15:0:0:64:64:5:59:5:59|t |cffff7d0aMerathilis|r",
 	"|cffff2020NihilisticPandemonium|r",
-	E:TextGradient("Simpy but my name needs to be longer", 0.45,0.45,0.45, 0.98,0.4,0.53, 0.98,0.4,0.53, 0.45,0.98,0.45).."|r",
+	E:TextGradient("Simpy but my name needs to be longer.", 1.0,0.6,0.4, 1.0,0.4,0.6, 0.6,0.4,1.0, 0.4,0.6,1.0, 0.4,1.0,0.6).."|r",
 	"Crum",
 }
 
@@ -111,8 +110,11 @@ local TESTERS = {
 	"Kurhyus",
 	"Shrom",
 	"BuG",
-	"Rubgrsch",
-	"Luckyone",
+	"Kringel",
+	"Botanica",
+	"|cff00c0faBenik|r",
+	"|cff006fdcRubgrsch|r",
+	"|TInterface\\AddOns\\ElvUI\\Media\\ChatLogos\\Clover:15:15:0:0:64:64:5:59:5:59|t Luckyone",
 	"Yachanay",
 	"AcidWeb",
 	"Catok",
@@ -148,17 +150,8 @@ E.Options.args.info = {
 	type = "group",
 	name = L["Information"],
 	args = {
-		header = {
-			order = 1,
-			type = "description",
-			name = L["ELVUI_DESC"],
-			fontSize = "medium",
-		},
-		spacer = {
-			order = 2,
-			type = "description",
-			name = "",
-		},
+		header = ACH:Description(L["ELVUI_DESC"], 1, "medium"),
+		spacer = ACH:Spacer(2),
 		support = {
 			order = 3,
 			type = "group",
@@ -199,7 +192,7 @@ E.Options.args.info = {
 					name = L["Development Version"],
 					desc = L["Link to the latest development version."],
 					customWidth = 140,
-					func = function() E:StaticPopup_Show("ELVUI_EDITBOX", nil, nil, "https://git.tukui.org/elvui/elvui/-/archive/development/elvui-development.zip") end,
+					func = function() E:StaticPopup_Show("ELVUI_EDITBOX", nil, nil, "https://git.tukui.org/elvui/elvui-classic/-/archive/development/elvui-classic-development.zip") end,
 				},
 			},
 		},
@@ -209,12 +202,7 @@ E.Options.args.info = {
 			name = L["Credits"],
 			guiInline = true,
 			args = {
-				string = {
-					order = 1,
-					type = "description",
-					fontSize = "medium",
-					name = L["ELVUI_CREDITS"]
-				},
+				string = ACH:Description(L["ELVUI_CREDITS"], 1, "medium"),
 			},
 		},
 		coding = {
@@ -223,12 +211,7 @@ E.Options.args.info = {
 			name = L["Coding:"],
 			guiInline = true,
 			args = {
-				string = {
-					order = 1,
-					type = "description",
-					fontSize = "medium",
-					name = DEVELOPER_STRING
-				},
+				string = ACH:Description(DEVELOPER_STRING, 1, "medium"),
 			},
 		},
 		testers = {
@@ -237,12 +220,7 @@ E.Options.args.info = {
 			name = L["Testing:"],
 			guiInline = true,
 			args = {
-				string = {
-					order = 1,
-					type = "description",
-					fontSize = "medium",
-					name = TESTER_STRING
-				},
+				string = ACH:Description(TESTER_STRING, 1, "medium"),
 			},
 		},
 		donators = {
@@ -251,12 +229,7 @@ E.Options.args.info = {
 			name = L["Donations:"],
 			guiInline = true,
 			args = {
-				string = {
-					order = 1,
-					type = "description",
-					fontSize = "medium",
-					name = DONATOR_STRING
-				},
+				string = ACH:Description(DONATOR_STRING, 1, "medium"),
 			},
 		},
 	}
@@ -484,88 +457,101 @@ local function ExportImport_Open(mode)
 end
 
 --Create Profiles Table
-E.Options.args.profiles = E.Libs.AceDBOptions:GetOptionsTable(E.data)
-E.Libs.AceConfig:RegisterOptionsTable("ElvProfiles", E.Options.args.profiles)
-E.Options.args.profiles.name = L["Profiles"]
-E.Options.args.profiles.order = 5
+E.Options.args.profiles = {
+	order = 5,
+	type = "group",
+	childGroups = "tab",
+	name = L["Profiles"],
+	args = {
+		profile = E.Libs.AceDBOptions:GetOptionsTable(E.data),
+		private = E.Libs.AceDBOptions:GetOptionsTable(E.charSettings),
+		distribute = {
+			type = "group",
+			order = 3,
+			childGroups = "tab",
+			name = L["Import / Export"],
+			args = {
+				desc = ACH:Description(L["This feature will allow you to transfer settings to other characters."], 0),
+				distributeProfile = {
+					name = L["Share Current Profile"],
+					desc = L["Sends your current profile to your target."],
+					type = "execute",
+					order = 1,
+					func = function()
+						if not UnitExists("target") or not UnitIsPlayer("target")
+						or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target") then
+							E:Print(L["You must be targeting a player."])
+							return
+						end
 
-if not E.Options.args.profiles.plugins then
-	E.Options.args.profiles.plugins = {}
+						local name, server = UnitName("target")
+						if name and (not server or server == "") then
+							D:Distribute(name)
+						elseif server then
+							D:Distribute(name, true)
+						end
+					end
+				},
+				distributeGlobal = {
+					name = L["Share Filters"],
+					desc = L["Sends your filter settings to your target."],
+					type = "execute",
+					order = 2,
+					func = function()
+						if not UnitExists("target") or not UnitIsPlayer("target")
+						or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target") then
+							E:Print(L["You must be targeting a player."])
+							return
+						end
+
+						local name, server = UnitName("target")
+						if name and (not server or server == "") then
+							D:Distribute(name, false, true)
+						elseif server then
+							D:Distribute(name, true, true)
+						end
+					end
+				},
+				spacer2 = ACH:Spacer(3),
+				exportProfile = {
+					name = L["Export Profile"],
+					type = "execute",
+					order = 4,
+					func = function()
+						ExportImport_Open("export")
+					end
+				},
+				importProfile = {
+					name = L["Import Profile"],
+					type = "execute",
+					order = 5,
+					func = function()
+						ExportImport_Open("import")
+					end
+				}
+			}
+		}
+	},
+}
+
+E.Options.args.profiles.args.profile.name = L["Profile"]
+E.Options.args.profiles.args.profile.order = 1
+E.Options.args.profiles.args.private.name = L["Private"]
+E.Options.args.profiles.args.private.order = 2
+
+E.Options.args.profiles.args.private.args.choose.confirm = function(info, value)
+	return format(L["Choosing Settings %s. This will reload the UI.\n\n Are you sure?"], value)
 end
 
-E.Options.args.profiles.plugins.ElvUI = {
-	spacer = {
-		order = 89,
-		type = "description",
-		name = "\n\n"
-	},
-	desc = {
-		name = L["This feature will allow you to transfer settings to other characters."],
-		type = "description",
-		order = 90
-	},
-	distributeProfile = {
-		name = L["Share Current Profile"],
-		desc = L["Sends your current profile to your target."],
-		type = "execute",
-		order = 91,
-		func = function()
-			if not UnitExists("target") or not UnitIsPlayer("target")
-			or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target") then
-				E:Print(L["You must be targeting a player."])
-				return
-			end
+E.Libs.AceConfig:RegisterOptionsTable("ElvProfiles", E.Options.args.profiles.args.profile)
+E.Options.args.profiles.args.profile.args.copyfrom.confirm = function(info, value)
+	return format(L["Copy Settings from %s. This will overwrite %s profile.\n\n Are you sure?"], value, E.data:GetCurrentProfile())
+end
 
-			local name, server = UnitName("target")
-			if name and (not server or server == "") then
-				D:Distribute(name)
-			elseif server then
-				D:Distribute(name, true)
-			end
-		end
-	},
-	distributeGlobal = {
-		name = L["Share Filters"],
-		desc = L["Sends your filter settings to your target."],
-		type = "execute",
-		order = 92,
-		func = function()
-			if not UnitExists("target") or not UnitIsPlayer("target")
-			or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target") then
-				E:Print(L["You must be targeting a player."])
-				return
-			end
-
-			local name, server = UnitName("target")
-			if name and (not server or server == "") then
-				D:Distribute(name, false, true)
-			elseif server then
-				D:Distribute(name, true, true)
-			end
-		end
-	},
-	spacer2 = {
-		order = 93,
-		type = "description",
-		name = ""
-	},
-	exportProfile = {
-		name = L["Export Profile"],
-		type = "execute",
-		order = 94,
-		func = function()
-			ExportImport_Open("export")
-		end
-	},
-	importProfile = {
-		name = L["Import Profile"],
-		type = "execute",
-		order = 95,
-		func = function()
-			ExportImport_Open("import")
-		end
-	}
-}
+E.Libs.AceConfig:RegisterOptionsTable("ElvPrivates", E.Options.args.profiles.args.private)
+E.Options.args.profiles.args.private.args.copyfrom.confirm = function(info, value)
+	return format(L["Copy Settings from %s. This will overwrite %s profile.\n\n Are you sure?"], value, E.charSettings:GetCurrentProfile())
+end
 
 if GetAddOnEnableState(nil, "ElvUI_Config") ~= 0 then
 	E:StaticPopup_Show("ELVUI_CONFIG_FOUND")

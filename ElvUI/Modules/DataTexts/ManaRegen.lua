@@ -7,6 +7,7 @@ local strjoin = strjoin
 local GetManaRegen = GetManaRegen
 local InCombatLockdown = InCombatLockdown
 local MANA_REGEN = MANA_REGEN
+local STAT_CATEGORY_ENHANCEMENTS = STAT_CATEGORY_ENHANCEMENTS
 
 local displayString, lastPanel = ''
 
@@ -30,4 +31,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('Mana Regen', {"UNIT_STATS", "UNIT_AURA"}, OnEvent, nil, nil, nil, nil, MANA_REGEN)
+DT:RegisterDatatext('Mana Regen', STAT_CATEGORY_ENHANCEMENTS, {"UNIT_STATS", "UNIT_AURA"}, OnEvent, nil, nil, nil, nil, MANA_REGEN)

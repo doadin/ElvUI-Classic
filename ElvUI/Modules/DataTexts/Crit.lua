@@ -8,6 +8,9 @@ local GetCritChance = GetCritChance
 local GetRangedCritChance = GetRangedCritChance
 local GetSpellCritChance = GetSpellCritChance
 local CRIT_ABBR = CRIT_ABBR
+local RANGED_CRIT_CHANCE = RANGED_CRIT_CHANCE
+local SPELL_CRIT_CHANCE = SPELL_CRIT_CHANCE
+local STAT_CATEGORY_ENHANCEMENTS = STAT_CATEGORY_ENHANCEMENTS
 
 local displayString, lastPanel = ''
 
@@ -34,4 +37,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('Crit Chance', {"UNIT_STATS", "UNIT_AURA", "PLAYER_DAMAGE_DONE_MODS"}, OnEvent, nil, nil, nil, nil, STAT_CRITICAL_STRIKE)
+DT:RegisterDatatext('Crit Chance', STAT_CATEGORY_ENHANCEMENTS, {"UNIT_STATS", "UNIT_AURA", "PLAYER_DAMAGE_DONE_MODS"}, OnEvent, nil, nil, OnEnter, nil, STAT_CRITICAL_STRIKE)

@@ -22,7 +22,7 @@ local UnitHealthMax = UnitHealthMax
 local _, ns = ...
 local oUF = ns.oUF
 
-local function Update(self, event)
+local function Update(self)
 	local element = self.TargetIndicator
 
 	if (element.PreUpdate) then

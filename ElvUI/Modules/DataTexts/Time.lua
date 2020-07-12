@@ -127,4 +127,14 @@ function Update(self, t)
 	int = 5
 end
 
-DT:RegisterDatatext('Time', {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, nil, OnEnter, OnLeave)
+local function OnClick(self, btn)
+	if btn == "RightButton" then
+		-- Show clock
+		_G.TimeManager_Toggle()
+	elseif btn == "LeftButton" then
+		-- Show stopwatch
+		_G.Stopwatch_Toggle()
+	end
+end
+
+DT:RegisterDatatext('Time', nil, {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, OnClick, OnEnter, OnLeave)

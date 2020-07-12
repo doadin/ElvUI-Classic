@@ -18,8 +18,8 @@ G.general = {
 		yOffset = 0
 	},
 	AceGUI = {
-		width = 1000,
-		height = 720
+		width = 960,
+		height = 730
 	},
 	disableTutorialButtons = true,
 	showMissingTalentAlert = false,
@@ -37,7 +37,32 @@ G.bags = {
 }
 
 G.datatexts = {
-	customCurrencies = {}
+	customPanels = {},
+	customCurrencies = {},
+	newPanelInfo = {
+		name = '',
+		enable = true,
+		growth = 'HORIZONTAL',
+		width = 300,
+		height = 22,
+		frameStrata = 'LOW',
+		numPoints = 3,
+		frameLevel = 1,
+		backdrop = true,
+		panelTransparency = false,
+		mouseover = false,
+		border = true,
+		visibility = '[petbattle] hide;show',
+		tooltipAnchor = 'ANCHOR_TOPLEFT',
+		tooltipXOffset = -17,
+		tooltipYOffset = 4,
+		fonts = {
+			enable = false,
+			font = "PT Sans Narrow",
+			fontSize = 12,
+			fontOutline = "OUTLINE",
+		}
+	},
 }
 
 G.nameplate = {
@@ -66,7 +91,7 @@ G.unitframe = {
 
 G.profileCopy = {
 	--Specific values
-	selected = "Minimalistic",
+	selected = "Default",
 	movers = {},
 	--Modules
 	actionbar = {
@@ -80,7 +105,6 @@ G.profileCopy = {
 		barPet = true,
 		stanceBar = true,
 		microbar = true,
-		extraActionButton = true,
 		cooldown = true
 	},
 	auras = {
