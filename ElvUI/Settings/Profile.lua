@@ -433,6 +433,7 @@ P.nameplates = {
 		castColor = {r = 1, g = 0.81, b = 0},
 		tapped = {r = 0.6, g = 0.6, b = 0.6},
 		castNoInterruptColor = {r = 0.78, g = 0.25, b = 0.25},
+		castInterruptedColor = {r = 0.3, g = 0.3, b = 0.3},
 		castbarDesaturate = true,
 		reactions = {
 			good = {r = .29,  g = .68, b = .30},
