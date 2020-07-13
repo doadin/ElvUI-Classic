@@ -19,16 +19,14 @@ function DB:UpdateReputation(event)
 
 	local bar = self.repBar
 	local name, reaction, Min, Max, value = GetWatchedFactionInfo()
-	local max, isCapped, standingLabel
 
 	if not name or (DB.db.reputation.hideInCombat and (event == "PLAYER_REGEN_DISABLED" or InCombatLockdown())) then
 		bar:Hide()
 	elseif name and (not self.db.reputation.hideInCombat or not InCombatLockdown()) then
 		bar:Show()
 
-		local text = ''
-		local textFormat = self.db.reputation.textFormat
-		local isCapped, isFriend, friendText, standingLabel
+		local textFormat, text = self.db.reputation.textFormat, ''
+		local isCapped, standingLabel
 
 		if reaction == _G.MAX_REPUTATION_REACTION then
 			Min, Max, value = 0, 1, 1
