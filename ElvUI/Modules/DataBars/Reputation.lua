@@ -7,12 +7,11 @@ local _G = _G
 local format = format
 --WoW API / Variables
 local CreateFrame = CreateFrame
-local GetWatchedFactionInfo, GetNumFactions, GetFactionInfo = GetWatchedFactionInfo, GetNumFactions, GetFactionInfo
+local GetWatchedFactionInfo = GetWatchedFactionInfo
 local InCombatLockdown = InCombatLockdown
 local ToggleCharacter = ToggleCharacter
 local REPUTATION = REPUTATION
 local STANDING = STANDING
-local MAX_PLAYER_LEVEL = MAX_PLAYER_LEVEL
 
 function DB:UpdateReputation(event)
 	if not DB.db.reputation.enable then return end
