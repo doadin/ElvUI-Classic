@@ -61,9 +61,9 @@ function DB:UpdateReputation(event)
 			elseif textFormat == 'CUR' then
 				text = format('%s: %s [%s]', name, E:ShortValue(value - Min), standingLabel)
 			elseif textFormat == 'REM' then
-				text = format('%s: %s [%s]', name, E:ShortValue((max - Min) - (value-Min)), standingLabel)
+				text = format('%s: %s [%s]', name, E:ShortValue((Max - Min) - (value-Min)), standingLabel)
 			elseif textFormat == 'CURREM' then
-				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - Min), E:ShortValue((max - Min) - (value-Min)), standingLabel)
+				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - Min), E:ShortValue((Max - Min) - (value-Min)), standingLabel)
 			elseif textFormat == 'CURPERCREM' then
 				text = format('%s: %s - %d%% (%s) [%s]', name, E:ShortValue(value - Min), ((value - Min) / (maxMinDiff) * 100), E:ShortValue((Max - Min) - (value-Min)), standingLabel)
 			end
