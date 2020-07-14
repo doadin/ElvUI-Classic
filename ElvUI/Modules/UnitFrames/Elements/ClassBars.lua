@@ -272,7 +272,7 @@ UF.ToggleResourceBar = ToggleResourceBar --Make available to combobar
 -- MONK, PALADIN, WARLOCK, MAGE, and COMBOS
 -------------------------------------------------------------
 function UF:Construct_ClassBar(frame)
-	local bars = CreateFrame("Frame", nil, frame)
+	local bars = CreateFrame("Frame", '$parent_ClassBar', frame)
 	bars:CreateBackdrop(nil, nil, nil, self.thinBorders, true)
 	bars:Hide()
 
