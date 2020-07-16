@@ -9,12 +9,9 @@ local UnitClass = UnitClass
 local tonumber = tonumber
 local UnitPowerType = UnitPowerType
 local UnitPowerMax = UnitPowerMax
-local math_abs = math.abs
-local InCombatLockdown = InCombatLockdown
 local GetSpellPowerCost = GetSpellPowerCost
 
 local LastTickTime = GetTime()
-local TickValue = 2
 local CurrentValue = UnitPower('player')
 local LastValue = CurrentValue
 local allowPowerEvent = true
@@ -52,33 +49,31 @@ local Update = function(self, elapsed)
 			return
 		end
 
-		local Now = GetTime() or 0
-		if not (Now == nil) then
-			local Timer = Now - LastTickTime
+		local Now = GetTime()
+		local Timer = Now - LastTickTime
 
-			if (CurrentValue > LastValue) or powerType == Enum.PowerType.Energy and (Now >= LastTickTime + 2) then
-				LastTickTime = Now
-			end
-
-			if Timer > 0 then
-				element.Spark:Show()
-				element:SetMinMaxValues(0, 2)
-				element.Spark:SetVertexColor(1, 1, 1, 1)
-				element:SetValue(Timer)
-				allowPowerEvent = true
-
-				LastValue = CurrentValue
-			elseif Timer < 0 then
-				-- if negative, it's mp5delay
-				element.Spark:Show()
-				element:SetMinMaxValues(0, Mp5Delay)
-				element.Spark:SetVertexColor(1, 1, 0, 1)
-
-				element:SetValue(math_abs(Timer))
-			end
-
-			element.sinceLastUpdate = 0
+		if (CurrentValue > LastValue) or powerType == Enum.PowerType.Energy and (Now >= LastTickTime + 2) then
+			LastTickTime = Now
 		end
+
+		if Timer > 0 then
+			element.Spark:Show()
+			element:SetMinMaxValues(0, 2)
+			element.Spark:SetVertexColor(1, 1, 1, 1)
+			element:SetValue(Timer)
+			allowPowerEvent = true
+
+			LastValue = CurrentValue
+		elseif Timer < 0 then
+			-- if negative, it's mp5delay
+			element.Spark:Show()
+			element:SetMinMaxValues(0, Mp5Delay)
+			element.Spark:SetVertexColor(1, 1, 0, 1)
+
+			element:SetValue(-Timer)
+		end
+
+		element.sinceLastUpdate = 0
 	end
 end
 
@@ -90,19 +85,7 @@ local EventHandler = function(self, event, _, _, spellID)
 	end
 
 	if event == 'UNIT_POWER_UPDATE' and allowPowerEvent then
-		local Time = GetTime()
-
-		TickValue = Time - LastTickTime
-
-		if TickValue > 5 then
-			if powerType == Enum.PowerType.Mana and InCombatLockdown() then
-				TickValue = 5
-			else
-				TickValue = 2
-			end
-		end
-
-		LastTickTime = Time
+		LastTickTime = GetTime()
 	end
 
 	if event == 'UNIT_SPELLCAST_SUCCEEDED' then
@@ -148,8 +131,6 @@ local Enable = function(self, unit)
 			spark:SetPoint('CENTER', element:GetStatusBarTexture(), 'RIGHT')
 		end
 
-		self:RegisterEvent("PLAYER_REGEN_ENABLED", EventHandler, true)
-		self:RegisterEvent("PLAYER_REGEN_DISABLED", EventHandler, true)
 		self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", EventHandler)
 		self:RegisterEvent("UNIT_POWER_UPDATE", EventHandler)
 
@@ -164,8 +145,6 @@ local Disable = function(self)
 	local Power = self.Power
 
 	if (Power) and (element) then
-		self:UnregisterEvent("PLAYER_REGEN_ENABLED", EventHandler, true)
-		self:UnregisterEvent("PLAYER_REGEN_DISABLED", EventHandler, true)
 		self:UnregisterEvent("UNIT_SPELLCAST_SUCCEEDED", EventHandler)
 		self:UnregisterEvent("UNIT_POWER_UPDATE", EventHandler)
 
