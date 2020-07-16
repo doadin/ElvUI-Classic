@@ -1,5 +1,18 @@
 local _, ns = ...
 local oUF = ns.oUF
+
+--Lua functions
+local _G = _G
+local GetTime = GetTime
+local UnitPower = UnitPower
+local UnitClass = UnitClass
+local tonumber = tonumber
+local UnitPowerType = UnitPowerType
+local UnitPowerMax = UnitPowerMax
+local math_abs = math.abs
+local InCombatLockdown = InCombatLockdown
+local GetSpellPowerCost = GetSpellPowerCost
+
 local LastTickTime = GetTime()
 local TickValue = 2
 local CurrentValue = UnitPower('player')
@@ -61,7 +74,7 @@ local Update = function(self, elapsed)
 				element:SetMinMaxValues(0, Mp5Delay)
 				element.Spark:SetVertexColor(1, 1, 0, 1)
 
-				element:SetValue(math.abs(Timer))
+				element:SetValue(math_abs(Timer))
 			end
 
 			element.sinceLastUpdate = 0
