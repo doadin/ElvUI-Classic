@@ -97,7 +97,7 @@ local EventHandler = function(self, event, _, _, spellID)
 			end
 		end
 
-		if (CurrentValue < LastValue) and (not spellCost or Mp5IgnoredSpells[spellID]) then
+		if not spellCost or Mp5IgnoredSpells[spellID] then
 			return
 		end
 
