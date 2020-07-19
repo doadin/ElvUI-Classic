@@ -1298,8 +1298,6 @@ local function UpdateCustomTextGroup(unit)
 	if unit == 'party' or unit:find('raid') then
 		for i = 1, UF[unit]:GetNumChildren() do
 			local child = select(i, UF[unit]:GetChildren())
-			UF:Configure_CustomTexts(child)
-			child:UpdateTags()
 
 			for x = 1, child:GetNumChildren() do
 				local subchild = select(x, child:GetChildren())
@@ -1727,7 +1725,7 @@ local function GetOptionsTable_InformationPanel(updateFunc, groupName, numUnits)
 	return config
 end
 
-local function GetOptionsTable_Name(updateFunc, groupName, numUnits)
+local function GetOptionsTable_Name(updateFunc, groupName, numUnits, subGroup)
 	local config = {
 		type = 'group',
 		name = L["Name"],
@@ -1770,6 +1768,12 @@ local function GetOptionsTable_Name(updateFunc, groupName, numUnits)
 			},
 		},
 	}
+
+	if subGroup then
+		config.guiInline = true
+		config.get = function(info) return E.db.unitframe.units[groupName][subGroup].name[info[#info]] end
+		config.set = function(info, value) E.db.unitframe.units[groupName][subGroup].name[info[#info]] = value; updateFunc(UF, groupName, numUnits) end
+	end
 
 	return config
 end
@@ -2311,7 +2315,7 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 	return config
 end
 
-local function GetOptionsTable_RaidIcon(updateFunc, groupName, numUnits)
+local function GetOptionsTable_RaidIcon(updateFunc, groupName, numUnits, subGroup)
 	local config = {
 		type = 'group',
 		name = L["Raid Icon"],
@@ -2356,6 +2360,12 @@ local function GetOptionsTable_RaidIcon(updateFunc, groupName, numUnits)
 			},
 		},
 	}
+
+	if subGroup then
+		config.guiInline = true
+		config.get = function(info) return E.db.unitframe.units[groupName][subGroup].raidicon[info[#info]] end
+		config.set = function(info, value) E.db.unitframe.units[groupName][subGroup].raidicon[info[#info]] = value; updateFunc(UF, groupName, numUnits) end
+	end
 
 	return config
 end
@@ -4752,8 +4762,8 @@ E.Options.args.unitframe.args.groupUnits.args.party = {
 					desc = L["An Y offset (in pixels) to be used when anchoring new frames."],
 					min = -500, max = 500, step = 1,
 				},
-				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'party'),
-				raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, 'party'),
+				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'party', nil, 'targetsGroup'),
+				raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, 'party', nil, 'targetsGroup'),
 			},
 		},
 		generalGroup = GetOptionsTable_GeneralGroup(UF.CreateAndUpdateHeaderGroup, 'party'),
@@ -5028,8 +5038,8 @@ E.Options.args.unitframe.args.groupUnits.args.tank = {
 					desc = L["An Y offset (in pixels) to be used when anchoring new frames."],
 					min = -500, max = 500, step = 1,
 				},
-				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'tank'),
-				raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, 'tank'),
+				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'tank', nil, 'targetsGroup'),
+				raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, 'tank', nil, 'targetsGroup'),
 			},
 		},
 		generalGroup = GetOptionsTable_GeneralGroup(UF.CreateAndUpdateHeaderGroup, 'tank'),
@@ -5115,8 +5125,8 @@ E.Options.args.unitframe.args.groupUnits.args.assist = {
 					desc = L["An Y offset (in pixels) to be used when anchoring new frames."],
 					min = -500, max = 500, step = 1,
 				},
-				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'assist'),
-				raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, 'assist'),
+				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, 'assist', nil, 'targetsGroup'),
+				raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, 'assist', nil, 'targetsGroup'),
 			},
 		},
 		generalGroup = GetOptionsTable_GeneralGroup(UF.CreateAndUpdateHeaderGroup, 'assist'),
