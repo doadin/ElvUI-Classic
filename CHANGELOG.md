@@ -1,5 +1,8 @@
 ### Version 1.28 [ETA: 🍨]
 **Shamans will stay pink**  
+**ActionBars:** Fixed an issue with action paging  
+**UnitFrames:** Fixed an issue with custom texts  
+**MiniMap:** Fixed the pixel offset on the minimap DataBar  
 ___
 ### Version 1.25-1.27 [07/12/2020]
 **ActionBars:** Fixed an issue with the Stance Bar  
