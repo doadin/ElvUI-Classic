@@ -27,7 +27,7 @@ E.Options.args.maps.args.worldMap = ACH:Group(L["WORLD_MAP"], nil, 1, 'tab')
 
 E.Options.args.maps.args.worldMap.args.generalGroup = ACH:Group(L["General"], nil, 1, nil, function(info) return E.global.general[info[#info]] end, function(info, value) E.global.general[info[#info]] = value end)
 E.Options.args.maps.args.worldMap.args.generalGroup.guiInline = true
-E.Options.args.maps.args.worldMap.args.generalGroup.args.enable = ACH:Toggle(L["Enable"], L["Enable/Disable the World Map Enhancements."], 0, nil, nil, nil, nil, function(_, value) E.global.general.worldMap = value; E:StaticPopup_Show("PRIVATE_RL") end)
+E.Options.args.maps.args.worldMap.args.generalGroup.args.enable = ACH:Toggle(L["Enable"], L["Enable/Disable the World Map Enhancements."], 0, nil, nil, nil, nil, function(_, value) E.private.general.worldMap = value; E:StaticPopup_Show("PRIVATE_RL") end)
 E.Options.args.maps.args.worldMap.args.generalGroup.args.smallerWorldMap = ACH:Toggle(L["Smaller World Map"], L["Make the world map smaller."], 1, nil, nil, nil, nil, function(_, value) E.global.general.smallerWorldMap = value; E:StaticPopup_Show("GLOBAL_RL") end)
 E.Options.args.maps.args.worldMap.args.generalGroup.args.smallerWorldMapScale = ACH:Range(L["Smaller World Map Scale"], nil, 2, { min = .5, max = .9, step = .01, isPercent = true }, nil, nil, function(_, value) E.global.general.smallerWorldMapScale = value; E:StaticPopup_Show("GLOBAL_RL") end)
 E.Options.args.maps.args.worldMap.args.generalGroup.args.spacer1 = ACH:Spacer(3)
