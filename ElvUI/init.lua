@@ -190,9 +190,9 @@ function E:OnInitialize()
 
 	if self.private.general.minimap.enable then
 		self.Minimap:SetGetMinimapShape()
-		_G.Minimap:SetMaskTexture('interface/chatframe/chatframebackground.blp')
+		_G.Minimap:SetMaskTexture('interface/chatframe/chatframebackground')
 	else
-		_G.Minimap:SetMaskTexture('textures/minimapmask.blp')
+		_G.Minimap:SetMaskTexture('textures/minimapmask')
 	end
 
 	if GetAddOnEnableState(E.myname, 'Tukui') == 2 then

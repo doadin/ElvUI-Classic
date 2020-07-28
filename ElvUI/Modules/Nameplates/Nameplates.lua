@@ -224,6 +224,7 @@ function NP:StylePlate(nameplate)
 	nameplate.Portrait = NP:Construct_Portrait(nameplate.RaisedElement)
 	nameplate.RaidTargetIndicator = NP:Construct_RaidTargetIndicator(nameplate.RaisedElement)
 	nameplate.TargetIndicator = NP:Construct_TargetIndicator(nameplate)
+	nameplate.ThreatIndicator = NP:Construct_ThreatIndicator(nameplate.RaisedElement)
 	nameplate.Highlight = NP:Construct_Highlight(nameplate)
 	nameplate.ClassPower = NP:Construct_ClassPower(nameplate)
 	nameplate.PvPIndicator = NP:Construct_PvPIndicator(nameplate.RaisedElement) -- Horde / Alliance / HonorInfo
@@ -254,6 +255,7 @@ function NP:UpdatePlate(nameplate, updateBase)
 		NP:Update_Portrait(nameplate)
 		NP:Update_PvPIndicator(nameplate) -- Horde / Alliance / HonorInfo
 		NP:Update_TargetIndicator(nameplate)
+		NP:Update_ThreatIndicator(nameplate)
 		NP:Update_Cutaway(nameplate)
 
 		if nameplate == _G.ElvNP_Player then
@@ -272,27 +274,22 @@ function NP:UpdatePlate(nameplate, updateBase)
 end
 
 NP.DisableInNotNameOnly = {
-	"Highlight",
+	'Highlight',
 }
 
 NP.DisableElements = {
-	"Health",
-	"HealthPrediction",
-	"Power",
-	"ClassificationIndicator",
-	"Castbar",
-	"Portrait",
-	"TargetIndicator",
-	"ClassPower",
-	"PvPIndicator",
-	"Auras"
+	'Health',
+	'HealthPrediction',
+	'Power',
+	'ClassificationIndicator',
+	'Castbar',
+	'Portrait',
+	'TargetIndicator',
+	'ThreatIndicator',
+	'ClassPower',
+	'PvPIndicator',
+	'Auras'
 }
-
-if E.myclass == "DEATHKNIGHT" then
-	tinsert(NP.DisableElements, "Runes")
-elseif E.myclass == "MONK" then
-	tinsert(NP.DisableElements, "Stagger")
-end
 
 function NP:DisablePlate(nameplate, nameOnly)
 	for _, element in ipairs(NP.DisableElements) do
@@ -368,7 +365,7 @@ end
 function NP:Update_StatusBars()
 	for bar in pairs(NP.StatusBars) do
 		local SF_HealthTexture = NP:StyleFilterCheckChanges(bar:GetParent(), 'HealthTexture')
-		if not SF_HealthTexture then bar:SetStatusBarTexture(E.LSM:Fetch("statusbar", NP.db.statusbar) or E.media.normTex) end
+		if not SF_HealthTexture then bar:SetStatusBarTexture(E.LSM:Fetch('statusbar', NP.db.statusbar) or E.media.normTex) end
 	end
 end
 
@@ -638,13 +635,13 @@ function NP:Initialize()
 
 	oUF:SpawnNamePlates('ElvNP_', function(nameplate, event, unit) NP:NamePlateCallBack(nameplate, event, unit) end)
 
-	NP:RegisterEvent("PLAYER_REGEN_ENABLED")
-	NP:RegisterEvent("PLAYER_REGEN_DISABLED")
-	NP:RegisterEvent("PLAYER_ENTERING_WORLD")
-	NP:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-	NP:RegisterEvent("GROUP_ROSTER_UPDATE")
-	NP:RegisterEvent("GROUP_LEFT")
-	NP:RegisterEvent("PLAYER_LOGOUT")
+	NP:RegisterEvent('PLAYER_REGEN_ENABLED')
+	NP:RegisterEvent('PLAYER_REGEN_DISABLED')
+	NP:RegisterEvent('PLAYER_ENTERING_WORLD')
+	NP:RegisterEvent('COMBAT_LOG_EVENT_UNFILTERED')
+	NP:RegisterEvent('GROUP_ROSTER_UPDATE')
+	NP:RegisterEvent('GROUP_LEFT')
+	NP:RegisterEvent('PLAYER_LOGOUT')
 
 	NP:StyleFilterInitialize()
 	NP:HideInterfaceOptions()
