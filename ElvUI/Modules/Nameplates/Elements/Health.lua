@@ -3,11 +3,11 @@ local NP = E:GetModule('NamePlates')
 
 local ipairs = ipairs
 local unpack = unpack
-local UnitIsConnected = UnitIsConnected
 local UnitPlayerControlled = UnitPlayerControlled
 local UnitIsTapDenied = UnitIsTapDenied
 local UnitClass = UnitClass
 local UnitReaction = UnitReaction
+local UnitIsConnected = UnitIsConnected
 local CreateFrame = CreateFrame
 
 function NP:Health_UpdateColor(_, unit)

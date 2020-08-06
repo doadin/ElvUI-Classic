@@ -68,10 +68,8 @@ function NP:Update_ClassificationIndicator(nameplate)
 		nameplate.ClassificationIndicator:Size(db.eliteIcon.size, db.eliteIcon.size)
 
 		nameplate.ClassificationIndicator:Point(E.InversePoints[db.eliteIcon.position], nameplate, db.eliteIcon.position, db.eliteIcon.xOffset, db.eliteIcon.yOffset)
-	else
-		if nameplate:IsElementEnabled("ClassificationIndicator") then
-			nameplate:DisableElement("ClassificationIndicator")
-		end
+	elseif nameplate:IsElementEnabled("ClassificationIndicator") then
+		nameplate:DisableElement("ClassificationIndicator")
 	end
 end
 

@@ -81,8 +81,8 @@ function NP:CVarReset()
 	SetCVar('nameplateOtherAtBase', GetCVarDefault('nameplateOtherAtBase'))
 	SetCVar('nameplateOverlapH', GetCVarDefault('nameplateOverlapH'))
 	SetCVar('nameplateOverlapV', GetCVarDefault('nameplateOverlapV'))
-	SetCVar('nameplateSelectedAlpha', 1)
 	SetCVar('nameplateNotSelectedAlpha', 1)
+	SetCVar('nameplateSelectedAlpha', 1)
 	SetCVar('nameplateSelectedScale', 1)
 	SetCVar('nameplateSelfAlpha', 1)
 	SetCVar('nameplateSelfBottomInset', GetCVarDefault('nameplateSelfBottomInset'))
@@ -122,29 +122,29 @@ function NP:SetCVars()
 end
 
 function NP:PLAYER_REGEN_DISABLED()
-	if (NP.db.showFriendlyCombat == 'TOGGLE_ON') then
+	if NP.db.showFriendlyCombat == 'TOGGLE_ON' then
 		SetCVar('nameplateShowFriends', 1)
-	elseif (NP.db.showFriendlyCombat == 'TOGGLE_OFF') then
+	elseif NP.db.showFriendlyCombat == 'TOGGLE_OFF' then
 		SetCVar('nameplateShowFriends', 0)
 	end
 
-	if (NP.db.showEnemyCombat == 'TOGGLE_ON') then
+	if NP.db.showEnemyCombat == 'TOGGLE_ON' then
 		SetCVar('nameplateShowEnemies', 1)
-	elseif (NP.db.showEnemyCombat == 'TOGGLE_OFF') then
+	elseif NP.db.showEnemyCombat == 'TOGGLE_OFF' then
 		SetCVar('nameplateShowEnemies', 0)
 	end
 end
 
 function NP:PLAYER_REGEN_ENABLED()
-	if (NP.db.showFriendlyCombat == 'TOGGLE_ON') then
+	if NP.db.showFriendlyCombat == 'TOGGLE_ON' then
 		SetCVar('nameplateShowFriends', 0)
-	elseif (NP.db.showFriendlyCombat == 'TOGGLE_OFF') then
+	elseif NP.db.showFriendlyCombat == 'TOGGLE_OFF' then
 		SetCVar('nameplateShowFriends', 1)
 	end
 
-	if (NP.db.showEnemyCombat == 'TOGGLE_ON') then
+	if NP.db.showEnemyCombat == 'TOGGLE_ON' then
 		SetCVar('nameplateShowEnemies', 0)
-	elseif (NP.db.showEnemyCombat == 'TOGGLE_OFF') then
+	elseif NP.db.showEnemyCombat == 'TOGGLE_OFF' then
 		SetCVar('nameplateShowEnemies', 1)
 	end
 end
@@ -540,10 +540,6 @@ function NP:NamePlateCallBack(nameplate, event, unit)
 
 		NP:UpdatePlate(nameplate, nameplate.frameType ~= nameplate.previousType)
 		nameplate.previousType = nameplate.frameType
-
-		if nameplate.isTarget then
-			NP:SetupTarget(nameplate)
-		end
 
 		if NP.db.fadeIn and (nameplate ~= _G.ElvNP_Player or (NP.db.units.PLAYER.enable and NP.db.units.PLAYER.useStaticPosition)) then
 			NP:PlateFade(nameplate, 1, 0, 1)
