@@ -1494,6 +1494,7 @@ local function UpdateFilterGroup()
 						return E.global.nameplate.filters[selectedNameplateFilter].actions.hide
 					end
 				},
+				spacer1 = ACH:Spacer(4, "full"),
 				scale = {
 					order = 5,
 					type = "range",
@@ -1564,6 +1565,7 @@ local function UpdateFilterGroup()
 								NP:ConfigureAll()
 							end
 						},
+						spacer1 = ACH:Spacer(3, "full"),
 						power = {
 							name = L["Power"],
 							order = 4,
@@ -1587,6 +1589,7 @@ local function UpdateFilterGroup()
 								NP:ConfigureAll()
 							end
 						},
+						spacer2 = ACH:Spacer(6, "full"),
 						border = {
 							name = L["Border"],
 							order = 7,
