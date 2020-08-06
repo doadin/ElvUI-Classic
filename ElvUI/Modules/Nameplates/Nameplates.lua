@@ -305,11 +305,19 @@ function NP:DisablePlate(nameplate, nameOnly)
 		end
 	end
 
+	NP:Update_Tags(nameplate)
+
+	nameplate.Health.Text:Hide()
+	nameplate.Power.Text:Hide()
+	nameplate.Name:Hide()
+	nameplate.Level:Hide()
+	nameplate.Title:Hide()
+
 	if nameOnly then
-		NP:Update_Tags(nameplate)
+		local db = NP:PlateDB(nameplate)
 		NP:Update_Highlight(nameplate)
 
-		-- The position values here are forced on purpose.
+		nameplate.Name:Show()
 		nameplate.Name:ClearAllPoints()
 		nameplate.Name:Point('CENTER', nameplate, 'CENTER', 0, 0)
 
@@ -318,9 +326,13 @@ function NP:DisablePlate(nameplate, nameOnly)
 
 		nameplate.Portrait:ClearAllPoints()
 		nameplate.Portrait:Point('RIGHT', nameplate.Name, 'LEFT', -6, 0)
+		nameplate.Portrait:Size(db.portrait.width, db.portrait.height)
 
-		nameplate.Title:ClearAllPoints()
-		nameplate.Title:Point('TOP', nameplate.Name, 'BOTTOM', 0, -2)
+		if db.showTitle then
+			nameplate.Title:Show()
+			nameplate.Title:ClearAllPoints()
+			nameplate.Title:Point('TOP', nameplate.Name, 'BOTTOM', 0, -2)
+		end
 	else
 		for _, element in ipairs(NP.DisableInNotNameOnly) do
 			if nameplate:IsElementEnabled(element) then

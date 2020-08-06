@@ -10,6 +10,7 @@ local targetIndicators = { "Spark", "TopIndicator", "LeftIndicator", "RightIndic
 
 function NP:Construct_QuestIcons(nameplate)
 	local QuestIcons = CreateFrame("Frame", nameplate:GetName() .. "QuestIcons", nameplate)
+	QuestIcons:Size(20)
 	QuestIcons:Hide()
 
 	for _, object in pairs(questIconTypes) do

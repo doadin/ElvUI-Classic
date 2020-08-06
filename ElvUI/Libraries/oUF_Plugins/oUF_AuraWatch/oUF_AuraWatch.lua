@@ -16,7 +16,7 @@ local GetSpellTexture = GetSpellTexture
 
 local function createAuraIcon(element, index)
 	local button = CreateFrame('Button', element:GetName() .. 'Button' .. index, element)
-    button:EnableMouse(false)
+	button:EnableMouse(false)
 	button:Hide()
 
 	local cd = CreateFrame('Cooldown', '$parentCooldown', button, 'CooldownFrameTemplate')
