@@ -14,6 +14,9 @@ local GetCVarBool = GetCVarBool
 local GetSpellInfo = GetSpellInfo
 local SetCVar = SetCVar
 
+local CLASS_SORT_ORDER = CLASS_SORT_ORDER
+local LOCALIZED_CLASS_NAMES_MALE = LOCALIZED_CLASS_NAMES_MALE
+
 local raidTargetIcon = "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_%s:0|t %s"
 local selectedNameplateFilter
 

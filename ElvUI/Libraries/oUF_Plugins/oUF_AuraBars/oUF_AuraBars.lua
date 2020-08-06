@@ -4,13 +4,17 @@ local oUF = ns.oUF
 local VISIBLE = 1
 local HIDDEN = 0
 
+local pcall, unpack = pcall, unpack
 local LCD = LibStub('LibClassicDurations', true)
 local infinity = math.huge
-local myClass = select(2, UnitClass('player'))
 local format = format
 local floor = floor
 local tinsert = tinsert
-local min = min
+
+local GetTime = GetTime
+local UnitIsFriend = UnitIsFriend
+local GameTooltip = GameTooltip
+local CreateFrame = CreateFrame
 local UnitIsUnit = UnitIsUnit
 local UnitAura = UnitAura
 
