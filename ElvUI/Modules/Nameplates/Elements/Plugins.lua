@@ -5,18 +5,22 @@ local _G = _G
 local pairs, unpack = pairs, unpack
 local CreateFrame = CreateFrame
 
+local questIconTypes = { "Item", "Loot", "Skull", "Chat" }
+local targetIndicators = { "Spark", "TopIndicator", "LeftIndicator", "RightIndicator" }
+
 function NP:Construct_QuestIcons(nameplate)
 	local QuestIcons = CreateFrame("Frame", nameplate:GetName() .. "QuestIcons", nameplate)
 	QuestIcons:Hide()
 
-	for _, object in pairs({"Item", "Loot", "Skull", "Chat"}) do
-		QuestIcons[object] = QuestIcons:CreateTexture(nil, "BORDER", nil, 1)
-		QuestIcons[object]:Point("CENTER")
-		QuestIcons[object]:Hide()
+	for _, object in pairs(questIconTypes) do
+		local icon = QuestIcons:CreateTexture(nil, "BORDER", nil, 1)
+		icon:Point("CENTER")
+		icon:Hide()
+
+		QuestIcons[object] = icon
 	end
 
 	QuestIcons.Item:SetTexCoord(unpack(E.TexCoords))
-
 	QuestIcons.Chat:SetTexture([[Interface\WorldMap\ChatBubble_64.PNG]])
 	QuestIcons.Chat:SetTexCoord(0, 0.5, 0.5, 1)
 
@@ -43,10 +47,8 @@ function NP:Update_QuestIcons(nameplate)
 		nameplate.QuestIcons.Loot:Size(db.questIcon.size, db.questIcon.size)
 		nameplate.QuestIcons.Skull:Size(db.questIcon.size + 4, db.questIcon.size + 4)
 		nameplate.QuestIcons.Chat:Size(db.questIcon.size + 4, db.questIcon.size + 4)
-	else
-		if nameplate:IsElementEnabled("QuestIcons") then
-			nameplate:DisableElement("QuestIcons")
-		end
+	elseif nameplate:IsElementEnabled("QuestIcons") then
+		nameplate:DisableElement("QuestIcons")
 	end
 end
 
@@ -81,9 +83,11 @@ function NP:Construct_TargetIndicator(nameplate)
 	TargetIndicator.Shadow:SetBackdrop({edgeFile = E.LSM:Fetch("border", "ElvUI GlowBorder"), edgeSize = E:Scale(5)})
 	TargetIndicator.Shadow:Hide()
 
-	for _, object in pairs({"Spark", "TopIndicator", "LeftIndicator", "RightIndicator"}) do
-		TargetIndicator[object] = TargetIndicator:CreateTexture(nil, "BACKGROUND", nil, -5)
-		TargetIndicator[object]:Hide()
+	for _, object in pairs(targetIndicators) do
+		local indicator = TargetIndicator:CreateTexture(nil, "BACKGROUND", nil, -5)
+		indicator:Hide()
+
+		TargetIndicator[object] = indicator
 	end
 
 	TargetIndicator.Spark:SetTexture(E.Media.Textures.Spark)

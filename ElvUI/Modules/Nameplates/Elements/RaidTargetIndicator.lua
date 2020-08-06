@@ -4,7 +4,7 @@ local NP = E:GetModule('NamePlates')
 local GetRaidTargetIndex = GetRaidTargetIndex
 local SetRaidTargetIconTexture = SetRaidTargetIconTexture
 
-function NP:RaidTargetIndicator_Override(event)
+function NP:RaidTargetIndicator_Override()
 	local element = self.RaidTargetIndicator
 
 	if self.unit then

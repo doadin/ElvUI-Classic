@@ -9,7 +9,7 @@ local UnitReaction = UnitReaction
 local CreateFrame = CreateFrame
 local UnitPowerType = UnitPowerType
 
-function NP:Power_UpdateColor(event, unit)
+function NP:Power_UpdateColor(_, unit)
 	if self.unit ~= unit then return end
 
 	local element = self.Power
@@ -20,21 +20,18 @@ function NP:Power_UpdateColor(event, unit)
 	if sf.PowerColor then return end
 
 	local r, g, b, t, atlas
-	if(element.colorDead and element.dead) then
-		t = self.colors.dead
-	elseif(element.colorDisconnected and element.disconnected) then
+	if element.colorDisconnected and not UnitIsConnected(unit) then
 		t = self.colors.disconnected
 	elseif element.colorTapping and not UnitPlayerControlled(unit) and UnitIsTapDenied(unit) then
 		t = self.colors.tapped
-	elseif(element.colorPower) then
+	elseif element.colorPower then
 		t = NP.db.colors.power[ptoken or ptype]
-		if(not t) then
-			if(element.GetAlternativeColor) then
+		if not t then
+			if element.GetAlternativeColor then
 				r, g, b = element:GetAlternativeColor(unit, ptype, ptoken, altR, altG, altB)
-			elseif(altR) then
+			elseif altR then
 				r, g, b = altR, altG, altB
-				if(r > 1 or g > 1 or b > 1) then
-					-- BUG: As of 7.0.3, altR, altG, altB may be in 0-1 or 0-255 range.
+				if r > 1 or g > 1 or b > 1 then -- BUG: As of 7.0.3, altR, altG, altB may be in 0-1 or 0-255 range.
 					r, g, b = r / 255, g / 255, b / 255
 				end
 			end
@@ -46,7 +43,7 @@ function NP:Power_UpdateColor(event, unit)
 	elseif (element.colorClass and self.isPlayer) or (element.colorClassNPC and not self.isPlayer) or (element.colorClassPet and UnitPlayerControlled(unit) and not self.isPlayer) then
 		local _, class = UnitClass(unit)
 		t = self.colors.class[class]
-	elseif(element.colorReaction and UnitReaction(unit, 'player')) then
+	elseif element.colorReaction and UnitReaction(unit, 'player') then
 		local reaction = UnitReaction(unit, 'player')
 		if reaction <= 3 then reaction = 'bad' elseif reaction == 4 then reaction = 'neutral' else reaction = 'good' end
 		t = NP.db.colors.reactions[reaction]
@@ -77,12 +74,12 @@ function NP:Power_UpdateColor(event, unit)
 	end
 end
 
-function NP:Power_PostUpdate(unit, cur, min, max)
+function NP:Power_PostUpdate(_, cur) --unit, cur, min, max
 	local db = NP.db.units[self.__owner.frameType]
 
 	if not db then return end
 
-	if (db.power and db.power.enable and db.power.hideWhenEmpty) and (cur == 0) then
+	if db.power and db.power.enable and db.power.hideWhenEmpty and (cur == 0) then
 		self:Hide()
 	else
 		self:Show()
