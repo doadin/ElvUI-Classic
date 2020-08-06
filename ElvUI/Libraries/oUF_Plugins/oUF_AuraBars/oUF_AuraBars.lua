@@ -14,6 +14,8 @@ local min = min
 local UnitIsUnit = UnitIsUnit
 local UnitAura = UnitAura
 
+-- GLOBALS: DebuffTypeColor
+
 local DAY, HOUR, MINUTE = 86400, 3600, 60
 local function FormatTime(s)
 	if s == infinity then return end
@@ -57,7 +59,7 @@ local function onUpdate(self, elapsed)
 end
 
 local function createAuraBar(element, index)
-	local statusBar = CreateFrame('StatusBar', element:GetDebugName() .. 'StatusBar' .. index, element)
+	local statusBar = CreateFrame('StatusBar', element:GetName() .. 'StatusBar' .. index, element)
 	statusBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 	statusBar:SetMinMaxValues(0, 1)
 	statusBar.tooltipAnchor = element.tooltipAnchor

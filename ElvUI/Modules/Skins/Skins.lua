@@ -295,7 +295,7 @@ end
 
 do
 	local function GrabScrollBarElement(frame, element)
-		local FrameName = frame:GetDebugName()
+		local FrameName = frame:GetName()
 		return frame[element] or FrameName and (_G[FrameName..element] or strfind(FrameName, element)) or nil
 	end
 
@@ -1058,7 +1058,8 @@ function S:HandleNextPrevButton(btn, arrowDir, color, noBackdrop, stripTexts)
 
 	if not arrowDir then
 		arrowDir = 'down'
-		local ButtonName = btn:GetDebugName() and btn:GetDebugName():lower()
+		local name = btn:GetName()
+		local ButtonName = name and name:lower()
 		if ButtonName then
 			if (strfind(ButtonName, 'left') or strfind(ButtonName, 'prev') or strfind(ButtonName, 'decrement') or strfind(ButtonName, 'backward') or strfind(ButtonName, 'back')) then
 				arrowDir = 'left'

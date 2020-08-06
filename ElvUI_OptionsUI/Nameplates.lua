@@ -2957,19 +2957,19 @@ local function GetUnitSettings(unit, name)
 						type = "toggle",
 					},
 					width = {
-						order = 2,
+						order = 3,
 						name = L["Width"],
 						type = "range",
 						min = 12, max = 64, step = 1,
 					},
 					height = {
-						order = 3,
+						order = 4,
 						name = L["Height"],
 						type = "range",
 						min = 12, max = 64, step = 1,
 					},
 					position = {
-						order = 4,
+						order = 5,
 						type = "select",
 						name = L["Icon Position"],
 						values = {
@@ -2981,13 +2981,13 @@ local function GetUnitSettings(unit, name)
 						},
 					},
 					xOffset = {
-						order = 5,
+						order = 6,
 						name = L["X-Offset"],
 						type = "range",
 						min = -100, max = 100, step = 1,
 					},
 					yOffset = {
-						order = 6,
+						order = 7,
 						name = L["Y-Offset"],
 						type = "range",
 						min = -100, max = 100, step = 1,
@@ -3455,6 +3455,14 @@ local function GetUnitSettings(unit, name)
 			order = 102,
 			name = L["Show Title"],
 			desc = L["Title will only appear if Name Only is enabled or triggered in a Style Filter."]
+		}
+	end
+
+	if unit == 'PLAYER' or unit == 'FRIENDLY_PLAYER' or unit == 'ENEMY_PLAYER' then
+		group.args.portraitGroup.args.classicon = {
+			order = 2,
+			name = L["Class Icon"],
+			type = "toggle"
 		}
 	end
 
