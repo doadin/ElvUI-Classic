@@ -25,6 +25,7 @@ local MasqueGroup = Masque and Masque:Group("ElvUI", "Pet Bar")
 
 local bar = CreateFrame('Frame', 'ElvUI_BarPet', E.UIParent, 'SecureHandlerStateTemplate')
 bar:SetFrameStrata("LOW")
+bar.buttons = {}
 
 function AB:UpdatePet(event, unit)
 	if (event == "UNIT_AURA" and unit ~= "pet") then return end
@@ -167,8 +168,10 @@ function AB:PositionAndSizeBarPet()
 	bar.mouseover = self.db.barPet.mouseover
 	if bar.mouseover then
 		bar:SetAlpha(0)
+		AB:FadeBarBlings(bar, 0)
 	else
 		bar:SetAlpha(bar.db.alpha)
+		AB:FadeBarBlings(bar, bar.db.alpha)
 	end
 
 	if self.db.barPet.inheritGlobalFade then
@@ -186,6 +189,8 @@ function AB:PositionAndSizeBarPet()
 		lastButton = _G["PetActionButton"..i-1]
 		autoCast = _G["PetActionButton"..i..'AutoCastable']
 		lastColumnButton = _G["PetActionButton"..i-buttonsPerRow]
+
+		bar.buttons[i] = button
 
 		button:SetParent(bar)
 		button:ClearAllPoints()
