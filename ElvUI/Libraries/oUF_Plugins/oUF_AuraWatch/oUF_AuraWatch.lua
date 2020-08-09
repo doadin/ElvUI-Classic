@@ -108,9 +108,6 @@ local function updateIcon(element, unit, index, offset, filter, isDebuff, visibl
 		if(show) then
 			local setting = element.watched[spellID]
 			if(button.cd) then
-				button.cd.hideText = not setting.displayText
-				button.cd.textThreshold = setting.textThreshold ~= -1 and setting.textThreshold
-
 				if(duration and duration > 0) then
 					button.cd:SetCooldown(expiration - duration, duration)
 					button.cd:Show()
@@ -223,18 +220,18 @@ local function filterIcons(element, unit, filter, limit, isDebuff, offset, dontH
 	local index, visible, hidden = 1, 0, 0
 	while (visible < limit) do
 		local result = updateIcon(element, unit, index, offset, filter, isDebuff, visible)
-		if(not result) then
+		if (not result) then
 			break
-		elseif(result == VISIBLE) then
+		elseif (result == VISIBLE) then
 			visible = visible + 1
-		elseif(result == HIDDEN) then
+		elseif (result == HIDDEN) then
 			hidden = hidden + 1
 		end
 
 		index = index + 1
 	end
 
-	if(not dontHide) then
+	if (not dontHide) then
 		for i = visible + offset + 1, #element do
 			element[i]:Hide()
 		end
