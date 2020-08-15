@@ -2,8 +2,10 @@
 **Shamans will stay pink**  
   
 **ActionBars:** Fixed an issue with action paging  
-**MiniMap:** Fixed the pixel offset on the minimap DataBar  
+**Minimap:** Fixed the pixel offset on the minimap DataBar  
+**Minimap:** Fixed an issue with the "Zoom Reset" option  
 **UnitFrames:** Fixed an issue with custom texts  
+**Tags:** Added back shortvalue Tags  
 ___
 ### Version 1.25-1.27 [07/12/2020]
 **ActionBars:** Fixed an issue with the Stance Bar  
