@@ -6,22 +6,26 @@ local UnitStat = UnitStat
 local ITEM_MOD_STRENGTH_SHORT = ITEM_MOD_STRENGTH_SHORT
 local LE_UNIT_STAT_STRENGTH = LE_UNIT_STAT_STRENGTH
 local STAT_CATEGORY_ATTRIBUTES = STAT_CATEGORY_ATTRIBUTES
-local displayNumberString, lastPanel = ''
+local displayString, lastPanel = ''
 
 local function OnEvent(self)
-	self.text:SetFormattedText(displayNumberString, ITEM_MOD_STRENGTH_SHORT, UnitStat("player", LE_UNIT_STAT_STRENGTH))
+	if E.global.datatexts.settings.Strength.NoLabel then
+		self.text:SetFormattedText(displayString, UnitStat('player', LE_UNIT_STAT_STRENGTH))
+	else
+		self.text:SetFormattedText(displayString, E.global.datatexts.settings.Strength.Label ~= '' and E.global.datatexts.settings.Strength.Label or ITEM_MOD_STRENGTH_SHORT..': ', UnitStat('player', LE_UNIT_STAT_STRENGTH))
+	end
 
 	lastPanel = self
 end
 
-local function ValueColorUpdate(hex, r, g, b)
-	displayNumberString = strjoin("", "%s: ", hex, "%.f|r")
+local function ValueColorUpdate(hex)
+	displayString = strjoin('', E.global.datatexts.settings.Strength.NoLabel and '' or '%s', hex, '%d|r')
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)
 	end
 end
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
 
-DT:RegisterDatatext('Strength', STAT_CATEGORY_ATTRIBUTES, {"UNIT_STATS", "UNIT_AURA"}, OnEvent, nil, nil, nil, nil, ITEM_MOD_STRENGTH_SHORT)
+E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
+DT:RegisterDatatext('Strength', STAT_CATEGORY_ATTRIBUTES, { 'UNIT_STATS', 'UNIT_AURA' }, OnEvent, nil, nil, nil, nil, ITEM_MOD_STRENGTH_SHORT, nil, ValueColorUpdate)

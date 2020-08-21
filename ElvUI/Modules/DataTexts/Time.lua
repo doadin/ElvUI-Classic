@@ -137,4 +137,4 @@ local function OnClick(self, btn)
 	end
 end
 
-DT:RegisterDatatext('Time', nil, {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, OnClick, OnEnter, OnLeave)
+DT:RegisterDatatext('Time', nil, {'UPDATE_INSTANCE_INFO'}, OnEvent, Update, OnClick, OnEnter, OnLeave, nil, nil, ValueColorUpdate)

@@ -9,8 +9,8 @@ local GetAddOnInfo = GetAddOnInfo
 local GetAddOnMetadata = GetAddOnMetadata
 local GetNumAddOns = GetNumAddOns
 local IsShiftKeyDown = IsShiftKeyDown
-local ReloadUI = ReloadUI
 local InCombatLockdown = InCombatLockdown
+local ReloadUI = ReloadUI
 
 local displayString = ""
 local configText = "ElvUI"

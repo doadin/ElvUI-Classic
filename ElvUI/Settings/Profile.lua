@@ -905,6 +905,7 @@ P.datatexts = {
 	currencies = {
 		displayedCurrency = 'GOLD',
 		displayStyle = 'ICON',
+		tooltip = {},
 	},
 	---Durability
 	durability = {

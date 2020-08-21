@@ -1,10 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...)); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local DT = E:GetModule('DataTexts')
 
---Lua functions
+local select = select
 local format = format
 local strjoin = strjoin
---WoW API / Variables
+local UnitLevel = UnitLevel
 local UnitArmor = UnitArmor
 
 local armorString = ARMOR..": "
@@ -14,9 +14,14 @@ local ARMOR = ARMOR
 local STAT_CATEGORY_ATTRIBUTES = STAT_CATEGORY_ATTRIBUTES
 
 local function OnEvent(self)
-	_, effectiveArmor = UnitArmor("player")
+	effectiveArmor = select(2, UnitArmor('player'))
 
-	self.text:SetFormattedText(displayString, armorString, effectiveArmor)
+	if E.global.datatexts.settings.Armor.NoLabel then
+		self.text:SetFormattedText(displayString, effectiveArmor)
+	else
+		self.text:SetFormattedText(displayString, E.global.datatexts.settings.Armor.Label ~= '' and E.global.datatexts.settings.Armor.Label or ARMOR..': ', effectiveArmor)
+	end
+
 	lastPanel = self
 end
 
@@ -38,7 +43,7 @@ local function OnEnter(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = strjoin("", "%s", hex, "%d|r")
+	displayString = strjoin('', E.global.datatexts.settings.Armor.NoLabel and '' or '%s', hex, '%d|r')
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)
@@ -46,4 +51,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('Armor', STAT_CATEGORY_ATTRIBUTES, {"UNIT_STATS", "UNIT_RESISTANCES"}, OnEvent, nil, nil, OnEnter, nil, ARMOR)
+DT:RegisterDatatext('Armor', STAT_CATEGORY_ATTRIBUTES, {'UNIT_STATS', 'UNIT_RESISTANCES', 'ACTIVE_TALENT_GROUP_CHANGED', 'PLAYER_TALENT_UPDATE'}, OnEvent, nil, nil, OnEnter, nil, ARMOR, nil, ValueColorUpdate)
