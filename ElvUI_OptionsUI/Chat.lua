@@ -3,10 +3,12 @@ local C, L = unpack(select(2, ...))
 local CH = E:GetModule('Chat')
 local Bags = E:GetModule('Bags')
 local Layout = E:GetModule('Layout')
+local ACH = E.Libs.ACH
 
 local _G = _G
 local gsub = gsub
 local wipe = wipe
+local pairs = pairs
 local format = format
 local strlower = strlower
 local GameTooltip = _G.GameTooltip
@@ -21,17 +23,13 @@ E.Options.args.chat = {
 	get = function(info) return E.db.chat[info[#info]] end,
 	set = function(info, value) E.db.chat[info[#info]] = value end,
 	args = {
-		intro = {
-			order = 1,
-			type = "description",
-			name = L["CHAT_DESC"],
-		},
+		intro = ACH:Description(L["CHAT_DESC"], 1),
 		enable = {
 			order = 2,
 			type = "toggle",
 			name = L["Enable"],
-			get = function(info) return E.private.chat.enable end,
-			set = function(info, value) E.private.chat.enable = value; E:StaticPopup_Show("PRIVATE_RL") end
+			get = function() return E.private.chat.enable end,
+			set = function(_, value) E.private.chat.enable = value; E:StaticPopup_Show("PRIVATE_RL") end
 		},
 		general = {
 			order = 3,
@@ -58,11 +56,7 @@ E.Options.args.chat = {
 					desc = L["Display the hyperlink tooltip while hovering over a hyperlink."],
 					set = function(info, value)
 						E.db.chat[info[#info]] = value
-						if value == true then
-							CH:EnableHyperlink()
-						else
-							CH:DisableHyperlink()
-						end
+						CH:ToggleHyperlink(value)
 					end,
 				},
 				sticky = {
@@ -70,18 +64,12 @@ E.Options.args.chat = {
 					type = 'toggle',
 					name = L["Sticky Chat"],
 					desc = L["When opening the Chat Editbox to type a message having this option set means it will retain the last channel you spoke in. If this option is turned off opening the Chat Editbox should always default to the SAY channel."],
-					set = function(info, value)
-						E.db.chat[info[#info]] = value
-					end,
 				},
 				emotionIcons = {
 					order = 5,
 					type = 'toggle',
 					name = L["Emotion Icons"],
 					desc = L["Display emotion icons in chat."],
-					set = function(info, value)
-						E.db.chat[info[#info]] = value
-					end,
 				},
 				fadeUndockedTabs = {
 					order = 7,
@@ -146,12 +134,7 @@ E.Options.args.chat = {
 					name = L["Copy Chat Lines"],
 					desc = L["Adds an arrow infront of the chat lines to copy the entire line."],
 				},
-				spacer = {
-					order = 17,
-					type = 'description',
-					name = '',
-					width = 'full',
-				},
+				spacer = ACH:Spacer(17, "full"),
 				numAllowedCombatRepeat = {
 					order = 18,
 					type = "range",
@@ -178,9 +161,6 @@ E.Options.args.chat = {
 					name = L["Scroll Interval"],
 					desc = L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."],
 					min = 0, max = 120, step = 5,
-					set = function(info, value)
-						E.db.chat[info[#info]] = value
-					end,
 				},
 				numScrollMessages = {
 					order = 21,
@@ -280,7 +260,7 @@ E.Options.args.chat = {
 							set = function(_, r, g, b)
 								local t = E.db.chat.tabSelectorColor
 								t.r, t.g, t.b = r, g, b
-								CH:UpdateChatTabColors();
+								E:UpdateMedia();
 							end,
 						},
 					}
@@ -339,7 +319,7 @@ E.Options.args.chat = {
 				fadingGroup = {
 					order = 75,
 					type = "group",
-					name = L["Fade Chat"],
+					name = L["Text Fade"],
 					disabled = function() return not E.Chat.Initialized; end,
 					set = function(info, value) E.db.chat[info[#info]] = value; CH:UpdateFading() end,
 					args = {
@@ -406,30 +386,79 @@ E.Options.args.chat = {
 					name = L["Alerts"],
 					disabled = function() return not E.Chat.Initialized; end,
 					args = {
-						whisperSound = {
-							order = 1,
-							type = 'select', dialogControl = 'LSM30_Sound',
-							name = L["Whisper Alert"],
-							values = AceGUIWidgetLSMlists.sound,
-						},
-						keywordSound = {
-							order = 2,
-							type = 'select', dialogControl = 'LSM30_Sound',
-							name = L["Keyword Alert"],
-							values = AceGUIWidgetLSMlists.sound,
-						},
 						noAlertInCombat = {
-							order = 3,
+							order = 1,
 							type = "toggle",
 							name = L["No Alert In Combat"],
 						},
-						keywords = {
-							order = 4,
-							name = L["Keywords"],
-							desc = L["List of words to color in chat if found in a message. If you wish to add multiple words you must seperate the word with a comma. To search for your current name you can use %MYNAME%.\n\nExample:\n%MYNAME%, ElvUI, RBGs, Tank"],
-							type = 'input',
-							width = 'full',
-							set = function(info, value) E.db.chat[info[#info]] = value; CH:UpdateChatKeywords() end,
+						keywordAlerts = {
+							order = 2,
+							type = 'group',
+							name = L["Keyword Alerts"],
+							guiInline = true,
+							args = {
+								keywordSound = {
+									order = 1,
+									type = 'select', dialogControl = 'LSM30_Sound',
+									name = L["Keyword Alert"],
+									width = 'double',
+									values = AceGUIWidgetLSMlists.sound,
+								},
+								keywords = {
+									order = 2,
+									name = L["Keywords"],
+									desc = L["List of words to color in chat if found in a message. If you wish to add multiple words you must seperate the word with a comma. To search for your current name you can use %MYNAME%.\n\nExample:\n%MYNAME%, ElvUI, RBGs, Tank"],
+									type = 'input',
+									width = 'full',
+									set = function(info, value) E.db.chat[info[#info]] = value; CH:UpdateChatKeywords() end,
+								},
+							},
+						},
+						channelAlerts = {
+							order = 3,
+							type = 'group',
+							name = L["Channel Alerts"],
+							guiInline = true,
+							get = function(info) return E.db.chat.channelAlerts[info[#info]] end,
+							set = function(info, value) E.db.chat.channelAlerts[info[#info]] = value end,
+							args = {
+								GUILD = {
+									type = 'select', dialogControl = 'LSM30_Sound',
+									name = L["Guild"],
+									width = 'double',
+									values = AceGUIWidgetLSMlists.sound,
+								},
+								OFFICER = {
+									type = 'select', dialogControl = 'LSM30_Sound',
+									name = L["Officer"],
+									width = 'double',
+									values = AceGUIWidgetLSMlists.sound,
+								},
+								INSTANCE = {
+									type = 'select', dialogControl = 'LSM30_Sound',
+									name = L["Instance"],
+									width = 'double',
+									values = AceGUIWidgetLSMlists.sound,
+								},
+								PARTY = {
+									type = 'select', dialogControl = 'LSM30_Sound',
+									name = L["Party"],
+									width = 'double',
+									values = AceGUIWidgetLSMlists.sound,
+								},
+								RAID = {
+									type = 'select', dialogControl = 'LSM30_Sound',
+									name = L["Raid"],
+									width = 'double',
+									values = AceGUIWidgetLSMlists.sound,
+								},
+								WHISPER = {
+									type = 'select', dialogControl = 'LSM30_Sound',
+									name = L["Whisper"],
+									width = 'double',
+									values = AceGUIWidgetLSMlists.sound,
+								},
+							},
 						},
 					},
 				},
@@ -571,30 +600,8 @@ E.Options.args.chat = {
 			name = L["Panels"],
 			disabled = function() return not E.Chat.Initialized; end,
 			args = {
-				panelTabTransparency = {
-					order = 2,
-					type = 'toggle',
-					name = L["Tab Panel Transparency"],
-					customWidth = 250,
-					disabled = function() return not E.db.chat.panelTabBackdrop end,
-					set = function(info, value) E.db.chat.panelTabTransparency = value; Layout:SetChatTabStyle(); end,
-				},
-				panelTabBackdrop = {
-					order = 3,
-					type = 'toggle',
-					name = L["Tab Panel"],
-					desc = L["Toggle the chat tab panel backdrop."],
-					set = function(info, value)
-						E.db.chat.panelTabBackdrop = value
-						Layout:ToggleChatPanels()
-
-						if E.db.chat.pinVoiceButtons and not E.db.chat.hideVoiceButtons then
-							CH:ReparentVoiceChatIcon()
-						end
-					end,
-				},
 				editBoxPosition = {
-					order = 4,
+					order = 1,
 					type = 'select',
 					name = L["Chat EditBox Position"],
 					desc = L["Position of the Chat EditBox, if datatexts are disabled this will be forced to be above chat."],
@@ -604,148 +611,193 @@ E.Options.args.chat = {
 					},
 					set = function(info, value) E.db.chat[info[#info]] = value; CH:UpdateEditboxAnchors() end,
 				},
-				LeftChatDataPanelAnchor = {
-					order = 5,
-					type = 'select',
-					name = L["Left Panel Position"],
-					values = {
-						['BELOW_CHAT'] = L["Below Chat"],
-						['ABOVE_CHAT'] = L["Above Chat"],
-					},
-					set = function(info, value) E.db.chat[info[#info]] = value; Layout:RepositionChatDataPanels() end,
-				},
-				RightChatDataPanelAnchor = {
-					order = 6,
-					type = 'select',
-					name = L["Right Panel Position"],
-					values = {
-						['BELOW_CHAT'] = L["Below Chat"],
-						['ABOVE_CHAT'] = L["Above Chat"],
-					},
-					set = function(info, value) E.db.chat[info[#info]] = value; Layout:RepositionChatDataPanels() end,
-				},
-				panelBackdrop = {
-					order = 7,
-					type = 'select',
-					name = L["Panel Backdrop"],
-					desc = L["Toggle showing of the left and right chat panels."],
-					values = {
-						['HIDEBOTH'] = L["Hide Both"],
-						['SHOWBOTH'] = L["Show Both"],
-						['LEFT'] = L["Left Only"],
-						['RIGHT'] = L["Right Only"],
-					},
-					set = function(info, value)
-						E.db.chat.panelBackdrop = value
-						Layout:ToggleChatPanels()
-						CH:PositionChats()
-						CH:UpdateEditboxAnchors()
-					end,
-				},
-				separateSizes = {
-					order = 8,
-					type = 'toggle',
-					name = L["Separate Panel Sizes"],
-					desc = L["Enable the use of separate size options for the right chat panel."],
-					set = function(info, value)
-						E.db.chat.separateSizes = value
-						CH:PositionChats()
-						Bags:Layout()
-					end,
-				},
-				panelHeight = {
-					order = 9,
-					type = 'range',
-					name = L["Panel Height"],
-					desc = L["PANEL_DESC"],
-					min = 60, max = 600, step = 1,
-					set = function(info, value)
-						E.db.chat.panelHeight = value
-						CH:PositionChats()
-					end,
-				},
-				panelWidth = {
-					order = 10,
-					type = 'range',
-					name = L["Panel Width"],
-					desc = L["PANEL_DESC"],
-					set = function(info, value)
-						E.db.chat.panelWidth = value
-						CH:PositionChats()
+				tabGroup = {
+					order = 2,
+					type = 'group',
+					guiInline = true,
+					name = L["Tab Panels"],
+					args = {
+						panelTabTransparency = {
+							order = 1,
+							type = 'toggle',
+							name = L["Tab Panel Transparency"],
+							customWidth = 250,
+							disabled = function() return not E.db.chat.panelTabBackdrop end,
+							set = function(info, value) E.db.chat.panelTabTransparency = value; Layout:SetChatTabStyle(); end,
+						},
+						panelTabBackdrop = {
+							order = 2,
+							type = 'toggle',
+							name = L["Tab Panel"],
+							desc = L["Toggle the chat tab panel backdrop."],
+							set = function(info, value)
+								E.db.chat.panelTabBackdrop = value
+								Layout:ToggleChatPanels()
 
-						local bags = Bags
-						if not E.db.chat.separateSizes then
-							bags:Layout()
-						end
+								if E.db.chat.pinVoiceButtons and not E.db.chat.hideVoiceButtons then
+									CH:ReparentVoiceChatIcon()
+								end
+							end,
+						},
+					}
+				},
+				datatextGroup = {
+					order = 3,
+					type = 'group',
+					guiInline = true,
+					name = L["DataText Panels"],
+					args = {
+						LeftChatDataPanelAnchor = {
+							order = 1,
+							type = 'select',
+							name = L["Left Position"],
+							values = {
+								['BELOW_CHAT'] = L["Below Chat"],
+								['ABOVE_CHAT'] = L["Above Chat"],
+							},
+							set = function(info, value) E.db.chat[info[#info]] = value; Layout:RepositionChatDataPanels() end,
+						},
+						RightChatDataPanelAnchor = {
+							order = 2,
+							type = 'select',
+							name = L["Right Position"],
+							values = {
+								['BELOW_CHAT'] = L["Below Chat"],
+								['ABOVE_CHAT'] = L["Above Chat"],
+							},
+							set = function(info, value) E.db.chat[info[#info]] = value; Layout:RepositionChatDataPanels() end,
+						}
+					}
+				},
+				panels = {
+					order = 4,
+					type = 'group',
+					guiInline = true,
+					name = L["Chat Panels"],
+					args = {
+						separateSizes = {
+							order = 1,
+							type = 'toggle',
+							name = L["Separate Panel Sizes"],
+							desc = L["Enable the use of separate size options for the right chat panel."],
+							set = function(info, value)
+								E.db.chat.separateSizes = value
+								CH:PositionChats()
+								Bags:Layout()
+							end,
+						},
+						panelHeight = {
+							order = 2,
+							type = 'range',
+							name = L["Panel Height"],
+							desc = L["PANEL_DESC"],
+							min = 60, max = 600, step = 1,
+							set = function(info, value)
+								E.db.chat.panelHeight = value
+								CH:PositionChats()
+							end,
+						},
+						panelWidth = {
+							order = 3,
+							type = 'range',
+							name = L["Panel Width"],
+							desc = L["PANEL_DESC"],
+							set = function(info, value)
+								E.db.chat.panelWidth = value
+								CH:PositionChats()
 
-						bags:Layout(true)
-					end,
-					min = 50, max = 1000, step = 1,
-				},
-				panelColor = {
-					order = 11,
-					type = "color",
-					name = L["Backdrop Color"],
-					hasAlpha = true,
-					get = function(info)
-						local t = E.db.chat.panelColor
-						local d = P.chat.panelColor
-						return t.r, t.g, t.b, t.a, d.r, d.g, d.b, d.a
-					end,
-					set = function(info, r, g, b, a)
-						local t = E.db.chat.panelColor
-						t.r, t.g, t.b, t.a = r, g, b, a
-						CH:Panels_ColorUpdate()
-					end,
-				},
-				panelHeightRight = {
-					order = 16,
-					type = 'range',
-					name = L["Right Panel Height"],
-					desc = L["Adjust the height of your right chat panel."],
-					min = 60, max = 600, step = 1,
-					disabled = function() return not E.db.chat.separateSizes end,
-					hidden = function() return not E.db.chat.separateSizes end,
-					set = function(info, value)
-						E.db.chat.panelHeightRight = value
-						CH:PositionChats()
-					end,
-				},
-				panelWidthRight = {
-					order = 17,
-					type = 'range',
-					name = L["Right Panel Width"],
-					desc = L["Adjust the width of your right chat panel."],
-					disabled = function() return not E.db.chat.separateSizes end,
-					hidden = function() return not E.db.chat.separateSizes end,
-					set = function(info, value)
-						E.db.chat.panelWidthRight = value
-						CH:PositionChats()
-						Bags:Layout()
-					end,
-					min = 50, max = 1000, step = 1,
-				},
-				panelBackdropNameLeft = {
-					order = 18,
-					type = 'input',
-					width = 'full',
-					name = L["Panel Texture (Left)"],
-					desc = L["Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.\n\nPlease Note:\n-The image size recommended is 256x128\n-You must do a complete game restart after adding a file to the folder.\n-The file type must be tga format.\n\nExample: Interface\\AddOns\\ElvUI\\Media\\Textures\\Copy\n\nOr for most users it would be easier to simply put a tga file into your WoW folder, then type the name of the file here."],
-					set = function(info, value)
-						E.db.chat[info[#info]] = value
-						E:UpdateMedia()
-					end,
-				},
-				panelBackdropNameRight = {
-					order = 19,
-					type = 'input',
-					width = 'full',
-					name = L["Panel Texture (Right)"],
-					desc = L["Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.\n\nPlease Note:\n-The image size recommended is 256x128\n-You must do a complete game restart after adding a file to the folder.\n-The file type must be tga format.\n\nExample: Interface\\AddOns\\ElvUI\\Media\\Textures\\Copy\n\nOr for most users it would be easier to simply put a tga file into your WoW folder, then type the name of the file here."],
-					set = function(info, value)
-						E.db.chat[info[#info]] = value
-						E:UpdateMedia()
-					end,
+								if not E.db.chat.separateSizes then
+									Bags:Layout()
+								end
+
+								Bags:Layout(true)
+							end,
+							min = 50, max = 1000, step = 1,
+						},
+						panelBackdrop = {
+							order = 4,
+							type = 'select',
+							name = L["Panel Backdrop"],
+							desc = L["Toggle showing of the left and right chat panels."],
+							values = {
+								['HIDEBOTH'] = L["Hide Both"],
+								['SHOWBOTH'] = L["Show Both"],
+								['LEFT'] = L["Left Only"],
+								['RIGHT'] = L["Right Only"],
+							},
+							set = function(info, value)
+								E.db.chat.panelBackdrop = value
+								Layout:ToggleChatPanels()
+								CH:PositionChats()
+								CH:UpdateEditboxAnchors()
+							end,
+						},
+						panelColor = {
+							order = 5,
+							type = "color",
+							name = L["Backdrop Color"],
+							hasAlpha = true,
+							get = function(info)
+								local t = E.db.chat.panelColor
+								local d = P.chat.panelColor
+								return t.r, t.g, t.b, t.a, d.r, d.g, d.b, d.a
+							end,
+							set = function(info, r, g, b, a)
+								local t = E.db.chat.panelColor
+								t.r, t.g, t.b, t.a = r, g, b, a
+								CH:Panels_ColorUpdate()
+							end,
+						},
+						panelHeightRight = {
+							order = 6,
+							type = 'range',
+							name = L["Right Panel Height"],
+							desc = L["Adjust the height of your right chat panel."],
+							min = 60, max = 600, step = 1,
+							disabled = function() return not E.db.chat.separateSizes end,
+							hidden = function() return not E.db.chat.separateSizes end,
+							set = function(info, value)
+								E.db.chat.panelHeightRight = value
+								CH:PositionChats()
+							end,
+						},
+						panelWidthRight = {
+							order = 7,
+							type = 'range',
+							name = L["Right Panel Width"],
+							desc = L["Adjust the width of your right chat panel."],
+							disabled = function() return not E.db.chat.separateSizes end,
+							hidden = function() return not E.db.chat.separateSizes end,
+							set = function(info, value)
+								E.db.chat.panelWidthRight = value
+								CH:PositionChats()
+								Bags:Layout()
+							end,
+							min = 50, max = 1000, step = 1,
+						},
+						panelBackdropNameLeft = {
+							order = 8,
+							type = 'input',
+							width = 'full',
+							name = L["Panel Texture (Left)"],
+							desc = L["Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.\n\nPlease Note:\n-The image size recommended is 256x128\n-You must do a complete game restart after adding a file to the folder.\n-The file type must be tga format.\n\nExample: Interface\\AddOns\\ElvUI\\Media\\Textures\\Copy\n\nOr for most users it would be easier to simply put a tga file into your WoW folder, then type the name of the file here."],
+							set = function(info, value)
+								E.db.chat[info[#info]] = value
+								E:UpdateMedia()
+							end,
+						},
+						panelBackdropNameRight = {
+							order = 9,
+							type = 'input',
+							width = 'full',
+							name = L["Panel Texture (Right)"],
+							desc = L["Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.\n\nPlease Note:\n-The image size recommended is 256x128\n-You must do a complete game restart after adding a file to the folder.\n-The file type must be tga format.\n\nExample: Interface\\AddOns\\ElvUI\\Media\\Textures\\Copy\n\nOr for most users it would be easier to simply put a tga file into your WoW folder, then type the name of the file here."],
+							set = function(info, value)
+								E.db.chat[info[#info]] = value
+								E:UpdateMedia()
+							end,
+						},
+					}
 				},
 			},
 		},

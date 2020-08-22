@@ -30,7 +30,7 @@ local INVERT_ANCHORPOINT = {
 local ticks = {}
 
 function UF:Construct_Castbar(frame, moverName)
-	local castbar = CreateFrame("StatusBar", nil, frame)
+	local castbar = CreateFrame("StatusBar", "$parent_CastBar", frame)
 	castbar:SetFrameLevel(frame.RaisedElementParent:GetFrameLevel() + 30) --Make it appear above everything else
 	self.statusbars[castbar] = true
 	castbar.CustomDelayText = self.CustomCastDelayText
@@ -83,7 +83,7 @@ function UF:Construct_Castbar(frame, moverName)
 	if moverName then
 		local name = frame:GetName()
 		local configName = name:gsub('^ElvUF_', ''):lower()
-		E:CreateMover(castbar.Holder, name..'CastbarMover', moverName, nil, -6, nil, 'ALL,SOLO', nil, 'unitframe,'..configName..',castbar')
+		E:CreateMover(castbar.Holder, name..'CastbarMover', moverName, nil, -6, nil, 'ALL,SOLO', nil, 'unitframe,individualUnits,'..configName..',castbar')
 	end
 
 	local icon = button:CreateTexture(nil, "ARTWORK")
@@ -103,8 +103,7 @@ function UF:Configure_Castbar(frame)
 
 	castbar:Width(db.width - ((frame.BORDER+frame.SPACING)*2))
 	castbar:Height(db.height - ((frame.BORDER+frame.SPACING)*2))
-	castbar.Holder:Width(db.width)
-	castbar.Holder:Height(db.height)
+	castbar.Holder:Size(db.width, db.height)
 
 	local oSC = castbar.Holder:GetScript('OnSizeChanged')
 	if oSC then oSC(castbar.Holder) end
@@ -118,6 +117,8 @@ function UF:Configure_Castbar(frame)
 	end
 
 	castbar.timeToHold = db.timeToHold
+
+	castbar:SetReverseFill(db.reverse)
 
 	--Latency
 	if frame.unit == 'player' and db.latency then
@@ -155,7 +156,7 @@ function UF:Configure_Castbar(frame)
 
 	if db.spark then
 		castbar.Spark = castbar.Spark_
-		castbar.Spark:Point('CENTER', castbar:GetStatusBarTexture(), 'RIGHT', 0, 0)
+		castbar.Spark:Point('CENTER', castbar:GetStatusBarTexture(), db.reverse and 'LEFT' or 'RIGHT', 0, 0)
 		castbar.Spark:Height(db.height * 2)
 	elseif castbar.Spark then
 		castbar.Spark:Hide()

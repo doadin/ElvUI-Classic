@@ -11,16 +11,24 @@ local IsShiftKeyDown = IsShiftKeyDown
 local InCombatLockdown = InCombatLockdown
 local IsControlKeyDown = IsControlKeyDown
 local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
+local hooksecurefunc = hooksecurefunc
 
 E.CreatedMovers = {}
 E.DisabledMovers = {}
 
-local function SizeChanged(frame)
+local function SizeChanged(frame, width, height)
 	if InCombatLockdown() then return end
+	frame.mover:SetSize(width, height)
+end
 
-	-- this solves the group one issue on unitframes, patch: 8.3.0 ~Simpy
-	E:Delay(0, frame.mover.Size, frame.mover, frame.dirtyWidth or frame:GetWidth(), frame.dirtyHeight or frame:GetHeight())
-	--frame.mover:Size(frame.dirtyWidth or frame:GetWidth(), frame.dirtyHeight or frame:GetHeight())
+local function WidthChanged(frame, width)
+	if InCombatLockdown() then return end
+	frame.mover:SetWidth(width)
+end
+
+local function HeightChanged(frame, height)
+	if InCombatLockdown() then return end
+	frame.mover:SetHeight(height)
 end
 
 local function GetPoint(obj)
@@ -75,18 +83,14 @@ local coordFrame = CreateFrame('Frame')
 coordFrame:SetScript('OnUpdate', UpdateCoords)
 coordFrame:Hide()
 
-local function UpdateMover(parent, name, text, overlay, snapOffset, postdrag, shouldDisable, configString, perferCorners)
-	if not parent then return end --If for some reason the parent isnt loaded yet
+local function UpdateMover(name, parent, textString, overlay, snapOffset, postdrag, shouldDisable, configString, perferCorners, ignoreSizeChanged)
+	if not (name and parent) then return end --If for some reason the parent isnt loaded yet, also require a name
 
 	local holder = E.CreatedMovers[name]
 	if holder.Created then return end
 	holder.Created = true
 
 	if overlay == nil then overlay = true end
-
-	--Use dirtyWidth / dirtyHeight to set initial size if possible
-	local width = parent.dirtyWidth or parent:GetWidth()
-	local height = parent.dirtyHeight or parent:GetHeight()
 
 	local f = CreateFrame('Button', name, E.UIParent)
 	f:SetClampedToScreen(true)
@@ -96,13 +100,13 @@ local function UpdateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 	f:EnableMouseWheel(true)
 	f:SetMovable(true)
 	f:SetTemplate('Transparent', nil, nil, true)
-	f:Size(width, height)
+	f:SetSize(parent:GetSize())
 	f:Hide()
 
 	local fs = f:CreateFontString(nil, 'OVERLAY')
 	fs:FontTemplate()
 	fs:Point('CENTER')
-	fs:SetText(text or name)
+	fs:SetText(textString or name)
 	fs:SetTextColor(unpack(E.media.rgbvaluecolor))
 	fs:SetJustifyH('CENTER')
 	f:SetFontString(fs)
@@ -112,17 +116,23 @@ local function UpdateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 	f.parent = parent
 	f.overlay = overlay
 	f.postdrag = postdrag
-	f.textString = text or name
+	f.textString = textString or name
 	f.snapOffset = snapOffset or -2
 	f.shouldDisable = shouldDisable
 	f.configString = configString
 	f.perferCorners = perferCorners
+	f.ignoreSizeChanged = ignoreSizeChanged
 
 	holder.mover = f
 	parent.mover = f
 	E.snapBars[#E.snapBars+1] = f
 
-	parent:SetScript('OnSizeChanged', SizeChanged)
+	if not ignoreSizeChanged then
+		hooksecurefunc(parent, 'SetSize', SizeChanged)
+		hooksecurefunc(parent, 'SetWidth', WidthChanged)
+		hooksecurefunc(parent, 'SetHeight', HeightChanged)
+	end
+
 	E:SetMoverPoints(name, parent)
 
 	local function OnDragStart(self)
@@ -254,35 +264,26 @@ local function UpdateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 end
 
 function E:CalculateMoverPoints(mover, nudgeX, nudgeY)
-	local screenWidth, screenHeight = E.UIParent:GetRight(), E.UIParent:GetTop()
-	local screenCenterX, screenCenterY = E.UIParent:GetCenter()
+	local centerX, centerY = E.UIParent:GetCenter()
+	local width = E.UIParent:GetRight()
 	local x, y = mover:GetCenter()
 
-	local point, nudgePoint, nudgeInversePoint
-	if y >= screenCenterY then -- TOP: 1080p = 540
-		point = 'TOP'
-		nudgePoint = 'TOP'
-		nudgeInversePoint = 'BOTTOM'
-		y = -(screenHeight - mover:GetTop())
+	local point, nudgePoint, nudgeInversePoint = 'BOTTOM', 'BOTTOM', 'TOP'
+	if y >= centerY then -- TOP: 1080p = 540
+		point, nudgePoint, nudgeInversePoint = 'TOP', 'TOP', 'BOTTOM'
+		y = -(E.UIParent:GetTop() - mover:GetTop())
 	else
-		point = 'BOTTOM'
-		nudgePoint = 'BOTTOM'
-		nudgeInversePoint = 'TOP'
 		y = mover:GetBottom()
 	end
 
-	if x >= (screenWidth * 2 / 3) then -- RIGHT: 1080p = 1280
-		point = point..'RIGHT'
-		nudgePoint = 'RIGHT'
-		nudgeInversePoint = 'LEFT'
-		x = mover:GetRight() - screenWidth
-	elseif x <= (screenWidth / 3) or mover.perferCorners then -- LEFT: 1080p = 640
-		point = point..'LEFT'
-		nudgePoint = 'LEFT'
-		nudgeInversePoint = 'RIGHT'
+	if x >= (width * 2 / 3) then -- RIGHT: 1080p = 1280
+		point, nudgePoint, nudgeInversePoint = point..'RIGHT', 'RIGHT', 'LEFT'
+		x = mover:GetRight() - width
+	elseif x <= (width / 3) or mover.perferCorners then -- LEFT: 1080p = 640
+		point, nudgePoint, nudgeInversePoint = point..'LEFT', 'LEFT', 'RIGHT'
 		x = mover:GetLeft()
 	else
-		x = x - screenCenterX
+		x = x - centerX
 	end
 
 	--Update coordinates if nudged
@@ -332,30 +333,33 @@ function E:SaveMoverDefaultPosition(name)
 	end
 end
 
-function E:CreateMover(parent, name, text, overlay, snapoffset, postdrag, moverTypes, shouldDisable, configString, perferCorners)
-	if not moverTypes then moverTypes = 'ALL,GENERAL' end
-
+function E:CreateMover(parent, name, textString, overlay, snapoffset, postdrag, types, shouldDisable, configString, perferCorners, ignoreSizeChanged)
 	local holder = E.CreatedMovers[name]
 	if holder == nil then
 		holder = {}
-		holder.type = {}
+		holder.types = {}
 
-		for _, moverType in ipairs({split(',', moverTypes)}) do
-			holder.type[moverType] = true
+		if types then
+			for _, x in ipairs({split(',', types)}) do
+				holder.types[x] = true
+			end
+		else
+			holder.types.ALL = true
+			holder.types.GENERAL = true
 		end
 
 		E:SetMoverLayoutPositionPoint(holder, name, parent)
 		E.CreatedMovers[name] = holder
 	end
 
-	UpdateMover(parent, name, text, overlay, snapoffset, postdrag, shouldDisable, configString, perferCorners)
+	UpdateMover(name, parent, textString, overlay, snapoffset, postdrag, shouldDisable, configString, perferCorners, ignoreSizeChanged)
 end
 
 function E:ToggleMovers(show, moverType)
 	self.configMode = show
 
-	for name, holder in pairs(E.CreatedMovers) do
-		if show and holder.type[moverType] then
+	for _, holder in pairs(E.CreatedMovers) do
+		if show and holder.types[moverType] then
 			holder.mover:Show()
 		else
 			holder.mover:Hide()
@@ -465,6 +469,6 @@ end
 
 function E:LoadMovers()
 	for n, t in pairs(E.CreatedMovers) do
-		UpdateMover(t.parent, n, t.textString, t.overlay, t.snapoffset, t.postdrag, t.shouldDisable, t.configString, t.perferCorners)
+		UpdateMover(n, t.parent, t.textString, t.overlay, t.snapoffset, t.postdrag, t.shouldDisable, t.configString, t.perferCorners, t.ignoreSizeChanged)
 	end
 end

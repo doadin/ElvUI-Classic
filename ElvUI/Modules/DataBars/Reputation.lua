@@ -7,28 +7,25 @@ local _G = _G
 local format = format
 --WoW API / Variables
 local CreateFrame = CreateFrame
-local GetWatchedFactionInfo, GetNumFactions, GetFactionInfo = GetWatchedFactionInfo, GetNumFactions, GetFactionInfo
+local GetWatchedFactionInfo = GetWatchedFactionInfo
 local InCombatLockdown = InCombatLockdown
 local ToggleCharacter = ToggleCharacter
 local REPUTATION = REPUTATION
 local STANDING = STANDING
-local MAX_PLAYER_LEVEL = MAX_PLAYER_LEVEL
 
 function DB:UpdateReputation(event)
 	if not DB.db.reputation.enable then return end
 
 	local bar = self.repBar
 	local name, reaction, Min, Max, value = GetWatchedFactionInfo()
-	local max, isCapped, standingLabel
 
 	if not name or (DB.db.reputation.hideInCombat and (event == "PLAYER_REGEN_DISABLED" or InCombatLockdown())) then
 		bar:Hide()
 	elseif name and (not self.db.reputation.hideInCombat or not InCombatLockdown()) then
 		bar:Show()
 
-		local text = ''
-		local textFormat = self.db.reputation.textFormat
-		local isCapped, isFriend, friendText, standingLabel
+		local textFormat, text = self.db.reputation.textFormat, ''
+		local isCapped, standingLabel
 
 		if reaction == _G.MAX_REPUTATION_REACTION then
 			Min, Max, value = 0, 1, 1
@@ -61,9 +58,9 @@ function DB:UpdateReputation(event)
 			elseif textFormat == 'CUR' then
 				text = format('%s: %s [%s]', name, E:ShortValue(value - Min), standingLabel)
 			elseif textFormat == 'REM' then
-				text = format('%s: %s [%s]', name, E:ShortValue((max - Min) - (value-Min)), standingLabel)
+				text = format('%s: %s [%s]', name, E:ShortValue((Max - Min) - (value-Min)), standingLabel)
 			elseif textFormat == 'CURREM' then
-				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - Min), E:ShortValue((max - Min) - (value-Min)), standingLabel)
+				text = format('%s: %s - %s [%s]', name, E:ShortValue(value - Min), E:ShortValue((Max - Min) - (value-Min)), standingLabel)
 			elseif textFormat == 'CURPERCREM' then
 				text = format('%s: %s - %d%% (%s) [%s]', name, E:ShortValue(value - Min), ((value - Min) / (maxMinDiff) * 100), E:ShortValue((Max - Min) - (value-Min)), standingLabel)
 			end
@@ -133,7 +130,7 @@ function DB:EnableDisable_ReputationBar()
 end
 
 function DB:LoadReputationBar()
-	DB.repBar = DB:CreateBar('ElvUI_ReputationBar', DB.ReputationBar_OnEnter, DB.ReputationBar_OnClick, 'RIGHT', _G.RightChatPanel, 'LEFT', E.Border - E.Spacing*3, 0)
+	DB.repBar = DB:CreateBar('ElvUI_ReputationBar', DB.ReputationBar_OnEnter, DB.ReputationBar_OnClick, 'TOPRIGHT', E.UIParent, 'TOPRIGHT', -3, -264)
 	E:RegisterStatusBar(DB.repBar.statusBar)
 
 	DB.repBar.eventFrame = CreateFrame("Frame")

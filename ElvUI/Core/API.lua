@@ -40,8 +40,8 @@ end
 
 do -- other non-english locales require this
 	E.UnlocalizedClasses = {}
-	for k,v in pairs(_G.LOCALIZED_CLASS_NAMES_MALE) do E.UnlocalizedClasses[v] = k end
-	for k,v in pairs(_G.LOCALIZED_CLASS_NAMES_FEMALE) do E.UnlocalizedClasses[v] = k end
+	for k, v in pairs(_G.LOCALIZED_CLASS_NAMES_MALE) do E.UnlocalizedClasses[v] = k end
+	for k, v in pairs(_G.LOCALIZED_CLASS_NAMES_FEMALE) do E.UnlocalizedClasses[v] = k end
 
 	function E:UnlocalizedClassName(className)
 		return (className and className ~= '') and E.UnlocalizedClasses[className]
@@ -285,6 +285,10 @@ end
 function E:PLAYER_ENTERING_WORLD(_, initLogin)
 	if initLogin or not ElvDB.LuaErrorDisabledAddOns then
 		ElvDB.LuaErrorDisabledAddOns = {}
+	end
+
+	if initLogin or isReload then
+		self:CheckIncompatible()
 	end
 
 	if not self.MediaUpdated then

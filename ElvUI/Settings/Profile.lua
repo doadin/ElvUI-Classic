@@ -17,9 +17,9 @@ P.general = {
 	bottomPanel = true,
 	hideErrorFrame = true,
 	enhancedPvpMessages = true,
-	objectiveFrameHeight = 480,
+	objectiveFrameHeight = 440,
 	objectiveFrameAutoHide = true,
-	bonusObjectivePosition = 'LEFT',
+	bonusObjectivePosition = 'AUTO',
 	objectiveTracker = true,
 	resurrectSound = false,
 	questRewardMostValueIcon = true,
@@ -56,7 +56,7 @@ P.general = {
 	valuecolor = {r = 23/255, g = 132/255, b = 209/255},
 	cropIcon = 2,
 	minimap = {
-		size = 176,
+		size = 220,
 		locationText = 'MOUSEOVER',
 		locationFontSize = 12,
 		locationFontOutline = 'OUTLINE',
@@ -116,23 +116,25 @@ P.general = {
 
 P.databars = {}
 
-for _, databar in pairs({ 'experience', 'reputation', 'petExperience'}) do
+for _, databar in pairs({'experience', 'reputation', 'petExperience'}) do
 	P.databars[databar] = {
 		enable = true,
-		width = 10,
-		height = 180,
+		width = 222,
+		height = 10,
 		textFormat = 'NONE',
 		textSize = 11,
 		font = "PT Sans Narrow",
 		fontOutline = "NONE",
 		mouseover = false,
-		orientation = 'VERTICAL',
+		orientation = 'HORIZONTAL',
 		reverseFill = false,
 	}
 end
 
 P.databars.experience.hideAtMaxLevel = true
 P.databars.experience.hideInCombat = false
+P.databars.experience.width = 348
+P.databars.experience.textSize = 12
 
 P.databars.petExperience.enable = false
 P.databars.petExperience.hideInCombat = false
@@ -143,16 +145,16 @@ P.databars.reputation.hideInCombat = false
 --Bags
 P.bags = {
 	sortInverted = true,
-	bagSize = 34,
-	bankSize = 34,
-	bagWidth = 406,
-	bankWidth = 406,
+	bagSize = 42,
+	bankSize = 42,
+	bagWidth = 474,
+	bankWidth = 474,
 	currencyFormat = 'ICON_TEXT_ABBR',
 	moneyFormat = 'SMART',
 	moneyCoins = true,
 	junkIcon = false,
 	junkDesaturate = false,
-	scrapIcon = false,
+	scrapIcon = true,
 	upgradeIcon = true,
 	newItemGlow = true,
 	ignoredItems = {},
@@ -161,7 +163,7 @@ P.bags = {
 	itemLevelFont = 'Homespun',
 	itemLevelFontSize = 10,
 	itemLevelFontOutline = 'MONOCHROMEOUTLINE',
-	itemLevelCustomColorEnable = false,
+	itemLevelCustomColorEnable = true,
 	itemLevelCustomColor = { r = 1, g = 1, b = 1 },
 	countFont = 'Homespun',
 	countFontSize = 10,
@@ -431,6 +433,7 @@ P.nameplates = {
 		castColor = {r = 1, g = 0.81, b = 0},
 		tapped = {r = 0.6, g = 0.6, b = 0.6},
 		castNoInterruptColor = {r = 0.78, g = 0.25, b = 0.25},
+		castInterruptedColor = {r = 0.3, g = 0.3, b = 0.3},
 		castbarDesaturate = true,
 		reactions = {
 			good = {r = .29,  g = .68, b = .30},
@@ -753,7 +756,7 @@ P.auras = {
 		sortMethod = 'TIME',
 		sortDir = '-',
 		seperateOwn = 1,
-		size = 32,
+		size = 40,
 		countFontsize = 10,
 		durationFontSize = 10,
 	},
@@ -766,7 +769,7 @@ P.auras = {
 		sortMethod = 'TIME',
 		sortDir = '-',
 		seperateOwn = 1,
-		size = 32,
+		size = 40,
 		countFontsize = 10,
 		durationFontSize = 10,
 	},
@@ -787,11 +790,18 @@ P.chat = {
 	sticky = true,
 	emotionIcons = true,
 	keywordSound = 'None',
-	whisperSound = 'Whisper Alert',
 	noAlertInCombat = false,
 	chatHistory = true,
 	lfgIcons = true,
 	maxLines = 100,
+	channelAlerts = {
+		GUILD = 'None',
+		OFFICER = 'None',
+		INSTANCE = 'None',
+		PARTY = 'None',
+		RAID = 'None',
+		WHISPER = 'Whisper Alert',
+	},
 	showHistory = {
 		WHISPER = true,
 		GUILD = true,
@@ -813,8 +823,8 @@ P.chat = {
 	timeStampFormat = 'NONE',
 	keywords = 'ElvUI',
 	separateSizes = false,
-	panelWidth = 412,
-	panelHeight = 180,
+	panelWidth = 472,
+	panelHeight = 236,
 	panelWidthRight = 412,
 	panelHeightRight = 180,
 	panelBackdropNameLeft = '',
@@ -838,7 +848,7 @@ P.chat = {
 	autoClosePetBattleLog = true,
 	socialQueueMessages = false,
 	tabFont = 'PT Sans Narrow',
-	tabFontSize = 12,
+	tabFontSize = 10,
 	tabFontOutline = 'NONE',
 	copyChatLines = false,
 	useBTagName = false,
@@ -896,6 +906,10 @@ P.datatexts = {
 		displayedCurrency = 'GOLD',
 		displayStyle = 'ICON',
 	},
+	---Durability
+	durability = {
+		percThreshold = 30,
+	},
 	---Time
 	localtime = true,
 	time24 = GetCurrentRegion() ~= 1, -- Non US region will default to the 24-hour clock
@@ -932,9 +946,8 @@ P.tooltip = {
 	guildRanks = true,
 	itemCount = 'BAGS_ONLY',
 	itemQualityBorderColor = true,
-	spellID = true,
 	showMount = true,
-	npcID = true,
+	modifierID = 'SHOW',
 	role = true,
 	font = 'PT Sans Narrow',
 	fontOutline = 'NONE',
@@ -943,18 +956,17 @@ P.tooltip = {
 	smallTextFontSize = 12,
 	colorAlpha = 0.8,
 	visibility = {
-		unitFrames = 'NONE',
-		bags = 'NONE',
-		actionbars = 'NONE',
-		combat = false,
-		combatOverride = 'ALL',
+		bags = 'SHOW',
+		unitFrames = 'SHOW',
+		actionbars = 'SHOW',
+		combatOverride = 'SHOW',
 	},
 	healthBar = {
 		text = true,
-		height = 7,
+		height = 12,
 		font = 'Homespun',
 		fontSize = 10,
-		fontOutline = 'OUTLINE',
+		fontOutline = 'MONOCHROMEOUTLINE',
 		statusPosition = 'BOTTOM',
 	},
 	useCustomFactionColors = false,
@@ -970,6 +982,13 @@ P.tooltip = {
 	}
 }
 
+local UF_StrataAndLevel = {
+	useCustomStrata = false,
+	frameStrata = 'LOW',
+	useCustomLevel = false,
+	frameLevel = 1,
+}
+
 local UF_Auras = {
 	anchorPoint = 'TOPLEFT',
 	attachTo = 'FRAME',
@@ -981,7 +1000,7 @@ local UF_Auras = {
 	durationPosition = 'CENTER',
 	enable = false,
 	numrows = 1,
-	perrow = 8,
+	perrow = 7,
 	sortDirection = 'DESCENDING',
 	sortMethod = 'TIME_REMAINING',
 	xOffset = 0,
@@ -1033,6 +1052,7 @@ local UF_Castbar = {
 	insideInfoPanel = true,
 	latency = true,
 	overlayOnFrame = 'None',
+	reverse = false,
 	spark = true,
 	textColor = {r = 0.84, g = 0.75, b = 0.65, a = 1},
 	tickColor = {r = 0, g = 0, b = 0, a = 0.8},
@@ -1044,12 +1064,7 @@ local UF_Castbar = {
 	xOffsetTime = -4,
 	yOffsetText = 0,
 	yOffsetTime = 0,
-	strataAndLevel = {
-		useCustomStrata = false,
-		frameStrata = 'LOW',
-		useCustomLevel = false,
-		frameLevel = 1,
-	},
+	strataAndLevel = CopyTable(UF_StrataAndLevel),
 }
 
 local UF_CombatIcon = {
@@ -1165,12 +1180,7 @@ local UF_Power = {
 	width = 'fill',
 	xOffset = 2,
 	yOffset = 0,
-	strataAndLevel = {
-		frameLevel = 1,
-		frameStrata = 'LOW',
-		useCustomLevel = false,
-		useCustomStrata = false,
-	},
+	strataAndLevel = CopyTable(UF_StrataAndLevel),
 }
 
 local UF_PVPIcon = {
@@ -1275,15 +1285,19 @@ local UF_SubGroup = {
 
 --UnitFrame
 P.unitframe = {
-	smoothbars = false,
+	smoothbars = true,
 	statusbar = 'ElvUI Norm',
 	font = 'Homespun',
 	fontSize = 10,
 	fontOutline = 'MONOCHROMEOUTLINE',
 	debuffHighlighting = 'FILL',
 	targetOnMouseDown = false,
-	auraBlacklistModifier = 'NONE',
-	thinBorders = false,
+	modifiers = {
+		SHIFT = 'NONE',
+		CTRL = 'NONE',
+		ALT = 'NONE',
+	},
+	thinBorders = true,
 	targetSound = false,
 	colors = {
 		borderColor = {r = 0, g = 0, b = 0},
@@ -1424,7 +1438,7 @@ P.unitframe = {
 			enable = true,
 			orientation = 'LEFT',
 			width = 270,
-			height = 54,
+			height = 82,
 			lowmana = 30,
 			threatStyle = 'GLOW',
 			smartAuraPosition = 'DISABLED',
@@ -1488,11 +1502,12 @@ P.unitframe = {
 			raidicon = CopyTable(UF_RaidIcon),
 			raidRoleIcons = CopyTable(UF_RaidRoles),
 			resurrectIcon = CopyTable(UF_Ressurect),
+			strataAndLevel = CopyTable(UF_StrataAndLevel),
 		},
 		target = {
 			enable = true,
 			width = 270,
-			height = 54,
+			height = 82,
 			orientation = 'RIGHT',
 			threatStyle = 'GLOW',
 			smartAuraPosition = 'DISABLED',
@@ -1518,6 +1533,7 @@ P.unitframe = {
 			raidicon = CopyTable(UF_RaidIcon),
 			raidRoleIcons = CopyTable(UF_RaidRoles),
 			resurrectIcon = CopyTable(UF_Ressurect),
+			strataAndLevel = CopyTable(UF_StrataAndLevel),
 		},
 		targettarget = {
 			enable = true,
@@ -1525,7 +1541,7 @@ P.unitframe = {
 			orientation = 'MIDDLE',
 			smartAuraPosition = 'DISABLED',
 			colorOverride = 'USE_DEFAULT',
-			width = 130,
+			width = 270,
 			height = 36,
 			disableMouseoverGlow = false,
 			disableTargetGlow = true,
@@ -1539,6 +1555,7 @@ P.unitframe = {
 			portrait = CopyTable(UF_Portrait),
 			power = CopyTable(UF_Power),
 			raidicon = CopyTable(UF_RaidIcon),
+			strataAndLevel = CopyTable(UF_StrataAndLevel),
 		},
 		pet = {
 			enable = true,
@@ -1546,7 +1563,7 @@ P.unitframe = {
 			threatStyle = 'GLOW',
 			smartAuraPosition = 'DISABLED',
 			colorOverride = 'USE_DEFAULT',
-			width = 130,
+			width = 270,
 			height = 36,
 			disableMouseoverGlow = false,
 			disableTargetGlow = true,
@@ -1563,6 +1580,7 @@ P.unitframe = {
 			name = CopyTable(UF_Name),
 			portrait = CopyTable(UF_Portrait),
 			power = CopyTable(UF_Power),
+			strataAndLevel = CopyTable(UF_StrataAndLevel),
 		},
 		party = {
 			enable = true,
@@ -1581,8 +1599,8 @@ P.unitframe = {
 			startFromCenter = false,
 			showPlayer = true,
 			colorOverride = 'USE_DEFAULT',
-			width = 184,
-			height = 54,
+			width = 231,
+			height = 74,
 			groupSpacing = 0,
 			disableMouseoverGlow = false,
 			disableTargetGlow = false,
@@ -1636,44 +1654,67 @@ P.unitframe = {
 
 P.unitframe.units.player.aurabar.enemyAuraType = 'HARMFUL'
 P.unitframe.units.player.aurabar.friendlyAuraType = 'HELPFUL'
+P.unitframe.units.player.aurabar.height = 26
 P.unitframe.units.player.aurabar.maxDuration = 120
 P.unitframe.units.player.aurabar.priority = 'Blacklist,blockNoDuration,Personal,Boss,RaidDebuffs,PlayerBuffs'
 P.unitframe.units.player.buffs.attachTo = 'DEBUFFS'
 P.unitframe.units.player.buffs.priority = 'Blacklist,Personal,PlayerBuffs,Whitelist,blockNoDuration,nonPersonal'
+P.unitframe.units.player.castbar.height = 40
+P.unitframe.units.player.castbar.insideInfoPanel = false
+P.unitframe.units.player.castbar.width = 405
+P.unitframe.units.player.classbar.height = 14
 P.unitframe.units.player.debuffs.enable = true
 P.unitframe.units.player.debuffs.priority = 'Blacklist,Personal,nonPersonal'
-P.unitframe.units.player.fader.enable = false
 P.unitframe.units.player.fader.casting = true
 P.unitframe.units.player.fader.combat = true
+P.unitframe.units.player.fader.enable = false
 P.unitframe.units.player.fader.focus = false
 P.unitframe.units.player.fader.health = true
 P.unitframe.units.player.fader.hover = true
-P.unitframe.units.player.fader.unittarget = false
 P.unitframe.units.player.fader.playertarget = true
 P.unitframe.units.player.fader.power = true
 P.unitframe.units.player.fader.range = nil
+P.unitframe.units.player.fader.unittarget = false
 P.unitframe.units.player.fader.vehicle = true
 P.unitframe.units.player.healPrediction.enable = true
+P.unitframe.units.player.healPrediction.showOverAbsorbs = false
+P.unitframe.units.player.health.attachTextTo = 'InfoPanel'
 P.unitframe.units.player.health.position = 'LEFT'
 P.unitframe.units.player.health.text_format = '[healthcolor][health:current-percent]'
 P.unitframe.units.player.health.xOffset = 2
+P.unitframe.units.player.infoPanel.enable = true
+P.unitframe.units.player.power.attachTextTo = 'InfoPanel'
+P.unitframe.units.player.power.height = 22
 P.unitframe.units.player.power.position = 'RIGHT'
 P.unitframe.units.player.power.text_format = '[powercolor][power:current]'
 P.unitframe.units.player.power.xOffset = -2
 
+P.unitframe.units.target.aurabar.height = 26
 P.unitframe.units.target.aurabar.maxDuration = 120
 P.unitframe.units.target.aurabar.priority = 'Blacklist,blockNoDuration,Personal,Boss,RaidDebuffs,PlayerBuffs'
 P.unitframe.units.target.buffs.enable = true
-P.unitframe.units.target.buffs.anchorPoint = 'TOPRIGHT'
+P.unitframe.units.target.buffs.perrow = 7
 P.unitframe.units.target.buffs.priority = 'Blacklist,Personal,nonPersonal'
+P.unitframe.units.target.castbar.height = 40
+P.unitframe.units.target.castbar.insideInfoPanel = false
+P.unitframe.units.target.castbar.width = 405
+P.unitframe.units.target.debuffs.attachTo = 'FRAME'
+P.unitframe.units.target.debuffs.enable = false
 P.unitframe.units.target.debuffs.enable = true
-P.unitframe.units.target.debuffs.anchorPoint = 'TOPRIGHT'
-P.unitframe.units.target.debuffs.attachTo = 'BUFFS'
+P.unitframe.units.target.debuffs.maxDuration = 0
 P.unitframe.units.target.debuffs.maxDuration = 300
+P.unitframe.units.target.debuffs.perrow = 7
 P.unitframe.units.target.debuffs.priority = 'Blacklist,Personal,RaidDebuffs,CCDebuffs,Friendly:Dispellable'
+P.unitframe.units.target.disableMouseoverGlow = true
 P.unitframe.units.target.healPrediction.enable = true
+P.unitframe.units.target.healPrediction.showOverAbsorbs = false
+P.unitframe.units.target.health.attachTextTo = 'InfoPanel'
 P.unitframe.units.target.health.text_format = '[healthcolor][health:current-percent]'
+P.unitframe.units.target.infoPanel.enable = true
+P.unitframe.units.target.name.attachTextTo = 'InfoPanel'
 P.unitframe.units.target.name.text_format = '[namecolor][name:medium] [difficultycolor][smartlevel] [shortclassification]'
+P.unitframe.units.target.power.attachTextTo = 'InfoPanel'
+P.unitframe.units.target.power.height = 22
 P.unitframe.units.target.power.text_format = '[powercolor][power:current]'
 
 P.unitframe.units.targettarget.buffs.anchorPoint = 'BOTTOMLEFT'
@@ -1691,6 +1732,14 @@ P.unitframe.units.targettarget.debuffs.priority = 'Blacklist,Personal,Boss,RaidD
 P.unitframe.units.targettarget.infoPanel.height = 14
 P.unitframe.units.targettarget.name.text_format = '[namecolor][name:medium]'
 P.unitframe.units.targettarget.power.text_format = ''
+P.unitframe.units.targettarget.debuffs.anchorPoint = 'TOPRIGHT'
+P.unitframe.units.targettarget.debuffs.enable = false
+P.unitframe.units.targettarget.disableMouseoverGlow = true
+P.unitframe.units.targettarget.power.enable = false
+P.unitframe.units.targettarget.raidicon.attachTo = 'LEFT'
+P.unitframe.units.targettarget.raidicon.enable = false
+P.unitframe.units.targettarget.raidicon.xOffset = 2
+P.unitframe.units.targettarget.raidicon.yOffset = 0
 
 P.unitframe.units.targettargettarget = CopyTable(P.unitframe.units.targettarget)
 P.unitframe.units.targettargettarget.enable = false
@@ -1729,30 +1778,31 @@ P.unitframe.units.pettarget.healPrediction = nil
 P.unitframe.units.pettarget.height = 26
 P.unitframe.units.pettarget.threatStyle = 'NONE'
 
-P.unitframe.units.party.health.position = 'LEFT'
-P.unitframe.units.party.health.xOffset = 2
 P.unitframe.units.party.buffs.anchorPoint = 'LEFT'
 P.unitframe.units.party.buffs.maxDuration = 300
 P.unitframe.units.party.buffs.priority = 'Blacklist,TurtleBuffs'
 P.unitframe.units.party.castbar.enable = false
 P.unitframe.units.party.castbar.width = 256
-P.unitframe.units.party.debuffs.enable = true
 P.unitframe.units.party.debuffs.anchorPoint = 'RIGHT'
+P.unitframe.units.party.debuffs.enable = true
 P.unitframe.units.party.debuffs.maxDuration = 300
 P.unitframe.units.party.debuffs.priority = 'Blacklist,Boss,RaidDebuffs,CCDebuffs,Dispellable,Whitelist'
 P.unitframe.units.party.debuffs.sizeOverride = 52
 P.unitframe.units.party.health.position = 'LEFT'
-P.unitframe.units.party.health.xOffset = 2
 P.unitframe.units.party.health.text_format = '[healthcolor][health:current-percent]'
+P.unitframe.units.party.health.xOffset = 2
+P.unitframe.units.party.health.xOffset = 2
 P.unitframe.units.party.infoPanel.height = 15
 P.unitframe.units.party.name.text_format = '[namecolor][name:medium] [difficultycolor][smartlevel]'
 P.unitframe.units.party.petsGroup.name.text_format = '[namecolor][name:short]'
+P.unitframe.units.party.power.height = 13
 P.unitframe.units.party.power.height = 7
 P.unitframe.units.party.power.position = 'RIGHT'
 P.unitframe.units.party.power.text_format = '[powercolor][power:current]'
 P.unitframe.units.party.power.xOffset = -2
-P.unitframe.units.party.targetsGroup.name.text_format = '[namecolor][name:medium] [difficultycolor][smartlevel]'
+P.unitframe.units.party.rdebuffs.font = 'PT Sans Narrow'
 P.unitframe.units.party.targetsGroup.enable = false
+P.unitframe.units.party.targetsGroup.name.text_format = '[namecolor][name:medium] [difficultycolor][smartlevel]'
 
 P.unitframe.units.raid = CopyTable(P.unitframe.units.party)
 P.unitframe.units.raid.buffs.numrows = 1
@@ -1762,24 +1812,38 @@ P.unitframe.units.raid.debuffs.enable = false
 P.unitframe.units.raid.debuffs.numrows = 1
 P.unitframe.units.raid.debuffs.perrow = 3
 P.unitframe.units.raid.debuffs.sizeOverride = 0
-P.unitframe.units.raid.growthDirection = 'RIGHT_DOWN'
+P.unitframe.units.raid.growthDirection = 'RIGHT_UP'
 P.unitframe.units.raid.health.position = 'BOTTOM'
 P.unitframe.units.raid.health.text_format = '[healthcolor][health:deficit]'
 P.unitframe.units.raid.health.yOffset = 2
 P.unitframe.units.raid.height = 44
 P.unitframe.units.raid.horizontalSpacing = 3
+P.unitframe.units.raid.infoPanel.enable = true
 P.unitframe.units.raid.infoPanel.height = 12
+P.unitframe.units.raid.name.attachTextTo = 'InfoPanel'
+P.unitframe.units.raid.name.position = 'BOTTOMLEFT'
 P.unitframe.units.raid.name.text_format = '[namecolor][name:short]'
+P.unitframe.units.raid.name.xOffset = 2
 P.unitframe.units.raid.numGroups = 5
+P.unitframe.units.raid.numGroups = 8
 P.unitframe.units.raid.orientation = 'MIDDLE'
 P.unitframe.units.raid.petsGroup = nil
 P.unitframe.units.raid.power.position = 'BOTTOMRIGHT'
 P.unitframe.units.raid.power.text_format = ''
 P.unitframe.units.raid.power.xOffset = -2
 P.unitframe.units.raid.power.yOffset = 2
+P.unitframe.units.raid.rdebuffs.font = 'PT Sans Narrow'
+P.unitframe.units.raid.rdebuffs.size = 30
+P.unitframe.units.raid.rdebuffs.xOffset = 30
+P.unitframe.units.raid.rdebuffs.yOffset = 25
+P.unitframe.units.raid.resurrectIcon.attachTo = 'BOTTOMRIGHT'
+P.unitframe.units.raid.roleIcon.attachTo = 'InfoPanel'
+P.unitframe.units.raid.roleIcon.position = 'BOTTOMRIGHT'
+P.unitframe.units.raid.roleIcon.size = 12
+P.unitframe.units.raid.roleIcon.xOffset = 0
 P.unitframe.units.raid.targetsGroup = nil
 P.unitframe.units.raid.visibility = '[@raid6,noexists][@raid26,exists] hide;show'
-P.unitframe.units.raid.width = 80
+P.unitframe.units.raid.width = 92
 
 P.unitframe.units.raid40 = CopyTable(P.unitframe.units.raid)
 P.unitframe.units.raid40.debuffs.anchorPoint = 'RIGHT'
@@ -1789,6 +1853,8 @@ P.unitframe.units.raid40.visibility = '[@raid26,noexists] hide;show'
 P.unitframe.units.raid40.rdebuffs.enable = false
 P.unitframe.units.raid40.power.enable = false
 P.unitframe.units.raid40.roleIcon.enable = false
+P.unitframe.units.raid40.infoPanel.enable = false
+P.unitframe.units.raid40.width = 80
 
 P.unitframe.units.raidpet = CopyTable(P.unitframe.units.raid)
 P.unitframe.units.raidpet.enable = false
@@ -1967,7 +2033,7 @@ for i = 1, 10 do
 		showGrid = true,
 		flyoutDirection = 'AUTOMATIC',
 		paging = {},
-		visibility = 'show',
+		visibility = '[petbattle] hide; show',
 	}
 end
 
@@ -1980,16 +2046,28 @@ P.actionbar.bar1.paging = {
 	WARRIOR = '[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3]9;'
 }
 
+P.actionbar.bar1.buttons = 8
+P.actionbar.bar1.buttonsize = 50
+P.actionbar.bar1.buttonspacing = 1
+P.actionbar.bar1.visibility = 'show'
+
+P.actionbar.bar2.buttons = 9
+P.actionbar.bar2.buttonsize = 38
+P.actionbar.bar2.buttonspacing = 1
+P.actionbar.bar2.enabled = true
+
 P.actionbar.bar3.enabled = true
 P.actionbar.bar3.buttons = 6
 P.actionbar.bar3.buttonsPerRow = 6
+P.actionbar.bar3.buttons = 8
+P.actionbar.bar3.buttonsize = 50
+P.actionbar.bar3.buttonspacing = 1
+P.actionbar.bar3.buttonsPerRow = 10
 
-P.actionbar.bar4.enabled = true
 P.actionbar.bar4.buttonsPerRow = 1
 P.actionbar.bar4.point = 'TOPRIGHT'
 P.actionbar.bar4.backdrop = true
 
-P.actionbar.bar5.enabled = true
 P.actionbar.bar5.buttons = 6
 P.actionbar.bar5.buttonsPerRow = 6
 
@@ -2029,40 +2107,12 @@ end
 --This allows movers positions to be reset to whatever profile is being used
 E.LayoutMoverPositions = {
 	ALL = {
-		AlertFrameMover = 'TOP,ElvUIParent,TOP,-1,-18',
-		AltPowerBarMover = 'TOP,ElvUIParent,TOP,-1,-36',
-		AzeriteBarMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-3,-245',
-		BelowMinimapContainerMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-4,-274',
 		BNETMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-4,-274',
-		ElvAB_1 = 'BOTTOM,ElvUIParent,BOTTOM,-1,191',
-		ElvAB_2 = 'BOTTOM,ElvUIParent,BOTTOM,0,4',
-		ElvAB_3 = 'BOTTOM,ElvUIParent,BOTTOM,-1,139',
-		ElvAB_5 = 'BOTTOM,ElvUIParent,BOTTOM,-92,57',
-		ElvUF_FocusMover = 'BOTTOM,ElvUIParent,BOTTOM,342,59',
-		ElvUF_PartyMover = 'BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,4,248',
-		ElvUF_PetMover = 'BOTTOM,ElvUIParent,BOTTOM,-342,100',
 		ElvUF_PlayerCastbarMover = 'BOTTOM,ElvUIParent,BOTTOM,-1,95',
-		ElvUF_PlayerMover = 'BOTTOM,ElvUIParent,BOTTOM,-342,139',
-		ElvUF_Raid40Mover = 'TOPLEFT,ElvUIParent,BOTTOMLEFT,4,482',
-		ElvUF_RaidMover = 'BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,4,248',
-		ElvUF_RaidpetMover = 'TOPLEFT,ElvUIParent,BOTTOMLEFT,4,737',
 		ElvUF_TargetCastbarMover = 'BOTTOM,ElvUIParent,BOTTOM,-1,243',
-		ElvUF_TargetMover = 'BOTTOM,ElvUIParent,BOTTOM,342,139',
-		ElvUF_TargetTargetMover = 'BOTTOM,ElvUIParent,BOTTOM,342,100',
-		ExperienceBarMover = 'BOTTOM,ElvUIParent,BOTTOM,0,43',
-		HonorBarMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-3,-255',
-		LevelUpBossBannerMover = 'TOP,ElvUIParent,TOP,-1,-120',
-		LootFrameMover = 'TOPLEFT,ElvUIParent,TOPLEFT,418,-186',
-		LossControlMover = 'BOTTOM,ElvUIParent,BOTTOM,-1,507',
 		MirrorTimer1Mover = 'TOP,ElvUIParent,TOP,-1,-96',
 		ObjectiveFrameMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-163,-325',
-		ReputationBarMover = 'TOPRIGHT,ElvUIParent,TOPRIGHT,-3,-264',
-		ShiftAB = 'TOPLEFT,ElvUIParent,BOTTOMLEFT,4,769',
 		SocialMenuMover = 'TOPLEFT,ElvUIParent,TOPLEFT,4,-187',
-		TotemBarMover = 'BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,490,4',
-		VehicleSeatMover = 'TOPLEFT,ElvUIParent,TOPLEFT,4,-4',
-		VOICECHAT = 'TOPLEFT,ElvUIParent,TOPLEFT,368,-210',
-		ZoneAbility = 'BOTTOM,ElvUIParent,BOTTOM,-1,293'
 	},
 	dpsCaster = {
 		ElvUF_PlayerCastbarMover = 'BOTTOM,ElvUIParent,BOTTOM,0,243',
@@ -2073,7 +2123,6 @@ E.LayoutMoverPositions = {
 		ElvUF_TargetCastbarMover = 'BOTTOM,ElvUIParent,BOTTOM,0,97',
 		ElvUF_RaidMover = 'BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,202,373',
 		LootFrameMover = 'TOPLEFT,ElvUIParent,TOPLEFT,250,-104',
-		ShiftAB = 'TOPLEFT,ElvUIParent,BOTTOMLEFT,4,273',
 		VOICECHAT = 'TOPLEFT,ElvUIParent,TOPLEFT,250,-82'
 	}
 }

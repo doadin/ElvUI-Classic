@@ -17,12 +17,14 @@ local GetNumGroupMembers = GetNumGroupMembers
 local hooksecurefunc = hooksecurefunc
 local InCombatLockdown = InCombatLockdown
 local GetAddOnEnableState = GetAddOnEnableState
+local UnitFactionGroup = UnitFactionGroup
+local DisableAddOn = DisableAddOn
 local IsInGroup = IsInGroup
 local IsInGuild = IsInGuild
 local IsInRaid = IsInRaid
 local SetCVar = SetCVar
+local ReloadUI = ReloadUI
 local GetSpellInfo = GetSpellInfo
-local UnitFactionGroup = UnitFactionGroup
 local UnitGUID = UnitGUID
 
 local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
@@ -295,7 +297,6 @@ function E:UpdateMedia()
 
 	--Value Color
 	local value = E.db.general.valuecolor
-
 	if E:CheckClassColor(value.r, value.g, value.b) then
 		value = E:ClassColor(E.myclass, true)
 		E.db.general.valuecolor.r = value.r
@@ -303,9 +304,19 @@ function E:UpdateMedia()
 		E.db.general.valuecolor.b = value.b
 	end
 
+	--Chat Tab Selector Color
+	local selectorColor = E.db.chat.tabSelectorColor
+	if E:CheckClassColor(selectorColor.r, selectorColor.g, selectorColor.b) then
+		selectorColor = E:ClassColor(E.myclass, true)
+		E.db.chat.tabSelectorColor.r = selectorColor.r
+		E.db.chat.tabSelectorColor.g = selectorColor.g
+		E.db.chat.tabSelectorColor.b = selectorColor.b
+	end
+
 	E.media.hexvaluecolor = E:RGBToHex(value.r, value.g, value.b)
 	E.media.rgbvaluecolor = {value.r, value.g, value.b}
 
+	-- Chat Panel Background Texture
 	local LeftChatPanel, RightChatPanel = _G.LeftChatPanel, _G.RightChatPanel
 	if LeftChatPanel and LeftChatPanel.tex and RightChatPanel and RightChatPanel.tex then
 		LeftChatPanel.tex:SetTexture(E.db.chat.panelBackdropNameLeft)
@@ -475,48 +486,89 @@ function E:UpdateStatusBars()
 	end
 end
 
-function E:IncompatibleAddOn(addon, module)
-	E.PopupDialogs.INCOMPATIBLE_ADDON.button1 = addon
-	E.PopupDialogs.INCOMPATIBLE_ADDON.button2 = 'ElvUI '..module
-	E.PopupDialogs.INCOMPATIBLE_ADDON.addon = addon
-	E.PopupDialogs.INCOMPATIBLE_ADDON.module = module
-	E:StaticPopup_Show('INCOMPATIBLE_ADDON', addon, module)
+do
+	local cancel = function(popup)
+		DisableAddOn(popup.addon)
+		ReloadUI()
+	end
+
+	function E:IncompatibleAddOn(addon, module, info)
+		local popup = E.PopupDialogs.INCOMPATIBLE_ADDON
+		popup.button2 = info.name or module
+		popup.button1 = addon
+		popup.module = module
+		popup.addon = addon
+		popup.accept = info.accept
+		popup.cancel = info.cancel or cancel
+
+		E:StaticPopup_Show('INCOMPATIBLE_ADDON', popup.button1, popup.button2)
+	end
 end
 
 function E:IsAddOnEnabled(addon)
 	return GetAddOnEnableState(E.myname, addon) == 2
 end
 
-function E:CheckIncompatible()
-	if E.global.ignoreIncompatible then return end
-
-	if E.private.chat.enable then
-		if E:IsAddOnEnabled('Prat-3.0') then
-			E:IncompatibleAddOn('Prat-3.0', 'Chat')
+function E:IsIncompatible(module, addons)
+	for _, addon in ipairs(addons) do
+		if E:IsAddOnEnabled(addon) then
+			E:IncompatibleAddOn(addon, module, addons.info)
+			return true
 		end
-		if E:IsAddOnEnabled('Chatter') then
-			E:IncompatibleAddOn('Chatter', 'Chat')
+	end
+end
+
+do
+	local ADDONS = {
+		ActionBar = {
+			info = {
+				enabled = function() return E.private.actionbar.enable end,
+				accept = function() E.private.actionbar.enable = false; ReloadUI() end,
+				name = 'ElvUI ActionBars'
+			},
+			'Bartender4',
+			'Dominos'
+		},
+		Chat = {
+			info = {
+				enabled = function() return E.private.chat.enable end,
+				accept = function() E.private.chat.enable = false; ReloadUI() end,
+				name = 'ElvUI Chat'
+			},
+			'Prat-3.0',
+			'Chatter',
+			'Glass'
+		},
+		NamePlates = {
+			info = {
+				enabled = function() return E.private.nameplates.enable end,
+				accept = function() E.private.nameplates.enable = false; ReloadUI() end,
+				name = 'ElvUI NamePlates'
+			},
+			'TidyPlates',
+			'Healers-Have-To-Die',
+			'Kui_Nameplates',
+			'Plater',
+			'Aloft'
+		}
+	}
+
+	E.INCOMPATIBLE_ADDONS = ADDONS -- let addons have the ability to alter this list to trigger our popup if they want
+	function E:AddIncompatible(module, addonName)
+		if ADDONS[module] then
+			tinsert(ADDONS[module], addonName)
+		else
+			print(module, 'is not in the incompatibility list.')
 		end
 	end
 
-	if E.private.nameplates.enable then
-		if E:IsAddOnEnabled('TidyPlates') then
-			E:IncompatibleAddOn('TidyPlates', 'NamePlates')
-		end
-		if E:IsAddOnEnabled('Aloft') then
-			E:IncompatibleAddOn('Aloft', 'NamePlates')
-		end
-		if E:IsAddOnEnabled('Healers-Have-To-Die') then
-			E:IncompatibleAddOn('Healers-Have-To-Die', 'NamePlates')
-		end
-		if E:IsAddOnEnabled('Plater') then
-			E:IncompatibleAddOn('Plater', 'NamePlates')
-		end
-	end
+	function E:CheckIncompatible()
+		if E.global.ignoreIncompatible then return end
 
-	if E.private.actionbar.enable then
-		if E:IsAddOnEnabled('Bartender4') then
-			E:IncompatibleAddOn('Bartender4', 'ActionBar')
+		for module, addons in pairs(ADDONS) do
+			if addons[1] and addons.info.enabled() and E:IsIncompatible(module, addons) then
+				break
+			end
 		end
 	end
 end
@@ -631,7 +683,7 @@ end
 do	--The code in this function is from WeakAuras, credit goes to Mirrored and the WeakAuras Team
 	--Code slightly modified by Simpy
 	local function recurse(table, level, ret)
-		for i,v in pairs(table) do
+		for i, v in pairs(table) do
 			ret = ret..strrep('    ', level)..'['
 			if type(i) == 'string' then ret = ret..'"'..i..'"' else ret = ret..i end
 			ret = ret..'] = '
@@ -1318,6 +1370,12 @@ local function buffwatchConvert(spell)
 	end
 end
 
+local ttModSwap
+do -- tooltip convert
+	local swap = {ALL = 'HIDE',NONE = 'SHOW'}
+	ttModSwap = function(val) return swap[val] end
+end
+
 function E:DBConversions()
 	--Fix issue where UIScale was incorrectly stored as string
 	E.global.general.UIScale = tonumber(E.global.general.UIScale)
@@ -1548,8 +1606,32 @@ function E:DBConversions()
 		E.db.unitframe.colors.debuffHighlight.blendMode = P.unitframe.colors.debuffHighlight.blendMode
 	end
 
-	if type(E.db.general.autoRepair) ~= 'boolean' then
-		E.db.general.autoRepair = false
+	do -- tooltip modifier code was dumb, change it but keep the past setting
+		local swap = ttModSwap(E.db.tooltip.modifierID)
+		if swap then E.db.tooltip.modifierID = swap end
+
+		swap = ttModSwap(E.db.tooltip.visibility.bags)
+		if swap then E.db.tooltip.visibility.bags = swap end
+
+		swap = ttModSwap(E.db.tooltip.visibility.unitFrames)
+		if swap then E.db.tooltip.visibility.unitFrames = swap end
+
+		swap = ttModSwap(E.db.tooltip.visibility.actionbars)
+		if swap then E.db.tooltip.visibility.actionbars = swap end
+
+		swap = ttModSwap(E.db.tooltip.visibility.combatOverride)
+		if swap then E.db.tooltip.visibility.combatOverride = swap end
+
+		-- remove the old combat variable and just use the mod since it supports show/hide states
+		local hideInCombat = E.db.tooltip.visibility.combat
+		if hideInCombat ~= nil then
+			E.db.tooltip.visibility.combat = nil
+
+			local override = E.db.tooltip.visibility.combatOverride
+			if hideInCombat and (override ~= 'SHIFT' and override ~= 'CTRL' and override ~= 'ALT') then -- wouldve been NONE but now it would be HIDE
+				E.db.tooltip.visibility.combatOverride = 'HIDE'
+			end
+		end
 	end
 end
 
@@ -1576,7 +1658,7 @@ do
 	function E:RemoveDefaults(db, defaults)
 		setmetatable(db, nil)
 
-		for k,v in pairs(defaults) do
+		for k, v in pairs(defaults) do
 			if type(v) == 'table' and type(db[k]) == 'table' then
 				E:RemoveDefaults(db[k], v)
 				if next(db[k]) == nil then db[k] = nil end
@@ -1593,16 +1675,17 @@ function E:Initialize()
 	twipe(E.private)
 
 	E.myguid = UnitGUID('player')
-	E.data = E.Libs.AceDB:New('ElvDB', E.DF)
+	E.data = E.Libs.AceDB:New('ElvDB', E.DF, true)
 	E.data.RegisterCallback(E, 'OnProfileChanged', 'StaggeredUpdateAll')
 	E.data.RegisterCallback(E, 'OnProfileCopied', 'StaggeredUpdateAll')
 	E.data.RegisterCallback(E, 'OnProfileReset', 'OnProfileReset')
 	E.charSettings = E.Libs.AceDB:New('ElvPrivateDB', E.privateVars)
+	E.charSettings.RegisterCallback(E, 'OnProfileChanged', ReloadUI)
+	E.charSettings.RegisterCallback(E, 'OnProfileReset', 'OnPrivateProfileReset')
 	E.private = E.charSettings.profile
 	E.global = E.data.global
 	E.db = E.data.profile
 
-	E:CheckIncompatible()
 	E:DBConversions()
 	E:UIScale()
 	E:BuildPrefixValues()

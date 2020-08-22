@@ -4,8 +4,10 @@ local DT = E:GetModule('DataTexts')
 local Layout = E:GetModule('Layout')
 local Chat = E:GetModule('Chat')
 local Minimap = E:GetModule('Minimap')
+local ACH = E.Libs.ACH
 
 local _G = _G
+local wipe = wipe
 local tonumber = tonumber
 local tostring = tostring
 local format = format
@@ -16,13 +18,13 @@ local type = type
 
 local DTPanelOptions = {
 	numPoints = {
-		order = 1,
+		order = 2,
 		type = 'range',
 		name = L["Number of DataTexts"],
 		min = 1, max = 20, step = 1,
 	},
 	growth = {
-		order = 2,
+		order = 3,
 		type = 'select',
 		name = L["Growth"],
 		values = {
@@ -31,19 +33,19 @@ local DTPanelOptions = {
 		},
 	},
 	width = {
-		order = 3,
+		order = 4,
 		type = 'range',
 		name = L["Width"],
 		min = 24, max = E.screenwidth, step = 1,
 	},
 	height = {
-		order = 4,
+		order = 5,
 		type = 'range',
 		name = L["Height"],
 		min = 12, max = E.screenheight, step = 1,
 	},
 	templateGroup = {
-		order = 5,
+		order = 10,
 		type = "multiselect",
 		name = L['Template'],
 		sortByValue = true,
@@ -55,7 +57,7 @@ local DTPanelOptions = {
 		},
 	},
 	strataAndLevel = {
-		order = 9,
+		order = 15,
 		type = "group",
 		name = L["Strata and Level"],
 		guiInline = true,
@@ -82,7 +84,7 @@ local DTPanelOptions = {
 		},
 	},
 	tooltip = {
-		order = 15,
+		order = 20,
 		type = "group",
 		name = L["Tooltip"],
 		guiInline = true,
@@ -122,7 +124,7 @@ local DTPanelOptions = {
 	},
 	visibility = {
 		type = 'input',
-		order = 16,
+		order = 25,
 		name = L["Visibility State"],
 		desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
 		width = 'full',
@@ -279,7 +281,7 @@ function DT:PanelLayoutOptions()
 				}
 			end
 
-			for option, value in pairs(tab) do
+			for option in pairs(tab) do
 				if type(option) == 'number' then
 					if E.global.datatexts.customPanels[name] and option > E.global.datatexts.customPanels[name].numPoints then
 						-- Number of Datatexts has been lowered, remove datatext entry in profile
@@ -297,13 +299,6 @@ function DT:PanelLayoutOptions()
 							end,
 						}
 					end
-				elseif type(value) ~= 'boolean' and P.datatexts.panels[name] and P.datatexts.panels[name][option] then
-					-- TODO: need to convert the old [name][option] to the number style..
-					options[name].args[option] = options[name].args[option] or {
-						type = 'select',
-						name = L[option],
-						values = dts,
-					}
 				end
 			end
 		end
@@ -318,16 +313,8 @@ E.Options.args.datatexts = {
 	get = function(info) return E.db.datatexts[info[#info]] end,
 	set = function(info, value) E.db.datatexts[info[#info]] = value; DT:LoadDataTexts() end,
 	args = {
-		intro = {
-			order = 1,
-			type = "description",
-			name = L["DATATEXT_DESC"],
-		},
-		spacer = {
-			order = 2,
-			type = "description",
-			name = "",
-		},
+		intro = ACH:Description(L["DATATEXT_DESC"], 1),
+		spacer = ACH:Spacer(2),
 		general = {
 			order = 3,
 			type = "group",
@@ -459,6 +446,23 @@ E.Options.args.datatexts = {
 						},
 					},
 				},
+				durability = {
+					order = 8,
+					type = "group",
+					name = L["Durability"],
+					guiInline = true,
+					args = {
+						percThreshold = {
+							order = 1,
+							type = "range",
+							name = L["Flash Threshold"],
+							desc = L["The durability percent that the datatext will start flashing.  Set to -1 to disable"],
+							min = -1, max = 99, step = 1,
+							get = function(info) return E.db.datatexts.durability[info[#info]] end,
+							set = function(info, value) E.db.datatexts.durability[info[#info]] = value; DT:LoadDataTexts() end,
+						},
+					},
+				},
 			},
 		},
 		panels = {
@@ -483,7 +487,7 @@ E.Options.args.datatexts = {
 							--end,
 						},
 						add = {
-							order = 14,
+							order = 1,
 							type = 'execute',
 							name = L['Add'],
 							width = 'full',
@@ -541,7 +545,7 @@ E.Options.args.datatexts = {
 						},
 						border = {
 							order = 6,
-							name = L["Backdrop"],
+							name = L["Border"],
 							type = "toggle",
 						},
 						panelTransparency = {
@@ -583,7 +587,7 @@ E.Options.args.datatexts = {
 						},
 						border = {
 							order = 6,
-							name = L["Backdrop"],
+							name = L["Border"],
 							type = "toggle",
 						},
 						panelTransparency = {
@@ -612,23 +616,23 @@ E.Options.args.datatexts = {
 							end,
 						},
 						numPoints = {
-							order = 1,
+							order = 5,
 							type = 'range',
 							name = L["Number of DataTexts"],
 							min = 1, max = 2, step = 1,
 						},
 						backdrop = {
-							order = 5,
-							name = L["Backdrop"],
-							type = "toggle",
-						},
-						border = {
 							order = 6,
 							name = L["Backdrop"],
 							type = "toggle",
 						},
-						panelTransparency = {
+						border = {
 							order = 7,
+							name = L["Border"],
+							type = "toggle",
+						},
+						panelTransparency = {
+							order = 8,
 							type = 'toggle',
 							name = L["Panel Transparency"],
 						},
@@ -641,11 +645,7 @@ E.Options.args.datatexts = {
 			type = "group",
 			name = L["FRIENDS"],
 			args = {
-				description = {
-					order = 1,
-					type = "description",
-					name = L["Hide specific sections in the datatext tooltip."],
-				},
+				description = ACH:Description(L["Hide specific sections in the datatext tooltip."], 1),
 				hideGroup1 = {
 					order = 2,
 					type = "multiselect",

@@ -1,21 +1,21 @@
 local E, _, V, P, G = unpack(ElvUI); --Import: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local C, L = unpack(select(2, ...))
 local AB = E:GetModule('ActionBars')
+local ACH = E.Libs.ACH
 
 local _G = _G
 local pairs = pairs
+local format = format
 local SetCVar = SetCVar
 local GameTooltip = _G.GameTooltip
 
--- GLOBALS: NUM_ACTIONBAR_BUTTONS, NUM_PET_ACTION_SLOTS
--- GLOBALS: LOCK_ACTIONBAR, MICRO_BUTTONS
--- GLOBALS: AceGUIWidgetLSMlists
+-- GLOBALS: NUM_ACTIONBAR_BUTTONS, NUM_PET_ACTION_SLOTS, LOCK_ACTIONBAR, MICRO_BUTTONS, AceGUIWidgetLSMlists
 
 local points = {
-	["TOPLEFT"] = "TOPLEFT",
-	["TOPRIGHT"] = "TOPRIGHT",
-	["BOTTOMLEFT"] = "BOTTOMLEFT",
-	["BOTTOMRIGHT"] = "BOTTOMRIGHT",
+	TOPLEFT = "TOPLEFT",
+	TOPRIGHT = "TOPRIGHT",
+	BOTTOMLEFT = "BOTTOMLEFT",
+	BOTTOMRIGHT = "BOTTOMRIGHT",
 }
 
 E.Options.args.actionbar = {
@@ -26,11 +26,7 @@ E.Options.args.actionbar = {
 	get = function(info) return E.db.actionbar[info[#info]] end,
 	set = function(info, value) E.db.actionbar[info[#info]] = value; AB:UpdateButtonSettings() end,
 	args = {
-		intro = {
-			order = 0,
-			type = "description",
-			name = L["ACTIONBARS_DESC"],
-		},
+		intro = ACH:Description(L["ACTIONBARS_DESC"], 0),
 		enable = {
 			order = 1,
 			type = "toggle",
@@ -51,11 +47,7 @@ E.Options.args.actionbar = {
 					func = function() AB:ActivateBindMode(); E:ToggleOptionsUI(); GameTooltip:Hide(); end,
 					disabled = function() return not E.private.actionbar.enable end,
 				},
-				spacer = {
-					order = 1,
-					type = "description",
-					name = "",
-				},
+				spacer = ACH:Spacer(1),
 				macrotext = {
 					order = 3,
 					type = "toggle",
@@ -898,6 +890,12 @@ for i = 1, 10 do
 			},
 		},
 	}
+
+	if (E.myclass == 'DRUID' and i >= 7 or E.myclass == 'ROGUE' and i == 7) then
+		E.Options.args.actionbar.args.playerBars.args['bar'..i].args.enabled.confirm = function(info, value)
+			return format(L["Bar %s is used for stance or forms.|N You will have to adjust paging to use this bar.|N Are you sure?"], i)
+		end
+	end
 end
 
 E.Options.args.actionbar.args.playerBars.args.bar1.args.pagingReset = {

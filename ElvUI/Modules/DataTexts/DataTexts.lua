@@ -5,6 +5,7 @@ local LDB = E.Libs.LDB
 local LSM = E.Libs.LSM
 
 local _G = _G
+local tostring = tostring
 local tinsert, wipe, sort, type, error, pcall = tinsert, wipe, sort, type, error, pcall
 local ipairs, pairs, next, strlen, strfind = ipairs, pairs, next, strlen, strfind
 local CloseDropDownMenus = CloseDropDownMenus
@@ -475,6 +476,8 @@ function DT:UpdatePanelInfo(panelName, panel, ...)
 		dt.parentName = panelName
 		dt.battleStats = battlePanel
 		dt.db = db
+
+		E:StopFlash(dt)
 
 		if dt.objectEvent and dt.objectEventFunc then
 			E:UnregisterAllEventsForObject(dt.objectEvent, dt.objectEventFunc)

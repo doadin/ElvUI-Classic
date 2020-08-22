@@ -13,6 +13,7 @@ local unpack, select = unpack, select
 local format, gsub, type = format, gsub, type
 --WoW API / Variables
 local CreateFrame = CreateFrame
+local InCombatLockdown = InCombatLockdown
 local GetAddOnEnableState = GetAddOnEnableState
 local GetAddOnMetadata = GetAddOnMetadata
 local GetLocale = GetLocale
@@ -141,6 +142,7 @@ do
 	DisableAddOn("ElvUI_EverySecondCounts")
 	DisableAddOn("ElvUI_AuraBarsMovers")
 	DisableAddOn("ElvUI_CustomTweaks")
+	DisableAddOn("ElvUI_DTBars2")
 end
 
 function E:OnEnable()
@@ -188,9 +190,9 @@ function E:OnInitialize()
 
 	if self.private.general.minimap.enable then
 		self.Minimap:SetGetMinimapShape()
-		_G.Minimap:SetMaskTexture('interface/chatframe/chatframebackground.blp')
+		_G.Minimap:SetMaskTexture('interface/chatframe/chatframebackground')
 	else
-		_G.Minimap:SetMaskTexture('textures/minimapmask.blp')
+		_G.Minimap:SetMaskTexture('textures/minimapmask')
 	end
 
 	if GetAddOnEnableState(E.myname, 'Tukui') == 2 then
@@ -239,15 +241,17 @@ function E:PositionGameMenuButton()
 end
 
 function E:ResetProfile()
-	local key = ElvPrivateDB.profileKeys and ElvPrivateDB.profileKeys[E.mynameRealm]
-	if key and ElvPrivateDB.profiles and ElvPrivateDB.profiles[key] then
-		ElvPrivateDB.profiles[key] = nil
-	end
-
-	ElvCharacterDB = nil
-	ReloadUI()
+	E:StaggeredUpdateAll()
 end
 
 function E:OnProfileReset()
 	E:StaticPopup_Show('RESET_PROFILE_PROMPT')
+end
+
+function E:ResetPrivateProfile()
+	ReloadUI()
+end
+
+function E:OnPrivateProfileReset()
+	E:StaticPopup_Show('RESET_PRIVATE_PROFILE_PROMPT')
 end

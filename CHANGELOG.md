@@ -1,8 +1,18 @@
-### Version 1.25 [ETA: 🍨]
+### Version 1.28 [ETA: 🍨]
+**Shamans will stay pink**  
+  
+**ActionBars:** Fixed an issue with action paging  
+**Minimap:** Fixed the pixel offset on the minimap DataBar  
+**Minimap:** Fixed an issue with the "Zoom Reset" option  
+**UnitFrames:** Fixed an issue with custom texts  
+**Tags:** Added back shortvalue Tags  
+___
+### Version 1.25-1.27 [07/12/2020]
 **ActionBars:** Fixed an issue with the Stance Bar  
 **Available Tags:** Updated some descriptions  
 **AuraBars:** Fixed an issue with class color  
 **CastBars:** Added ChannelTicks for Blizzard (Mage)  
+**CastBars:** Added an option for reverse fill  
 **Chat:** The chat editbox now supports Blizzards chat style: IM Style  
 **Chat:** Fixed a bug with the chat editbox blocking DataTexts  
 **Chat:** Fixed a bug with class color names enable/disable  
@@ -35,16 +45,20 @@
 **Skins:** Added corpse tooltip skin  
 **Tags:** Added [name:health] which displays health lost using colors on the name text  
 **Tags:** Added [ElvUI-Users] which displays other cool people than yourself  
+**Tags:** Added [name:last] which displays only the last part of the name  
 **Tags:** Added a color picker in the Available Tags menu  
 **Tags:** Status tags will now ignore hunters feign death  
 **Tooltip:** Added back the option to color the tooltip border based on item quality  
+**Tooltip:** Added modifier options for IDs  
 **UnitFrames:** Fixed ReverseFill in healthprediction  
 **UnitFrames:** ThreatIndicator tweaks and fixes  
 **UnitFrames:** Lowered the min value on some Unitframes elements, mainly health  
 **UnitFrames:** Fixed issue which caused transparency setting to mess up the health on UnitFrames with vertical orientation and/or ReverseFill enabled  
 **UnitFrames:** Cutaway now works correctly on vertical orientation health UnitFrames  
-**UnitFrames:** Worked out a couple more weird things with the Smart Raid Filter  
+**UnitFrames:** Fixed the Smart Raid Filter  
 **UnitFrames:** Added an option to custom color aura borders  
+**UnitFrames:** Added frame strata options for Player, Target, Pet, etc  
+**UnitFrames:** Fixed the offset option for the leader indicator  
 ___
 ### Version 1.24 [03/03/2020]
 **UnitFrames:** ThreatIndicator changes to fix lags/freezes  

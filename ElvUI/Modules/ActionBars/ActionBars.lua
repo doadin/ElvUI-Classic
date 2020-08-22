@@ -29,7 +29,10 @@ local LAB = E.Libs.LAB
 local LSM = E.Libs.LSM
 local Masque = E.Masque
 local MasqueGroup = Masque and Masque:Group("ElvUI", "ActionBars")
-local UIHider
+
+local hiddenParent = CreateFrame("Frame", nil, _G.UIParent)
+hiddenParent:SetAllPoints()
+hiddenParent:Hide()
 
 AB.RegisterCooldown = E.RegisterCooldown
 
@@ -40,19 +43,19 @@ AB.barDefaults = {
 		page = 1,
 		bindButtons = "ACTIONBUTTON",
 		conditions = "[shapeshift] 13; [form,noform] 0; [bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6;",
-		position = "BOTTOM,ElvUIParent,BOTTOM,0,4",
+		position = 'BOTTOM,ElvUIParent,BOTTOM,-1,191',
 	},
 	bar2 = {
 		page = 5,
 		bindButtons = "MULTIACTIONBAR2BUTTON",
 		conditions = "",
-		position = "BOTTOM,ElvUI_Bar1,TOP,0,2",
+		position = 'BOTTOM,ElvUIParent,BOTTOM,0,4',
 	},
 	bar3 = {
 		page = 6,
 		bindButtons = "MULTIACTIONBAR1BUTTON",
 		conditions = "",
-		position = "LEFT,ElvUI_Bar1,RIGHT,4,0",
+		position = 'BOTTOM,ElvUIParent,BOTTOM,-1,139',
 	},
 	bar4 = {
 		page = 4,
@@ -64,7 +67,7 @@ AB.barDefaults = {
 		page = 3,
 		bindButtons = "MULTIACTIONBAR3BUTTON",
 		conditions = "",
-		position = "RIGHT,ElvUI_Bar1,LEFT,-4,0",
+		position = 'BOTTOM,ElvUIParent,BOTTOM,-92,57',
 	},
 	bar6 = {
 		page = 2,
@@ -139,8 +142,7 @@ function AB:PositionAndSizeBar(barName)
 	--Size of all buttons + Spacing between all buttons + Spacing between additional rows of buttons + Spacing between backdrop and buttons + Spacing on end borders with non-thin borders
 	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + (sideSpacing*2)
 	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + (sideSpacing*2)
-	bar:Width(barWidth)
-	bar:Height(barHeight)
+	bar:SetSize(barWidth, barHeight)
 
 	bar.mouseover = bar.db.mouseover
 
@@ -440,42 +442,6 @@ function AB:UpdateBar1Paging()
 	else
 		AB.barDefaults.bar1.conditions = "[shapeshift] 13; [form,noform] 0; [bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6;"
 	end
-
-	if (not E.private.actionbar.enable or InCombatLockdown()) or not AB.isInitialized then return; end
-	local bar2Option = _G.InterfaceOptionsActionBarsPanelBottomRight
-	local bar3Option = _G.InterfaceOptionsActionBarsPanelBottomLeft
-	local bar4Option = _G.InterfaceOptionsActionBarsPanelRightTwo
-	local bar5Option = _G.InterfaceOptionsActionBarsPanelRight
-
-	if (AB.db.bar2.enabled and not bar2Option:GetChecked()) or (not AB.db.bar2.enabled and bar2Option:GetChecked())  then
-		bar2Option:Click()
-	end
-
-	if (AB.db.bar3.enabled and not bar3Option:GetChecked()) or (not AB.db.bar3.enabled and bar3Option:GetChecked())  then
-		bar3Option:Click()
-	end
-
-	if not AB.db.bar5.enabled and not AB.db.bar4.enabled then
-		if bar4Option:GetChecked() then
-			bar4Option:Click()
-		end
-
-		if bar5Option:GetChecked() then
-			bar5Option:Click()
-		end
-	elseif not AB.db.bar5.enabled then
-		if not bar5Option:GetChecked() then
-			bar5Option:Click()
-		end
-
-		if not bar4Option:GetChecked() then
-			bar4Option:Click()
-		end
-	elseif (AB.db.bar4.enabled and not bar4Option:GetChecked()) or (not AB.db.bar4.enabled and bar4Option:GetChecked()) then
-		bar4Option:Click()
-	elseif (AB.db.bar5.enabled and not bar5Option:GetChecked()) or (not AB.db.bar5.enabled and bar5Option:GetChecked()) then
-		bar5Option:Click()
-	end
 end
 
 function AB:UpdateButtonSettingsForBar(barName)
@@ -741,67 +707,37 @@ function AB:FadeParent_OnEvent()
 end
 
 function AB:DisableBlizzard()
-	-- Hidden parent frame
-	UIHider = CreateFrame("Frame")
-	UIHider:Hide()
+	-- dont blindly add to this table, the first 5 get their events registered
+	for i, name in ipairs({"StanceBarFrame", "PetActionBarFrame", "MainMenuBar", "MultiBarBottomLeft", "MultiBarBottomRight", "MultiBarLeft", "MultiBarRight"}) do
+		_G.UIPARENT_MANAGED_FRAME_POSITIONS[name] = nil
 
-	_G.MultiBarBottomLeft:SetParent(UIHider)
-	_G.MultiBarBottomRight:SetParent(UIHider)
-	_G.MultiBarLeft:SetParent(UIHider)
-	_G.MultiBarRight:SetParent(UIHider)
+		local frame = _G[name]
+		if i < 6 then frame:UnregisterAllEvents() end
 
-	-- Hide MultiBar Buttons, but keep the bars alive
-	for i=1,12 do
-		_G["ActionButton" .. i]:Hide()
-		_G["ActionButton" .. i]:UnregisterAllEvents()
-		_G["ActionButton" .. i]:SetAttribute("statehidden", true)
+		frame:SetParent(hiddenParent)
+	end
 
-		_G["MultiBarBottomLeftButton" .. i]:Hide()
-		_G["MultiBarBottomLeftButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarBottomLeftButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarBottomRightButton" .. i]:Hide()
-		_G["MultiBarBottomRightButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarBottomRightButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarRightButton" .. i]:Hide()
-		_G["MultiBarRightButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarRightButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarLeftButton" .. i]:Hide()
-		_G["MultiBarLeftButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarLeftButton" .. i]:SetAttribute("statehidden", true)
-
-		if _G["VehicleMenuBarActionButton" .. i] then
-			_G["VehicleMenuBarActionButton" .. i]:Hide()
-			_G["VehicleMenuBarActionButton" .. i]:UnregisterAllEvents()
-			_G["VehicleMenuBarActionButton" .. i]:SetAttribute("statehidden", true)
-		end
-
-		if _G['OverrideActionBarButton'..i] then
-			_G['OverrideActionBarButton'..i]:Hide()
-			_G['OverrideActionBarButton'..i]:UnregisterAllEvents()
-			_G['OverrideActionBarButton'..i]:SetAttribute("statehidden", true)
+	for _, name in ipairs({"ActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton", "MultiBarRightButton", "MultiBarLeftButton", "OverrideActionBarButton", "MultiCastActionButton"}) do
+		for i = 1, 12 do
+			local frame = _G[name..i]
+			if frame then frame:UnregisterAllEvents() end
 		end
 	end
 
+	_G.MainMenuBar.SetPositionForStatusBars = E.noop
+
+	-- shut down some events for things we dont use
+	_G.MainMenuBarArtFrame:UnregisterAllEvents()
 	_G.ActionBarController:UnregisterAllEvents()
 
-	_G.MainMenuBar:EnableMouse(false)
-	_G.MainMenuBar:SetAlpha(0)
-	_G.MainMenuBar:SetScale(0.00001)
-	_G.MainMenuBar:SetFrameStrata('BACKGROUND')
-	_G.MainMenuBar:SetFrameLevel(0)
-
-	_G.MainMenuBarArtFrame:UnregisterAllEvents()
-	_G.MainMenuBarArtFrame:Hide()
-	_G.MainMenuBarArtFrame:SetParent(UIHider)
-
-	_G.StanceBarFrame:UnregisterAllEvents()
-	_G.StanceBarFrame:Hide()
-	_G.StanceBarFrame:SetParent(UIHider)
-
-	_G.InterfaceOptionsActionBarsPanelAlwaysShowActionBars:EnableMouse(false)
+	-- hide some interface options we dont use
+	_G.InterfaceOptionsActionBarsPanelStackRightBars:SetScale(0.5)
+	_G.InterfaceOptionsActionBarsPanelStackRightBars:SetAlpha(0)
+	_G.InterfaceOptionsActionBarsPanelStackRightBarsText:Hide() -- hides the !
+	_G.InterfaceOptionsActionBarsPanelRightTwoText:SetTextColor(1,1,1) -- no yellow
+	_G.InterfaceOptionsActionBarsPanelRightTwoText.SetTextColor = E.noop -- i said no yellow
+	_G.InterfaceOptionsActionBarsPanelAlwaysShowActionBars:SetScale(0.0001)
+	_G.InterfaceOptionsActionBarsPanelAlwaysShowActionBars:SetAlpha(0)
 	_G.InterfaceOptionsActionBarsPanelPickupActionKeyDropDownButton:SetScale(0.0001)
 	_G.InterfaceOptionsActionBarsPanelLockActionBars:SetScale(0.0001)
 	_G.InterfaceOptionsActionBarsPanelAlwaysShowActionBars:SetAlpha(0)
@@ -810,14 +746,6 @@ function AB:DisableBlizzard()
 	_G.InterfaceOptionsActionBarsPanelPickupActionKeyDropDown:SetAlpha(0)
 	_G.InterfaceOptionsActionBarsPanelPickupActionKeyDropDown:SetScale(0.0001)
 	AB:SecureHook('BlizzardOptionsPanel_OnEvent')
-
-	--for _, frame in pairs({"MainMenuBar", "StanceBarFrame", "PossessBarFrame", "MultiBarBottomLeft", "MultiBarBottomRight", "MultiCastActionBarFrame"}) do
-	--	if _G[frame] then
-	--		_G[frame]:ClearAllPoints();
-	--		_G[frame].SetPoint = E.noop;
-	--		_G[frame].ClearAllPoints = E.noop;
-	--	end
-	--end
 end
 
 function AB:ToggleCountDownNumbers(bar, button, cd)

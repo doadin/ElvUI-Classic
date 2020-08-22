@@ -25,7 +25,7 @@ local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
 local GuildRoster = GuildRoster
 local InCombatLockdown = InCombatLockdown
-local CreateFrame = CreateFrame
+local IsAltKeyDown = IsAltKeyDown
 
 local COMBAT_FACTION_CHANGE = COMBAT_FACTION_CHANGE
 local GUILD = GUILD
@@ -143,19 +143,6 @@ local eventHandlers = {
 		guildMotD = arg1
 	end
 }
-
-local function OnEvent(self, event, ...)
-	lastPanel = self
-
-	if IsInGuild() then
-		local func = eventHandlers[event]
-		if func then func(self, ...) end
-
-		self.text:SetFormattedText(displayString, #guildTable)
-	else
-		self.text:SetText(noGuildString)
-	end
-end
 
 local menuList = {
 	{ text = _G.OPTIONS_MENU, isTitle = true, notCheckable=true},
@@ -278,6 +265,23 @@ local function OnEnter(self, _, noUpdate)
 	DT.tooltip:Show()
 end
 
+local function OnEvent(self, event, ...)
+	lastPanel = self
+
+	if IsInGuild() then
+		local func = eventHandlers[event]
+		if func then func(self, ...) end
+
+		if not IsAltKeyDown() and event == 'MODIFIER_STATE_CHANGED' and GetMouseFocus() == self then
+			OnEnter(self)
+		end
+
+		self.text:SetFormattedText(displayString, #guildTable)
+	else
+		self.text:SetText(noGuildString)
+	end
+end
+
 local function ValueColorUpdate(hex)
 	displayString = strjoin("", GUILD, ": ", hex, "%d|r")
 	noGuildString = hex..L["No Guild"]
@@ -288,4 +292,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('Guild', SOCIAL_LABEL, {"CHAT_MSG_SYSTEM", "GUILD_ROSTER_UPDATE", "PLAYER_GUILD_UPDATE", "GUILD_MOTD"}, OnEvent, nil, Click, OnEnter, nil, GUILD)
+DT:RegisterDatatext('Guild', _G.SOCIAL_LABEL, {'CHAT_MSG_SYSTEM', 'GUILD_ROSTER_UPDATE', 'PLAYER_GUILD_UPDATE', 'GUILD_MOTD', 'MODIFIER_STATE_CHANGED'}, OnEvent, nil, Click, OnEnter, nil, GUILD)

@@ -46,8 +46,6 @@ function UF:Construct_AssistFrames()
 
 	self.originalParent = self:GetParent()
 
-	UF:Update_AssistFrames(self, E.db.unitframe.units.assist)
-
 	return self
 end
 
@@ -57,37 +55,38 @@ function UF:Update_AssistHeader(header, db)
 
 	UF:ClearChildPoints(header:GetChildren())
 
-	if not header.forceShow and db.enable then
+	if not header.isForced and db.enable then
 		RegisterAttributeDriver(header, 'state-visibility', '[@raid1,exists] show;hide')
 	end
 
 	header:SetAttribute('point', 'BOTTOM')
 	header:SetAttribute('columnAnchorPoint', 'LEFT')
-	header:SetAttribute("yOffset", db.verticalSpacing)
+	header:SetAttribute('yOffset', db.verticalSpacing)
 
 	if not header.positioned then
 		header:ClearAllPoints()
-		header:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -248)
+		header:Point('TOPLEFT', E.UIParent, 'TOPLEFT', 4, -248)
 
 		local width, height = header:GetSize()
-		header.dirtyWidth, header.dirtyHeight = width, max(height, 2*db.height + db.verticalSpacing)
+		local minHeight = max(height, 2 * db.height + db.verticalSpacing)
+		header:SetAttribute('minHeight', minHeight)
+		header:SetAttribute('minWidth', width)
 
-		E:CreateMover(header, header:GetName()..'Mover', L["MA Frames"], nil, nil, nil, 'ALL,RAID', nil, 'unitframe,assist,generalGroup')
-		header:SetAttribute('minHeight', header.dirtyHeight)
-		header:SetAttribute('minWidth', header.dirtyWidth)
-		header.positioned = true;
+		E:CreateMover(header, header:GetName()..'Mover', L["MA Frames"], nil, nil, nil, 'ALL,RAID', nil, 'unitframe,groupUnits,assist,generalGroup')
+		header.mover:SetSize(width, minHeight)
+
+		header.positioned = true
 	end
 end
 
 function UF:Update_AssistFrames(frame, db)
 	frame.db = db
 	frame.colors = ElvUF.colors
-	frame:RegisterForClicks(self.db.targetOnMouseDown and 'AnyDown' or 'AnyUp')
+	frame:RegisterForClicks(UF.db.targetOnMouseDown and 'AnyDown' or 'AnyUp')
 
 	do
 		frame.ORIENTATION = db.orientation --allow this value to change when unitframes position changes on screen?
-
-		if(self.thinBorders) then
+		if(UF.thinBorders) then
 			frame.SPACING = 0
 			frame.BORDER = E.mult
 		else

@@ -36,9 +36,9 @@ local GUILD_EVENT_LOG = GUILD_EVENT_LOG
 -- GLOBALS: ElvUIInstallFrame
 
 local CURRENT_PAGE = 0
-local MAX_PAGE = 8
+local MAX_PAGE = 9
 
-local function SetupChat(noDisplayMsg)
+function E:SetupChat(noDisplayMsg)
 	FCF_ResetChatWindows()
 	FCF_OpenNewWindow(LOOT)
 	FCF_UnDockFrame(_G.ChatFrame3)
@@ -124,7 +124,7 @@ local function SetupChat(noDisplayMsg)
 	end
 end
 
-local function SetupCVars(noDisplayMsg)
+function E:SetupCVars(noDisplayMsg)
 	SetCVar('statusTextDisplay', 'BOTH')
 	SetCVar('screenshotQuality', 10)
 	SetCVar('chatMouseScroll', 1)
@@ -136,6 +136,8 @@ local function SetupCVars(noDisplayMsg)
 	SetCVar('lockActionBars', 1)
 	SetCVar('SpamFilter', 0)
 	SetCVar('cameraDistanceMaxZoomFactor', 2.6)
+	SetCVar('chatClassColorOverride', 0)
+	SetCVar('colorChatNamesByClass', 1)
 
 	NP:CVarReset()
 
@@ -220,161 +222,11 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 			E.db.movers = {}
 		end
 
-		--ActionBars
-		E.db.actionbar.bar1.buttons = 8
-		E.db.actionbar.bar1.buttonsize = 50
-		E.db.actionbar.bar1.buttonspacing = 1
-		E.db.actionbar.bar2.buttons = 9
-		E.db.actionbar.bar2.buttonsize = 38
-		E.db.actionbar.bar2.buttonspacing = 1
-		E.db.actionbar.bar2.enabled = true
-		E.db.actionbar.bar3.buttons = 8
-		E.db.actionbar.bar3.buttonsize = 50
-		E.db.actionbar.bar3.buttonspacing = 1
-		E.db.actionbar.bar3.buttonsPerRow = 10
-		E.db.actionbar.bar4.enabled = false
-		E.db.actionbar.bar5.enabled = false
-		--Auras
-		E.db.auras.buffs.countFontSize = 10
-		E.db.auras.buffs.size = 40
-		E.db.auras.debuffs.countFontSize = 10
-		E.db.auras.debuffs.size = 40
-		--Bags
-		E.db.bags.bagSize = 42
-		E.db.bags.bagWidth = 474
-		E.db.bags.bankSize = 42
-		E.db.bags.bankWidth = 474
-		E.db.bags.itemLevelCustomColorEnable = true
-		E.db.bags.scrapIcon = true
-		--Chat
-		E.db.chat.fontSize = 10
-		E.db.chat.separateSizes = false
-		E.db.chat.panelHeight = 236
-		E.db.chat.panelWidth = 472
-		E.db.chat.tabFontSize = 10
-		--DataBars
-		E.db.databars.experience.height = 10
-		E.db.databars.experience.orientation = 'HORIZONTAL'
-		E.db.databars.experience.textSize = 12
-		E.db.databars.experience.width = 348
-		E.db.databars.reputation.enable = true
-		E.db.databars.reputation.height = 10
-		E.db.databars.reputation.orientation = 'HORIZONTAL'
-		E.db.databars.reputation.width = 222
-		--General
-		E.db.general.minimap.size = 220
-
 		--Movers
 		for mover, position in pairs(E.LayoutMoverPositions.ALL) do
 			E.db.movers[mover] = position
 			E:SaveMoverDefaultPosition(mover)
 		end
-		--Tooltip
-		E.db.tooltip.textFontSize = 10
-		E.db.tooltip.healthBar.fontOutline = 'MONOCHROMEOUTLINE'
-		E.db.tooltip.healthBar.height = 12
-		--UnitFrames
-		E.db.unitframe.smoothbars = true
-		E.db.unitframe.thinBorders = true
-		--Player
-		E.db.unitframe.units.player.aurabar.height = 26
-		E.db.unitframe.units.player.buffs.perrow = 7
-		E.db.unitframe.units.player.castbar.height = 40
-		E.db.unitframe.units.player.castbar.insideInfoPanel = false
-		E.db.unitframe.units.player.castbar.width = 405
-		E.db.unitframe.units.player.classbar.height = 14
-		E.db.unitframe.units.player.debuffs.perrow = 7
-		E.db.unitframe.units.player.disableMouseoverGlow = true
-		E.db.unitframe.units.player.healPrediction.showOverAbsorbs = false
-		E.db.unitframe.units.player.health.attachTextTo = 'InfoPanel'
-		E.db.unitframe.units.player.height = 82
-		E.db.unitframe.units.player.infoPanel.enable = true
-		E.db.unitframe.units.player.power.attachTextTo = 'InfoPanel'
-		E.db.unitframe.units.player.power.height = 22
-		--Target
-		E.db.unitframe.units.target.aurabar.height = 26
-		E.db.unitframe.units.target.buffs.anchorPoint = 'TOPLEFT'
-		E.db.unitframe.units.target.buffs.perrow = 7
-		E.db.unitframe.units.target.castbar.height = 40
-		E.db.unitframe.units.target.castbar.insideInfoPanel = false
-		E.db.unitframe.units.target.castbar.width = 405
-		E.db.unitframe.units.target.debuffs.anchorPoint = 'TOPLEFT'
-		E.db.unitframe.units.target.debuffs.attachTo = 'FRAME'
-		E.db.unitframe.units.target.debuffs.enable = false
-		E.db.unitframe.units.target.debuffs.maxDuration = 0
-		E.db.unitframe.units.target.debuffs.perrow = 7
-		E.db.unitframe.units.target.disableMouseoverGlow = true
-		E.db.unitframe.units.target.healPrediction.showOverAbsorbs = false
-		E.db.unitframe.units.target.health.attachTextTo = 'InfoPanel'
-		E.db.unitframe.units.target.height = 82
-		E.db.unitframe.units.target.infoPanel.enable = true
-		E.db.unitframe.units.target.name.attachTextTo = 'InfoPanel'
-		E.db.unitframe.units.target.name.text_format = '[namecolor][name]'
-		E.db.unitframe.units.target.orientation = 'LEFT'
-		E.db.unitframe.units.target.power.attachTextTo = 'InfoPanel'
-		E.db.unitframe.units.target.power.height = 22
-		--TargetTarget
-		E.db.unitframe.units.targettarget.debuffs.anchorPoint = 'TOPRIGHT'
-		E.db.unitframe.units.targettarget.debuffs.enable = false
-		E.db.unitframe.units.targettarget.disableMouseoverGlow = true
-		E.db.unitframe.units.targettarget.power.enable = false
-		E.db.unitframe.units.targettarget.raidicon.attachTo = 'LEFT'
-		E.db.unitframe.units.targettarget.raidicon.enable = false
-		E.db.unitframe.units.targettarget.raidicon.xOffset = 2
-		E.db.unitframe.units.targettarget.raidicon.yOffset = 0
-		E.db.unitframe.units.targettarget.threatStyle = 'GLOW'
-		E.db.unitframe.units.targettarget.width = 270
-		--Pet
-		E.db.unitframe.units.pet.castbar.iconSize = 32
-		E.db.unitframe.units.pet.castbar.width = 270
-		E.db.unitframe.units.pet.debuffs.anchorPoint = 'TOPRIGHT'
-		E.db.unitframe.units.pet.debuffs.enable = true
-		E.db.unitframe.units.pet.disableTargetGlow = false
-		E.db.unitframe.units.pet.infoPanel.height = 14
-		E.db.unitframe.units.pet.portrait.camDistanceScale = 2
-		E.db.unitframe.units.pet.width = 270
-		-- Happines
-		if E.myclass == 'HUNTER' then
-			if not E.db.unitframe.units.pet.customTexts then E.db.unitframe.units.pet.customTexts = {} end
-			E.db.unitframe.units.pet.customText = {}
-
-			E.db.unitframe.units.pet.customTexts.happiness = {
-				font = 'PT Sans Narrow',
-				fontOutline = 'OUTLINE',
-				size = 10,
-				justifyH = 'LEFT',
-				text_format = '[happiness:icon]',
-				attachTextTo = 'Frame',
-				xOffset = 0,
-				yOffset = 0,
-			}
-		end
-		--Party
-		E.db.unitframe.units.party.height = 74
-		E.db.unitframe.units.party.power.height = 13
-		E.db.unitframe.units.party.rdebuffs.font = 'PT Sans Narrow'
-		E.db.unitframe.units.party.width = 231
-		--Raid
-		E.db.unitframe.units.raid.growthDirection = 'RIGHT_UP'
-		E.db.unitframe.units.raid.infoPanel.enable = true
-		E.db.unitframe.units.raid.name.attachTextTo = 'InfoPanel'
-		E.db.unitframe.units.raid.name.position = 'BOTTOMLEFT'
-		E.db.unitframe.units.raid.name.xOffset = 2
-		E.db.unitframe.units.raid.numGroups = 8
-		E.db.unitframe.units.raid.rdebuffs.font = 'PT Sans Narrow'
-		E.db.unitframe.units.raid.rdebuffs.size = 30
-		E.db.unitframe.units.raid.rdebuffs.xOffset = 30
-		E.db.unitframe.units.raid.rdebuffs.yOffset = 25
-		E.db.unitframe.units.raid.resurrectIcon.attachTo = 'BOTTOMRIGHT'
-		E.db.unitframe.units.raid.roleIcon.attachTo = 'InfoPanel'
-		E.db.unitframe.units.raid.roleIcon.position = 'BOTTOMRIGHT'
-		E.db.unitframe.units.raid.roleIcon.size = 12
-		E.db.unitframe.units.raid.roleIcon.xOffset = 0
-		E.db.unitframe.units.raid.visibility = '[@raid6,noexists] hide;show'
-		E.db.unitframe.units.raid.width = 92
-		--Raid40
-		E.db.unitframe.units.raid40.enable = false
-		E.db.unitframe.units.raid40.rdebuffs.font = 'PT Sans Narrow'
 
 		--[[
 			Layout Tweaks will be handled below,
@@ -386,11 +238,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 				E:SaveMoverDefaultPosition(mover)
 			end
 		end
-
-		if layout == 'healer' then
-			E.db.unitframe.units.party.enable = false
-			E.db.unitframe.units.raid.visibility = '[nogroup] hide;show'
-		end
 	end
 
 	E:StaggeredUpdateAll(nil, true)
@@ -401,7 +248,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 	end
 end
 
-local function SetupAuras(style, noDisplayMsg)
+function E:SetupAuras(style, noDisplayMsg)
 	local frame = UF.player
 	E:CopyTable(E.db.unitframe.units.player.buffs, P.unitframe.units.player.buffs)
 	E:CopyTable(E.db.unitframe.units.player.debuffs, P.unitframe.units.player.debuffs)
@@ -476,7 +323,7 @@ local function ResetAll()
 	ElvUIInstallFrame:Size(550, 400)
 end
 
-local function SetPage(PageNum)
+function E:SetPage(PageNum)
 	CURRENT_PAGE = PageNum
 	ResetAll()
 
@@ -517,9 +364,9 @@ local function SetPage(PageNum)
 		f.SubTitle:SetText(L["CVars"])
 		f.Desc1:SetText(L["This part of the installation process sets up your World of Warcraft default options it is recommended you should do this step for everything to behave properly."])
 		f.Desc2:SetText(L["Please click the button below to setup your CVars."])
-		f.Desc3:SetText(L["Importance: |cff07D400High|r"])
+		f.Desc3:SetText(L["Importance: |cffFF3333High|r"])
 		InstallOption1Button:Show()
-		InstallOption1Button:SetScript('OnClick', SetupCVars)
+		InstallOption1Button:SetScript('OnClick', function() E:SetupCVars() end)
 		InstallOption1Button:SetText(L["Setup CVars"])
 	elseif PageNum == 3 then
 		f.SubTitle:SetText(L["Chat"])
@@ -527,13 +374,28 @@ local function SetPage(PageNum)
 		f.Desc2:SetText(L["The chat windows function the same as Blizzard standard chat windows, you can right click the tabs and drag them around, rename, etc. Please click the button below to setup your chat windows."])
 		f.Desc3:SetText(L["Importance: |cffD3CF00Medium|r"])
 		InstallOption1Button:Show()
-		InstallOption1Button:SetScript('OnClick', SetupChat)
+		InstallOption1Button:SetScript('OnClick', function() E:SetupChat() end)
 		InstallOption1Button:SetText(L["Setup Chat"])
 	elseif PageNum == 4 then
+		f.SubTitle:SetText(L["Profile Settings Setup"])
+		f.Desc1:SetText(L["Please click the button below to setup your Profile Settings."])
+		InstallOption1Button:Show()
+		InstallOption1Button:SetScript('OnClick', function()
+			E.data:SetProfile('Default')
+			E:NextPage()
+		end)
+		InstallOption1Button:SetText(L["Shared Profile"])
+		InstallOption2Button:Show()
+		InstallOption2Button:SetScript('OnClick', function()
+			E.data:SetProfile(E.mynameRealm)
+			E:NextPage()
+		end)
+		InstallOption2Button:SetText(L["New Profile"])
+	elseif PageNum == 5 then
 		f.SubTitle:SetText(L["Theme Setup"])
 		f.Desc1:SetText(L["Choose a theme layout you wish to use for your initial setup."])
 		f.Desc2:SetText(L["You can always change fonts and colors of any element of ElvUI from the in-game configuration."])
-		f.Desc3:SetText(L["Importance: |cffFF0000Low|r"])
+		f.Desc3:SetText(L["Importance: |cFF33FF33Low|r"])
 		InstallOption1Button:Show()
 		InstallOption1Button:SetScript('OnClick', function() E:SetupTheme('classic') end)
 		InstallOption1Button:SetText(L["Classic"])
@@ -543,7 +405,7 @@ local function SetPage(PageNum)
 		InstallOption3Button:Show()
 		InstallOption3Button:SetScript('OnClick', function() E:SetupTheme('class') end)
 		InstallOption3Button:SetText(CLASS)
-	elseif PageNum == 5 then
+	elseif PageNum == 6 then
 		f.SubTitle:SetText(_G.UISCALE)
 		f.Desc1:SetFormattedText(L["Adjust the UI Scale to fit your screen, press the autoscale button to set the UI Scale automatically."])
 		InstallSlider:Show()
@@ -579,8 +441,8 @@ local function SetPage(PageNum)
 		InstallOption2Button:SetScript('OnClick', E.PixelScaleChanged)
 
 		InstallOption2Button:SetText(L["Preview"])
-		f.Desc3:SetText(L["Importance: |cff07D400High|r"])
-	elseif PageNum == 6 then
+		f.Desc3:SetText(L["Importance: |cffFF3333High|r"])
+	elseif PageNum == 7 then
 		f.SubTitle:SetText(L["Layout"])
 		f.Desc1:SetText(L["You can now choose what layout you wish to use based on your combat role."])
 		f.Desc2:SetText(L["This will change the layout of your unitframes and actionbars."])
@@ -594,18 +456,18 @@ local function SetPage(PageNum)
 		InstallOption3Button:Show()
 		InstallOption3Button:SetScript('OnClick', function() E.db.layoutSet = nil; E:SetupLayout('dpsCaster') end)
 		InstallOption3Button:SetText(L["Caster DPS"])
-	elseif PageNum == 7 then
+	elseif PageNum == 8 then
 		f.SubTitle:SetText(L["Auras"])
 		f.Desc1:SetText(L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bar & Icons to use both aura bars and icons, set to icons only to only see icons."])
 		f.Desc2:SetText(L["If you have an icon or aurabar that you don't want to display simply hold down shift and right click the icon for it to disapear."])
 		f.Desc3:SetText(L["Importance: |cffD3CF00Medium|r"])
 		InstallOption1Button:Show()
-		InstallOption1Button:SetScript('OnClick', function() SetupAuras(true) end)
+		InstallOption1Button:SetScript('OnClick', function() E:SetupAuras(true) end)
 		InstallOption1Button:SetText(L["Aura Bars & Icons"])
 		InstallOption2Button:Show()
-		InstallOption2Button:SetScript('OnClick', function() SetupAuras() end)
+		InstallOption2Button:SetScript('OnClick', function() E:SetupAuras() end)
 		InstallOption2Button:SetText(L["Icons Only"])
-	elseif PageNum == 8 then
+	elseif PageNum == 9 then
 		f.SubTitle:SetText(L["Installation Complete"])
 		f.Desc1:SetText(L["You are now finished with the installation process. If you are in need of technical support please visit us at http://www.tukui.org."])
 		f.Desc2:SetText(L["Please click the button below so you can setup variables and ReloadUI."])
@@ -619,17 +481,17 @@ local function SetPage(PageNum)
 	end
 end
 
-local function NextPage()
+function E:NextPage()
 	if CURRENT_PAGE ~= MAX_PAGE then
 		CURRENT_PAGE = CURRENT_PAGE + 1
-		SetPage(CURRENT_PAGE)
+		E:SetPage(CURRENT_PAGE)
 	end
 end
 
-local function PreviousPage()
+function E:PreviousPage()
 	if CURRENT_PAGE ~= 1 then
 		CURRENT_PAGE = CURRENT_PAGE - 1
-		SetPage(CURRENT_PAGE)
+		E:SetPage(CURRENT_PAGE)
 	end
 end
 
@@ -684,7 +546,7 @@ function E:Install()
 	--Create Frame
 	if not ElvUIInstallFrame then
 		local f = CreateFrame('Button', 'ElvUIInstallFrame', E.UIParent)
-		f.SetPage = SetPage
+		f.SetPage = E.SetPage
 		f:Size(550, 400)
 		f:SetTemplate('Transparent')
 		f:Point('CENTER')
@@ -706,7 +568,7 @@ function E:Install()
 		f.Next:Point('BOTTOMRIGHT', -5, 5)
 		f.Next:SetText(CONTINUE)
 		f.Next:Disable()
-		f.Next:SetScript('OnClick', NextPage)
+		f.Next:SetScript('OnClick', E.NextPage)
 		S:HandleButton(f.Next, true)
 
 		f.Prev = CreateFrame('Button', 'InstallPrevButton', f, 'UIPanelButtonTemplate')
@@ -714,7 +576,7 @@ function E:Install()
 		f.Prev:Point('BOTTOMLEFT', 5, 5)
 		f.Prev:SetText(PREVIOUS)
 		f.Prev:Disable()
-		f.Prev:SetScript('OnClick', PreviousPage)
+		f.Prev:SetScript('OnClick', E.PreviousPage)
 		S:HandleButton(f.Prev, true)
 
 		f.Status = CreateFrame('StatusBar', 'InstallStatus', f)
@@ -835,5 +697,5 @@ function E:Install()
 
 	ElvUIInstallFrame.tutorialImage:SetVertexColor(unpack(E.media.rgbvaluecolor))
 	ElvUIInstallFrame:Show()
-	NextPage()
+	E:NextPage()
 end
