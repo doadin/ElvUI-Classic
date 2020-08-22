@@ -64,7 +64,15 @@ UF.classMaxResourceBar = {
 	['MAGE'] = 4,
 	['SHAMAN'] = 4,
 	['ROGUE'] = 6,
-	["DRUID"] = 5
+	['DRUID'] = 5
+}
+
+UF.instanceMapIDs = {
+	[30]   = 40, -- Alterac Valley
+	[489]  = 10, -- Classic Warsong Gulch
+	[529]  = 15, -- Classic Arathi Basin
+	[566]  = 15, -- Eye of the Storm
+	[2107] = 15, -- Arathi Basin
 }
 
 UF.headerGroupBy = {
