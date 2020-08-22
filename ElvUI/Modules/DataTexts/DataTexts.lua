@@ -733,8 +733,6 @@ function DT:RegisterDatatext(name, category, events, eventFunc, updateFunc, clic
 		data.colorUpdate = colorUpdate
 	end
 
-	G.datatexts.settings[name] = G.datatexts.settings[name] or { Label = '', NoLabel = false, Decimal = 0 }
-
 	DT.RegisteredDataTexts[name] = data
 
 	return data
