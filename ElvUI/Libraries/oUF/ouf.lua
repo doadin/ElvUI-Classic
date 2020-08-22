@@ -24,16 +24,15 @@ local function enableTargetUpdate(object)
 	object.onUpdateFrequency = object.onUpdateFrequency or .1
 	object.__eventless = true
 
-	local total = 0
 	object:SetScript('OnUpdate', function(self, elapsed)
 		if(not self.unit) then
 			return
-		elseif(total > self.onUpdateFrequency) then
+		elseif self.elapsed and (self.elapsed > self.onUpdateFrequency) then
 			self:UpdateAllElements('OnUpdate')
-			total = 0
+			self.elapsed = 0
 		end
 
-		total = total + elapsed
+		self.elapsed = (self.elapsed or 0) + elapsed
 	end)
 end
 Private.enableTargetUpdate = enableTargetUpdate
