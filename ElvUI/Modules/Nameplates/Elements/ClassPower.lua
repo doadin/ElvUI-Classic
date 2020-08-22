@@ -51,19 +51,16 @@ function NP:ClassPower_PostUpdate(Cur, _, needUpdate)
 end
 
 function NP:Construct_ClassPower(nameplate)
-
-	local ClassPower = CreateFrame('Frame', nameplate:GetDebugName()..'ClassPower', nameplate)
-	
-	--ClassPower:CreateBackdrop('Transparent')
+	local ClassPower = CreateFrame('Frame', nameplate:GetName()..'ClassPower', nameplate)
 	ClassPower:Hide()
 	ClassPower:SetFrameStrata(nameplate:GetFrameStrata())
 	ClassPower:SetFrameLevel(5)
 
 	local Max = max(MAX_POINTS[E.myclass] or 0, _G.MAX_COMBO_POINTS)
 	local texture = E.LSM:Fetch('statusbar', NP.db.statusbar)
-	
+
 	for i = 1, Max do
-		ClassPower[i] = CreateFrame('StatusBar', frameName..'ClassPower'..i, ClassPower)
+		ClassPower[i] = CreateFrame('StatusBar', nameplate:GetName()..'ClassPower'..i, ClassPower)
 		ClassPower[i]:SetStatusBarTexture(texture)
 		ClassPower[i]:SetFrameStrata(nameplate:GetFrameStrata())
 		ClassPower[i]:SetFrameLevel(6)
@@ -103,10 +100,10 @@ function NP:Update_ClassPower(nameplate)
 		nameplate.ClassPower:Point('CENTER', nameplate, 'CENTER', db.classpower.xOffset, db.classpower.yOffset)
 
 		local maxClassBarButtons = nameplate.ClassPower.__max
-	
+
 		local Spacing = db.classpower.spacing or 0
 		local Width = ((db.classpower.width-(db.classpower.spacing * (maxClassBarButtons - 1))) / maxClassBarButtons)-1
-		
+
 		nameplate.ClassPower:Size(db.classpower.width, db.classpower.height)
 
 		for i = 1, #nameplate.ClassPower do
@@ -133,10 +130,6 @@ function NP:Update_ClassPower(nameplate)
 
 				nameplate.ClassPower[i]:ClearAllPoints()
 				nameplate.ClassPower[i]:Point('LEFT', nameplate.ClassPower[i - 1], 'RIGHT', Spacing + 1, 0)
-
-				--if i == maxClassBarButtons then
-				--	nameplate.ClassPower[i]:Point('RIGHT', nameplate.ClassPower)
-				--end
 			end
 		end
 	else
