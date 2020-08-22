@@ -287,6 +287,10 @@ function E:PLAYER_ENTERING_WORLD(_, initLogin)
 		ElvDB.LuaErrorDisabledAddOns = {}
 	end
 
+	if initLogin or isReload then
+		self:CheckIncompatible()
+	end
+
 	if not self.MediaUpdated then
 		self:UpdateMedia()
 		self.MediaUpdated = true

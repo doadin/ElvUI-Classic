@@ -1686,7 +1686,6 @@ function E:Initialize()
 	E.global = E.data.global
 	E.db = E.data.profile
 
-	E:CheckIncompatible()
 	E:DBConversions()
 	E:UIScale()
 	E:BuildPrefixValues()
