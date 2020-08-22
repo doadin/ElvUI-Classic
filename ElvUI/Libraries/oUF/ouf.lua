@@ -21,7 +21,7 @@ local activeElements = {}
 
 -- updating of "invalid" units.
 local function enableTargetUpdate(object)
-	object.onUpdateFrequency = object.onUpdateFrequency or .5
+	object.onUpdateFrequency = object.onUpdateFrequency or .1
 	object.__eventless = true
 
 	local total = 0
