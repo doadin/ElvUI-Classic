@@ -573,6 +573,7 @@ P.nameplates = {
 				width = 130,
 				xOffset = 0,
 				yOffset = 10,
+				spacing = 0,
 			},
 			visibility = {
 				hideDelay = 3,
@@ -603,6 +604,7 @@ P.nameplates = {
 				width = 125,
 				xOffset = 0,
 				yOffset = 30,
+				spacing = 0,
 			},
 		},
 		FRIENDLY_PLAYER = {

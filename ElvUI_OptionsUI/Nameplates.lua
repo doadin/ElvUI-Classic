@@ -3337,9 +3337,15 @@ local function GetUnitSettings(unit, name)
 					type = "range",
 					min = -100, max = 100, step = 1,
 				},
+				spacing = {
+					order = 6,
+					name = L["Spacing"],
+					type = "range",
+					min = 0, max = 10, step = 1,
+				},
 				classColor = {
 					type = "toggle",
-					order = 6,
+					order = 7,
 					name = L["Use Class Color"]
 				},
 			},
@@ -4634,6 +4640,12 @@ E.Options.args.nameplate = {
 							name = L["Y-Offset"],
 							type = "range",
 							min = -100, max = 100, step = 1,
+						},
+						spacing = {
+							order = 5,
+							name = L["Spacing"],
+							type = "range",
+							min = 0, max = 10, step = 1,
 						},
 						classColor = {
 							type = "toggle",
