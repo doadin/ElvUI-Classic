@@ -108,7 +108,9 @@ function S:Ace3_SkinTab(tab)
 	tab:CreateBackdrop(nil, true, true)
 	tab.backdrop:Point('TOPLEFT', 10, -3)
 	tab.backdrop:Point('BOTTOMRIGHT', -10, 0)
-	tab.text:SetPoint("LEFT", 14, -1)
+	if tab.text.SetPoint then
+		tab.text:SetPoint("LEFT", 14, -1)
+	end
 
 	hooksecurefunc(tab, 'SetSelected', S.Ace3_TabSetSelected)
 end
