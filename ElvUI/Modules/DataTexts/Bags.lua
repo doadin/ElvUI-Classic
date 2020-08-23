@@ -69,7 +69,7 @@ local function OnEnter(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = strjoin("", "%s", hex, "%d/%d|r")
+	displayString = strjoin('', '%s', hex, '%d/%d|r')
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)
@@ -77,4 +77,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('Bags', nil, {"BAG_UPDATE"}, OnEvent, nil, OnClick, OnEnter, nil, L["Bags"])
+DT:RegisterDatatext('Bags', nil, {'BAG_UPDATE'}, OnEvent, nil, OnClick, OnEnter, nil, L["Bags"])

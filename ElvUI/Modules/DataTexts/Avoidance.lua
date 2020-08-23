@@ -19,22 +19,22 @@ local STAT_CATEGORY_ENHANCEMENTS = STAT_CATEGORY_ENHANCEMENTS
 
 local displayString, lastPanel, targetlv, playerlv
 local basemisschance, leveldifference, dodge, parry, block, unhittable
-local AVD_DECAY_RATE, chanceString = 1.5, "%.2f%%"
+local AVD_DECAY_RATE, chanceString = 1.5, '%.2f%%'
 
 local function IsWearingShield()
-	local slotID = GetInventorySlotInfo("SecondaryHandSlot")
+	local slotID = GetInventorySlotInfo('SecondaryHandSlot')
 	local itemID = GetInventoryItemID('player', slotID)
 
 	if itemID then
 		local _, _, _, _, _, _, _, _, itemEquipLoc = GetItemInfo(itemID)
-		return itemEquipLoc == "INVTYPE_SHIELD"
+		return itemEquipLoc == 'INVTYPE_SHIELD'
 	end
 end
 
 local function OnEvent(self)
-	targetlv, playerlv = UnitLevel("target"), E.mylevel
+	targetlv, playerlv = UnitLevel('target'), E.mylevel
 
-	basemisschance = E.myrace == "NightElf" and 7 or 5
+	basemisschance = E.myrace == 'NightElf' and 7 or 5
 	if targetlv == -1 then
 		leveldifference = 3
 	elseif targetlv > playerlv then
@@ -63,7 +63,7 @@ local function OnEvent(self)
 	if parry <= 0 then parry = 0 end
 	if block <= 0 then block = 0 end
 
-	if E.myclass == "DRUID" and GetBonusBarOffset() == 3 then
+	if E.myclass == 'DRUID' and GetBonusBarOffset() == 3 then
 		parry = 0
 		numAvoidances = numAvoidances - 1
 	end
@@ -94,11 +94,11 @@ local function OnEnter(self)
 	DT:SetupTooltip(self)
 
 	if targetlv > 1 then
-		DT.tooltip:AddDoubleLine(L["Avoidance Breakdown"], strjoin("", " (", L["lvl"], " ", targetlv, ")"))
+		DT.tooltip:AddDoubleLine(L["Avoidance Breakdown"], strjoin('', ' (', L["lvl"], ' ', targetlv, ')'))
 	elseif targetlv == -1 then
-		DT.tooltip:AddDoubleLine(L["Avoidance Breakdown"], strjoin("", " (", BOSS, ")"))
+		DT.tooltip:AddDoubleLine(L["Avoidance Breakdown"], strjoin('', ' (', BOSS, ')'))
 	else
-		DT.tooltip:AddDoubleLine(L["Avoidance Breakdown"], strjoin("", " (", L["lvl"], " ", playerlv, ")"))
+		DT.tooltip:AddDoubleLine(L["Avoidance Breakdown"], strjoin('', ' (', L["lvl"], ' ', playerlv, ')'))
 	end
 	DT.tooltip:AddLine' '
 	DT.tooltip:AddDoubleLine(DODGE_CHANCE, format(chanceString, dodge),1,1,1)

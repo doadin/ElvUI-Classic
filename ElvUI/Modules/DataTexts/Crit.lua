@@ -16,6 +16,8 @@ local SPELL_CRIT_CHANCE = SPELL_CRIT_CHANCE
 local STAT_CATEGORY_ENHANCEMENTS = STAT_CATEGORY_ENHANCEMENTS
 
 local displayString, lastPanel = ''
+local spellCrit, rangedCrit, meleeCrit = 0, 0, 0
+local critChance, rating, extraCritChance, extraCritRating = 0, 0, 0, 0
 
 local function OnEvent(self)
 	local minCrit = GetSpellCritChance(2)
@@ -58,4 +60,4 @@ local function ValueColorUpdate(hex)
 end
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext('Crit', STAT_CATEGORY_ENHANCEMENTS, {'UNIT_STATS', 'UNIT_AURA', 'ACTIVE_TALENT_GROUP_CHANGED', 'PLAYER_TALENT_UPDATE', 'PLAYER_DAMAGE_DONE_MODS'}, OnEvent, nil, nil, OnEnter, nil, _G.STAT_CRITICAL_STRIKE)
+DT:RegisterDatatext('Crit', STAT_CATEGORY_ENHANCEMENTS, {'UNIT_STATS', 'UNIT_AURA', 'ACTIVE_TALENT_GROUP_CHANGED', 'PLAYER_TALENT_UPDATE', 'PLAYER_DAMAGE_DONE_MODS'}, OnEvent, nil, nil, nil, nil, _G.STAT_CRITICAL_STRIKE)

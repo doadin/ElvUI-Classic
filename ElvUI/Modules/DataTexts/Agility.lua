@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule('DataTexts')
 
-local displayNumberString = ''
+local displayString = ''
 local lastPanel;
 local strjoin = strjoin
 local UnitStat = UnitStat

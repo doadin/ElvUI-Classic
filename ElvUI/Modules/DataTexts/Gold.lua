@@ -10,16 +10,12 @@ local GetMoney = GetMoney
 local IsControlKeyDown = IsControlKeyDown
 local IsLoggedIn = IsLoggedIn
 local IsShiftKeyDown = IsShiftKeyDown
-local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
-local BreakUpLargeNumbers = BreakUpLargeNumbers
 -- GLOBALS: ElvDB
 
 local Profit, Spent = 0, 0
 local resetCountersFormatter = strjoin('', '|cffaaaaaa', L["Reset Counters: Hold Ctrl + Right Click"], '|r')
 local resetInfoFormatter = strjoin('', '|cffaaaaaa', L["Reset Data: Hold Shift + Right Click"], '|r')
 local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
-
-local iconString = "|T%s:16:16:0:0:64:64:4:60:4:60|t"
 
 local menuList = {}
 
