@@ -36,13 +36,13 @@ function AB:UPDATE_SHAPESHIFT_COOLDOWN()
 		end
 	end
 
-	AB:StyleShapeShift("UPDATE_SHAPESHIFT_COOLDOWN")
+	self:StyleShapeShift("UPDATE_SHAPESHIFT_COOLDOWN")
 end
 
 function AB:StyleShapeShift()
 	local numForms = GetNumShapeshiftForms()
 	local stance = GetShapeshiftForm()
-	local darkenInactive = AB.db.stanceBar.style == 'darkenInactive'
+	local darkenInactive = self.db.stanceBar.style == 'darkenInactive'
 
 	for i = 1, NUM_STANCE_SLOTS do
 		local buttonName = "ElvUI_StanceBarButton"..i
@@ -107,14 +107,14 @@ function AB:StyleShapeShift()
 end
 
 function AB:PositionAndSizeBarShapeShift()
-	local buttonSpacing = E:Scale(AB.db.stanceBar.buttonspacing)
-	local backdropSpacing = E:Scale((AB.db.stanceBar.backdropSpacing or AB.db.stanceBar.buttonspacing))
-	local buttonsPerRow = AB.db.stanceBar.buttonsPerRow
-	local numButtons = AB.db.stanceBar.buttons
-	local size = E:Scale(AB.db.stanceBar.buttonsize)
-	local point = AB.db.stanceBar.point
-	local widthMult = AB.db.stanceBar.widthMult
-	local heightMult = AB.db.stanceBar.heightMult
+	local buttonSpacing = E:Scale(self.db.stanceBar.buttonspacing)
+	local backdropSpacing = E:Scale((self.db.stanceBar.backdropSpacing or self.db.stanceBar.buttonspacing))
+	local buttonsPerRow = self.db.stanceBar.buttonsPerRow
+	local numButtons = self.db.stanceBar.buttons
+	local size = E:Scale(self.db.stanceBar.buttonsize)
+	local point = self.db.stanceBar.point
+	local widthMult = self.db.stanceBar.widthMult
+	local heightMult = self.db.stanceBar.heightMult
 
 	--Convert "TOP" or "BOTTOM" to anchor points we can use
 	local position = E:GetScreenQuadrant(bar)
@@ -122,8 +122,8 @@ function AB:PositionAndSizeBarShapeShift()
 		if point == "TOP" then point = "TOPLEFT" elseif point == "BOTTOM" then point = "BOTTOMLEFT" end
 	elseif point == "TOP" then point = "TOPRIGHT" elseif point == "BOTTOM" then point = "BOTTOMRIGHT" end
 
-	bar.db = AB.db.stanceBar
-	bar.mouseover = AB.db.stanceBar.mouseover
+	bar.db = self.db.stanceBar
+	bar.mouseover = self.db.stanceBar.mouseover
 
 	if bar.LastButton and numButtons > bar.LastButton then
 		numButtons = bar.LastButton
@@ -142,7 +142,7 @@ function AB:PositionAndSizeBarShapeShift()
 		numColumns = 1
 	end
 
-	if AB.db.stanceBar.backdrop == true then
+	if self.db.stanceBar.backdrop == true then
 		bar.backdrop:Show()
 	else
 		bar.backdrop:Hide()
@@ -151,8 +151,8 @@ function AB:PositionAndSizeBarShapeShift()
 		heightMult = 1
 	end
 
-	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult-1)) + ((AB.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
-	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult-1)) + ((AB.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
+	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult-1)) + ((self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
+	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult-1)) + ((self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
 	bar:Size(barWidth, barHeight)
 
 	local horizontalGrowth, verticalGrowth
@@ -168,17 +168,17 @@ function AB:PositionAndSizeBarShapeShift()
 		horizontalGrowth = "LEFT"
 	end
 
-	if AB.db.stanceBar.inheritGlobalFade then
-		bar:SetParent(AB.fadeParent)
+	if(self.db.stanceBar.inheritGlobalFade) then
+		bar:SetParent(self.fadeParent)
 	else
 		bar:SetParent(E.UIParent)
 	end
 
 	local button, lastButton, lastColumnButton
 	local useMasque = MasqueGroup and E.private.actionbar.masque.stanceBar
-	local firstButtonSpacing = (AB.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
+	local firstButtonSpacing = (self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
 
-	bar:EnableMouse(not AB.db.stanceBar.clickThrough)
+	bar:EnableMouse(not self.db.stanceBar.clickThrough)
 
 	for i = 1, NUM_STANCE_SLOTS do
 		button = _G["ElvUI_StanceBarButton"..i]
@@ -187,9 +187,9 @@ function AB:PositionAndSizeBarShapeShift()
 		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:Size(size)
-		button:EnableMouse(not AB.db.stanceBar.clickThrough)
+		button:EnableMouse(not self.db.stanceBar.clickThrough)
 
-		if AB.db.stanceBar.mouseover == true then
+		if self.db.stanceBar.mouseover == true then
 			bar:SetAlpha(0)
 		else
 			bar:SetAlpha(bar.db.alpha)
@@ -248,14 +248,14 @@ function AB:PositionAndSizeBarShapeShift()
 		end
 
 		if useMasque then
-			MasqueGroup:AddButton(bar.buttons[i], { Icon = bar.buttons[i].ICON })
+			MasqueGroup:AddButton(bar.buttons[i], {Icon=bar.buttons[i].ICON})
 		end
 
 		if not button.FlyoutUpdateFunc then
-			AB:StyleButton(button, nil, useMasque and true or nil, true)
+			self:StyleButton(button, nil, useMasque and true or nil, true)
 
 			if not useMasque then
-				if AB.db.stanceBar.style == 'darkenInactive' then
+				if self.db.stanceBar.style == 'darkenInactive' then
 					button.checked:SetBlendMode('BLEND')
 				else
 					button.checked:SetBlendMode('ADD')
@@ -267,8 +267,8 @@ function AB:PositionAndSizeBarShapeShift()
 	if useMasque then MasqueGroup:ReSkin() end
 
 	numButtons = GetNumShapeshiftForms()
-	if AB.db.stanceBar.enabled then
-		local visibility = AB.db.stanceBar.visibility
+	if self.db.stanceBar.enabled then
+		local visibility = self.db.stanceBar.visibility
 		if visibility and visibility:match('[\n\r]') then
 			visibility = visibility:gsub('[\n\r]','')
 		end
@@ -284,7 +284,7 @@ end
 function AB:AdjustMaxStanceButtons(event)
 	if InCombatLockdown() then
 		AB.NeedsAdjustMaxStanceButtons = event or true
-		AB:RegisterEvent('PLAYER_REGEN_ENABLED')
+		self:RegisterEvent('PLAYER_REGEN_ENABLED')
 		return
 	end
 
@@ -298,8 +298,8 @@ function AB:AdjustMaxStanceButtons(event)
 			bar.buttons[i] = CreateFrame("CheckButton", format(bar:GetName().."Button%d", i), bar, "StanceButtonTemplate")
 			bar.buttons[i]:SetID(i)
 
-			AB:HookScript(bar.buttons[i], 'OnEnter', 'Button_OnEnter')
-			AB:HookScript(bar.buttons[i], 'OnLeave', 'Button_OnLeave')
+			self:HookScript(bar.buttons[i], 'OnEnter', 'Button_OnEnter')
+			self:HookScript(bar.buttons[i], 'OnLeave', 'Button_OnLeave')
 		end
 
 		if i <= numButtons then
@@ -310,20 +310,20 @@ function AB:AdjustMaxStanceButtons(event)
 		end
 	end
 
-	AB:PositionAndSizeBarShapeShift()
+	self:PositionAndSizeBarShapeShift()
 
 	-- sometimes after combat lock down `event` may be true because of passing it back with `AB.NeedsAdjustMaxStanceButtons`
 	if event == 'UPDATE_SHAPESHIFT_FORMS' then
-		AB:StyleShapeShift()
+		self:StyleShapeShift()
 	end
 end
 
 function AB:UpdateStanceBindings()
 	for i = 1, NUM_STANCE_SLOTS do
-		if AB.db.hotkeytext then
+		if self.db.hotkeytext then
 			_G["ElvUI_StanceBarButton"..i.."HotKey"]:Show()
 			_G["ElvUI_StanceBarButton"..i.."HotKey"]:SetText(GetBindingKey('SHAPESHIFTBUTTON'..i))
-			AB:FixKeybindText(_G["ElvUI_StanceBarButton"..i])
+			self:FixKeybindText(_G["ElvUI_StanceBarButton"..i])
 		else
 			_G["ElvUI_StanceBarButton"..i.."HotKey"]:Hide()
 		end
@@ -333,20 +333,20 @@ end
 function AB:CreateBarShapeShift()
 	bar:CreateBackdrop()
 	bar.backdrop:SetAllPoints()
-	bar:Point('TOPLEFT', E.UIParent, 'BOTTOMLEFT', 4, -273)
+	bar:Point('TOPLEFT', E.UIParent, 'BOTTOMLEFT', 4, -769)
 	bar.buttons = {}
 
-	AB:HookScript(bar, 'OnEnter', 'Bar_OnEnter')
-	AB:HookScript(bar, 'OnLeave', 'Bar_OnLeave')
+	self:HookScript(bar, 'OnEnter', 'Bar_OnEnter')
+	self:HookScript(bar, 'OnLeave', 'Bar_OnLeave')
 
-	AB:RegisterEvent('UPDATE_SHAPESHIFT_COOLDOWN')
-	AB:RegisterEvent('UPDATE_SHAPESHIFT_FORMS', 'AdjustMaxStanceButtons')
-	AB:RegisterEvent('UPDATE_SHAPESHIFT_USABLE', 'StyleShapeShift')
-	AB:RegisterEvent('UPDATE_SHAPESHIFT_FORM', 'StyleShapeShift')
-	AB:RegisterEvent('ACTIONBAR_PAGE_CHANGED', 'StyleShapeShift')
+	self:RegisterEvent('UPDATE_SHAPESHIFT_COOLDOWN')
+	self:RegisterEvent('UPDATE_SHAPESHIFT_FORMS', 'AdjustMaxStanceButtons')
+	self:RegisterEvent('UPDATE_SHAPESHIFT_USABLE', 'StyleShapeShift')
+	self:RegisterEvent('UPDATE_SHAPESHIFT_FORM', 'StyleShapeShift')
+	self:RegisterEvent('ACTIONBAR_PAGE_CHANGED', 'StyleShapeShift')
 
 	E:CreateMover(bar, 'ShiftAB', L["Stance Bar"], nil, -3, nil, 'ALL,ACTIONBARS', nil, 'actionbar,stanceBar', true)
-	AB:AdjustMaxStanceButtons()
-	AB:StyleShapeShift()
-	AB:UpdateStanceBindings()
+	self:AdjustMaxStanceButtons()
+	self:StyleShapeShift()
+	self:UpdateStanceBindings()
 end
