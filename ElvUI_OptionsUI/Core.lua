@@ -512,7 +512,6 @@ E.Options.args.profiles = {
 						end
 					end
 				},
-				spacer2 = ACH:Spacer(3),
 				exportProfile = {
 					name = L["Export Profile"],
 					type = "execute",
@@ -527,6 +526,19 @@ E.Options.args.profiles = {
 					order = 5,
 					func = function()
 						ExportImport_Open("import")
+					end
+				},
+				allowDistributor = {
+					name = L["Allow Sharing"],
+					desc = L["Both users will need this option enabled."],
+					type = "toggle",
+					order = 6,
+					get = function()
+						return E.global.general.allowDistributor
+					end,
+					set = function(_, value)
+						E.global.general.allowDistributor = value;
+						D:UpdateSettings()
 					end
 				}
 			}
