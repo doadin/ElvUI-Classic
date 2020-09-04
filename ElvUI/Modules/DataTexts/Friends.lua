@@ -309,6 +309,7 @@ end
 local function Click(self, btn)
 	DT.tooltip:Hide()
 
+	local db = E.global.datatexts.settings.Friends
 	if btn == "RightButton" then
 		local menuCountWhispers = 0
 		local menuCountInvites = 0
@@ -316,13 +317,13 @@ local function Click(self, btn)
 		menuList[2].menuList = {}
 		menuList[3].menuList = {}
 
-		if not E.global.datatexts.friends.hideWoW then
+		if not db.hideWoW then
 			for _, info in ipairs(friendTable) do
 				if info[5] then
 					local shouldSkip = false
-					if (info[6] == statusTable[1]) and E.global.datatexts.friends.hideAFK then
+					if (info[6] == statusTable[1]) and db.hideAFK then
 						shouldSkip = true
-					elseif (info[6] == statusTable[2]) and E.global.datatexts.friends.hideDND then
+					elseif (info[6] == statusTable[2]) and db.hideDND then
 						shouldSkip = true
 					end
 					if not shouldSkip then
@@ -343,12 +344,12 @@ local function Click(self, btn)
 		for _, info in ipairs(BNTable) do
 			if info[7] then
 				local shouldSkip = false
-				if (info[8] == true) and E.global.datatexts.friends.hideAFK then
+				if (info[8] == true) and db.hideAFK then
 					shouldSkip = true
-				elseif (info[9] == true) and E.global.datatexts.friends.hideDND then
+				elseif (info[9] == true) and db.hideDND then
 					shouldSkip = true
 				end
-				if info[6] and E.global.datatexts.friends['hide'..info[6]] then
+				if info[6] and db['hide'..info[6]] then
 					shouldSkip = true
 				end
 				if not shouldSkip then
@@ -410,6 +411,7 @@ local function OnEnter(self)
 	-- no friends online, quick exit
 	if totalonline == 0 then return end
 
+	local db = E.global.datatexts.settings.Friends
 	if not dataValid then
 		-- only retrieve information for all on-line members when we actually view the tooltip
 		if numberOfFriends > 0 then BuildFriendTable(numberOfFriends) end
@@ -421,13 +423,13 @@ local function OnEnter(self)
 	local zonec, classc, levelc, realmc, grouped
 
 	DT.tooltip:AddDoubleLine(L["Friends List"], format(totalOnlineString, totalonline, totalfriends),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)
-	if (onlineFriends > 0) and not E.global.datatexts.friends.hideWoW then
+	if (onlineFriends > 0) and not db.hideWoW then
 		for _, info in ipairs(friendTable) do
 			if info[5] then
 				local shouldSkip = false
-				if (info[6] == statusTable[1]) and E.global.datatexts.friends.hideAFK then
+				if (info[6] == statusTable[1]) and db.hideAFK then
 					shouldSkip = true
-				elseif (info[6] == statusTable[2]) and E.global.datatexts.friends.hideDND then
+				elseif (info[6] == statusTable[2]) and db.hideDND then
 					shouldSkip = true
 				end
 				if not shouldSkip then
@@ -448,18 +450,18 @@ local function OnEnter(self)
 		for _, client in ipairs(clientSorted) do
 			local Table = tableList[client]
 			local header = format("%s (%s)", battleNetString, clientTags[client] or client)
-			local shouldSkip = E.global.datatexts.friends['hide'..client]
+			local shouldSkip = db['hide'..client]
 			if not shouldSkip then
 				for _, info in ipairs(Table) do
 					if info[7] then
 						shouldSkip = false
 						if info[8] == true then
-							if E.global.datatexts.friends.hideAFK then
+							if db.hideAFK then
 								shouldSkip = true
 							end
 							status = statusTable[1]
 						elseif info[9] == true then
-							if E.global.datatexts.friends.hideDND then
+							if db.hideDND then
 								shouldSkip = true
 							end
 							status = statusTable[2]
