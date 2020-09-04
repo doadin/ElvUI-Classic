@@ -6,7 +6,7 @@
 **Tags:** Added back shortvalue Tags  
 ___
 ### Version 1.28 [ETA: 09/04/2020]
-**Hotfix:**  Added an option (enabled by default) to disable ingame profile sharing.  
+**Hotfix:** Added an option (off by default) to allow in game profile sharing under profiles section.  
 ___
 ### Version 1.25-1.27 [07/12/2020]
 **ActionBars:** Fixed an issue with the Stance Bar  
