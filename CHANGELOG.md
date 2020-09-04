@@ -1,11 +1,12 @@
-### Version 1.28 [ETA: 🍨]
-**Shamans will stay pink**  
-  
+### Version 1.29 [ETA: 🍨]
 **ActionBars:** Fixed an issue with action paging  
 **Minimap:** Fixed the pixel offset on the minimap DataBar  
 **Minimap:** Fixed an issue with the "Zoom Reset" option  
 **UnitFrames:** Fixed an issue with custom texts  
 **Tags:** Added back shortvalue Tags  
+___
+### Version 1.28 [ETA: 09/04/2020]
+**Hotfix:**  Added an option (enabled by default) to disable ingame profile sharing.  
 ___
 ### Version 1.25-1.27 [07/12/2020]
 **ActionBars:** Fixed an issue with the Stance Bar  
